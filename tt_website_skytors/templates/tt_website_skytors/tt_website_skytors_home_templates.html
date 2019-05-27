@@ -666,64 +666,93 @@
 
 
                             <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-                                <form class="form-wrap">
+                                <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
+                                    {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-md-3" style="padding:1px;">
-                                            <span class="span-search-ticket">Hotel</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="location_name_hotel" placeholder="Location or hotel name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Location or hotel name '">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="themespark_query" id="themespark_query" placeholder="Search for Activity" autocomplete="off"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-2" style="z-index:0; padding:1px;">
-                                            <span class="span-search-ticket">Guest Nationality</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="guest_nationality_hotel" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '">
-                                            </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+
                                         </div>
-                                        <div class="col-md-2" style="padding:1px;">
-                                            <span class="span-search-ticket">Check-in</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker" name="check_in_hotel" placeholder="Check-in Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
                                             </div>
-                                        </div>
-                                        <div class="col-md-2" style="padding:1px;">
-                                            <span class="span-search-ticket">Check-out</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker" name="check_out_hotel" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <select id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
+                                                            <option value="" selected="">All Country</option>
+                                                            {% for country in activity_countries %}
+                                                            <option value="{{country.id}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                            <!--<option id="temp_themespark_countries"/>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <div id="temp_themespark_cities">
+                                                            <select id="themespark_cities" name="themespark_cities" size="5">
+                                                                <option value="" selected="">Cities</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3" style="padding:1px;">
-                                            <span class="span-search-ticket">Guest</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="guest_hotel" placeholder="Guest " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest '">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label class="check_box_hotel">
-                                                <span class="span-search-ticket">Business Trip</span>
-                                                <input type="checkbox"/>
-                                                <span class="check_box_span_hotel"></span>
-                                            </label>
                                         </div>
 
-
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-12 search_type">
+                                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
+                                                    <div class="form-select">
+                                                        <select id="themespark_type" name="themespark_type" data-live-search="true" size="5">
+                                                            <option value="0" selected="">All Types</option>
+                                                            {% for type in activity_types %}
+                                                            <option value="{{type.id}}">{{type.name}}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <select id="themespark_category" onchange="set_sub_category();" name="themespark_category" size="5">
+                                                            <option value="0" selected="">All Categories</option>
+                                                            {% for category in activity_categories %}
+                                                            <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
+                                                            {% endfor %}
+                                                            <!--<option id="temp_themespark_category"/>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <div id="temp_themespark_sub_category">
+                                                            <select id="themespark_sub_category" name="themespark_sub_category" size="5">
+                                                                <option value="0" selected="">Sub Categories</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <br/>
-                                    <!--<div class="col-md-6">-->
-                                    <!--<input type="text" class="form-control date-picker" name="start" placeholder="Start " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start '">-->
-                                    <!--</div>-->
-                                    <!--<div class="col-md-6">-->
-                                    <!--<input type="text" class="form-control date-picker" name="start" placeholder="Start " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start '">-->
-                                    <!--</div>-->
-
-                                    <!--<input type="number" min="1" max="20" class="form-control" name="adults" placeholder="Adults " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adults '">-->
-                                    <!--<input type="number" min="1" max="20" class="form-control" name="child" placeholder="Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Child '">-->
 
                                     <button class="primary-btn text-uppercase" type="submit" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                        Search for ticket
+                                        Search
                                     </button>
-                                    <!--<a hrpoaef="#" class="primary-btn text-uppercase">Search for Ticket</a>-->
                                 </form>
                             </div>
                         </div>

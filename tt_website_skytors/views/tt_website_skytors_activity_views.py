@@ -56,6 +56,12 @@ def search(request):
             'offset': 0,
 
         }
+        parsed_country_name = ''
+        if request.POST['themespark_countries']:
+            for rec in activity_countries:
+                if rec['id'] == int(request.POST['themespark_countries']):
+                    parsed_country_name = rec['name']
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -66,7 +72,10 @@ def search(request):
             'activity_countries': activity_countries,
             'username': request.session['username'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            'query': request.POST['themespark_query'],
+            'parsed_country': request.POST['themespark_countries'] and int(request.POST['themespark_countries']) or '',
+            'parsed_city': request.POST['themespark_cities'],
+            'parsed_country_name': parsed_country_name,
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_search_templates.html', values)
     else:
@@ -78,7 +87,7 @@ def detail(request):
         get_balance(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        request.session['activity_pick'] = request.session['activity_search'][int(request.POST['sequence'])]
+        request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'response': request.session['activity_search'][int(request.POST['sequence'])],
@@ -258,7 +267,7 @@ def passenger(request):
             print('no adult')
 
         try:
-            for i in range(int(request.POST['child_passenger'])):
+            for i in range(int(request.POST['children_passenger'])):
                 child.append('')
         except:
             print('no adult')
@@ -954,7 +963,7 @@ def review(request):
         if request.session['activity_pick']['provider'] == 'bemyguest':
             event_id = False
         else:
-            event_id = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])]['id']
+            event_id = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][0].get('name') or False
 
         if request.session['activity_request']['activity_timeslot'] != '':
             timeslot = request.session['activity_detail']['result'][int(request.session['activity_request']['activity_type_pick'])]['timeslots'][int(request.session['activity_request']['activity_timeslot'])]['uuid']
@@ -1000,7 +1009,8 @@ def review(request):
             'childs': child,
             'price': request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.session['activity_request']['activity_type_pick'])],
-
+            'username': request.session['username'],
+            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             # 'booker': booker,
             # 'adults': adult,
             # 'infants': infant,

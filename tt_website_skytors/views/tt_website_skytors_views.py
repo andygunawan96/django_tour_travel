@@ -181,7 +181,7 @@ def index(request):
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
                 }
-                return render(request, MODEL_NAME + '/tt_website_skytors_login_templates.html', values)
+                return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
         else:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),

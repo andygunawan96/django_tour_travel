@@ -756,7 +756,7 @@ function get_price_itinerary(val){
                     text+=`
                     <div class="col-lg-12">
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <table style="width:100%">
                                     <tr>
                                         <td class="airport-code"><h6>`+airline_pick_list[0].origin+`</h6></td>
@@ -775,7 +775,7 @@ function get_price_itinerary(val){
                                 <span style="font-size:13px;">`+airline_pick_list[0].origin_city+`</span></br>
                                 <span style="font-size:13px;">`+airline_pick_list[0].departure_date.split(' - ')[1]+` `+airline_pick_list[0].departure_date.split(' - ')[0]+`</span></br>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                 <table style="width:100%; margin-bottom:6px;">
                                     <tr>
                                         <td><h5>`+airline_pick_list[0].destination+`</h5></td>
@@ -785,6 +785,9 @@ function get_price_itinerary(val){
                                 </table>
                                 <span style="font-size:13px;">`+airline_pick_list[0].destination_city+`</span></br>
                                 <span style="font-size:13px;">`+airline_pick_list[0].arrival_date.split(' - ')[1]+` `+airline_pick_list[0].arrival_date.split(' - ')[0]+`</span></br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="rules`+j+`">
+
                             </div>
                         </div>
                         <hr/>
@@ -817,7 +820,7 @@ function get_price_itinerary(val){
                         text+=`
                         <div class="col-lg-12">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <table style="width:100%">
                                         <tr>
                                             <td class="airport-code"><h6>`+airline_pick_list[0].destination+`</h6></td>
@@ -836,7 +839,7 @@ function get_price_itinerary(val){
                                     <span style="font-size:13px;">`+airline_pick_list[0].destination_city+`</span></br>
                                     <span style="font-size:13px;">`+date_return[0].split(' - ')[1]+` `+date_return[0].split(' - ')[0]+`</span></br>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <table style="width:100%; margin-bottom:6px;">
                                         <tr>
                                             <td><h5>`+airline_pick_list[0].origin+`</h5></td>
@@ -846,6 +849,9 @@ function get_price_itinerary(val){
                                     </table>
                                     <span style="font-size:13px;">`+airline_pick_list[0].destination_city+`</span></br>
                                     <span style="font-size:13px;">`+date_return[1].split(' - ')[1]+` `+date_return[1].split(' - ')[0]+`</span></br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="rules`+j+`">
+
                                 </div>
                             </div>
                             <hr/>
@@ -952,7 +958,7 @@ function get_price_itinerary(val){
                         text+=`</div>
                         <div class="col-lg-12">
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <table style="width:100%">
                                         <tr>
                                             <td class="airport-code"><h5>`+airline_pick_list[1].origin+`</h5></td>
@@ -972,7 +978,7 @@ function get_price_itinerary(val){
                                     <span>`+airline_pick_list[1].departure_date.split(' - ')[1]+`</span></br>
                                     <span style="font-size:13px;">`+airline_pick_list[1].departure_date.split(' - ')[0]+`</span></br>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-lg-4 col-md-4 col-sm- col-xs-4">
                                     <table style="width:100%; margin-bottom:6px;">
                                         <tr>
                                             <td><h5>`+airline_pick_list[1].destination+`</h5></td>
@@ -983,6 +989,9 @@ function get_price_itinerary(val){
                                     <span>`+airline_pick_list[1].destination_city+`</span></br>
                                     <span>`+airline_pick_list[1].arrival_date.split(' - ')[1]+`</span></br>
                                     <span style="font-size:13px;">`+airline_pick_list[1].arrival_date.split(' - ')[0]+`</span></br>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="rules0">
+
                                 </div>
                             </div>
                             <hr/>
@@ -1318,8 +1327,22 @@ function get_fare_rules(){
             "journeys_booking": JSON.stringify(journey)
        },
        success: function(msg) {
-           console.log(msg);
+            console.log(msg);
+            count_fare = 0;
+            text_fare = '';
+            if(msg.result.error_code == 0){
+                for(i in msg.result.response.fare_rule_provider){
+                    for(j in msg.result.response.fare_rule_provider[i].journeys){
+                        for(k in msg.result.response.fare_rule_provider[i].journeys[k].rules){
+                            text_fare += `<label>`+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</label>`;
+                        }
+                        document.getElementById('rules'+count_fare).innerHTML = text_fare;
+                        count_fare++;
+                        text_fare = '';
+                    }
+                }
 
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
