@@ -1,0 +1,10 @@
+Django
+psycopg2-binary
+djangorestframework
+Image
+pillow
+I18N
+
+buat login attempt salah
+https://github.com/kencochrane/django-defender
+https://pypi.org/project/django-defender/0.1/

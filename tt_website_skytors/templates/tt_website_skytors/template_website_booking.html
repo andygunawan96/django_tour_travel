@@ -1,0 +1,94 @@
+{% load static from staticfiles %}
+{% load i18n %}
+<!DOCTYPE html>
+<!--
+Template Name: Pcomspace
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html>
+<head>
+    <title>Skytors</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="{{ static_path }}images/icon/skytors.png" sizes="16x16" type="image/png">
+
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css">
+    <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/bootstrap.css">
+    <link rel="stylesheet" href="{{ static_path }}css/magnific-popup.css">
+    <link rel="stylesheet" href="{{ static_path }}css/jquery-ui.css">
+    <link rel="stylesheet" href="{{ static_path }}css/nice-select.css">
+    <link rel="stylesheet" href="{{ static_path }}css/animate.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/owl.carousel.css">
+    <link rel="stylesheet" href="{{ static_path }}css/loading.css">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css">
+    <link rel="stylesheet" href="{{ static_path }}css/main.css">
+    <link rel="stylesheet" href="{{ static_path }}css/cart.css">
+    <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js"></script>
+    <style media="screen" type="text/css">
+        .bx-imopenlines-config-sidebar{
+            height: 65% !important;
+            top: 35% !important;
+            width: 25%;
+            min-height: 65% !important;
+        }
+        .bx-imopenlines-config-sidebar-info-block-container{
+            display: none !important;
+        }
+        .connector-icon{
+            background-size: 60% auto !important;
+        }
+    </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body>
+<div class="wrapper">
+    {% block content %}
+
+    {% endblock %}
+</div>
+</body>
+<!-- JAVASCRIPTS -->
+
+
+<script src="{{ static_path }}js/popper.min.js"></script>
+<script src="{{ static_path }}js/vendor/bootstrap.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+<script src="{{ static_path }}js/jquery-ui.js"></script>
+<script src="{{ static_path }}js/easing.min.js"></script>
+<script src="{{ static_path }}js/hoverIntent.js"></script>
+<script src="{{ static_path }}js/superfish.min.js"></script>
+<script src="{{ static_path }}js/jquery.ajaxchimp.min.js"></script>
+<script src="{{ static_path }}js/jquery.magnific-popup.min.js"></script>
+<script src="{{ static_path }}js/jquery.nice-select.min.js"></script>
+<script src="{{ static_path }}js/owl.carousel.min.js"></script>
+<script src="{{ static_path }}js/mail-script.js"></script>
+<script src="{{ static_path }}js/main2.js"></script>
+<script src="{{ static_path }}js/style.js"></script>
+<script src="{{ static_path }}js/cart.js"></script>
+<script src="{{ static_path }}js/loading-bar.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script data-skip-moving="true">
+    (function(w,d,u){
+    var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
+    var h=d.getElementsByTagName('script')[0];h.parentNode.insertBefore(s,h);
+    })(window,document,'https://bitrix.skytors.id/upload/crm/site_button/loader_1_gvnv97.js');
+</script>
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
+<!--<script src="{{ static_path }}js/google-map.js' %}"></script>-->
+<script src="{{ static_path }}js/main.js"></script>
+<script src="{{ static_path }}js/language.js"></script>
+
+</html>

@@ -1,0 +1,177 @@
+<script>
+    counter = 0;
+    price = {
+        adult:{
+            'fare': 1000,
+            'tax': 1000,
+            'total': 2000
+        },child:{
+            'fare': 1000,
+            'tax': 1000,
+            'total': 2000
+        },infant:{
+            'fare': 1000,
+            'tax': 1000,
+            'total': 2000
+        }
+    }
+</script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/jquery.min.js"></script>
+<script src="{{ static_path }}js/jquery-migrate-3.0.1.min.js"></script>
+<!--<label>Adult</label><br/>-->
+<!--<label>Fare</label><input id="fare_adult" value="1000" disabled/><br/>-->
+<!--<label>Tax</label><input id="tax_adult" value="1000" disabled/><br/>-->
+<!--<label>total amount</label><input id="total_adult" value="2000" disabled/><br/>-->
+
+<!--<label>Child</label><br/>-->
+<!--<label>Fare</label><input id="fare_child" value="1000" disabled/><br/>-->
+<!--<label>Tax</label><input id="tax_child" value="1000" disabled/><br/>-->
+<!--<label>total amount</label><input id="total_child" value="2000" disabled/><br/>-->
+
+<!--<label>Infant</label><br/>-->
+<!--<label>Fare</label><input id="fare_infant" value="1000" disabled/><br/>-->
+<!--<label>Tax</label><input id="tax_infant" value="1000" disabled/><br/>-->
+<!--<label>total amount</label><input id="total_infant" value="2000" disabled/><br/>-->
+
+<!--<label>Total</label><br/>-->
+<!--<label>Fare</label><input id="fare_amount" value="3000" disabled/><br/>-->
+<!--<label>Tax</label><input id="tax_amount" value="3000" disabled/><br/>-->
+<!--<label>total amount</label><input id="total_amount" value="6000" disabled/><br/>-->
+<table style="width:100%" id="table_of_equation">
+    <tr>
+        <td>Type</td>
+        <td>Type Amount</td>
+        <td>Pax Type</td>
+        <td>Equation</td>
+        <td><a href="javascript:add_table_of_equation();">Add</a></td>
+        <td><a href="javascript:delete_table_of_equation();">Delete</a></td>
+    </tr>
+</table>
+<input type="button" onclick="calculate();" value="calculate">
+<script>
+    function add_table_of_equation(){
+        if(counter != 0){
+            temp = counter-1;
+            console.log(temp);
+            if(document.getElementById("selection_fare"+temp).value == 'total')
+                alert("Type amount has been reset please check!");
+
+            text = '<option value="fare"';
+            if(document.getElementById("selection_fare"+temp).value == 'fare')
+                text += 'selected';
+            text +='>Fare</option>';
+
+            text += '<option value="tax"';
+            if(document.getElementById("selection_fare"+temp).value == 'tax')
+                text += 'selected';
+            text +='>Tax</option>';
+            document.getElementById("selection_fare"+temp).innerHTML = text;
+        }
+        text= '';
+        var node = document.createElement("tr");
+        text += `
+        <td>
+            <select id="selection_type`+counter+`">
+                <option value="upsell">Upsell</option>
+                <option value="discount">Discount</option>
+            </select>
+        </td>`;
+        text += `
+        <td>
+            <select id="selection_fare`+counter+`" style="width:100px;">
+                <option value="fare">Fare</option>
+                <option value="tax">Tax</option>
+                <option value="total">Total</option>
+            </select>
+        </td>`;
+        text += `
+        <td>
+            <select id="selection_pax`+counter+`">
+                <option value="adult">Adult</option>
+                <option value="child">Child</option>
+                <option value="infant">Infant</option>
+            </select>
+        </td>`;
+        text += `
+            <td>
+                <input id="calculation`+counter+`" type="text"/>
+            </td>`;
+        node.innerHTML = text;
+        node.setAttribute('id', 'table'+counter);
+        document.getElementById("table_of_equation").appendChild(node);
+        counter++;
+    }
+
+    function delete_table_of_equation(){
+        if(counter != 0){
+            counter--;
+            if(counter != 0){
+                temp = counter-1;
+                document.getElementById("selection_fare"+temp).innerHTML = `<option value="fare">Fare</option><option value="tax">Tax</option><option value="fare">Total</option>`;
+            }
+            var element = document.getElementById('table'+counter);
+            element.parentNode.removeChild(element);
+        }
+    }
+
+    function calculate(){
+        price_duplication = JSON.parse(JSON.stringify(price));
+
+        for(i=0;i<counter;i++){
+            var selection_calculation = document.getElementById('calculation'+i).value;
+            var selection_pax = document.getElementById('selection_pax'+i).value;
+            var selection_fare = document.getElementById('selection_fare'+i).value;
+            if(selection_calculation == '' || selection_calculation == null)
+                selection_calculation = '0';
+            if(selection_calculation.match('-')){
+                var temp = '';
+                for(i in selection_calculation.split('-')){
+                    temp += selection_calculation[i];
+                }
+                selection_calculation = temp;
+            }
+            if(document.getElementById('selection_type'+i).value == 'upsell'){
+                if(selection_calculation.match('%')){
+                    if(selection_fare != 'total'){
+                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + ( price_duplication[selection_pax][selection_fare] * parseFloat(selection_calculation) / 100 );
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
+                    }else{
+                        price_duplication[selection_pax]['fare'] = price_duplication[selection_pax]['fare'] + ( price_duplication[selection_pax]['fare'] * parseFloat(selection_calculation) / 100 );
+                        price_duplication[selection_pax]['tax'] = price_duplication[selection_pax]['tax'] + ( price_duplication[selection_pax]['tax'] * parseFloat(selection_calculation) / 100 );
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['total'] + ( price_duplication[selection_pax]['total'] * parseFloat(selection_calculation) / 100 );
+                    }
+                }else{
+                    if(selection_fare != 'total'){
+                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + parseFloat(selection_calculation);
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
+                    }else{
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'] + parseFloat(selection_calculation);
+                    }
+                }
+            }else if(document.getElementById('selection_type'+i).value == 'discount'){
+                if(selection_calculation.match('%')){
+                    if(parseFloat(selection_calculation) > 100){
+                        alert('Max discount 100%');
+                    }else if(selection_fare != 'total'){
+                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] - ( price_duplication[selection_pax][selection_fare] * parseFloat(selection_calculation) / 100 );
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
+                    }else{
+                        price_duplication[selection_pax]['fare'] = price_duplication[selection_pax]['fare'] - ( price_duplication[selection_pax]['fare'] * parseFloat(selection_calculation) / 100 );
+                        price_duplication[selection_pax]['tax'] = price_duplication[selection_pax]['tax'] - ( price_duplication[selection_pax]['tax'] * parseFloat(selection_calculation) / 100 );
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['total'] - ( price_duplication[selection_pax]['total'] * parseFloat(selection_calculation) / 100 );
+                    }
+                }else{
+                    if(selection_fare != 'total'){
+                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] - parseFloat(selection_calculation);
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
+                    }else{
+                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'] - parseFloat(selection_calculation);
+                    }
+                }
+            }
+            console.log(price_duplication);
+        }
+    }
+</script>

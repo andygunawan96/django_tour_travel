@@ -1,0 +1,1135 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/webservice_activity.js"></script>
+<script src="{{ static_path }}js/webservice_train.js"></script>
+<script src="{{ static_path }}js/train_javascript.js"></script>
+<script src="{{ static_path }}js/activity_javascript.js"></script>
+<script src="{{ static_path }}js/airline_javascript.js"></script>
+<script src="{{ static_path }}js/hotel_javascript.js"></script>
+<script src="{{ static_path }}js/moment.js"></script>
+<script>
+    time = 300;
+    triggered_balance();
+    activity_country = [];
+    city = [];
+    sub_category = {};
+    sub_category_list = [];
+    name = '';
+    {% for country in activity_countries %}
+        {% for city in country.city %}
+            city.push({
+                'name': '{{city.name}}', 'id':'{{city.id}}'
+            });
+        {% endfor %}
+        activity_country.push({
+            'city': city,
+            'name': '{{country.name}}',
+            'id': '{{country.id}}'
+        });
+        city = [];
+    {% endfor %}
+
+    airline_destination = [];
+    {% for destination in airline_destinations %}
+        airline_destination.push({
+            "name": "{{destination.name}}",
+            "city": "{{destination.city}}",
+            "code": "{{destination.code}}"
+        });
+    {% endfor %}
+    train_destination = [];
+    {% for destination in train_destination %}
+        destination = `{{destination}}`;
+        destination = destination.replace(/&#39;/g, "");
+        destination = destination.replace('[', "");
+        destination = destination.replace(']', "");
+        train_destination.push({
+            'code':destination.split(', ')[0],
+            'name':destination.split(', ')[1]
+        });
+    {% endfor %}
+
+    {% for key, value in activity_sub_categories.items %}
+        {% for item in value %}
+            name = '{{item.name}}';
+            if(name.search('amp;') !== -1){
+                name = name.replace(/&amp;/g, '&');
+            }
+
+            sub_category_list.push({
+                'name': name,
+                'id': '{{item.id}}'
+            });
+            name = '';
+        {% endfor %}
+        key = '{{key}}';
+        sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
+        sub_category_list = [];
+    {% endfor %}
+
+    hotel_config = [];
+    {% for hotel in hotel_config %}
+        hotel_config.push({
+            'id': {{hotel.id}},
+            'name': `{{hotel.name}}`,
+            'type': `{{hotel.type}}`
+        });
+    {% endfor %}
+
+    airline_country = [];
+    {% for country in airline_country %}
+        airline_country.push({
+            'id': {{country.id}},
+            'code': `{{country.code}}`,
+            'name': `{{country.name}}`,
+        });
+    {% endfor %}
+    console.log(airline_country);
+</script>
+
+<style>
+    @media only screen and (min-width: 991px) {
+        #slider_home {
+            margin-top: 88px;
+        }
+    }
+    @media only screen and (max-width: 990px) {
+        #slider_home {
+            margin-top: 0px;
+        }
+        #logo_home {
+            padding-top:10px;
+        }
+    }
+</style>
+
+<header id="header" style="position:sticky;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="index.html"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li><a href="#">Home</a></li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">Frequently Asked Question</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">Partnership</a>
+                            <ul>
+                                <li><a href="#">Registration List</a></li>
+                                <li><a href="#">Search Registration</a></li>
+                            </ul>
+                        </li>
+
+                        {% if username != null %}
+                        <li style="font-size:12px;color:black;"><a id="balance"></a></li>
+                        <li class="menu-has-children"><a style="font-size:12px;color:black;cursor:pointer;">{{username}}</a>
+                            <ul>
+                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li>
+                                    <a>
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="primary-btn-logout" style="color:white;">Logout <i class="fas fa-sign-out-alt"></i></button>
+                                            <input type="hidden" id="logout" name="logout" value=true>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" style="font-size:16px;"><i class="fas fa-bell"></i></a>
+                        </li>
+                        {% else %}
+                        <li class="menu-has-children"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+    {% if username != null %}
+    <div class="main-menu-2">
+        <div class="container">
+            <div class="align-items-center justify-content-between d-flex">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#">Top Up</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Issued Offline</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
+                                <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</header>
+<!--FF8C00-->
+
+<!-- Search Ticket -->
+<section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
+    {% if username != null %}
+    <div class="animated fadeInDown delay-1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="banner-right scrollmenu">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="airline-tab" data-toggle="tab" href="#airline" role="tab" aria-controls="airline" aria-selected="true">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/> AIRLINE </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/train.png"/> TRAIN </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/> HOTEL </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/> ACTIVITY </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="tour-tab" data-toggle="tab" href="#tour" role="tab" aria-controls="tour" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/> TOUR </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/> VISA </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/> PASSPORT </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="groupbooking-tab" data-toggle="tab" href="#groupbooking" role="tab" aria-controls="groupbooking" aria-selected="false">
+                                    <span><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/> GROUP BOOKING </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="banner-right">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="airline" role="tabpanel" aria-labelledby="airline-tab">
+                                <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">From</span>
+                                            <div class="input-container-search-ticket">
+                                                <input list="airline_origin_name" value="Juanda - Surabaya (SUB)" id="origin_id_flight" name="origin_id_flight" class="form-control" name="origin_id_flight" onkeyup="search_airport('origin');" placeholder="City or Airport " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Airport '" autocomplete="off"/>
+                                                <datalist id="airline_origin_name"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
+                                            <h2 class="image-change-route-vertical"><a href="#" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h2>
+                                            <span class="span-search-ticket">To</span>
+                                            <div class="input-container-search-ticket">
+                                                <input list="airline_destination_name" value="Soekarno Hatta Intl - Jakarta (CGK)" id="destination_id_flight" name="destination_id_flight" class="form-control" name="destination_id_flight" onkeyup="search_airport('destination');" placeholder="City or Airport " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Airport '" autocomplete="off"/>
+                                                <datalist id="airline_destination_name"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Departure</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">
+                                            <label class="check_box_custom">
+                                                <span class="span-search-ticket">Return</span>
+                                                <input type="checkbox" id="directionflight" name="directionflight" onclick="showReturnDateAirline()"/>
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding:0px;">
+                                            <span class="span-search-ticket">Passenger</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                                    <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn" style="text-align:left;">
+                                                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                            <span><i class="fas fa-minus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="adult_flight" name="adult_flight" value="1" min="1">
+                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_flight" name="show_adult_flight"></span>
+                                                                    <span class="input-group-btn" style="text-align:right;">
+                                                                        <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
+                                                                            <span><i class="fas fa-plus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">Child<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn" style="text-align:left;">
+                                                                        <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
+                                                                            <span><i class="fas fa-minus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="child_flight" name="child_flight" value="0" min="0">
+                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_child_flight" id="show_child_flight"></span>
+                                                                    <span class="input-group-btn" style="text-align:right;">
+                                                                        <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
+                                                                            <span><i class="fas fa-plus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age <3)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn">
+                                                                    <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
+                                                                        <span><i class="fas fa-minus"></i></span>
+                                                                    </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="infant_flight" name="infant_flight" value="0">
+                                                                    <span style="color:black; font-size:14px;padding:5px;" id="show_infant_flight" id="show_infant_flight"></span>
+                                                                    <span class="input-group-btn">
+                                                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
+                                                                        <span><i class="fas fa-plus"></i></span>
+                                                                    </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">-->
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Airline</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
+                                                <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
+                                                <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
+                                                    {% for provider in airline_provider_list %}
+                                                    {% if forloop.counter == 1 %}
+                                                    <li>
+                                                        <a class="small" data-value="option1" tabIndex="-1">
+                                                            <label class="check_box_custom">
+                                                                <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
+                                                                <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>
+                                                        </a>
+                                                        <br/>
+                                                        <!--                                                        <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
+                                                    </li>
+                                                    {% else %}
+                                                    <li>
+                                                        <a class="small" data-value="option1" tabIndex="-1">
+                                                            <label class="check_box_custom">
+                                                                <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
+                                                                <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label><br/>
+                                                            <!--                                                            <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
+                                                        </a>
+                                                    </li>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Class</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select" id="default-select">
+                                                    <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
+                                                        {% for cabin_class in airline_cabin_class_list %}
+                                                        <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
+                                                        {% endfor %}
+                                                        <!--                                                        {% for cabin_class in airline_cabin_class_list %}-->
+                                                        <!--                                                        <option value="{{cabin_class.value}}">{{cabin_class.name}}</option>-->
+                                                        <!--                                                        {% endfor %}-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket">Is Combo Price</span>
+                                        <input type="checkbox" id="is_combo_price" name="is_combo_price" readonly="readonly"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search
+                                    </button>
+                                    <!--<a hrpoaef="#" class="primary-btn text-uppercase">Search for Ticket</a>-->
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="train" role="tabpanel" aria-labelledby="train-tab">
+                                <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">From</span>
+                                            <div class="input-container-search-ticket">
+                                                <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
+                                                <datalist id="train_origin_name"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:4; padding:0px;">
+                                            <h2 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h2>
+                                            <span class="span-search-ticket">To</span>
+                                            <div class="input-container-search-ticket">
+                                                <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
+                                                <datalist id="train_destination_name"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Departure</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker departure_date_train" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Passenger</span>
+
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_total_pax_train" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                                    <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn" style="text-align:left;">
+                                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                            <span><i class="fas fa-minus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="train_adult" name="train_adult" value="1" min="1">
+                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_train" id="show_adult_train"></span>
+                                                                    <span class="input-group-btn" style="text-align:right;">
+                                                                        <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                            <span><i class="fas fa-plus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age <3)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn">
+                                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                        <span><i class="fas fa-minus"></i></span>
+                                                                    </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="train_infant" name="train_infant" value="0">
+                                                                    <span style="color:black; font-size:14px;padding:5px;" id="show_infant_train" id="show_infant_train"></span>
+                                                                    <span class="input-group-btn">
+                                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                        <span><i class="fas fa-plus"></i></span>
+                                                                    </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">-->
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <input type="hidden" id="train_response" name="response"/>
+
+                                    <button class="primary-btn text-uppercase ld-ext-right" id="btn-search-train" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
+                                <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Destination or Hotel Name</span>
+                                            <div class="input-container-search-ticket">
+                                                <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
+                                                <datalist id="hotel_destination_name"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Guest Nationality</span>
+                                            <div class="input-container-search-ticket">
+                                                <input list="hotel_country_nationality" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
+                                                <datalist id="hotel_country_nationality"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
+                                            <span class="span-search-ticket">Check-in</span>
+                                            <div class="input-container-search-ticket">
+                                                <input class="form-control date-picker" type="text" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" onchange="change_date_hotel('checkin');"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
+                                            <span class="span-search-ticket">Check-out</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" id="hotel_checkout" class="form-control date-picker" name="hotel_checkout" autocomplete="off" onchange="change_date_hotel('checkout');" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Guest</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <button id="show_total_pax_hotel" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                                <ul class="dropdown-menu" role="menu" style="z-index:5;">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                                    <span style="color:black; font-size:13px;">Room<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn" style="text-align:left;">
+                                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                                            <span><i class="fas fa-minus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="hotel_room" name="hotel_room" value="1" min="1">
+                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_room_hotel" name="show_room_hotel"></span>
+                                                                    <span class="input-group-btn" style="text-align:right;">
+                                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                                            <span><i class="fas fa-plus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn" style="text-align:left;">
+                                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                                            <span><i class="fas fa-minus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="hotel_adult" name="hotel_adult" value="2" min="1">
+                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_hotel" id="show_adult_hotel"></span>
+                                                                    <span class="input-group-btn" style="text-align:right;">
+                                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                                            <span><i class="fas fa-plus"></i></span>
+                                                                        </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <label>
+                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                                    <span style="color:black; font-size:13px;">Child<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <div style="float:right; padding:5px 0px 5px 5px;">
+                                                                    <span class="input-group-btn">
+                                                                    <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                                        <span><i class="fas fa-minus"></i></span>
+                                                                    </button>
+                                                                    </span>
+                                                                    <input type="hidden" id="hotel_child" name="hotel_child" value="0">
+                                                                    <span style="color:black; font-size:14px;padding:5px;" id="show_child_hotel" id="show_child_hotel"></span>
+                                                                    <span class="input-group-btn">
+                                                                    <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                                        <span><i class="fas fa-plus"></i></span>
+                                                                    </button>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <div class="row" id="guest_child_age">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+
+
+
+
+                                        </div>
+
+                                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                                            <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                                <input type="checkbox" value="true" onclick="business_trip_check();">
+                                                <input type="hidden" name="business_trip" id="business_trip" value="false"/>
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <button class="primary-btn text-uppercase ld-ext-right" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </form>
+                            </div>
+
+
+
+
+                            <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                                <form class="form-wrap">
+                                    <div class="row">
+                                        <div class="col-md-3" style="padding:1px;">
+                                            <span class="span-search-ticket">Hotel</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="location_name_hotel" placeholder="Location or hotel name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Location or hotel name '">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="z-index:0; padding:1px;">
+                                            <span class="span-search-ticket">Guest Nationality</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="guest_nationality_hotel" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding:1px;">
+                                            <span class="span-search-ticket">Check-in</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker" name="check_in_hotel" placeholder="Check-in Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="padding:1px;">
+                                            <span class="span-search-ticket">Check-out</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker" name="check_out_hotel" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3" style="padding:1px;">
+                                            <span class="span-search-ticket">Guest</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="guest_hotel" placeholder="Guest " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest '">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label class="check_box_hotel">
+                                                <span class="span-search-ticket">Business Trip</span>
+                                                <input type="checkbox"/>
+                                                <span class="check_box_span_hotel"></span>
+                                            </label>
+                                        </div>
+
+
+                                    </div>
+                                    <br/>
+                                    <!--<div class="col-md-6">-->
+                                    <!--<input type="text" class="form-control date-picker" name="start" placeholder="Start " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start '">-->
+                                    <!--</div>-->
+                                    <!--<div class="col-md-6">-->
+                                    <!--<input type="text" class="form-control date-picker" name="start" placeholder="Start " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start '">-->
+                                    <!--</div>-->
+
+                                    <!--<input type="number" min="1" max="20" class="form-control" name="adults" placeholder="Adults " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Adults '">-->
+                                    <!--<input type="number" min="1" max="20" class="form-control" name="child" placeholder="Child " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Child '">-->
+
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search for ticket
+                                    </button>
+                                    <!--<a hrpoaef="#" class="primary-btn text-uppercase">Search for Ticket</a>-->
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+
+<section class="destinations-area" style="padding-top:15px; z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="single-defination">
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> TERBAIK</h4>
+                    <p>RODEX TRIP telah bekerja sama dengan banyak ribuan jaringan.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="single-defination">
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> TERPERCAYA</h4>
+                    <p>RODEX TRIP telah memiliki banyak customer.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="single-defination">
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> KITA PASTI BISA</h4>
+                    <p>RODEX TRIP memiliki harga yang sangat bersahabat.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>HOT DEALS</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="active-recent-blog-carusel">
+                    <div class="single-recent-blog-post item">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-recent-blog-post item">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-recent-blog-post item">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="single-recent-blog-post item">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <!--                    <div class="single-recent-blog-post item">-->
+                    <!--                        <div class="single-destination relative">-->
+                    <!--                            <div class="thumb relative">-->
+                    <!--                                <div class="overlay overlay-bg"></div>-->
+                    <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">-->
+                    <!--                            </div>-->
+                    <!--                            <div class="desc">-->
+                    <!--                                <a class="price-btn">RP. 6.000.000+</a>-->
+                    <!--                            </div>-->
+                    <!--                            <div class="card card-effect-promotion">-->
+                    <!--                                <div class="card-body">-->
+                    <!--                                    <div class="row details">-->
+                    <!--                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">-->
+                    <!--                                            <h4>Holiday Sea beach Blue Ocean</h4>-->
+                    <!--                                            <p>-->
+                    <!--                                                United staes of America-->
+                    <!--                                            </p>-->
+                    <!--                                        </div>-->
+                    <!--                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">-->
+                    <!--                                            <a href="#" class="btn btn-primary">BOOK</a>-->
+                    <!--                                        </div>-->
+                    <!--                                    </div>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--convenience-->
+<section class="destinations-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>TOUR PACKAGE</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <a class="price-btn">RP. 6.000.000+</a>
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <h4>Holiday Sea beach Blue Ocean</h4>
+                                                <p>
+                                                    United staes of America
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <span class="price-btn">Departure Date: 10 April 2019
+                                        <br/>
+                                        Qty: 1/10
+                                    </span>
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <h4>Holiday Sea beach Blue Ocean</h4>
+                                                <p>
+                                                    United staes of America
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--007bff-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <a class="price-btn">RP. 6.000.000+</a>
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <h4>Holiday Sea beach Blue Ocean</h4>
+                                                <p>
+                                                    United staes of America
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <a class="price-btn">RP. 6.000.000+</a>
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <h4>Holiday Sea beach Blue Ocean</h4>
+                                                <p>
+                                                    United staes of America
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
+                                </div>
+                                <div class="desc">
+                                    <a class="price-btn">RP. 6.000.000+</a>
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <h4>Holiday Sea beach Blue Ocean</h4>
+                                                <p>
+                                                    United staes of America
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+
+<section style="background-color:#f15a22;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <img src="{{static_path}}img/test.png" alt="" title="" />
+            </div>
+            <div class="col-lg-6" style="padding-top:50px; padding-bottom:20px;">
+                <h4 style="color:white;">Lebih dari 1 Juta Pelanggan menggunakan aplikasi mobile RODEX TRIP</h4>
+                <br/>
+                <img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="" />
+                <img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- start footer Area -->
+<footer class="footer-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
+    <span><i class="fas fa-chevron-up"></i></span>
+</button>
+
+<script>
+    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    var now = moment().format('DD MMM YYYY');
+    document.getElementById("airline_departure").value = now;
+    document.getElementById("train_departure").value = now;
+    document.getElementById("hotel_checkin").value = now;
+
+    var check_date = moment(document.getElementById('hotel_checkin').value);
+    check_date = check_date.add(1, 'days');
+    document.getElementById('hotel_checkout').value = check_date._d.toString().split(' ')[2]+' '+check_date._d.toString().split(' ')[1]+' '+check_date._d.toString().split(' ')[3];
+
+    function change_date(type){
+        console.log('asdasd');
+        if(type == 'checkin'){
+            change_date_hotel('checkin');
+            hotel_detail(`{{response.external_code}}`);
+        }else{
+            change_date_hotel('checkout');
+            hotel_detail(`{{response.external_code}}`);
+        }
+    }
+
+    function change_date_hotel(type){
+        if(type == 'checkin'){
+            var date = moment(document.getElementById('hotel_checkin').value);
+            date = date.add(1, 'days');
+            console.log(document.getElementById('hotel_checkout').value);
+            if(document.getElementById('hotel_checkout').value == '' || moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value))
+                document.getElementById('hotel_checkout').value = date._d.toString().split(' ')[2]+' '+date._d.toString().split(' ')[1]+' '+date._d.toString().split(' ')[3];
+        }else{
+            console.log(moment(document.getElementById('hotel_checkin').value));
+            console.log(moment(document.getElementById('hotel_checkout').value));
+            if(moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value)){
+                console.log('kasih error checkout di bawah checkin')
+            }
+        }
+    }
+
+
+</script>
+
+{% endblock %}

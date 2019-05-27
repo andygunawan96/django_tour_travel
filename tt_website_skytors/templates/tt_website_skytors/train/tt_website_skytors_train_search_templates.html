@@ -1,0 +1,451 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/train_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_train.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script>
+    filter = {
+        'departure_time': 'all',
+        'arrival_time': 'all',
+        'cabin_class': 'all'
+    };
+    sorting_value = '';
+    time = 300;
+    triggered_balance();
+</script>
+
+<header id="header" style="position:sticky;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li><a href="#">Home</a></li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">Frequently Asked Question</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">Partnership</a>
+                            <ul>
+                                <li><a href="#">Registration List</a></li>
+                                <li><a href="#">Search Registration</a></li>
+                            </ul>
+                        </li>
+                        <!--                        <li class="menu-has-children">-->
+                        <!--                            <a href="#">-->
+                        <!--                                <img alt="notification" style="height:20px; width:20px;" src="{{static_path}}img/notification.png">-->
+                        <!--                                <span class="badge">500</span>-->
+                        <!--                            </a>-->
+                        <!--                            <ul>-->
+                        <!--                                <li class="title">Notifications</li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem sit amet consectetur adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li class="footer">-->
+                        <!--                                    <a href="#">See all</a>-->
+                        <!--                                </li>-->
+
+                        <!--                            </ul>-->
+                        <!--                        </li>-->
+                        <li class="menu-has-children"><a href="#">{{username}}</a>
+                            <ul>
+                                <li>
+                                    <a>
+                                        <!--<img alt="wallet" style="height:25px; width:25px;" src="{{static_path}}img/wallet.png">-->
+                                        My Balance: Rp {{balance}}
+                                    </a>
+                                </li>
+                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+    <div class="main-menu-2">
+        <div class="container">
+            <div class="align-items-center justify-content-between d-flex">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#">Top Up</a>
+                            <ul>
+                                <li><a href="#">Request</a></li>
+                                <li><a href="#">Confirm</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Reservation</a>
+                            <ul>
+                                <li><a href="#">Airline Hold Booking List</a></li>
+                                <li><a href="#">Train Hold Booking List</a></li>
+                                <li><a href="#">Group Booking Hold Booking List</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black;">
+    <div class="animated fadeInDown delay-1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" style="padding:0;">
+                    <div class="banner-right">
+                        <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <span class="span-search-ticket">From</span>
+                                    <div class="input-container-search-ticket" style="z-index:4;">
+                                        <input list="train_origin_name" id="train_origin" value="{{train_request.origin}}" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
+                                        <datalist id="train_origin_name"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:4; padding:0px;">
+                                    <h2 class="image-change-route-vertical image-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h2>
+                                    <span class="span-search-ticket">To</span>
+                                    <div class="input-container-search-ticket" style="z-index:4;">
+                                        <div class="input-container-search-ticket">
+                                            <input list="train_destination_name" id="train_destination" value="{{train_request.destination}}" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
+                                            <datalist id="train_destination_name"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <span class="span-search-ticket">Departure</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control date-picker" id="train_departure" name="train_departure" value="{{train_request.departure}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <span class="span-search-ticket">Passenger</span>
+
+                                    <div class="input-container-search-ticket btn-group">
+                                        <button id="show_total_pax_train" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-lg-6">
+                                                        <label>
+                                                            <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                            <span style="color:black; font-size:13px;">Adults<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div style="text-align:right; padding:5px 0px 5px 5px;">
+                                                            <span class="input-group-btn">
+                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                <span><i class="fas fa-minus"></i></span>
+                                                            </button>
+                                                            </span>
+                                                            <input type="hidden" id="train_adult" name="train_adult" value="{{train_request.adult}}" min="1">
+                                                            <span style="color:black; font-size:14px;padding:5px;" id="show_adult_train" id="show_adult_train"></span>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                    <span><i class="fas fa-plus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <label>
+                                                            <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                            <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age <3)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <div style="float:right; padding:5px 0px 5px 5px;">
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                <span><i class="fas fa-minus"></i></span>
+                                                            </button>
+                                                        </span>
+                                                            <input type="hidden" id="train_infant" name="train_infant" value="{{train_request.infant}}">
+                                                            <span style="color:black; font-size:14px;padding:5px;" id="show_infant_train" id="show_infant_train"></span>
+                                                            <span class="input-group-btn">
+
+                                                        <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                            <span><i class="fas fa-plus"></i></span>
+                                                        </button>
+                                                    </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">-->
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+
+                            <input type="hidden" id="train_response" name="response"/>
+                            <button class="primary-btn text-uppercase" onclick="train_search({{co_uid}});triggered();" type="submit" value="Submit">
+                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                Change Search
+                            </button>
+                            <!--<a hrpoaef="#" class="primary-btn text-uppercase">Search for Ticket</a>-->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+
+        <div class="row" style="padding-bottom:10px;">
+            <div class="col-lg-12" style="margin-top:10px;">
+                <div class="breadcrumb-ticket" style="text-align:center;">
+                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
+                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
+                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
+                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
+                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
+                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3" style="margin-top:10px;">
+
+                <div class="modal fade" id="myModalFilterSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE X</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                                        <div id="filter2">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                                        <div id="sorting-train2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background-color:white; padding:10px;" class="filter-search-train" id="filter-search-train">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                            <div id="filter">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9" style="margin-top:10px;">
+                <div class="row" class="sorting-search-train" id="sorting-search-train">
+                    <div class="col-lg-12">
+                        <div id="sorting-train" style="margin-bottom:15px;">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="loading-search-train">
+                    <div class="col-lg-12">
+                        <div class="sk-circle">
+                            <div class="sk-circle1 sk-child"></div>
+                            <div class="sk-circle2 sk-child"></div>
+                            <div class="sk-circle3 sk-child"></div>
+                            <div class="sk-circle4 sk-child"></div>
+                            <div class="sk-circle5 sk-child"></div>
+                            <div class="sk-circle6 sk-child"></div>
+                            <div class="sk-circle7 sk-child"></div>
+                            <div class="sk-circle8 sk-child"></div>
+                            <div class="sk-circle9 sk-child"></div>
+                            <div class="sk-circle10 sk-child"></div>
+                            <div class="sk-circle11 sk-child"></div>
+                            <div class="sk-circle12 sk-child"></div>
+                        </div>
+                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                    </div>
+                </div>
+
+                <div class="row" id="show-search-train">
+                    <div class="col-lg-12" id="train_ticket">
+
+                    </div>
+                </div>
+
+                <div class="modal fade" id="myModalTicketTrain" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"><i class="fas fa-shopping-cart"></i></i></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{% url 'tt_website_skytors:train_passenger'%}" method="POST">
+                                    {% csrf_token %}
+                                    <div id="train_detail">
+
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-area section-gap">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        For business professionals caught between high OEM price and mediocre print and graphic output.
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3  col-md-6 col-sm-6">
+                <div class="single-footer-widget mail-chimp">
+                    <h6 class="mb-20">InstaFeed</h6>
+                    <ul class="instafeed d-flex flex-wrap">
+                        <li><img src="{{static_path}}img/i1.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i2.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i3.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i4.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i5.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i6.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i7.jpg" alt=""></li>
+                        <li><img src="{{static_path}}img/i8.jpg" alt=""></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+                <a href="#"><i class="fa fa-dribbble"></i></a>
+                <a href="#"><i class="fa fa-behance"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div id="mybuttonticket">
+    <button class="myticket" data-toggle="modal" data-target="#myModalTicketTrain">
+        <span style="color:white; font-size:20px;"><i class="fas fa-shopping-cart"></i></span>
+        <span class="badge-notif animated bounceIn" id="badge-train-notif">0</span>
+    </button>
+</div>
+
+<div id="mybuttonfiltersort">
+    <button class="filtersort" data-toggle="modal" data-target="#myModalFilterSort">
+        <span style="color:white;"> Filter & Sorting </span>
+    </button>
+</div>
+
+<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
+    <span style="color:white; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
+</button>
+
+<script>
+    train_filter_render();
+    train_search({{co_uid}});
+</script>
+
+{% endblock %}

@@ -1,0 +1,241 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/airline_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_airline.js"></script>
+
+<script>
+    time = 300;
+    airline_carriers = `{{airline_carriers}}`;
+    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
+    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = JSON.parse(airline_carriers);
+
+    triggered_balance();
+</script>
+
+
+<header id="header" style="position:sticky;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li><a href="#">{% trans 'Home' %}</a></li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">Frequently Asked Question</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">Partnership</a>
+                            <ul>
+                                <li><a href="#">Registration List</a></li>
+                                <li><a href="#">Search Registration</a></li>
+                            </ul>
+                        </li>
+                        <!--                        <li class="menu-has-children">-->
+                        <!--                            <a href="#">-->
+                        <!--                                <img alt="notification" style="height:20px; width:20px;" src="{{static_path}}img/notification.png">-->
+                        <!--                                <span class="badge">500</span>-->
+                        <!--                            </a>-->
+                        <!--                            <ul>-->
+                        <!--                                <li class="title">Notifications</li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem sit amet consectetur adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li>-->
+                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
+                        <!--                                </li>-->
+                        <!--                                <li class="footer">-->
+                        <!--                                    <a href="#">See all</a>-->
+                        <!--                                </li>-->
+
+                        <!--                            </ul>-->
+                        <!--                        </li>-->
+                        {% if username != null %}
+                        <li class="menu-has-children"><a href="#">{{username}}</a>
+                            <ul>
+                                <li>
+                                    <a>
+                                        <!--<img alt="wallet" style="height:25px; width:25px;" src="{{static_path}}img/wallet.png">-->
+                                        My Balance: Rp {{balance}}
+                                    </a>
+                                </li>
+                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li><a href="#">Logout</a></li>
+                            </ul>
+                        </li>
+                        {% else %}
+                        <li class="menu-has-children"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+    <div class="main-menu-2">
+        <div class="container">
+            <div class="align-items-center justify-content-between d-flex">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#">Top Up</a>
+                            <ul>
+                                <li><a href="#">Request</a></li>
+                                <li><a href="#">Confirm</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">Reservation</a>
+                            <ul>
+                                <li><a href="#">Airline Hold Booking List</a></li>
+                                <li><a href="#">Train Hold Booking List</a></li>
+                                <li><a href="#">Group Booking Hold Booking List</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="margin-top:10px;">
+                <div class="breadcrumb-ticket" style="text-align:center;">
+                    <a href="#" style="pointer-events: none;" class="active"> Home <i class="fas fa-home"></i></a>
+                    <a href="#" style="pointer-events: none;" class="active"> Search <i class="fas fa-search"></i></a>
+                    <a href="#" style="pointer-events: none;" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
+                    <a href="#" style="pointer-events: none;" class="active"> Review <i class="fas fa-eye"></i></a>
+                    <a href="#" style="pointer-events: none;" class="active"> Booking <i class="fas fa-book-open"></i></a>
+                    <a href="#" style="pointer-events: none;" id="issued-breadcrumb"> Issued <i class="fas fa-check-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
+                <div class="alert alert-success">
+                    Your Booking has been Issued
+                </div>
+            </div>
+        </div>
+
+        <form method="POST" action="{% url 'tt_website_skytors:airline_booking'%}">
+            {% csrf_token %}
+            <div class="row" style="padding-top:20px;">
+                <div class="col-lg-12">
+                    <h3>Please Review Your Booking</h3>
+                    <h4>Prices may changes at any time</h4>
+                    <br/>
+                </div>
+                <div class="col-lg-8" style="padding-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="airline_booking">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div id="airline_detail">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<footer class="footer-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    airline_signin('{{order_number}}');
+</script>
+
+{% endblock %}

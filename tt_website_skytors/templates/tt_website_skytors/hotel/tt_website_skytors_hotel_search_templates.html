@@ -1,0 +1,558 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/hotel_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_hotel.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script>
+    filter = {
+        'departure_time': 'all',
+        'arrival_time': 'all',
+        'cabin_class': 'all'
+    };
+    sorting_value = '';
+    time = 300;
+    triggered_balance();
+    hotel_config = [];
+    {% for hotel in hotel_config %}
+        hotel_config.push({
+            'id': {{hotel.id}},
+            'name': `{{hotel.name}}`,
+            'type': `{{hotel.type}}`
+        });
+    {% endfor %}
+
+    airline_country = [];
+    {% for country in airline_country %}
+        airline_country.push({
+            'id': {{country.id}},
+            'code': `{{country.code}}`,
+            'name': `{{country.name}}`,
+        });
+    {% endfor %}
+
+    function guest_child_age2(){
+        text= '';
+        if(parseInt(document.getElementById("hotel_child").value) == 0){
+
+        }else if(parseInt(document.getElementById("hotel_child").value) > 0){
+            text+= `<div class="col-sm-4">
+                        <div class="form-group">
+                            <label style="font-size:8">Age at Check-Out</label>
+                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age1" name="hotel_child_age1">
+                                <option value="" disabled>Child Age</option>
+                                <option value="0" {% if hotel_search.child_age.0 == 0 %} selected {% endif %}>0</option>
+                                <option value="1" {% if hotel_search.child_age.0 == 1 %} selected {% endif %}>1</option>
+                                <option value="2" {% if hotel_search.child_age.0 == 2 %} selected {% endif %}>2</option>
+                                <option value="3" {% if hotel_search.child_age.0 == 3 %} selected {% endif %}>3</option>
+                                <option value="4" {% if hotel_search.child_age.0 == 4 %} selected {% endif %}>4</option>
+                                <option value="5" {% if hotel_search.child_age.0 == 5 %} selected {% endif %}>5</option>
+                                <option value="6" {% if hotel_search.child_age.0 == 6 %} selected {% endif %}>6</option>
+                                <option value="7" {% if hotel_search.child_age.0 == 7 %} selected {% endif %}>7</option>
+                                <option value="8" {% if hotel_search.child_age.0 == 8 %} selected {% endif %}>8</option>
+                                <option value="9" {% if hotel_search.child_age.0 == 9 %} selected {% endif %}>9</option>
+                                <option value="10" {% if hotel_search.child_age.0 == 10 %} selected {% endif %}>10</option>
+                                <option value="11" {% if hotel_search.child_age.0 == 11 %} selected {% endif %}>11</option>
+                                <option value="12" {% if hotel_search.child_age.0 == 12 %} selected {% endif %}>12</option>
+                            </select>
+                        </div>`;
+            if(parseInt(document.getElementById("hotel_child").value) > 3)
+                text+= `<div class="form-group">
+                            <label style="font-size:8">Age at Check-Out</label>
+                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age4" name="hotel_child_age4">
+                                <option value="" disabled>Child Age</option>
+                                <option value="0" {% if hotel_search.child_age.3 == 0 %} selected {% endif %}>0</option>
+                                <option value="1" {% if hotel_search.child_age.3 == 1 %} selected {% endif %}>1</option>
+                                <option value="2" {% if hotel_search.child_age.3 == 2 %} selected {% endif %}>2</option>
+                                <option value="3" {% if hotel_search.child_age.3 == 3 %} selected {% endif %}>3</option>
+                                <option value="4" {% if hotel_search.child_age.3 == 4 %} selected {% endif %}>4</option>
+                                <option value="5" {% if hotel_search.child_age.3 == 5 %} selected {% endif %}>5</option>
+                                <option value="6" {% if hotel_search.child_age.3 == 6 %} selected {% endif %}>6</option>
+                                <option value="7" {% if hotel_search.child_age.3 == 7 %} selected {% endif %}>7</option>
+                                <option value="8" {% if hotel_search.child_age.3 == 8 %} selected {% endif %}>8</option>
+                                <option value="9" {% if hotel_search.child_age.3 == 9 %} selected {% endif %}>9</option>
+                                <option value="10" {% if hotel_search.child_age.3 == 10 %} selected {% endif %}>10</option>
+                                <option value="11" {% if hotel_search.child_age.3 == 11 %} selected {% endif %}>11</option>
+                                <option value="12" {% if hotel_search.child_age.3 == 12 %} selected {% endif %}>12</option>
+                            </select>
+                        </div>`;
+            text+= `</div>`;
+            if(parseInt(document.getElementById("hotel_child").value) > 1){
+                text+= `<div class="col-sm-4">
+                        <div class="form-group">
+                            <label style="font-size:8">Age at Check-Out</label>
+                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age2" name="hotel_child_age2">
+                                <option value="" disabled>Child Age</option>
+                                <option value="0" {% if hotel_search.child_age.1 == 0 %} selected {% endif %}>0</option>
+                                <option value="1" {% if hotel_search.child_age.1 == 1 %} selected {% endif %}>1</option>
+                                <option value="2" {% if hotel_search.child_age.1 == 2 %} selected {% endif %}>2</option>
+                                <option value="3" {% if hotel_search.child_age.1 == 3 %} selected {% endif %}>3</option>
+                                <option value="4" {% if hotel_search.child_age.1 == 4 %} selected {% endif %}>4</option>
+                                <option value="5" {% if hotel_search.child_age.1 == 5 %} selected {% endif %}>5</option>
+                                <option value="6" {% if hotel_search.child_age.1 == 6 %} selected {% endif %}>6</option>
+                                <option value="7" {% if hotel_search.child_age.1 == 7 %} selected {% endif %}>7</option>
+                                <option value="8" {% if hotel_search.child_age.1 == 8 %} selected {% endif %}>8</option>
+                                <option value="9" {% if hotel_search.child_age.1 == 9 %} selected {% endif %}>9</option>
+                                <option value="10" {% if hotel_search.child_age.1 == 10 %} selected {% endif %}>10</option>
+                                <option value="11" {% if hotel_search.child_age.1 == 11 %} selected {% endif %}>11</option>
+                                <option value="12" {% if hotel_search.child_age.1 == 12 %} selected {% endif %}>12</option>
+                            </select>
+                        </div>`;
+                if(parseInt(document.getElementById("hotel_child").value) > 4)
+                    text+= `<div class="form-group">
+                                <label style="font-size:8">Age at Check-Out</label>
+                                <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age5" name="hotel_child_age5">
+                                    <option value="" disabled>Child Age</option>
+                                    <option value="0" {% if hotel_search.child_age.4 == 0 %} selected {% endif %}>0</option>
+                                    <option value="1" {% if hotel_search.child_age.4 == 1 %} selected {% endif %}>1</option>
+                                    <option value="2" {% if hotel_search.child_age.4 == 2 %} selected {% endif %}>2</option>
+                                    <option value="3" {% if hotel_search.child_age.4 == 3 %} selected {% endif %}>3</option>
+                                    <option value="4" {% if hotel_search.child_age.4 == 4 %} selected {% endif %}>4</option>
+                                    <option value="5" {% if hotel_search.child_age.4 == 5 %} selected {% endif %}>5</option>
+                                    <option value="6" {% if hotel_search.child_age.4 == 6 %} selected {% endif %}>6</option>
+                                    <option value="7" {% if hotel_search.child_age.4 == 7 %} selected {% endif %}>7</option>
+                                    <option value="8" {% if hotel_search.child_age.4 == 8 %} selected {% endif %}>8</option>
+                                    <option value="9" {% if hotel_search.child_age.4 == 9 %} selected {% endif %}>9</option>
+                                    <option value="10" {% if hotel_search.child_age.4 == 10 %} selected {% endif %}>10</option>
+                                    <option value="11" {% if hotel_search.child_age.4 == 11 %} selected {% endif %}>11</option>
+                                    <option value="12" {% if hotel_search.child_age.4 == 12 %} selected {% endif %}>12</option>
+                                </select>
+                            </div>`;
+                text+= `</div>`;
+            }
+            if(parseInt(document.getElementById("hotel_child").value) > 2){
+                text+= `<div class="col-sm-4">
+                        <div class="form-group">
+                            <label style="font-size:8">Age at Check-Out</label>
+                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age3" name="hotel_child_age3">
+                                <option value="" disabled>Child Age</option>
+                                <option value="0" {% if hotel_search.child_age.2 == 0 %} selected {% endif %}>0</option>
+                                <option value="1" {% if hotel_search.child_age.2 == 1 %} selected {% endif %}>1</option>
+                                <option value="2" {% if hotel_search.child_age.2 == 2 %} selected {% endif %}>2</option>
+                                <option value="3" {% if hotel_search.child_age.2 == 3 %} selected {% endif %}>3</option>
+                                <option value="4" {% if hotel_search.child_age.2 == 4 %} selected {% endif %}>4</option>
+                                <option value="5" {% if hotel_search.child_age.2 == 5 %} selected {% endif %}>5</option>
+                                <option value="6" {% if hotel_search.child_age.2 == 6 %} selected {% endif %}>6</option>
+                                <option value="7" {% if hotel_search.child_age.2 == 7 %} selected {% endif %}>7</option>
+                                <option value="8" {% if hotel_search.child_age.2 == 8 %} selected {% endif %}>8</option>
+                                <option value="9" {% if hotel_search.child_age.2 == 9 %} selected {% endif %}>9</option>
+                                <option value="10" {% if hotel_search.child_age.2 == 10 %} selected {% endif %}>10</option>
+                                <option value="11" {% if hotel_search.child_age.2 == 11 %} selected {% endif %}>11</option>
+                                <option value="12" {% if hotel_search.child_age.2 == 12 %} selected {% endif %}>12</option>
+                            </select>
+                        </div>`;
+                if(parseInt(document.getElementById("hotel_child").value) > 5)
+                    text+= `<div class="form-group">
+                                <label style="font-size:8">Age at Check-Out</label>
+                                <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age6" name="hotel_child_age6">
+                                    <option value="" disabled>Child Age</option>
+                                    <option value="0" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>0</option>
+                                    <option value="1" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>1</option>
+                                    <option value="2" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>2</option>
+                                    <option value="3" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>3</option>
+                                    <option value="4" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>4</option>
+                                    <option value="5" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>5</option>
+                                    <option value="6" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>6</option>
+                                    <option value="7" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>7</option>
+                                    <option value="8" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>8</option>
+                                    <option value="9" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>9</option>
+                                    <option value="10" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>10</option>
+                                    <option value="11" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>11</option>
+                                    <option value="12" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>12</option>
+                                </select>
+                            </div>`;
+                text+= `</div>`;
+            }
+        }
+        document.getElementById("guest_child_age").innerHTML = text;
+    }
+</script>
+
+<header id="header" style="position:sticky;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="index.html"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li><a href="#">Home</a></li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">Frequently Asked Question</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">Partnership</a>
+                            <ul>
+                                <li><a href="#">Registration List</a></li>
+                                <li><a href="#">Search Registration</a></li>
+                            </ul>
+                        </li>
+
+                        {% if username != null %}
+                        <li style="font-size:12px;color:black;"><a id="balance"></a></li>
+                        <li class="menu-has-children"><a style="font-size:12px;color:black;cursor:pointer;">{{username}}</a>
+                            <ul>
+                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li>
+                                    <a>
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="primary-btn-logout" style="color:white;">Logout <i class="fas fa-sign-out-alt"></i></button>
+                                            <input type="hidden" id="logout" name="logout" value=true>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" style="font-size:16px;"><i class="fas fa-bell"></i></a>
+                        </li>
+                        {% else %}
+                        <li class="menu-has-children"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+    {% if username != null %}
+    <div class="main-menu-2">
+        <div class="container">
+            <div class="align-items-center justify-content-between d-flex">
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#">Top Up</a>
+                            <ul>
+                                <li><a href="#">Request</a></li>
+                                <li><a href="#">Confirm</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</header>
+
+<section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black; z-index:2; position:relative;">
+    <div class="animated fadeInDown delay-1s">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12" style="padding:0;">
+                    <div class="banner-right">
+                        <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
+                            {% csrf_token %}
+                            <div class="row">
+                                <input type="hidden" id="response" name="response">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <span class="span-search-ticket">Destination or Hotel Name</span>
+                                    <div class="input-container-search-ticket">
+                                        <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" value="{{hotel_search.destination}}" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
+                                        <datalist id="hotel_destination_name"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <span class="span-search-ticket">Guest Nationality</span>
+                                    <div class="input-container-search-ticket">
+                                        <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
+                                        <datalist id="hotel_country_nationality"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
+                                    <span class="span-search-ticket">Check-in</span>
+                                    <div class="input-container-search-ticket">
+                                        <input class="form-control date-picker" type="text" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.check_in}}" onchange="change_date_hotel('checkin');"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
+                                    <span class="span-search-ticket">Check-out</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" id="hotel_checkout" class="form-control date-picker" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.check_out}}" onchange="change_date_hotel('checkout');" />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <span class="span-search-ticket">Guest</span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <button id="show_total_pax_hotel" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                        <ul class="dropdown-menu" role="menu" style="z-index:5;">
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <label>
+                                                            <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                            <span style="color:black; font-size:13px;">Room<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                        <div style="float:right; padding:5px 0px 5px 5px;">
+                                                            <span class="input-group-btn" style="text-align:left;">
+                                                                <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                                    <span><i class="fas fa-minus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                            <input type="hidden" id="hotel_room" name="hotel_room" value="1" min="1">
+                                                            <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_room_hotel" name="show_room_hotel"></span>
+                                                            <span class="input-group-btn" style="text-align:right;">
+                                                                <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                                    <span><i class="fas fa-plus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                        <div style="float:right; padding:5px 0px 5px 5px;">
+                                                            <span class="input-group-btn" style="text-align:left;">
+                                                                <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                                    <span><i class="fas fa-minus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                            <input type="hidden" id="hotel_adult" name="hotel_adult" value="2" min="1">
+                                                            <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_hotel" id="show_adult_hotel"></span>
+                                                            <span class="input-group-btn" style="text-align:right;">
+                                                                <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                                    <span><i class="fas fa-plus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <label>
+                                                            <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
+                                                            <span style="color:black; font-size:13px;">Child<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                        <div style="float:right; padding:5px 0px 5px 5px;">
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                                    <span><i class="fas fa-minus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                            <input type="hidden" id="hotel_child" name="hotel_child" value="0">
+                                                            <span style="color:black; font-size:14px;padding:5px;" id="show_child_hotel" id="show_child_hotel"></span>
+                                                            <span class="input-group-btn">
+                                                                <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                                    <span><i class="fas fa-plus"></i></span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div class="row" id="guest_child_age">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                        <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button class="primary-btn text-uppercase" onclick="train_search({{co_uid}});triggered();" type="submit" value="Submit">
+                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                Change Search
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
+    <div class="container">
+        <div class="row" style="padding-bottom:10px;">
+            <div class="col-lg-12" style="margin-top:10px;">
+                <div class="breadcrumb-ticket" style="text-align:center;">
+                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
+                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
+                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
+                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
+                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
+                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="modal fade" id="myModalFilterSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
+                                <button type="button" class="primary-btn-modal" data-dismiss="modal">CLOSE X</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <!--                                        <div id="filter2">-->
+
+                                        <!--                                        </div>-->
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <!--                                        <div id="sorting-flight2">-->
+
+                                        <!--                                        </div>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-search-flight" id="filter-search-flight">
+                    <div style="background-color:white; padding:10px; margin-top:20px;" id="filter">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-9" style="margin-top:20px;">
+                <div class="row sorting-search-hotel" id="sorting-search-hotel">
+                    <div class="col-lg-12">
+                        <div id="sorting-hotel" style="margin-bottom:15px;">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="hotel_result_city">
+
+                </div>
+                <div id="hotel_city" style="margin-bottom:15px;">
+
+                </div>
+
+<!--                <div id="hotel_result_landmark">-->
+
+<!--                </div>-->
+<!--                <div id="hotel_landmark">-->
+
+<!--                </div>-->
+
+                <div id="hotel_result">
+
+                </div>
+                <div id="hotel_ticket">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    guest_child_age2();
+    hotel_search('');
+    hotel_filter_render();
+
+    function goto_detail(type, counter){
+       document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
+       document.getElementById('hotel'+counter).submit();
+    }
+</script>
+
+{% endblock %}

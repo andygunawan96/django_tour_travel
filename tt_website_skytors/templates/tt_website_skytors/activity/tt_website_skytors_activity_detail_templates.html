@@ -1,0 +1,469 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/activity_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_activity.js"></script>
+<script src="{{ static_path }}js/moment.js"></script>
+<script>
+    locations = [];
+    images = [];
+    {% for i in response.locations %}
+        locations.push({
+            'country_name': '{{i.country_name}}',
+            'city_name': '{{i.city_name}}',
+            'state_name': '{{i.state_name}}'
+        })
+    {% endfor %}
+
+    {% for i in response.images %}
+        images.push({
+            'url': '{{i.url}}',
+            'path': '{{i.path}}',
+        })
+    {% endfor %}
+
+    highlights = `{{response.highlights}}`;
+
+    response = {
+        'locations':locations,
+        'images': images,
+        'additionalInfo': `{{response.additionalInfo}}`,
+        'uuid': '{{response.uuid}}',
+        'highlights': highlights.replace('&#39;', "'"),
+        'safety': `{{response.safety}}`,
+        'longitude': {{response.longitude}},
+        'latitude': {{response.latitude}},
+        'provider': '{{response.provider}}',
+        'description': `{{response.description}}`,
+        'warnings': `{{response.warnings}}`,
+        'priceExcludes': `{{response.priceExcludes}}`,
+        'minPax': {{response.minPax}},
+        'maxPax': {{response.maxPax}},
+        'businessHoursFrom': `{{response.businessHoursFrom}}`,
+        'businessHoursTo': `{{response.businessHoursTo}}`,
+        'name': '{{response.name}}',
+        'itinerary': `{{response.itinerary}}`,
+    };
+
+</script>
+
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+
+<style>
+    @media only screen and (min-width: 991px) {
+        #header_home {
+            padding-top: 100px;
+        }
+    }
+    @media only screen and (max-width: 990px) {
+        #header_home {
+            padding-top: 0px;
+        }
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $('#asdasd').datepicker({
+            'format': 'd M yyyy',
+            'todayHighlight': true,
+            'autoclose': true
+        });
+    });
+
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
+                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
+                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
+                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
+                {% if username != null %}
+                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
+                {% else %}
+                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                {% endif %}
+                <!--<li class="nav-item">-->
+                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
+                        <!--{% csrf_token %}-->
+                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
+                        <!--<select name="language" id="selection_language">-->
+                            <!--{% get_current_language as LANGUAGE_CODE %}-->
+                            <!--{% get_available_languages as LANGUAGES %}-->
+                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
+                            <!--{% for language in languages %}-->
+                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
+                                <!--{{ language.code }}-->
+                            <!--</option>-->
+                            <!--{% endfor %}-->
+                        <!--</select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- END nav -->
+
+
+<div class="ftco-section-search" style="background-color:#989898;">
+    <div class="container">
+        <form method='POST' action="{% url 'tt_website_skytors:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!--train-->
+            <div class="block-17" id="header_home">
+                <h3>Select Product Type</h3>
+                <div class="row" id="ticket_type">
+                </div>
+                <div class="row">
+                    <div class="col-sm-9" id="ticket_detail">
+                        <div style="border: 1px solid #f5f5f5">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="w3-content w3-section">
+                                        {% for i in response.images %}
+                                        <img class="mySlides" src="{{i.url}}{{i.path}}" style="width: 260px; height: 187px;">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-8" style="background:#f15a22;margin-left:-15px;">
+                                    <h3 style="margin:0px 0px 5px 0px; font-size:20px;">{{response.name}}</h3>
+                                    <h4 style="margin:0px 0px 5px 0px; font-size:18px;" id="product_type"></h4>
+                                    {% for i in response.locations %}
+                                        <h4 style="margin:0px 0px 5px 0px; font-size:15px; display: inline-block;">{{i.city_name}},</h4>
+                                        <h4 style="margin:0px 0px 5px 0px; font-size:15px; display: inline-block;"> {{i.country_name}}</h4><br/>
+                                    {% endfor %}
+                                    <div class="row" style="margin-left: -5px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-left:5px;" id="date">
+
+                            </div>
+                            <div style="padding:0 20px;margin-top:5px;" id="event">
+
+                            </div>
+                            <div class="row" style="padding:0 20px;margin-top:5px;" id="pax">
+
+                            </div>
+                            <div style="padding:0 20px;margin-top:5px;" id="timeslot">
+
+                            </div>
+
+                            <!--<div style="padding:0 20px;margin-top:5px;" id="detail_to_passenger_page">-->
+
+                            <!--</div>-->
+
+                            <div style="padding:0 20px;margin-top:5px;" id="perbooking">
+
+                            </div>
+                        </div>
+                        <div style="border: 1px solid #f5f5f5;margin-top:5px;">
+                            <ul class="nav nav-tabs" style="text-align:center">
+                                <li class="active" style="width:20%"><a data-toggle="tab" href="#detail">Details</a></li>
+                                <li style="width:20%"><a data-toggle="tab" href="#rules">Rules</a></li>
+                                <li style="width:20%"><a data-toggle="tab" href="#prices">Prices</a></li>
+                                <li style="width:20%"><a data-toggle="tab" href="#vouchers">Vouchers</a></li>
+                                {% if response.itinerary != ''%} <li style="width:20%"><a data-toggle="tab" href="#price_itinerary">Price Itinerary</a></li> {% endif %}
+                            </ul>
+                            <div class="tab-content">
+                                <div id="detail" class="tab-pane fade in active show">
+                                    {% if response.description != '' %}
+                                    <h3 style="padding:0 10px;">Description</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.description}}</p>
+                                    {% endif %}
+                                    {% if response.highlights != '' %}
+                                    <h3 style="padding:0 10px;">Highlights</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.highlights}}</p>
+                                    {% endif %}
+                                    {% if response.additionalInfo != '' %}
+                                    <h3 style="padding:0 10px;">Additional Info</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.additionalInfo}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="rules" class="tab-pane fade">
+                                    {% if response.warnings != '' %}
+                                    <h3 style="padding:0 10px;">Warnings</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.warnings}}</p>
+                                    {% endif %}
+                                    {% if response.safety != '' %}
+                                    <h3 style="padding:0 10px;">Safety</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.safety}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="prices" class="tab-pane fade">
+                                    {% if response.priceIncludes != '' %}
+                                    <h3 style="padding:0 10px;">Price Includes</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.priceIncludes}}</p>
+                                    {% endif %}
+                                    {% if response.priceExcludes != '' %}
+                                    <h3 style="padding:0 10px;">Price Excludes</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.priceExcludes}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="vouchers" class="tab-pane fade" id="vouchers">
+                                    {% if response.voucher_validity != '' %}
+                                    <h3 style="padding:0 10px;">Validity</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.voucher_validity}}</p>
+                                    {% endif %}
+                                    {% if response.voucherUse != '' %}
+                                    <h3 style="padding:0 10px;">Voucher Use</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.voucherUse}}</p>
+                                    {% endif %}
+                                    {% if response.voucherRedemptionAddress != '' %}
+                                    <h3 style="padding:0 10px;">Voucher Address</h3>
+                                    <p style="padding:0 20pxtext-align:justify;">{{response.voucherRedemptionAddress}}</p>
+                                    {% endif %}
+                                    {% if response.voucherRequiresPrinting != '' %}
+                                    <h3 style="padding:0 10px;">Voucher Print</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="price_itinerary" class="tab-pane fade">
+                                    {% if response.itinerary != '' %}
+                                    <h3 style="padding:0 10px;">Itinerary</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.itinerary}}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" id="ticket_price">
+                        <div class="themespark-price-container" id="themespark-price-container" style="border: 1px solid #f5f5f5;padding">
+                            <h3 style="text-align:center; color:#f15a22;">TOTAL PRICE</h3>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <br><span id="product_type_title"></span>
+
+                                    <br><br>
+                                </div>
+                            </div>
+                            <div id="activity_detail_table">
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="data_id">
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="ftco-footer ftco-bg-dark ftco-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Book Now</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Flight</a></li>
+                        <li><a href="#" class="py-2 d-block">Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Tour</a></li>
+                        <li><a href="#" class="py-2 d-block">Car Rent</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Mountains</a></li>
+                        <li><a href="#" class="py-2 d-block">Cruises</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Top Deals</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Luxe Hotel</a></li>
+                        <li><a href="#" class="py-2 d-block">Venice Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Deluxe Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
+                        <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Contact Information</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">198 West 21th Street, Suite 721 New York NY 10016</a></li>
+                        <li><a href="#" class="py-2 d-block">+ 1235 2355 98</a></li>
+                        <li><a href="#" class="py-2 d-block">info@yoursite.com</a></li>
+                        <li><a href="#" class="py-2 d-block">email@email.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
+                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;2017 SkyTors. All Rights Reserved.
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    activity_get_detail(`{{response.uuid}}`);
+    var myIndex = 0;
+    carousel();
+
+    function carousel() {
+      var i;
+      var x = document.getElementsByClassName("mySlides");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      myIndex++;
+      if (myIndex > x.length) {myIndex = 1}
+      x[myIndex-1].style.display = "block";
+      setTimeout(carousel, 5000); // Change image every 2 seconds
+    }
+
+    //gotopax
+
+    function detail_to_passenger_page(){
+
+        text = `
+                    <input type='hidden' value='`+activity_type_pick+`' name='activity_type_pick'/>
+                    <input type='hidden' value='`+activity_date_pick+`' name='activity_date_pick'/>
+                    <input type='hidden' value='`+activity_timeslot+`' name='activity_timeslot'/>
+                    <input type='hidden' value='`+additional_price+`' name='additional_price'/>
+                    <input type='hidden' value='`+event_pick+`' name='event_pick'/>`;
+
+        /*  for(i in activity_type[activity_type_pick].options.perBooking){
+            if(activity_type[activity_type_pick].options.perBooking[i].inputType==1){
+                for (var i = 0, length = radios.length; i < length; i++) {
+                    var radios = document.getElementsByName('perbooking'+i);
+                    if (radios[i].checked) {
+                        text+= `<input type='hidden' value='`+radios[i].value+`' name='perbooking`+i+`'/>`;
+                        break;
+                    }
+                }
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==2){
+                for(j in activity_type[activity_type_pick].options.perBooking[i].items){
+                    text+=`<input type='hidden' value='`+document.getElementById('perbooking'+i+j).checked+`' name='perbooking`+i+j+`'/>`;
+                }
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==3){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==4){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==5){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==7){
+
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==8){
+
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==9){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==10){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==11){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i+'0').value+' '+document.getElementById('perbooking'+i+'1').value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==12){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==13){
+
+            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==14){
+                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+            }
+
+        }*/
+        //adult
+        try{
+            if(document.getElementById('adult_passenger').value != 0 )
+                text+=`<input type='hidden' value='`+document.getElementById('adult_passenger').value+`' name='adult_passenger'/>`;
+            else
+                text+=`<input type='hidden' value='0' name='adult_passenger'/>`;
+        }catch(err){
+            text+=`<input type='hidden' value='0' name='adult_passenger'/>`;
+        }
+
+        //children
+        try{
+            if(document.getElementById('children_passenger').value != 0 )
+                text+=`<input type='hidden' value='`+document.getElementById('children_passenger').value+`' name='children_passenger'/>`;
+            else
+                text+=`<input type='hidden' value='0' name='children_passenger'/>`;
+        }catch(err){
+            text+=`<input type='hidden' value='0' name='children_passenger'/>`;
+        }
+
+        //infant
+        try{
+            if(document.getElementById('infant_passenger').value != 0 )
+                text+=`<input type='hidden' value='`+document.getElementById('infant_passenger').value+`' name='infant_passenger'/>`;
+            else
+                text+=`<input type='hidden' value='0' name='infant_passenger'/>`;
+        }catch(err){
+            text+=`<input type='hidden' value='0' name='infant_passenger'/>`;
+        }
+
+        //senior
+        try{
+            if(document.getElementById('senior_passenger').value != 0 )
+                text+=`<input type='hidden' value='`+document.getElementById('senior_passenger').value+`' name='senior_passenger'/>`;
+            else
+                text+=`<input type='hidden' value='0' name='senior_passenger'/>`;
+        }catch(err){
+            text+=`<input type='hidden' value='0' name='senior_passenger'/>`;
+        }
+
+
+        //text += `</form>`;
+        document.getElementById('data_id').innerHTML = text;
+        document.getElementById('go_to_pax').submit();
+    }
+</script>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+{% endblock %}

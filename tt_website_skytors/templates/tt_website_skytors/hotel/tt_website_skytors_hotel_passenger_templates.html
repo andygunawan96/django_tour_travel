@@ -1,0 +1,416 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/hotel_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_hotel.js"></script>
+<script src="{{ static_path }}js/moment.js"></script>
+
+<script>
+    function check_years_old(sequence, type){
+        var birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD-MMM-YYYY');
+        var departure_date = moment({{hotel_search.check_in}},'YYYY-MM-DD');
+        var years_old = parseInt(Math.abs(departure_date - birth_date)/31536000000);
+
+        document.getElementById('adult_years_old'+sequence).value = years_old;
+    }
+    time = 300;
+    triggered_balance();
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
+                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
+                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
+                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
+                {% if username != null %}
+                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
+                {% else %}
+                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                {% endif %}
+                <!--<li class="nav-item">-->
+                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
+                        <!--{% csrf_token %}-->
+                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
+                        <!--<select name="language" id="selection_language">-->
+                            <!--{% get_current_language as LANGUAGE_CODE %}-->
+                            <!--{% get_available_languages as LANGUAGES %}-->
+                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
+                            <!--{% for language in languages %}-->
+                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
+                                <!--{{ language.code }}-->
+                            <!--</option>-->
+                            <!--{% endfor %}-->
+                        <!--</select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- END nav -->
+
+
+<div class="ftco-section-search" style="background-color:#989898;">
+    <div class="container">
+        <!--train-->
+        <form id="hotel_review" action="{% url 'tt_website_skytors:hotel_review'%}" method="POST">
+            {% csrf_token %}
+            <div class="block-17">
+                <div class="row" style="padding-top:100px;">
+                    <div class="col-sm-9">
+                        <center>
+                            Booker
+                        </center>
+                        <div id="booker" style="background-color:black;margin-bottom:5px;">
+                            <label>Title</label><br/>
+                            <div class="row">
+                                <select id="booker_title" name="booker_title">
+                                    {% for title in adult_title%}
+                                    <option>{{title}}</option>
+                                    {% endfor %}
+                                </select>
+
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Teropong</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Booker</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" id="train_booker_search" placeholder="Search" />
+                                                <button type="button" class="btn btn-default" onclick="search_passenger('Booker','1','hotel')">Search</button>
+                                                <div id="search_result" style="overflow:auto;height:200px;">
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="button" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>First name and middle name (if any)</label><br/>
+                                    <input type="text" class="form-control" name="booker_first_name" id="booker_first_name">
+                                    <label>As on Identity Card or Passport without title and punctuation</label><br/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Last name</label><br/>
+                                    <input type="text" class="form-control" name="booker_last_name" id="booker_last_name">
+                                    <label>As on Identity Card or Passport without title and punctuation</label><br/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Nationality</label><br/>
+                                    <select id="booker_nationality" name="booker_nationality">
+                                        {% for country in countries%}
+                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Contact Email Address</label><br/>
+                                    <input type="text" class="form-control" name="booker_email" id="booker_email">
+                                    <label>Example: email@example.com</label><br/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Contact Person for Urgent Situation</label><br/>
+                                    <label>(Must be filled with booker's mobile on first registration)</label><br/>
+                                    <select id="booker_phone_code" name="booker_phone_code">
+                                        {% for country in countries%}
+                                        <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone">
+                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                    <label>Example: +62812345678</label><br/>
+                                </div>
+                                <div class="col-sm-6">
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Do you book this trip for you?</label><br/>
+                            <div class="row">
+                                <label><input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy');" value="yes" />Yes</label>
+                                <label><input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change');" value="no" checked />No</label>
+                            </div>
+                            <label>Passenger Data</label><br/>
+                            <ul>
+                                <li>Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM</li>
+                                <li>Passenger data can't be changed after the passing of this page</li>
+                            </ul>
+
+                        </div>
+                        {% for adult in adults%}
+                        <div id="adult{{forloop.counter}}" style="background-color:black;margin-bottom:5px;">
+                            <center>
+                                Adult {{forloop.counter}}
+                            </center>
+                            <label>Title</label><br/>
+                            <div class="row">
+                                <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
+                                    {% for title in adult_title%}
+                                    <option>{{title}}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}">Teropong</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Adult {{forloop.counter}}</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" />
+                                                <button type="button" class="btn btn-default" onclick="search_passenger('Adult',{{forloop.counter}}, 'hotel')">Search</button>
+                                                <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:200px;">
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="button" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>First name and middle name (if any)</label><br/>
+                                    <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}">
+                                    <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
+                                    <label>As on Identity Card or Passport without title and punctuation</label><br/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Last name</label><br/>
+                                    <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}">
+                                    <label>As on Identity Card or Passport without title and punctuation</label><br/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Nationality</label><br/>
+                                    <select id="adult_nationality{{forloop.counter}}" name="adult_nationality{{forloop.counter}}">
+                                        {% for country in countries%}
+                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Birth Date</label><br/>
+                                    <input type="text" class="form-control" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})">
+                                    <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                        {% for child in childs%}
+                        <div id="child{{forloop.counter}}" style="background-color:black;margin-bottom:5px;">
+                            <center>
+                                Child {{forloop.counter}}
+                            </center>
+                            <label>Title</label><br/>
+                            <div class="row">
+                                <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
+                                    {% for title in infant_title%}
+                                    <option>{{title}}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}">Teropong</button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Child {{forloop.counter}}</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" />
+                                                <button type="button" class="btn btn-default" onclick="search_passenger('Child',{{forloop.counter}}, 'hotel')">Search</button>
+                                                <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:200px;">
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="button" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"/>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>First name and middle name (if any)</label><br/>
+                                    <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}">
+                                    <input type="text" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
+                                    <label>As on Identity Card or Passport without title and punctuation</label><br/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Last name</label><br/>
+                                    <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}">
+                                    <label>As on Identity Card or Passport without title and punctuation</label><br/>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <label>Nationality</label><br/>
+                                    <select id="child_nationality{{forloop.counter}}" name="child_nationality{{forloop.counter}}">
+                                        {% for country in countries%}
+                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <br/>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label>Birth Date</label><br/>
+                                    <input type="text" class="form-control" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        <div class="col-sm-offset-6 col-sm-1">
+                            <input type="button" value="Next" onclick="check_passenger({{adult_count}}, {{child_count}});" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <div id="train_detail">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer class="ftco-footer ftco-bg-dark ftco-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Book Now</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Flight</a></li>
+                        <li><a href="#" class="py-2 d-block">Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Tour</a></li>
+                        <li><a href="#" class="py-2 d-block">Car Rent</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Mountains</a></li>
+                        <li><a href="#" class="py-2 d-block">Cruises</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Top Deals</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Luxe Hotel</a></li>
+                        <li><a href="#" class="py-2 d-block">Venice Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Deluxe Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
+                        <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Contact Information</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">198 West 21th Street, Suite 721 New York NY 10016</a></li>
+                        <li><a href="#" class="py-2 d-block">+ 1235 2355 98</a></li>
+                        <li><a href="#" class="py-2 d-block">info@yoursite.com</a></li>
+                        <li><a href="#" class="py-2 d-block">email@email.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
+                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;2017 SkyTors. All Rights Reserved.
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
+</script>
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+{% endblock %}

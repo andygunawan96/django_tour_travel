@@ -1,0 +1,877 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-11-12 03:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: config/settings.py:119
+msgid "English"
+msgstr ""
+
+#: config/settings.py:120
+msgid "Indonesia"
+msgstr ""
+
+#: config/settings.py:121
+msgid "Finnish"
+msgstr ""
+
+#: readme.txt:25
+msgid "<text>"
+msgstr ""
+
+#: tools/global_util.py:8
+msgid "Airport"
+msgstr ""
+
+#: tools/global_util.py:9
+msgid "Train Station"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:44
+#: tt_activity/models/booking_option.py:17
+#: tt_activity/models/type_category.py:21 tt_base/models/destinations.py:30
+#: tt_base/models/destinations.py:54 tt_base/models/passengers.py:22
+#: tt_base/models/res_partner.py:83
+msgid "Name"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:45
+msgid "SID"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:46
+msgid "PNR"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:47
+msgid "Booking UUID"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:48
+msgid "Booked Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:50
+msgid "Booked By"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:51
+msgid "Issued Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:52
+msgid "Issued By"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:53
+msgid "Hold Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:54
+msgid "User"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:56
+msgid "Acceptance Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:57
+msgid "Rejected Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:58
+msgid "Expired Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:59
+msgid "Refund Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:61
+msgid "Activity"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:62
+#: tt_activity/models/tt_master_activity.py:22
+msgid "Activity Name"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:63
+msgid "Product Type"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:64
+msgid "Product Type Uuid"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:66
+msgid "Visit Date"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:67 tt_base/models/passengers.py:86
+msgid "Agent"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:71
+msgid "Sub-Agent"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:76
+msgid "Mobile Phone"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:78
+msgid "Adult"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:79
+msgid "Child"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:80
+msgid "Infant"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:82
+#: tt_activity/models/booking_option.py:22
+#: tt_activity/models/type_category.py:23 tt_base/models/destinations.py:55
+msgid "Type"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:88
+msgid "Booking Option"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:96
+#: tt_activity/models/tt_master_activity.py:28
+#: tt_base/models/res_currency.py:17
+msgid "Currency"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:100
+#: tt_activity/models/type_category.py:52 tt_base/models/passengers.py:62
+msgid "State"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:100
+msgid ""
+"booked/reserved = hold booking/reserved\n"
+"                issued/waiting = issued/waiting for vendor confirmation\n"
+"                expired = still on waiting state after 5days\n"
+"                failed = failed booked/issued\n"
+"                approved = approved by vendor\n"
+"                rejected = rejected by vendor\n"
+"                cancelled = cancelled by pax\n"
+"                refunded = refund accepted after approved state\n"
+"                done = done/after get voucher"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:117
+msgid "Activity Booking"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:119
+msgid "Pax Type"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:120
+msgid "Mobile Number"
+msgstr ""
+
+#: tt_activity/models/activity_booking.py:121
+msgid "API Data"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:16
+#: tt_activity/models/tt_master_activity.py:21
+#: tt_activity/models/tt_master_activity.py:65
+#: tt_activity/models/type_category.py:22
+#: tt_activity/models/type_category.py:37
+msgid "Uuid"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:18
+#: tt_activity/models/tt_master_activity.py:33
+#: tt_activity/models/tt_master_activity.py:67
+#: tt_base/models/destinations.py:31 tt_base/models/passengers.py:24
+msgid "Description"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:19
+msgid "Required"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:20
+msgid "Format Regex"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:21
+msgid "Input Type"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:23
+#: tt_activity/models/booking_option.py:39
+msgid "Price"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:37
+msgid "Label"
+msgstr ""
+
+#: tt_activity/models/booking_option.py:38
+msgid "Value"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:24
+msgid "Type_id"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:25 tt_base/models/passengers.py:90
+msgid "Category"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:26
+msgid "Location"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:29
+msgid "Base Price"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:30
+msgid "Price Includes"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:31
+msgid "Price Excludes"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:34
+msgid "Highlights"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:35
+msgid "Additional Info"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:36
+msgid "Itinerary"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:37
+msgid "Warnings"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:38
+msgid "Safety"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:40
+msgid "Latitude"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:41
+msgid "Longitude"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:42
+msgid "Adult Min"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:43
+msgid "Adult Max"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:45
+msgid "Review Count"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:46
+msgid "Review Average Score"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:47
+msgid "Business Hours From"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:48
+msgid "Business Hours To"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:49
+msgid "Hotel Pickup"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:50
+msgid "Airport Pickup"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:66
+msgid "Type Name"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:68
+msgid "Duration Days"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:69
+msgid "Duration Hours"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:70
+msgid "Duration Minutes"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:71
+msgid "is Non Refundable"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:73
+msgid "Min Adult"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:74
+msgid "Max Adult"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:75
+msgid "Min Adult Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:76
+msgid "Max Adult Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:78
+msgid "Allow Children"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:79
+msgid "Min Children"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:80
+msgid "Max Children"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:81
+msgid "Min Child Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:82
+msgid "Max Child Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:84
+msgid "Allow Seniors"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:85
+msgid "Min Seniors"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:86
+msgid "Max Seniors"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:87
+msgid "Min Senior Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:88
+msgid "Max Senior Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:90
+msgid "Allow Infant"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:91
+msgid "Min Infant Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:92
+msgid "Max Infant Age"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:94
+msgid "Min Group"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:95
+msgid "Max Group"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:97
+msgid "Voucher Use"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:98
+msgid "Voucher Redemption Address"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:99
+msgid "Voucher Requires Printing"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:100
+msgid "Cancellation Policies"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:102
+msgid "Voucher Validity Type"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:103
+msgid "Voucher Validity Days"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:104
+msgid "Voucher Validity Date"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:106
+msgid "Meeting Location"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:107
+msgid "Meeting Address"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:108
+msgid "Meeting Time"
+msgstr ""
+
+#: tt_activity/models/tt_master_activity.py:109
+msgid "Instant Confirmation"
+msgstr ""
+
+#: tt_activity/models/type_category.py:25
+msgid "Provider"
+msgstr ""
+
+#: tt_activity/models/type_category.py:38
+msgid "Start Time"
+msgstr ""
+
+#: tt_activity/models/type_category.py:39
+msgid "End Time"
+msgstr ""
+
+#: tt_activity/models/type_category.py:50 tt_base/models/destinations.py:59
+#: tt_base/models/passengers.py:76 tt_base/models/res_partner.py:116
+msgid "City"
+msgstr ""
+
+#: tt_activity/models/type_category.py:51 tt_base/models/res_country.py:40
+msgid "City Name"
+msgstr ""
+
+#: tt_activity/models/type_category.py:53 tt_base/models/res_country.py:29
+msgid "State Name"
+msgstr ""
+
+#: tt_activity/models/type_category.py:54 tt_base/models/passengers.py:79
+msgid "Country"
+msgstr ""
+
+#: tt_activity/models/type_category.py:55 tt_base/models/res_country.py:11
+msgid "Country Name"
+msgstr ""
+
+#: tt_activity/models/type_category.py:66
+msgid "Main Url"
+msgstr ""
+
+#: tt_activity/models/type_category.py:67
+msgid "Images Path"
+msgstr ""
+
+#: tt_base/models/destinations.py:32 tt_base/models/passengers.py:25
+msgid "Color"
+msgstr ""
+
+#: tt_base/models/destinations.py:56
+msgid "Code"
+msgstr ""
+
+#: tt_base/models/destinations.py:60
+msgid "ICAO"
+msgstr ""
+
+#: tt_base/models/destinations.py:61
+msgid "Latitude Degree"
+msgstr ""
+
+#: tt_base/models/destinations.py:62
+msgid "Longitude Degree"
+msgstr ""
+
+#: tt_base/models/destinations.py:63
+msgid "Altitude"
+msgstr ""
+
+#: tt_base/models/destinations.py:65
+msgid "Daylight Saving Times"
+msgstr ""
+
+#: tt_base/models/destinations.py:66
+msgid "Timezone"
+msgstr ""
+
+#: tt_base/models/destinations.py:67
+msgid "Source"
+msgstr ""
+
+#: tt_base/models/destinations.py:68
+msgid "International Flight"
+msgstr ""
+
+#: tt_base/models/destinations.py:69 tt_base/models/passengers.py:93
+#: tt_base/models/res_partner.py:30 tt_base/models/res_partner.py:107
+#: tt_base/models/res_user.py:24
+msgid "Active"
+msgstr ""
+
+#: tt_base/models/passengers.py:23
+msgid "Behavior Type"
+msgstr ""
+
+#: tt_base/models/passengers.py:58 tt_base/models/res_partner.py:13
+#: tt_base/models/res_partner.py:86
+msgid "Title"
+msgstr ""
+
+#: tt_base/models/passengers.py:59
+msgid "First Name"
+msgstr ""
+
+#: tt_base/models/passengers.py:60
+msgid "Last Name"
+msgstr ""
+
+#: tt_base/models/passengers.py:61
+msgid "Gender"
+msgstr ""
+
+#: tt_base/models/passengers.py:63
+msgid "Date of Birth"
+msgstr ""
+
+#: tt_base/models/passengers.py:64
+msgid "Age"
+msgstr ""
+
+#: tt_base/models/passengers.py:64
+msgid ""
+"For Adult, age in year\n"
+"For Child, age in month"
+msgstr ""
+
+#: tt_base/models/passengers.py:65
+msgid "Identity Type"
+msgstr ""
+
+#: tt_base/models/passengers.py:66
+msgid "Identity Number"
+msgstr ""
+
+#: tt_base/models/passengers.py:67
+msgid "Nationality"
+msgstr ""
+
+#: tt_base/models/passengers.py:69 tt_base/models/res_partner.py:124
+msgid "Mobile"
+msgstr ""
+
+#: tt_base/models/passengers.py:70
+msgid "Work Phone"
+msgstr ""
+
+#: tt_base/models/passengers.py:71
+msgid "Home Phone"
+msgstr ""
+
+#: tt_base/models/passengers.py:72
+msgid "Other Phone"
+msgstr ""
+
+#: tt_base/models/passengers.py:73 tt_base/models/res_partner.py:119
+msgid "Email"
+msgstr ""
+
+#: tt_base/models/passengers.py:75
+msgid "Address"
+msgstr ""
+
+#: tt_base/models/passengers.py:77
+msgid "Postal Code"
+msgstr ""
+
+#: tt_base/models/passengers.py:78
+msgid "Province/State"
+msgstr ""
+
+#: tt_base/models/passengers.py:81
+msgid "Passport Number"
+msgstr ""
+
+#: tt_base/models/passengers.py:82
+msgid "Exp Date"
+msgstr ""
+
+#: tt_base/models/passengers.py:83
+msgid "Country of Issued"
+msgstr ""
+
+#: tt_base/models/passengers.py:89 tt_base/models/res_partner.py:139
+msgid "Company Name"
+msgstr ""
+
+#: tt_base/models/passengers.py:92
+msgid "Bill to"
+msgstr ""
+
+#: tt_base/models/res_country.py:12
+msgid "Country Code"
+msgstr ""
+
+#: tt_base/models/res_country.py:14
+msgid "Image Country"
+msgstr ""
+
+#: tt_base/models/res_country.py:15
+msgid "Country Calling Code"
+msgstr ""
+
+#: tt_base/models/res_country.py:30
+msgid "State Code"
+msgstr ""
+
+#: tt_base/models/res_country.py:41
+msgid "City Code"
+msgstr ""
+
+#: tt_base/models/res_country.py:56
+msgid "District Name"
+msgstr ""
+
+#: tt_base/models/res_country.py:57
+msgid "District Code"
+msgstr ""
+
+#: tt_base/models/res_currency.py:18
+msgid "Symbol"
+msgstr ""
+
+#: tt_base/models/res_currency.py:19
+msgid "Current Rate"
+msgstr ""
+
+#: tt_base/models/res_currency.py:20
+msgid "Rounding Factor"
+msgstr ""
+
+#: tt_base/models/res_currency.py:21
+msgid "Decimal Places"
+msgstr ""
+
+#: tt_base/models/res_currency.py:23
+msgid "Symbol Position"
+msgstr ""
+
+#: tt_base/models/res_currency.py:24 tt_base/models/res_currency.py:188
+#: tt_base/models/res_partner.py:85
+msgid "Date"
+msgstr ""
+
+#: tt_base/models/res_currency.py:189
+msgid "Rate"
+msgstr ""
+
+#: tt_base/models/res_partner.py:14
+msgid "Abbreviation"
+msgstr ""
+
+#: tt_base/models/res_partner.py:26
+msgid "Tag Name"
+msgstr ""
+
+#: tt_base/models/res_partner.py:27 tt_base/models/res_partner.py:129
+msgid "Color Index"
+msgstr ""
+
+#: tt_base/models/res_partner.py:31
+msgid "Left parent"
+msgstr ""
+
+#: tt_base/models/res_partner.py:32
+msgid "Right parent"
+msgstr ""
+
+#: tt_base/models/res_partner.py:84
+msgid "Display Name"
+msgstr ""
+
+#: tt_base/models/res_partner.py:90
+msgid "Internal Reference"
+msgstr ""
+
+#: tt_base/models/res_partner.py:95 tt_base/models/res_user.py:31
+msgid "Timezone offset"
+msgstr ""
+
+#: tt_base/models/res_partner.py:99
+msgid "TIN"
+msgstr ""
+
+#: tt_base/models/res_partner.py:101
+msgid "Website"
+msgstr ""
+
+#: tt_base/models/res_partner.py:102
+msgid "Notes"
+msgstr ""
+
+#: tt_base/models/res_partner.py:104
+msgid "Category Id"
+msgstr ""
+
+#: tt_base/models/res_partner.py:105
+msgid "Credit Limit"
+msgstr ""
+
+#: tt_base/models/res_partner.py:106
+msgid "ean13"
+msgstr ""
+
+#: tt_base/models/res_partner.py:108
+msgid "Is a Customer"
+msgstr ""
+
+#: tt_base/models/res_partner.py:109
+msgid "Is a Vendor"
+msgstr ""
+
+#: tt_base/models/res_partner.py:110
+msgid "Is a Employee"
+msgstr ""
+
+#: tt_base/models/res_partner.py:111
+msgid "Job Position"
+msgstr ""
+
+#: tt_base/models/res_partner.py:112
+msgid "Address Type"
+msgstr ""
+
+#: tt_base/models/res_partner.py:113
+msgid "Street"
+msgstr ""
+
+#: tt_base/models/res_partner.py:114
+msgid "Street2"
+msgstr ""
+
+#: tt_base/models/res_partner.py:115
+msgid "Zip"
+msgstr ""
+
+#: tt_base/models/res_partner.py:117
+msgid "State Id"
+msgstr ""
+
+#: tt_base/models/res_partner.py:118
+msgid "Country Id"
+msgstr ""
+
+#: tt_base/models/res_partner.py:121
+msgid "Formatted Email"
+msgstr ""
+
+#: tt_base/models/res_partner.py:122
+msgid "Phone"
+msgstr ""
+
+#: tt_base/models/res_partner.py:123
+msgid "Fax"
+msgstr ""
+
+#: tt_base/models/res_partner.py:125
+msgid "Is a Company"
+msgstr ""
+
+#: tt_base/models/res_partner.py:126
+msgid "Company Type"
+msgstr ""
+
+#: tt_base/models/res_partner.py:132
+msgid "Share Partner"
+msgstr ""
+
+#: tt_base/models/res_partner.py:133
+msgid "Complete Address"
+msgstr ""
+
+#: tt_base/models/res_partner.py:138
+msgid "Company Name Entity"
+msgstr ""
+
+#: tt_base/models/res_partner.py:142
+msgid "Image"
+msgstr ""
+
+#: tt_base/models/res_partner.py:143
+msgid "Medium-sized image"
+msgstr ""
+
+#: tt_base/models/res_partner.py:144
+msgid "Small-sized image"
+msgstr ""
+
+#: tt_base/models/res_user.py:17
+msgid "Login"
+msgstr ""
+
+#: tt_base/models/res_user.py:18
+msgid "Password"
+msgstr ""
+
+#: tt_base/models/res_user.py:19
+msgid "Set Password"
+msgstr ""
+
+#: tt_base/models/res_user.py:23
+msgid "Signature"
+msgstr ""
+
+#: tt_base/models/res_user.py:28
+msgid "Latest connection"
+msgstr ""
+
+#: tt_base/models/res_user.py:29
+msgid "Share User"
+msgstr ""
+
+#: tt_base/models/res_user.py:30
+msgid "Number of Companies"
+msgstr ""
+
+#: tt_website_skytors/templates/tt_website_skytors/websitebooking.html:14
+msgid "Home"
+msgstr ""

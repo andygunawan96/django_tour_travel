@@ -1,0 +1,271 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/activity_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_activity.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script>
+    offset = 600;
+    get_new = true;
+    activity_country = [];
+    city = [];
+    sub_category = {};
+    sub_category_list = [];
+    name = '';
+    {% for country in activity_countries %}
+        {% for city in country.city %}
+            city.push({
+                'name': '{{city.name}}', 'id':'{{city.id}}'
+            });
+        {% endfor %}
+        activity_country.push({
+            'city': city,
+            'name': '{{country.name}}',
+            'id': '{{country.id}}'
+        });
+        city = [];
+    {% endfor %}
+
+    {% for key, value in activity_sub_categories.items %}
+        {% for item in value %}
+            name = '{{item.name}}';
+            if(name.search('amp;') !== -1){
+                name = name.replace(/&amp;/g, '&');
+            }
+
+            sub_category_list.push({
+                'name': name,
+                'id': '{{item.id}}'
+            });
+            name = '';
+        {% endfor %}
+        key = '{{key}}';
+        sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
+        sub_category_list = [];
+    {% endfor %}
+
+</script>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
+                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
+                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
+                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
+                {% if username != null %}
+                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
+                {% else %}
+                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                {% endif %}
+                <!--<li class="nav-item">-->
+                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
+                        <!--{% csrf_token %}-->
+                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
+                        <!--<select name="language" id="selection_language">-->
+                            <!--{% get_current_language as LANGUAGE_CODE %}-->
+                            <!--{% get_available_languages as LANGUAGES %}-->
+                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
+                            <!--{% for language in languages %}-->
+                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
+                                <!--{{ language.code }}-->
+                            <!--</option>-->
+                            <!--{% endfor %}-->
+                        <!--</select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- END nav -->
+
+
+<div class="ftco-section-search" style="background-color:#989898;">
+    <div class="container">
+        <!--train-->
+        <div class="block-17">
+            <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="d-block" id="train_searchForm">
+                {% csrf_token %}
+                <div class="fields d-block" style="color: white !important;">
+
+                    <div style="padding-top:100px;">
+                        <div id="search" hidden>
+                            <div class="fields">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="themespark_query" id="themespark_query" placeholder="Search for Activity"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-group">
+                                            <select id="themespark_sorting" onchange="set_city();" class="form-control selectpicker show-tick" data-size="5" data-live-search="true" name="themespark_countries">
+                                                <option value="name_asc">Name (A-Z)</option>
+                                                <option value="name_desc">Name (Z-A)</option>
+                                                <option value="price_asc" selected>Price (Low-High)</option>
+                                                <option value="price_desc">Price (High-Low)</option>
+
+                                                <!--<option id="temp_themespark_countries"/>-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div><br/>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <p style="color: white;"><i class="fas fa-map-marker-alt"></i> Search by Location</p>
+                                        <div class="row">
+                                            <div class="col-sm-6" style="margin-bottom:10px;">
+                                                <div class="form-group">
+                                                    <select id="themespark_countries" onchange="set_city();" class="form-control selectpicker show-tick" data-size="5" data-live-search="true" name="themespark_countries">
+                                                        <option value="" selected="">All Country</option>
+                                                        {% for country in activity_countries %}
+                                                            <option value="{{country.id}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                        <!--<option id="temp_themespark_countries"/>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6" style="margin-bottom:10px;">
+                                                <div class="form-group">
+                                                    <div id="temp_themespark_cities">
+                                                        <select id="themespark_cities" name="themespark_cities" data-size="5" class="form-control selectpicker">
+                                                            <option value="" selected="">Cities</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <p style="color: white;"><i class="fa fa-folder-open" aria-hidden="true"></i> Search by Category / Type</p>
+                                        <div class="row">
+                                            <div class="col-sm-4" style="margin-bottom:10px;">
+                                                <div class="form-group">
+                                                    <select id="themespark_type" class="form-control selectpicker" name="themespark_type" data-size="5">
+                                                        <option value="0" selected="">All Types</option>
+                                                        {% for type in activity_types %}
+                                                            <option value="{{type.id}}">{{type.name}}</option>
+                                                        {% endfor %}
+                                                        <!--<option id="temp_themespark_type"/>-->
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4" style="margin-bottom:10px;">
+                                                <div class="form-group">
+                                                    <select id="themespark_category" onchange="set_sub_category();" class="form-control selectpicker" name="themespark_category" data-size="5">
+                                                        <option value="0" selected="">All Categories</option>
+                                                        {% for category in activity_categories %}
+                                                            <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
+                                                        {% endfor %}
+                                                        <!--<option id="temp_themespark_category"/>-->
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4" style="margin-bottom:10px;">
+                                                <div class="form-group">
+                                                    <div id="temp_themespark_sub_category">
+                                                        <select id="themespark_sub_category" name="themespark_sub_category" class="form-control selectpicker" data-size="5">
+                                                            <option value="0" selected="">Sub Categories</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 col-sm-6">
+
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+                                    <!--<input type="submit" class="search-submit btn btn-primary" value="Find Flights">-->
+                                    <input type="button" id="btnSearch" class="btn btn-primary btn-block space" onclick="activity_login(0);" value="Search"><i class="fas fa-search"></i></input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <input type="button" value="Change search" onclick="triggered();" id="button"/>
+
+            <label id="search_activity_show">Show Result for All Activities in All Countries</label><br/>
+
+            <div class="col-sm-12 row" id="activity_ticket">
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer class="ftco-footer ftco-bg-dark ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;2017 SkyTors. All Rights Reserved.
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    activity_login(0);
+
+    function go_to_detail(sequence){
+        console.log(sequence);
+        document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
+        document.getElementById('myForm'+sequence).submit();
+    }
+
+
+    $(document).ready(function () {
+    $(window).scroll(function() {
+        console.log($(window).scrollTop());
+        console.log($(document).height() - ($(window).height() + 300));
+        console.log(get_new);
+        if($(window).scrollTop() >= $(document).height() - ($(window).height() + 300)) {
+            if(get_new == true){
+                get_new = false;
+                activity_search();
+
+            }
+        }
+    });
+});
+</script>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+{% endblock %}
