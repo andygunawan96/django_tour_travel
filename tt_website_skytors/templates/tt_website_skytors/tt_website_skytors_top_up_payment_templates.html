@@ -1,0 +1,1849 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/agent_javascript.js"></script>
+<script>
+    time = 300;
+    triggered_balance();
+</script>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
+                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
+                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
+                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
+                {% if username != null %}
+                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
+                {% else %}
+                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                {% endif %}
+                <!--<li class="nav-item">-->
+                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
+                        <!--{% csrf_token %}-->
+                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
+                        <!--<select name="language" id="selection_language">-->
+                            <!--{% get_current_language as LANGUAGE_CODE %}-->
+                            <!--{% get_available_languages as LANGUAGES %}-->
+                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
+                            <!--{% for language in languages %}-->
+                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
+                                <!--{{ language.code }}-->
+                            <!--</option>-->
+                            <!--{% endfor %}-->
+                        <!--</select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- END nav -->
+
+
+<div class="ftco-section-search" style="background-color:#989898;">
+    <div class="container">
+        <!--train-->
+        <div style="padding-top:100px;">
+        </div>
+        <div class="block-17">
+            <div id="wrap">
+                <div class="container oe_website_sale">
+
+                    <h2 class="mb8">Payment</h2>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger hid">
+                                <p id="alert_top"></p>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-8 col-sm-9 oe_cart">
+                            <div class="payment_summary">
+                                <div class="header">
+                                    <h4>Reference</h4>
+                                </div>
+                                <div class="detail" style="width: 100%;">
+                                    <div class="hidden">
+                                        <div id="data-token" value="3ff775e27b77455098d3d28e6c91cbb4"></div>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6 left-itinerary">
+                                        <span id="departure_time_iti" class="fw-bold">
+                                            <span>Number</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-8 col-xs-6 left-itinerary">
+                                        <span id="departure_time_iti" class="fw-bold">
+                                            TU.201905204427395
+                                        </span>
+                                    </div>
+                                    <div class="col-md-4 col-xs-6 left-itinerary">
+                                        <span id="departure_time_iti" class="fw-bold">
+                                            <span>Agent</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-md-8 col-xs-6 left-itinerary">
+                                        <span id="departure_time_iti" class="fw-bold">
+                                            Mobile Apps
+                                        </span>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="js_payment row" id="payment_method">
+                                <div id="acquirer-list">
+                                    <h3 class="mt8">Payment Method:</h3>
+                                    <select id="payment_selection" class="mb8" style="width: 200px;font-size:20px">
+
+                                            <option id="selection_cash" href="#cash">Cash</option>
+
+
+                                            <option id="selection_tt_transfer" href="#tt_transfer">Transfer</option>
+
+
+
+
+                                        </select>
+
+                                    <ul class="nav nav-tabs" style="display:none;">
+                                        <li class="active"><a data-toggle="tab" href="#cash" aria-expanded="true">Cash</a></li>
+                                        <li class=""><a data-toggle="tab" href="#tt_transfer" aria-expanded="false">Transfer</a></li>
+                                        <li><a data-toggle="tab" href="#edc">EDC</a></li>
+                                        <li><a data-toggle="tab" href="#installment_edc">EDC - Installment</a></li>
+                                        <li><a data-toggle="tab" href="#cr_appr">Credit Approval</a></li>
+                                        </ul>
+
+
+                                    <div class="tab-content" style="margin-top: 0;padding-top: 10px;">
+
+                                        <ul id="cash" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list active in">
+
+                                                <li style="border-bottom: 1px solid #BBB;">
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="41" checked="checked">
+                                                        <span title="Cash"><img class="img img-responsive" src="/web/image/payment.acquirer/41/image_small?unique=0e3df05" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>Cash</span>
+
+                                                    </label>
+                                                </li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </ul>
+                                        <ul id="tt_transfer" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+
+
+                                                <li style="border-bottom: 1px solid #BBB;">
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="68" checked="checked">
+                                                        <span title="BNI - 021.8080.571"><img class="img img-responsive" src="/web/image/payment.acquirer/68/image_small?unique=9129298" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>BNI - 021.8080.571</span>
+
+                                                    </label>
+                                                </li>
+
+                                                <li style="border-bottom: 1px solid #BBB;">
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="28">
+                                                        <span title="MANDIRI - 142.0015.5100.00"><img class="img img-responsive" src="/web/image/payment.acquirer/28/image_small?unique=ff6d75a" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>MANDIRI - 142.0015.5100.00</span>
+
+                                                    </label>
+                                                </li>
+
+                                                <li style="border-bottom: 1px solid #BBB;">
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="27">
+                                                        <span title="BCA - 511.0150.000"><img class="img img-responsive" src="/web/image/payment.acquirer/27/image_small?unique=ff6d75a" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>BCA - 511.0150.000</span>
+
+                                                    </label>
+                                                </li>
+
+
+
+
+
+
+
+                                        </ul>
+                                        <ul id="edc" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </ul>
+
+
+                                        <ul id="cr_appr" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </ul>
+
+                                        <ul id="credit-card" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </ul>
+
+                                        <ul id="installment_edc" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </ul>
+                                        <ul id="debit-card" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                        </ul>
+                                        <ul id="others" style="padding-right: 10px;" class="list-unstyled tab-pane fade method_list">
+
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="41" checked="True">
+                                                        <span title="Cash"><img class="img img-responsive" src="/web/image/payment.acquirer/41/image_small?unique=0e3df05" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>Cash</span>
+
+                                                    </label>
+                                                </li>
+
+
+
+
+
+
+
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="253">
+                                                        <span title="Mandiri VA - Static"><img class="img img-responsive" src="/web/image/payment.acquirer/253/image_small?unique=1b64488" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>Mandiri VA - Static</span>
+                                                        <span>(processing fees apply)</span>
+                                                    </label>
+                                                </li>
+
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="261">
+                                                        <span title="BCA VA - STATIC"><img class="img img-responsive" src="/web/image/payment.acquirer/261/image_small?unique=e16c823" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>BCA VA - STATIC</span>
+                                                        <span>(processing fees apply)</span>
+                                                    </label>
+                                                </li>
+
+                                                <li>
+                                                    <label>
+                                                        <input type="radio" name="acquirer" value="251">
+                                                        <span title="Mandiri IB"><img class="img img-responsive" src="/web/image/payment.acquirer/251/image_small?unique=0d518ba" style="max-width: 60px; display: inline-block"></span>
+                                                        <span>Mandiri IB</span>
+
+                                                    </label>
+                                                </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div id="acquirer.pre_msg">
+                                    <p class="hidden bg-danger product_attribute_danger cod_failed" style="padding: 15px;">
+                                        This order cannot use cash on delivery feature because you have product which not supported cash on delivery feature
+                                    </p>
+
+                                        <div class="oe_sale_acquirer_button" data-id="41" data-token="">
+                                            <div><p><span style="color: rgb(51, 51, 51); font-family: Roboto, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">Pastikan uang tunai telah diterima oleh kasir.</span><br>
+</p>
+
+            </div>
+                                            <div>
+            <form method="post" target="_self" action="/payment/cash/feedback?acq_id=41">
+                <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                <input type="hidden" name="reference" value="/">
+                <input type="hidden" name="amount" value="50292.0">
+                <input type="hidden" name="unique_amount" value="292.0">
+                <input type="hidden" name="currency_id" value="res.currency(13,)">
+                <input type="hidden" name="transaction_ref">
+                <p>
+                    <span style="display:inline-block; width:120px;">Total</span>: <strong>Rp&nbsp;<span class="oe_currency_value">50,292</span></strong><br>
+                </p>
+
+                <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                    <span>Pay Now <span class="fa fa-long-arrow-right"></span></span>
+                </button>
+
+            </form>
+        </div>
+                                        </div>
+
+                                        <div class="oe_sale_acquirer_button hidden" data-id="68" data-token="">
+                                            <div><p style="font-size: 13px !important;>Transfer dapat dilakukan melalui ATM, Mobile Banking atau Internet Banking<br>
+<span style="><font style="font-size: 14px;">Transfer dapat dilakukan melalui ATM, Mobile Banking atau Internet Banking<br></font><span style="display: inline-block; width: 120px;"><font style="font-size: 14px;">Bank&nbsp;</font></span><font style="font-size: 14px;">:&nbsp;<b>BNI</b><br></font><span style="display: inline-block; width: 120px;"><font style="font-size: 14px;">No. rekening&nbsp;</font></span><font style="font-size: 14px;">: <b>021.8080.571</b><br></font><span style="display: inline-block; width: 120px;"><font style="font-size: 14px;">a.n.&nbsp;</font></span><font style="font-size: 14px;">: <b>Galuh Suryono Cipto Adi</b></font><br></p><p style="font-size: 13px !important;>Transfer dapat dilakukan melalui ATM, Mobile Banking atau Internet Banking<br>
+<span style="></p>
+
+            </div>
+                                            <div>
+            <form method="post" target="_self" action="/payment/tt_transfer/feedback?acq_id=68">
+                <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                <input type="hidden" name="reference" value="/">
+                <input type="hidden" name="amount" value="50292.0">
+                <input type="hidden" name="unique_amount" value="292.0">
+                <input type="hidden" name="currency_id" value="res.currency(13,)">
+                <input type="hidden" name="transaction_ref">
+                <p>
+                    <span style="display:inline-block; width:120px;">TOTAL</span>: <strong>Rp&nbsp;<span class="oe_currency_value">50,292</span></strong><br>
+                </p>
+            <div class="col-md-12" style="padding:0px; margin-top:10px">
+                <label for="notes">NOTES</label>
+                <textarea id="notes" name="notes" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" placeholder="Leave any notes here"></textarea>
+            </div>
+                <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                    <span>Pay Now <span class="fa fa-long-arrow-right"></span></span>
+                </button>
+
+            </form>
+        </div>
+                                        </div>
+
+                                        <div class="oe_sale_acquirer_button hidden" data-id="28">
+                                            <div><p>Transfer dapat dilakukan melalui ATM, Mobile Banking atau Internet Banking<br>
+<span style="display:inline-block; width:120px;">Bank</span>: <strong>Mandiri</strong><br>
+<span style="display:inline-block; width:120px;">No. rekening</span>: <strong>142.0015.5100.00</strong><br>
+<span style="display:inline-block; width:120px;">a.n.</span>: <strong>Roda Express Sukses Mandiri</strong>
+</p>
+
+            </div>
+                                            <div>
+            <form method="post" target="_self" action="/payment/tt_transfer/feedback?acq_id=28">
+                <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                <input type="hidden" name="reference" value="/">
+                <input type="hidden" name="amount" value="50292.0">
+                <input type="hidden" name="unique_amount" value="292.0">
+                <input type="hidden" name="currency_id" value="res.currency(13,)">
+                <input type="hidden" name="transaction_ref">
+                <p>
+                    <span style="display:inline-block; width:120px;">TOTAL</span>: <strong>Rp&nbsp;<span class="oe_currency_value">50,292</span></strong><br>
+                </p>
+            <div class="col-md-12" style="padding:0px; margin-top:10px">
+                <label for="notes">NOTES</label>
+                <textarea id="notes" name="notes" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" placeholder="Leave any notes here"></textarea>
+            </div>
+                <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                    <span>Pay Now <span class="fa fa-long-arrow-right"></span></span>
+                </button>
+
+            </form>
+        </div>
+                                        </div>
+
+                                        <div class="oe_sale_acquirer_button hidden" data-id="27">
+                                            <div><p>Transfer dapat dilakukan melalui ATM, Mobile Banking atau Internet Banking<br>
+<span style="display:inline-block; width:120px;">Bank</span>: <strong>BCA</strong><br>
+<span style="display:inline-block; width:120px;">No. rekening</span>: <strong>511.0150.000</strong><br>
+<span style="display:inline-block; width:120px;">a.n.</span>: <strong>Roda Express Sukses Mandiri</strong>
+</p>
+
+            </div>
+                                            <div>
+            <form method="post" target="_self" action="/payment/tt_transfer/feedback?acq_id=27">
+                <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                <input type="hidden" name="reference" value="/">
+                <input type="hidden" name="amount" value="50292.0">
+                <input type="hidden" name="unique_amount" value="292.0">
+                <input type="hidden" name="currency_id" value="res.currency(13,)">
+                <input type="hidden" name="transaction_ref">
+                <p>
+                    <span style="display:inline-block; width:120px;">TOTAL</span>: <strong>Rp&nbsp;<span class="oe_currency_value">50,292</span></strong><br>
+                </p>
+            <div class="col-md-12" style="padding:0px; margin-top:10px">
+                <label for="notes">NOTES</label>
+                <textarea id="notes" name="notes" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" placeholder="Leave any notes here"></textarea>
+            </div>
+                <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                    <span>Pay Now <span class="fa fa-long-arrow-right"></span></span>
+                </button>
+
+            </form>
+        </div>
+                                        </div>
+
+                                        <div class="oe_sale_acquirer_button hidden" data-id="253">
+                                            <div><p>Lakukan transfer ke <strong>Bank Mandiri</strong> melalui <strong>Virtual Account</strong>  Anda :<br>
+                </p>
+
+            </div>
+                                            <div>
+            <div id="mandiri_va_acquirer">
+                <form method="POST" action="/">
+                    <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                    <input type="hidden" name="reference" value="/">
+                    <input type="hidden" name="amount" value="50292.0">
+                    <input type="hidden" name="fees" value="5000.0">
+                    <input type="hidden" name="currency_id" value="res.currency(13,)">
+                    <input type="hidden" name="transaction_ref">
+                    <p>
+                        <span style="display:inline-block; width:120px;">Virtual Account</span>: <strong></strong><br>
+                        <span style="display:inline-block; width:120px;">Amount</span>: <strong>Sesuai yang diinginkan ( Minimum Rp. 50.000,- )</strong><br>
+                        <span style="display:inline-block; width:120px;">Fees</span>: <strong>Rp&nbsp;<span class="oe_currency_value">5,000</span></strong><br>
+                        <span style="display:inline-block; width:120px;">TOTAL</span>: <strong>Sesuai yang diinginkan + Rp&nbsp;<span class="oe_currency_value">5,000</span></strong><br>
+                    </p>
+
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <p><strong>Instruksi transfer bank :</strong></p>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseFour">
+                                Mandiri - Mobile Banking
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Log In ke Akun Mobile Banking
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Pembayaran &gt; Buat Pembayaran Baru &gt; Multipayment &gt; Pilih Espay</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseFour">
+                                ATM Bersama - Mobile Banking
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Log In ke Akun Mobile Banking
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="headingThree">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseFour">
+                                ATM Prima - Mobile Banking
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Log In ke Akun Mobile Banking
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="headingFour">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                ATM Mandiri
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Masukkan kartu ATM Mandiri dan PIN Anda
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih menu <strong>Bayar/Beli &gt; Lainnya &gt; Lainnya,</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Pilih <strong>Multi Payment &gt; Pilih Espay</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan Transaction fee Rp. 5000</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Jika sudah sesuai, tekan 1 dan lanjutkan dengan menekan Ya
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        7. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="headingFive">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFour">
+                                ATM Prima
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Masukkan kartu ATM Mandiri dan PIN Anda
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan Transaction fee Rp. 5000</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Confirm Transaction
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="headingSix">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseFive">
+                                ATM Bersama
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Masukkan kartu ATM Mandiri dan PIN Anda
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; Bank Mandiri</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 dan transaction fee Rp. 5000</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Confirm Transaction
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                    <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                        <span>Selesai (HOME)<span class="fa fa-long-arrow-right"></span></span>
+                    </button>
+
+                </form>
+                <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
+            </div>
+        </div>
+                                        </div>
+
+                                        <div class="oe_sale_acquirer_button hidden" data-id="261">
+                                            <div><p>Lakukan transfer ke <strong>Bank Centra Asia (BCA)</strong> melalui <strong>Virtual Account</strong>  Anda :<br>
+                </p>
+
+            </div>
+                                            <div>
+            <div id="bca_va_acquirer">
+                <form method="POST" action="/">
+                    <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                    <input type="hidden" name="reference" value="/">
+                    <input type="hidden" name="amount" value="50292.0">
+                    <input type="hidden" name="fees" value="6651.33">
+                    <input type="hidden" name="currency_id" value="res.currency(13,)">
+                    <input type="hidden" name="transaction_ref">
+                    <p>
+                        <span style="display:inline-block; width:120px;">Virtual Account</span>: <strong></strong><br>
+                        <span style="display:inline-block; width:120px;">Amount</span>: <strong>Sesuai yang diinginkan ( Minimum Rp. 50.000,- )</strong><br>
+                        <span style="display:inline-block; width:120px;">Fees</span>: <strong>Rp&nbsp;<span class="oe_currency_value">6,651</span></strong><br>
+                        <span style="display:inline-block; width:120px;">TOTAL</span>: <strong>Sesuai yang diinginkan + Rp&nbsp;<span class="oe_currency_value">6,651</span></strong><br>
+                    </p>
+
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <p><strong>Instruksi transfer bank :</strong></p>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="heading_10">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_10" aria-expanded="false" aria-controls="collapse_10">
+                                BCA Mobile Banking
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse_10" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_10">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Log In ke Akun Mobile Banking
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; BCA Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 ( Transaction fee 0.3% + 6500/Transaksi Top Up )</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Jika sudah selesai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="heading_11">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_11" aria-expanded="false" aria-controls="collapse_11">
+                                ATM Bersama - Mobile Banking
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse_11" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_11">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Log In ke Akun Mobile Banking
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; BCA</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 ( Transaction fee 0.3% + 6500/Transaksi Top Up )</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="heading_12">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_12" aria-expanded="false" aria-controls="collapse_12">
+                                ATM Prima - Mobile Banking
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse_12" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_12">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Log In ke Akun Mobile Banking
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; BCA</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 ( Transaction fee 0.3% + 6500/Transaksi Top Up )</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Jika sudah sesuai, masukkan <strong>OTP dan Pin SMS Banking, lalu klik OK</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="heading_13">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_13" aria-expanded="false" aria-controls="collapse_13">
+                                ATM BCA
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse_13" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_13">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Masukkan kartu ATM BCA dan PIN Anda
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; BCA Virtual Account</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 ( Transaction fee 0.3% + 6500/Transaksi Top Up )</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Confirm Transaction
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="heading_14">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_14" aria-expanded="false" aria-controls="collapse_14">
+                                ATM Prima
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse_14" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_14">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Masukkan kartu ATM dan PIN Anda
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; BCA</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 ( Transaction fee 0.3% + 6500/Transaksi Top Up )</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Confirm Transaction
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="instruction-heading" role="tab" id="heading_15">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse_15" aria-expanded="false" aria-controls="collapse_15">
+                                ATM Bersama
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse_15" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_15">
+                        <div class="panel-body">
+                            <div style="margin:0px auto;max-width:600px;">
+                                <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        1. Masukkan kartu ATM dan PIN Anda
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        2. Pilih <strong>Transfer &gt; Transfer ke bank lain &gt; BCA</strong>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        3. Masukkan <strong>16 digit Nomor Virtual Account</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        4. Masukkan jumlah nominal <strong>TOP UP Minimum Rp. 50.000 ( Transaction fee 0.3% + 6500/Transaksi Top Up )</strong>,
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        5. Confirm Transaction
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                    <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                    </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                    <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                        6. Saldo SKYTORS akan bertambah secara otomatis (REAL TIME) setelah pembayaran berhasil dilakukan
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+                    <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                        <span>Selesai (HOME)<span class="fa fa-long-arrow-right"></span></span>
+                    </button>
+
+                </form>
+                <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
+            </div>
+        </div>
+                                        </div>
+
+                                        <div class="oe_sale_acquirer_button hidden" data-id="251">
+                                            <div><p>Anda akan diarahkan ke sistem pembayaran online <strong>Mandiri Internet Banking</strong><br>
+                pastikan Anda memiliki fasilitas internet banking dari Bank Mandiri<br>
+                untuk melanjutkan, silahkan tekan tombol <strong>Bayar</strong> di bawah
+                </p>
+
+            </div>
+                                            <div>
+            <div id="mandiri_ib_acquirer">
+                <form method="POST" action="/payment/mandiri_ib/feedback?acq_id=251">
+                    <input type="hidden" name="token" value="3ff775e27b77455098d3d28e6c91cbb4">
+                    <input type="hidden" name="reference" value="/">
+                    <input type="hidden" name="amount" value="50292.0">
+                    <input type="hidden" name="fees">
+                    <input type="hidden" name="currency_id" value="res.currency(13,)">
+                    <input type="hidden" name="transaction_ref">
+                    <p>
+                        <span style="display:inline-block; width:120px;">Amount</span>: <strong>Rp&nbsp;<span class="oe_currency_value">50,292</span></strong><br>
+                        </p>
+
+
+                    <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                        <span>Pay Now <span class="fa fa-long-arrow-right"></span></span>
+                    </button>
+
+                </form>
+                <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
+            </div>
+        </div>
+                                        </div>
+
+
+                                    </div>
+                            </div>
+
+                            </div>
+
+                        <div class="col-lg-4 col-sm-3">
+                            <div class="payment_summary">
+                                <div class="header">
+                                    <h4>Adv.</h4>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="ftco-footer ftco-bg-dark ftco-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Book Now</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Flight</a></li>
+                        <li><a href="#" class="py-2 d-block">Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Tour</a></li>
+                        <li><a href="#" class="py-2 d-block">Car Rent</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Mountains</a></li>
+                        <li><a href="#" class="py-2 d-block">Cruises</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Top Deals</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Luxe Hotel</a></li>
+                        <li><a href="#" class="py-2 d-block">Venice Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Deluxe Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
+                        <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Contact Information</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">198 West 21th Street, Suite 721 New York NY 10016</a></li>
+                        <li><a href="#" class="py-2 d-block">+ 1235 2355 98</a></li>
+                        <li><a href="#" class="py-2 d-block">info@yoursite.com</a></li>
+                        <li><a href="#" class="py-2 d-block">email@email.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
+                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;2017 SkyTors. All Rights Reserved.
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    get_top_up_amount();
+    document.getElementById('unique_amount').value =parseInt(Math.random() * 1000);
+    total_price_top_up();
+</script>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+{% endblock %}

@@ -2635,11 +2635,6 @@ body.mobile-nav-active #mobile-nav-toggle {
     padding:10px;
 }
 
-.sorting-box{
-    background-color:white;
-    margin-bottom:15px;
-}
-
 .primary-btn:focus {
   outline: none;
 }

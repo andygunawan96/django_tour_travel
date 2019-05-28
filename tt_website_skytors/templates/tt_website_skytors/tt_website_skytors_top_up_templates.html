@@ -1,0 +1,208 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/agent_javascript.js"></script>
+<script>
+    time = 300;
+    triggered_balance();
+</script>
+
+
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
+                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Action</a></li>
+                        <li><a href="#">Another action</a></li>
+                        <li><a href="#">Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Separated link</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">One more separated link</a></li>
+                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
+                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
+                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
+                {% if username != null %}
+                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
+                {% else %}
+                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
+                {% endif %}
+                <!--<li class="nav-item">-->
+                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
+                        <!--{% csrf_token %}-->
+                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
+                        <!--<select name="language" id="selection_language">-->
+                            <!--{% get_current_language as LANGUAGE_CODE %}-->
+                            <!--{% get_available_languages as LANGUAGES %}-->
+                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
+                            <!--{% for language in languages %}-->
+                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
+                                <!--{{ language.code }}-->
+                            <!--</option>-->
+                            <!--{% endfor %}-->
+                        <!--</select>-->
+                    <!--</form>-->
+                <!--</li>-->
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- END nav -->
+
+
+<div class="ftco-section-search" style="background-color:#989898;">
+    <div class="container">
+        <!--train-->
+        <div style="padding-top:100px;">
+        </div>
+        <div class="block-17">
+            <form name="Form1" method="POST">
+                <div class="topUp-home">
+                    <div class="home-header">
+                        <span class="title">Top Up Saldo</span>
+                    </div>
+                    <div class="home-body">
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-3">
+
+                            </div>
+
+                            <div class="col-md-6 col-md-offset-3 body-topUp">
+                                <div class="form-group">
+                                    <label class="fieldLabel">Select Amount</label>
+                                    <div class="input-group">
+                                        <select id="amount" class="form-control selectpicker show-tick" data-size="7" data-live-search="true" name="amount" required="required" tabindex="-98" onchange="total_price_top_up();">
+
+                                        </select>
+                                        <span class="input-group-addon">X</span>
+                                        <input type="number" name="qty" id="qty" class="form-control" tabindex="1" value="1" min="1" required="required" onchange="total_price_top_up();">
+                                    </div>
+                                </div>
+                                <div class="form-group" id="unique_amount_div">
+                                    <label class="fieldLabel">Unique Amount</label>
+                                    <input type="text" name="unique_amount" id="unique_amount" class="form-control" readonly="1" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label class="fieldLabel">Total</label>
+                                    <input type="text" name="total_amount" id="total_amount" class="form-control" tabindex="1" readonly="true">
+                                </div>
+                                <div class="form-group">
+                                    <label class="fieldLabel">Payment Method</label>
+
+                                    <select id="payment_method" class="form-control selectpicker show-tick" name="payment_method" required="required" onchange="myScript()" tabindex="-98">
+                                        <option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>
+                                        <option id="online_payment" value="online_payment">Online Payment</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="home-footer">
+                        <div id="footer-info" class="footer-info">
+                            <input type="checkbox" name="tac_checkbox" id="tac_checkbox" width="24px" height="24px" required="required">
+                            <span>I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal">Terms &amp; Conditions</a> of TORS top up</span>
+                        </div>
+                        <input class="btn btn-primary" type="button" value="Submit" name="button1" onclick="create_top_up();">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer class="ftco-footer ftco-bg-dark ftco-section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
+                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Book Now</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Flight</a></li>
+                        <li><a href="#" class="py-2 d-block">Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Tour</a></li>
+                        <li><a href="#" class="py-2 d-block">Car Rent</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Mountains</a></li>
+                        <li><a href="#" class="py-2 d-block">Cruises</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Top Deals</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">Luxe Hotel</a></li>
+                        <li><a href="#" class="py-2 d-block">Venice Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Deluxe Hotels</a></li>
+                        <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
+                        <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
+                        <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
+                        <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <h2 class="ftco-heading-2">Contact Information</h2>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="py-2 d-block">198 West 21th Street, Suite 721 New York NY 10016</a></li>
+                        <li><a href="#" class="py-2 d-block">+ 1235 2355 98</a></li>
+                        <li><a href="#" class="py-2 d-block">info@yoursite.com</a></li>
+                        <li><a href="#" class="py-2 d-block">email@email.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="ftco-footer-widget mb-4">
+                    <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
+                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+
+                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;2017 SkyTors. All Rights Reserved.
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    get_top_up_amount();
+    document.getElementById('unique_amount').value =parseInt(Math.random() * 1000);
+</script>
+
+<!-- loader -->
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+{% endblock %}

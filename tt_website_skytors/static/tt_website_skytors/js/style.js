@@ -21,7 +21,6 @@ $(document).ready(function(){
         $('#mybuttonfiltersort').show();
     }
 
-
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");
@@ -504,6 +503,17 @@ $(document).ready(function(){
        }
     });
 
+    if ($('#directionflight').prop('checked')){
+        var tempdate = Date.parse($("#airline_departure").val());
+        var formatted_date = new Date(tempdate);
+        $('#airline_return').datepicker({
+            dateFormat: 'dd M yy',
+            numberOfMonths: 2,
+            todayHighlight: true,
+	        autoclose: true,
+            minDate: formatted_date,
+        });
+    }
     var quantity_room_hotel = parseInt($('#hotel_room').val());
     var quantity_adult_hotel = parseInt($('#hotel_adult').val());
     var quantity_child_hotel = parseInt($('#hotel_child').val());
@@ -692,7 +702,6 @@ $(document).ready(function(){
 
 });
 
-
 function showReturnDateAirline() {
     var test = $("#airline_departure").datepicker('getDate', '+1d');
     if ($('#directionflight').prop('checked')){
@@ -789,6 +798,12 @@ function show_paxs(pax_type, key){
         paxs.style.display = "none";
         paxs_down.style.display = "none";
         paxs_up.style.display = "block";
+    }
+
+    for (var i=1; i <= parseInt(senior); i++){
+        paxs = document.getElementById('senior_paxs'+i);
+        paxs_up = document.getElementById('senior_up_paxs'+i);
+        paxs_down = document.getElementById('senior_down_paxs'+i);
     }
 
     for (var i=1; i <= parseInt(infant); i++){
