@@ -61,7 +61,6 @@ def signin(request):
         "co_user": user_default,  # request.POST['username'],
         "co_password": password_default,  # request.POST['password'],
         "co_uid": "",
-        "provider": "skytors_tour"
     }
     headers.update({
         "action": 'signin'
