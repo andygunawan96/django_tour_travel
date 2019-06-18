@@ -9,30 +9,33 @@ $(document).ready(function() {
     $(".fullscreen").css("height", window_height)
     $(".fitscreen").css("height", fitscreen);
 
-
+    var current=0;
+    var check_counter_idx = 0;
     // ------- Datepicker  js --------//
 
-      $( function() {
-        $( ".date-picker" ).datepicker({
-            dateFormat: 'dd M yy',
-            minDate: new Date(),
-            numberOfMonths: 2,
-        });
-      });
 
-      $( function() {
-        $( ".date-picker-birth" ).datepicker({
-            dateFormat: 'dd M yy',
-            numberOfMonths: 2,
-        });
-      });
 
-      $( function() {
-        $( ".date-picker-passport" ).datepicker({
-            dateFormat: 'dd M yy',
-            numberOfMonths: 2,
-        });
-      });
+//      $( function() {
+//        $( ".date-picker" ).datepicker({
+//            dateFormat: 'dd M yy',
+//            minDate: new Date(),
+//            numberOfMonths: 2,
+//        });
+//      });
+//
+//      $( function() {
+//        $( ".date-picker-birth" ).datepicker({
+//            dateFormat: 'dd M yy',
+//            numberOfMonths: 2,
+//        });
+//      });
+//
+//      $( function() {
+//        $( ".date-picker-passport" ).datepicker({
+//            dateFormat: 'dd M yy',
+//            numberOfMonths: 2,
+//        });
+//      });
 
     //------- Niceselect  js --------//  
 
@@ -74,70 +77,278 @@ $(document).ready(function() {
 
 
 
-    //------- Owl Carusel  js --------//  
+    //------- Owl Carusel  js --------//
+
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        nav: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        smartSpeed:500,
+        autoplay: true,
+        autoplayTimeout:5000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:2,
+                nav:true
+            },
+            480:{
+                items:2,
+                nav:false
+            },
+            768:{
+                items:4,
+                nav:false
+            },
+            961:{
+                items:4,
+                nav:true,
+                loop:true
+            }
+        }
+    });
+
+    $('.owl-carousel-suggest').owlCarousel({
+        loop:false,
+        nav: true,
+        navRewind:true,
+        rewind: true,
+        margin: 20,
+        items:4,
+        responsiveClass:true,
+        dots: true,
+        merge: false,
+        lazyLoad:true,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:10000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:4,
+                nav:true
+            },
+            480:{
+                items:4,
+                nav:true
+            },
+            768:{
+                items:4,
+                nav:true
+            },
+            961:{
+                items:4,
+                nav:true,
+            }
+        }
+    });
+
+    $('.owl-carousel-hotel').owlCarousel({
+        loop:false,
+        nav: true,
+        navRewind:true,
+        rewind: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: true,
+        merge: false,
+        lazyLoad:true,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:10000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:3,
+                nav:true
+            },
+            480:{
+                items:4,
+                nav:true
+            },
+            768:{
+                items:5,
+                nav:true
+            },
+            961:{
+                items:5,
+                nav:true,
+            }
+        }
+    });
+
+    $('.owl-carousel-hotel-img').owlCarousel({
+        loop:false,
+        nav: true,
+        rewind: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        lazyLoad:true,
+        merge: false,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:8000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            600:{
+                items:1,
+                nav:false
+            },
+            1000:{
+                items:1,
+                nav:true,
+            }
+        }
+    });
+
+    $('.owl-carousel-tour-img').owlCarousel({
+        loop:true,
+        nav: true,
+        rewind: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        lazyLoad:true,
+        merge: false,
+        smartSpeed:500,
+        autoplay: true,
+        autoplayTimeout:6000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            600:{
+                items:1,
+                nav:false
+            },
+            1000:{
+                items:1,
+                nav:true,
+            }
+        }
+    });
 
     $('.active-hot-deal-carusel').owlCarousel({
-        items:2,
+        items:1,
         loop:true,
-        autoplay:true,
-        autoplayHoverPause: true,        
-        smartSpeed:500,          
-        margin:30,
+        autoplay:false,
+        autoplayHoverPause: true,
+        smartSpeed:500,
+        margin: 20,
         navText: ['<i class="fa fa-caret-left"/>', '<i class="fa fa-caret-right"/>'],
         dots: true
     });
 
-     $('.active-testimonial').owlCarousel({
-            items: 2,
-            loop: true,
-            margin: 30,
-            autoplayHoverPause: true,
-            smartSpeed:500,              
-            dots: true,
-            autoplay: true,
-            responsive: {
-                0: {
-                    items: 1
-                },
-                480: {
-                    items: 1,
-                },
-                992: {
-                    items: 2,
-                }
+    $('.active-hotel').owlCarousel({
+        items:5,
+        loop:true,
+        autoplay:false,
+        autoplayHoverPause: true,
+        margin: 20,
+        smartSpeed:500,
+        navText: ['<i class="fa fa-caret-left"/>', '<i class="fa fa-caret-right"/>'],
+        dots: true
+    });
+
+    $('.active-testimonial').owlCarousel({
+        items: 2,
+        loop: true,
+        margin: 30,
+        autoplayHoverPause: true,
+        smartSpeed:500,
+        dots: true,
+        autoplay: true,
+        responsive: {
+            0: {
+                items: 1
+            },
+            480: {
+                items: 1,
+            },
+            992: {
+                items: 2,
             }
-        });
+        }
+    });
 
-
-        $('.active-recent-blog-carusel').owlCarousel({
-            items: 3,
-            loop: true,
-            nav: true,
-            margin: 30,
-            dots: false,
-            merge:true,
+    $('.active-recent-blog-carusel').owlCarousel({
+        items: 3,
+        loop: true,
+        nav: true,
+        margin: 30,
+        dots: false,
+        merge:true,
 //            autoWidth:true,
-            autoplayHoverPause: true,
-            smartSpeed:500,
-            autoplay: true,
-            navText: ['<i class="fa fa-caret-left"/>', '<i class="fa fa-caret-right"/>'],
-            responsive: {
-                0: {
-                    items: 1
-                },
-                480: {
-                    items: 1,
-                },
-                768: {
-                    items: 2,
-                },
-                961: {
-                    items: 3,
-                }
+        autoplayHoverPause: true,
+        smartSpeed:500,
+        autoplay: true,
+        navText: ['<i class="fa fa-caret-left"/>', '<i class="fa fa-caret-right"/>'],
+        responsive: {
+            0: {
+                items: 1
+            },
+            480: {
+                items: 1,
+            },
+            768: {
+                items: 2,
+            },
+            961: {
+                items: 3,
             }
-        }); 
+        }
+    });
 
-    //------- Mobile Nav  js --------//  
+    $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
+
+    $('.owl-carousel-hotel').on("click", ".owl-item", function(e) {
+       e.preventDefault();
+       check_counter_idx =0;
+       $('.owl-item').each(function() {
+          $(this).removeClass("owl-bg-border");
+       });
+       var number = $(this).index();
+       $('.owl-carousel-hotel-img').data("owl.carousel").to(number, 500, true);
+       $(this).addClass("owl-bg-border");
+     });
+
+    $('.owl-carousel-hotel-img').on('changed.owl.carousel',function(property){
+       current = property.item.index;
+       var total = property.item.count;
+       var check_index = total - current;
+
+       if(current == total-1){
+            $('.owl-carousel-hotel').data("owl.carousel").to(total-5, 500, true);
+       }
+       else{
+           if(check_index > 4){
+                $('.owl-carousel-hotel').data("owl.carousel").to(current, 500, true);
+           }
+       }
+
+       $('.owl-carousel-hotel').find('.owl-item').each(function() {
+          $(this).removeClass("owl-bg-border");
+       });
+       $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
+    });
+
+    $('.zoom-img').wrap('<span style="display:inline-block"></span>').css('display', 'block').parent().zoom({ on:'click' });
+
+    //------- Mobile Nav  js --------//
 
     if ($('#nav-menu-container').length) {
         var $mobile_nav = $('#nav-menu-container').clone().prop({
@@ -416,3 +627,9 @@ $(document).ready(function() {
     });
 
 });
+
+
+//$('#ex1').zoom();
+//$('#ex2').zoom({ on:'grab' });
+//$('#ex3').zoom({ on:'click' });
+//$('#ex4').zoom({ on:'toggle' });

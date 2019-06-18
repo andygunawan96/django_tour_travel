@@ -5,6 +5,7 @@
 # url = "http://apidev.skytors.id/"
 # url = "https://api2.skytors.id/"
 url = "http://localhost:8071/"
+# url = "http://192.168.50.240:8071/"
 
 headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -17,9 +18,6 @@ password_global = '123';
 api_key = '208413e7-3dee-4bed-9e16-5cfb9ce555a5';
 user_default = 'mob.it@rodextravel.tours';
 password_default = '123';
-
-# tour
-api_key_tour = "b77f8d0b-b0d2-410e-9b1a-44fa80cabc4b";
 
 #old
 # user = "ivankai"

@@ -76,6 +76,7 @@ def issued_offline_history(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['username'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_history_templates.html', values)

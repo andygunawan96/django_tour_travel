@@ -50,10 +50,6 @@ def search(request):
             response = json.loads(line)
         file.close()
 
-        # train
-        train_destination = response['result']['response']['train']
-        # train
-
         request.session['train_adult'] = request.POST['train_adult']
         request.session['train_infant'] = request.POST['train_infant']
         get_balance(request)
@@ -70,12 +66,6 @@ def search(request):
                 'origin': request.POST['train_origin'],
                 'destination': request.POST['train_destination']
             },
-            # 'train_adult': request.POST['train_adult'],
-            # 'train_infant': request.POST['train_infant'],
-            # 'train_departure': request.POST['train_departure'],
-            # 'train_des': request.POST['train_destination'].split(' - ')[0],
-            # 'train_ori': request.POST['train_origin'].split(' - ')[0],
-            'train_destination': train_destination,
             'username': request.session['username'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),

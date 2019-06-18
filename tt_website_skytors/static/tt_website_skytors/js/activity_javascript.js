@@ -39,13 +39,19 @@ function set_sub_category(){
 
 function set_city(){
     var text = `<option value="" selected="">Cities</option>`;
-    var country = activity_country[document.getElementById('themespark_countries').value];
+    var country = {};
+    for(i in activity_country){
+       if(activity_country[i].id == parseInt(document.getElementById('themespark_countries').value)){
+           country = activity_country[i];
+           break;
+       }
+    }
     for(i in country.city){
         console.log(country.city);
         text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
     }
     document.getElementById('themespark_cities').innerHTML = text;
-
+    $('#themespark_cities').niceSelect('update');
 }
 
 function triggered(){

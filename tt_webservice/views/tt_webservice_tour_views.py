@@ -46,6 +46,8 @@ def api_models(request):
             res = search(request)
         elif req_data['action'] == 'get_countries':
             res = get_countries(request)
+        elif req_data['action'] == 'get_details':
+            res = get_details(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -57,7 +59,7 @@ def signin(request):
     data = {
         "user": user_global,
         "password": password_global,
-        "api_key": api_key_tour,
+        "api_key": api_key,
         "co_user": user_default,  # request.POST['username'],
         "co_password": password_default,  # request.POST['password'],
         "co_uid": "",
@@ -88,6 +90,25 @@ def search(request):
 
     res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
 
+    data_tour = []
+    counter = 0
+    try:
+        if int(request.POST['offset']) != 0:
+            for data in request.session['tour_search']:
+                data_tour.append(data)
+                counter += 1
+    except:
+        print('no data')
+
+    for i in res['result']['response']['response']['result']:
+        i.update({
+            'sequence': counter
+        })
+        data_tour.append(i)
+        counter += 1
+
+    request.session['tour_search'] = data_tour
+
     return res
 
 
@@ -102,4 +123,19 @@ def get_countries(request):
 
     res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
     return res
+
+
+def get_details(request):
+    data = {
+        'provider': 'skytors_tour',
+        'id': request.POST['id'],
+    }
+    headers.update({
+        "action": "get_details",
+        "signature": request.session['tour_signature'],
+    })
+
+    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    return res
+
 

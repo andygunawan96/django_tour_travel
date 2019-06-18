@@ -62,9 +62,9 @@ function search_origin_departure(val,sequence){
 
 function change_transaction_type(){
     if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train'){
-        document.getElementById('table_of_line').hidden = false;
+        document.getElementById('show_line').hidden = false;
     }else{
-        document.getElementById('table_of_line').hidden = true;
+        document.getElementById('show_line').hidden = true;
     }
 }
 
@@ -72,17 +72,21 @@ function add_table_of_passenger(){
     text= '';
     var node = document.createElement("tr");
     text += `
+        <td>`+(parseInt(counter_passenger)+1)+`</td>
         <td>
-            <label id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></label>
+            <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
             <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
         </td>
         <td>
-            <label id='pax_type`+counter_passenger+`' name='pax_type`+counter_passenger+`'></label>
+            <span id='pax_type`+counter_passenger+`' name='pax_type`+counter_passenger+`'></span>
         </td>
         `;
     text += `
         <td>
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`">Teropong</button>
+            <div style="text-align:center;">
+                <button type="button" class="primary-btn" style="border-radius: 28px; margin-bottom:5px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
+                <button type="button" class="primary-delete" style="border-radius: 28px;"><i class="fas fa-trash-alt"></i></button>
+            </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog">
                 <div class="modal-dialog">
@@ -125,6 +129,7 @@ function add_table_of_line(){
     text= '';
     var node = document.createElement("tr");
     text += `
+    <td>`+(parseInt(counter_line)+1)+`</td>
     <td>
         <input list="airline_origin_name`+counter_line+`" id="origin`+counter_line+`" class="form-control" name="origin`+counter_line+`" onkeyup="search_origin_departure('origin',`+counter_line+`);" />
         <datalist id="airline_origin_name`+counter_line+`"/>
@@ -134,20 +139,29 @@ function add_table_of_line(){
         <datalist id="airline_destination_name`+counter_line+`"/>
     </td>
     <td>
-        <input type="datetime-local" id='departure`+counter_line+`' name='departure`+counter_line+`' placeholder="datetime"/>
+        <input type="datetime-local" id='departure`+counter_line+`' class="form-control" name='departure`+counter_line+`' placeholder="datetime"/>
     </td>
     <td>
-        <input type="datetime-local" id='arrival`+counter_line+`' name='arrival`+counter_line+`' placeholder="datetime"/>
+        <input type="datetime-local" id='arrival`+counter_line+`' class="form-control" name='arrival`+counter_line+`' placeholder="datetime"/>
     </td>
-    <td><input type="text" id='carrier_code`+counter_line+`' name='carrier_code`+counter_line+`' placeholder="Carrier Code"></td>
-    <td><input type="text" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number"></td>
-    <td><select id='class`+counter_line+`' name='class`+counter_line+`'>`;
-    for(i in class_of_service)
-        text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
-    text+=`</select></td>
-    <td><input type="text" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class"></td>`;
+    <td><input type="text" class="form-control" id='carrier_code`+counter_line+`' name='carrier_code`+counter_line+`' placeholder="Carrier Code"></td>
+    <td><input type="text" class="form-control" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number"></td>
+    <td>
+        <div class="input-container-search-ticket btn-group">
+            <div class="form-select" id="default-select">
+                <select id='class`+counter_line+`' name='class`+counter_line+`' class="form-control" style="height:42px;">`;
+                for(i in class_of_service)
+                    text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
+                    text+=`
+                </select>
+            </div>
+        </div>
+    </td>
+    <td><input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class"></td>
+    <td><button type="button" class="primary-delete" style="border-radius: 28px;"><i class="fas fa-trash-alt"></i></button></td>`;
     node.innerHTML = text;
-    node.setAttribute('id', 'table_line'+counter_passenger);
+    $('#class'+counter_line).niceSelect('update');
+    node.setAttribute('id', 'table_line'+counter_line);
     document.getElementById("table_of_line").appendChild(node);
     counter_line++;
 }
@@ -167,17 +181,40 @@ function table_issued_offline_history(data){
         data_search.push(data[i]);
         text+=`
         <tr>
-            <td>`+data[i].name+`</td>`;
+        <td>`+(parseInt(data_counter)+1)+`</td>
+        <td>`+data[i].name+`</td>`;
         text+= `<td>`+data[i].provider+`</td>`;
         text+= `<td>`+data[i].pnr+`</td>`;
         text+= `<td>`+data[i].agent_id+`</td>`;
-        text+= `<td>`+data[i].state+`</td>`;
+        if(data[i].state == 'draft'){
+            text+= `<td>Draft</td>`;
+        }
+        else if(data[i].state == 'confirm'){
+            text+= `<td>Confirm</td>`;
+        }
+        else if(data[i].state == 'paid'){
+            text+= `<td>Paid</td>`;
+        }
+        else if(data[i].state == 'posted'){
+            text+= `<td>Done</td>`;
+        }
+        else if(data[i].state == 'refund'){
+            text+= `<td>Refund</td>`;
+        }
+        else if(data[i].state == 'expired'){
+            text+= `<td>Expired</td>`;
+        }
+        else if(data[i].state == 'cancel'){
+            text+= `<td>Cancelled</td>`;
+        }
+
         text+= `<td>`+data[i].total_sale_price+`</td>`;
         text+= `<td>`+data[i].expired_date+`</td>`;
         text+= `</tr>`;
         node.innerHTML = text;
         document.getElementById("table_issued_offline").appendChild(node);
         node = document.createElement("tr");
+        $('#loading-search-issued-off-history').hide();
 //                   document.getElementById('airlines_ticket').innerHTML += text;
         text = '';
         data_counter++;

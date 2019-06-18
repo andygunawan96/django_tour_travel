@@ -47,105 +47,9 @@
         sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
         sub_category_list = [];
     {% endfor %}
-
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
-
-
-<header id="header" style="position:sticky;">
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo">
-                    <a href="index.html"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
-                </div>
-                <nav id="nav-menu-container">
-                    <ul class="nav-menu">
-                        <li><a href="#">Home</a></li>
-                        <li class="menu-has-children"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">Frequently Asked Question</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
-                        <!--                        <li class="menu-has-children">-->
-                        <!--                            <a href="#">-->
-                        <!--                                <img alt="notification" style="height:20px; width:20px;" src="{{static_path}}img/notification.png">-->
-                        <!--                                <span class="badge">500</span>-->
-                        <!--                            </a>-->
-                        <!--                            <ul>-->
-                        <!--                                <li class="title">Notifications</li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem sit amet consectetur adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li class="footer">-->
-                        <!--                                    <a href="#">See all</a>-->
-                        <!--                                </li>-->
-
-                        <!--                            </ul>-->
-                        <!--                        </li>-->
-                        <li class="menu-has-children"><a href="#">{{username}}</a>
-                            <ul>
-                                <li>
-                                    <a>
-                                        <!--<img alt="wallet" style="height:25px; width:25px;" src="{{static_path}}img/wallet.png">-->
-                                        My Balance: Rp {{balance}}
-                                    </a>
-                                </li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
-            </div>
-        </div>
-    </div>
-    <div class="main-menu-2">
-        <div class="container">
-            <div class="align-items-center justify-content-between d-flex">
-                <nav>
-                    <ul class="nav-menu">
-                        <li><a href="#">Top Up</a>
-                            <ul>
-                                <li><a href="#">Request</a></li>
-                                <li><a href="#">Confirm</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reservation</a>
-                            <ul>
-                                <li><a href="#">Airline Hold Booking List</a></li>
-                                <li><a href="#">Train Hold Booking List</a></li>
-                                <li><a href="#">Group Booking Hold Booking List</a></li>
-                            </ul>
-                        </li>
-                        <!--                        <li><a href="javascript:showCart();"><i class="fa fa-shopping-cart"></i> My Ticket <span class="badge">0</span></a></li>-->
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- END nav -->
 
 <section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black;">
     <div class="animated fadeInDown delay-1s">
@@ -407,19 +311,19 @@
 
 
     $(document).ready(function () {
-    $(window).scroll(function() {
-        console.log($(window).scrollTop());
-        console.log($(document).height() - ($(window).height() + 600));
-        console.log(get_new);
-        if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-            if(get_new == true){
-                get_new = false;
-                activity_search();
+        $(window).scroll(function() {
+            console.log($(window).scrollTop());
+            console.log($(document).height() - ($(window).height() + 600));
+            console.log(get_new);
+            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
+                if(get_new == true){
+                    get_new = false;
+                    activity_search();
 
+                }
             }
-        }
+        });
     });
-});
 </script>
 
 {% endblock %}

@@ -31,314 +31,280 @@
             'name':train_destination.split(', ')[1]
         });
     {% endfor %}
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
-
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
-                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
-                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
-                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
-                {% if username != null %}
-                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
-                {% else %}
-                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
-                {% endif %}
-                <!--<li class="nav-item">-->
-                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
-                        <!--{% csrf_token %}-->
-                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
-                        <!--<select name="language" id="selection_language">-->
-                            <!--{% get_current_language as LANGUAGE_CODE %}-->
-                            <!--{% get_available_languages as LANGUAGES %}-->
-                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
-                            <!--{% for language in languages %}-->
-                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
-                                <!--{{ language.code }}-->
-                            <!--</option>-->
-                            <!--{% endfor %}-->
-                        <!--</select>-->
-                    <!--</form>-->
-                <!--</li>-->
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- END nav -->
-
-
-<div class="ftco-section-search" style="background-color:#989898;">
-    <div class="container">
-        <!--train-->
-        <div style="padding-top:100px;">
-        </div>
-        <div class="block-17">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Agent</label>
-                        </div>
-                        <input type="text" id="agent" name="agent" value="{{agent.name}}" readonly="readonly"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Sub Agent</label>
-                        </div>
-                        <input type="text" id="sub_agent" name="sub_agent" readonly="readonly" />
-                        <input type="hidden" id="sub_agent_id" name="sub_agent" readonly="readonly" />
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Agent Type</label>
-                        </div>
-                        <input type="text" value="{{agent.type}}" id="agent_type" name="agent_type" readonly="readonly"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Contact Person</label>
-                        </div>
-                        <input type="text" id="contact_person" name="contact_person" readonly="readonly"/>
-                        <input type="hidden" id="contact_id" name="contact_id" />
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Teropong</button>
-
-                        <!-- Modal -->
-                        <div class="modal fade" id="myModal" role="dialog">
-                            <div class="modal-dialog">
-
-                              <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">Booker</h4>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <input type="text" id="train_booker_search" placeholder="Search" />
-                                        <button type="button" class="btn btn-default" onclick="search_passenger('Booker','1','issued_offline')">Search</button>
-                                        <div id="search_result" style="overflow:auto;height:200px;">
-
+        <div class="banner-right" style="margin-bottom:25px;">
+            <div class="form-wrap">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row" style="border:2px solid #f15a22;">
+                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                <h3>ISSUED OFFLINE</h3>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row" style="text-align:left;">
+                                    <div class="col-lg-12">
+                                        <span>Agent</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="agent" name="agent" value="{{agent.name}}" readonly="readonly"/>
                                         </div>
                                     </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <div class="col-lg-12">
+                                        <span>Sub Agent</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="sub_agent" name="sub_agent" readonly="readonly"/>
+                                            <input type="hidden" id="sub_agent_id" name="sub_agent" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Agent Type</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="agent_type" name="agent_type" value="{{agent.type}}" readonly="readonly"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Contact Person</span><br/>
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" style="width:100%;" class="form-control" id="contact_person" name="contact_person" readonly="readonly"/>
+                                                    <input type="hidden" id="contact_id" name="contact_id" />
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px 15px 0px 0px; text-align:right;">
+                                                <button type="button" style="width:95%;" class="primary-btn" data-toggle="modal" data-target="#myModal"><i class="fas fa-search"></i></button>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px 15px 0px 0px;; text-align:right;">
+                                                <button type="button" style="width:95%;" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);"/><i class="fas fa-times"></i></button>
+                                            </div>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Booker</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="text" id="train_booker_search" placeholder="Search" />
+                                                            <button type="button" class="btn btn-default" onclick="search_passenger('Booker','1','issued_offline')">Search</button>
+                                                            <div id="search_result" style="overflow:auto;height:200px;">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Transaction Type</span><br/>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <div class="form-select" id="default-select">
+                                                <select id="transaction_type" name="transaction_type" onchange="change_transaction_type();">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Sector</span><br/>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <div class="form-select">
+                                                <select id="sector" name="sector">
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:15px;">
+                                        <span>Total Sale Price</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="total_sale_price" name="total_sale_price"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Agent Commission</span><br/>
+                                        <span id="agent_commission"></span><br/>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Parent Agent Commission</span><br/>
+                                        <span id="parent_agent_commission"></span><br/>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Agent NTA Price</span><br/>
+                                        <span id="agent_nta_price"></span><br/>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <input type="button" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Transaction Type</label>
-                        </div>
-                        <select id="transaction_type" name="transaction_type" onchange="change_transaction_type();">
+                            <div class="col-lg-6">
+                                <div class="row" style="text-align:left;">
+                                    <div class="col-lg-12">
+                                        <span>Carrier</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="hidden" id="carrier_id" name="carrier_id"/>
+                                            <input list="list_carrier_name" id="carrier_name" class="form-control" name="carrier_name" onkeyup="search_carrier();" />
+                                            <datalist id="list_carrier_name"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>PNR</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" id="pnr" name="pnr" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-bottom:25px;">
+                                        <span>Order From(Media)</span><br/>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <div class="form-select">
+                                                <select id="social_media" name="social_media">
 
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Sector</label>
-                        </div>
-                        <select id="sector" name="sector">
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Elapsed Time</span><br/>
+                                        <br/>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span>Time Limit</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input class="form-control"  type="datetime-local" id="timelimit" name="timelimit"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Total Sale Price</label>
-                        </div>
-                        <input type="text" id="total_sale_price" name="total_sale_price"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Agent Commission</label>
-                        </div>
-                        <label id="agent_commission"></label>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Parent Agent Commission</label>
-                        </div>
-                        <label id="parent_agent_commission"></label>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Agent NTA Price</label>
-                        </div>
-                        <label id="agent_nta_price"></label>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Description</label>
-                        </div>
-                        <textarea id="description" name="description" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" placeholder="Leave any notes here"></textarea>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Carrier</label>
-                        </div>
-                        <input type="hidden" id="carrier_id" name="carrier_id"/>
-                        <input list="list_carrier_name" id="carrier_name" class="form-control" name="carrier_name" onkeyup="search_carrier();" />
-                        <datalist id="list_carrier_name"/>
-                        <!--<select id="carrier" name="carrier">-->
+                            <div class="col-lg-12" style="text-align:left;">
+                                <span>Description</span><br/>
+                                <textarea id="description" name="description" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" class="form-control" placeholder="Leave any notes here"></textarea>
+                            </div>
 
-                        <!--</select>-->
-                    </div>
-                    <!--<div class="row">-->
-                        <!--<div class="col-sm-3">-->
-                            <!--<label>Provider</label>-->
-                        <!--</div>-->
-                        <!--<input type="text" id="provider" name="provider"/>-->
-                    <!--</div>-->
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>PNR</label>
-                        </div>
-                        <input type="text" id="pnr" name="pnr" />
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Order From(Media)</label>
-                        </div>
-                        <select id="social_media" name="social_media">
+                            <div class="col-lg-12" style="text-align:left;">
+                                <h4>List of Passenger</h4><br/>
+                                <h5><a href="javascript:add_table_of_passenger();"  style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a></h5>
+                                <br/>
+                                <!--                            <td><a href="javascript:delete_table_of_passenger();">DELETE GANTI ICON</a></td>-->
+                                <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
+                                    <tr>
+                                        <th style="width:5%;">No.</th>
+                                        <th style="width:40%;">Name</th>
+                                        <th style="width:35%;">Pax Type</th>
+                                        <th style="width:20%;"></th>
+                                    </tr>
+                                </table>
+                            </div>
 
-                        </select>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Elapsed Time</label>
+                            <div class="col-lg-12" style="text-align:left;margin-top:15px;" id="show_line" hidden>
+                                <h4>Segment</h4><br/>
+                                <h5><a href="javascript:add_table_of_line();" style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a></h5>
+                                <br/>
+                                <!--                            <th><a href="javascript:delete_table_of_line();">DELETE GANTI ICON</a></th>-->
+                                <div style="overflow-x:auto; padding:10px;">
+                                    <table class="list-of-table" style="width:200%;">
+                                        <tbody id="table_of_line" name="table_of_line">
+                                        <tr>
+                                            <th style="width:2%;">No.</th>
+                                            <th style="width:15%;">Origin</th>
+                                            <th style="width:15%;">Destination</th>
+                                            <th style="width:10%;">Departure Date</th>
+                                            <th style="width:10%;">Arrival Date</th>
+                                            <th style="width:10%;">Carrier Code</th>
+                                            <th style="width:10%;">Carrier Number</th>
+                                            <th style="width:10%;">Class</th>
+                                            <th style="width:10%;">Sub Class</th>
+                                            <th style="width:3%;">Action</th>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12" style="margin-top:15px;margin-bottom:15px;">
+                                <button class="primary-btn text-uppercase" type="button" onclick="create_issued_offline()">SUBMIT</button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <label>Time Limit</label>
-                        </div>
-                        <!--ganti datetime-->
-                        <input type="datetime-local" id="timelimit" name="timelimit"/>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <table id="table_of_passenger" name="table_of_passenger" style="width=100%">
-                    <tr>
-                        <td>Name</td>
-                        <td>Pax Type</td>
-                        <td><a href="javascript:add_table_of_passenger();">ADD GANTI ICON</a></td>
-                        <td><a href="javascript:delete_table_of_passenger();">DELETE GANTI ICON</a></td>
-                    </tr>
-                </table>
-            </div>
-            <div class="row">
-                <table id="table_of_line" name="table_of_line" style="width=100%" hidden>
-                    <tr>
-                        <td>Origin</td>
-                        <td>Destination</td>
-                        <td>Departure Date</td>
-                        <td>Arrival Date</td>
-                        <td>Carrier Code</td>
-                        <td>Carrier Number</td>
-                        <td>Class</td>
-                        <td>Sub Class</td>
-                        <td><a href="javascript:add_table_of_line();">ADD GANTI ICON</a></td>
-                        <td><a href="javascript:delete_table_of_line();">DELETE GANTI ICON</a></td>
-                    </tr>
-                </table>
-            </div>
-            <button type="button" onclick="create_issued_offline()">SUBMIT</button>
         </div>
     </div>
-</div>
+</section>
 
-<footer class="ftco-footer ftco-bg-dark ftco-section">
+<footer class="footer-area section-gap">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Book Now</h2>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">Flight</a></li>
-                        <li><a href="#" class="py-2 d-block">Hotels</a></li>
-                        <li><a href="#" class="py-2 d-block">Tour</a></li>
-                        <li><a href="#" class="py-2 d-block">Car Rent</a></li>
-                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
-                        <li><a href="#" class="py-2 d-block">Mountains</a></li>
-                        <li><a href="#" class="py-2 d-block">Cruises</a></li>
-                    </ul>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Top Deals</h2>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">Luxe Hotel</a></li>
-                        <li><a href="#" class="py-2 d-block">Venice Tours</a></li>
-                        <li><a href="#" class="py-2 d-block">Deluxe Hotels</a></li>
-                        <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
-                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
-                        <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
-                        <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
-                        <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Contact Information</h2>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">198 West 21th Street, Suite 721 New York NY 10016</a></li>
-                        <li><a href="#" class="py-2 d-block">+ 1235 2355 98</a></li>
-                        <li><a href="#" class="py-2 d-block">info@yoursite.com</a></li>
-                        <li><a href="#" class="py-2 d-block">email@email.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
-                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    </ul>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-
-                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;2017 SkyTors. All Rights Reserved.
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
             </div>
         </div>
     </div>
@@ -348,6 +314,4 @@
     get_data_issued_offline();
 </script>
 
-<!-- loader -->
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 {% endblock %}

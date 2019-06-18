@@ -1858,7 +1858,7 @@ pre code {
   background-color: #fff;
   border-color: #80bdff;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  /*box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);*/
 }
 
 .form-control::placeholder {
@@ -1866,8 +1866,12 @@ pre code {
   opacity: 1;
 }
 
-.form-control:disabled, .form-control[readonly] {
+.form-control:disabled {
   background-color: #e9ecef;
+  opacity: 1;
+}
+
+.form-control[readonly] {
   opacity: 1;
 }
 
