@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tools import path_util
+from tools.parser import *
 from django.utils import translation
 import json
 import base64
@@ -88,11 +89,17 @@ def detail(request):
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
+        request.session['tour_pick'].update({
+            'departure_date_f': str(request.session['tour_search'][int(request.POST['sequence'])]['departure_date_f'])
+        })
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'response': request.session['tour_search'][int(request.POST['sequence'])],
             'username': request.session['username'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
+
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_detail_templates.html', values)
     else:
         return index(request)

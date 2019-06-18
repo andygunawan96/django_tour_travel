@@ -18,24 +18,28 @@ function get_data_issued_offline(){
                text+= `<option value='`+issued_offline_data.transaction_type[i][0]+`'>`+issued_offline_data.transaction_type[i][1]+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
+           $('#transaction_type').niceSelect('update');
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.sector_type){
                text+= `<option value='`+issued_offline_data.sector_type[i][0]+`'>`+issued_offline_data.sector_type[i][1]+`</option>`;
            }
            document.getElementById('sector').innerHTML = text;
+           $('#sector').niceSelect('update');
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.carrier_id){
                text+= `<option value='`+issued_offline_data.carrier_id[i].id+`'>`+issued_offline_data.carrier_id[i].name+`</option>`;
            }
            document.getElementById('carrier_id').innerHTML = text;
+           $('#carrier_id').niceSelect('update');
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.social_media_id){
                text+= `<option value='`+issued_offline_data.social_media_id[i].id+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
            }
            document.getElementById('social_media').innerHTML = text;
+           $('#social_media').niceSelect('update');
 
             console.log(msg);
        },

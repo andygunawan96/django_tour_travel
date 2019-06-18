@@ -386,6 +386,8 @@ function search_passenger(passenger, number, product){
                             document.getElementById('search_result_senior'+number).innerHTML = response;
                         else if(passenger_search[1] == 'CHD')
                             document.getElementById('search_result_child'+number).innerHTML = response;
+                        else if(passenger_search[1] == '')
+                            document.getElementById('search_result'+number).innerHTML = response;
                         passenger_data = msg.response.result;
                     }
                     else{
@@ -765,9 +767,46 @@ function check_regex(value,regex){
 
 //backend
 
-function get_agent_booking(){
+function get_agent_booking(type){
     load_more = false;
     getToken();
+    console.log(type);
+    if(type == 'reset'){
+        agent_offset = 0;
+        data_counter = 0;
+        data_search = [];
+        document.getElementById("table_reservation").innerHTML = `
+                    <tr>
+                        <th style="width:2%;">No.</th>
+                        <th style="width:10%;">Name</th>
+                        <th style="width:7%;">Provider</th>
+                        <th style="width:8%;">State</th>
+                        <th style="width:5%;">PNR</th>
+                        <th style="width:8%;">Agent</th>
+                        <th style="width:12%;">Book Date</th>
+                        <th style="width:8%;">Contact</th>
+                        <th style="width:12%;">Hold Date</th>
+                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Issued By</th>
+                        <th style="width:7%;">Action</th>
+                    </tr>`;
+    }
+    var tb_value = '';
+    var pnr_value = '';
+    var type_search = '';
+
+     try{
+        type_search = document.getElementById('tb').value
+    }catch(err){
+    }
+    try{
+        tb_value = document.getElementById('search_tb').checked;
+    }catch(err){
+    }
+    try{
+        pnr_value = document.getElementById('search_pnr').checked;
+    }catch(err){
+    }
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -776,17 +815,25 @@ function get_agent_booking(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-        'offset': agent_offside
+        'offset': agent_offside,
+        'name': type_search,
+        'tb': tb_value,
+        'pnr': pnr_value
        },
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            if(msg.result.response.transport_booking.length == 80){
-                agent_offside++;
-                table_reservation(msg.result.response.transport_booking);
-                load_more = true;
-            }else{
-                table_reservation(msg.result.response.transport_booking);
+            try{
+                if(msg.result.response.transport_booking.length == 80){
+                    agent_offside++;
+                    table_reservation(msg.result.response.transport_booking);
+                    load_more = true;
+                }else{
+                    table_reservation(msg.result.response.transport_booking);
+                }
+            }catch(err){
+                console.log('dari home');
+                set_notification(msg.result.response.transport_booking);
             }
         }else{
             alert('Oops, something when wrong please contact HO !');
@@ -909,6 +956,7 @@ function create_top_up(amount, qty, unique_amount){
             }
             document.getElementById('payment_selection').innerHTML = text;
             payment_top_up();
+            $('#payment_selection').niceSelect('update');
         }else{
 
         }
@@ -1009,6 +1057,27 @@ function request_inv_va(){
        url: "/webservice/agent",
        headers:{
             'action': 'request_inv_va',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+
+       },
+       success: function(msg) {
+        console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function get_voucher(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'get_voucher',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {

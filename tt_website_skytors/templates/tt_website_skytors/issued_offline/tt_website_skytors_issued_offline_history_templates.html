@@ -12,152 +12,116 @@
 <script>
     time = 300;
     triggered_balance();
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
-
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'tt_website_skytors:index'%}">Skytors</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="oi oi-menu"></span> Menu
-        </button>
-        <div class="collapse navbar-collapse" id="ftco-nav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a href="#" class="nav-link">{% trans 'Home' %}</a></li>
-                <li class="nav-item dropdown"><a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top Up</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
-                        <input type="hidden" id="co_uid" name="co_uid" value="{{co_uid}}" />
-                    </ul>
-                </li>
-                <li class="nav-item"><a href="#" class="nav-link">Reservation</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">Highlights</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">User Guide</a></li>
-                <!--<li class="nav-item"><a href="#" class="nav-link">Points</a></li>-->
-                <li class="nav-item"><a href="#" class="nav-link">Partnership</a></li>
-                {% if username != null %}
-                <li class="nav-item"><a href="#" class="nav-link" id="balance">Balance: Rp {{balance}}</a></li>
-                <li class="nav-item"><a href="#" class="nav-link">{{username}}</a></li>
-                {% else %}
-                <li class="nav-item"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
-                {% endif %}
-                <!--<li class="nav-item">-->
-                    <!--<form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">-->
-                        <!--{% csrf_token %}-->
-                        <!--<input name="next" type="hidden" value="{{ redirect_to }}" >-->
-                        <!--<select name="language" id="selection_language">-->
-                            <!--{% get_current_language as LANGUAGE_CODE %}-->
-                            <!--{% get_available_languages as LANGUAGES %}-->
-                            <!--{% get_language_info_list for LANGUAGES as languages %}-->
-                            <!--{% for language in languages %}-->
-                            <!--<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>-->
-                                <!--{{ language.code }}-->
-                            <!--</option>-->
-                            <!--{% endfor %}-->
-                        <!--</select>-->
-                    <!--</form>-->
-                <!--</li>-->
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- END nav -->
+        <div class="row">
+            <div class="col-lg-12">
+                <center><h3>MY HISTORY</h3></center>
+                <br/>
+                <div id="loading-search-issued-off-history" style="margin-bottom:20px;">
+                    <div class="col-lg-12">
+                        <div class="sk-circle">
+                            <div class="sk-circle1 sk-child"></div>
+                            <div class="sk-circle2 sk-child"></div>
+                            <div class="sk-circle3 sk-child"></div>
+                            <div class="sk-circle4 sk-child"></div>
+                            <div class="sk-circle5 sk-child"></div>
+                            <div class="sk-circle6 sk-child"></div>
+                            <div class="sk-circle7 sk-child"></div>
+                            <div class="sk-circle8 sk-child"></div>
+                            <div class="sk-circle9 sk-child"></div>
+                            <div class="sk-circle10 sk-child"></div>
+                            <div class="sk-circle11 sk-child"></div>
+                            <div class="sk-circle12 sk-child"></div>
+                        </div>
+                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                    </div>
+                </div>
 
-
-<div class="ftco-section-search" style="background-color:#989898;">
-    <div class="container">
-        <!--train-->
-        <div style="padding-top:100px;">
-        </div>
-        <div class="block-17">
-            <div>
-                <table id="table_issued_offline">
+                <table style="width:100%;" id="table_issued_offline" class="list-of-reservation">
                     <tr>
-                        <td>Name</td>
-                        <td>Provider</td>
-                        <td>PNR</td>
-                        <td>Agent</td>
-                        <td>State</td>
-                        <td>Total Sale Price</td>
-                        <td>Expired Date</td>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:15%;">Name</th>
+                        <th style="width:15%;">Provider</th>
+                        <th style="width:10%;">PNR</th>
+                        <th style="width:15%;">Agent</th>
+                        <th style="width:10%;">State</th>
+                        <th style="width:15%;">Total Sale Price</th>
+                        <th style="width:15%;">Expired Date</th>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<footer class="ftco-footer ftco-bg-dark ftco-section">
+<footer class="footer-area section-gap">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Voyage Fellow Tourist</h2>
-                    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Book Now</h2>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">Flight</a></li>
-                        <li><a href="#" class="py-2 d-block">Hotels</a></li>
-                        <li><a href="#" class="py-2 d-block">Tour</a></li>
-                        <li><a href="#" class="py-2 d-block">Car Rent</a></li>
-                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
-                        <li><a href="#" class="py-2 d-block">Mountains</a></li>
-                        <li><a href="#" class="py-2 d-block">Cruises</a></li>
-                    </ul>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Top Deals</h2>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">Luxe Hotel</a></li>
-                        <li><a href="#" class="py-2 d-block">Venice Tours</a></li>
-                        <li><a href="#" class="py-2 d-block">Deluxe Hotels</a></li>
-                        <li><a href="#" class="py-2 d-block">Boracay Beach &amp; Resorts</a></li>
-                        <li><a href="#" class="py-2 d-block">Beach &amp; Resorts</a></li>
-                        <li><a href="#" class="py-2 d-block">Fuente Villa</a></li>
-                        <li><a href="#" class="py-2 d-block">Japan Tours</a></li>
-                        <li><a href="#" class="py-2 d-block">Philippines Tours</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <h2 class="ftco-heading-2">Contact Information</h2>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="py-2 d-block">198 West 21th Street, Suite 721 New York NY 10016</a></li>
-                        <li><a href="#" class="py-2 d-block">+ 1235 2355 98</a></li>
-                        <li><a href="#" class="py-2 d-block">info@yoursite.com</a></li>
-                        <li><a href="#" class="py-2 d-block">email@email.com</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="ftco-footer-widget mb-4">
-                    <ul class="ftco-footer-social list-unstyled float-md-right float-lft">
-                        <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                        <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-                    </ul>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 text-center">
-
-                <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;2017 SkyTors. All Rights Reserved.
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
             </div>
         </div>
     </div>
@@ -165,8 +129,21 @@
 
 <script>
     get_history_issued_offline();
+    load_more = false;
+    $(document).ready(function () {
+        $(window).scroll(function() {
+            console.log($(window).scrollTop());
+            console.log($(document).height() - ($(window).height() + 600));
+            console.log(load_more);
+            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
+                if(load_more == true){
+                    load_more = false;
+                    get_history_issued_offline();
+
+                }
+            }
+        });
+    });
 </script>
 
-<!-- loader -->
-<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
 {% endblock %}

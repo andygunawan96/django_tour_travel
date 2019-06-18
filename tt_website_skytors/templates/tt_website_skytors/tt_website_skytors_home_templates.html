@@ -8,6 +8,8 @@
 <script src="{{ static_path }}js/webservice_train.js"></script>
 <script src="{{ static_path }}js/webservice_tour.js"></script>
 
+<script src="{{ static_path }}js/webservice_airline.js"></script>
+<script src="{{ static_path }}js/webservice_hotel.js"></script>
 <script src="{{ static_path }}js/train_javascript.js"></script>
 <script src="{{ static_path }}js/activity_javascript.js"></script>
 <script src="{{ static_path }}js/airline_javascript.js"></script>
@@ -36,25 +38,6 @@
         city = [];
     {% endfor %}
 
-    airline_destination = [];
-    {% for destination in airline_destinations %}
-        airline_destination.push({
-            "name": "{{destination.name}}",
-            "city": "{{destination.city}}",
-            "code": "{{destination.code}}"
-        });
-    {% endfor %}
-    train_destination = [];
-    {% for destination in train_destination %}
-        destination = `{{destination}}`;
-        destination = destination.replace(/&#39;/g, "");
-        destination = destination.replace('[', "");
-        destination = destination.replace(']', "");
-        train_destination.push({
-            'code':destination.split(', ')[0],
-            'name':destination.split(', ')[1]
-        });
-    {% endfor %}
 
     {% for key, value in activity_sub_categories.items %}
         {% for item in value %}
@@ -74,15 +57,6 @@
         sub_category_list = [];
     {% endfor %}
 
-    hotel_config = [];
-    {% for hotel in hotel_config %}
-        hotel_config.push({
-            'id': {{hotel.id}},
-            'name': `{{hotel.name}}`,
-            'type': `{{hotel.type}}`
-        });
-    {% endfor %}
-
     airline_country = [];
     {% for country in airline_country %}
         airline_country.push({
@@ -92,6 +66,12 @@
         });
     {% endfor %}
     console.log(airline_country);
+    get_hotel_config();
+    get_airline_config();
+    get_train_config();
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+
 </script>
 
 <style>
@@ -109,86 +89,6 @@
         }
     }
 </style>
-
-<header id="header" style="position:sticky;">
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo">
-                    <a href="index.html"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
-                </div>
-                <nav id="nav-menu-container">
-                    <ul class="nav-menu">
-                        <li><a href="#">Home</a></li>
-                        <li class="menu-has-children"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">Frequently Asked Question</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
-
-                        {% if username != null %}
-                        <li style="font-size:12px;color:black;"><a id="balance"></a></li>
-                        <li class="menu-has-children"><a style="font-size:12px;color:black;cursor:pointer;">{{username}}</a>
-                            <ul>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
-                                <li>
-                                    <a>
-                                        <form action="" method="POST">
-                                            {% csrf_token %}
-                                            <button type="submit" class="primary-btn-logout" style="color:white;">Logout <i class="fas fa-sign-out-alt"></i></button>
-                                            <input type="hidden" id="logout" name="logout" value=true>
-                                        </form>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#" style="font-size:16px;"><i class="fas fa-bell"></i></a>
-                        </li>
-                        {% else %}
-                        <li class="menu-has-children"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link">Sign in</a></li>
-                        {% endif %}
-                    </ul>
-                </nav>
-
-            </div>
-        </div>
-    </div>
-    {% if username != null %}
-    <div class="main-menu-2">
-        <div class="container">
-            <div class="align-items-center justify-content-between d-flex">
-                <nav>
-                    <ul class="nav-menu">
-                        <li><a href="#">Top Up</a>
-                            <ul>
-                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
-                                <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Issued Offline</a>
-                            <ul>
-                                <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
-                                <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-    {% endif %}
-</header>
-<!--FF8C00-->
 
 <!-- Search Ticket -->
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
@@ -249,14 +149,26 @@
                                 <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; color:white;">One Way</span>
+                                                <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; color:white;">Round-trip</span>
+                                                <input type="radio" name="radio_airline_type" value="roundtrip">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">From</span>
                                             <div class="input-container-search-ticket">
                                                 <input list="airline_origin_name" value="Juanda - Surabaya (SUB)" id="origin_id_flight" name="origin_id_flight" class="form-control" name="origin_id_flight" onkeyup="search_airport('origin');" placeholder="City or Airport " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Airport '" autocomplete="off"/>
                                                 <datalist id="airline_origin_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
                                             <h2 class="image-change-route-vertical"><a href="#" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h2>
                                             <span class="span-search-ticket">To</span>
                                             <div class="input-container-search-ticket">
@@ -264,23 +176,21 @@
                                                 <datalist id="airline_destination_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Departure</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off">
-                                            </div>
+
+
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" id="airline_date_search" style="padding:0px;">
                                         </div>
-                                        <div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket">Return</span>
-                                                <input type="checkbox" id="directionflight" name="directionflight" onclick="showReturnDateAirline()"/>
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding:0px;">
+<!--                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">-->
+<!--                                            <label class="check_box_custom">-->
+<!--                                                <span class="span-search-ticket">Return</span>-->
+<!--                                                <input type="checkbox" id="directionflight" name="directionflight" onclick="showReturnDateAirline()"/>-->
+<!--                                                <span class="check_box_span_custom"></span>-->
+<!--                                            </label>-->
+<!--                                        </div>-->
+
+
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">Passenger</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
@@ -363,7 +273,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">Airline</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
@@ -398,7 +308,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">Class</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <div class="form-select" id="default-select">
@@ -415,12 +325,8 @@
                                         </div>
                                     </div>
                                     <br/>
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket">Is Combo Price</span>
-                                        <input type="checkbox" id="is_combo_price" name="is_combo_price" readonly="readonly"/>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+
+                                    <button class="primary-btn text-uppercase" type="button" onclick="airline_check_search_values();" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
                                     </button>
@@ -518,7 +424,7 @@
 
                                     <input type="hidden" id="train_response" name="response"/>
 
-                                    <button class="primary-btn text-uppercase ld-ext-right" id="btn-search-train" type="submit" value="Submit">
+                                    <button class="primary-btn text-uppercase ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -872,8 +778,8 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div class="active-recent-blog-carusel">
-                    <div class="single-recent-blog-post item">
+                <div class="owl-carousel owl-theme">
+                    <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
@@ -881,7 +787,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="single-recent-blog-post item">
+                    <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
@@ -889,7 +795,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="single-recent-blog-post item">
+                    <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
@@ -897,7 +803,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="single-recent-blog-post item">
+                    <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
@@ -905,33 +811,84 @@
                             </div>
                         </div>
                     </div>
-                    <!--                    <div class="single-recent-blog-post item">-->
-                    <!--                        <div class="single-destination relative">-->
-                    <!--                            <div class="thumb relative">-->
-                    <!--                                <div class="overlay overlay-bg"></div>-->
-                    <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">-->
-                    <!--                            </div>-->
-                    <!--                            <div class="desc">-->
-                    <!--                                <a class="price-btn">RP. 6.000.000+</a>-->
-                    <!--                            </div>-->
-                    <!--                            <div class="card card-effect-promotion">-->
-                    <!--                                <div class="card-body">-->
-                    <!--                                    <div class="row details">-->
-                    <!--                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">-->
-                    <!--                                            <h4>Holiday Sea beach Blue Ocean</h4>-->
-                    <!--                                            <p>-->
-                    <!--                                                United staes of America-->
-                    <!--                                            </p>-->
-                    <!--                                        </div>-->
-                    <!--                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">-->
-                    <!--                                            <a href="#" class="btn btn-primary">BOOK</a>-->
-                    <!--                                        </div>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
+                    <div class="item">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
+                <!--                <div class="active-recent-blog-carusel">-->
+                <!--                    <div class="single-recent-blog-post item">-->
+                <!--                        <div class="single-destination relative">-->
+                <!--                            <div class="thumb relative">-->
+                <!--                                <div class="overlay overlay-bg"></div>-->
+                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <div class="single-recent-blog-post item">-->
+                <!--                        <div class="single-destination relative">-->
+                <!--                            <div class="thumb relative">-->
+                <!--                                <div class="overlay overlay-bg"></div>-->
+                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <div class="single-recent-blog-post item">-->
+                <!--                        <div class="single-destination relative">-->
+                <!--                            <div class="thumb relative">-->
+                <!--                                <div class="overlay overlay-bg"></div>-->
+                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    <div class="single-recent-blog-post item">-->
+                <!--                        <div class="single-destination relative">-->
+                <!--                            <div class="thumb relative">-->
+                <!--                                <div class="overlay overlay-bg"></div>-->
+                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">-->
+                <!--                            </div>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                    &lt;!&ndash;                    <div class="single-recent-blog-post item">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                        <div class="single-destination relative">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            <div class="thumb relative">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                <div class="overlay overlay-bg"></div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            <div class="desc">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                <a class="price-btn">RP. 6.000.000+</a>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            <div class="card card-effect-promotion">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                <div class="card-body">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                    <div class="row details">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            <h4>Holiday Sea beach Blue Ocean</h4>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            <p>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                United staes of America&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            </p>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                        </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            <a href="#" class="btn btn-primary">BOOK</a>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                        </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                            </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                        </div>&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                    </div>&ndash;&gt;-->
+                <!--                </div>-->
             </div>
         </div>
     </div>
@@ -1192,9 +1149,38 @@
 </button>
 
 <script>
-    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+
+    document.getElementById("airline_date_search").innerHTML = '';
+    text='';
+    var node = document.createElement("div");
+    text+=`
+    <span class="span-search-ticket">Departure</span>
+    <div class="input-container-search-ticket">
+        <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+    </div>
+    <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+    node.innerHTML = text;
+    document.getElementById("airline_date_search").appendChild(node);
+    node = document.createElement("div");
+
+    $(function() {
+      $('input[name="airline_departure"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          minDate: moment(),
+          maxDate: moment().subtract(-365, 'days'),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+    });
+
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
     var now = moment().format('DD MMM YYYY');
-    document.getElementById("airline_departure").value = now;
     document.getElementById("train_departure").value = now;
     document.getElementById("hotel_checkin").value = now;
 
@@ -1228,6 +1214,38 @@
             }
         }
     }
+
+    function set_notification(data){
+        var now = moment().format('YYYY-MM-DD hh:mm:ss');
+        data_counter = 0;
+        var text_notification = '';
+        for(i in data){
+            if(data_counter == 5)
+                break;
+            else if(data[i].state == 'booked'){
+                var date_time = moment(data[i].hold_date).format('YYYY-MM-DD hh:mm:ss');
+                if(date_time > now){
+                    text_notification += `<li>`+(data_counter+1)+`. `+data[i].name+` `+data[i].provider+` `+data[i].hold_date+`</li>`;
+                    text_notification += `<li>`+data[i].provider+` will be expired on `+data[i].hold_date+`</li>`;
+                    data_counter++;
+                }
+            }
+        }
+        if(text_notification == ''){
+            text_notification += `<li> No Notification </li>`;
+            document.getElementById('red_notification').innerHTML = data_counter;
+            document.getElementById('red_notification').style.color = "black";
+        }
+        else{
+            document.getElementById('red_notification').innerHTML = data_counter;
+            document.getElementById('red_notification').style.color = "#f15a22";
+            text_notification += `<li><hr/></li>`;
+            text_notification += `<li><a href="#">See more notification ... </a></li>`;
+        }
+        document.getElementById('notification_detail').innerHTML = text_notification;
+    }
+    get_agent_booking();
+    //get_voucher(); testing tiket ko vincent
 
     get_dept_year();
     tour_login();

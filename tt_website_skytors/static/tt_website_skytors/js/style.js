@@ -487,33 +487,25 @@ $(document).ready(function(){
         }
     });
 
-    $("#airline_departure").on("change", function() {
-        if ($('#directionflight').prop('checked')){
-           var test3 = $("#airline_departure").datepicker('getDate', '+1d');
-           var test4 = $("#airline_departure").datepicker('getDate');
-           test3.setDate(test3.getDate()+1);
-           $("#airline_return").datepicker('option', 'minDate', test4);
+//    $("#airline_departure").on("change", function() {
+//        var airline_dept = new Date($("#airline_departure").val());
+//        airline_dept.setDate(airline_dept.getDate() + 1);
+//
+//        if ($('#directionflight').prop('checked')){
+//            $('input[name="airline_return"]').daterangepicker({
+//              singleDatePicker: true,
+//              autoUpdateInput: true,
+//              startDate: airline_dept,
+//              opens: 'left',
+//              minDate: $('#airline_departure').val(),
+//              maxDate: moment().subtract(-365, 'days'),
+//              locale: {
+//                  format: 'DD MMM YYYY',
+//              }
+//        });
+//       }
+//    });
 
-           if ($("#airline_departure").datepicker('getDate') >= $("#airline_return").datepicker('getDate'))
-           {
-               var test2 = $("#airline_departure").datepicker('getDate', '+1d');
-               test2.setDate(test2.getDate()+1);
-               $( ".airline_return" ).datepicker('setDate', test2);
-           }
-       }
-    });
-
-    if ($('#directionflight').prop('checked')){
-        var tempdate = Date.parse($("#airline_departure").val());
-        var formatted_date = new Date(tempdate);
-        $('#airline_return').datepicker({
-            dateFormat: 'dd M yy',
-            numberOfMonths: 2,
-            todayHighlight: true,
-	        autoclose: true,
-            minDate: formatted_date,
-        });
-    }
     var quantity_room_hotel = parseInt($('#hotel_room').val());
     var quantity_adult_hotel = parseInt($('#hotel_adult').val());
     var quantity_child_hotel = parseInt($('#hotel_child').val());
@@ -700,23 +692,154 @@ $(document).ready(function(){
         }
     });
 
+    $('#information-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-information-hotel").offset().top - 100
+        }, 500)
+    });
+
+    $('#select-room-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-select-room-hotel").offset().top - 100
+        }, 500)
+    });
+
+    $('#about-partnership').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-about-partnership").offset().top - 100
+        }, 500)
+    });
+
+    $('#register-partnership').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-register-partnership").offset().top - 100
+        }, 500)
+    });
+
+    $('#register-partnership-citra').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-register-partnership").offset().top - 100
+        }, 500)
+    });
+    $('#register-partnership-japro').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-register-partnership").offset().top - 100
+        }, 500)
+    });
+
+    $('#register-partnership-fipro').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-register-partnership").offset().top - 100
+        }, 500)
+    });
+
+
+    $('#radio_airline_search').change(function(){
+        selected_value = $("input[name='radio_airline_type']:checked").val();
+        if (selected_value == "oneway"){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket">Departure</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+            </div>
+            <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+
+            $('input[name="airline_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+//              timePicker: true,
+              opens: 'center',
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+        }
+        else if(selected_value == "roundtrip"){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket">Departure - Return</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
+            </div>
+
+            <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+
+//            $("#airline_departure").val(moment());
+//            $("#airline_return").val(moment().subtract(-1, 'days'));
+
+            $("#airline_departure").val(moment().format('DD MMM YYYY'));
+            $("#airline_return").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+
+            $('input[name="airline_departure_return"]').daterangepicker({
+              singleDatePicker: false,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: moment(),
+              endDate: moment().subtract(-1, 'days'),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+
+            });
+
+            $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
+              $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
+                $("#airline_departure").val(picker.endDate.format('DD MMM YYYY'));
+            });
+        }
+    });
 });
 
-function showReturnDateAirline() {
-    var test = $("#airline_departure").datepicker('getDate', '+1d');
-    if ($('#directionflight').prop('checked')){
-      $('#airline_return').prop('disabled', false);
-      $('#is_combo_price').prop('readonly', false);
-      var test2 = $("#airline_departure").datepicker('getDate');
-      test.setDate(test.getDate()+1);
-      $( ".airline_return" ).datepicker('setDate', test);
-      $(".airline_return").datepicker('option', 'minDate', test2);
-    } else {
-      $('#airline_return').prop('disabled', true);
-      $('#is_combo_price').prop('readonly', true);
-      $( ".airline_return" ).datepicker('setDate','');
-    }
-}
+
+//function showReturnDateAirline() {
+//
+//    var airline_dept = new Date($("#airline_departure").val());
+//    airline_dept.setDate(airline_dept.getDate() + 1);
+//
+//    if ($('#directionflight').prop('checked')){
+//        $('#airline_return').prop('disabled', false);
+//        $('input[name="airline_return"]').daterangepicker({
+//              singleDatePicker: true,
+//              autoUpdateInput: true,
+//              startDate: airline_dept,
+//              opens: 'left',
+//              showDropdowns: true,
+//              minDate: $('#airline_departure').val(),
+//              maxDate: moment().subtract(-365, 'days'),
+//              locale: {
+//                  format: 'DD MMM YYYY',
+//              }
+//        });
+//    }
+//    else{
+//        $('#airline_return').prop('disabled', true);
+//        var airline_ret = new Date($("#airline_return").val(''));
+//        airline_ret.setDate(airline_ret.getDate());
+//    }
+//
+//}
 
 $('.dropdown-menu').on('click', function(event) {
 	event.stopPropagation();
@@ -921,5 +1044,37 @@ function show_flight_details2(key){
         flight_down.style.display = "block";
         flight.style.display = "none";
         journey.style.marginBottom = "15px";
+    }
+}
+
+function agent_register_citra(){
+    $('#agent_type').val(2);
+    $('#agent_type').niceSelect('update');
+}
+
+function agent_register_japro(){
+    $('#agent_type').val(3);
+    $('#agent_type').niceSelect('update');
+}
+
+function agent_register_fipro(){
+    $('#agent_type').val(11);
+    $('#agent_type').niceSelect('update');
+}
+
+function show_qna(type, val){
+    var qna_down = document.getElementById(type+'-qna-down-'+val);
+    var qna_up = document.getElementById(type+'-qna-up-'+val);
+    var qna_show = document.getElementById(type+'-qna-show-'+val);
+
+    if (qna_show.style.display === "none") {
+        qna_up.style.display = "none";
+        qna_down.style.display = "block";
+        qna_show.style.display = "block";
+    }
+    else {
+        qna_up.style.display = "block";
+        qna_down.style.display = "none";
+        qna_show.style.display = "none";
     }
 }

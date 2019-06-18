@@ -85,6 +85,26 @@ function train_signin(data){
     });
 }
 
+function get_train_config(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'get_data',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+        console.log(msg);
+        train_destination = msg
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
 //signin jadi 1 sama search
 function train_search(co_uid){
     document.getElementById('train_ticket').innerHTML = ``;

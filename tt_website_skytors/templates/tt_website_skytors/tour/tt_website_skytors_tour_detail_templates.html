@@ -4,8 +4,16 @@
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
-<script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/tour_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_tour.js"></script>
+<script src="{{ static_path }}js/moment.js"></script>
+
+<script>
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+</script>
 
 <style>
     @media only screen and (min-width: 991px) {
@@ -20,104 +28,8 @@
     }
 </style>
 
-<header id="header" style="position:sticky;">
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo">
-                    <a href="index.html"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
-                </div>
-                <nav id="nav-menu-container">
-                    <ul class="nav-menu">
-                        <li><a href="#">Home</a></li>
-                        <li class="menu-has-children"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">Frequently Asked Question</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
-                        <!--                        <li class="menu-has-children">-->
-                        <!--                            <a href="#">-->
-                        <!--                                <img alt="notification" style="height:20px; width:20px;" src="{{static_path}}img/notification.png">-->
-                        <!--                                <span class="badge">500</span>-->
-                        <!--                            </a>-->
-                        <!--                            <ul>-->
-                        <!--                                <li class="title">Notifications</li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem sit amet consectetur adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li>-->
-                        <!--                                    <a href="#">Lorem ipsum dolor sit amet adipiscing elit</a>-->
-                        <!--                                </li>-->
-                        <!--                                <li class="footer">-->
-                        <!--                                    <a href="#">See all</a>-->
-                        <!--                                </li>-->
 
-                        <!--                            </ul>-->
-                        <!--                        </li>-->
-                        <li class="menu-has-children"><a href="#">{{username}}</a>
-                            <ul>
-                                <li>
-                                    <a>
-                                        <!--<img alt="wallet" style="height:25px; width:25px;" src="{{static_path}}img/wallet.png">-->
-                                        My Balance: Rp {{balance}}
-                                    </a>
-                                </li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
-            </div>
-        </div>
-    </div>
-    <div class="main-menu-2">
-        <div class="container">
-            <div class="align-items-center justify-content-between d-flex">
-                <nav>
-                    <ul class="nav-menu">
-                        <li><a href="#">Top Up</a>
-                            <ul>
-                                <li><a href="#">Request</a></li>
-                                <li><a href="#">Confirm</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reservation</a>
-                            <ul>
-                                <li><a href="#">Airline Hold Booking List</a></li>
-                                <li><a href="#">Train Hold Booking List</a></li>
-                                <li><a href="#">Group Booking Hold Booking List</a></li>
-                            </ul>
-                        </li>
-                        <!--                        <li><a href="javascript:showCart();"><i class="fa fa-shopping-cart"></i> My Ticket <span class="badge">0</span></a></li>-->
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- END nav -->
-
-
-<div class="destinations-area" style="margin-bottom:25px;">
+<div class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
         <div class="row" style="padding-bottom:10px; padding-top:20px; margin-left: -30px !important;">
             <div class="col-lg-12" style="margin-top:10px;">
@@ -126,13 +38,301 @@
                     <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
                     <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
                     <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
+                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
                     <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
                 </div>
             </div>
         </div>
-        <div class="row full_tour_details">
-            <div class="col-lg-12">
+        <div class="row full_tour_details" style="padding-top: 20px;">
+            <div class="col-lg-12" style="padding-left:0px !important;">
+                <hr/>
 
+                {% csrf_token %}
+                <div class="row">
+                    <input type="hidden" id="selected_tour_id" value="{{response.id}}"/>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div id="tour_carousel" style="width:100%; height:100%; padding:0;">
+
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div style="width:100%; height: 95.5%; background-color:white; padding:20px 20px 20px 20px; border: 1px solid #ddd;">
+                            <div id="country_list_tour">
+                                <span style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="ticket_detail">
+                        <div style="width:100%; height:100%; background-color:white;">
+                            <ul class="nav nav-tabs" style="text-align:center; width:100%; background-color: #f15a22;">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Itinerary</span></a>
+                                </li>
+                                {% if response.flight == 'include'%}
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#flight_details"><i class="fa fa-plane" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Flight Details</span></a>
+                                </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#remarks"><i class="fa fa-check-square" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Remarks</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#book_now"><i class="fa fa-shopping-cart" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Book Now</span></a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" style="border: 1px solid #ddd;">
+                                <div id="itinerary" class="tab-pane fade in active show" style="padding: 20px; overflow: scroll;">
+
+                                </div>
+                                {% if response.flight == 'include'%}
+                                <div id="flight_details" class="tab-pane fade" style="padding: 20px; overflow: scroll;">
+
+                                </div>
+                                {% endif %}
+                                <div id="remarks" class="tab-pane fade maxwidth100" style="padding: 20px; word-wrap: break-word;">
+
+                                </div>
+                                <div id="book_now" class="tab-pane fade" style="padding: 20px;">
+                                    <form method='POST' action="{% url 'tt_website_skytors:tour_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-bottom:20px;">
+                                                {% if response.tour_type == 'private' or response.tour_type == 'sic'%}
+                                                <h3>Tour Date</h3>
+                                                <label for="departure_date_tour">Departure Date</label>
+                                                <input class="form-control calendar-logo dept_date_tour" type="text" name="departure_date_tour" id="departure_date_tour" placeholder="Choose your departure date"/>
+                                                <input type="hidden" id="departure_date_tour2" name="departure_date_tour2" value=""/><br/>
+                                                <label for="arrival_date_tour">Arrival Date</label>
+                                                <input class="form-control calendar-logo dept_date_tour" type="text" name="arrival_date_tour" id="arrival_date_tour" placeholder="Choose your arrival date"/>
+                                                <input type="hidden" id="arrival_date_tour2" name="arrival_date_tour2" value=""/>
+                                                {% endif %}
+                                                <input type="hidden" id="tour_id" name="tour_id" value="{{response.id}}"/>
+                                                <input type="hidden" id="tipping_guide" name="tipping_guide" value="{{response.tipping_guide}}"/>
+                                                <input type="hidden" id="tipping_tour_leader" name="tipping_tour_leader" value="{{response.tipping_tour_leader}}"/>
+                                                <input type="hidden" id="guiding_days" name="guiding_days" value="{{response.guiding_days}}"/>
+                                                <input type="hidden" id="duration" name="duration" value="{{response.duration}}"/>
+                                                <input type="hidden" id="airport_tax" name="airport_tax" value="{{response.airport_tax}}"/>
+                                                <input type="hidden" id="seat" name="seat" value="{{response.seat}}"/>
+                                                <h4>Room Setting</h4>
+                                                <br/>
+                                                <input type="hidden" id="stack_count" value="0"/>
+                                                <div id="tour_room_input">
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                                        <button id="btnShowRooms" class="btn btn-add-room btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal">Add Room</button>
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-left: 0px;">
+                                                        <button id="btnDeleteRooms" class="btn btn-add-room btn-block space hide" type="button">Delete</button>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" id="total-price-container">
+                                                <div style="background-color:#f15a22; padding:5px;">
+                                                    <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
+                                                </div>
+                                                <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="tour_detail">
+                                                    <div id="tour_detail_table">
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Adult Price</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="adult_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="adult_price" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Adult Extra Bed</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="adult_surcharge_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="adult_surcharge_price" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Child Price</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="child_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="child_price" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Child Extra Bed</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="child_surcharge_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="child_surcharge_price" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Infant Price</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="infant_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="infant_price" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Single Supplement</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="single_supplement_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="single_supplement_price" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Airport Tax</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="airport_tax_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="airport_tax_total" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Tipping Local Guide</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="tipping_guide_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="tipping_guide_total" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Tipping Tour Leader</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="tipping_tour_leader_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="tipping_tour_leader_total" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Additional Charge</div>
+                                                            <div class="col-xs-1">X</div>
+                                                            <div id="additional_charge_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="additional_charge_total" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Total</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="sub_total" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Discount</div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="discount_total" class="col-xs-4" style="text-align: right;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <hr/>
+                                                        <div class="row">
+                                                            <div class="col-xs-5"><span style="font-weight: bold; font-size: 22;">Grand Total</span></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div id="grand_total" class="col-xs-4" style="text-align: right; font-weight: bold; font-size: 22;">
+                                                                Rp 0
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" id="show_commission" style="display:none;">
+                                                            <br/>
+                                                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                                                <div class="alert alert-success">
+                                                                    <span style="font-size:13px;">Your Commission: IDR 0</span><br>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+                                                            <div class="col-xs-12">
+                                                                <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+                                                            <div class="col-xs-12">
+                                                                <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                                                            </div>
+
+                                                            <div id="copiedModal" class="modal fade" role="dialog">
+                                                                <div class="modal-dialog">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h4>Copy</h4>
+                                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <span style="font-weight:bold">Copied!</span>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <center>
+                                                    <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:90%;">
+                                                        Next
+                                                        <i class="fas fa-angle-right"></i>
+                                                    </button>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div class="modal fade centerModalPricelist" id="TourRoomsModal" role="dialog" style="height:400px; overflow-y:hidden;">
+                                        <div class="modal-dialog tour-rooms-modal">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="padding:10px; border-bottom:none;">
+                                                    <h5 class="modal-title">Room Available</h5>
+                                                    <button type="button" class="close" data-dismiss="modal">x</button>
+                                                </div>
+                                                <div id="search-body-content" class="modal-body" style="height:350px; padding: 0px 15px 15px 15px;">
+                                                    <table class="table table-striped" style="height: 325px !important; font-size:11px; table-layout: auto;">
+                                                        <thead>
+                                                        <th style="width:30%;">Hotel</th>
+                                                        <th style="width:20%;">Room</th>
+                                                        <th style="width:40%;">Description</th>
+                                                        <th style="width:10%;">Action</th>
+                                                        </thead>
+                                                        <tbody id="tour_hotel_room_list" style="display: table-footer-group !important;">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -223,4 +423,8 @@
     </div>
 </footer>
 
+<script>
+    sel_id = document.getElementById('selected_tour_id').value;
+    tour_get_details(sel_id);
+</script>
 {% endblock %}

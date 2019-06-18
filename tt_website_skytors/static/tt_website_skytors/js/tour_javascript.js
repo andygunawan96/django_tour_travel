@@ -1,3 +1,5 @@
+$test = '';
+
 function get_dept_year(){
     temp = document.getElementById('tour_hidden_year').value;
     if (temp == "" || temp == "0000"){
@@ -22,4 +24,39 @@ function get_dept_year(){
         }
     }
     document.getElementById('tour_dest_year').innerHTML = opt_text;
+}
+
+function getrupiah(price){
+    var pj = price.toString().length;
+    var temp = price.toString();
+    var priceshow="";
+    for(x=0;x<pj;x++){
+        if((pj-x)%3==0 && x!=0){
+        priceshow+=",";
+        }
+        priceshow+=temp.charAt(x);
+    }
+    return priceshow;
+}
+
+function show_commission(){
+    var sc = document.getElementById("show_commission");
+    var scs = document.getElementById("show_commission_button");
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide Commission";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show Commission";
+    }
+}
+
+function copy_data(){
+    const el = document.createElement('textarea');
+    el.value = $test;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
 }

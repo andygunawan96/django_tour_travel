@@ -102,6 +102,17 @@ var cabin_list = [
 //        alert(error_log);
 //}
 
+function train_check_search_values(){
+    error_log = '';
+    if(document.getElementById('train_origin').value.split(' - ').length != 2)
+        error_log += 'Please use autocomplete for From field';
+    if(document.getElementById('train_destination').value.split(' - ').length != 2)
+        error_log += 'Please use autocomplete for To field';
+    if(error_log == '')
+        document.getElementById('train_searchForm').submit();
+    else
+        alert(error_log);
+}
 
 function search_train_validation(){
     var train_origin = document.getElementById('train_origin').value;
@@ -424,9 +435,9 @@ function search_train(val){
             console.log('here');
             text = '';
             train_destination.forEach((obj)=> {
-              if(obj.code.toString().toLowerCase().search(find) !== -1 || obj.name.toString().toLowerCase().search(find) !== -1){
+              if(obj[0].toString().toLowerCase().search(find) !== -1 || obj[1].toString().toLowerCase().search(find) !== -1){
                 node = document.createElement("div");
-                node.innerHTML = `<option value="`+obj.code+' - '+obj.name+' ('+obj.code+`)">`+obj.code+`</option>`;
+                node.innerHTML = `<option value="`+obj[0]+' - '+obj[1]+' ('+obj[0]+`)">`+obj[0]+`</option>`;
                 if(val == 'origin')
                     document.getElementById("train_origin_name").appendChild(node);
                 else if(val == 'destination')

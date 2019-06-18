@@ -125,6 +125,19 @@ function return_airline(){
         $('#airline_return').prop('disabled', false);
 }
 
+function airline_check_search_values(){
+    error_log = '';
+    console.log(document.getElementById('destination_id_flight').value.split(' - '));
+    if(document.getElementById('origin_id_flight').value.split(' - ').length != 2)
+        error_log += 'Please use autocomplete for From field';
+    if(document.getElementById('destination_id_flight').value.split(' - ').length != 2)
+        error_log += 'Please use autocomplete for To field';
+    if(error_log == '')
+        document.getElementById('airline_searchForm').submit();
+    else
+        alert(error_log);
+}
+
 function triggered(){
     try{
         if($state == 0){
@@ -978,14 +991,14 @@ function sort(airline){
                                                 if(k==0)
                                                 text+=`
                                                 <label class="radio-button-custom">
-                                                    `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                    `+airline[i].segments[j].fares[k].subclass+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                     <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
                                                     <span class="checkmark-radio"></span>
                                                 </label>`;
                                                 else
                                                 text+=`
                                                 <label class="radio-button-custom">
-                                                    `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                    `+airline[i].segments[j].fares[k].subclass+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                     <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`">
                                                     <span class="checkmark-radio"></span>
                                                 </label>`;
