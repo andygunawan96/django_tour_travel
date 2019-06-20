@@ -107,929 +107,931 @@
                 </div>
             </div>
         </div>
-        <form id="activity_review" class="form-wrap" action="{% url 'tt_website_skytors:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" id="additional_price" name="additional_price">
-            <div class="row">
-                <div class="col-lg-8" style="margin-top:10px;">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px;">
-                                <center>
-                                    <span style="color:white; font-size:16px;">Booker Information <i class="fas fa-info-circle"></i></span>
-                                </center>
+        <div class="banner-right">
+            <form id="activity_review" class="form-wrap" action="{% url 'tt_website_skytors:activity_review'%}" method="POST" style="padding:0; text-align:unset;" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="additional_price" name="additional_price">
+                <div class="row">
+                    <div class="col-lg-8" style="margin-top:10px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="background-color:#f15a22; padding:5px;">
+                                    <center>
+                                        <span style="color:white; font-size:16px;">Booker Information <i class="fas fa-info-circle"></i></span>
+                                    </center>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div id="booker" style="background-color:white; padding:10px; border:1px solid #f15a22;">
-                                <div class="row">
-                                    <div class="col-lg-6" style="text-align:left;">
-                                        <label>Booker Type :</label>
-                                        <label class="radio-button-custom">
-                                            Corporate
-                                            <input type="radio" checked="checked" name="radio-booker-type">
-                                            <span class="checkmark-radio"></span>
-                                        </label>
-                                        <label class="radio-button-custom">
-                                            Individual
-                                            <input type="radio" name="radio-booker-type">
-                                            <span class="checkmark-radio"></span>
-                                        </label>
-                                    </div>
-                                    <div class="col-lg-6" style="text-align:right;">
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                        <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                    </div>
+                            <div class="col-lg-12">
+                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #f15a22;">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;">
+                                            <label>Booker Type :</label>
+                                            <label class="radio-button-custom">
+                                                Corporate
+                                                <input type="radio" checked="checked" name="radio-booker-type">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom">
+                                                Individual
+                                                <input type="radio" name="radio-booker-type">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                        </div>
 
-                                    <div class="modal fade" id="myModal" role="dialog">
-                                        <div class="modal-dialog">
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
 
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
-                                                    <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="search_passenger('Booker','1','activity')">Search <i class="fas fa-search"></i></button>
-                                                    <div class="row" id="loading-booker-train" style="display:none;">
-                                                        <div class="col-lg-12">
-                                                            <div class="sk-circle">
-                                                                <div class="sk-circle1 sk-child"></div>
-                                                                <div class="sk-circle2 sk-child"></div>
-                                                                <div class="sk-circle3 sk-child"></div>
-                                                                <div class="sk-circle4 sk-child"></div>
-                                                                <div class="sk-circle5 sk-child"></div>
-                                                                <div class="sk-circle6 sk-child"></div>
-                                                                <div class="sk-circle7 sk-child"></div>
-                                                                <div class="sk-circle8 sk-child"></div>
-                                                                <div class="sk-circle9 sk-child"></div>
-                                                                <div class="sk-circle10 sk-child"></div>
-                                                                <div class="sk-circle11 sk-child"></div>
-                                                                <div class="sk-circle12 sk-child"></div>
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="search_passenger('Booker','1','activity')">Search <i class="fas fa-search"></i></button>
+                                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                             </div>
-                                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                        </div>
+                                                        <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+
                                                         </div>
                                                     </div>
-                                                    <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
-
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2" id="default-select">
+                                                    <select id="booker_title" name="booker_title">
+                                                        {% for title in adult_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-xs-6">
-                                        <label>Title</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select-2" id="default-select">
-                                                <select id="booker_title" name="booker_title">
-                                                    {% for title in adult_title%}
-                                                    <option>{{title}}</option>
-                                                    {% endfor %}
-                                                </select>
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                             </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6"></div>
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>First name and middle name (if any)</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
 
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Last name</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Nationality</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select id="booker_nationality" name="booker_nationality">
-                                                    {% for country in countries%}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                    </div>
 
-
-                                    <div class="col-lg-6">
-                                        <label>Contact Email Address</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">Example: email@example.com</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label style="margin:0;">Contact Person for Urgent Situation</label>
-                                        <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="form-select">
-                                                        <select id="booker_phone_code" name="booker_phone_code">
-                                                            {% for country in countries%}
-                                                            <option value="{{country.phone_code}}">{{country.phone_code}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                        <div class="col-lg-6">
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="booker_nationality" name="booker_nationality">
+                                                        {% for country in countries%}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
-                                        <label style="font-size:12px; padding:0;">Example: +62812345678</label>
-                                    </div>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <div class="row" style="margin-bottom:20px;">
-                        <div class="col-lg-12">
-                            <div style="background:white; padding:10px; border:1px solid #f15a22;">
-                                <label>Do you book this trip for you?</label>
-                                <label class="radio-button-custom">
-                                    Yes
-                                    <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy');" value="yes"/>
-                                    <span class="checkmark-radio"></span>
-                                </label>
 
-                                <label class="radio-button-custom">
-                                    No
-                                    <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change');" value="no" checked="checked"/>
-                                    <span class="checkmark-radio"></span>
-                                </label>
+                                        <div class="col-lg-6">
+                                            <label>Contact Email Address</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                        </div>
 
-                                <br/>
-                                <label>Passenger Data</label><br/>
-                                <ul>
-                                    <li>1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM</li>
-                                    <li>2. Passenger data can't be changed after the passing of this page</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    {% for adult in adults%}
-                    <div class="row" id="adult{{forloop.counter}}">
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('adult', '{{forloop.counter}}');">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <span style="color:white; text-align:center; font-size:16px;">Adult - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                        <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
-                                <div class="row">
-                                    <div class="col-lg-6" style="text-align:left;"></div>
-                                    <div class="col-lg-6" style="text-align:right;">
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                        <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                    </div>
-
-                                    <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'activity')">Search</button>
-                                                    <div class="row" id="loading-pax-train" style="display:none;">
-                                                        <div class="col-lg-12">
-                                                            <div class="sk-circle">
-                                                                <div class="sk-circle1 sk-child"></div>
-                                                                <div class="sk-circle2 sk-child"></div>
-                                                                <div class="sk-circle3 sk-child"></div>
-                                                                <div class="sk-circle4 sk-child"></div>
-                                                                <div class="sk-circle5 sk-child"></div>
-                                                                <div class="sk-circle6 sk-child"></div>
-                                                                <div class="sk-circle7 sk-child"></div>
-                                                                <div class="sk-circle8 sk-child"></div>
-                                                                <div class="sk-circle9 sk-child"></div>
-                                                                <div class="sk-circle10 sk-child"></div>
-                                                                <div class="sk-circle11 sk-child"></div>
-                                                                <div class="sk-circle12 sk-child"></div>
-                                                            </div>
-                                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                        <div class="col-lg-6">
+                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-select">
+                                                            <select id="booker_phone_code" name="booker_phone_code">
+                                                                {% for country in countries%}
+                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                {% endfor %}
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
-
+                                                    <div class="col-lg-9">
+                                                        <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                        <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                     </div>
                                                 </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
                                             </div>
+                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
                                         </div>
-                                    </div>
 
-                                    <div class="col-lg-6 col-xs-6">
-                                        <label>Title</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select-2">
-                                                <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
-                                                    {% for title in adult_title%}
-                                                    <option>{{title}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6"></div>
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>First name and middle name (if any)</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                            <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Last name</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Nationality</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select id="adult_nationality{{forloop.counter}}" name="adult_nationality{{forloop.counter}}">
-                                                    {% for country in countries%}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Birth Date</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
-                                            <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Mobile</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="form-select">
-                                                        <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
-                                                            {% for country in countries%}
-                                                            <option value="{{country.phone_code}}">{{country.phone_code}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-9">
-                                                    <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">Example: +62812345678</label>
-                                    </div>
-
-                                    <div class="col-lg-6" id="adult_div{{forloop.counter}}">
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            {% with forloop.counter as counter%}
-                            {% for perpax in detail.options.perPax %}
-                            {% with forloop.counter as per_pax %}
-                            {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label>{{perpax.name}}</label><br/>
-                                    {% if perpax.inputType == 1%}
-                                    <select id=adult_perpax{{counter}}_{{per_pax}} name=adult_perpax{{counter}}_{{per_pax}} onchange="input_type1_change_perpax({{counter}},'adult', {{per_pax}})">`;
-                                        {% for item in perpax.items %}
-                                        <option value="items.value">{{item.label}}</option>
-                                        {% endfor %}
-                                    </select><br/>
-                                    <br/>
-                                    {% elif perpax.inputType == 2%}
-                                    {% for item in perpax.items %}
-                                    {% with forloop.counter as item_count %}
-                                    <label style="width:20%"><input type="checkbox" onchange="input_type2_change_perpax({{counter}}, {{item_count}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}_{{item_count}}' name='adult_perpax{{counter}}_{{per_pax}}_{{item_count}}' value="{{item.value}}"> item.label</label>
-                                    {% endwith %}
-                                    {% endfor %}
-                                    <br/>
-                                    {% elif perpax.inputType == 3%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 4%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 5%}
-                                    <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 6%}
-                                    <input type="date" class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 7%}
-                                    <input type="file" accept="application/JSON, application/pdf" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}' />
-                                    {% elif perpax.inputType == 8%}
-                                    <input type="file" accept="image/*" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 9%}
-                                    <input type='text' id='adult_perpax{{counter}}_{{per_pax}}' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 10%}
-                                    <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 11%}
-                                    <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}0' name=adult_perpax{{counter}}_{{per_pax}}0/>
-                                    <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}1' name=adult_perpax{{counter}}_{{per_pax}}1/>
-                                    {% elif perpax.inputType == 12%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 14%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% endif %}
-                                    <label>{{perpax.description}}</label><br/>
-                                </div>
-                            </div>
-                            {% endif %}
-                            {% endwith %}
-                            {% endfor %}
-
-                        </div>
-                    </div>
-                    <br/>
-                    {% endwith %}
-                    {% endfor %}
-
-                    {% for senior in senior%}
-                    <div class="row" id="senior{{forloop.counter}}">
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('senior', '{{forloop.counter}}');">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <span style="color:white; text-align:center; font-size:16px;">Senior - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                        <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="senior_paxs{{forloop.counter}}">
-                                <div class="row">
-                                    <div class="col-lg-6" style="text-align:left;"></div>
-                                    <div class="col-lg-6" style="text-align:right;">
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_senior{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                        <button type="button" class="primary-btn" id="senior_clear{{forloop.counter}}" onclick="clear_passenger('Senior', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                    </div>
-
-                                    <div class="modal fade" id="myModal_senior{{forloop.counter}}" role="dialog">
-                                        <div class="modal-dialog">
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Senior - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Senior',{{forloop.counter}}, 'activity')">Search</button>
-                                                    <div class="row" id="loading-paxs-train" style="display:none;">
-                                                        <div class="col-lg-12">
-                                                            <div class="sk-circle">
-                                                                <div class="sk-circle1 sk-child"></div>
-                                                                <div class="sk-circle2 sk-child"></div>
-                                                                <div class="sk-circle3 sk-child"></div>
-                                                                <div class="sk-circle4 sk-child"></div>
-                                                                <div class="sk-circle5 sk-child"></div>
-                                                                <div class="sk-circle6 sk-child"></div>
-                                                                <div class="sk-circle7 sk-child"></div>
-                                                                <div class="sk-circle8 sk-child"></div>
-                                                                <div class="sk-circle9 sk-child"></div>
-                                                                <div class="sk-circle10 sk-child"></div>
-                                                                <div class="sk-circle11 sk-child"></div>
-                                                                <div class="sk-circle12 sk-child"></div>
-                                                            </div>
-                                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="search_result_senior{{forloop.counter}}" style="overflow:auto;height:300px;">
-
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-xs-6">
-                                        <label>Title</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select-2">
-                                                <select id="senior_title{{forloop.counter}}" name="senior_title{{forloop.counter}}">
-                                                    {% for title in senior_title%}
-                                                    <option>{{title}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6"></div>
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>First name and middle name (if any)</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                            <input type="hidden" class="form-control" name="senior_id{{forloop.counter}}" id="senior_id{{forloop.counter}}">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Last name</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Nationality</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select id="senior_nationality{{forloop.counter}}" name="senior_nationality{{forloop.counter}}">
-                                                    {% for country in countries%}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Birth Date</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '">
-                                            <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Mobile</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="form-select">
-                                                        <select id="senior_phone_code{{forloop.counter}}" name="senior_phone_code{{forloop.counter}}">
-                                                            {% for country in countries%}
-                                                            <option value="{{country.phone_code}}">{{country.phone_code}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-9">
-                                                    <input type="text" class="form-control" name="senior_phone{{forloop.counter}}" id="senior_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">Example: +62812345678</label>
-                                    </div>
-
-                                    <div class="col-lg-6" id="senior_div{{forloop.counter}}">
-
-                                    </div>
-
-                                </div>
-                            </div>
-                            {% with forloop.counter as counter%}
-                            {% for perpax in detail.options.perPax %}
-                            {% with forloop.counter as per_pax %}
-                            {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label>{{perpax.name}}</label><br/>
-                                    {% if perpax.inputType == 1%}
-                                    <select  onchange="input_type1_change_perpax({{counter}},'senior', {{per_pax}})" id=senior_perpax{{counter}}_{{per_pax}} name=senior_perpax{{counter}}_{{per_pax}} >`;
-                                        {% for item in perpax.items %}
-                                        <option value="items.value">{{item.label}}</option>
-                                        {% endfor %}
-                                    </select><br/>
-                                    <br/>
-                                    {% elif perpax.inputType == 2%}
-                                    {% for item in perpax.items %}
-                                    {% with forloop.counter as item_count %}
-                                    <label style="width:20%"><input type="checkbox" onchange="input_type2_change_perpax({{counter}}, {{item_count}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}_{{item_count}}' name='senior_perpax{{counter}}_{{per_pax}}_{{item_count}}' value="{{item.value}}"> item.label</label>
-                                    {% endwith %}
-                                    {% endfor %}
-                                    <br/>
-                                    {% elif perpax.inputType == 3%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 4%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 5%}
-                                    <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}'  name='senior_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 6%}
-                                    <input type="date" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" class="form-control" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 7%}
-                                    <input type="file" accept="application/JSON, application/pdf" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}' />
-                                    {% elif perpax.inputType == 8%}
-                                    <input type="file" accept="image/*" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 9%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 10%}
-                                    <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 11%}
-                                    <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}0' name=senior_perpax{{counter}}_{{per_pax}}0/>
-                                    <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}1' name=senior_perpax{{counter}}_{{per_pax}}1/>
-                                    {% elif perpax.inputType == 12%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 13%}
-
-                                    {% elif perpax.inputType == 14%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% endif %}
-                                    <label>{{perpax.description}}</label><br/>
-                                </div>
-                            </div>
-                            {% endif %}
-                            {% endwith %}
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <br/>
-                    {% endwith %}
-                    {% endfor %}
-
-                    {% for child in childs%}
-                    <div class="row" id="child{{forloop.counter}}">
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('child', '{{forloop.counter}}');">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <span style="color:white; text-align:center; font-size:16px;">Child - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                        <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:white; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
-                                <div class="row">
-                                    <div class="col-lg-6" style="text-align:left;"></div>
-                                    <div class="col-lg-6" style="text-align:right;">
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                        <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                    </div>
-
-                                    <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
-                                        <div class="modal-dialog">
-
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Child',{{forloop.counter}}, 'activity')">Search</button>
-                                                    <div class="row" id="loading-paxc-train" style="display:none;">
-                                                        <div class="col-lg-12">
-                                                            <div class="sk-circle">
-                                                                <div class="sk-circle1 sk-child"></div>
-                                                                <div class="sk-circle2 sk-child"></div>
-                                                                <div class="sk-circle3 sk-child"></div>
-                                                                <div class="sk-circle4 sk-child"></div>
-                                                                <div class="sk-circle5 sk-child"></div>
-                                                                <div class="sk-circle6 sk-child"></div>
-                                                                <div class="sk-circle7 sk-child"></div>
-                                                                <div class="sk-circle8 sk-child"></div>
-                                                                <div class="sk-circle9 sk-child"></div>
-                                                                <div class="sk-circle10 sk-child"></div>
-                                                                <div class="sk-circle11 sk-child"></div>
-                                                                <div class="sk-circle12 sk-child"></div>
-                                                            </div>
-                                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:300px;">
-
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-xs-6">
-                                        <label>Title</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select-2">
-                                                <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
-                                                    {% for title in child_title%}
-                                                    <option>{{title}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6"></div>
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>First name and middle name (if any)</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                            <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
-                                            <input type="hidden" class="form-control" name="child_phone_code{{forloop.counter}}" id="child_phone_code{{forloop.counter}}">
-                                            <input type="hidden" class="form-control" name="child_phone{{forloop.counter}}" id="child_phone{{forloop.counter}}">
-                                            <input type="hidden" class="form-control" name="child_email{{forloop.counter}}" id="child_email{{forloop.counter}}">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Last name</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Nationality</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select id="child_nationality{{forloop.counter}}" name="child_nationality{{forloop.counter}}">
-                                                    {% for country in countries%}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Birth Date</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% with forloop.counter as counter%}
-                            {% for perpax in detail.options.perPax %}
-                            {% with forloop.counter as per_pax %}
-                            {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <label>{{perpax.name}}</label><br/>
-                                    {% if perpax.inputType == 1%}
-                                    <select onchange="input_type1_change_perpax({{counter}},'child', {{per_pax}})" id=child_perpax{{counter}}_{{per_pax}} name=child_perpax{{counter}}_{{per_pax}} >`;
-                                        {% for item in perpax.items %}
-                                        <option value="items.value">{{item.label}}</option>
-                                        {% endfor %}
-                                    </select><br/>
-                                    <br/>
-                                    {% elif perpax.inputType == 2%}
-                                    {% for item in perpax.items %}
-                                    {% with forloop.counter as item_count %}
-                                    <label style="width:20%"><input type="checkbox" onchange="input_type2_change_perpax({{counter}}, {{item_count}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}_{{item_count}}' name='child_perpax{{counter}}_{{per_pax}}_{{item_count}}' value="{{item.value}}"> item.label</label>
-                                    {% endwith %}
-                                    {% endfor %}
-                                    <br/>
-                                    {% elif perpax.inputType == 3%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 4%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 5%}
-                                    <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 6%}
-                                    <input type="date" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" class="form-control" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 7%}
-                                    <input type="file" accept="application/JSON, application/pdf" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}' />
-                                    {% elif perpax.inputType == 8%}
-                                    <input type="file" accept="image/*" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 9%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 10%}
-                                    <input type="time" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" style="width:100%;height:20px;" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
-                                    {% elif perpax.inputType == 11%}
-                                    <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}0' name=child_perpax{{counter}}_{{per_pax}}0/>
-                                    <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}1' name=child_perpax{{counter}}_{{per_pax}}1/>
-                                    {% elif perpax.inputType == 12%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% elif perpax.inputType == 13%}
-
-                                    {% elif perpax.inputType == 14%}
-                                    <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
-                                    {% endif %}
-                                    <label>{{perpax.description}}</label><br/>
-                                </div>
-                            </div>
-                            {% endif %}
-                            {% endwith %}
-                            {% endfor %}
-                        </div>
-                        <div style="padding-top:15px;"></div>
-                    </div>
-                    <br/>
-                    {% endwith %}
-                    {% endfor %}
-
-                    {% for infant in infants%}
-                    <div class="row" id="infant{{forloop.counter}}">
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('infant', '{{forloop.counter}}');">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                        <span style="color:white; text-align:center; font-size:16px;">Infant - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
-                                    </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                        <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
-                                <div class="row">
-                                    <div class="col-lg-6" style="text-align:left;"></div>
-                                    <div class="col-lg-6" style="text-align:right;">
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                        <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                    </div>
-
-                                    <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
-                                        <div class="modal-dialog">
-
-                                            <!-- Modal content-->
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Infant',{{forloop.counter}}, 'activity')">Search</button>
-                                                    <div class="row" id="loading-paxi-train" style="display:none;">
-                                                        <div class="col-lg-12">
-                                                            <div class="sk-circle">
-                                                                <div class="sk-circle1 sk-child"></div>
-                                                                <div class="sk-circle2 sk-child"></div>
-                                                                <div class="sk-circle3 sk-child"></div>
-                                                                <div class="sk-circle4 sk-child"></div>
-                                                                <div class="sk-circle5 sk-child"></div>
-                                                                <div class="sk-circle6 sk-child"></div>
-                                                                <div class="sk-circle7 sk-child"></div>
-                                                                <div class="sk-circle8 sk-child"></div>
-                                                                <div class="sk-circle9 sk-child"></div>
-                                                                <div class="sk-circle10 sk-child"></div>
-                                                                <div class="sk-circle11 sk-child"></div>
-                                                                <div class="sk-circle12 sk-child"></div>
-                                                            </div>
-                                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
-                                                        </div>
-                                                    </div>
-                                                    <div id="search_result_infant{{forloop.counter}}" style="overflow:auto;height:300px;">
-
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6 col-xs-6">
-                                        <label>Title</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select-2">
-                                                <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}">
-                                                    {% for title in infant_title%}
-                                                    <option>{{title}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6"></div>
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>First name and middle name (if any)</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                            <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
-                                            <input type="hidden" class="form-control" name="infant_phone_code{{forloop.counter}}" id="infant_phone_code{{forloop.counter}}">
-                                            <input type="hidden" class="form-control" name="infant_phone{{forloop.counter}}" id="infant_phone{{forloop.counter}}">
-                                            <input type="hidden" class="form-control" name="infant_email{{forloop.counter}}" id="infant_email{{forloop.counter}}">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <br/>
-                                        <label>Last name</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                        </div>
-                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Nationality</label>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select id="infant_nationality{{forloop.counter}}" name="infant_nationality{{forloop.counter}}">
-                                                    {% for country in countries%}
-                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <label>Birth Date</label>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '">
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div style="padding-top:15px;"></div>
-                    </div>
-                    <br/>
-                    {% endfor %}
-                </div>
-                <div class="col-lg-4" style="margin-top:10px;">
-                    <div style="background-color:#f15a22; padding:5px;">
-                        <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="activity_detail">
-                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                        <br><span id="product_type_title"></span>
                         <br/>
-                        <div id="activity_detail_table">
+                        <div class="row" style="margin-bottom:20px;">
+                            <div class="col-lg-12">
+                                <div style="background:white; padding:10px; border:1px solid #f15a22;">
+                                    <label>Do you book this trip for you?</label>
+                                    <label class="radio-button-custom">
+                                        Yes
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy');" value="yes"/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+
+                                    <label class="radio-button-custom">
+                                        No
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change');" value="no" checked="checked"/>
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+
+                                    <br/>
+                                    <label>Passenger Data</label><br/>
+                                    <ul>
+                                        <li>1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM</li>
+                                        <li>2. Passenger data can't be changed after the passing of this page</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        {% for adult in adults%}
+                        <div class="row" id="adult{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('adult', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Adult - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'activity')">Search</button>
+                                                        <div class="row" id="loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
+                                                        {% for title in adult_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="adult_nationality{{forloop.counter}}" name="adult_nationality{{forloop.counter}}">
+                                                        {% for country in countries%}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Birth Date</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Mobile</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-select">
+                                                            <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
+                                                                {% for country in countries%}
+                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                        </div>
+
+                                        <div class="col-lg-6" id="adult_div{{forloop.counter}}">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {% with forloop.counter as counter%}
+                                {% for perpax in detail.options.perPax %}
+                                {% with forloop.counter as per_pax %}
+                                {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>{{perpax.name}}</label><br/>
+                                        {% if perpax.inputType == 1%}
+                                        <select id=adult_perpax{{counter}}_{{per_pax}} name=adult_perpax{{counter}}_{{per_pax}} onchange="input_type1_change_perpax({{counter}},'adult', {{per_pax}})">`;
+                                            {% for item in perpax.items %}
+                                            <option value="items.value">{{item.label}}</option>
+                                            {% endfor %}
+                                        </select><br/>
+                                        <br/>
+                                        {% elif perpax.inputType == 2%}
+                                        {% for item in perpax.items %}
+                                        {% with forloop.counter as item_count %}
+                                        <label style="width:20%"><input type="checkbox" onchange="input_type2_change_perpax({{counter}}, {{item_count}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}_{{item_count}}' name='adult_perpax{{counter}}_{{per_pax}}_{{item_count}}' value="{{item.value}}"> item.label</label>
+                                        {% endwith %}
+                                        {% endfor %}
+                                        <br/>
+                                        {% elif perpax.inputType == 3%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 4%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 5%}
+                                        <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 6%}
+                                        <input type="date" class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 7%}
+                                        <input type="file" accept="application/JSON, application/pdf" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}' />
+                                        {% elif perpax.inputType == 8%}
+                                        <input type="file" accept="image/*" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 9%}
+                                        <input type='text' id='adult_perpax{{counter}}_{{per_pax}}' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 10%}
+                                        <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 11%}
+                                        <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}0' name=adult_perpax{{counter}}_{{per_pax}}0/>
+                                        <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}1' name=adult_perpax{{counter}}_{{per_pax}}1/>
+                                        {% elif perpax.inputType == 12%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 14%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% endif %}
+                                        <label>{{perpax.description}}</label><br/>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                        <br/>
+                        {% endwith %}
+                        {% endfor %}
+
+                        {% for senior in senior%}
+                        <div class="row" id="senior{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('senior', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Senior - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="senior_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="senior_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_senior{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="senior_clear{{forloop.counter}}" onclick="clear_passenger('Senior', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModal_senior{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Senior - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Senior',{{forloop.counter}}, 'activity')">Search</button>
+                                                        <div class="row" id="loading-paxs-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_senior{{forloop.counter}}" style="overflow:auto;height:300px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="senior_title{{forloop.counter}}" name="senior_title{{forloop.counter}}">
+                                                        {% for title in senior_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="senior_id{{forloop.counter}}" id="senior_id{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="senior_last_name{{forloop.counter}}" id="senior_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="senior_nationality{{forloop.counter}}" name="senior_nationality{{forloop.counter}}">
+                                                        {% for country in countries%}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Birth Date</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '">
+                                                <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Mobile</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-select">
+                                                            <select id="senior_phone_code{{forloop.counter}}" name="senior_phone_code{{forloop.counter}}">
+                                                                {% for country in countries%}
+                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input type="text" class="form-control" name="senior_phone{{forloop.counter}}" id="senior_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                        </div>
+
+                                        <div class="col-lg-6" id="senior_div{{forloop.counter}}">
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {% with forloop.counter as counter%}
+                                {% for perpax in detail.options.perPax %}
+                                {% with forloop.counter as per_pax %}
+                                {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>{{perpax.name}}</label><br/>
+                                        {% if perpax.inputType == 1%}
+                                        <select  onchange="input_type1_change_perpax({{counter}},'senior', {{per_pax}})" id=senior_perpax{{counter}}_{{per_pax}} name=senior_perpax{{counter}}_{{per_pax}} >`;
+                                            {% for item in perpax.items %}
+                                            <option value="items.value">{{item.label}}</option>
+                                            {% endfor %}
+                                        </select><br/>
+                                        <br/>
+                                        {% elif perpax.inputType == 2%}
+                                        {% for item in perpax.items %}
+                                        {% with forloop.counter as item_count %}
+                                        <label style="width:20%"><input type="checkbox" onchange="input_type2_change_perpax({{counter}}, {{item_count}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}_{{item_count}}' name='senior_perpax{{counter}}_{{per_pax}}_{{item_count}}' value="{{item.value}}"> item.label</label>
+                                        {% endwith %}
+                                        {% endfor %}
+                                        <br/>
+                                        {% elif perpax.inputType == 3%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 4%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 5%}
+                                        <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}'  name='senior_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 6%}
+                                        <input type="date" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" class="form-control" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 7%}
+                                        <input type="file" accept="application/JSON, application/pdf" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}' />
+                                        {% elif perpax.inputType == 8%}
+                                        <input type="file" accept="image/*" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 9%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 10%}
+                                        <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 11%}
+                                        <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}0' name=senior_perpax{{counter}}_{{per_pax}}0/>
+                                        <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}1' name=senior_perpax{{counter}}_{{per_pax}}1/>
+                                        {% elif perpax.inputType == 12%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 13%}
+
+                                        {% elif perpax.inputType == 14%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% endif %}
+                                        <label>{{perpax.description}}</label><br/>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <br/>
+                        {% endwith %}
+                        {% endfor %}
+
+                        {% for child in childs%}
+                        <div class="row" id="child{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('child', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Child - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Child',{{forloop.counter}}, 'activity')">Search</button>
+                                                        <div class="row" id="loading-paxc-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:300px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
+                                                        {% for title in child_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
+                                                <input type="hidden" class="form-control" name="child_phone_code{{forloop.counter}}" id="child_phone_code{{forloop.counter}}">
+                                                <input type="hidden" class="form-control" name="child_phone{{forloop.counter}}" id="child_phone{{forloop.counter}}">
+                                                <input type="hidden" class="form-control" name="child_email{{forloop.counter}}" id="child_email{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="child_nationality{{forloop.counter}}" name="child_nationality{{forloop.counter}}">
+                                                        {% for country in countries%}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Birth Date</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% with forloop.counter as counter%}
+                                {% for perpax in detail.options.perPax %}
+                                {% with forloop.counter as per_pax %}
+                                {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label>{{perpax.name}}</label><br/>
+                                        {% if perpax.inputType == 1%}
+                                        <select onchange="input_type1_change_perpax({{counter}},'child', {{per_pax}})" id=child_perpax{{counter}}_{{per_pax}} name=child_perpax{{counter}}_{{per_pax}} >`;
+                                            {% for item in perpax.items %}
+                                            <option value="items.value">{{item.label}}</option>
+                                            {% endfor %}
+                                        </select><br/>
+                                        <br/>
+                                        {% elif perpax.inputType == 2%}
+                                        {% for item in perpax.items %}
+                                        {% with forloop.counter as item_count %}
+                                        <label style="width:20%"><input type="checkbox" onchange="input_type2_change_perpax({{counter}}, {{item_count}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}_{{item_count}}' name='child_perpax{{counter}}_{{per_pax}}_{{item_count}}' value="{{item.value}}"> item.label</label>
+                                        {% endwith %}
+                                        {% endfor %}
+                                        <br/>
+                                        {% elif perpax.inputType == 3%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 4%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 5%}
+                                        <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 6%}
+                                        <input type="date" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" class="form-control" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 7%}
+                                        <input type="file" accept="application/JSON, application/pdf" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}' />
+                                        {% elif perpax.inputType == 8%}
+                                        <input type="file" accept="image/*" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 9%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 10%}
+                                        <input type="time" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" style="width:100%;height:20px;" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
+                                        {% elif perpax.inputType == 11%}
+                                        <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}0' name=child_perpax{{counter}}_{{per_pax}}0/>
+                                        <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}1' name=child_perpax{{counter}}_{{per_pax}}1/>
+                                        {% elif perpax.inputType == 12%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% elif perpax.inputType == 13%}
+
+                                        {% elif perpax.inputType == 14%}
+                                        <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                        {% endif %}
+                                        <label>{{perpax.description}}</label><br/>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endwith %}
+                                {% endfor %}
+                            </div>
+                            <div style="padding-top:15px;"></div>
+                        </div>
+                        <br/>
+                        {% endwith %}
+                        {% endfor %}
+
+                        {% for infant in infants%}
+                        <div class="row" id="infant{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('infant', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Infant - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                        </div>
+
+                                        <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Infant',{{forloop.counter}}, 'activity')">Search</button>
+                                                        <div class="row" id="loading-paxi-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <div class="sk-circle">
+                                                                    <div class="sk-circle1 sk-child"></div>
+                                                                    <div class="sk-circle2 sk-child"></div>
+                                                                    <div class="sk-circle3 sk-child"></div>
+                                                                    <div class="sk-circle4 sk-child"></div>
+                                                                    <div class="sk-circle5 sk-child"></div>
+                                                                    <div class="sk-circle6 sk-child"></div>
+                                                                    <div class="sk-circle7 sk-child"></div>
+                                                                    <div class="sk-circle8 sk-child"></div>
+                                                                    <div class="sk-circle9 sk-child"></div>
+                                                                    <div class="sk-circle10 sk-child"></div>
+                                                                    <div class="sk-circle11 sk-child"></div>
+                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                </div>
+                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_infant{{forloop.counter}}" style="overflow:auto;height:300px;">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}">
+                                                        {% for title in infant_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
+                                                <input type="hidden" class="form-control" name="infant_phone_code{{forloop.counter}}" id="infant_phone_code{{forloop.counter}}">
+                                                <input type="hidden" class="form-control" name="infant_phone{{forloop.counter}}" id="infant_phone{{forloop.counter}}">
+                                                <input type="hidden" class="form-control" name="infant_email{{forloop.counter}}" id="infant_email{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select id="infant_nationality{{forloop.counter}}" name="infant_nationality{{forloop.counter}}">
+                                                        {% for country in countries%}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <label>Birth Date</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-top:15px;"></div>
+                        </div>
+                        <br/>
+                        {% endfor %}
+                    </div>
+                    <div class="col-lg-4" style="margin-top:10px;">
+                        <div style="background-color:#f15a22; padding:5px;">
+                            <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
+                        </div>
+                        <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="activity_detail">
+                            <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                            <br><span id="product_type_title"></span>
+                            <br/>
+                            <div id="activity_detail_table">
+
+                            </div>
+                        </div>
+                        <br/>
+                        <div id="activity_detail_next_btn">
 
                         </div>
                     </div>
-                    <br/>
-                    <div id="activity_detail_next_btn">
-
-                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 
