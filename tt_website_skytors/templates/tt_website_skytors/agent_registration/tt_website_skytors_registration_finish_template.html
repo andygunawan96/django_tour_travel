@@ -4,68 +4,27 @@
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_registration.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
-<script src="{{ static_path }}js/activity_javascript.js"></script>
-<script src="{{ static_path }}js/webservice_activity.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
-
-<script>
-    time = 300;
-    triggered_balance();
-    document.getElementById('username').innerHTML = '{{username}}';
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
-</script>
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" class="active"> Issued <i class="fas fa-check-circle"></i></a>
+            <div class="col-lg-12">
+                <div class="alert alert-success" role="alert">
+                    Your Agent Registration has been submitted with the ID: <span id="result_data_id"></span>
                 </div>
             </div>
         </div>
-        <br/>
-        <form method="POST" id="acitivity_booking" action="{% url 'tt_website_skytors:activity_booking'%}">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-lg-12">
-                    <h3>Your Order Has Been Issued</h3>
-                    <br/>
-                </div>
-                <div class="col-lg-9" id="activity_ticket">
-
-                </div>
-                <div class="col-lg-3">
-                    <div style="background-color:#f15a22; padding:5px;">
-                        <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="activity_detail">
-                        <span id="product_title" style="font-weight: bold;"></span>
-                        <br/><span id="product_type_title"></span>
-                        <br/><br/>
-                        <div id="activity_detail_table">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="voucher">
-
-            </div>
-        </form>
     </div>
 </div>
 
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-footer-widget">
                     <h6>About RODEX TRIP</h6>
                     <p>
@@ -76,7 +35,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-footer-widget">
                     <h6>Navigation Links</h6>
                     <div class="row">
@@ -99,11 +58,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-footer-widget">
                     <h6>Newsletter</h6>
                     <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
                     </p>
                     <div id="mc_embed_signup">
                         <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
@@ -122,16 +81,16 @@
                 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
             <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
             </div>
         </div>
     </div>
 </footer>
 
 <script>
-    activity_get_booking('{{order_number}}');
+    submit_agent_registration();
 </script>
+
 {% endblock %}

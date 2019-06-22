@@ -151,12 +151,54 @@ def index(request):
                 # issuedoffline
 
                 #get_data_awal
+                cache = {}
+                try:
+                    cache['airline'] = {
+                            'origin': request.session['airline_request']['origin'],
+                            'destination': request.session['airline_request']['destination'],
+                            'departure': request.session['airline_request']['departure'],
+                        }
+                except:
+                    pass
 
+                try:
+                    cache['train'] = {
+                            'origin': request.session['train_request']['origin'],
+                            'destination': request.session['train_request']['destination'],
+                            'departure': request.session['train_request']['departure'],
+                        }
+                except:
+                    pass
+
+                try:
+                    cache['hotel'] = {
+                            'checkin': request.session['hotel_request']['check_in'],
+                            'checkout': request.session['hotel_request']['check_out']
+                        }
+                except:
+                    pass
+
+                try:
+                    cache['activity'] = {
+                            'name': request.session['activity_request']['query']
+                        }
+                except:
+                    pass
+
+                try:
+                    cache['visa'] = {
+                            'destination': request.session['visa_request']['destination'],
+                            'departure_date': request.session['visa_request']['departure_date'],
+                            'consulate': request.session['visa_request']['consulate']
+                        }
+                except:
+                    pass
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                    'cache': json.dumps(cache),
+                    # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                     'username': request.session['username'],
-                    'co_uid': request.session['co_uid'],
+                    # 'co_uid': request.session['co_uid'],
                     'airline_provider_list': airline_provider_list,
                     'airline_cabin_class_list': airline_cabin_class_list,
                     'airline_country': airline_country,

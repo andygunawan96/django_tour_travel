@@ -750,6 +750,8 @@ $(document).ready(function(){
             node.innerHTML = text;
             document.getElementById("airline_date_search").appendChild(node);
             node = document.createElement("div");
+            document.getElementById('is_combo_price').disabled = true;
+            document.getElementById('is_combo_price').checked = false;
 
             $('input[name="airline_departure"]').daterangepicker({
               singleDatePicker: true,
@@ -769,6 +771,8 @@ $(document).ready(function(){
             document.getElementById("airline_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");
+            document.getElementById('is_combo_price').disabled = false;
+
             text+=`
             <span class="span-search-ticket">Departure - Return</span>
             <div class="input-container-search-ticket">

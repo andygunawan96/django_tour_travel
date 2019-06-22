@@ -5,6 +5,7 @@ from tools import util, ERR
 from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.config import *
+from ..static.tt_webservice.url import *
 import json
 
 month = {
@@ -92,7 +93,7 @@ def search2(request):
         "adult": int(request.POST['adult']),
         "child": 0,
         "infant": int(request.POST['infant']),
-        "provider": 'kai_outlet'
+        "provider": provider_kai
     }
     headers.update({
         "action": "search2",
@@ -220,7 +221,7 @@ def seat_map(request):
         "destination": request.session['train_pick']['destination'],
         "class_of_service": request.session['train_pick']['class_of_service'],
         "pnr": request.session['train_pick']['pnr'],
-        "provider": 'kai_outlet',
+        "provider": provider_kai
     }
     headers.update({
         "action": 'get_seat_map',
@@ -266,7 +267,7 @@ def manual_seat(request):
     data = {
         "order_number": request.session['train_order_number'],
         "seats_request": seats_request,
-        "provider": 'kai_outlet'
+        "provider": provider_kai
     }
     headers.update({
         "action": 'manual_seat',

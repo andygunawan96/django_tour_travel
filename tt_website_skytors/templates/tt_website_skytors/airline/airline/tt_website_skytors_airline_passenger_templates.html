@@ -11,10 +11,9 @@
 <script src="{{ static_path }}js/moment.js"></script>
 
 <script>
-    airline_sell_journeys();
+    airline_select_buy();
     function check_years_old(sequence, type){
         var birth_date = '';
-        console.log(document.getElementById('adult_birth_date'+sequence).value);
         if(type =='adult')
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='infant')
@@ -35,7 +34,6 @@
     airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
     airline_pick = JSON.parse(airline_pick);
-    console.log(airline_pick);
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
     price_itinerary = price_itinerary.replace(/None/g, '"None"');
@@ -46,81 +44,15 @@
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
-    console.log(airline_carriers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
 
     adult = airline_request.adult;
     child = airline_request.child;
     infant = airline_request.infant;
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
-
-<header id="header" style="position:sticky;">
-    <div class="main-menu">
-        <div class="container">
-            <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo">
-                    <a href="index.html"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
-                </div>
-                <nav id="nav-menu-container">
-                    <ul class="nav-menu">
-                        <li><a href="#">Home</a></li>
-                        <li class="menu-has-children"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">Frequently Asked Question</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">{{username}}</a>
-                            <ul>
-                                <li>
-                                    <a>
-                                        <!--<img alt="wallet" style="height:25px; width:25px;" src="{{static_path}}img/wallet.png">-->
-                                        My Balance: Rp {{balance}}
-                                    </a>
-                                </li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
-            </div>
-        </div>
-    </div>
-    <div class="main-menu-2">
-        <div class="container">
-            <div class="align-items-center justify-content-between d-flex">
-                <nav>
-                    <ul class="nav-menu">
-                        <li><a href="#">Top Up</a>
-                            <ul>
-                                <li><a href="#">Request</a></li>
-                                <li><a href="#">Confirm</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reservation</a>
-                            <ul>
-                                <li><a href="#">Airline Hold Booking List</a></li>
-                                <li><a href="#">Train Hold Booking List</a></li>
-                                <li><a href="#">Group Booking Hold Booking List</a></li>
-                            </ul>
-                        </li>
-                        <!--                        <li><a href="javascript:showCart();"><i class="fa fa-shopping-cart"></i> My Ticket <span class="badge">0</span></a></li>-->
-                    </ul>
-                </nav>
-            </div>
-        </div>
-    </div>
-</header>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -230,10 +162,6 @@
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
-                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
-                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
-                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -397,9 +325,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact({{forloop.counter}})" /><span>Make this to Contact Person</span>
-                                        </div>
+                                        <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>First name and middle name (if any)</label>
@@ -463,34 +389,6 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
-                                            <label>Contact Email Address</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
-                                        </div>
-                                        <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
-                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
-                                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <div class="form-select">
-                                                            <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
-                                                                {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
                                         </div>
                                     </div>
                                 </div>

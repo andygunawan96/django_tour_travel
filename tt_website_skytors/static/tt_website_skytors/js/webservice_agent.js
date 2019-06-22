@@ -91,7 +91,7 @@ function search_passenger(passenger, number, product){
                     "search_value": $('#train_booker_search').val(),
                },
                success: function(msg) {
-               console.log(msg);
+                console.log(msg);
                 if(msg.error_code==0){
                     var response = '';
 
@@ -170,15 +170,6 @@ function search_passenger(passenger, number, product){
 
         if(check_string_length(passenger_search[0])>=2){
             //get_agent_passenger
-//            search_text = '';
-//            if(passenger == 'Adult')
-//                search_text = $('#train_adult'+number.toString()+'_search').val()
-//            else if(passenger == 'Child')
-//                search_text = $('#train_child'+number.toString()+'_search').val()
-//            else if(passenger == 'Senior')
-//                search_text = $('#train_senior'+number.toString()+'_search').val()
-//            else if(passenger == 'Infant')
-//                search_text = $('#train_infant'+number.toString()+'_search').val()
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -436,9 +427,6 @@ function gotoForm(){
 }
 
 function pick_passenger(type, sequence, product){
-    console.log(type);
-    console.log(sequence);
-    console.log(product);
     if(type == '' || product == 'issued_offline'){
         if(type == 'Booker'){
             document.getElementById('sub_agent').value = passenger_data[sequence].agent_id.name;
@@ -457,18 +445,38 @@ function pick_passenger(type, sequence, product){
         //change booker
         document.getElementById('booker_title').value = passenger_data[sequence].title;
         document.getElementById('booker_first_name').value = passenger_data[sequence].first_name;
+        document.getElementById('booker_first_name').readOnly = true;
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
+        document.getElementById('booker_last_name').readOnly = true;
         document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_id.code;
         document.getElementById('booker_email').value = passenger_data[sequence].email;
         document.getElementById('booker_phone_code').value = passenger_data[sequence].nationality_id.phone_code;
         document.getElementById('booker_phone').value = passenger_data[sequence].mobile;
+        document.getElementById('booker_birth_date').value = passenger_data[sequence].birth_date;
+        document.getElementById('booker_birth_date').readOnly = true;
+        if(product == 'train'){
+            document.getElementById('booker_id_type').value = passenger_data[sequence].identity_type;
+            document.getElementById('booker_id_type').readOnly = true;
+            document.getElementById('booker_id_number').value = passenger_data[sequence].identity_number;
+            document.getElementById('booker_id_number').readOnly = true;
+        }else if(product == 'airline'){
+            document.getElementById('booker_id_type').value = passenger_data[sequence].identity_type;
+            document.getElementById('booker_id_type').readOnly = true;
+            document.getElementById('booker_id_number').value = passenger_data[sequence].identity_number;
+            document.getElementById('booker_id_number').readOnly = true;
+            document.getElementById('booker_country_of_issued').value = passenger_data[sequence].country_of_issued_id;
+            document.getElementById('booker_id_number').readOnly = true;
+        }
+
         document.getElementById('booker_id').value = passenger_data[sequence].id;
         $('#myModal').modal('hide');
     }else if(type == 'Adult'){
 
         document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('adult_first_name'+passenger_number).readOnly = true;
         document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('adult_last_name'+passenger_number).readOnly = true;
         document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         check_years_old(passenger_number,'adult');
@@ -497,7 +505,6 @@ function pick_passenger(type, sequence, product){
         }
         if(product=='airline'){
             passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            console.log(passport_date);
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('adult_passport_expired_date'+passenger_number).value = passport_date;
@@ -511,9 +518,12 @@ function pick_passenger(type, sequence, product){
     }else if(type == 'Child'){
         document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('child_first_name'+passenger_number).readOnly = true;
         document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('child_last_name'+passenger_number).readOnly = true;
         document.getElementById('child_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('child_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        document.getElementById('child_birth_date'+passenger_number).readOnly = true;
         check_years_old(passenger_number,'child');
         if(product=='train'){
             document.getElementById('child_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
@@ -521,7 +531,6 @@ function pick_passenger(type, sequence, product){
         }
         if(product=='airline'){
             passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            console.log(passport_date);
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('child_passport_expired_date'+passenger_number).value = passport_date;
@@ -536,9 +545,12 @@ function pick_passenger(type, sequence, product){
     }else if(type == 'Infant'){
         document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('infant_first_name'+passenger_number).readOnly = true;
         document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('infant_last_name'+passenger_number).readOnly = true;
         document.getElementById('infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('infant_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        document.getElementById('infant_birth_date'+passenger_number).readOnly = true;
         check_years_old(passenger_number,'infant');
         if(product=='train'){
             document.getElementById('infant_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
@@ -546,7 +558,6 @@ function pick_passenger(type, sequence, product){
         }
         if(product=='airline'){
             passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            console.log(passport_date);
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('infant_passport_expired_date'+passenger_number).value = passport_date;
@@ -560,9 +571,12 @@ function pick_passenger(type, sequence, product){
     }else if(type == 'Senior'){
         document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('senior_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('senior_first_name'+passenger_number).readOnly = true;
         document.getElementById('senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('senior_last_name'+passenger_number).readOnly = true;
         document.getElementById('senior_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('senior_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        document.getElementById('senior_birth_date'+passenger_number).readOnly = true;
         check_years_old(passenger_number,'senior');
         if(product=='train'){
             document.getElementById('senior_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
@@ -570,11 +584,14 @@ function pick_passenger(type, sequence, product){
         }
         if(product=='airline'){
             passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            console.log(passport_date);
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('senior_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('senior_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+            try{
+                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+            }catch(err){
+
+            }
         }else{
             document.getElementById('senior_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('senior_phone'+passenger_number).value = passenger_data[sequence].mobile;
@@ -584,24 +601,46 @@ function pick_passenger(type, sequence, product){
     }
 }
 
-function copy_booker_to_passenger(val){
+function copy_booker_to_passenger(val,type){
     if(val == 'copy'){
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
         document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
+        document.getElementById('adult_first_name1').readOnly = true;
         document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
+        document.getElementById('adult_last_name1').readOnly = true;
         document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
+        document.getElementById('adult_birth_date1').value = document.getElementById('booker_birth_date').value;
+        if(document.getElementById('adult_birth_date1').value != '' && check_date(document.getElementById('adult_birth_date1').value) == true){
+            check_years_old(passenger_number,'adult');
+            document.getElementById('adult_birth_date1').readOnly = true;
+        }
         if(type == 'train'){
             document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
             document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
+            if(document.getElementById('adult_years_old1').value >= 17){
+                document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
+                $('#adult_id_type1').niceSelect('update');
+                document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
+            }
+        }else if(type == 'airline'){
+            if(document.getElementById('booker_id_type').value == 'pas'){
+                document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
+                $('#adult_id_type1').niceSelect('update');
+                document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
+            }
+            document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
         }
         document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
     }else{
         document.getElementById('adult_title1').value = 'MR';
         document.getElementById('adult_first_name1').value = '';
+        document.getElementById('adult_first_name1').readOnly = false;
         document.getElementById('adult_last_name1').value = '';
+        document.getElementById('adult_last_name1').readOnly = false;
         document.getElementById('adult_nationality1').value = '';
         document.getElementById('adult_phone_code1').value = '62';
         document.getElementById('adult_phone1').value = '';
+        document.getElementById('adult_phone1').readOnly = false;
         document.getElementById('adult_id1').value = '';
     }
 }
@@ -610,18 +649,25 @@ function clear_passenger(type, sequence){
     if(type == 'Booker'){
         document.getElementById('booker_title').value = 'MR';
         document.getElementById('booker_first_name').value = '';
+        document.getElementById('booker_first_name').readOnly = false;
         document.getElementById('booker_last_name').value = '';
-        document.getElementById('booker_nationality').value = '';
+        document.getElementById('booker_last_name').readOnly = false;
+        document.getElementById('booker_nationality').value = 'ID';
         document.getElementById('booker_email').value = '';
+        document.getElementById('booker_email').readOnly = false;
         document.getElementById('booker_phone_code').value = '62';
         document.getElementById('booker_phone').value = '';
+        document.getElementById('booker_phone').readOnly = false;
         document.getElementById('booker_id').value = '';
     }else if(type == 'Adult'){
         document.getElementById('adult_title'+sequence).value = 'MR';
         document.getElementById('adult_first_name'+sequence).value = '';
+        document.getElementById('adult_first_name'+sequence).readOnly = false;
         document.getElementById('adult_last_name'+sequence).value = '';
-        document.getElementById('adult_nationality'+sequence).value = '';
+        document.getElementById('adult_last_name'+sequence).readOnly = false;
+        document.getElementById('adult_nationality'+sequence).value = 'ID';
         document.getElementById('adult_birth_date'+passenger_number).value = '';
+        document.getElementById('adult_birth_date'+passenger_number).readOnly = false;
         document.getElementById('adult_id_type'+passenger_number).value = 'ktp';
         document.getElementById('adult_id_number'+passenger_number).value = '';
         document.getElementById('adult_phone_code'+sequence).value = '62';
@@ -630,16 +676,22 @@ function clear_passenger(type, sequence){
     }else if(type == 'Infant'){
         document.getElementById('infant_title'+sequence).value = 'MSTR';
         document.getElementById('infant_first_name'+sequence).value = '';
+        document.getElementById('infant_first_name'+sequence).readOnly = false;
         document.getElementById('infant_last_name'+sequence).value = '';
-        document.getElementById('infant_nationality'+sequence).value = '';
+        document.getElementById('infant_last_name'+sequence).readOnly = false;
+        document.getElementById('infant_nationality'+sequence).value = 'ID';
         document.getElementById('infant_birth_date'+passenger_number).value = '';
+        document.getElementById('infant_birth_date'+passenger_number).readOnly = false;
         document.getElementById('infant_id'+sequence).value = '';
     }else if(type == 'Senior'){
         document.getElementById('senior_title'+sequence).value = 'MR';
         document.getElementById('senior_first_name'+sequence).value = '';
+        document.getElementById('senior_first_name'+sequence).readOnly = false;
         document.getElementById('senior_last_name'+sequence).value = '';
-        document.getElementById('senior_nationality'+sequence).value = '';
+        document.getElementById('senior_last_name'+sequence).readOnly = false;
+        document.getElementById('senior_nationality'+sequence).value = 'ID';
         document.getElementById('senior_birth_date'+passenger_number).value = '';
+        document.getElementById('senior_birth_date'+passenger_number).readOnly = false;
         document.getElementById('senior_id_type'+passenger_number).value = 'ktp';
         document.getElementById('senior_id_number'+passenger_number).value = '';
         document.getElementById('senior_phone_code'+sequence).value = '62';
@@ -648,9 +700,12 @@ function clear_passenger(type, sequence){
     }else if(type == 'Child'){
         document.getElementById('child_title'+sequence).value = 'MSTR';
         document.getElementById('child_first_name'+sequence).value = '';
+        document.getElementById('child_first_name'+sequence).readOnly = false;
         document.getElementById('child_last_name'+sequence).value = '';
-        document.getElementById('child_nationality'+sequence).value = '';
+        document.getElementById('child_last_name'+sequence).readOnly = false;
+        document.getElementById('child_nationality'+sequence).value = 'ID';
         document.getElementById('senior_birth_date'+passenger_number).value = '';
+        document.getElementById('senior_birth_date'+passenger_number).readOnly = false;
         document.getElementById('senior_id_type'+passenger_number).value = 'ktp';
         document.getElementById('senior_id_number'+passenger_number).value = '';
         document.getElementById('child_phone_code'+sequence).value = '62';
@@ -665,8 +720,8 @@ function check_email(value){
 }
 
 function check_date(value){
-    var a = moment(value,'YYYY-MM-DD');
-    return a._d;
+    var a = moment(value,'DD MMM YYYY');
+    return a._isValid;
 }
 
 function check_time(value){

@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from tools import util, ERR
 import datetime
 from ..static.tt_webservice.config import *
+from ..static.tt_webservice.url import *
 import json
 
 month = {
@@ -42,6 +43,8 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'get_balance':
             res = get_balance(request)
+        elif req_data['action'] == 'url':
+            res = get_url()
         elif req_data['action'] == 'get_agent_booker':
             res = get_agent_booker(request)
         elif req_data['action'] == 'get_agent_passenger':
@@ -316,6 +319,9 @@ def get_balance(request):
             'credit_limit': res['result']['response']['credit_limit']
         }
     return res
+
+def get_url():
+    return url_web
 
 def get_agent_booker(request):
     headers.update({

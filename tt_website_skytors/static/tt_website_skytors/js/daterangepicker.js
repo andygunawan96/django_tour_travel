@@ -782,6 +782,11 @@
                 for (var col = 0; col < 7; col++) {
 
                     var classes = [];
+                    var tempDateRender = year+'-'+(month+1)+'-'+calendar[row][col].date();
+
+                    if(tempDateRender == "2019-6-17"){
+                        classes.push('weekend');
+                    }
 
                     //highlight today's date
                     if (calendar[row][col].isSame(new Date(), "day"))
@@ -838,13 +843,18 @@
                         cname += 'available';
 
                     html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
-
+//                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '"><span style="display:block;">' + calendar[row][col].date() + '</span><span style="font-size:11px;line-height:10px; color:black !important;">999K</span></td>';
                 }
                 html += '</tr>';
             }
-
             html += '</tbody>';
             html += '</table>';
+            if ((month+1) == 7){
+                html += '<label>';
+                html += '<span style="font-size:10px;"> 1 Juni 2019 : Hari Lahir Pancasila </span><br/>';
+                html += '<span style="font-size:10px;"> 2 Juni 2019 : Hari Lahir Juni </span><br/>';
+                html += '</label>';
+            }
 
             this.container.find('.drp-calendar.' + side + ' .calendar-table').html(html);
 
