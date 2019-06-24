@@ -984,7 +984,9 @@ function pick_passenger_tour(type, sequence, product){
         //change booker
         document.getElementById('booker_title').value = passenger_data[sequence].title;
         document.getElementById('booker_first_name').value = passenger_data[sequence].first_name;
+        document.getElementById('booker_first_name').readOnly = true;
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
+        document.getElementById('booker_last_name').readOnly = true;
         document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_id.code;
         document.getElementById('booker_email').value = passenger_data[sequence].email;
         document.getElementById('booker_phone_code').value = passenger_data[sequence].nationality_id.phone_code;
@@ -995,7 +997,9 @@ function pick_passenger_tour(type, sequence, product){
 
         document.getElementById('room'+room_number+'_adult_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('room'+room_number+'_adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_adult_first_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_adult_last_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('room'+room_number+'_adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         check_years_old(room_number,passenger_number,'adult');
@@ -1038,9 +1042,12 @@ function pick_passenger_tour(type, sequence, product){
     }else if(type == 'Child'){
         document.getElementById('room'+room_number+'_child_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('room'+room_number+'_child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_child_first_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_child_last_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_child_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('room'+room_number+'_child_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        document.getElementById('room'+room_number+'_child_birth_date'+passenger_number).readOnly = true;
         check_years_old(room_number, passenger_number,'child');
         if(product=='train'){
             document.getElementById('room'+room_number+'_child_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
@@ -1063,9 +1070,12 @@ function pick_passenger_tour(type, sequence, product){
     }else if(type == 'Infant'){
         document.getElementById('room'+room_number+'_infant_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('room'+room_number+'_infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_infant_first_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_infant_last_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('room'+room_number+'_infant_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        document.getElementById('room'+room_number+'_infant_birth_date'+passenger_number).readOnly = true;
         check_years_old(room_number, passenger_number,'infant');
         if(product=='train'){
             document.getElementById('room'+room_number+'_infant_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
@@ -1087,9 +1097,12 @@ function pick_passenger_tour(type, sequence, product){
     }else if(type == 'Senior'){
         document.getElementById('room'+room_number+'_senior_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('room'+room_number+'_senior_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_senior_first_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_senior_last_name'+passenger_number).readOnly = true;
         document.getElementById('room'+room_number+'_senior_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
         document.getElementById('room'+room_number+'_senior_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        document.getElementById('room'+room_number+'_senior_birth_date'+passenger_number).readOnly = true;
         check_years_old(room_number, passenger_number,'senior');
         if(product=='train'){
             document.getElementById('room'+room_number+'_senior_id_type'+passenger_number).value = passenger_data[sequence].identity_type;

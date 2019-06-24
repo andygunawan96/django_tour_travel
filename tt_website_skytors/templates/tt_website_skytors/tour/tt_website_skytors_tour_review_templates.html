@@ -38,7 +38,7 @@
                     <h4>Prices may changes at any time</h4>
                     <br/>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px;">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div style="background-color:#f15a22;">
@@ -114,35 +114,48 @@
                                 <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">Room {{forloop.counter}}</span>
                                 <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">{{room.name}} {{room.bed_type}}</span>
                                 {% if room.hotel %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">{{room.hotel}}</span><br/>{% endif %}
-                                {% if room.notes %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">Notes: {{room.notes}}</span>{% endif %}
+                                {% if room.notes %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">Notes : {{room.notes}}</span>{% endif %}
                                 <table style="width:100%;" id="list-of-passenger">
                                     <tr>
                                         <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                        <th style="width:36%;">Name</th>
+                                        <th style="width:26%;">Name</th>
                                         <th style="width:7%;">Type</th>
-                                        <th style="width:25%;">Birth Date</th>
+                                        <th style="width:15%;">Birth Date</th>
+                                        <th style="width:20%;">Mobile</th>
                                         <th style="width:25%;" class="list-of-passenger-right">Email</th>
                                     </tr>
                                     {% for pax_adt in room.adult_obj %}
                                     <tr>
-                                        <td>{{forloop.counter}}</td>
+                                        <td>{{pax_adt.sequence}}</td>
                                         <td>{{pax_adt.title}}. {{pax_adt.name}}</td>
                                         <td>{{pax_adt.pax_type}}</td>
                                         <td>{{pax_adt.birth_date}}</td>
-                                        <td></td>
+                                        <td>{% if room.hotel %}{{pax_adt.mobile}}{% else %} - {% endif %}</td>
+                                        <td>{% if room.hotel %}{{pax_adt.email}}{% else %} - {% endif %}</td>
                                     </tr>
                                     {% endfor %}
                                     {% for pax_chd in room.child_obj %}
                                     <tr>
-
+                                        <td>{{pax_chd.sequence}}</td>
+                                        <td>{{pax_chd.title}}. {{pax_chd.name}}</td>
+                                        <td>{{pax_chd.pax_type}}</td>
+                                        <td>{{pax_chd.birth_date}}</td>
+                                        <td> - </td>
+                                        <td> - </td>
                                     </tr>
                                     {% endfor %}
                                     {% for pax_inf in room.infant_obj %}
                                     <tr>
-
+                                        <td>{{pax_inf.sequence}}</td>
+                                        <td>{{pax_inf.title}}. {{pax_inf.name}}</td>
+                                        <td>{{pax_inf.pax_type}}</td>
+                                        <td>{{pax_inf.birth_date}}</td>
+                                        <td> - </td>
+                                        <td> - </td>
                                     </tr>
                                     {% endfor %}
                                 </table>
+                                <br/>
                                 {% endfor %}
                             </div>
                         </div>

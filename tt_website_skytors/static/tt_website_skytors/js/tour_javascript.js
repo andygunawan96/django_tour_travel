@@ -543,6 +543,19 @@ function check_passenger(room_amount){
      }
 }
 
+function update_contact(room_val, val){
+    console.log(val);
+    console.log(document.getElementById('room'+room_val.toString()+'_adult_cp'+val.toString()).checked);
+    if(document.getElementById('room'+room_val.toString()+'_adult_cp'+val.toString()).checked == true){
+        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
+
+}
+
 $(document).ready(function () {
     $('#btnDeleteRooms').click(function(){
         var index = document.getElementById('room_amount').value;
