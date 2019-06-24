@@ -98,8 +98,9 @@
                                 </div>
                                 <div id="book_now" class="tab-pane fade" style="padding: 20px;">
                                     <form method='POST' action="{% url 'tt_website_skytors:tour_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
+                                        {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" style="margin-bottom:20px;">
+                                            <div class="col-lg-7 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:20px;">
                                                 {% if response.tour_type == 'private' or response.tour_type == 'sic'%}
                                                 <h3>Tour Date</h3>
                                                 <label for="departure_date_tour">Departure Date</label>
@@ -116,23 +117,26 @@
                                                 <input type="hidden" id="duration" name="duration" value="{{response.duration}}"/>
                                                 <input type="hidden" id="airport_tax" name="airport_tax" value="{{response.airport_tax}}"/>
                                                 <input type="hidden" id="seat" name="seat" value="{{response.seat}}"/>
+                                                <input type="hidden" id="commission_agent_type" name="commission_agent_type" value="other"/>
+                                                <input type="hidden" id="tour_type" name="tour_type" value="{{response.tour_type}}"/>
+                                                <input type="hidden" id="discount" name="discount" value="{{response.discount}}"/>
                                                 <h4>Room Setting</h4>
                                                 <br/>
-                                                <input type="hidden" id="stack_count" value="0"/>
+                                                <input type="hidden" id="room_amount" value="0"/>
                                                 <div id="tour_room_input">
 
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                                                        <button id="btnShowRooms" class="btn btn-add-room btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal">Add Room</button>
+                                                        <button id="btnShowRooms" class="primary-btn-ticket btn-block space" type="button" data-toggle="modal" data-target="#TourRoomsModal">Add Room</button>
                                                     </div>
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding-left: 0px;">
-                                                        <button id="btnDeleteRooms" class="btn btn-add-room btn-block space hide" type="button">Delete</button>
+                                                        <button id="btnDeleteRooms" class="primary-btn-ticket btn-block space hide" type="button">Delete</button>
                                                     </div>
                                                 </div>
 
                                             </div>
-                                            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" id="total-price-container">
+                                            <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 hide" id="total-price-container">
                                                 <div style="background-color:#f15a22; padding:5px;">
                                                     <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
                                                 </div>
@@ -140,92 +144,123 @@
                                                     <div id="tour_detail_table">
                                                         <div class="row">
                                                             <div class="col-xs-5">Adult Price</div>
+                                                            <input type="hidden" id="adult_sale_price_hidden" value="0"/>
+                                                            <input type="hidden" id="adult_commission_hidden" value="0"/>
+                                                            <input type="hidden" id="adult_total_pax" name="adult_total_pax" value="0"/>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="adult_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="adult_amount" name="adult_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="adult_price" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <input id="adult_commission" name="adult_commission" data-price="0" type="hidden"/>
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="adult_price" name="adult_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Adult Extra Bed</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="adult_surcharge_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="adult_surcharge_amount" name="adult_surcharge_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="adult_surcharge_price" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="adult_surcharge_price" name="adult_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Child Price</div>
+                                                            <input type="hidden" id="child_sale_price_hidden" value="0"/>
+                                                            <input type="hidden" id="child_commission_hidden" value="0"/>
+                                                            <input type="hidden" id="child_total_pax" name="child_total_pax" value="0"/>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="child_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="child_amount" name="child_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="child_price" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <input id="child_commission" name="child_commission" data-price="0" type="hidden"/>
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="child_price" name="child_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Child Extra Bed</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="child_surcharge_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="child_surcharge_amount" name="child_surcharge_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="child_surcharge_price" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="child_surcharge_price" name="child_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Infant Price</div>
+                                                            <input type="hidden" id="infant_sale_price_hidden" value="0"/>
+                                                            <input type="hidden" id="infant_commission_hidden" value="0"/>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="infant_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="infant_amount" name="infant_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="infant_price" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <input id="infant_commission" name="infant_commission" data-price="0" type="hidden"/>
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="infant_price" name="infant_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Single Supplement</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="single_supplement_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="single_supplement_amount" name="single_supplement_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="single_supplement_price" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="single_supplement_price" name="single_supplement_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Airport Tax</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="airport_tax_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="airport_tax_amount" name="airport_tax_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="airport_tax_total" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="airport_tax_total" name="airport_tax_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Tipping Local Guide</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="tipping_guide_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="tipping_guide_amount" name="tipping_guide_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="tipping_guide_total" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="tipping_guide_total" name="tipping_guide_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Tipping Tour Leader</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="tipping_tour_leader_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="tipping_tour_leader_amount" name="tipping_tour_leader_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="tipping_tour_leader_total" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="tipping_tour_leader_total" name="tipping_tour_leader_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Additional Charge</div>
                                                             <div class="col-xs-1">X</div>
-                                                            <div id="additional_charge_amount" class="col-xs-1">0</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="additional_charge_amount" name="additional_charge_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="additional_charge_total" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="additional_charge_total" name="additional_charge_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <br/>
@@ -234,18 +269,20 @@
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="sub_total" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-4" style="text-align: right;">
+                                                                <input id="sub_total" name="sub_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:15px;" readonly="readonly"/>
                                                             </div>
+                                                            <input type="hidden" id="sub_total_hidden" name="sub_total_hidden"/>
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-xs-5">Discount</div>
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="discount_total" class="col-xs-4" style="text-align: right;">
-                                                                Rp 0
+                                                            <div class="col-xs-4" style="text-align: right;">
+                                                                <input id="discount_total" name="discount_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:15px;" readonly="readonly"/>
                                                             </div>
+                                                            <input type="hidden" id="discount_total_hidden" name="discount_total_hidden"/>
                                                         </div>
                                                         <hr/>
                                                         <div class="row">
@@ -253,15 +290,17 @@
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-1"></div>
-                                                            <div id="grand_total" class="col-xs-4" style="text-align: right; font-weight: bold; font-size: 22;">
-                                                                Rp 0
+                                                            <div class="col-xs-4" style="text-align: right; font-weight: bold; font-size: 22;">
+                                                                <input id="grand_total" name="grand_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:16px; font-weight: bold;" readonly="readonly"/>
                                                             </div>
+                                                            <input type="hidden" id="grand_total_hidden" name="grand_total_hidden"/>
+                                                            <input id="commission_total" name="commission_total" type="hidden"/>
                                                         </div>
                                                         <div class="row" id="show_commission" style="display:none;">
                                                             <br/>
                                                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                                                 <div class="alert alert-success">
-                                                                    <span style="font-size:13px;">Your Commission: IDR 0</span><br>
+                                                                    <span style="font-size:13px;">Your Commission: IDR </span><span id="commission_total_content"></span><br>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -296,7 +335,7 @@
                                                 </div>
                                                 <br/>
                                                 <center>
-                                                    <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:90%;">
+                                                    <button type="submit" class="primary-btn-ticket" value="Next" style="width:90%;">
                                                         Next
                                                         <i class="fas fa-angle-right"></i>
                                                     </button>

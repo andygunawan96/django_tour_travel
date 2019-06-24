@@ -95,7 +95,8 @@ def detail(request):
         })
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'response': request.session['tour_search'][int(request.POST['sequence'])],
+            # 'response': request.session['tour_search'][int(request.POST['sequence'])],
+            'response': request.session['tour_pick'],
             'username': request.session['username'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
@@ -107,13 +108,89 @@ def detail(request):
 def passenger(request):
     if 'username' in request.session._session:
         # res = json.loads(request.POST['response'])
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+        # agent
+        adult_title = ['MR', 'MRS', 'MS']
+        infant_title = ['MSTR', 'MISS']
+        child_title = infant_title
+
+        airline_country = response['result']['response']['airline']['country']
+
+        # pax
+        adult = []
+        infant = []
+        child = []
+
+        try:
+            for i in range(int(request.POST['adult_total_pax'].replace(',', ''))):
+                adult.append('')
+        except:
+            print('no adult')
+
+        try:
+            for i in range(int(request.POST['child_total_pax'].replace(',', ''))):
+                child.append('')
+        except:
+            print('no children')
+
+        try:
+            for i in range(int(request.POST['infant_amount'].replace(',', ''))):
+                infant.append('')
+        except:
+            print('no infant')
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'adult_title': adult_title,
+            'infant_title': infant_title,
+            'child_title': child_title,
+            'countries': airline_country,
             'username': request.session['username'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            'adults': adult,
+            'infants': infant,
+            'childs': child,
+            'price_itinerary': {
+                'adult_amount': int(request.POST['adult_amount'].replace(',', '')),
+                'adult_total_pax': int(request.POST['adult_total_pax'].replace(',', '')),
+                'adult_price': int(request.POST['adult_price'].replace(',', '')),
+                'adult_surcharge_amount': int(request.POST['adult_surcharge_amount'].replace(',', '')),
+                'adult_surcharge_price': int(request.POST['adult_surcharge_price'].replace(',', '')),
+                'child_amount': int(request.POST['child_amount'].replace(',', '')),
+                'child_total_pax': int(request.POST['child_total_pax'].replace(',', '')),
+                'child_price': int(request.POST['child_price'].replace(',', '')),
+                'child_surcharge_amount': int(request.POST['child_surcharge_amount'].replace(',', '')),
+                'child_surcharge_price': int(request.POST['child_surcharge_price'].replace(',', '')),
+                'infant_amount': int(request.POST['infant_amount'].replace(',', '')),
+                'infant_price': int(request.POST['infant_price'].replace(',', '')),
+                'single_supplement_amount': int(request.POST['single_supplement_amount'].replace(',', '')),
+                'single_supplement_price': int(request.POST['single_supplement_price'].replace(',', '')),
+                'airport_tax_amount': int(request.POST['airport_tax_amount'].replace(',', '')),
+                'airport_tax_total': int(request.POST['airport_tax_total'].replace(',', '')),
+                'tipping_guide_amount': int(request.POST['tipping_guide_amount'].replace(',', '')),
+                'tipping_guide_total': int(request.POST['tipping_guide_total'].replace(',', '')),
+                'tipping_tour_leader_amount': int(request.POST['tipping_tour_leader_amount'].replace(',', '')),
+                'tipping_tour_leader_total': int(request.POST['tipping_tour_leader_total'].replace(',', '')),
+                'additional_charge_amount': int(request.POST['additional_charge_amount'].replace(',', '')),
+                'additional_charge_total': int(request.POST['additional_charge_total'].replace(',', '')),
+                'total_itinerary_price': int(request.POST['grand_total_hidden']),
+                'discount_total_itinerary_price': int(request.POST['discount_total_hidden']),
+                'sub_total_itinerary_price': int(request.POST['sub_total_hidden']),
+                'commission_total': int(request.POST['commission_total'])
+            },
+            'total_itinerary_price': int(request.POST['grand_total_hidden']),
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_passenger_templates.html', values)
     else:
