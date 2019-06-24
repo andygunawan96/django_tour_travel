@@ -422,6 +422,367 @@ function search_passenger(passenger, number, product){
 
 }
 
+function search_passenger_tour(passenger, room_num, number, product){
+    var check = 0;
+    $('#loading-booker-train').show();
+    room_number = parseInt(room_num);
+    passenger_number = parseInt(number);
+    document.getElementById('search_result').innerHTML = ``;
+    getToken();
+    if(passenger == 'Booker'){
+        if(check_string_length($('#train_booker_search').val())>=2){
+            //get_agent_booker
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'get_agent_booker',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                    "search_value": $('#train_booker_search').val(),
+               },
+               success: function(msg) {
+               console.log(msg);
+                if(msg.error_code==0){
+                    var response = '';
+
+                    if(msg.response.result.length != 0){
+                        response+=`
+                        <table style="width:100%" id="list-of-passenger">
+                            <tr>
+                                <th style="width:5%;">No</th>
+                                <th style="width:30%;">Name</th>
+                                <th style="width:10%;">Type</th>
+                                <th style="width:40%;">Balance</th>
+                                <th style="width:20%"></th>
+                            </tr>`;
+
+                        for(i in msg.response.result){
+                            response+=`
+                            <tr>
+                                <td>`+(parseInt(i)+1)+`</td>
+                                <td>
+                                    <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name;
+                                    if(msg.response.result[i].email != '')
+                                        response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.response.result[i].email+`</span>`;
+                                    if(msg.response.result[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                    if(msg.response.result[i].mobile != '')
+                                        response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                    if(msg.response.result[i].nationality_id.name != '')
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                    response+=`
+                                </td>
+                                <td>`+msg.response.result[i].booker_type+`</td>
+                                <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                                <td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('Booker',`+msg.response.result[i].sequence+`,'`+product+`');">Choose</button></td>
+                            </tr>`;
+                        }
+                        response+=`</table>`;
+                        document.getElementById('search_result').innerHTML = response;
+                        passenger_data = msg.response.result;
+                    }
+                    else{
+                        response = '';
+                        response+=`<center><h5>USER NOT FOUND</h5></center>`;
+                        document.getElementById('search_result').innerHTML = response;
+                    }
+                }
+
+                $('#loading-booker-train').hide();
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert(errorThrown);
+               }
+            });
+
+        }else{
+            alert('Please Input more than 2 word!');
+            $('#loading-booker-train').hide();
+        }
+    }else{
+        $('#loading-pax-train').show();
+        $('#loading-paxi-train').show();
+        if (product == 'activity'){
+            $('#loading-paxs-train').show();
+            $('#loading-paxc-train').show();
+        }
+        var passenger_search = '';
+        if(passenger=='Adult')
+            passenger_search = [$('#train_room'+room_num.toString()+'_adult'+number.toString()+'_search').val(), 'ADT'];
+        else if(passenger=='Infant')
+            passenger_search = [$('#train_room'+room_num.toString()+'_infant'+number.toString()+'_search').val(), 'INF'];
+        else if(passenger=='Senior')
+            passenger_search = [$('#train_room'+room_num.toString()+'_senior'+number.toString()+'_search').val(), 'YCD'];
+        else if(passenger=='Child')
+            passenger_search = [$('#train_room'+room_num.toString()+'_child'+number.toString()+'_search').val(), 'CHD'];
+        else if(passenger=='') //untuk issued offline
+            passenger_search = [$('#train'+number.toString()+'_search').val(), ''];
+
+        if(check_string_length(passenger_search[0])>=2){
+            //get_agent_passenger
+//            search_text = '';
+//            if(passenger == 'Adult')
+//                search_text = $('#train_adult'+number.toString()+'_search').val()
+//            else if(passenger == 'Child')
+//                search_text = $('#train_child'+number.toString()+'_search').val()
+//            else if(passenger == 'Senior')
+//                search_text = $('#train_senior'+number.toString()+'_search').val()
+//            else if(passenger == 'Infant')
+//                search_text = $('#train_infant'+number.toString()+'_search').val()
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'get_agent_passenger',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                    "search_value": passenger_search[0],
+                    "pax_type": passenger_search[1]
+               },
+               success: function(msg) {
+                if(msg.error_code==0){
+                    var response = '';
+                    var count_user = 0;
+                    if(msg.response.result.length != 0){
+                        response+=`
+                        <br/>
+                        <table style="width:100%" id="list-of-passenger">
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:60%;">Name</th>
+                                <th style="width:30%"></th>
+                            </tr>`;
+
+                        count_user = 0;
+                        for(i in msg.response.result){
+                            if(passenger_search[1] == "")
+                            {
+                                count_user = parseInt(i)+1;
+                                response+=`
+                                <tr>
+                                    <td>`+(parseInt(i)+1)+`</td>
+                                    <td>
+                                        <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name+``;
+                                        if(msg.response.result[i].birth_date != '')
+                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                        if(msg.response.result[i].mobile != '')
+                                            response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                        if(msg.response.result[i].nationality_id.name != '')
+                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                        if(msg.response.result[i].identity_type == 'pas')
+                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'ktp')
+                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'sim')
+                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.response.result[i].identity_number+`</span>`;
+                                        response+=`
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger_tour('',`+i+`,'`+product+`');">Choose</button>
+                                    </td>
+                                </tr>`;
+                            }
+                            else if(msg.response.result[i].pax_type == passenger_search[1] && passenger == 'Adult')
+                            {
+                                count_user = parseInt(i)+1;
+                                response+=`
+                                <tr>
+                                    <td>`+(parseInt(i)+1)+`</td>
+                                    <td>
+                                        <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name+``;
+                                        if(msg.response.result[i].birth_date != '')
+                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                        if(msg.response.result[i].mobile != '')
+                                            response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                        if(msg.response.result[i].nationality_id.name != '')
+                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                        if(msg.response.result[i].identity_type == 'pas')
+                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'ktp')
+                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'sim')
+                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.response.result[i].identity_number+`</span>`;
+                                        response+=`
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger_tour('Adult',`+i+`,'`+product+`');">Choose</button>
+                                    </td>
+                                </tr>`;
+                            }
+                            else if(msg.response.result[i].pax_type == passenger_search[1] && passenger == 'Child')
+                            {
+                                count_user = parseInt(i)+1;
+                                response+=`
+                                <tr>
+                                    <td>`+(parseInt(i)+1)+`</td>
+                                    <td>
+                                        <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name+``;
+                                        if(msg.response.result[i].birth_date != '')
+                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                        if(msg.response.result[i].mobile != '')
+                                            response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                        if(msg.response.result[i].nationality_id.name != '')
+                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                        if(msg.response.result[i].identity_type == 'pas')
+                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'ktp')
+                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'sim')
+                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.response.result[i].identity_number+`</span>`;
+                                        response+=`
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger_tour('Child',`+i+`,'`+product+`');">Choose</button>
+                                    </td>
+                                </tr>`;
+                            }
+
+                            else if(msg.response.result[i].pax_type == passenger_search[1] && passenger == 'Senior')
+                            {
+                                count_user = parseInt(i)+1;
+                                response+=`
+                                <tr>
+                                    <td>`+(parseInt(i)+1)+`</td>
+                                    <td>
+                                        <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name+``;
+                                        if(msg.response.result[i].birth_date != '')
+                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                        if(msg.response.result[i].mobile != '')
+                                            response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                        if(msg.response.result[i].nationality_id.name != '')
+                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                        if(msg.response.result[i].identity_type == 'pas')
+                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'ktp')
+                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'sim')
+                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.response.result[i].identity_number+`</span>`;
+                                        response+=`
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger_tour('Senior',`+i+`,'`+product+`');">Choose</button>
+                                    </td>
+                                </tr>`;
+                            }
+
+                            else if(msg.response.result[i].pax_type == passenger_search[1] && passenger == 'Infant')
+                            {
+                                count_user = parseInt(i)+1;
+                                response+=`
+                                <tr>
+                                    <td>`+(parseInt(i)+1)+`</td>
+                                    <td>
+                                        <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name+``;
+                                        if(msg.response.result[i].birth_date != '')
+                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                        if(msg.response.result[i].mobile != '')
+                                            response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                        if(msg.response.result[i].nationality_id.name != '')
+                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                        if(msg.response.result[i].identity_type == 'pas')
+                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'ktp')
+                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'sim')
+                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.response.result[i].identity_number+`</span>`;
+                                        response+=`
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger_tour('Infant',`+i+`,'`+product+`');">Choose</button>
+                                    </td>
+                                </tr>`;
+                            }
+
+                            else if(msg.response.result[i].pax_type == passenger_search[1] && passenger == 'Elder')
+                            {
+                                count_user = parseInt(i)+1;
+                                response+=`
+                                <tr>
+                                    <td>`+(parseInt(i)+1)+`</td>
+                                    <td>
+                                        <i class="fas fa-user"></i> `+msg.response.result[i].title+` `+msg.response.result[i].first_name+` `+msg.response.result[i].last_name+``;
+                                        if(msg.response.result[i].birth_date != '')
+                                            response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.response.result[i].birth_date+`</span>`;
+                                        if(msg.response.result[i].mobile != '')
+                                            response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.response.result[i].mobile+`</span>`;
+                                        if(msg.response.result[i].nationality_id.name != '')
+                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.response.result[i].nationality_id.name+`</span>`;
+                                        if(msg.response.result[i].identity_type == 'pas')
+                                            response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'ktp')
+                                            response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.response.result[i].identity_number+`</span>`;
+                                        else if(msg.response.result[i].identity_type == 'sim')
+                                            response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.response.result[i].identity_number+`</span>`;
+                                        response+=`
+                                    </td>
+                                    <td style="text-align:center;">
+                                        <button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger_tour('Elder',`+i+`,'`+product+`');">Choose</button>
+                                    </td>
+                                </tr>`;
+                            }
+                        }
+                        response+=`</table>`;
+
+                        if(count_user == 0){
+                            response='';
+                            response+=`<br/><center><h5>USER NOT FOUND</h5></center>`;
+                        }
+                        if(passenger_search[1] == 'ADT')
+                            document.getElementById('search_result_room'+room_num.toString()+'_adult'+number).innerHTML = response;
+                        else if(passenger_search[1] == 'INF')
+                            document.getElementById('search_result_room'+room_num.toString()+'_infant'+number).innerHTML = response;
+                        else if(passenger_search[1] == 'YCD')
+                            document.getElementById('search_result_room'+room_num.toString()+'_senior'+number).innerHTML = response;
+                        else if(passenger_search[1] == 'CHD')
+                            document.getElementById('search_result_room'+room_num.toString()+'_child'+number).innerHTML = response;
+                        else if(passenger_search[1] == '')
+                            document.getElementById('search_result'+number).innerHTML = response;
+                        passenger_data = msg.response.result;
+                    }
+                    else{
+                        response = '';
+                        response+=`<br/><center><h5>USER NOT FOUND</h5></center>`;
+                        if(passenger_search[1] == 'ADT')
+                            document.getElementById('search_result_room'+room_num.toString()+'_adult'+number).innerHTML = response;
+                        else if(passenger_search[1] == 'INF')
+                            document.getElementById('search_result_room'+room_num.toString()+'_infant'+number).innerHTML = response;
+                        else if(passenger_search[1] == 'YCD')
+                            document.getElementById('search_result_room'+room_num.toString()+'_senior'+number).innerHTML = response;
+                        else if(passenger_search[1] == 'CHD')
+                            document.getElementById('search_result_room'+room_num.toString()+'_child'+number).innerHTML = response;
+                        else if(passenger_search[1] == '')
+                            document.getElementById('search_result'+number).innerHTML = response;
+                    }
+
+
+                }
+                $('#loading-pax-train').hide();
+                $('#loading-paxi-train').hide();
+                if (product == 'activity'){
+                    $('#loading-paxs-train').hide();
+                    $('#loading-paxc-train').hide();
+                }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert(errorThrown);
+               }
+            });
+        }else{
+            alert('Please Input more than 2 word!');
+            $('#loading-pax-train').hide();
+            $('#loading-paxi-train').hide();
+            if (product == 'activity'){
+                $('#loading-paxs-train').hide();
+                $('#loading-paxc-train').hide();
+            }
+        }
+    }
+
+}
+
 function gotoForm(){
     document.getElementById('myForm').submit();
 }
@@ -601,6 +962,155 @@ function pick_passenger(type, sequence, product){
     }
 }
 
+function pick_passenger_tour(type, sequence, product){
+    console.log(type);
+    console.log(sequence);
+    console.log(product);
+    if(type == '' || product == 'issued_offline'){
+        if(type == 'Booker'){
+            document.getElementById('sub_agent').value = passenger_data[sequence].agent_id.name;
+            document.getElementById('sub_agent_id').value = passenger_data[sequence].agent_id.id;
+            document.getElementById('contact_person').value = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
+            document.getElementById('contact_id').value = passenger_data[sequence].id;
+            $('#myModal').modal('hide');
+        }else{
+            document.getElementById('name_pax'+sequence).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
+            document.getElementById('id_passenger'+sequence).value = passenger_data[sequence].id;
+            document.getElementById('pax_type'+sequence).innerHTML = passenger_data[sequence].pax_type;
+            $('#myModalPassenger'+sequence).modal('hide');
+        }
+    }
+    else if(type == 'Booker'){
+        //change booker
+        document.getElementById('booker_title').value = passenger_data[sequence].title;
+        document.getElementById('booker_first_name').value = passenger_data[sequence].first_name;
+        document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
+        document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('booker_email').value = passenger_data[sequence].email;
+        document.getElementById('booker_phone_code').value = passenger_data[sequence].nationality_id.phone_code;
+        document.getElementById('booker_phone').value = passenger_data[sequence].mobile;
+        document.getElementById('booker_id').value = passenger_data[sequence].id;
+        $('#myModal').modal('hide');
+    }else if(type == 'Adult'){
+
+        document.getElementById('room'+room_number+'_adult_title'+passenger_number).value = passenger_data[sequence].title;
+        document.getElementById('room'+room_number+'_adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('room'+room_number+'_adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        check_years_old(room_number,passenger_number,'adult');
+
+        if(document.getElementById('room'+room_number+'_adult_years_old'+passenger_number).value >= 17){
+            if(product=='train'){
+                document.getElementById('room'+room_number+'_adult_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
+                document.getElementById('room'+room_number+'_adult_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
+            }
+            if(product=='airline'){
+                document.getElementById('room'+room_number+'_adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
+                document.getElementById('room'+room_number+'_adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].passport_expdate;
+                document.getElementById('room'+room_number+'_adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+            }
+
+            if (document.getElementById("default-select")) {
+                $('select').niceSelect('update');
+            };
+        }
+
+        if(product=='train'){
+            if(parseInt(document.getElementById('room'+room_number+'_adult_years_old'+passenger_number).value)>=17){
+                document.getElementById('room'+room_number+'_adult_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
+                document.getElementById('room'+room_number+'_adult_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
+            }
+        }
+        if(product=='airline'){
+            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+            console.log(passport_date);
+            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+            document.getElementById('room'+room_number+'_adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
+            document.getElementById('room'+room_number+'_adult_passport_expired_date'+passenger_number).value = passport_date;
+            document.getElementById('room'+room_number+'_adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+        }else{
+            document.getElementById('room'+room_number+'_adult_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
+            document.getElementById('room'+room_number+'_adult_phone'+passenger_number).value = passenger_data[sequence].mobile;
+        }
+        document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].id;
+        $('#myModal_room'+room_number+'_adult'+passenger_number).modal('hide');
+    }else if(type == 'Child'){
+        document.getElementById('room'+room_number+'_child_title'+passenger_number).value = passenger_data[sequence].title;
+        document.getElementById('room'+room_number+'_child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_child_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('room'+room_number+'_child_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        check_years_old(room_number, passenger_number,'child');
+        if(product=='train'){
+            document.getElementById('room'+room_number+'_child_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
+            document.getElementById('room'+room_number+'_child_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
+        }
+        if(product=='airline'){
+            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+            console.log(passport_date);
+            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+            document.getElementById('room'+room_number+'_child_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
+            document.getElementById('room'+room_number+'_child_passport_expired_date'+passenger_number).value = passport_date;
+            document.getElementById('room'+room_number+'_child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+        }else{
+            document.getElementById('room'+room_number+'_child_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
+            document.getElementById('room'+room_number+'_child_phone'+passenger_number).value = passenger_data[sequence].mobile;
+        }
+
+        document.getElementById('room'+room_number+'_child_id'+passenger_number).value = passenger_data[sequence].id;
+        $('#myModal_room'+room_number+'_child'+passenger_number).modal('hide');
+    }else if(type == 'Infant'){
+        document.getElementById('room'+room_number+'_infant_title'+passenger_number).value = passenger_data[sequence].title;
+        document.getElementById('room'+room_number+'_infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('room'+room_number+'_infant_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        check_years_old(room_number, passenger_number,'infant');
+        if(product=='train'){
+            document.getElementById('room'+room_number+'_infant_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
+            document.getElementById('room'+room_number+'_infant_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
+        }
+        if(product=='airline'){
+            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+            console.log(passport_date);
+            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+            document.getElementById('room'+room_number+'_infant_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
+            document.getElementById('room'+room_number+'_infant_passport_expired_date'+passenger_number).value = passport_date;
+            document.getElementById('room'+room_number+'_infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+        }else{
+            document.getElementById('room'+room_number+'_infant_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
+            document.getElementById('room'+room_number+'_infant_phone'+passenger_number).value = passenger_data[sequence].mobile;
+        }
+        document.getElementById('room'+room_number+'_infant_id'+passenger_number).value = passenger_data[sequence].id;
+        $('#myModal_room'+room_number+'_infant'+passenger_number).modal('hide');
+    }else if(type == 'Senior'){
+        document.getElementById('room'+room_number+'_senior_title'+passenger_number).value = passenger_data[sequence].title;
+        document.getElementById('room'+room_number+'_senior_first_name'+passenger_number).value = passenger_data[sequence].first_name;
+        document.getElementById('room'+room_number+'_senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
+        document.getElementById('room'+room_number+'_senior_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('room'+room_number+'_senior_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
+        check_years_old(room_number, passenger_number,'senior');
+        if(product=='train'){
+            document.getElementById('room'+room_number+'_senior_id_type'+passenger_number).value = passenger_data[sequence].identity_type;
+            document.getElementById('room'+room_number+'_senior_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
+        }
+        if(product=='airline'){
+            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+            console.log(passport_date);
+            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+            document.getElementById('room'+room_number+'_senior_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
+            document.getElementById('room'+room_number+'_senior_passport_expired_date'+passenger_number).value = passport_date;
+            document.getElementById('room'+room_number+'_senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+        }else{
+            document.getElementById('room'+room_number+'_senior_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
+            document.getElementById('room'+room_number+'_senior_phone'+passenger_number).value = passenger_data[sequence].mobile;
+        }
+        document.getElementById('room'+room_number+'_senior_id'+passenger_number).value = passenger_data[sequence].id;
+        $('#myModal_room'+room_number+'_senior'+passenger_number).modal('hide');
+    }
+}
+
 function copy_booker_to_passenger(val,type){
     if(val == 'copy'){
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
@@ -642,6 +1152,22 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_phone1').value = '';
         document.getElementById('adult_phone1').readOnly = false;
         document.getElementById('adult_id1').value = '';
+    }
+}
+
+function copy_booker_to_passenger_tour(val){
+    if(val == 'copy'){
+        document.getElementById('room1_adult_title1').value = document.getElementById('booker_title').value;
+        document.getElementById('room1_adult_first_name1').value = document.getElementById('booker_first_name').value;
+        document.getElementById('room1_adult_last_name1').value = document.getElementById('booker_last_name').value;
+        document.getElementById('room1_adult_nationality1').value = document.getElementById('booker_nationality').value;
+        document.getElementById('room1_adult_id1').value = document.getElementById('booker_id').value;
+    }else{
+        document.getElementById('room1_adult_title1').value = 'MR';
+        document.getElementById('room1_adult_first_name1').value = '';
+        document.getElementById('room1_adult_last_name1').value = '';
+        document.getElementById('room1_adult_nationality1').value = '';
+        document.getElementById('room1_adult_id1').value = '';
     }
 }
 
@@ -711,6 +1237,59 @@ function clear_passenger(type, sequence){
         document.getElementById('child_phone_code'+sequence).value = '62';
         document.getElementById('child_phone'+sequence).value = '';
         document.getElementById('child_id'+sequence).value = '';
+    }
+}
+
+function clear_passenger_tour(type, room_seq, sequence){
+    if(type == 'Booker'){
+        document.getElementById('booker_title').value = 'MR';
+        document.getElementById('booker_first_name').value = '';
+        document.getElementById('booker_last_name').value = '';
+        document.getElementById('booker_nationality').value = '';
+        document.getElementById('booker_email').value = '';
+        document.getElementById('booker_phone_code').value = '62';
+        document.getElementById('booker_phone').value = '';
+        document.getElementById('booker_id').value = '';
+    }else if(type == 'Adult'){
+        document.getElementById('room'+room_seq+'_adult_title'+sequence).value = 'MR';
+        document.getElementById('room'+room_seq+'_adult_first_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_adult_last_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_adult_nationality'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_adult_birth_date'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_adult_id_type'+passenger_number).value = 'ktp';
+        document.getElementById('room'+room_seq+'_adult_id_number'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_adult_phone_code'+sequence).value = '62';
+        document.getElementById('room'+room_seq+'_adult_phone'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_adult_id'+sequence).value = '';
+    }else if(type == 'Infant'){
+        document.getElementById('room'+room_seq+'_infant_title'+sequence).value = 'MSTR';
+        document.getElementById('room'+room_seq+'_infant_first_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_infant_last_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_infant_nationality'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_infant_birth_date'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_infant_id'+sequence).value = '';
+    }else if(type == 'Senior'){
+        document.getElementById('room'+room_seq+'_senior_title'+sequence).value = 'MR';
+        document.getElementById('room'+room_seq+'_senior_first_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_senior_last_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_senior_nationality'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_senior_birth_date'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_senior_id_type'+passenger_number).value = 'ktp';
+        document.getElementById('room'+room_seq+'_senior_id_number'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_senior_phone_code'+sequence).value = '62';
+        document.getElementById('room'+room_seq+'_senior_phone'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_senior_id'+sequence).value = '';
+    }else if(type == 'Child'){
+        document.getElementById('room'+room_seq+'_child_title'+sequence).value = 'MSTR';
+        document.getElementById('room'+room_seq+'_child_first_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_child_last_name'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_child_nationality'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_senior_birth_date'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_senior_id_type'+passenger_number).value = 'ktp';
+        document.getElementById('room'+room_seq+'_senior_id_number'+passenger_number).value = '';
+        document.getElementById('room'+room_seq+'_child_phone_code'+sequence).value = '62';
+        document.getElementById('room'+room_seq+'_child_phone'+sequence).value = '';
+        document.getElementById('room'+room_seq+'_child_id'+sequence).value = '';
     }
 }
 

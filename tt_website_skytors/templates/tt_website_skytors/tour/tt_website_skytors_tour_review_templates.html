@@ -6,6 +6,8 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/tour_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 <script>
     document.getElementById('username').innerHTML = '{{username}}';
@@ -28,6 +30,330 @@
         </div>
         <br/>
 
+        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Please Review Your Booking</h3>
+                    <h4>Prices may changes at any time</h4>
+                    <br/>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div style="background-color:#f15a22;">
+                                <center>
+                                    <span style="color:white; font-size:16px;"> Tour Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/tour.png"/></span>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div id="tour_review_detail" style="background-color: white; padding:15px; border: 1px solid #f15a22;">
+                                <h3>{{tour_data.name}}</h3>
+                                <br/>
+                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{tour_data.departure_date_f}} - {{tour_data.arrival_date_f}}
+                                </span>
+                                <br/>
+                                <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{tour_data.duration}} Days</span>
+                                <br/>
+                                <span>{{tour_data.flight}} Flight, {{tour_data.visa}} Visa</span>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div style="background-color:#f15a22;">
+                                <center>
+                                    <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div id="tour_review_booker" style="background-color: white; padding:15px; border: 1px solid #f15a22;">
+                                <h5>Booker Information</h5>
+                                <table>
+                                    <tr>
+                                        <td style="width:35%;">
+                                            Full Name
+                                        </td>
+                                        <td style="width:3%;">
+                                            :
+                                        </td>
+                                        <td style="width:62%;">
+                                            {{contact.title}}. {{contact.first_name}} {{contact.last_name}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:35%;">
+                                            Email
+                                        </td>
+                                        <td style="width:3%;">
+                                            :
+                                        </td>
+                                        <td style="width:62%;">
+                                            {{contact.email}}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:35%;">
+                                            Mobile Phone
+                                        </td>
+                                        <td style="width:3%;">
+                                            :
+                                        </td>
+                                        <td style="width:62%;">
+                                            {{contact.mobile}}
+                                        </td>
+                                    </tr>
+                                </table>
+                                <br/>
+                                <h5>Passenger Information</h5>
+                                {% for room in room_list %}
+                                <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">Room {{forloop.counter}}</span>
+                                <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">{{room.name}} {{room.bed_type}}</span>
+                                {% if room.hotel %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">{{room.hotel}}</span><br/>{% endif %}
+                                {% if room.notes %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">Notes: {{room.notes}}</span>{% endif %}
+                                <table style="width:100%;" id="list-of-passenger">
+                                    <tr>
+                                        <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                        <th style="width:36%;">Name</th>
+                                        <th style="width:7%;">Type</th>
+                                        <th style="width:25%;">Birth Date</th>
+                                        <th style="width:25%;" class="list-of-passenger-right">Email</th>
+                                    </tr>
+                                    {% for pax_adt in room.adult_obj %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{pax_adt.title}}. {{pax_adt.name}}</td>
+                                        <td>{{pax_adt.pax_type}}</td>
+                                        <td>{{pax_adt.birth_date}}</td>
+                                        <td></td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% for pax_chd in room.child_obj %}
+                                    <tr>
+
+                                    </tr>
+                                    {% endfor %}
+                                    {% for pax_inf in room.infant_obj %}
+                                    <tr>
+
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom: 20px;">
+                    <div style="background-color:#f15a22; padding:5px;">
+                        <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="tour_detail">
+                        <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width: 40%;">Adult Price</td>
+                                    <input type="hidden" id="adult_total_pax" name="adult_total_pax" value="{{price_itinerary.adult_total_pax}}"/>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="adult_amount" name="adult_amount" value="{{price_itinerary.adult_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="adult_price" name="adult_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.adult_price}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Adult Extra Bed</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="adult_surcharge_amount" name="adult_surcharge_amount" value="{{price_itinerary.adult_surcharge_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="adult_surcharge_price" name="adult_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.adult_surcharge_price}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Child Price</td>
+                                    <input type="hidden" id="child_total_pax" name="child_total_pax" value="{{price_itinerary.child_total_pax}}"/>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="child_amount" name="child_amount" value="{{price_itinerary.child_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="child_price" name="child_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.child_price}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Child Extra Bed</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="child_surcharge_amount" name="child_surcharge_amount" value="{{price_itinerary.child_surcharge_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="child_surcharge_price" name="child_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.child_surcharge_price}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Infant Price</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="infant_amount" name="infant_amount" value="{{price_itinerary.infant_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="infant_price" name="infant_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.infant_price}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Single Supplement</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="single_supplement_amount" name="single_supplement_amount" value="{{price_itinerary.single_supplement_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="single_supplement_price" name="single_supplement_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.single_supplement_price}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Airport Tax</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="airport_tax_amount" name="airport_tax_amount" value="{{price_itinerary.airport_tax_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="airport_tax_total" name="airport_tax_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.airport_tax_total}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Tipping Local Guide</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="tipping_guide_amount" name="tipping_guide_amount" value="{{price_itinerary.tipping_guide_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="tipping_guide_total" name="tipping_guide_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.tipping_guide_total}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Tipping Tour Leader</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="tipping_tour_leader_amount" name="tipping_tour_leader_amount" value="{{price_itinerary.tipping_tour_leader_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="tipping_tour_leader_total" name="tipping_tour_leader_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.tipping_tour_leader_total}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Additional Charge</td>
+                                    <td style="width: 10%;">X</td>
+                                    <td style="width: 10%;">
+                                        <input id="additional_charge_amount" name="additional_charge_amount" value="{{price_itinerary.additional_charge_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;" data-price="0">
+                                        <input id="additional_charge_total" name="additional_charge_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.additional_charge_total}}" readonly="readonly"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <table>
+                                <tr>
+                                    <td style="width: 40%;">Total</td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;">
+                                        <input id="sub_total" name="sub_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:12px !important; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <input type="hidden" id="sub_total_hidden" name="sub_total_hidden" value="{{price_itinerary.sub_total_itinerary_price}}"/>
+                                </tr>
+                                <tr>
+                                    <td style="width: 40%;">Discount</td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; width: 30%;">
+                                        <input id="discount_total" name="discount_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:12px !important; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <input type="hidden" id="discount_total_hidden" name="discount_total_hidden" value="{{price_itinerary.discount_total_itinerary_price}}"/>
+                                </tr>
+                            </table>
+                            <hr/>
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width: 40%;"><span style="font-weight: bold; font-size: 14px !important;">Grand Total</span></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="width: 10%;"></td>
+                                    <td style="text-align: right; font-weight: bold; font-size: 14px !important; width: 30%;">
+                                        <input id="grand_total" name="grand_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:16px; font-weight: bold; color: #777777;" readonly="readonly"/>
+                                    </td>
+                                    <input type="hidden" id="grand_total_hidden" name="grand_total_hidden" value="{{total_itinerary_price}}"/>
+                                    <input id="commission_total" name="commission_total" type="hidden" value="{{price_itinerary.commission_total}}"/>
+                                </tr>
+                            </table>
+                            <div class="row" id="show_commission" style="display:none;">
+                                <br/>
+                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                    <div class="alert alert-success">
+                                        <span style="font-size:13px;">Your Commission: IDR </span><span id="commission_total_content"></span><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+                                <div class="col-xs-12">
+                                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                                </div>
+                            </div>
+                            <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+                                <div class="col-xs-12">
+                                    <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                                </div>
+
+                                <div id="copiedModal" class="modal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4>Copy</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <span style="font-weight:bold">Copied!</span>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:15px;">
+                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="tour_commit_booking();" style="width:100%;"/>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:15px;">
+                    <input class="primary-btn hold-seat-booking-train" type="button" value="Print Form" style="width:100%;"/>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:15px;">
+                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" style="width:100%;"/>
+                </div>
+            </div>
+        </form>
 
     </div>
 </div>
@@ -100,5 +426,20 @@
         </div>
     </div>
 </footer>
-
+<script>
+    document.getElementById("commission_total_content").innerHTML = getrupiah('{{price_itinerary.commission_total}}');
+    document.getElementById("adult_price").value = getrupiah('{{price_itinerary.adult_price}}');
+    document.getElementById("adult_surcharge_price").value = getrupiah('{{price_itinerary.adult_surcharge_price}}');
+    document.getElementById("child_price").value = getrupiah('{{price_itinerary.child_price}}');
+    document.getElementById("child_surcharge_price").value = getrupiah('{{price_itinerary.child_surcharge_price}}');
+    document.getElementById("infant_price").value = getrupiah('{{price_itinerary.infant_price}}');
+    document.getElementById("single_supplement_price").value = getrupiah('{{price_itinerary.single_supplement_price}}');
+    document.getElementById("airport_tax_total").value = getrupiah('{{price_itinerary.airport_tax_total}}');
+    document.getElementById("tipping_guide_total").value = getrupiah('{{price_itinerary.tipping_guide_total}}');
+    document.getElementById("tipping_tour_leader_total").value = getrupiah('{{price_itinerary.tipping_tour_leader_total}}');
+    document.getElementById("additional_charge_total").value = getrupiah('{{price_itinerary.additional_charge_total}}');
+    document.getElementById("sub_total").value = getrupiah('{{price_itinerary.sub_total_itinerary_price}}');
+    document.getElementById("discount_total").value = getrupiah('{{price_itinerary.discount_total_itinerary_price}}');
+    document.getElementById("grand_total").value = getrupiah('{{total_itinerary_price}}');
+</script>
 {% endblock %}
