@@ -29,12 +29,14 @@
     airline_get_price_request = `{{airline_get_price_request}}`;
     airline_get_price_request = JSON.parse(airline_get_price_request.replace(/&#39;/g, '"'));
     console.log(airline_get_price_request);
-    passenger = `{{passenger}}`;
-    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
+    passengers = `{{passengers}}`;
+    console.log(passengers);
+    passengers = JSON.parse(passengers.replace(/&#39;/g, '"'));
+    console.log(passengers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     document.getElementById('username').innerHTML = '{{username}}';
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -77,7 +79,11 @@
 
                             <div class="row" style="padding-top:15px;">
                                 <div class="col-lg-4" style="padding-bottom:15px;">
-                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="airline_commit_booking();" style="width:100%;"/>
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;"/>
+                                </div>
+                                <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                                <div class="col-lg-4" style="padding-bottom:15px;">
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;"/>
                                 </div>
                             </div>
                         </div>
@@ -167,11 +173,6 @@
 </footer>
 
 <script>
-    if(`{{back_page}}` == 'http://localhost:8000/airline/ssr'){
-        airline_ssr();
-    }else{
-        airline_create_passengers_with_ssr();
-    }
     airline_detail();
     get_airline_review();
 </script>

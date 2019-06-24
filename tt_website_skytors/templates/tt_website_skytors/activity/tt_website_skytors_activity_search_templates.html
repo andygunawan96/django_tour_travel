@@ -302,7 +302,6 @@
     activity_login('');
 
     function go_to_detail(sequence){
-        console.log(sequence);
         pick = JSON.stringify(activity_data[parseInt(sequence)]).replace(/'/g,'');
         document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
         document.getElementById(`csrf`+sequence).innerHTML += `<input type='hidden' value='`+pick+`' name='activity_pick'/>`;
@@ -312,9 +311,6 @@
 
     $(document).ready(function () {
         $(window).scroll(function() {
-            console.log($(window).scrollTop());
-            console.log($(document).height() - ($(window).height() + 600));
-            console.log(get_new);
             if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
                 if(get_new == true){
                     get_new = false;

@@ -19,7 +19,6 @@
     detail = detail.replace(/&#39;/g,'"');
     detail = detail.replace(/True/g,'true');
     detail = JSON.parse(detail.replace(/False/g,'false'));
-    console.log(detail);
     additional_price = parseInt({{additional_price}});
     passenger = {
         'adult': parseInt({{adult_count}}),
@@ -95,7 +94,7 @@
                     <h3>Please Review Your Order</h3>
                     <br/>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-12">
                             <div style="background-color:#f15a22;">
@@ -178,7 +177,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div style="background-color:#f15a22; padding:5px;">
                         <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
                     </div>

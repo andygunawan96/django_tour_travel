@@ -8,12 +8,8 @@
 <script src="{{ static_path }}js/hotel_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_hotel.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/moment.js"></script>
 <script>
-    filter = {
-        'departure_time': 'all',
-        'arrival_time': 'all',
-        'cabin_class': 'all'
-    };
     sorting_value = '';
     time = 300;
     triggered_balance();
@@ -27,140 +23,46 @@
         });
     {% endfor %}
 
+    hotel_search_data_request = {
+        'checkin': `{{hotel_search.check_in}}`,
+        'checkout': `{{hotel_search.check_out}}`,
+        'room': {{hotel_search.room}},
+        'adult': {{hotel_search.adult}},
+        'child': {{hotel_search.child}},
+    }
+
     function guest_child_age2(){
         text= '';
         if(parseInt(document.getElementById("hotel_child").value) == 0){
 
         }else if(parseInt(document.getElementById("hotel_child").value) > 0){
-            text+= `<div class="col-sm-4">
-                        <div class="form-group">
-                            <label style="font-size:8">Age at Check-Out</label>
-                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age1" name="hotel_child_age1">
-                                <option value="" disabled>Child Age</option>
-                                <option value="0" {% if hotel_search.child_age.0 == 0 %} selected {% endif %}>0</option>
-                                <option value="1" {% if hotel_search.child_age.0 == 1 %} selected {% endif %}>1</option>
-                                <option value="2" {% if hotel_search.child_age.0 == 2 %} selected {% endif %}>2</option>
-                                <option value="3" {% if hotel_search.child_age.0 == 3 %} selected {% endif %}>3</option>
-                                <option value="4" {% if hotel_search.child_age.0 == 4 %} selected {% endif %}>4</option>
-                                <option value="5" {% if hotel_search.child_age.0 == 5 %} selected {% endif %}>5</option>
-                                <option value="6" {% if hotel_search.child_age.0 == 6 %} selected {% endif %}>6</option>
-                                <option value="7" {% if hotel_search.child_age.0 == 7 %} selected {% endif %}>7</option>
-                                <option value="8" {% if hotel_search.child_age.0 == 8 %} selected {% endif %}>8</option>
-                                <option value="9" {% if hotel_search.child_age.0 == 9 %} selected {% endif %}>9</option>
-                                <option value="10" {% if hotel_search.child_age.0 == 10 %} selected {% endif %}>10</option>
-                                <option value="11" {% if hotel_search.child_age.0 == 11 %} selected {% endif %}>11</option>
-                                <option value="12" {% if hotel_search.child_age.0 == 12 %} selected {% endif %}>12</option>
-                            </select>
-                        </div>`;
-            if(parseInt(document.getElementById("hotel_child").value) > 3)
-                text+= `<div class="form-group">
-                            <label style="font-size:8">Age at Check-Out</label>
-                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age4" name="hotel_child_age4">
-                                <option value="" disabled>Child Age</option>
-                                <option value="0" {% if hotel_search.child_age.3 == 0 %} selected {% endif %}>0</option>
-                                <option value="1" {% if hotel_search.child_age.3 == 1 %} selected {% endif %}>1</option>
-                                <option value="2" {% if hotel_search.child_age.3 == 2 %} selected {% endif %}>2</option>
-                                <option value="3" {% if hotel_search.child_age.3 == 3 %} selected {% endif %}>3</option>
-                                <option value="4" {% if hotel_search.child_age.3 == 4 %} selected {% endif %}>4</option>
-                                <option value="5" {% if hotel_search.child_age.3 == 5 %} selected {% endif %}>5</option>
-                                <option value="6" {% if hotel_search.child_age.3 == 6 %} selected {% endif %}>6</option>
-                                <option value="7" {% if hotel_search.child_age.3 == 7 %} selected {% endif %}>7</option>
-                                <option value="8" {% if hotel_search.child_age.3 == 8 %} selected {% endif %}>8</option>
-                                <option value="9" {% if hotel_search.child_age.3 == 9 %} selected {% endif %}>9</option>
-                                <option value="10" {% if hotel_search.child_age.3 == 10 %} selected {% endif %}>10</option>
-                                <option value="11" {% if hotel_search.child_age.3 == 11 %} selected {% endif %}>11</option>
-                                <option value="12" {% if hotel_search.child_age.3 == 12 %} selected {% endif %}>12</option>
-                            </select>
-                        </div>`;
-            text+= `</div>`;
-            if(parseInt(document.getElementById("hotel_child").value) > 1){
-                text+= `<div class="col-sm-4">
-                        <div class="form-group">
-                            <label style="font-size:8">Age at Check-Out</label>
-                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age2" name="hotel_child_age2">
-                                <option value="" disabled>Child Age</option>
-                                <option value="0" {% if hotel_search.child_age.1 == 0 %} selected {% endif %}>0</option>
-                                <option value="1" {% if hotel_search.child_age.1 == 1 %} selected {% endif %}>1</option>
-                                <option value="2" {% if hotel_search.child_age.1 == 2 %} selected {% endif %}>2</option>
-                                <option value="3" {% if hotel_search.child_age.1 == 3 %} selected {% endif %}>3</option>
-                                <option value="4" {% if hotel_search.child_age.1 == 4 %} selected {% endif %}>4</option>
-                                <option value="5" {% if hotel_search.child_age.1 == 5 %} selected {% endif %}>5</option>
-                                <option value="6" {% if hotel_search.child_age.1 == 6 %} selected {% endif %}>6</option>
-                                <option value="7" {% if hotel_search.child_age.1 == 7 %} selected {% endif %}>7</option>
-                                <option value="8" {% if hotel_search.child_age.1 == 8 %} selected {% endif %}>8</option>
-                                <option value="9" {% if hotel_search.child_age.1 == 9 %} selected {% endif %}>9</option>
-                                <option value="10" {% if hotel_search.child_age.1 == 10 %} selected {% endif %}>10</option>
-                                <option value="11" {% if hotel_search.child_age.1 == 11 %} selected {% endif %}>11</option>
-                                <option value="12" {% if hotel_search.child_age.1 == 12 %} selected {% endif %}>12</option>
-                            </select>
-                        </div>`;
-                if(parseInt(document.getElementById("hotel_child").value) > 4)
-                    text+= `<div class="form-group">
-                                <label style="font-size:8">Age at Check-Out</label>
-                                <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age5" name="hotel_child_age5">
-                                    <option value="" disabled>Child Age</option>
-                                    <option value="0" {% if hotel_search.child_age.4 == 0 %} selected {% endif %}>0</option>
-                                    <option value="1" {% if hotel_search.child_age.4 == 1 %} selected {% endif %}>1</option>
-                                    <option value="2" {% if hotel_search.child_age.4 == 2 %} selected {% endif %}>2</option>
-                                    <option value="3" {% if hotel_search.child_age.4 == 3 %} selected {% endif %}>3</option>
-                                    <option value="4" {% if hotel_search.child_age.4 == 4 %} selected {% endif %}>4</option>
-                                    <option value="5" {% if hotel_search.child_age.4 == 5 %} selected {% endif %}>5</option>
-                                    <option value="6" {% if hotel_search.child_age.4 == 6 %} selected {% endif %}>6</option>
-                                    <option value="7" {% if hotel_search.child_age.4 == 7 %} selected {% endif %}>7</option>
-                                    <option value="8" {% if hotel_search.child_age.4 == 8 %} selected {% endif %}>8</option>
-                                    <option value="9" {% if hotel_search.child_age.4 == 9 %} selected {% endif %}>9</option>
-                                    <option value="10" {% if hotel_search.child_age.4 == 10 %} selected {% endif %}>10</option>
-                                    <option value="11" {% if hotel_search.child_age.4 == 11 %} selected {% endif %}>11</option>
-                                    <option value="12" {% if hotel_search.child_age.4 == 12 %} selected {% endif %}>12</option>
-                                </select>
-                            </div>`;
-                text+= `</div>`;
-            }
-            if(parseInt(document.getElementById("hotel_child").value) > 2){
-                text+= `<div class="col-sm-4">
-                        <div class="form-group">
-                            <label style="font-size:8">Age at Check-Out</label>
-                            <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age3" name="hotel_child_age3">
-                                <option value="" disabled>Child Age</option>
-                                <option value="0" {% if hotel_search.child_age.2 == 0 %} selected {% endif %}>0</option>
-                                <option value="1" {% if hotel_search.child_age.2 == 1 %} selected {% endif %}>1</option>
-                                <option value="2" {% if hotel_search.child_age.2 == 2 %} selected {% endif %}>2</option>
-                                <option value="3" {% if hotel_search.child_age.2 == 3 %} selected {% endif %}>3</option>
-                                <option value="4" {% if hotel_search.child_age.2 == 4 %} selected {% endif %}>4</option>
-                                <option value="5" {% if hotel_search.child_age.2 == 5 %} selected {% endif %}>5</option>
-                                <option value="6" {% if hotel_search.child_age.2 == 6 %} selected {% endif %}>6</option>
-                                <option value="7" {% if hotel_search.child_age.2 == 7 %} selected {% endif %}>7</option>
-                                <option value="8" {% if hotel_search.child_age.2 == 8 %} selected {% endif %}>8</option>
-                                <option value="9" {% if hotel_search.child_age.2 == 9 %} selected {% endif %}>9</option>
-                                <option value="10" {% if hotel_search.child_age.2 == 10 %} selected {% endif %}>10</option>
-                                <option value="11" {% if hotel_search.child_age.2 == 11 %} selected {% endif %}>11</option>
-                                <option value="12" {% if hotel_search.child_age.2 == 12 %} selected {% endif %}>12</option>
-                            </select>
-                        </div>`;
-                if(parseInt(document.getElementById("hotel_child").value) > 5)
-                    text+= `<div class="form-group">
-                                <label style="font-size:8">Age at Check-Out</label>
-                                <select class="form-control js_passenger_flight adult-logo" id="hotel_child_age6" name="hotel_child_age6">
-                                    <option value="" disabled>Child Age</option>
-                                    <option value="0" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>0</option>
-                                    <option value="1" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>1</option>
-                                    <option value="2" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>2</option>
-                                    <option value="3" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>3</option>
-                                    <option value="4" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>4</option>
-                                    <option value="5" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>5</option>
-                                    <option value="6" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>6</option>
-                                    <option value="7" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>7</option>
-                                    <option value="8" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>8</option>
-                                    <option value="9" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>9</option>
-                                    <option value="10" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>10</option>
-                                    <option value="11" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>11</option>
-                                    <option value="12" {% if hotel_search.child_age.5 == 0 %} selected {% endif %}>12</option>
-                                </select>
-                            </div>`;
-                text+= `</div>`;
-            }
-        }
-        document.getElementById("guest_child_age").innerHTML = text;
+           {% for age in hotel_search.child_age %}
+               text+= `
+               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="margin-top:10px;">
+                   <div class="input-container-search-ticket btn-group">
+                       <div class="form-select">
+                           <select class="form-control" id="hotel_child_age{{forloop.counter}}" name="hotel_child_age{{forloop.counter}}" style="height:42px;">
+                               <option value="" disabled>Child Age</option>
+                               <option value="0" {% if age == 0 %} selected {% endif %}>0</option>
+                               <option value="1" {% if age == 1 %} selected {% endif %}>1</option>
+                               <option value="2" {% if age == 2 %} selected {% endif %}>2</option>
+                               <option value="3" {% if age == 3 %} selected {% endif %}>3</option>
+                               <option value="4" {% if age == 4 %} selected {% endif %}>4</option>
+                               <option value="5" {% if age == 5 %} selected {% endif %}>5</option>
+                               <option value="6" {% if age == 6 %} selected {% endif %}>6</option>
+                               <option value="7" {% if age == 7 %} selected {% endif %}>7</option>
+                               <option value="8" {% if age == 8 %} selected {% endif %}>8</option>
+                               <option value="9" {% if age == 9 %} selected {% endif %}>9</option>
+                               <option value="10" {% if age == 10 %} selected {% endif %}>10</option>
+                               <option value="11" {% if age == 11 %} selected {% endif %}>11</option>
+                               <option value="12" {% if age == 12 %} selected {% endif %}>12</option>
+                           </select>
+                       </div>
+                   </div>
+               </div>`;
+           {% endfor %}
+       }
+       document.getElementById("guest_child_age").innerHTML = text;
     }
     document.getElementById('username').innerHTML = '{{username}}';
     document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}})
@@ -173,7 +75,7 @@
             <div class="row">
                 <div class="col-lg-12" style="padding:0;">
                     <div class="banner-right">
-                        <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
+                        <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
                             {% csrf_token %}
                             <div class="row">
                                 <input type="hidden" id="response" name="response">
@@ -228,7 +130,7 @@
                                                                     <span><i class="fas fa-minus"></i></span>
                                                                 </button>
                                                             </span>
-                                                            <input type="hidden" id="hotel_room" name="hotel_room" value="1" min="1">
+                                                            <input type="hidden" id="hotel_room" name="hotel_room" value="{{hotel_search.room}}" min="1">
                                                             <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_room_hotel" name="show_room_hotel"></span>
                                                             <span class="input-group-btn" style="text-align:right;">
                                                                 <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
@@ -251,7 +153,7 @@
                                                                     <span><i class="fas fa-minus"></i></span>
                                                                 </button>
                                                             </span>
-                                                            <input type="hidden" id="hotel_adult" name="hotel_adult" value="2" min="1">
+                                                            <input type="hidden" id="hotel_adult" name="hotel_adult" value="{{hotel_search.adult}}" min="1">
                                                             <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_hotel" id="show_adult_hotel"></span>
                                                             <span class="input-group-btn" style="text-align:right;">
                                                                 <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
@@ -274,7 +176,7 @@
                                                                     <span><i class="fas fa-minus"></i></span>
                                                                 </button>
                                                             </span>
-                                                            <input type="hidden" id="hotel_child" name="hotel_child" value="0">
+                                                            <input type="hidden" id="hotel_child" name="hotel_child" value="{{hotel_search.child}}">
                                                             <span style="color:black; font-size:14px;padding:5px;" id="show_child_hotel" id="show_child_hotel"></span>
                                                             <span class="input-group-btn">
                                                                 <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
@@ -303,7 +205,7 @@
                                 </div>
                             </div>
 
-                            <button class="primary-btn text-uppercase" onclick="train_search({{co_uid}});triggered();" type="submit" value="Submit">
+                            <button class="primary-btn text-uppercase" onclick="hotel_search_check();" type="submit" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Change Search
                             </button>
@@ -493,7 +395,6 @@
        document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
        document.getElementById('hotel'+counter).submit();
     }
-    get_top_facility();
 </script>
 
 {% endblock %}

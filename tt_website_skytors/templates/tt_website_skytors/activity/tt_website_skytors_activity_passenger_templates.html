@@ -24,7 +24,6 @@
     detail = detail.replace(/&#39;/g,'"');
     detail = detail.replace(/True/g,'true');
     detail = JSON.parse(detail.replace(/False/g,'false'));
-    console.log(detail);
     additional_price = parseInt({{additional_price}});
     passenger = {
         'adult': parseInt({{adult_count}}),
@@ -75,7 +74,6 @@
     //check years old
     function check_years_old(sequence, type){
         var birth_date = '';
-        console.log(document.getElementById('adult_birth_date'+sequence).value);
         if(type =='adult')
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='infant')

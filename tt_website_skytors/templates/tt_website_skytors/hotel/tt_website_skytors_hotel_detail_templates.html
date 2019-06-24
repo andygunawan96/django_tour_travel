@@ -80,17 +80,20 @@
                                 <button class="primary-btn-sticky-hotel" type="button" id="information-hotel">Information</button>
                                 <button class="primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
                             </div>
-                            <hr/>
                         </div>
 
                         <div class="col-lg-7" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
-
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         {% for i in response.images %}
-                                        <div class="item" style="cursor:zoom-in;">
-                                            <img class="img-fluid zoom-img" src="{{i.url}}" style="width:100%; height:325px;" alt="">
+                                        <div class="item">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <div class="overlay overlay-bg"></div>
+                                                    <img class="img-fluid" src="{{i.url}}" style="max-width:100%; height:325px; overflow:hidden;">
+                                                </div>
+                                            </div>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -99,7 +102,12 @@
                                     <div class="owl-carousel-hotel owl-theme">
                                         {% for i in response.images %}
                                         <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{i.url}}" style="max-width:100%; height:75px;">
+                                            <div class="single-destination relative">
+                                                <div class="thumb relative">
+                                                    <div class="overlay overlay-bg"></div>
+                                                    <img class="img-fluid" src="{{i.url}}" style="max-width:100%; height:75px; overflow:hidden;">
+                                                </div>
+                                            </div>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -107,30 +115,30 @@
                             </div>
                         </div>
                         <div class="col-lg-5" style="margin-bottom:10px;">
-                            <div style="background-color:#f15a22;">
+                            <div>
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
                                         <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">
-                                            <span style="color:white;"> Facilities </span>
+                                            <span> Facilities </span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">
-                                            <span style="color:white;"> Description </span>
+                                            <span> Description </span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
 
                             <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">
+                                <div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: scroll;">
                                     <span>
                                         {% for i in response.facilities %}
                                         {{i.description}}<br/>
                                         {% endfor %}
                                     </span>
                                 </div>
-                                <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">
+                                <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: scroll;">
                                     <p style="text-align: justify;">
                                         {% if response.description != False %}
                                         {{response.description}}
@@ -206,9 +214,6 @@
                                     <div class="col-lg-12">
                                         <div style="padding-top:10px;" id="hotel_detail_table">
 
-                                        </div>
-                                        <div style="padding-top:10px;" id="not_room_select">
-                                            <h6>Please select room first</h6>
                                         </div>
                                     </div>
 
@@ -313,7 +318,6 @@
     }
 
     function change_date(type){
-        console.log('asdasd');
         $('#loading-detail-hotel').show();
         if(type == 'checkin'){
             change_date_hotel('checkin');
@@ -328,14 +332,10 @@
         if(type == 'checkin'){
             var date = moment(document.getElementById('hotel_checkin').value);
             date = date.add(1, 'days');
-            console.log(document.getElementById('hotel_checkout').value);
             if(document.getElementById('hotel_checkout').value == '' || moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value))
                 document.getElementById('hotel_checkout').value = date._d.toString().split(' ')[2]+' '+date._d.toString().split(' ')[1]+' '+date._d.toString().split(' ')[3];
         }else{
-            console.log(moment(document.getElementById('hotel_checkin').value));
-            console.log(moment(document.getElementById('hotel_checkout').value));
             if(moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value)){
-                console.log('kasih error checkout di bawah checkin')
             }
         }
     }

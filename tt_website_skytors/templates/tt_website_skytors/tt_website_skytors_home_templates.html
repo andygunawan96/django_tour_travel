@@ -7,10 +7,11 @@
 <script src="{{ static_path }}js/webservice_activity.js"></script>
 <script src="{{ static_path }}js/webservice_train.js"></script>
 <script src="{{ static_path }}js/webservice_tour.js"></script>
-
 <script src="{{ static_path }}js/webservice_airline.js"></script>
 <script src="{{ static_path }}js/webservice_hotel.js"></script>
+<script src="{{ static_path }}js/webservice_visa.js"></script>
 <script src="{{ static_path }}js/train_javascript.js"></script>
+<script src="{{ static_path }}js/visa_javascript.js"></script>
 <script src="{{ static_path }}js/activity_javascript.js"></script>
 <script src="{{ static_path }}js/airline_javascript.js"></script>
 <script src="{{ static_path }}js/hotel_javascript.js"></script>
@@ -38,6 +39,14 @@
         city = [];
     {% endfor %}
 
+    try{
+        cache = `{{cache}}`;
+        cache = cache.replace(/&quot;/g, '"');
+        cache = JSON.parse(cache);
+        console.log(cache)
+    }catch(err){
+
+    }
 
     {% for key, value in activity_sub_categories.items %}
         {% for item in value %}
@@ -57,20 +66,14 @@
         sub_category_list = [];
     {% endfor %}
 
-    airline_country = [];
-    {% for country in airline_country %}
-        airline_country.push({
-            'id': {{country.id}},
-            'code': `{{country.code}}`,
-            'name': `{{country.name}}`,
-        });
-    {% endfor %}
-    console.log(airline_country);
-    get_hotel_config();
-    get_airline_config();
-    get_train_config();
-    document.getElementById('username').innerHTML = '{{username}}';
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    {% if username != undefined %}
+        console.log('here');
+        //hotel_signin('home');
+        get_airline_config('home');
+        //get_train_config('home');
+        document.getElementById('username').innerHTML = '{{username}}';
+        //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    {% endif %}
 
 </script>
 
@@ -149,7 +152,7 @@
                                 <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;">
+                                        <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom">
                                                 <span style="font-size:14px; color:white;">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
@@ -160,37 +163,50 @@
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>Is Combo Price</label>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">From</span>
-                                            <div class="input-container-search-ticket">
-                                                <input list="airline_origin_name" value="Juanda - Surabaya (SUB)" id="origin_id_flight" name="origin_id_flight" class="form-control" name="origin_id_flight" onkeyup="search_airport('origin');" placeholder="City or Airport " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Airport '" autocomplete="off"/>
-                                                <datalist id="airline_origin_name"/>
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+
+                                                </select>
                                             </div>
+                                            <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
-                                            <h2 class="image-change-route-vertical"><a href="#" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h2>
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
+                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h4>
                                             <span class="span-search-ticket">To</span>
-                                            <div class="input-container-search-ticket">
-                                                <input list="airline_destination_name" value="Soekarno Hatta Intl - Jakarta (CGK)" id="destination_id_flight" name="destination_id_flight" class="form-control" name="destination_id_flight" onkeyup="search_airport('destination');" placeholder="City or Airport " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Airport '" autocomplete="off"/>
-                                                <datalist id="airline_destination_name"/>
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+
+                                                </select>
                                             </div>
+                                            <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
                                         </div>
 
+                                        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
 
-
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" id="airline_date_search" style="padding:0px;">
-                                        </div>
-<!--                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">-->
-<!--                                            <label class="check_box_custom">-->
-<!--                                                <span class="span-search-ticket">Return</span>-->
-<!--                                                <input type="checkbox" id="directionflight" name="directionflight" onclick="showReturnDateAirline()"/>-->
-<!--                                                <span class="check_box_span_custom"></span>-->
-<!--                                            </label>-->
-<!--                                        </div>-->
-
-
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <!--<div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">-->
+                                            <!--<span class="span-search-ticket">Departure</span>-->
+                                            <!--<div class="input-container-search-ticket">-->
+                                                <!--<input type="text" class="form-control date-picker" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off">-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">-->
+                                            <!--<label class="check_box_custom">-->
+                                                <!--<span class="span-search-ticket">Return</span>-->
+                                                <!--<input type="checkbox" id="directionflight" name="directionflight" onclick="showReturnDateAirline()"/>-->
+                                                <!--<span class="check_box_span_custom"></span>-->
+                                            <!--</label>-->
+                                            <!--<div class="input-container-search-ticket">-->
+                                                <!--<input type="text" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off" disabled>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding:0px;">
                                             <span class="span-search-ticket">Passenger</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
@@ -273,7 +289,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">Airline</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
@@ -308,7 +324,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                             <span class="span-search-ticket">Class</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <div class="form-select" id="default-select">
@@ -325,8 +341,7 @@
                                         </div>
                                     </div>
                                     <br/>
-
-                                    <button class="primary-btn text-uppercase" type="button" onclick="airline_check_search_values();" value="Submit">
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
                                     </button>
@@ -732,6 +747,50 @@
                                     </button>
                                 </form>
                             </div>
+
+                            <!--VISA-->
+                            <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="activity-tab">
+                                <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                            <span class="span-search-ticket">Destination</span>
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
+
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <span class="span-search-ticket">Departure Date</span>
+                                            <div class="form-group">
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                                    <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <span class="span-search-ticket">Consulate</span>
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
+
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search
+                                    </button>
+                                </form>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -1149,47 +1208,78 @@
 </button>
 
 <script>
-
     document.getElementById("airline_date_search").innerHTML = '';
     text='';
     var node = document.createElement("div");
     text+=`
     <span class="span-search-ticket">Departure</span>
     <div class="input-container-search-ticket">
+        <i class="fas fa-calendar-alt icon-search-ticket"></i>
         <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
     </div>
-    <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+    <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
     node.innerHTML = text;
     document.getElementById("airline_date_search").appendChild(node);
     node = document.createElement("div");
 
-    $(function() {
-      $('input[name="airline_departure"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          startDate: moment(),
-          minDate: moment(),
-          maxDate: moment().subtract(-365, 'days'),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
-              format: 'DD MMM YYYY',
-          }
-      });
-    });
+    $( document ).ready(function() {
+        $('.js-example-basic-single').select2();
+        var now = moment().format('DD MMM YYYY');
+        try{
+            airline_date = cache.airline.departure;
+        }catch(err){
+            airline_date = now;
+        }
 
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
-    var now = moment().format('DD MMM YYYY');
-    document.getElementById("train_departure").value = now;
-    document.getElementById("hotel_checkin").value = now;
+        try{
+            train_date = cache.train.departure;
+        }catch(err){
+            train_date = now;
+        }
+
+        try{
+            hotel_checkin = cache.hotel.checkin;
+        }catch(err){
+            hotel_checkin = now;
+        }
+        try{
+            visa_date = cache.visa.date;
+        }catch(err){
+            visa_date = now;
+        }
+        $('input[name="airline_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: airline_date,
+              minDate: visa_date,
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+            }
+        });
+        $('input[name="visa_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: visa_date,
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+            }
+        });
+
+    });
 
     var check_date = moment(document.getElementById('hotel_checkin').value);
     check_date = check_date.add(1, 'days');
     document.getElementById('hotel_checkout').value = check_date._d.toString().split(' ')[2]+' '+check_date._d.toString().split(' ')[1]+' '+check_date._d.toString().split(' ')[3];
 
     function change_date(type){
-        console.log('asdasd');
         if(type == 'checkin'){
             change_date_hotel('checkin');
             hotel_detail(`{{response.external_code}}`);
@@ -1203,18 +1293,13 @@
         if(type == 'checkin'){
             var date = moment(document.getElementById('hotel_checkin').value);
             date = date.add(1, 'days');
-            console.log(document.getElementById('hotel_checkout').value);
             if(document.getElementById('hotel_checkout').value == '' || moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value))
                 document.getElementById('hotel_checkout').value = date._d.toString().split(' ')[2]+' '+date._d.toString().split(' ')[1]+' '+date._d.toString().split(' ')[3];
         }else{
-            console.log(moment(document.getElementById('hotel_checkin').value));
-            console.log(moment(document.getElementById('hotel_checkout').value));
             if(moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value)){
-                console.log('kasih error checkout di bawah checkin')
             }
         }
     }
-
     function set_notification(data){
         var now = moment().format('YYYY-MM-DD hh:mm:ss');
         data_counter = 0;
@@ -1244,11 +1329,9 @@
         }
         document.getElementById('notification_detail').innerHTML = text_notification;
     }
-    get_agent_booking();
-    //get_voucher(); testing tiket ko vincent
-
-    get_dept_year();
-    tour_login();
+    //get_agent_booking();
+    get_visa_config('home');
+    //tour_login();
 </script>
 
 {% endblock %}

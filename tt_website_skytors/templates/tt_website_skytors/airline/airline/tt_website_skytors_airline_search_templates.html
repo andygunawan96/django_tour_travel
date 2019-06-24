@@ -17,24 +17,16 @@
     sorting_value = '';
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-    console.log(airline_request);
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
 
-    airline_destination = [];
-    {% for destination in airline_destinations %}
-        airline_destination.push({
-            "name": "{{destination.name}}",
-            "city": "{{destination.city}}",
-            "code": "{{destination.code}}"
-        });
-    {% endfor %}
-
     flight = `{{flight}}`;
     time = 300;
     triggered_balance();
+    document.getElementById('username').innerHTML = '{{username}}';
+    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
 <section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black; z-index:2; position:relative;">
@@ -46,7 +38,7 @@
                         <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                     <span class="span-search-ticket">From</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
@@ -55,9 +47,8 @@
                                     </div>
                                     <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
                                 </div>
-                                <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
-                                    <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                    <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
+                                    <h2 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h2>
                                     <span class="span-search-ticket">To</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">

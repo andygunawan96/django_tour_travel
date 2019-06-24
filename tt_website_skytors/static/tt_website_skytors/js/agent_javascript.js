@@ -85,6 +85,20 @@ function table_reservation(data){
     }
 }
 
+function getrupiah(price){
+    var pj = price.toString().length;
+    var temp = price.toString();
+    var priceshow="";
+    for(x=0;x<pj;x++){
+        if((pj-x)%3==0 && x!=0){
+        priceshow+=",";
+        }
+        priceshow+=temp.charAt(x);
+    }
+    return priceshow;
+
+}
+
 function table_top_up_history(data){
     text= '';
     var node = document.createElement("tr");

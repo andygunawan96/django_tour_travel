@@ -370,6 +370,23 @@ function airline_filter_render(){
     document.getElementById("sorting-flight2").appendChild(node2);
 }
 
+function airline_autocomplete(type){
+    if(type == 'origin')
+        document.getElementById('airline_origin_flight').value = document.getElementById('select2-origin_id_flight-container').innerHTML;
+    else if(type == 'destination')
+        document.getElementById('airline_destination_flight').value = document.getElementById('select2-destination_id_flight-container').innerHTML;
+}
+
+function airline_switch(){
+    var temp = document.getElementById("airline_origin_flight").value;
+    document.getElementById("select2-origin_id_flight-container").innerHTML = document.getElementById("airline_destination_flight").value;
+    document.getElementById("airline_origin_flight").value = document.getElementById("airline_destination_flight").value;
+
+    document.getElementById("select2-destination_id_flight-container").innerHTML = temp;
+    document.getElementById("airline_destination_flight").value = temp;
+
+}
+
 function search_airport(val){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
@@ -1311,6 +1328,7 @@ function getrupiah(price){
 }
 
 function copy_data(){
+    console.log($text);
     const el = document.createElement('textarea');
     el.value = $text;
     document.body.appendChild(el);
@@ -1320,20 +1338,32 @@ function copy_data(){
 }
 
 function airline_detail(){
-
-    if(price_itinerary.prices_itinerary_provider.length!=0){
-        for(i in price_itinerary.prices_itinerary_provider){
-            for(j in price_itinerary.prices_itinerary_provider[i].prices_itinerary){
-                journey = price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].journey_type;
-                for(k in price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].sale_service_charge_summary){
-                    for(l in price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].sale_service_charge_summary[k].service_charges){
-                        price_type[price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].sale_service_charge_summary[k].service_charges[l].charge_code] = price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].sale_service_charge_summary[k].service_charges[l].amount;
+    console.log(price_itinerary);
+    if(price_itinerary.price_itinerary_provider.length!=0){
+        for(i in price_itinerary.price_itinerary_provider){
+            for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
+                console.log(i);
+                console.log('price');
+                for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
+                    console.log('segments');
+                    for(l in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
+                        console.log('fares');
+                        for(m in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
+                            console.log('service charge summary');
+                            for(n in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges){
+                                console.log('total price');
+                                price_type[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code] = price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                            }
+                            if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP' || price_itinerary.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
+                                console.log('dep');
+                                dep_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+                            }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
+                                console.log('ret');
+                                ret_price[resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+                            }
+                                price_type = [];
+                        }
                     }
-                    if(price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].journey_type == 'DP' || price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].journey_type == 'AT')
-                        dep_price[price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].sale_service_charge_summary[k].pax_type] = price_type;
-                    else if(price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].journey_type == 'RT')
-                        ret_price[price_itinerary.prices_itinerary_provider[i].prices_itinerary[j].sale_service_charge_summary[k].pax_type] = price_type;
-                    price_type = [];
                 }
             }
         }
@@ -1342,18 +1372,21 @@ function airline_detail(){
     <div class="row" style="margin-bottom:5px;">
         <div class="col-lg-12">
                <h6>Departure</h6>`;
-               $text ='Depart\n';
+               $text ='Departure\n';
                for(i in airline_pick[0].segments){
-                   if(airline_pick[0].segments[i].journey_type == 'DP'){
+                   if(airline_pick[0].segments[i].journey_type == 'DEP'){
                        $text += airline_carriers[airline_pick[0].segments[i].carrier_code] + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
                        $text += airline_pick[0].segments[i].departure_date + ' → ' + airline_pick[0].segments[i].arrival_date + '\n';
                        $text += airline_pick[0].segments[i].origin_name + ' (' + airline_pick[0].segments[i].origin_city + ') - ';
                        $text += airline_pick[0].segments[i].destination_name + ' (' + airline_pick[0].segments[i].destination_city + ')\n\n';
                        text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[i]+`.png"><span> </span>`;
+
                    }else{
                        break;
                    }
                }
+               console.log($text);
+
         text+=`</div>
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <table style="width:100%">
@@ -1390,6 +1423,8 @@ function airline_detail(){
     <div class="row">`;
         price = 0;
         //adult
+        console.log(dep_price);
+        console.log(ret_price);
         if(airline_request.adult != '0'){
             if(dep_price.ADT['r.oc'] != null)
                 price = dep_price.ADT['r.oc'];
@@ -1464,7 +1499,7 @@ function airline_detail(){
                 <h6>Return</h6>`;
                 $text ='Return\n';
                    for(i in airline_pick[1].segments){
-                       if(airline_pick[1].segments[i].journey_type=='RT')
+                       if(airline_pick[1].segments[i].journey_type=='RET')
                        $text += airline_carriers[airline_pick[1].segments[i].carrier_code] + ' ' + airline_pick[1].segments[i].carrier_code + airline_pick[1].segments[i].carrier_number + '\n';
                        $text += airline_pick[1].segments[i].departure_date + ' → ' + airline_pick[1].segments[i].arrival_date + '\n';
                        $text += airline_pick[1].segments[i].origin_name + ' (' + airline_pick[1].segments[i].origin_city + ') - '
@@ -1797,141 +1832,220 @@ function airline_detail(){
 function check_passenger(adult, child, infant){
     //booker
     error_log = '';
-    if(document.getElementById('booker_title').value!= '' &&
-       document.getElementById('booker_first_name').value!= '' &&
-       document.getElementById('booker_last_name').value!='' &&
-       document.getElementById('booker_nationality').value!='' &&
-       document.getElementById('booker_email').value!='' &&
-       document.getElementById('booker_phone_code').value!='' &&
-       document.getElementById('booker_phone').value!= ''){
-
-        if(check_name(document.getElementById('booker_title').value,
-                        document.getElementById('booker_first_name').value,
-                        document.getElementById('booker_last_name').value,
-                        25) == false)
-            error_log+= 'Total of Booker name maximum 25 characters!\n';
-        if(check_phone_number(document.getElementById('booker_phone').value)==false)
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
-        if(check_email(document.getElementById('booker_email').value)==false)
-            error_log+= 'Invalid Booker email!\n';
-
-        length = 100;
-        is_lion_air = false;
-        for(j in airline_pick){
-           for(k in airline_pick[j].carrier_code_list){
-               if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
-                   if(length>24)
-                       length = 24;
-                   is_lion_air = true;
-               }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
-                   if(length>31)
-                       length = 31;
-               }else{
-                   if(length>28)
-                       length = 28;
-               }
-           }
-        }
-
-       //adult
-       for(i=1;i<=adult;i++){
-           if(document.getElementById('adult_title'+i).value != '' &&
-           document.getElementById('adult_first_name'+i).value != '' &&
-           document.getElementById('adult_last_name'+i).value != '' &&
-           document.getElementById('adult_nationality'+i).value != ''){
-               if(check_name(document.getElementById('adult_title'+i).value,
-               document.getElementById('adult_first_name'+i).value,
-               document.getElementById('adult_last_name'+i).value,
-               length) == false)
-                   error_log+= 'Total of adult '+i+' name maximum '+length+' characters!\n';
-               if(check_date(document.getElementById('adult_birth_date'+i).value)==false)
-                   error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
-               if(document.getElementById('adult_nationality'+i).value == '')
-                   error_log+= 'Please fill nationality for passenger adult '+i+'!\n';
-               if(document.getElementById('adult_passport_number'+i).value != '' ||
-                  document.getElementById('adult_passport_expired_date'+i).value != '' ||
-                  document.getElementById('adult_country_of_issued'+i).value != '' || is_lion_air == true){
-                   if(document.getElementById('adult_passport_number'+i).value == '')
-                       error_log+= 'Please fill passport number for passenger adult '+i+'!\n';
-                   if(document.getElementById('adult_passport_expired_date'+i).value == '')
-                       error_log+= 'Please fill passport expired date for passenger adult '+i+'!\n';
-                   if(document.getElementById('adult_country_of_issued'+i).value == '')
-                       error_log+= 'Please fill country of issued for passenger adult '+i+'!\n';
-               }
-
+    if(check_name(document.getElementById('booker_title').value,
+                    document.getElementById('booker_first_name').value,
+                    document.getElementById('booker_last_name').value,
+                    25) == false){
+        error_log+= 'Total of Booker name maximum 25 characters!\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+        document.getElementById('booker_last_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+    }if(document.getElementById('booker_first_name').value == ''){
+        error_log+= 'Please fill booker first name!\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+        error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
+        document.getElementById('booker_phone').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+    }if(check_email(document.getElementById('booker_email').value)==false){
+        error_log+= 'Invalid Booker email!\n';
+        document.getElementById('booker_email').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
+    }
+    length = 100;
+    is_lion_air = false;
+    for(j in airline_pick){
+       for(k in airline_pick[j].carrier_code_list){
+           if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
+               if(length>24)
+                   length = 24;
+               is_lion_air = true;
+           }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
+               if(length>31)
+                   length = 31;
            }else{
-               error_log+= 'Please fill all the blank for adult passenger '+i+'!\n';
+               if(length>28)
+                   length = 28;
+           }
+       }
+    }
+
+   //adult
+   for(i=1;i<=adult;i++){
+
+       if(check_name(document.getElementById('adult_title'+i).value,
+       document.getElementById('adult_first_name'+i).value,
+       document.getElementById('adult_last_name'+i).value,
+       length) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_first_name'+i).value == ''){
+           error_log+= 'Please input first name of adult passenger '+i+'!\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_last_name'+i).value == ''){
+           error_log+= 'Please input last name of adult passenger '+i+'!\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       console.log(check_date(document.getElementById('adult_birth_date'+i).value));
+       console.log(document.getElementById('adult_birth_date'+i).value);
+       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger adult '+i+'!\n';
+           document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_passport_number'+i).value != '' ||
+          document.getElementById('adult_passport_expired_date'+i).value != '' ||
+          document.getElementById('adult_country_of_issued'+i).value != '' || is_lion_air == true){
+           if(document.getElementById('adult_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger adult '+i+'!\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!\n';
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!\n';
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
+   }
+   //child
+   for(i=1;i<=child;i++){
+       if(check_name(document.getElementById('child_title'+i).value,
+       document.getElementById('child_first_name'+i).value,
+       document.getElementById('child_last_name'+i).value,
+       length) == false){
+           error_log+= 'Total of child '+i+' name maximum '+length+' characters!\n';
+           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_first_name'+i).value == ''){
+           error_log+= 'Please input first name of child passenger '+i+'!\n';
+           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_last_name'+i).value == ''){
+           error_log+= 'Please input last name of child passenger '+i+'!\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger child '+i+'!\n';
+           document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger child '+i+'!\n';
+           document.getElementById('child_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_passport_number'+i).value != '' ||
+          document.getElementById('child_passport_expired_date'+i).value != '' ||
+          document.getElementById('child_country_of_issued'+i).value != '' || is_lion_air == true){
+           if(document.getElementById('child_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger child '+i+'!\n';
+               document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('child_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger child '+i+'!\n';
+               document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('child_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger child '+i+'!\n';
+               document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
+   }
+
+   //infant
+   for(i=1;i<=infant;i++){
+       if(check_name(document.getElementById('infant_title'+i).value,
+       document.getElementById('infant_first_name'+i).value,
+       document.getElementById('infant_last_name'+i).value,
+       length) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_first_name'+i).value == ''){
+           error_log+= 'Please input first name of infant passenger '+i+'!\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_last_name'+i).value == ''){
+           error_log+= 'Please input last name of infant passenger '+i+'!\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
+           document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger infant '+i+'!\n';
+           document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_passport_number'+i).value != '' ||
+          document.getElementById('infant_passport_expired_date'+i).value != '' ||
+          document.getElementById('infant_country_of_issued'+i).value != '' || is_lion_air == true){
+           if(document.getElementById('infant_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger infant '+i+'!\n';
+               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!\n';
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!\n';
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
 
-       //child
-       for(i=1;i<=child;i++){
-           if(document.getElementById('child_title'+i).value != '' &&
-           document.getElementById('child_first_name'+i).value != '' &&
-           document.getElementById('child_last_name'+i).value != '' &&
-           document.getElementById('child_nationality'+i).value != ''){
-               if(check_name(document.getElementById('child_title'+i).value,
-               document.getElementById('child_first_name'+i).value,
-               document.getElementById('child_last_name'+i).value,
-               length) == false)
-                   error_log+= 'Total of child '+i+' name maximum '+length+' characters!\n';
-               if(check_date(document.getElementById('child_birth_date'+i).value)==false)
-                   error_log+= 'Birth date wrong for passenger child '+i+'!\n';
-               if(document.getElementById('child_nationality'+i).value == '')
-                   error_log+= 'Please fill nationality for passenger child '+i+'!\n';
-               if(document.getElementById('child_passport_number'+i).value != '' ||
-                  document.getElementById('child_passport_expired_date'+i).value != '' ||
-                  document.getElementById('child_country_of_issued'+i).value != '' || is_lion_air == true){
-                   if(document.getElementById('child_passport_number'+i).value == '')
-                       error_log+= 'Please fill passport number for passenger child '+i+'!\n';
-                   if(document.getElementById('child_passport_expired_date'+i).value == '')
-                       error_log+= 'Please fill passport expired date for passenger child '+i+'!\n';
-                   if(document.getElementById('child_country_of_issued'+i).value == '')
-                       error_log+= 'Please fill country of issued for passenger child '+i+'!\n';
-               }
+   }
+   if(error_log=='')
+       document.getElementById('airline_review').submit();
+   else
+       alert(error_log);
 
-           }else{
-               error_log+= 'Please fill all the blank for child passenger '+i+'!\n';
-           }
-       }
-
-       //infant
-       for(i=1;i<=infant;i++){
-           if(document.getElementById('infant_title'+i).value != '' &&
-           document.getElementById('infant_first_name'+i).value != '' &&
-           document.getElementById('infant_last_name'+i).value != '' &&
-           document.getElementById('infant_nationality'+i).value != ''){
-               if(check_name(document.getElementById('infant_title'+i).value,
-               document.getElementById('infant_first_name'+i).value,
-               document.getElementById('infant_last_name'+i).value,
-               length) == false)
-                   error_log+= 'Total of infant '+i+' name maximum '+length+' characters!\n';
-               if(check_date(document.getElementById('infant_birth_date'+i).value)==false)
-                   error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
-               if(document.getElementById('infant_nationality'+i).value == '')
-                   error_log+= 'Please fill nationality for passenger infant '+i+'!\n';
-               if(document.getElementById('infant_passport_number'+i).value != '' ||
-                  document.getElementById('infant_passport_expired_date'+i).value != '' ||
-                  document.getElementById('infant_country_of_issued'+i).value != '' || is_lion_air == true){
-                   if(document.getElementById('infant_passport_number'+i).value == '')
-                       error_log+= 'Please fill passport number for passenger infant '+i+'!\n';
-                   if(document.getElementById('infant_passport_expired_date'+i).value == '')
-                       error_log+= 'Please fill passport expired date for passenger infant '+i+'!\n';
-                   if(document.getElementById('infant_country_of_issued'+i).value == '')
-                       error_log+= 'Please fill country of issued for passenger infant '+i+'!\n';
-               }
-
-           }else{
-               error_log+= 'Please fill all the blank for infant passenger '+i+'!\n';
-           }
-       }
-       if(error_log=='')
-           document.getElementById('airline_review').submit();
-       else
-           alert(error_log);
-     }else{
-        alert('Please Fill all the blank !');
-     }
 }
 
 function on_change_ssr(idhidden, id){
@@ -1954,7 +2068,7 @@ function on_change_ssr(idhidden, id){
 
 function get_airline_review(){
     text = '';
-
+    console.log(airline_pick);
     text = `<div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;">`;
     for(i in airline_pick){
         if(i == 0)
@@ -1974,8 +2088,9 @@ function get_airline_review(){
             text+= `<div class="col-lg-12">
                         <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code]+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
             if(airline_get_price_request.journeys_booking[i].segments[j].fare_pick != ''){
+                 console.log(airline_get_price_request.journeys_booking[i].segments[j].fare_pick);
                  text+=`<h6>Class: `+airline_pick[i].segments[j].fares[airline_get_price_request.journeys_booking[i].segments[j].fare_pick].subclass+`</h6>`;
-             }
+            }
             text+= `</div>`;
             text+= `</div>
                     <div class="row">`;
@@ -2014,44 +2129,96 @@ function get_airline_review(){
         }
     }
     text+=`</div>`;
+
+    //contact
     text+=`
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
             <div style="background-color:#f15a22;">
                 <center>
-                    <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
+                    <span style="color:white; font-size:16px;"> List of Contact(s) Person <i class="fas fa-users"></i></span>
                 </center>
             </div>
             <div style="border:1px solid #f15a22; background-color:white;">
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
-                        <th style="width:28%;">Nama</th>
-                        <th style="width:7%;">Tipe</th>
-                        <th style="width:18%;">Birth Date</th>
-                        <th style="width:40%;" class="list-of-passenger-right">Special Service Request</th>
+                        <th style="width:28%;">Name</th>
+                        <th style="width:7%;">Email</th>
+                        <th style="width:18%;">Phone Number</th>
                     </tr>`;
-                    for(pax in passenger){
+                    for(i in passengers.contact){
                         text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(pax)+1)+`</td>
-                                <td>`+passenger[pax].pax.title+` `+passenger[pax].pax.name+`</td>
-                                <td>`+passenger[pax].pax.pax_type+`</td>
-                                <td>`+passenger[pax].pax.birth_date+`</td>
-                                <td class="list-of-passenger-right">`;
-                        for(segment in passenger[pax].ssr){
-                            for(ssr in passenger[pax].ssr[segment].passengers.ssr_codes){
-                                if(ssr != 0)
-                                    text+= `\n`;
-                                text+= passenger[pax].ssr[segment].passengers.ssr_codes[ssr].description;
-                            }
-                        }
-                        text+=` </td>
+                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
+                                <td>`+passengers.contact[i].title+` `+passengers.contact[i].first_name+` `+ passengers.contact[i].last_name +`</td>
+                                <td>`+passengers.contact[i].email+`</td>
+                                <td>`+passengers.contact[i].calling_code+` - `+passengers.contact[i].mobile+`</td>
                                </tr>`;
                     }
                 text+=`</table>
             </div>
         </div>
     </div>`;
+
+    //passengers
+    text+=`
+    <div class="row" style="padding-top:20px;">
+        <div class="col-lg-12">
+            <div style="background-color:#f15a22;">
+                <center>
+                    <span style="color:white; font-size:16px;"> List of Passenger(s) <i class="fas fa-users"></i></span>
+                </center>
+            </div>
+            <div style="border:1px solid #f15a22; background-color:white;">
+                <table style="width:100%;" id="list-of-passenger">
+                    <tr>
+                        <th style="width:7%;" class="list-of-passenger-left">No</th>
+                        <th style="width:28%;">Name</th>
+                        <th style="width:7%;">Type</th>
+                        <th style="width:18%;">Birth Date</th>
+                    </tr>`;
+                    for(i in passengers.adult){
+                        text+=`<tr>
+                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
+                                <td>`+passengers.adult[i].title+` `+passengers.adult[i].first_name+` `+ passengers.adult[i].last_name +`</td>
+                                <td>Adult</td>
+                                <td>`+passengers.adult[i].birth_date+`</td>
+                               </tr>`;
+                    }
+                    for(i in passengers.child){
+                        text+=`<tr>
+                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
+                                <td>`+passengers.child[i].title+` `+passengers.child[i].first_name+` `+ passengers.child[i].last_name +`</td>
+                                <td>Child</td>
+                                <td>`+passengers.child[i].birth_date+`</td>
+                               </tr>`;
+                    }
+                    for(i in passengers.infant){
+                        text+=`<tr>
+                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
+                                <td>`+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</td>
+                                <td>Infant</td>
+                                <td>`+passengers.infant[i].birth_date+`</td>
+                               </tr>`;
+                    }
+                text+=`</table>
+            </div>
+        </div>
+    </div>`;
+
     document.getElementById('airline_review').innerHTML = text;
+
+}
+
+function update_contact(val){
+    console.log(val);
+    console.log(document.getElementById('adult_cp'+val.toString()).checked);
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
 
 }

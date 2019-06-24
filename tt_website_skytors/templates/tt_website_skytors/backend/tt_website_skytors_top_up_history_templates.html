@@ -137,9 +137,6 @@
     load_more = false;
     $(document).ready(function () {
         $(window).scroll(function() {
-            console.log($(window).scrollTop());
-            console.log($(document).height() - ($(window).height() + 600));
-            console.log(load_more);
             if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
                 if(load_more == true){
                     load_more = false;

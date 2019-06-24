@@ -1843,7 +1843,7 @@ pre code {
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: none;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -2297,43 +2297,26 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 }
 
 .btn-custom-circle {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius:14px;
-  font-weight: 400;
-  background-color:#D7D7D7;
+  text-align:center;
+  border-radius:28px;
+  background-color:#F56430;
   text-align: center;
   white-space: nowrap;
-  vertical-align: middle;
   user-select: none;
   border: 1px solid transparent;
-  font-size: 1rem;
-  line-height: 1.5;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor:pointer;
+  color:#252525;
 }
 
 .btn-custom-circle:hover {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius:14px;
-  font-weight: 400;
-  background-color:#f15a22;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  user-select: none;
-  border: 1px solid transparent;
-  font-size: 1rem;
-  line-height: 1.5;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  background-color:#E16133;
 }
 
 .btn-custom-circle:disabled {
   border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+  background-color: #E1E1E1;
+  color: #A5A5A5;
+  cursor:not-allowed;
 }
 
 .btn:hover, .btn:focus {

@@ -232,7 +232,7 @@ def passenger(request):
         airline_carriers.pop('7L')
         airline_carriers.pop('UD')
 
-        get_balance(request)
+        # get_balance(request)
 
         #pax
         adult = []
@@ -263,9 +263,9 @@ def passenger(request):
             'infant_title': infant_title,
             'id_types': id_type,
             'username': request.session['username'],
-            'co_uid': request.session['co_uid'],
+            # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_passenger_templates.html', values)
@@ -487,100 +487,85 @@ def review(request):
         # TODO LIST INTRO SSR sudah list perpassenger --> list per segment --> isi semua ssr tinggal dipisah
         #tampilkan ssr ke depan & pisah send api
 
-        get_balance(request)
-
+        # get_balance(request)
         request.session['airline_request_ssr'] = ssr
-        if request.META.get('HTTP_REFERER') == 'http://localhost:8000/airline/passenger':
+        if request.META.get('HTTP_REFERER') == get_url()+'airline/passenger':
             adult = []
             child = []
             infant = []
-            passenger = []
+            contact = []
             booker = {
                 'title': request.POST['booker_title'],
                 'first_name': request.POST['booker_first_name'],
                 'last_name': request.POST['booker_last_name'],
-                'nationality_code': request.POST['booker_nationality'],
-                'country_code': request.POST['booker_nationality'],
                 'email': request.POST['booker_email'],
-                'work_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                'home_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                'other_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                'postal_code': 0,
-                "city": request.session._session['company_details']['city'],
-                "province_state": request.session._session['company_details']['state'],
-                'address': request.session['company_details']['address'],
-                'mobile': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-                'agent_id': int(request.session['agent']['id']),
+                'calling_code': request.POST['booker_phone_code'],
+                'mobile': request.POST['booker_phone'],
+                'nationality_code': request.POST['booker_nationality'],
                 'booker_id': request.POST['booker_id']
             }
             for i in range(int(request.session['airline_request']['adult'])):
                 adult.append({
+                    "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
                     "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "name": request.POST['adult_first_name' + str(i + 1)] + " " + request.POST[
-                        'adult_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['adult_nationality' + str(i + 1)],
                     "title": request.POST['adult_title' + str(i + 1)],
-                    "pax_type": "ADT",
                     "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                    "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                    "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                    "nationality_code": request.POST['adult_nationality' + str(i + 1)],
                     "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
+                    "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                    "passport_number": request.POST['adult_passport_number' + str(i + 1)],
                     "passenger_id": request.POST['adult_id' + str(i + 1)]
                 })
-                passenger.append({
-                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "name": request.POST['adult_first_name' + str(i + 1)] + " " + request.POST[
-                        'adult_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['adult_nationality' + str(i + 1)],
-                    "title": request.POST['adult_title' + str(i + 1)],
-                    "pax_type": "ADT",
-                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                    "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                    "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                    "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
-                    "passenger_id": request.POST['adult_id' + str(i + 1)]
+                try:
+                    if request.POST['adult_cp'+str(i+1)] == 'on':
+                        contact.append({
+                            "first_name": request.POST['adult_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_last_name' + str(i + 1)],
+                            "title": request.POST['adult_title' + str(i + 1)],
+                            "email": "asndasdn@gmail.com",
+                            "calling_code": "+62",
+                            "mobile": "81237123812",
+                            "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                            "contact_id": request.POST['adult_id' + str(i + 1)]
+                        })
+                except:
+                    continue
+
+            if len(contact) == 0:
+                contact.append({
+                    'title': request.POST['booker_title'],
+                    'first_name': request.POST['booker_first_name'],
+                    'last_name': request.POST['booker_last_name'],
+                    'email': request.POST['booker_email'],
+                    'calling_code': request.POST['booker_phone_code'],
+                    'mobile': request.POST['booker_phone'],
+                    'nationality_code': request.POST['booker_nationality'],
+                    'contact_id': request.POST['booker_id']
                 })
+
             for i in range(int(request.session['airline_request']['child'])):
                 child.append({
+                    "pax_type": "CHD",
                     "first_name": request.POST['child_first_name' + str(i + 1)],
                     "last_name": request.POST['child_last_name' + str(i + 1)],
-                    "name": request.POST['child_first_name' + str(i + 1)] + " " + request.POST[
-                        'child_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['child_nationality' + str(i + 1)],
                     "title": request.POST['child_title' + str(i + 1)],
-                    "pax_type": "CHD",
                     "birth_date": request.POST['child_birth_date' + str(i + 1)],
+                    "nationality_code": request.POST['child_nationality' + str(i + 1)],
                     "passport_number": request.POST['child_passport_number' + str(i + 1)],
                     "passport_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
                     "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
                     "passenger_id": request.POST['child_id' + str(i + 1)]
                 })
-                passenger.append({
-                    "first_name": request.POST['child_first_name' + str(i + 1)],
-                    "last_name": request.POST['child_last_name' + str(i + 1)],
-                    "name": request.POST['child_first_name' + str(i + 1)] + " " + request.POST[
-                        'child_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['child_nationality' + str(i + 1)],
-                    "title": request.POST['child_title' + str(i + 1)],
-                    "pax_type": "CHD",
-                    "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                    "passport_number": request.POST['child_passport_number' + str(i + 1)],
-                    "passport_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
-                    "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
-                    "passenger_id": request.POST['child_id' + str(i + 1)]
-                })
+
             for i in range(int(request.session['airline_request']['infant'])):
                 infant.append({
+                    "pax_type": "INF",
                     "first_name": request.POST['infant_first_name' + str(i + 1)],
                     "last_name": request.POST['infant_last_name' + str(i + 1)],
-                    "name": request.POST['infant_first_name' + str(i + 1)] + " " + request.POST[
-                        'infant_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['infant_nationality' + str(i + 1)],
                     "title": request.POST['infant_title' + str(i + 1)],
-                    "pax_type": "INF",
                     "birth_date": request.POST['infant_birth_date' + str(i + 1)],
+                    "nationality_code": request.POST['infant_nationality' + str(i + 1)],
                     "passport_number": request.POST['infant_passport_number' + str(i + 1)],
                     "passport_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
                     "country_of_issued_code": request.POST['infant_country_of_issued' + str(i + 1)],
@@ -592,43 +577,8 @@ def review(request):
                 'adult': adult,
                 'child': child,
                 'infant': infant,
+                'contact': contact
             }
-        #pax
-        counter = 0
-        pax = []
-        for i in request.session['airline_create_passengers']['adult']:
-            try:
-                pax.append({
-                    'pax': i,
-                    'ssr': ssr[counter]
-                })
-            except:
-                pax.append({
-                    'pax': i,
-                    'ssr': ''
-                })
-            counter += 1
-
-        for i in request.session['airline_create_passengers']['child']:
-            try:
-                pax.append({
-                    'pax': i,
-                    'ssr': ssr[counter]
-                })
-            except:
-                pax.append({
-                    'pax': i,
-                    'ssr': ''
-                })
-            counter += 1
-
-        for i in request.session['airline_create_passengers']['infant']:
-            pax.append({
-                'pax': i,
-                'ssr': ''
-            })
-            counter += 1
-
         try:
             if request.POST['additional_price'] != "":
                 additional_price = request.POST['additional_price']
@@ -658,12 +608,10 @@ def review(request):
             'airline_get_price_request': request.session['airline_get_price_request'],
             'airline_carriers': airline_carriers,
             'additional_price': additional_price,
-            'booker': request.session['airline_create_passengers']['booker'],
-            'passenger': pax,
             'username': request.session['username'],
-            'co_uid': request.session['co_uid'],
-            # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'passengers': request.session['airline_create_passengers']
+            # 'co_uid': request.session['co_uid'],
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_review_templates.html', values)
