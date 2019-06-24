@@ -331,6 +331,7 @@ def review(request):
             adult = []
             child = []
             infant = []
+            prs_idx = 1
             for i in range(int(request.session['booking_data']['room_list'][j]['adult'])):
                 adult.append({
                     "first_name": request.POST['room' + str(j + 1) + '_adult_first_name' + str(i + 1)],
@@ -345,8 +346,12 @@ def review(request):
                     "passport_expdate": request.POST['room' + str(j + 1) + '_adult_passport_expired_date' + str(i + 1)],
                     "country_of_issued_code": request.POST['room' + str(j + 1) + '_adult_country_of_issued' + str(i + 1)],
                     "passenger_id": request.POST['room' + str(j + 1) + '_adult_id' + str(i + 1)],
+                    "mobile": request.POST.get('room' + str(j + 1) + '_adult_cp' + str(i + 1)) and request.POST['room' + str(j + 1) + '_adult_phone_code' + str(i + 1)] + request.POST['room' + str(j + 1) + '_adult_phone' + str(i + 1)] or ' - ',
+                    "email": request.POST.get('room' + str(j + 1) + '_adult_cp' + str(i + 1)) and request.POST['room' + str(j + 1) + '_adult_email' + str(i + 1)] or ' - ',
                     "room_id": request.session['booking_data']['room_list'][j]['data'][14],
+                    "sequence": prs_idx,
                 })
+                prs_idx += 1
 
             for i in range(int(request.session['booking_data']['room_list'][j]['child'])):
                 child.append({
@@ -363,7 +368,9 @@ def review(request):
                     "country_of_issued_code": request.POST['room' + str(j + 1) + '_child_country_of_issued' + str(i + 1)],
                     "passenger_id": request.POST['room' + str(j + 1) + '_child_id' + str(i + 1)],
                     "room_id": request.session['booking_data']['room_list'][j]['data'][14],
+                    "sequence": prs_idx,
                 })
+                prs_idx += 1
 
             for i in range(int(request.session['booking_data']['room_list'][j]['infant'])):
                 infant.append({
@@ -380,7 +387,10 @@ def review(request):
                     "country_of_issued_code": request.POST['room' + str(j + 1) + '_infant_country_of_issued' + str(i + 1)],
                     "passenger_id": request.POST['room' + str(j + 1) + '_infant_id' + str(i + 1)],
                     "room_id": request.session['booking_data']['room_list'][j]['data'][14],
+                    "sequence": prs_idx,
                 })
+                prs_idx += 1
+
             request.session['booking_data']['room_list'][j].update({
                 'adult_obj': adult,
                 'child_obj': child,

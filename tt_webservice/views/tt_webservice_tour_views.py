@@ -49,6 +49,12 @@ def api_models(request):
             res = get_countries(request)
         elif req_data['action'] == 'get_details':
             res = get_details(request)
+        elif req_data['action'] == 'get_booking':
+            res = get_booking(request)
+        elif req_data['action'] == 'commit_booking':
+            res = commit_booking(request)
+        elif req_data['action'] == 'issued':
+            res = issued(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -73,6 +79,7 @@ def signin(request):
     res = get_countries(request)
 
     return res
+
 
 def search(request):
 
@@ -133,6 +140,45 @@ def get_details(request):
     }
     headers.update({
         "action": "get_details",
+        "signature": request.session['tour_signature'],
+    })
+
+    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    return res
+
+
+def get_booking(request):
+    data = {
+        'order_number': request.POST['order_number']
+    }
+    headers.update({
+        "action": "get_booking",
+        "signature": request.session['tour_signature'],
+    })
+
+    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    return res
+
+
+def commit_booking(request):
+    data = {
+        'force_issued': bool(request.POST['value'])
+    }
+    headers.update({
+        "action": "commit_booking",
+        "signature": request.session['tour_signature'],
+    })
+
+    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    return res
+
+
+def issued(request):
+    data = {
+        'order_number': request.POST['order_number']
+    }
+    headers.update({
+        "action": "issued",
         "signature": request.session['tour_signature'],
     })
 
