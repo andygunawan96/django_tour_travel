@@ -10,6 +10,22 @@
 <script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 <script>
+    function check_years_old(room_seq, sequence, type){
+        var birth_date = '';
+        console.log(document.getElementById('room'+room_seq+'_adult_birth_date'+sequence).value);
+        if(type =='adult')
+            birth_date = moment(document.getElementById('room'+room_seq+'_adult_birth_date'+sequence).value, 'DD MMM YYYY');
+        if(type =='infant')
+            birth_date = moment(document.getElementById('room'+room_seq+'_infant_birth_date'+sequence).value, 'DD MMM YYYY');
+        if(type =='senior')
+            birth_date = moment(document.getElementById('room'+room_seq+'_senior_birth_date'+sequence).value, 'DD MMM YYYY');
+        if(type =='child')
+            birth_date = moment(document.getElementById('room'+room_seq+'_child_birth_date'+sequence).value, 'DD MMM YYYY');
+
+        document.getElementById('room'+room_seq+'_adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+
+    }
+
     adult = {{price_itinerary.adult_total_pax}};
     child = {{price_itinerary.child_total_pax}};
     infant = {{price_itinerary.infant_amount}};
@@ -196,13 +212,13 @@
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
-                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy');" value="yes"/>
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger_tour('copy');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         No
-                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger_tour('change');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
@@ -216,39 +232,43 @@
                             </div>
                         </div>
 
-                        {% for adult in adults%}
-                        <div class="row" id="adult{{forloop.counter}}">
+                        {% for room in room_list%}
+                        <input type="hidden" id="adult_amount_room_{{forloop.counter}}" value="{{room.adult}}"/>
+                        <input type="hidden" id="child_amount_room_{{forloop.counter}}" value="{{room.child}}"/>
+                        <input type="hidden" id="infant_amount_room_{{forloop.counter}}" value="{{room.infant}}"/>
+                        {% for adult in room.adult_obj %}
+                        <div class="row" id="room{{forloop.parentloop.counter}}_adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_tour('{{room_amount}}','adult', '{{forloop.parentloop.counter}}', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Adult - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Room {{forloop.parentloop.counter}} {{room.name}} {{room.bed_type}} - Adult {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 or forloop.parentloop.counter != 1%} display:none; {% endif %}" id="room{{forloop.parentloop.counter}}_adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 and forloop.parentloop.counter == 1%} display:none; {% endif %}" id="room{{forloop.parentloop.counter}}_adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 or forloop.parentloop.counter != 1%} display:none; {% endif %}" id="room{{forloop.parentloop.counter}}_adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                            <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_room{{forloop.parentloop.counter}}_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="room{{forloop.parentloop.counter}}_adult_clear{{forloop.counter}}" onclick="clear_passenger_tour('Adult', {{forloop.parentloop.counter}}, {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
-                                        <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
+                                        <div class="modal fade" id="myModal_room{{forloop.parentloop.counter}}_adult{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:white;">Room {{forloop.parentloop.counter}} {{room.name}} {{room.bed_type}} - Adult {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'tour')">Search</button>
+                                                        <input type="text" id="train_room{{forloop.parentloop.counter}}_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger_tour('Adult', {{forloop.parentloop.counter}},{{forloop.counter}}, 'tour')">Search</button>
                                                         <div class="row" id="loading-pax-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -268,7 +288,7 @@
                                                                 <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div id="search_result_room{{forloop.parentloop.counter}}_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
 
                                                         </div>
                                                     </div>
@@ -282,7 +302,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_adult_title{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_adult_title{{forloop.counter}}">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -290,13 +310,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <input type="checkbox" id="room{{forloop.parentloop.counter}}_adult_cp{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_adult_cp{{forloop.counter}}" onclick="update_contact({{forloop.counter}})" /><span>Make this to Contact Person</span>
+                                        </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_adult_first_name{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="room{{forloop.parentloop.counter}}_adult_id{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -304,7 +326,7 @@
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_adult_last_name{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -312,7 +334,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="adult_nationality{{forloop.counter}}" name="adult_nationality{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_adult_nationality{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_adult_nationality{{forloop.counter}}">
                                                         {% for country in countries%}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -323,22 +345,22 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
-                                                <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
+                                                <input type="text" class="form-control date-picker-birth" name="room{{forloop.parentloop.counter}}_adult_birth_date{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.parentloop.counter}},{{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="hidden" class="form-control" name="room{{forloop.parentloop.counter}}_adult_years_old{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_adult_passport_number{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-passport" name="room{{forloop.parentloop.counter}}_adult_passport_expired_date{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -346,7 +368,7 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="adult_country_of_issued{{forloop.counter}}" name="adult_country_of_issued{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_adult_country_of_issued{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_adult_country_of_issued{{forloop.counter}}">
                                                         <option value="">Select Country</option>
                                                         {% for country in countries%}
                                                         <option value="{{country.code}}">{{country.name}}</option>
@@ -355,6 +377,34 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-6" id="room{{forloop.parentloop.counter}}_adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <label>Contact Email Address</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_adult_email{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                        </div>
+                                        <div class="col-lg-6" id="room{{forloop.parentloop.counter}}_adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-select">
+                                                            <select id="room{{forloop.parentloop.counter}}_adult_phone_code{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_adult_phone_code{{forloop.counter}}">
+                                                                {% for country in countries%}
+                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-9">
+                                                        <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_adult_phone{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -362,39 +412,39 @@
                         <br/>
                         {% endfor %}
 
-                        {% for child in childs%}
-                        <div class="row" id="child{{forloop.counter}}">
+                        {% for child in room.child_obj %}
+                        <div class="row" id="room{{forloop.parentloop.counter}}_child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_tour('{{room_amount}}','child', '{{forloop.parentloop.counter}}', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Child - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Room {{forloop.parentloop.counter}} {{room.name}} {{room.bed_type}} - Child {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:white; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="room{{forloop.parentloop.counter}}_child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px;" id="room{{forloop.parentloop.counter}}_child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="room{{forloop.parentloop.counter}}_child_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                            <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_room{{forloop.parentloop.counter}}_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="room{{forloop.parentloop.counter}}_child_clear{{forloop.counter}}" onclick="clear_passenger_tour('Child', {{forloop.parentloop.counter}}, {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
-                                        <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
+                                        <div class="modal fade" id="myModal_room{{forloop.parentloop.counter}}_child{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:white;">Room {{forloop.parentloop.counter}} {{room.name}} {{room.bed_type}} - Child {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Child',{{forloop.counter}}, 'tour')">Search</button>
+                                                        <input type="text" id="train_room{{forloop.parentloop.counter}}_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger_tour('Child', {{forloop.parentloop.counter}},{{forloop.counter}}, 'tour')">Search</button>
                                                         <div class="row" id="loading-paxc-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -414,7 +464,7 @@
                                                                 <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div id="search_result_room{{forloop.parentloop.counter}}_child{{forloop.counter}}" style="overflow:auto;height:300px;">
 
                                                         </div>
                                                     </div>
@@ -428,7 +478,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_child_title{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_child_title{{forloop.counter}}">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -441,8 +491,8 @@
                                             <br/>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_child_first_name{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="room{{forloop.parentloop.counter}}_child_id{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -450,7 +500,7 @@
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_child_last_name{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -458,7 +508,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="child_nationality{{forloop.counter}}" name="child_nationality{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_child_nationality{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_child_nationality{{forloop.counter}}">
                                                         {% for country in countries%}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -469,29 +519,29 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
-                                                <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
+                                                <input type="text" class="form-control date-picker-birth" name="room{{forloop.parentloop.counter}}_child_birth_date{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.parentloop.counter}},{{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="hidden" class="form-control" name="room{{forloop.parentloop.counter}}_child_years_old{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_child_passport_number{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
+                                                <input type="text" class="form-control date-picker-passport" name="room{{forloop.parentloop.counter}}_child_passport_expired_date{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="child_country_of_issued{{forloop.counter}}" name="child_country_of_issued{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_child_country_of_issued{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_child_country_of_issued{{forloop.counter}}">
                                                         <option value="">Select Country</option>
                                                         {% for country in countries%}
                                                         <option value="{{country.code}}">{{country.name}}</option>
@@ -508,41 +558,41 @@
                         {% endfor %}
 
 
-                        {% for infant in infants%}
-                        <div class="row" id="infant{{forloop.counter}}">
+                        {% for infant in room.infant_obj %}
+                        <div class="row" id="room{{forloop.parentloop.counter}}_infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_tour('{{room_amount}}','infant', '{{forloop.parentloop.counter}}', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Infant - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:center;">
+                                            <span style="color:white; text-align:center; font-size:16px;">Room {{forloop.parentloop.counter}} {{room.name}} {{room.bed_type}} - Infant {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="room{{forloop.parentloop.counter}}_infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px;" id="room{{forloop.parentloop.counter}}_infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="room{{forloop.parentloop.counter}}_infant_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
-                                            <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_room{{forloop.parentloop.counter}}_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="room{{forloop.parentloop.counter}}_infant_clear{{forloop.counter}}" onclick="clear_passenger_tour('Infant', {{forloop.parentloop.counter}}, {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
-                                        <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
+                                        <div class="modal fade" id="myModal_room{{forloop.parentloop.counter}}_infant{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
 
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:white;">Room {{forloop.parentloop.counter}} {{room.name}} {{room.bed_type}} - Infant {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Infant',{{forloop.counter}}, 'tour')">Search</button>
+                                                        <input type="text" id="train_room{{forloop.parentloop.counter}}_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger_tour('Infant', {{forloop.parentloop.counter}}, {{forloop.counter}}, 'tour')">Search</button>
                                                         <div class="row" id="loading-paxi-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -562,7 +612,7 @@
                                                                 <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div id="search_result_room{{forloop.parentloop.counter}}_infant{{forloop.counter}}" style="overflow:auto;height:300px;">
 
                                                         </div>
                                                     </div>
@@ -576,7 +626,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_infant_title{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_infant_title{{forloop.counter}}">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -589,8 +639,8 @@
                                             <br/>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
-                                                <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_infant_first_name{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="room{{forloop.parentloop.counter}}_infant_id{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_infant_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -598,7 +648,7 @@
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_infant_last_name{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -606,7 +656,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="infant_nationality{{forloop.counter}}" name="infant_nationality{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_infant_nationality{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_infant_nationality{{forloop.counter}}">
                                                         {% for country in countries%}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -617,28 +667,28 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="room{{forloop.parentloop.counter}}_infant_birth_date{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                <input type="text" class="form-control" name="room{{forloop.parentloop.counter}}_infant_passport_number{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_infant_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
+                                                <input type="text" class="form-control date-picker-passport" name="room{{forloop.parentloop.counter}}_infant_passport_expired_date{{forloop.counter}}" id="room{{forloop.parentloop.counter}}_infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="infant_country_of_issued{{forloop.counter}}" name="infant_country_of_issued{{forloop.counter}}">
+                                                    <select id="room{{forloop.parentloop.counter}}_infant_country_of_issued{{forloop.counter}}" name="room{{forloop.parentloop.counter}}_infant_country_of_issued{{forloop.counter}}">
                                                         <option value="">Select Country</option>
                                                         {% for country in countries%}
                                                         <option value="{{country.code}}">{{country.name}}</option>
@@ -654,122 +704,125 @@
                         </div>
                         <br/>
                         {% endfor %}
+                        {% endfor %}
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
                         <div style="background-color:#f15a22; padding:5px;">
                             <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
                         </div>
                         <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="tour_detail">
-                            <div id="tour_detail_table" style="padding: 0;">
+                            <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
                                 <table style="width:100%;">
                                     <tr>
                                         <td style="width: 40%;">Adult Price</td>
+                                        <input type="hidden" id="adult_total_pax" name="adult_total_pax" value="{{price_itinerary.adult_total_pax}}"/>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="adult_amount" name="adult_amount" value="{{price_itinerary.adult_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="adult_amount" name="adult_amount" value="{{price_itinerary.adult_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="adult_price" name="adult_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.adult_price}}" readonly="readonly"/>
+                                            <input id="adult_price" name="adult_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.adult_price}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Adult Extra Bed</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="adult_surcharge_amount" name="adult_surcharge_amount" value="{{price_itinerary.adult_surcharge_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="adult_surcharge_amount" name="adult_surcharge_amount" value="{{price_itinerary.adult_surcharge_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="adult_surcharge_price" name="adult_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.adult_surcharge_price}}" readonly="readonly"/>
+                                            <input id="adult_surcharge_price" name="adult_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.adult_surcharge_price}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Child Price</td>
+                                        <input type="hidden" id="child_total_pax" name="child_total_pax" value="{{price_itinerary.child_total_pax}}"/>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="child_amount" name="child_amount" value="{{price_itinerary.child_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="child_amount" name="child_amount" value="{{price_itinerary.child_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="child_price" name="child_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.child_price}}" readonly="readonly"/>
+                                            <input id="child_price" name="child_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.child_price}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Child Extra Bed</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="child_surcharge_amount" name="child_surcharge_amount" value="{{price_itinerary.child_surcharge_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="child_surcharge_amount" name="child_surcharge_amount" value="{{price_itinerary.child_surcharge_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="child_surcharge_price" name="child_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.child_surcharge_price}}" readonly="readonly"/>
+                                            <input id="child_surcharge_price" name="child_surcharge_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.child_surcharge_price}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Infant Price</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="infant_amount" name="infant_amount" value="{{price_itinerary.infant_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="infant_amount" name="infant_amount" value="{{price_itinerary.infant_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="infant_price" name="infant_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.infant_price}}" readonly="readonly"/>
+                                            <input id="infant_price" name="infant_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.infant_price}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Single Supplement</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="single_supplement_amount" name="single_supplement_amount" value="{{price_itinerary.single_supplement_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="single_supplement_amount" name="single_supplement_amount" value="{{price_itinerary.single_supplement_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="single_supplement_price" name="single_supplement_price" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.single_supplement_price}}" readonly="readonly"/>
+                                            <input id="single_supplement_price" name="single_supplement_price" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.single_supplement_price}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Airport Tax</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="airport_tax_amount" name="airport_tax_amount" value="{{price_itinerary.airport_tax_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="airport_tax_amount" name="airport_tax_amount" value="{{price_itinerary.airport_tax_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="airport_tax_total" name="airport_tax_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.airport_tax_total}}" readonly="readonly"/>
+                                            <input id="airport_tax_total" name="airport_tax_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.airport_tax_total}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Tipping Local Guide</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="tipping_guide_amount" name="tipping_guide_amount" value="{{price_itinerary.tipping_guide_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="tipping_guide_amount" name="tipping_guide_amount" value="{{price_itinerary.tipping_guide_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="tipping_guide_total" name="tipping_guide_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.tipping_guide_total}}" readonly="readonly"/>
+                                            <input id="tipping_guide_total" name="tipping_guide_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.tipping_guide_total}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Tipping Tour Leader</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="tipping_tour_leader_amount" name="tipping_tour_leader_amount" value="{{price_itinerary.tipping_tour_leader_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="tipping_tour_leader_amount" name="tipping_tour_leader_amount" value="{{price_itinerary.tipping_tour_leader_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="tipping_tour_leader_total" name="tipping_tour_leader_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.tipping_tour_leader_total}}" readonly="readonly"/>
+                                            <input id="tipping_tour_leader_total" name="tipping_tour_leader_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.tipping_tour_leader_total}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="width: 40%;">Additional Charge</td>
                                         <td style="width: 10%;">X</td>
                                         <td style="width: 10%;">
-                                            <input id="additional_charge_amount" name="additional_charge_amount" value="{{price_itinerary.additional_charge_amount}}" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                            <input id="additional_charge_amount" name="additional_charge_amount" value="{{price_itinerary.additional_charge_amount}}" style="background-color: transparent; border: none; width:100%; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;" data-price="0">
-                                            <input id="additional_charge_total" name="additional_charge_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="{{price_itinerary.additional_charge_total}}" readonly="readonly"/>
+                                            <input id="additional_charge_total" name="additional_charge_total" style="text-align:right; background-color: transparent; border: none; width:100%; color: #777777;" data-price="{{price_itinerary.additional_charge_total}}" readonly="readonly"/>
                                         </td>
                                     </tr>
                                 </table>
@@ -781,7 +834,7 @@
                                         <td style="width: 10%;"></td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;">
-                                            <input id="sub_total" name="sub_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:15px;" readonly="readonly"/>
+                                            <input id="sub_total" name="sub_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:12px !important; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <input type="hidden" id="sub_total_hidden" name="sub_total_hidden" value="{{price_itinerary.sub_total_itinerary_price}}"/>
                                     </tr>
@@ -791,7 +844,7 @@
                                         <td style="width: 10%;"></td>
                                         <td style="width: 10%;"></td>
                                         <td style="text-align: right; width: 30%;">
-                                            <input id="discount_total" name="discount_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:15px;" readonly="readonly"/>
+                                            <input id="discount_total" name="discount_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:12px !important; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <input type="hidden" id="discount_total_hidden" name="discount_total_hidden" value="{{price_itinerary.discount_total_itinerary_price}}"/>
                                     </tr>
@@ -799,12 +852,12 @@
                                 <hr/>
                                 <table style="width:100%;">
                                     <tr>
-                                        <td style="width: 40%;"><span style="font-weight: bold; font-size: 22;">Grand Total</span></td>
+                                        <td style="width: 40%;"><span style="font-weight: bold; font-size: 14px !important;">Grand Total</span></td>
                                         <td style="width: 10%;"></td>
                                         <td style="width: 10%;"></td>
                                         <td style="width: 10%;"></td>
-                                        <td style="text-align: right; font-weight: bold; font-size: 22; width: 30%;">
-                                            <input id="grand_total" name="grand_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:16px; font-weight: bold;" readonly="readonly"/>
+                                        <td style="text-align: right; font-weight: bold; font-size: 14px !important; width: 30%;">
+                                            <input id="grand_total" name="grand_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:16px; font-weight: bold; color: #777777;" readonly="readonly"/>
                                         </td>
                                         <input type="hidden" id="grand_total_hidden" name="grand_total_hidden" value="{{total_itinerary_price}}"/>
                                         <input id="commission_total" name="commission_total" type="hidden" value="{{price_itinerary.commission_total}}"/>
@@ -849,7 +902,7 @@
                         </div>
                         <br/>
                         <center>
-                            <button type="button" class="primary-btn-ticket" value="Next" onclick="check_passenger();" style="width:90%;">
+                            <button type="button" class="primary-btn-ticket" value="Next" onclick="check_passenger({{room_amount}});" style="width:90%;">
                                 Next
                                 <i class="fas fa-angle-right"></i>
                             </button>
@@ -946,5 +999,96 @@
     document.getElementById("discount_total").value = getrupiah('{{price_itinerary.discount_total_itinerary_price}}');
     document.getElementById("grand_total").value = getrupiah('{{total_itinerary_price}}');
 
+    $(function() {
+      for (var j = 1; j <= {{room_amount}}; j++)
+      {
+          for (var i = 1; i <= adult; i++){
+              $('input[name="room'+j+'_adult_birth_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment().subtract(17, 'years'),
+                  minDate: moment().subtract(100, 'years'),
+                  maxDate: moment().subtract(12, 'years'),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="room'+j+'_adult_birth_date'+i+'"]').val("");
+
+              $('input[name="room'+j+'_adult_passport_expired_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment(),
+                  minDate: moment(),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="room'+j+'_adult_passport_expired_date'+i+'"]').val("");
+          }
+
+          for (var i = 1; i <= child; i++){
+              $('input[name="room'+j+'_child_birth_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment().subtract(5, 'years'),
+                  minDate: moment().subtract(11, 'years').subtract(365, 'days'),
+                  maxDate: moment().subtract(2, 'years'),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="room'+j+'_child_birth_date'+i+'"]').val("");
+
+              $('input[name="room'+j+'_child_passport_expired_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment(),
+                  minDate: moment(),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="room'+j+'_child_passport_expired_date'+i+'"]').val("");
+          }
+
+          for (var i = 1; i <= infant; i++){
+              $('input[name="room'+j+'_infant_birth_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment().subtract(1, 'years'),
+                  minDate: moment().subtract(1, 'years').subtract(364, 'days'),
+                  maxDate: moment(),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="room'+j+'_infant_birth_date'+i+'"]').val("");
+
+              $('input[name="room'+j+'_infant_passport_expired_date'+i+'"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  startDate: moment(),
+                  minDate: moment(),
+                  showDropdowns: true,
+                  opens: 'center',
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+              });
+              $('input[name="room'+j+'_infant_passport_expired_date'+i+'"]').val("");
+          }
+      }
+    });
 </script>
 {% endblock %}

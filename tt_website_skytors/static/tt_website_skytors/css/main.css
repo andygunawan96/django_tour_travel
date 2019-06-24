@@ -94,20 +94,10 @@ $black			: #222;
 body {
   color: #777777;
   font-family: "Poppins", sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
   line-height: 1.625em;
   position: relative;
-}
-
-
-.for-body{
-    width:100%;
-}
-@media (max-width: 375px) {
-  .for-body {
-    width:125%;
-  }
 }
 
 ol, ul {
@@ -2001,7 +1991,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .form-select .nice-select {
   border-radius: 0px;
-  height: 43px;
+  height: 42px;
   background: #fff !important;
   padding-right: 10px;
   width: 100%;
@@ -2484,9 +2474,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .primary-delete {
   background: #FC3030;
-  line-height: 40px;
-  padding-left: 15px;
-  padding-right: 15px;
+  line-height: 42px;
+  padding-left: 30px;
+  padding-right: 30px;
   border: none;
   color: #fff;
   display: inline-block;
@@ -2870,6 +2860,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .nav > li > a:focus {
   text-decoration: none;
+  background-color: #eee;
 }
 
 .banner-right .nav-tabs {
@@ -2881,7 +2872,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-size: 14px;
   display: inline-block;
   clear: both;
-  border-bottom: 2px solid white;
+
 }
 
 
@@ -2894,7 +2885,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .banner-right .nav-tabs .nav-link {
-  border-radius: 2px !important;
+  border-radius: 2 !important;
 }
 
 .banner-right .tab-content {
@@ -2911,12 +2902,13 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-size: 13px;
   font-weight: 300;
   border-radius: 0px;
-  border-color: #f15a22;
+  border-color: #eee;
   /*padding:11px;*/
 }
 
 .banner-right .form-wrap .form-control:focus {
   box-shadow: none;
+  border: 1px solid #f15a22;
 }
 
 @media (max-width: 1024px) {
@@ -4943,17 +4935,12 @@ div.scrollmenu li:hover {
 }
 
 .icon-search-ticket {
-  padding: 14px;
-  background: white;
-  color: #7F7F7F;
-  width: 45px;
+  padding: 10px;
+  background: #f15a22;
+  color: white;
+  width: 43px;
   height: 43px;
   text-align: center;
-}
-
-.icon-change {
-  width: 15px;
-  height: 15px;
 }
 
 .span-search-ticket{
@@ -4967,19 +4954,19 @@ div.scrollmenu li:hover {
 
     #origin_id_flight{
         padding-right:25px;
-        padding-left:10px;
+        padding-left:11px;
     }
     #destination_id_flight{
         padding-right:11px;
-        padding-left:10px;
+        padding-left:25px;
     }
     #train_origin{
         padding-right:25px;
-        padding-left:10px;
+        padding-left:11px;
     }
     #train_destination{
         padding-right:11px;
-        padding-left:10px;
+        padding-left:25px;
     }
 }
 
@@ -4987,29 +4974,29 @@ div.scrollmenu li:hover {
 
     #origin_id_flight{
         padding-right:25px;
-        padding-left:10px;
+        padding-left:11px;
     }
     #destination_id_flight{
         padding-right:11px;
-        padding-left:10px;
+        padding-left:25px;
     }
     #train_origin{
         padding-right:25px;
-        padding-left:10px;
+        padding-left:11px;
     }
     #train_destination{
         padding-right:11px;
-        padding-left:10px;
+        padding-left:25px;
     }
 }
 
 .image-change-route-vertical {
   z-index: 10;
-  height: 15px;
-  width: 15px;
+  height: 30px;
+  width: 30px;
   position: absolute;
-  left: -5%;
-  top: 34px;
+  left: -6%;
+  top: 28px;
 }
 
 .image-change-route-horizontal {
@@ -5025,39 +5012,19 @@ div.scrollmenu li:hover {
     transform-origin: left top;
 
     position: absolute;
-    top: -12px;
+    top: -8px;
     left: 53%;
     z-index: 10;
     height: 40px;
     width: 40px;
 }
 
-@media (max-width: 575px) {
-    .image-change-route-vertical{
-      display:none;
-    }
-    .image-change-route-horizontal{
-      display:block;
-    }
-}
-
-@media (min-width: 576px) {
-    .image-change-route-vertical{
-      display:block;
-    }
-    .image-change-route-horizontal{
-      display:none;
-    }
-}
-
-
-
 
 /* The container */
 .radio-button-custom {
   position: relative;
   padding-left: 25px;
-  padding-right: 15px;
+  padding-right: 5px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -5803,6 +5770,7 @@ div.scrollmenu li:hover {
 }
 .panel_themespark:before {
     content: attr(data-content-1) '\A ' attr(data-content-2);
+    white-space: pre-wrap;
     width: 80%;
     color: white;
     z-index: 1;
@@ -6447,4 +6415,12 @@ th input {
 
 .owl-bg-border{
     border-bottom: 5px solid red;
+}
+
+.hide{
+    display: none;
+}
+
+.maxwidth100 table {
+    width:100% !important;
 }
