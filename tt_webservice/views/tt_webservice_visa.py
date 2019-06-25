@@ -161,7 +161,8 @@ def search(request):
                         },
                         'sale_price': {
                             'total_price': 10000,
-                            'commission': 1000
+                            'commission': 1000,
+                            'currency': 'IDR'
                         },
                         'requirements': [
                             {
@@ -187,7 +188,8 @@ def search(request):
                         },
                         'sale_price': {
                             'total_price': 5000,
-                            'commission': 500
+                            'commission': 500,
+                            'currency': 'IDR'
                         },
                         'requirements': [
                             {
@@ -205,8 +207,42 @@ def search(request):
         }
     }
 
+
     if res['result']['error_code'] == 0:
-        pass
+        for list_of_visa in res['result']['response']['list_of_visa']:
+            #paxtype
+            if list_of_visa['pax_type'] == 'ADT':
+                list_of_visa['pax_type'] = ['ADT', 'Adult']
+            elif list_of_visa['pax_type'] == 'CHD':
+                list_of_visa['pax_type'] = ['CHD', 'Child']
+            elif list_of_visa['pax_type'] == 'INF':
+                list_of_visa['pax_type'] = ['INF', 'Infant']
+            elif list_of_visa['pax_type'] == 'YCD':
+                list_of_visa['pax_type'] = ['YCD', 'Elder']
+            #entry type
+            if list_of_visa['entry_type'] == 'single':
+                list_of_visa['entry_type'] = ['single', 'Single']
+            elif list_of_visa['entry_type'] == 'double':
+                list_of_visa['entry_type'] = ['double', 'Double']
+            elif list_of_visa['entry_type'] == 'multiple':
+                list_of_visa['entry_type'] = ['multiple', 'Multiple']
+            #visa type
+            if list_of_visa['visa_type'] == 'tourist':
+                list_of_visa['visa_type'] = ['tourist', 'Tourist']
+            elif list_of_visa['visa_type'] == 'business':
+                list_of_visa['visa_type'] = ['business', 'Business']
+            elif list_of_visa['visa_type'] == 'student':
+                list_of_visa['visa_type'] = ['student', 'Student']
+
+            # visa type
+            if list_of_visa['type']['process_type'] == 'regular':
+                list_of_visa['type']['process_type'] = ['regular', 'Regular']
+            elif list_of_visa['type']['process_type'] == 'kilat':
+                list_of_visa['type']['process_type'] = ['kilat', 'Express']
+            elif list_of_visa['type']['process_type'] == 'super':
+                list_of_visa['type']['process_type'] = ['super', 'Super Express']
+
+        request.session['visa_search'] = res
 
     return res
 

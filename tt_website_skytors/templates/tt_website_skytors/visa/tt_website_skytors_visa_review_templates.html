@@ -6,34 +6,21 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
-<script src="{{ static_path }}js/webservice_airline.js"></script>
-<script src="{{ static_path }}js/airline_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_visa.js"></script>
+<script src="{{ static_path }}js/visa_javascript.js"></script>
 
 <script>
-    airline_pick = `{{airline_pick}}`;
-    additional_price = {{additional_price}};
-    airline_pick = airline_pick.replace(/&quot;/g, '"');
-    airline_pick = airline_pick.replace(/&amp;/g, '&');
-    airline_pick = airline_pick.replace('&&&', ',');
-    airline_pick = JSON.parse(airline_pick);
-    price_itinerary = `{{price}}`;
-    price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-    price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, '"true"');
-    price_itinerary = price_itinerary.replace(/False/g, '"false"');
-    price_itinerary = JSON.parse(price_itinerary);
-    airline_carriers = `{{airline_carriers}}`;
-    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
-    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
-    airline_carriers = JSON.parse(airline_carriers);
-    airline_get_price_request = `{{airline_get_price_request}}`;
-    airline_get_price_request = JSON.parse(airline_get_price_request.replace(/&#39;/g, '"'));
-    passenger = `{{passenger}}`;
+    passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
-    airline_request = `{{airline_request}}`;
-    airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+    console.log(passenger);
+    adult = passenger.adult;
+    infant = passenger.infant;
+    elder = passenger.elder;
+    child = passenger.child;
+    visa = `{{visa}}`;
+    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
     document.getElementById('username').innerHTML = '{{username}}';
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -70,13 +57,86 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <div id="airline_review">
+                            <div id="visa_review">
+                                <div class="row" style="padding-top:20px;">
+                                    <div class="col-lg-12">
+                                        <div style="background-color:#f15a22;">
+                                            <center>
+                                                <span style="color:white; font-size:16px;"> List of Contact(s) Person <i class="fas fa-users"></i></span>
+                                            </center>
+                                        </div>
+                                        <div style="border:1px solid #f15a22; background-color:white;">
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:7%;">Email</th>
+                                                    <th style="width:18%;">Phone Number</th>
+                                                </tr>
+                                                {% for cp in pax.contact %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
+                                                    <td>{{cp.email}}</td>
+                                                    <td>{{cp.calling_code}} - {{cp.mobile}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="row" style="padding-top:20px;">
+                                    <div class="col-lg-12">
+                                        <div style="background-color:#f15a22;">
+                                            <center>
+                                                <span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>
+                                            </center>
+                                        </div>
+                                        <div style="border:1px solid #f15a22; background-color:white;">
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:7%;">Type</th>
+                                                    <th style="width:18%;">Birth Date</th>
+                                                </tr>
+                                                {% for person in pax.adult %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
+                                                    <td>Adult</td>
+                                                    <td>{{person.birth_date}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% for person in pax.child %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
+                                                    <td>Child</td>
+                                                    <td>{{person.birth_date}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% for person in pax.infant %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
+                                                    <td>Infant</td>
+                                                    <td>{{person.birth_date}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-
                             <div class="row" style="padding-top:15px;">
                                 <div class="col-lg-4" style="padding-bottom:15px;">
-                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="airline_commit_booking();" style="width:100%;"/>
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;"/>
+                                </div>
+                                <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                                <div class="col-lg-4" style="padding-bottom:15px;">
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;"/>
                                 </div>
                             </div>
                         </div>
@@ -88,7 +148,7 @@
                             <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
                         </center>
                     </div>
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="airline_detail">
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="detail">
 
                     </div>
                 </div>
@@ -166,13 +226,8 @@
 </footer>
 
 <script>
-    if(`{{back_page}}` == 'http://localhost:8000/airline/ssr'){
-        airline_ssr();
-    }else{
-        airline_create_passengers_with_ssr();
-    }
-    airline_detail();
-    get_airline_review();
+    get_visa_review();
+    update_table('review');
 </script>
 <!-- loader -->
 {% endblock %}

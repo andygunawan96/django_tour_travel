@@ -93,45 +93,11 @@ function search_visa(){
        },
        success: function(msg) {
             console.log(msg);
-            visa = msg.result.response.list_of_visa;
-            country = msg.result.response.country;
             var node;
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
                     node = document.createElement("div");
-                    if(msg.result.response.list_of_visa[i].pax_type == 'ADT')
-                        msg.result.response.list_of_visa[i].pax_type = ['ADT','Adult'];
-                    else if(msg.result.response.list_of_visa[i].pax_type == 'CHD')
-                        msg.result.response.list_of_visa[i].pax_type = ['CHD','Child'];
-                    else if(msg.result.response.list_of_visa[i].pax_type == 'INF')
-                        msg.result.response.list_of_visa[i].pax_type = ['INF','Infant'];
-                    else if(msg.result.response.list_of_visa[i].pax_type == 'YCD')
-                        msg.result.response.list_of_visa[i].pax_type = ['YCD','Elder'];
-
-                    //entry type
-                    if(msg.result.response.list_of_visa[i].entry_type == 'single')
-                        msg.result.response.list_of_visa[i].entry_type = ['single','Single'];
-                    else if(msg.result.response.list_of_visa[i].entry_type == 'double')
-                        msg.result.response.list_of_visa[i].entry_type = ['double','Double'];
-                    else if(msg.result.response.list_of_visa[i].entry_type == 'multiple')
-                        msg.result.response.list_of_visa[i].entry_type = ['multiple','Multiple'];
-
-                    //visa type
-                    if(msg.result.response.list_of_visa[i].visa_type == 'tourist')
-                        msg.result.response.list_of_visa[i].visa_type = ['tourist','Tourist'];
-                    else if(msg.result.response.list_of_visa[i].visa_type == 'business')
-                        msg.result.response.list_of_visa[i].visa_type = ['business','Business'];
-                    else if(msg.result.response.list_of_visa[i].visa_type == 'student')
-                        msg.result.response.list_of_visa[i].visa_type = ['student','Student'];
-
-                    //process type
-                    if(msg.result.response.list_of_visa[i].type.process_type == 'regular')
-                        msg.result.response.list_of_visa[i].type.process_type = ['regular','Regular'];
-                    else if(msg.result.response.list_of_visa[i].type.process_type == 'kilat')
-                        msg.result.response.list_of_visa[i].type.process_type = ['kilat','Express'];
-                    else if(msg.result.response.list_of_visa[i].type.process_type == 'super')
-                        msg.result.response.list_of_visa[i].type.process_type = ['super','Super Express'];
 
                     text= `
                         <div style="background-color:white; margin-bottom:15px;" id="journey`+i+`">
@@ -154,14 +120,14 @@ function search_visa(){
                                         </table>
                                         <div class="row">
                                             <label>Qty: </label>
-                                            <input type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table();"/>
+                                            <input type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
-                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">IDR `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
+                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
 
                                         </div>
                                     </div>
@@ -199,8 +165,10 @@ function search_visa(){
                     document.getElementById("visa_ticket").appendChild(node);
                 }
             }
+            visa = msg.result.response.list_of_visa;
+            country = msg.result.response.country;
             document.getElementById('loading-search-visa').hidden = true;
-            update_table();
+            update_table('search');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

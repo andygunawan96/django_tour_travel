@@ -305,8 +305,6 @@ function train_search(co_uid){
            alert(errorThrown);
        }
     });
-
-
 }
 
 

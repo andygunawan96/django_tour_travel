@@ -4,6 +4,7 @@
 {% block content %}
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_visa.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
 <script src="{{ static_path }}js/visa_javascript.js"></script>
 <script src="{{ static_path }}js/agent_javascript.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
@@ -79,76 +80,56 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-9" style="margin-top:10px;">
-                <div class="row" class="sorting-search-train" id="sorting-search-train">
-                    <div class="col-lg-12">
-                        <div id="sorting-train" style="margin-bottom:15px;">
+        <form action="{% url 'tt_website_skytors:visa_passenger'%}" method="POST" id="visa_passenger">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-9" style="margin-top:10px;">
+                    <div class="row" class="sorting-search-train" id="sorting-search-train">
+                        <div class="col-lg-12">
+                            <div id="sorting-train" style="margin-bottom:15px;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="loading-search-visa">
+                        <div class="col-lg-12">
+                            <div class="sk-circle">
+                                <div class="sk-circle1 sk-child"></div>
+                                <div class="sk-circle2 sk-child"></div>
+                                <div class="sk-circle3 sk-child"></div>
+                                <div class="sk-circle4 sk-child"></div>
+                                <div class="sk-circle5 sk-child"></div>
+                                <div class="sk-circle6 sk-child"></div>
+                                <div class="sk-circle7 sk-child"></div>
+                                <div class="sk-circle8 sk-child"></div>
+                                <div class="sk-circle9 sk-child"></div>
+                                <div class="sk-circle10 sk-child"></div>
+                                <div class="sk-circle11 sk-child"></div>
+                                <div class="sk-circle12 sk-child"></div>
+                            </div>
+                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="show-search-train">
+                        <div class="col-lg-12" id="visa_ticket">
 
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-3" style="margin-top:10px;">
+                    <div style="background-color:white; padding:10px;" class="filter-search-train" id="filter-search-train">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                                <div id="detail">
 
-                <div class="row" id="loading-search-visa">
-                    <div class="col-lg-12">
-                        <div class="sk-circle">
-                            <div class="sk-circle1 sk-child"></div>
-                            <div class="sk-circle2 sk-child"></div>
-                            <div class="sk-circle3 sk-child"></div>
-                            <div class="sk-circle4 sk-child"></div>
-                            <div class="sk-circle5 sk-child"></div>
-                            <div class="sk-circle6 sk-child"></div>
-                            <div class="sk-circle7 sk-child"></div>
-                            <div class="sk-circle8 sk-child"></div>
-                            <div class="sk-circle9 sk-child"></div>
-                            <div class="sk-circle10 sk-child"></div>
-                            <div class="sk-circle11 sk-child"></div>
-                            <div class="sk-circle12 sk-child"></div>
-                        </div>
-                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
-                    </div>
-                </div>
-
-                <div class="row" id="show-search-train">
-                    <div class="col-lg-12" id="visa_ticket">
-
-                    </div>
-                </div>
-
-                <div class="modal fade" id="myModalTicketTrain" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"><i class="fas fa-shopping-cart"></i></i></h4>
-                            </div>
-                            <div class="modal-body">
-                                <form action="{% url 'tt_website_skytors:train_passenger'%}" method="POST">
-                                    {% csrf_token %}
-                                    <div id="visa_detail">
-
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3" style="margin-top:10px;">
-                <div style="background-color:white; padding:10px;" class="filter-search-train" id="filter-search-train">
-                    <div class="row">
-                        <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
-                            <div id="detail">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </section>
 
