@@ -12,37 +12,47 @@ function get_visa_config(type){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-        console.log(msg);
-        visa_config = msg.destinations;
-        var destination = document.getElementById("visa_destination_id");
-        for(i in msg.destinations){
+
+        if(type == 'search')
+            visa_signin('');
+        visa_config = msg;
+        destination = document.getElementById('visa_destination_id');
+        for(i in msg){
+            console.log(i)
             var node = document.createElement("option");
-            node.text = msg.destinations[i].country;
-            node.value = msg.destinations[i].country;
+            node.text = i;
+            node.value = i;
             if(type == 'search'){
                 try{
-                    if(visa_request['destination'] == msg.destinations[i].country){
+                    console.log(i);
+                    console.log(visa_request['destination']);
+                    if(visa_request['destination'] == i){
                         node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = msg.destinations[i].country;
+                        document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }catch(err){
 
                 }
             }else{
                 try{
-                    if(cache['visa']['destination'] == msg.destinations[i].country){
+                    if(cache['visa']['destination'] == i){
                         node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = msg.destinations[i].country;
+                        document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }catch(err){
-                    if('Australia' == msg.destinations[i].country){
+                    if('Albania' == i){
                         node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = msg.destinations[i].country;
+                        document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }
             }
             destination.add(node);
         }
+//        visa_config = msg.destinations;
+//        var destination = document.getElementById("visa_destination_id");
+//        for(i in msg.destinations){
+//
+//        }
         get_consulate(type);
 
        },
@@ -63,8 +73,6 @@ function visa_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-            console.log(msg);
-            console.log(data);
             if(data == ''){
                 search_visa();
             }else if(data != ''){
@@ -169,6 +177,25 @@ function search_visa(){
             country = msg.result.response.country;
             document.getElementById('loading-search-visa').hidden = true;
             update_table('search');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function sell_visa(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'sell_visa',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

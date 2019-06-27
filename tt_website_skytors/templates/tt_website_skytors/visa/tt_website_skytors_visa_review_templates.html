@@ -19,6 +19,9 @@
     child = passenger.child;
     visa = `{{visa}}`;
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
+    console.log(visa);
+    pax = `{{pax}}`;
+    pax = JSON.parse(pax.replace(/&#39;/g, '"'));
     document.getElementById('username').innerHTML = '{{username}}';
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
@@ -47,15 +50,8 @@
                     <h4>Prices may changes at any time</h4>
                     <br/>
                 </div>
-                <div class="col-lg-8" style="padding-bottom:20px;">
+                <div class="col-lg-9" style="padding-bottom:20px;">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Flight Detail <img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></span>
-                                </center>
-                            </div>
-                        </div>
                         <div class="col-lg-12">
                             <div id="visa_review">
                                 <div class="row" style="padding-top:20px;">
@@ -96,18 +92,42 @@
                                         <div style="border:1px solid #f15a22; background-color:white;">
                                             <table style="width:100%;" id="list-of-passenger">
                                                 <tr>
-                                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:15%;">Name</th>
                                                     <th style="width:7%;">Type</th>
-                                                    <th style="width:18%;">Birth Date</th>
+                                                    <th style="width:13%;">Birth Date</th>
+                                                    <th style="width:15%;">Visa Type</th>
+                                                    <th style="width:15%;">Entry Type</th>
+                                                    <th style="width:15%;">Process Type</th>
+                                                    <th style="width:15%;">Price</th>
+                                                    <th style="width:1%;"> </th>
                                                 </tr>
                                                 {% for person in pax.adult %}
+                                                {% with forloop.counter as counter%}
                                                 <tr>
                                                     <td class="list-of-passenger-left">{{forloop.counter}}</td>
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
                                                     <td>Adult</td>
                                                     <td>{{person.birth_date}}</td>
+                                                    <td>
+                                                        {% for visa_type in type.visa_type.adult %}
+                                                            <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">{{visa_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for entry_type in type.entry_type.adult %}
+                                                            <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for process_type in type.process_type.adult %}
+                                                            <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>{{process_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td id="adult_price{{counter}}"> - </td>
+                                                    <td><img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('adult',{{counter}})" /></td>
                                                 </tr>
+                                                {% endwith %}
                                                 {% endfor %}
                                                 {% for person in pax.child %}
                                                 <tr>
@@ -115,6 +135,8 @@
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
                                                     <td>Child</td>
                                                     <td>{{person.birth_date}}</td>
+                                                    <td id="child_price{{counter}}">Price</td>
+                                                    <td><a onclick="set_value_radio_first('child',{{counter}})">a</a></td>
                                                 </tr>
                                                 {% endfor %}
                                                 {% for person in pax.infant %}
@@ -123,12 +145,66 @@
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
                                                     <td>Infant</td>
                                                     <td>{{person.birth_date}}</td>
+                                                    <td id="infant_price{{counter}}">Price</td>
+                                                    <td><a onclick="set_value_radio_first('infant',{{counter}})">a</a></td>
                                                 </tr>
                                                 {% endfor %}
                                             </table>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!--testing-->
+                                <!--<div class="row" style="padding-top:20px;">-->
+                                    <!--<div class="col-lg-12">-->
+                                        <!--<div style="background-color:#f15a22;">-->
+                                            <!--<center>-->
+                                                <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
+                                            <!--</center>-->
+                                        <!--</div>-->
+                                        <!--<div style="border:1px solid #f15a22; background-color:white;">-->
+                                            <!--<table style="width:100%;" id="list-of-passenger">-->
+                                                <!--<tr>-->
+                                                    <!--<th>Visa Type</th>-->
+                                                    <!--<th>Entry Type</th>-->
+                                                    <!--<th>Process Type</th>-->
+                                                    <!--<th>Passenger</th>-->
+                                                <!--</tr>-->
+                                                <!--{% for list in visa.list_of_visa %}-->
+                                                    <!--{% if list.total_pax > 0 %}-->
+                                                <!--<tr>-->
+                                                    <!--<td>{{list.visa_type.1}}</td>-->
+                                                    <!--<td>{{list.entry_type.1}}</td>-->
+                                                    <!--<td>{{list.type.process_type.1}}</td>-->
+                                                    <!--<td>-->
+                                                        <!--<select>-->
+                                                        <!--{% if list.pax_type.0 == 'ADT' %}-->
+                                                            <!--{% for person in pax.adult %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% elif list.pax_type.0 == 'CHD' %}-->
+                                                            <!--{% for person in pax.child %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% elif list.pax_type.0 == 'INF' %}-->
+                                                            <!--{% for person in pax.infant %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% elif list.pax_type.0 == 'YCD' %}-->
+                                                            <!--{% for person in pax.elder %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% endif %}-->
+                                                        <!--</select>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                                    <!--{% endif %}-->
+                                                <!--{% endfor %}-->
+                                            <!--</table>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
                             </div>
                             <div class="row" style="padding-top:15px;">
                                 <div class="col-lg-4" style="padding-bottom:15px;">
@@ -142,7 +218,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4" style="padding-bottom:20px;">
+                <div class="col-lg-3" style="padding-bottom:20px;">
                     <div style="background-color:#f15a22;">
                         <center>
                             <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
@@ -226,8 +302,15 @@
 </footer>
 
 <script>
-    get_visa_review();
     update_table('review');
+    for(i in pax.adult)
+        set_value_radio_first('adult',parseInt(i)+1);
+    for(i in pax.child)
+        set_value_radio_first('child',parseInt(i)+1);
+    for(i in pax.infant)
+        set_value_radio_first('infant',parseInt(i)+1);
+    for(i in pax.elder)
+        set_value_radio_first('elder',parseInt(i)+1);
 </script>
 <!-- loader -->
 {% endblock %}

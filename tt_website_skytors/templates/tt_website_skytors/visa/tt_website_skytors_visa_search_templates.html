@@ -11,7 +11,6 @@
 <script>
     visa_request = `{{visa_request}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
-    get_visa_config('search');
 </script>
 <section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black;">
     <div class="animated fadeInDown delay-1s">
@@ -244,6 +243,8 @@
                 format: 'DD MMM YYYY',
             }
         });
+        get_visa_config('search');
+
     });
 </script>
 {% endblock %}

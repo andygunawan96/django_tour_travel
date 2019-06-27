@@ -27,7 +27,7 @@
     }
 
     time = 300;
-    triggered_balance();
+    //triggered_balance();
     passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
     adult = passenger.adult;
@@ -36,7 +36,7 @@
     child = passenger.child;
     visa = `{{visa}}`;
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
-
+    sell_visa();
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -733,7 +733,7 @@
 </section>
 
 <script>
-    update_table('passener');
+    update_table('passenger');
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         //sesuaikan mindate max date

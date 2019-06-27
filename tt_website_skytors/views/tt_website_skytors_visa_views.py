@@ -42,7 +42,12 @@ def passenger(request):
     list_visa = request.session['visa_search']
     count = 0
     pax_count = 0
-    pax = {}
+    pax = {
+        'adult': 0,
+        'child': 0,
+        'infant': 0,
+        'elder': 0
+   }
 
     file = open("version_cache.txt", "r")
     for line in file:
@@ -77,38 +82,41 @@ def passenger(request):
     child = []
     elder = []
     for visa in list_visa['result']['response']['list_of_visa']:
+
         pax_count = 0
         try:
             pax_count = int(request.POST['qty_pax_'+str(count)])
         except:
             pass
+        visa['total_pax'] = pax_count
         if visa['pax_type'][0] == 'ADT':
             pax.update({
-                'adult': pax_count
+                'adult': pax['adult']+pax_count
             })
             for i in range(pax_count):
                 adult.append('')
         elif visa['pax_type'][0] == 'CHD':
             pax.update({
-                'child': pax_count
+                'child': pax['child']+pax_count
             })
             for i in range(pax_count):
                 child.append('')
         elif visa['pax_type'][0] == 'INF':
             pax.update({
-                'infant': pax_count
+                'infant': pax['infant']+pax_count
             })
             for i in range(pax_count):
                 infant.append('')
         elif visa['pax_type'][0] == 'YCD':
             pax.update({
-                'senior': pax_count
+                'senior': pax['elder']+pax_count
             })
             for i in range(pax_count):
                 elder.append('')
         count = count + 1
 
     request.session['visa_passenger'] = pax
+    request.session['visa_search'] = list_visa
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
@@ -233,6 +241,8 @@ def review(request):
         except:
             pass
 
+
+
         request.session['visa_create_passengers'] = {
             'booker': booker,
             'adult': adult,
@@ -240,11 +250,13 @@ def review(request):
             'infant': infant,
             'contact': contact
         }
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'visa': request.session['visa_search']['result']['response'],
+            'type': request.session['list_of_visa_type'],
             'passengers': request.session['visa_passenger'],
             'pax': request.session['visa_create_passengers'],
             'username': request.session['username'],

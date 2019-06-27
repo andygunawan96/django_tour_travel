@@ -60,6 +60,8 @@ def api_models(request):
             res = get_config(request)
         elif req_data['action'] == 'search':
             res = search(request)
+        elif req_data['action'] == 'sell_visa':
+            res = sell_visa(request)
         elif req_data['action'] == 'update_passengers':
             res = update_passengers(request)
         elif req_data['action'] == 'update_contact':
@@ -103,21 +105,13 @@ def get_config(request):
         response = json.loads(line)
     file.close()
 
-    destinations = []
-    consulate = []
-    for country in response['result']['response']['airline']['destination']:
-        if country == 'Indonesia':
-            for des in response['result']['response']['airline']['destination'][country]:
-                consulate.append(des['city'])
-    for country in response['result']['response']['airline']['destination']:
-        destinations.append({
-            'country': country,
-            'consulate': consulate
-        })
-    # res = search2(request)
-    res = {
-        'destinations': destinations,
-    }
+    res = {}
+    for visa_config in response['result']['response']['visa']:
+        cities = []
+        for city in response['result']['response']['visa'][visa_config]:
+            cities.append(city)
+        res[visa_config] = cities
+
     return res
 
 def search(request):
@@ -131,7 +125,8 @@ def search(request):
     data = {
         "destination": destination,
         "consulate": consulate,
-        "departure_date": departure_date
+        "departure_date": departure_date,
+        "provider": 'skytors_visa'
     }
     headers.update({
         "action": "search",
@@ -140,75 +135,29 @@ def search(request):
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
 
-    res = {
-        'result': {
-            'error_code': 0,
-            'error_message': 'Success',
-            'response': {
-                'country': 'Australia',
-                'list_of_visa': [
-                    {
-                        'pax_type': 'ADT',
-                        'entry_type': 'single',
-                        'visa_type': 'tourist',
-                        'type': {
-                            'process_type': 'regular',
-                            'duration': '1'
-                        },
-                        'consulate': {
-                            'city': 'Jakarta',
-                            'address': 'Kebun Jeruk'
-                        },
-                        'sale_price': {
-                            'total_price': 10000,
-                            'commission': 1000,
-                            'currency': 'IDR'
-                        },
-                        'requirements': [
-                            {
-                                'name': 'passport',
-                                'description': 'harus bawa passport'
-                            },
-                            {
-                                'name': 'Copy KTP',
-                                'description': ''
-                            }
-                        ]
-                    }, {
-                        'pax_type': 'CHD',
-                        'entry_type': 'single',
-                        'visa_type': 'tourist',
-                        'type': {
-                            'process_type': 'regular',
-                            'duration': '1'
-                        },
-                        'consulate': {
-                            'city': 'Jakarta',
-                            'address': 'Kebun Jeruk'
-                        },
-                        'sale_price': {
-                            'total_price': 5000,
-                            'commission': 500,
-                            'currency': 'IDR'
-                        },
-                        'requirements': [
-                            {
-                                'name': 'passport',
-                                'description': 'harus bawa passport'
-                            },
-                            {
-                                'name': 'Copy KTP',
-                                'description': ''
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    }
-
-
     if res['result']['error_code'] == 0:
+
+        entry_type = {
+            'adult': [],
+            'child': [],
+            'infant': [],
+            'elder': []
+        }
+
+        visa_type = {
+            'adult': [],
+            'child': [],
+            'infant': [],
+            'elder': []
+        }
+
+        process_type = {
+            'adult': [],
+            'child': [],
+            'infant': [],
+            'elder': []
+        }
+
         for list_of_visa in res['result']['response']['list_of_visa']:
             #paxtype
             if list_of_visa['pax_type'] == 'ADT':
@@ -242,8 +191,39 @@ def search(request):
             elif list_of_visa['type']['process_type'] == 'super':
                 list_of_visa['type']['process_type'] = ['super', 'Super Express']
 
-        request.session['visa_search'] = res
+            if list_of_visa['entry_type'] not in entry_type[list_of_visa['pax_type'][1].lower()]:
+                entry_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['entry_type'])
+            if list_of_visa['visa_type'] not in visa_type[list_of_visa['pax_type'][1].lower()]:
+                visa_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['visa_type'])
+            if list_of_visa['type']['process_type'] not in process_type[list_of_visa['pax_type'][1].lower()]:
+                process_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['type']['process_type'])
 
+        request.session['visa_search'] = res
+        request.session['list_of_visa_type'] = {
+            'entry_type': entry_type,
+            'visa_type': visa_type,
+            'process_type': process_type
+        }
+    return res
+
+def sell_visa(request):
+    list_visa = []
+    for visa in request.session['visa_search']['result']['response']['list_of_visa']:
+        list_visa.append({
+            'id': visa['id'],
+            'pax': visa['total_pax']
+        })
+    data = {
+        'list_of_visa': list_visa,
+        "provider": 'skytors_visa'
+    }
+    headers.update({
+        "action": "sell_visa",
+        "signature": request.session['visa_signature']
+
+    })
+
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
 def update_contact(request):
@@ -254,10 +234,10 @@ def update_contact(request):
     }
     headers.update({
         "action": "update_contacts",
-        "signature": request.session['airline_signature']
+        "signature": request.session['visa_signature']
     })
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
 def update_passengers(request):
@@ -309,10 +289,10 @@ def update_passengers(request):
     }
     headers.update({
         "action": "update_passengers",
-        "signature": request.session['airline_signature']
+        "signature": request.session['visa_signature']
     })
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
 def commit_booking(request):
@@ -326,10 +306,10 @@ def commit_booking(request):
     }
     headers.update({
         "action": "commit_booking", #get_ssr_availability
-        "signature": request.session['airline_signature']
+        "signature": request.session['visa_signature']
     })
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
 
     return res
 
