@@ -35,6 +35,8 @@
     elder = passenger.elder;
     child = passenger.child;
     visa = `{{visa}}`;
+    visa = visa.replace(/True/g, 'true');
+    visa = visa.replace(/False/g, 'false');
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
     sell_visa();
 </script>

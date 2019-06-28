@@ -786,7 +786,7 @@ function sort(airline){
                                     for(j in airline[i].carrier_code_list)
                                     text+=`
                                     <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]]+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
-                                    if(airline[i].combo_price == true){
+                                    if(airline[i].is_combo_price == true){
                                         text+=`<span style="float:right; font-weight: bold; padding:5px; border:2px solid #f15a22;">Combo Price</span>`;
                                     }
                                     text+=`
@@ -795,7 +795,7 @@ function sort(airline){
                             </div>
                             <div class="col-lg-9">
                                 <div class="row" style="padding:0px 10px 10px 10px;">`;
-                                    if(airline[i].combo_price == true){
+                                    if(airline[i].is_combo_price == true){
                                         text+=`
                                         <div class="col-lg-12">
                                             <span style="font-weight: bold;">Departure</span>
@@ -843,7 +843,7 @@ function sort(airline){
                                         </span>
                                     </div>`;
 
-                                    if(airline[i].combo_price == true){
+                                    if(airline[i].is_combo_price == true){
                                         transit = 0;
                                         check_transit = false;
                                         for(j in airline[i].segments){
@@ -853,7 +853,8 @@ function sort(airline){
                                                 check_transit = true;
                                             }
                                         }
-                                        return_date = [airline[i].return_date, airline[i].segments[airline[i].segments.length-1].arrival_date];
+                                        return_date = [airline[i].segments[airline[i].segments.length-1].departure_date, airline[i].segments[airline[i].segments.length-1].arrival_date];
+                                        console.log(return_date);
                                         console.log('comboprice');
                                         for(j in airline[i].segments){
                                             if(airline[i].segments[j].origin == airline_request.destination.substr(airline_request.destination.length-4,3)){
@@ -1359,7 +1360,7 @@ function airline_detail(){
                                 dep_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
                                 console.log('ret');
-                                ret_price[resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+                                ret_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             }
                                 price_type = [];
                         }
@@ -1614,7 +1615,7 @@ function airline_detail(){
         commission_price = 0;
         if(parseInt(airline_request.adult) != 0){
             if(airline_request.direction == 'RT')
-                if(airline_pick[0].combo_price == true){
+                if(airline_pick[0].is_combo_price == true){
                     if(dep_price.ADT.fare != null)
                         price = dep_price.ADT.fare;
                     if(dep_price.ADT['r.oc'] != null)
@@ -1670,7 +1671,7 @@ function airline_detail(){
         temp_price = 0;
         if(parseInt(airline_request.child) != 0){
             if(airline_request.direction == 'RT')
-                if(airline_pick[0].combo_price == true){
+                if(airline_pick[0].is_combo_price == true){
                     if(dep_price.CHD.fare != null)
                         price = dep_price.CHD.fare;
                     if(dep_price.CHD['r.oc'] != null)
@@ -1725,7 +1726,7 @@ function airline_detail(){
         temp_price = 0;
         if(parseInt(airline_request.infant) != 0){
             if(airline_request.direction == 'RT')
-                if(airline_pick[0].combo_price == true){
+                if(airline_pick[0].is_combo_price == true){
                     if(dep_price.INF.fare != null)
                         price = dep_price.INF.fare;
                     if(dep_price.INF['r.oc'] != null)

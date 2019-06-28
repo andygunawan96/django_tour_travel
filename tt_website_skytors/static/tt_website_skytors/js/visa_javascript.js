@@ -600,11 +600,17 @@ function check_on_off_radio(pax_type,number,value){
                     visa.list_of_visa[i].entry_type[0] == entry_type &&
                     visa.list_of_visa[i].type.process_type[0] == process_type){
                     document.getElementById('adult_price'+number).innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + visa.list_of_visa[i].sale_price.total_price.toString();
+                    text_requirements = '';
+                    for(j in visa.list_of_visa[i].requirements){
+                        if(visa.list_of_visa[i].requirements[j].required == true){
+                            text_requirements += `<input type="checkbox" id="adult_required`+number+`_`+j+`"/><span>`+visa.list_of_visa[i].requirements[j].name+`</span>`;
+                        }
+                    }
+                    document.getElementById('adult_required'+number).innerHTML = text_requirements;
                     visa.list_of_visa[i].total_pax--;
                     document.getElementById('adult_check'+number).value = i;
                 }
             }
-            //money
         }
     }
 
