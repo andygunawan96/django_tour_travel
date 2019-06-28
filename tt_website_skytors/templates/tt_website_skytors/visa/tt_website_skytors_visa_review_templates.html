@@ -22,6 +22,7 @@
     console.log(visa);
     pax = `{{pax}}`;
     pax = JSON.parse(pax.replace(/&#39;/g, '"'));
+    console.log(pax);
     document.getElementById('username').innerHTML = '{{username}}';
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
@@ -50,11 +51,11 @@
                     <h4>Prices may changes at any time</h4>
                     <br/>
                 </div>
-                <div class="col-lg-9" style="padding-bottom:20px;">
+                <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="visa_review">
-                                <div class="row" style="padding-top:20px;">
+                                <div class="row">
                                     <div class="col-lg-12">
                                         <div style="background-color:#f15a22;">
                                             <center>
@@ -125,7 +126,10 @@
                                                         {% endfor %}
                                                     </td>
                                                     <td id="adult_price{{counter}}"> - </td>
-                                                    <td><img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('adult',{{counter}})" /></td>
+                                                    <td>
+                                                        <input type="hidden" id="adult_check{{counter}}" value="false"/>
+                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('adult',{{counter}})" />
+                                                    </td>
                                                 </tr>
                                                 {% endwith %}
                                                 {% endfor %}
@@ -208,17 +212,17 @@
                             </div>
                             <div class="row" style="padding-top:15px;">
                                 <div class="col-lg-4" style="padding-bottom:15px;">
-                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;"/>
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="check_hold_booking();" style="width:100%;"/>
                                 </div>
                                 <div class="col-lg-4" style="padding-bottom:15px;"></div>
                                 <div class="col-lg-4" style="padding-bottom:15px;">
-                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;"/>
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3" style="padding-bottom:20px;">
+                <div class="col-lg-4" style="padding-bottom:20px;">
                     <div style="background-color:#f15a22;">
                         <center>
                             <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>

@@ -601,6 +601,7 @@ function check_on_off_radio(pax_type,number,value){
                     visa.list_of_visa[i].type.process_type[0] == process_type){
                     document.getElementById('adult_price'+number).innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + visa.list_of_visa[i].sale_price.total_price.toString();
                     visa.list_of_visa[i].total_pax--;
+                    document.getElementById('adult_check'+number).value = i;
                 }
             }
             //money
@@ -626,6 +627,11 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
+        document.getElementById('adult_price'+number).innerHTML = '-';
+        if(document.getElementById('adult_check'+number).value != 'false'){
+            visa.list_of_visa[parseInt(document.getElementById('adult_check'+number).value)].total_pax++;
+            document.getElementById('adult_check'+number).value = 'false';
+        }
     }else if(pax_type == 'child'){
         var radios = document.getElementsByName('child_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -641,6 +647,7 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
+        document.getElementById('adult_price'+number).innerHTML = '-';
     }else if(pax_type == 'infant'){
         var radios = document.getElementsByName('infant_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -656,6 +663,7 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
+        document.getElementById('adult_price'+number).innerHTML = '-';
     }else if(pax_type == 'elder'){
         var radios = document.getElementsByName('elder_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -671,5 +679,7 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
+        document.getElementById('adult_price'+number).innerHTML = '-';
     }
 }
+
