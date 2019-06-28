@@ -733,7 +733,9 @@ function get_price_itinerary(val){
         check = 1;
         console.log('combo_price');
         document.getElementById("badge-flight-notif").innerHTML = "1";
+        document.getElementById("badge-flight-notif2").innerHTML = "1";
         $("#badge-flight-notif").addClass("infinite");
+        $("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#choose-ticket-flight').hide();
@@ -741,14 +743,18 @@ function get_price_itinerary(val){
         check = 1;
         console.log('oneway');
         document.getElementById("badge-flight-notif").innerHTML = "1";
+        document.getElementById("badge-flight-notif2").innerHTML = "1";
         $("#badge-flight-notif").addClass("infinite");
+        $("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#choose-ticket-flight').hide();
     }else if(airline_request.direction == 'RT' && journey.length == 2){
         check = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
+        document.getElementById("badge-flight-notif2").innerHTML = "1";
         $("#badge-flight-notif").addClass("infinite");
+        $("#badge-flight-notif2").addClass("infinite");
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#choose-ticket-flight').hide();
@@ -1360,7 +1366,9 @@ function get_price_itinerary(val){
                 </div>`;
                 }else{
                     document.getElementById("badge-flight-notif").innerHTML = "0";
+                    document.getElementById("badge-flight-notif2").innerHTML = "0";
                     $("#badge-flight-notif").removeClass("infinite");
+                    $("#badge-flight-notif2").removeClass("infinite");
                     text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
                 }
                 document.getElementById('airline_detail').innerHTML = text;

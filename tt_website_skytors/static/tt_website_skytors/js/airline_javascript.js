@@ -778,7 +778,7 @@ function sort(airline){
            if(airline[i].origin == airline_request.origin.substr(airline_request.origin.length-4,3) && airline_departure == 'departure'){
                var price = 0;
                text += `
-                    <div style="background-color:white; margin-bottom:15px;" id="journey`+airline[i].sequence+`">
+                    <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px;" id="journey`+airline[i].sequence+`">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="row" style="padding:10px;">
@@ -951,7 +951,7 @@ function sort(airline){
                             depart = 2;
                         }
                         text+=`
-                            <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white;">
+                            <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">
                                 <span style="font-weight: bold;">`+airline_carriers[airline[i].segments[j].carrier_code]+` - </span>
                                 <span style="color:#f15a22; font-weight: bold;">`+airline[i].segments[j].carrier_name+`</span><hr/>`;
                                 text+=`
@@ -1258,7 +1258,9 @@ function change_departure(){
     value_pick = [];
     airline_pick_list = [];
     document.getElementById("badge-flight-notif").innerHTML = "0";
+    document.getElementById("badge-flight-notif2").innerHTML = "0";
     $("#badge-flight-notif").removeClass("infinite");
+    $("#badge-flight-notif2").removeClass("infinite");
     $('#choose-ticket-flight').show();
     document.getElementById("airline_ticket_pick").innerHTML = '';
     document.getElementById("airline_detail").innerHTML = '';

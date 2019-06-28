@@ -267,6 +267,7 @@ th {
 label {
   display: inline-block;
   margin-bottom: .5rem;
+  color:#656565;
 }
 
 button {
@@ -458,7 +459,7 @@ hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
   border: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 small,
@@ -1843,7 +1844,7 @@ pre code {
   color: #495057;
   background-color: #fff;
   background-clip: padding-box;
-  border: 1px solid #ced4da;
+  border: 1px solid #EFEFEF;
   border-radius: 0.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
@@ -2298,14 +2299,13 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 
 .btn-custom-circle {
   text-align:center;
-  border-radius:28px;
   background-color:#F56430;
   text-align: center;
   white-space: nowrap;
   user-select: none;
   border: 1px solid transparent;
   cursor:pointer;
-  color:#252525;
+  color:#303030;
 }
 
 .btn-custom-circle:hover {
