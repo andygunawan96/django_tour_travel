@@ -1010,7 +1010,7 @@ function get_price_itinerary(val){
                         price = 0;
                     }
                     //return
-                    if(airline_request.direction == 'RET' && airline_pick_list.length == 2){
+                    if(airline_request.direction == 'RT' && airline_pick_list.length == 2){
                     console.log(value_pick);
                         text+=`
                         <div class="col-lg-12" style="margin-bottom:5px; margin-top:5px;">
