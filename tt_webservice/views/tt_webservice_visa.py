@@ -229,11 +229,11 @@ def sell_visa(request):
 def update_contact(request):
 
     data = {
-        'booker': request.session['airline_create_passengers']['booker'],
-        'contacts': request.session['airline_create_passengers']['contacts']
+        'booker': request.session['visa_create_passengers']['booker'],
+        'contacts': request.session['visa_create_passengers']['contact']
     }
     headers.update({
-        "action": "update_contacts",
+        "action": "update_contact",
         "signature": request.session['visa_signature']
     })
 
@@ -242,7 +242,23 @@ def update_contact(request):
 
 def update_passengers(request):
     passengers = []
-    for pax in request.session['airline_create_passengers']['adult']:
+    master_visa_id = json.loads(request.POST['id'])
+    for pax in request.session['visa_create_passengers']['adult']:
+        pax.update({
+            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
+        })
+        if pax['passport_expdate'] != '':
+            try:
+                pax.update({
+                    'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
+                                                pax['passport_expdate'].split(' ')[0])
+                })
+            except:
+                print('no passport exp date')
+        pax['master_visa_Id'] = master_visa_id[len(passengers)]
+        passengers.append(pax)
+
+    for pax in request.session['visa_create_passengers']['child']:
         pax.update({
             'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
         })
@@ -256,21 +272,7 @@ def update_passengers(request):
                 print('no passport exp date')
         passengers.append(pax)
 
-    for pax in request.session['airline_create_passengers']['child']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            try:
-                pax.update({
-                    'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                pax['passport_expdate'].split(' ')[0])
-                })
-            except:
-                print('no passport exp date')
-        passengers.append(pax)
-
-    for pax in request.session['airline_create_passengers']['infant']:
+    for pax in request.session['visa_create_passengers']['infant']:
         pax.update({
             'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
         })
@@ -288,7 +290,7 @@ def update_passengers(request):
         'passengers': passengers
     }
     headers.update({
-        "action": "update_passengers",
+        "action": "update_passenger",
         "signature": request.session['visa_signature']
     })
 

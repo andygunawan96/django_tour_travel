@@ -202,3 +202,166 @@ function sell_visa(){
        }
     });
 }
+
+function check_hold_booking(){
+    error_log = '';
+    for(i in pax){
+        if(i != 'booker' && i != 'contact'){
+            for(k in pax[i]){
+                count_pax = parseInt(k) + 1;
+                var radios = document.getElementsByName('adult_visa_type'+count_pax);
+                visa_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        visa_type = radios[j].value;
+                    }
+                }
+                radios = document.getElementsByName('adult_entry_type'+count_pax);
+                entry_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        entry_type = radios[j].value;
+                    }
+                }
+                radios = document.getElementsByName('adult_process_type'+count_pax);
+                process_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        process_type = radios[j].value;
+                    }
+                }
+
+                if(visa_type == '')
+                    error_log += 'Please fill visa for '+ i + ' passenger '+ count_pax + '\n';
+                if(entry_type == '')
+                    error_log += 'Please fill entry for '+ i + ' passenger '+ count_pax + '\n';
+                if(process_type == '')
+                    error_log += 'Please fill process for '+ i + ' passenger '+ count_pax + '\n';
+            }
+        }
+    }
+    if(error_log == '')
+        visa_hold_booking(1);
+    else
+        alert(error_log)
+}
+
+function visa_hold_booking(val){
+    if(val == 0){}
+
+    else if(val == 1){
+        update_passenger();
+    }
+}
+
+function update_passenger(){
+    data_pax = [];
+    console.log(pax);
+    for(i in pax){ //pax type
+        for(k in pax[i]){ //pax
+            if(i != 'booker' && i != 'contact'){
+                console.log(pax[i]);
+                console.log(k);
+                pax_count = parseInt(k) + 1;
+                var radios = document.getElementsByName('adult_visa_type'+pax_count);
+                visa_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        visa_type = radios[j].value;
+                    }
+                }
+                console.log(visa_type);
+                radios = document.getElementsByName('adult_entry_type'+pax_count);
+                entry_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        entry_type = radios[j].value;
+                    }
+                }
+                console.log(entry_type);
+                radios = document.getElementsByName('adult_process_type'+pax_count);
+                process_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        process_type = radios[j].value;
+                    }
+                }
+                console.log(process_type);
+                for(j in visa.list_of_visa){ //list of visa
+                    if(visa.list_of_visa[j].pax_type[0] == pax[i][k].pax_type &&
+                    visa.list_of_visa[j].visa_type[0] == visa_type &&
+                    visa.list_of_visa[j].type.process_type[0] == process_type &&
+                    visa.list_of_visa[j].entry_type[0] == entry_type){
+                        data_pax.push(visa.list_of_visa[j].id.toString());
+                    }
+                }
+            }
+        }
+    }
+    console.log(data_pax);
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'update_passengers',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'id': JSON.stringify(data_pax)
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                update_contact();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function update_contact(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'update_contact',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+           console.log(msg);
+            if(msg.result.error_code == 0){
+                commit_booking();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function commit_booking(){
+    console.log('here');
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'commit_booking',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'force_issued': 'true'
+       },
+       success: function(msg) {
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
