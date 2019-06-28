@@ -502,7 +502,7 @@ function get_price_itinerary(val){
     price = 0;
     if(airline_request.direction == 'OW')
         journey.push({'segments':segment, 'provider': provider});
-    else if(airline_request.direction == 'RT' && airline_data_filter[val].combo_price == true)
+    else if(airline_request.direction == 'RT' && airline_data_filter[val].is_combo_price == true)
         journey.push({'segments':segment, 'provider': provider});
     else if(airline_request.direction == 'RT' && journey.length == 0){
         journey.push({'segments':segment, 'provider': provider});
@@ -729,7 +729,7 @@ function get_price_itinerary(val){
     console.log(airline_data_filter);
     console.log(journey);
     check = 0;
-    if(airline_request.direction == 'RT' && airline_data_filter[val].combo_price == true){
+    if(airline_request.direction == 'RT' && airline_data_filter[val].is_combo_price == true){
         check = 1;
         console.log('combo_price');
         document.getElementById("badge-flight-notif").innerHTML = "1";
@@ -809,7 +809,7 @@ function get_price_itinerary(val){
                 <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
                     <div class="col-lg-12" style="margin-bottom:5px; margin-top:5px;">
                         <center><h6>Departure</h6></center>`;
-                           $text ='Depart\n';
+                           $text ='Departure\n';
                            for(i in airline_pick_list[0].segments){
                                if(airline_pick_list[0].segments[i].journey_type == 'DEP'){
                                    $text += airline_carriers[airline_pick_list[0].segments[i].carrier_code] + ' ' + airline_pick_list[0].segments[i].carrier_code + airline_pick_list[0].segments[i].carrier_number + '\n';
@@ -864,7 +864,7 @@ function get_price_itinerary(val){
                         </div>
                         <hr/>
                     </div>`;
-                    if(airline_pick_list[0].combo_price == true){
+                    if(airline_pick_list[0].is_combo_price == true){
                         text+=`
                         <div class="col-lg-12" style="margin-bottom:5px; margin-top:5px;">
                             <center><h6>Return</h6></center>`;
@@ -1151,7 +1151,7 @@ function get_price_itinerary(val){
                     commission_price = 0;
                     if(parseInt(airline_request.adult) != 0){
                         if(airline_request.direction == 'RT')
-                            if(airline_data_filter[value_pick[0]].combo_price == true){
+                            if(airline_data_filter[value_pick[0]].is_combo_price == true){
                                 if(dep_price.ADT.fare != null)
                                     price = dep_price.ADT.fare;
                                 if(dep_price.ADT['r.oc'] != null)
@@ -1207,7 +1207,7 @@ function get_price_itinerary(val){
                     temp_price = 0;
                     if(parseInt(airline_request.child) != 0){
                         if(airline_request.direction == 'RT')
-                            if(data[value_pick[0]].combo_price == true){
+                            if(data[value_pick[0]].is_combo_price == true){
                                 if(dep_price.CHD.fare != null)
                                     price = dep_price.CHD.fare;
                                 if(dep_price.CHD['r.oc'] != null)
@@ -1262,7 +1262,7 @@ function get_price_itinerary(val){
                     temp_price = 0;
                     if(parseInt(airline_request.infant) != 0){
                         if(airline_request.direction == 'RT'){
-                            if(airline_data_filter[value_pick[0]].combo_price == true){
+                            if(airline_data_filter[value_pick[0]].is_combo_price == true){
                                 if(dep_price.INF.fare != null)
                                     price = dep_price.INF.fare;
                                 if(dep_price.INF['r.oc'] != null)
@@ -1405,7 +1405,7 @@ function get_fare_rules(){
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.fare_rule_provider){
                     for(j in msg.result.response.fare_rule_provider[i].journeys){
-                        for(k in msg.result.response.fare_rule_provider[i].journeys[k].rules){
+                        for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
                             text_fare += `<label>`+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</label>`;
                         }
                         document.getElementById('rules'+count_fare).innerHTML = text_fare;

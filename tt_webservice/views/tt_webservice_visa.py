@@ -207,14 +207,8 @@ def search(request):
     return res
 
 def sell_visa(request):
-    list_visa = []
-    for visa in request.session['visa_search']['result']['response']['list_of_visa']:
-        list_visa.append({
-            'id': visa['id'],
-            'pax': visa['total_pax']
-        })
     data = {
-        'list_of_visa': list_visa,
+        'pax': request.session['visa_passenger'],
         "provider": 'skytors_visa'
     }
     headers.update({
@@ -255,7 +249,8 @@ def update_passengers(request):
                 })
             except:
                 print('no passport exp date')
-        pax['master_visa_Id'] = master_visa_id[len(passengers)]
+        pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
+        pax['required'] = master_visa_id[len(passengers)]['required']
         passengers.append(pax)
 
     for pax in request.session['visa_create_passengers']['child']:

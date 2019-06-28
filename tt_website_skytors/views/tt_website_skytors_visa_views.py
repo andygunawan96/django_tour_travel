@@ -47,7 +47,7 @@ def passenger(request):
         'child': 0,
         'infant': 0,
         'elder': 0
-   }
+    }
 
     file = open("version_cache.txt", "r")
     for line in file:

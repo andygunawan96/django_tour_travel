@@ -17,7 +17,8 @@
     infant = passenger.infant;
     elder = passenger.elder;
     child = passenger.child;
-    visa = `{{visa}}`;
+    visa = `{{visa}}`;visa = visa.replace(/True/g, 'true');
+    visa = visa.replace(/False/g, 'false');
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
     console.log(visa);
     pax = `{{pax}}`;
@@ -51,7 +52,7 @@
                     <h4>Prices may changes at any time</h4>
                     <br/>
                 </div>
-                <div class="col-lg-8" style="padding-bottom:20px;">
+                <div class="col-lg-9" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="visa_review">
@@ -97,10 +98,11 @@
                                                     <th style="width:15%;">Name</th>
                                                     <th style="width:7%;">Type</th>
                                                     <th style="width:13%;">Birth Date</th>
-                                                    <th style="width:15%;">Visa Type</th>
-                                                    <th style="width:15%;">Entry Type</th>
-                                                    <th style="width:15%;">Process Type</th>
-                                                    <th style="width:15%;">Price</th>
+                                                    <th style="width:12%;">Visa Type</th>
+                                                    <th style="width:12%;">Entry Type</th>
+                                                    <th style="width:12%;">Process Type</th>
+                                                    <th style="width:10%;">Required</th>
+                                                    <th style="width:14%;">Price</th>
                                                     <th style="width:1%;"> </th>
                                                 </tr>
                                                 {% for person in pax.adult %}
@@ -125,6 +127,7 @@
                                                             <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>{{process_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
+                                                    <td id="adult_required{{counter}}"></td>
                                                     <td id="adult_price{{counter}}"> - </td>
                                                     <td>
                                                         <input type="hidden" id="adult_check{{counter}}" value="false"/>
@@ -222,7 +225,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4" style="padding-bottom:20px;">
+                <div class="col-lg-3" style="padding-bottom:20px;">
                     <div style="background-color:#f15a22;">
                         <center>
                             <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
