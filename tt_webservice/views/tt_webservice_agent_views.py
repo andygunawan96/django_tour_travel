@@ -137,6 +137,18 @@ def signin(request):
                     'hotel_config': res_data['result']['response']['hotel_config'],
                 })
         except:
+            #visa odoo12
+            data = {
+                'provider': 'skytors_visa'
+            }
+            headers.update({
+                "action": "get_config",
+                "signature": request.session['signature'],
+            })
+
+            res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+            #
+
             #issuedoffline
             data = {}
             headers.update({
@@ -279,6 +291,7 @@ def signin(request):
                     'balance': res_balance['result']['response']['balance'],
                     'credit_limit': res_balance['result']['response']['credit_limit']
                 },
+                'visa': res_config_visa,
                 'issued_offline': res_config_issued_offline['result']['response'],
                 'train': res_origin_train['result']['response'],
                 'activity': res_config_activity['result'],
