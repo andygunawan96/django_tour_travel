@@ -119,9 +119,13 @@ def search(request):
 
         providers = []
         try:
-            if request.POST['directionflight'] == 'on':
+            if request.POST['radio_airline_type'] == 'roundtrip':
                 direction = 'RT'
                 return_date = request.POST['airline_return']
+            else:
+                direction = 'OW'
+                return_date = request.POST['airline_departure']
+                print('no return')
         except:
             direction = 'OW'
             return_date = request.POST['airline_departure']
@@ -255,8 +259,8 @@ def passenger(request):
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
             'airline_carriers': airline_carriers,
-            'adults': adult,
             'airline_pick': request.POST['airline_pick'],
+            'adults': adult,
             'childs': child,
             'infants': infant,
             'adult_title': adult_title,

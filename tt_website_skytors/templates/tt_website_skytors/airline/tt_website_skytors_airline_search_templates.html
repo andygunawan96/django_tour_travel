@@ -334,7 +334,7 @@
 
                                 <form action="{% url 'tt_website_skytors:airline_passenger'%}" method="post" id="go_to_passenger">
                                     {% csrf_token %}
-                                    <div id="airline_detail" style="max-height:400px; overflow-y: scroll;">
+                                    <div class="row" id="airline_detail">
 
                                     </div>
                                     <input type="hidden" id="airline_pick" name="airline_pick"/>
