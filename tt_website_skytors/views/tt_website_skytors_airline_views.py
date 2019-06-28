@@ -119,7 +119,7 @@ def search(request):
 
         providers = []
         try:
-            if request.POST['radio_airline_type'] == 'roundtrip'
+            if request.POST['radio_airline_type'] == 'roundtrip':
                 direction = 'RT'
                 return_date = request.POST['airline_return']
         except:
