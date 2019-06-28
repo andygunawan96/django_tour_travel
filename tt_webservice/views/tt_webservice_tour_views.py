@@ -49,6 +49,8 @@ def api_models(request):
             res = get_countries(request)
         elif req_data['action'] == 'get_details':
             res = get_details(request)
+        elif req_data['action'] == 'update_passenger':
+            res = update_passenger(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'commit_booking':
@@ -147,8 +149,23 @@ def get_details(request):
     return res
 
 
+def update_passenger(request):
+    data = {
+        'provider': 'skytors_tour',
+        'booking_data': request.session['booking_data'],
+    }
+    headers.update({
+        "action": "update_passenger",
+        "signature": request.session['tour_signature'],
+    })
+
+    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    return res
+
+
 def get_booking(request):
     data = {
+        'provider': 'skytors_tour',
         'order_number': request.POST['order_number']
     }
     headers.update({
@@ -162,6 +179,7 @@ def get_booking(request):
 
 def commit_booking(request):
     data = {
+        'provider': 'skytors_tour',
         'force_issued': bool(request.POST['value'])
     }
     headers.update({
@@ -175,6 +193,7 @@ def commit_booking(request):
 
 def issued(request):
     data = {
+        'provider': 'skytors_tour',
         'order_number': request.POST['order_number']
     }
     headers.update({

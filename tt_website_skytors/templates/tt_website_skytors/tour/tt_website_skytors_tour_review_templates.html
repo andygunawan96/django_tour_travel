@@ -30,7 +30,7 @@
         </div>
         <br/>
 
-        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
+        <form method="POST" id="tour_booking" action="{% url 'tt_website_skytors:tour_booking'%}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -112,7 +112,7 @@
                                 <h5>Passenger Information</h5>
                                 {% for room in room_list %}
                                 <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">Room {{forloop.counter}}</span>
-                                <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">{{room.name}} {{room.bed_type}}</span>
+                                <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;"> - {{room.name}} {{room.bed_type}}</span>
                                 {% if room.hotel %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">{{room.hotel}}</span><br/>{% endif %}
                                 {% if room.notes %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">Notes : {{room.notes}}</span>{% endif %}
                                 <table style="width:100%;" id="list-of-passenger">
@@ -312,7 +312,7 @@
                                     <td style="width: 10%;"></td>
                                     <td style="width: 10%;"></td>
                                     <td style="text-align: right; font-weight: bold; font-size: 14px !important; width: 30%;">
-                                        <input id="grand_total" name="grand_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:16px; font-weight: bold; color: #777777;" readonly="readonly"/>
+                                        <input id="grand_total" name="grand_total" style="text-align:right; background-color: transparent; border: none; width:100%; font-size:15px; font-weight: bold; color: #777777;" readonly="readonly"/>
                                     </td>
                                     <input type="hidden" id="grand_total_hidden" name="grand_total_hidden" value="{{total_itinerary_price}}"/>
                                     <input id="commission_total" name="commission_total" type="hidden" value="{{price_itinerary.commission_total}}"/>
@@ -356,14 +356,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4" style="padding-bottom:15px;">
-                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="tour_commit_booking();" style="width:100%;"/>
-                </div>
-                <div class="col-lg-4" style="padding-bottom:15px;">
-                    <input class="primary-btn hold-seat-booking-train" type="button" value="Print Form" style="width:100%;"/>
-                </div>
-                <div class="col-lg-4" style="padding-bottom:15px;">
-                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" style="width:100%;"/>
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="row">
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="tour_hold_booking(0);" style="width:100%;"/>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Print Form" style="width:100%;"/>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" onclick="tour_hold_booking(1);" style="width:100%;"/>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
