@@ -850,10 +850,7 @@
             html += '</tbody>';
             html += '</table>';
             if ((month+1) == 7){
-                html += '<label>';
-                html += '<span style="font-size:10px;"> 1 Juni 2019 : Hari Lahir Pancasila </span><br/>';
-                html += '<span style="font-size:10px;"> 2 Juni 2019 : Hari Lahir Juni </span><br/>';
-                html += '</label>';
+
             }
 
             this.container.find('.drp-calendar.' + side + ' .calendar-table').html(html);

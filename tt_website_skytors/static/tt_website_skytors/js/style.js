@@ -6,21 +6,6 @@ $(document).ready(function(){
     var sort_departure=0;
     var sort_arrival=0;
 
-    if ($(window).width() >= 992) {
-        $('#filter-search-flight').show();
-        $('#sorting-search-flight').show();
-        $('#filter-search-train').show();
-        $('#sorting-search-train').show();
-        $('#mybuttonfiltersort').hide();
-    }
-    else {
-        $('#filter-search-flight').hide();
-        $('#sorting-search-flight').hide();
-        $('#filter-search-train').hide();
-        $('#sorting-search-train').hide();
-        $('#mybuttonfiltersort').show();
-    }
-
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");
@@ -132,8 +117,6 @@ $(document).ready(function(){
 
     var quantity_adult_train = parseInt($('#train_adult').val());
     var quantity_infant_train = parseInt($('#train_infant').val());
-    $("#show_adult_train").text(quantity_adult_train);
-    $("#show_infant_train").text(quantity_infant_train);
     $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant");
 
     $('.right-plus-adult-train').click(function(e){
@@ -145,7 +128,6 @@ $(document).ready(function(){
         // If is not undefined
         if(quantity < 4){
             $('#train_adult').val(quantity + 1);
-            $("#show_adult_train").text(quantity + 1);
             quantity_adult_train = quantity + 1;
 
             $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
@@ -174,13 +156,11 @@ $(document).ready(function(){
         // Increment
         if(quantity > 1){
             $('#train_adult').val(quantity - 1);
-            $("#show_adult_train").text(quantity - 1);
             quantity_adult_train = quantity - 1;
 
             if(quantity_adult_train < quantity_infant_train){
                quantity_infant_train = quantity_adult_train;
                $('#train_infant').val(quantity - 1);
-               $("#show_infant_train").text(quantity_infant_train);
             }
 
             $('#show_total_pax_train').text(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
@@ -239,7 +219,6 @@ $(document).ready(function(){
         // Increment
         if(quantity > 0){
             $('#train_infant').val(quantity - 1);
-            $("#show_infant_train").text(quantity - 1);
             quantity_infant_train = quantity - 1;
 
             $('#show_total_pax_train').val(quantity_adult_train + " Adult, " +quantity_infant_train + " Infant ");
@@ -258,9 +237,6 @@ $(document).ready(function(){
     var quantity_adult_flight = parseInt($('#adult_flight').val());
     var quantity_child_flight = parseInt($('#child_flight').val());
     var quantity_infant_flight = parseInt($('#infant_flight').val());
-    $("#show_adult_flight").text(quantity_adult_flight);
-    $("#show_child_flight").text(quantity_child_flight);
-    $("#show_infant_flight").text(quantity_infant_flight);
     $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
     $('.right-plus-adult-flight').click(function(e){
@@ -272,7 +248,6 @@ $(document).ready(function(){
         // If is not undefined
         if(quantity < 9){
             $('#adult_flight').val(quantity + 1);
-            $("#show_adult_flight").text(quantity + 1);
             quantity_adult_flight = quantity + 1;
 
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " +quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
@@ -320,13 +295,11 @@ $(document).ready(function(){
         // Increment
         if(quantity > 1){
             $('#adult_flight').val(quantity - 1);
-            $("#show_adult_flight").text(quantity - 1);
             quantity_adult_flight = quantity - 1;
 
             if(quantity_adult_flight < quantity_infant_flight){
                quantity_infant_flight = quantity_adult_flight;
                $('#infant_flight').val(quantity - 1);
-               $("#show_infant_flight").text(quantity_infant_flight);
             }
 
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
@@ -369,7 +342,6 @@ $(document).ready(function(){
         // If is not undefined
         if(quantity < 8){
             $('#child_flight').val(quantity + 1);
-            $("#show_child_flight").text(quantity + 1);
             quantity_child_flight = quantity + 1;
 
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " +quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
@@ -411,7 +383,6 @@ $(document).ready(function(){
         // Increment
         if(quantity > 0){
             $('#child_flight').val(quantity - 1);
-            $("#show_child_flight").text(quantity - 1);
             quantity_child_flight = quantity - 1;
 
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
@@ -440,7 +411,6 @@ $(document).ready(function(){
         // If is not undefined
         if (quantity < quantity_adult_flight){
             $('#infant_flight').val(quantity + 1);
-            $("#show_infant_flight").text(quantity + 1);
             quantity_infant_flight = quantity + 1;
 
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
@@ -472,7 +442,6 @@ $(document).ready(function(){
         // Increment
         if(quantity > 0){
             $('#infant_flight').val(quantity - 1);
-            $("#show_infant_flight").text(quantity - 1);
             quantity_infant_flight = quantity - 1;
 
             $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
@@ -487,31 +456,9 @@ $(document).ready(function(){
         }
     });
 
-//    $("#airline_departure").on("change", function() {
-//        var airline_dept = new Date($("#airline_departure").val());
-//        airline_dept.setDate(airline_dept.getDate() + 1);
-//
-//        if ($('#directionflight').prop('checked')){
-//            $('input[name="airline_return"]').daterangepicker({
-//              singleDatePicker: true,
-//              autoUpdateInput: true,
-//              startDate: airline_dept,
-//              opens: 'left',
-//              minDate: $('#airline_departure').val(),
-//              maxDate: moment().subtract(-365, 'days'),
-//              locale: {
-//                  format: 'DD MMM YYYY',
-//              }
-//        });
-//       }
-//    });
-
     var quantity_room_hotel = parseInt($('#hotel_room').val());
     var quantity_adult_hotel = parseInt($('#hotel_adult').val());
     var quantity_child_hotel = parseInt($('#hotel_child').val());
-    $("#show_room_hotel").text(quantity_room_hotel);
-    $("#show_adult_hotel").text(quantity_adult_hotel);
-    $("#show_child_hotel").text(quantity_child_hotel);
     $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
 
     $('.right-plus-room-hotel').click(function(e){
@@ -522,12 +469,10 @@ $(document).ready(function(){
 
         if(quantity < 9){
             $('#hotel_room').val(quantity + 1);
-            $("#show_room_hotel").text(quantity + 1);
             quantity_room_hotel = quantity + 1;
 
             if(quantity_room_hotel > quantity_adult_hotel){
                 $('#hotel_adult').val(quantity + 1);
-                $("#show_adult_hotel").text(quantity + 1);
                 quantity_adult_hotel = quantity + 1;
             }
 
@@ -560,13 +505,11 @@ $(document).ready(function(){
 
         if(quantity > 1){
             $('#hotel_room').val(quantity - 1);
-            $("#show_room_hotel").text(quantity - 1);
             quantity_room_hotel = quantity - 1;
 
             if(quantity_room_hotel < quantity_child_hotel){
                quantity_child_hotel = quantity_room_hotel;
                $('#hotel_child').val(quantity - 1);
-               $("#show_child_hotel").text(quantity_child_hotel);
             }
 
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
@@ -603,7 +546,6 @@ $(document).ready(function(){
         // If is not undefined
         if(quantity < 18){
             $('#hotel_adult').val(quantity + 1);
-            $("#show_adult_hotel").text(quantity + 1);
             quantity_adult_hotel = quantity + 1;
 
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
@@ -629,7 +571,6 @@ $(document).ready(function(){
         // Increment
         if(quantity > quantity_room_hotel){
             $('#hotel_adult').val(quantity - 1);
-            $("#show_adult_hotel").text(quantity - 1);
             quantity_adult_hotel = quantity - 1;
 
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
@@ -676,7 +617,6 @@ $(document).ready(function(){
 
         if(quantity > 0){
             $('#hotel_child').val(quantity - 1);
-            $("#show_child_hotel").text(quantity - 1);
             quantity_child_hotel = quantity - 1;
 
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
@@ -743,6 +683,7 @@ $(document).ready(function(){
             text+=`
             <span class="span-search-ticket">Departure</span>
             <div class="input-container-search-ticket">
+                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
             </div>
             <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
@@ -752,11 +693,14 @@ $(document).ready(function(){
             node = document.createElement("div");
             document.getElementById('is_combo_price').disabled = true;
             document.getElementById('is_combo_price').checked = false;
+            document.getElementById('checkbox_combo_price').style.display = "none";
+
+            $("#airline_departure").val(moment().format('DD MMM YYYY'));
+            $("#airline_return").val($("#airline_departure").val());
 
             $('input[name="airline_departure"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-//              timePicker: true,
               opens: 'center',
               startDate: moment(),
               minDate: moment(),
@@ -772,10 +716,12 @@ $(document).ready(function(){
             text='';
             var node = document.createElement("div");
             document.getElementById('is_combo_price').disabled = false;
+            document.getElementById('checkbox_combo_price').style.display = "block";
 
             text+=`
             <span class="span-search-ticket">Departure - Return</span>
             <div class="input-container-search-ticket">
+                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                 <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
             </div>
 
@@ -785,9 +731,6 @@ $(document).ready(function(){
             node.innerHTML = text;
             document.getElementById("airline_date_search").appendChild(node);
             node = document.createElement("div");
-
-//            $("#airline_departure").val(moment());
-//            $("#airline_return").val(moment().subtract(-1, 'days'));
 
             $("#airline_departure").val(moment().format('DD MMM YYYY'));
             $("#airline_return").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
@@ -810,10 +753,122 @@ $(document).ready(function(){
             $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
               $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
                 $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
-                $("#airline_departure").val(picker.endDate.format('DD MMM YYYY'));
+                $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
             });
         }
     });
+
+    $('#radio_airline_change_search').change(function(){
+        selected_value = $("input[name='radio_airline_type']:checked").val();
+        if (selected_value == "oneway"){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket">Departure</span>
+            <div class="input-container-search-ticket">
+                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+            </div>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+
+            document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
+            document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
+            $('input[name="airline_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: $("#airline_departure").val(),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+        }
+        else if(selected_value == "roundtrip"){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket">Departure - Return</span>
+            <div class="input-container-search-ticket">
+                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
+            </div>
+            <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+
+            if(document.getElementById("airline_return_temp").value == ""){
+
+                document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
+                document.getElementById("airline_return").value = date_tomorrow;
+                document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
+
+                var date_tomorrow = new Date(document.getElementById("airline_departure").value);
+                date_tomorrow.setDate(date_tomorrow.getDate() + 1);
+
+                $('input[name="airline_departure_return"]').daterangepicker({
+                  singleDatePicker: false,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: $('#airline_departure').val(),
+                  endDate: date_tomorrow,
+                  minDate: moment(),
+                  maxDate: moment().subtract(-365, 'days'),
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+
+                $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
+                  $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                    $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
+                    $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
+                    $("#airline_departure_return").val(picker.startDate.format('DD MMM YYYY') +' - '+picker.endDate.format('DD MMM YYYY'));
+                });
+
+            }
+            else{
+                document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
+                document.getElementById("airline_return").value = document.getElementById("airline_return_temp").value;
+                document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
+
+                $('input[name="airline_departure_return"]').daterangepicker({
+                  singleDatePicker: false,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: $('#airline_departure').val(),
+                  endDate: $('#airline_return').val(),
+                  minDate: moment(),
+                  maxDate: moment().subtract(-365, 'days'),
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+
+                $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
+                  $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                    $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
+                    $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
+                });
+            }
+
+
+        }
+    });
+
 });
 
 
@@ -921,26 +976,12 @@ function show_paxs(pax_type, key){
         paxs = document.getElementById('adult_paxs'+i);
         paxs_up = document.getElementById('adult_up_paxs'+i);
         paxs_down = document.getElementById('adult_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
-    }
-
-    for (var i=1; i <= parseInt(senior); i++){
-        paxs = document.getElementById('senior_paxs'+i);
-        paxs_up = document.getElementById('senior_up_paxs'+i);
-        paxs_down = document.getElementById('senior_down_paxs'+i);
     }
 
     for (var i=1; i <= parseInt(infant); i++){
         paxs = document.getElementById('infant_paxs'+i);
         paxs_up = document.getElementById('infant_up_paxs'+i);
         paxs_down = document.getElementById('infant_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
@@ -969,75 +1010,23 @@ function show_paxs_airline(pax_type, key){
         paxs = document.getElementById('adult_paxs'+i);
         paxs_up = document.getElementById('adult_up_paxs'+i);
         paxs_down = document.getElementById('adult_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     for (var i=1; i <= parseInt(child); i++){
         paxs = document.getElementById('child_paxs'+i);
         paxs_up = document.getElementById('child_up_paxs'+i);
         paxs_down = document.getElementById('child_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     for (var i=1; i <= parseInt(infant); i++){
         paxs = document.getElementById('infant_paxs'+i);
         paxs_up = document.getElementById('infant_up_paxs'+i);
         paxs_down = document.getElementById('infant_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
     paxs_down = document.getElementById(pax_type+'_down_paxs'+key);
     paxs_up = document.getElementById(pax_type+'_up_paxs'+key);
-
-    if (paxs.style.display === "none") {
-        paxs.style.display = "block";
-        paxs_down.style.display = "block";
-        paxs_up.style.display = "none";
-    }
-    else {
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
-    }
-}
-
-function show_paxs_tour(room_amount, pax_type, key1, key2){
-    var paxs = document.getElementById('room'+key1+'_'+pax_type+'_paxs'+key2);
-    var paxs_down = document.getElementById('room'+key1+'_'+pax_type+'_down_paxs'+key2);
-    var paxs_up = document.getElementById('room'+key1+'_'+pax_type+'_up_paxs'+key2);
-    for (var j=1; j <= parseInt(room_amount); j++)
-    {
-        for (var i=1; i <= parseInt(adult); i++){
-            paxs = document.getElementById('room'+j+'_adult_paxs'+i);
-            paxs_up = document.getElementById('room'+j+'_adult_up_paxs'+i);
-            paxs_down = document.getElementById('room'+j+'_adult_down_paxs'+i);
-        }
-
-        for (var i=1; i <= parseInt(child); i++){
-            paxs = document.getElementById('room'+j+'_child_paxs'+i);
-            paxs_up = document.getElementById('room'+j+'_child_up_paxs'+i);
-            paxs_down = document.getElementById('room'+j+'_child_down_paxs'+i);
-        }
-
-        for (var i=1; i <= parseInt(infant); i++){
-            paxs = document.getElementById('room'+j+'_infant_paxs'+i);
-            paxs_up = document.getElementById('room'+j+'_infant_up_paxs'+i);
-            paxs_down = document.getElementById('room'+j+'_infant_down_paxs'+i);
-        }
-    }
-    paxs = document.getElementById('room'+key1+'_'+pax_type+'_paxs'+key2);
-    paxs_down = document.getElementById('room'+key1+'_'+pax_type+'_down_paxs'+key2);
-    paxs_up = document.getElementById('room'+key1+'_'+pax_type+'_up_paxs'+key2);
 
     if (paxs.style.display === "none") {
         paxs.style.display = "block";
