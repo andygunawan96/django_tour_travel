@@ -836,7 +836,6 @@ function get_price_itinerary(val){
                                for(i in airline_data_filter[value_pick[0]].carrier_code_list){
                                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick_list[0].segments[i].carrier_code]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick_list[0].carrier_code_list[i]+`.png"><span> </span>`;
                                }
-                               date_return.push(airline_pick_list[0].segments[airline_pick_list[0].segments.length-1].arrival_date);
                         text+=`</div>`;
 
                         text+=`
