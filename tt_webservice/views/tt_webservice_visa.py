@@ -60,6 +60,8 @@ def api_models(request):
             res = get_config(request)
         elif req_data['action'] == 'search':
             res = search(request)
+        elif req_data['action'] == 'sell_visa':
+            res = sell_visa(request)
         elif req_data['action'] == 'update_passengers':
             res = update_passengers(request)
         elif req_data['action'] == 'update_contact':
@@ -103,21 +105,13 @@ def get_config(request):
         response = json.loads(line)
     file.close()
 
-    destinations = []
-    consulate = []
-    for country in response['result']['response']['airline']['destination']:
-        if country == 'Indonesia':
-            for des in response['result']['response']['airline']['destination'][country]:
-                consulate.append(des['city'])
-    for country in response['result']['response']['airline']['destination']:
-        destinations.append({
-            'country': country,
-            'consulate': consulate
-        })
-    # res = search2(request)
-    res = {
-        'destinations': destinations,
-    }
+    res = {}
+    for visa_config in response['result']['response']['visa']:
+        cities = []
+        for city in response['result']['response']['visa'][visa_config]:
+            cities.append(city)
+        res[visa_config] = cities
+
     return res
 
 def search(request):
@@ -131,7 +125,8 @@ def search(request):
     data = {
         "destination": destination,
         "consulate": consulate,
-        "departure_date": departure_date
+        "departure_date": departure_date,
+        "provider": 'skytors_visa'
     }
     headers.update({
         "action": "search",
@@ -140,93 +135,125 @@ def search(request):
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
 
-    res = {
-        'result': {
-            'error_code': 0,
-            'error_message': 'Success',
-            'response': {
-                'country': 'Australia',
-                'list_of_visa': [
-                    {
-                        'pax_type': 'ADT',
-                        'entry_type': 'single',
-                        'visa_type': 'tourist',
-                        'type': {
-                            'process_type': 'regular',
-                            'duration': '1'
-                        },
-                        'consulate': {
-                            'city': 'Jakarta',
-                            'address': 'Kebun Jeruk'
-                        },
-                        'sale_price': {
-                            'total_price': 10000,
-                            'commission': 1000
-                        },
-                        'requirements': [
-                            {
-                                'name': 'passport',
-                                'description': 'harus bawa passport'
-                            },
-                            {
-                                'name': 'Copy KTP',
-                                'description': ''
-                            }
-                        ]
-                    }, {
-                        'pax_type': 'CHD',
-                        'entry_type': 'single',
-                        'visa_type': 'tourist',
-                        'type': {
-                            'process_type': 'regular',
-                            'duration': '1'
-                        },
-                        'consulate': {
-                            'city': 'Jakarta',
-                            'address': 'Kebun Jeruk'
-                        },
-                        'sale_price': {
-                            'total_price': 5000,
-                            'commission': 500
-                        },
-                        'requirements': [
-                            {
-                                'name': 'passport',
-                                'description': 'harus bawa passport'
-                            },
-                            {
-                                'name': 'Copy KTP',
-                                'description': ''
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
-    }
-
     if res['result']['error_code'] == 0:
-        pass
 
+        entry_type = {
+            'adult': [],
+            'child': [],
+            'infant': [],
+            'elder': []
+        }
+
+        visa_type = {
+            'adult': [],
+            'child': [],
+            'infant': [],
+            'elder': []
+        }
+
+        process_type = {
+            'adult': [],
+            'child': [],
+            'infant': [],
+            'elder': []
+        }
+
+        for list_of_visa in res['result']['response']['list_of_visa']:
+            #paxtype
+            if list_of_visa['pax_type'] == 'ADT':
+                list_of_visa['pax_type'] = ['ADT', 'Adult']
+            elif list_of_visa['pax_type'] == 'CHD':
+                list_of_visa['pax_type'] = ['CHD', 'Child']
+            elif list_of_visa['pax_type'] == 'INF':
+                list_of_visa['pax_type'] = ['INF', 'Infant']
+            elif list_of_visa['pax_type'] == 'YCD':
+                list_of_visa['pax_type'] = ['YCD', 'Elder']
+            #entry type
+            if list_of_visa['entry_type'] == 'single':
+                list_of_visa['entry_type'] = ['single', 'Single']
+            elif list_of_visa['entry_type'] == 'double':
+                list_of_visa['entry_type'] = ['double', 'Double']
+            elif list_of_visa['entry_type'] == 'multiple':
+                list_of_visa['entry_type'] = ['multiple', 'Multiple']
+            #visa type
+            if list_of_visa['visa_type'] == 'tourist':
+                list_of_visa['visa_type'] = ['tourist', 'Tourist']
+            elif list_of_visa['visa_type'] == 'business':
+                list_of_visa['visa_type'] = ['business', 'Business']
+            elif list_of_visa['visa_type'] == 'student':
+                list_of_visa['visa_type'] = ['student', 'Student']
+
+            # visa type
+            if list_of_visa['type']['process_type'] == 'regular':
+                list_of_visa['type']['process_type'] = ['regular', 'Regular']
+            elif list_of_visa['type']['process_type'] == 'kilat':
+                list_of_visa['type']['process_type'] = ['kilat', 'Express']
+            elif list_of_visa['type']['process_type'] == 'super':
+                list_of_visa['type']['process_type'] = ['super', 'Super Express']
+
+            if list_of_visa['entry_type'] not in entry_type[list_of_visa['pax_type'][1].lower()]:
+                entry_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['entry_type'])
+            if list_of_visa['visa_type'] not in visa_type[list_of_visa['pax_type'][1].lower()]:
+                visa_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['visa_type'])
+            if list_of_visa['type']['process_type'] not in process_type[list_of_visa['pax_type'][1].lower()]:
+                process_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['type']['process_type'])
+
+        request.session['visa_search'] = res
+        request.session['list_of_visa_type'] = {
+            'entry_type': entry_type,
+            'visa_type': visa_type,
+            'process_type': process_type
+        }
+    return res
+
+def sell_visa(request):
+    data = {
+        'pax': request.session['visa_passenger'],
+        "provider": 'skytors_visa'
+    }
+    headers.update({
+        "action": "sell_visa",
+        "signature": request.session['visa_signature']
+
+    })
+
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
 def update_contact(request):
 
     data = {
-        'booker': request.session['airline_create_passengers']['booker'],
-        'contacts': request.session['airline_create_passengers']['contacts']
+        'booker': request.session['visa_create_passengers']['booker'],
+        'contacts': request.session['visa_create_passengers']['contact']
     }
     headers.update({
-        "action": "update_contacts",
-        "signature": request.session['airline_signature']
+        "action": "update_contact",
+        "signature": request.session['visa_signature']
     })
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
 def update_passengers(request):
     passengers = []
-    for pax in request.session['airline_create_passengers']['adult']:
+    master_visa_id = json.loads(request.POST['id'])
+    for pax in request.session['visa_create_passengers']['adult']:
+        pax.update({
+            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
+        })
+        if pax['passport_expdate'] != '':
+            try:
+                pax.update({
+                    'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
+                                                pax['passport_expdate'].split(' ')[0])
+                })
+            except:
+                print('no passport exp date')
+        pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
+        pax['required'] = master_visa_id[len(passengers)]['required']
+        passengers.append(pax)
+
+    for pax in request.session['visa_create_passengers']['child']:
         pax.update({
             'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
         })
@@ -240,21 +267,7 @@ def update_passengers(request):
                 print('no passport exp date')
         passengers.append(pax)
 
-    for pax in request.session['airline_create_passengers']['child']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            try:
-                pax.update({
-                    'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                pax['passport_expdate'].split(' ')[0])
-                })
-            except:
-                print('no passport exp date')
-        passengers.append(pax)
-
-    for pax in request.session['airline_create_passengers']['infant']:
+    for pax in request.session['visa_create_passengers']['infant']:
         pax.update({
             'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
         })
@@ -272,11 +285,11 @@ def update_passengers(request):
         'passengers': passengers
     }
     headers.update({
-        "action": "update_passengers",
-        "signature": request.session['airline_signature']
+        "action": "update_passenger",
+        "signature": request.session['visa_signature']
     })
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
 def commit_booking(request):
@@ -290,10 +303,10 @@ def commit_booking(request):
     }
     headers.update({
         "action": "commit_booking", #get_ssr_availability
-        "signature": request.session['airline_signature']
+        "signature": request.session['visa_signature']
     })
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
 
     return res
 

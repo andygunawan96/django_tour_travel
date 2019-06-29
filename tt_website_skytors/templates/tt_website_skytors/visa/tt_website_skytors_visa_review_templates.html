@@ -1,0 +1,323 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="{{ static_path }}js/webservice_token.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/webservice_visa.js"></script>
+<script src="{{ static_path }}js/visa_javascript.js"></script>
+
+<script>
+    passenger = `{{passengers}}`;
+    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
+    console.log(passenger);
+    adult = passenger.adult;
+    infant = passenger.infant;
+    elder = passenger.elder;
+    child = passenger.child;
+    visa = `{{visa}}`;visa = visa.replace(/True/g, 'true');
+    visa = visa.replace(/False/g, 'false');
+    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
+    console.log(visa);
+    pax = `{{pax}}`;
+    pax = JSON.parse(pax.replace(/&#39;/g, '"'));
+    console.log(pax);
+    document.getElementById('username').innerHTML = '{{username}}';
+    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+</script>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="margin-top:10px;">
+                <div class="breadcrumb-ticket" style="text-align:center;">
+                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
+                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
+                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
+                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
+                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
+                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
+                </div>
+            </div>
+        </div>
+        <br/>
+
+        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Please Review Your Booking</h3>
+                    <h4>Prices may changes at any time</h4>
+                    <br/>
+                </div>
+                <div class="col-lg-9" style="padding-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="visa_review">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div style="background-color:#f15a22;">
+                                            <center>
+                                                <span style="color:white; font-size:16px;"> List of Contact(s) Person <i class="fas fa-users"></i></span>
+                                            </center>
+                                        </div>
+                                        <div style="border:1px solid #f15a22; background-color:white;">
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:7%;">Email</th>
+                                                    <th style="width:18%;">Phone Number</th>
+                                                </tr>
+                                                {% for cp in pax.contact %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
+                                                    <td>{{cp.email}}</td>
+                                                    <td>{{cp.calling_code}} - {{cp.mobile}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="padding-top:20px;">
+                                    <div class="col-lg-12">
+                                        <div style="background-color:#f15a22;">
+                                            <center>
+                                                <span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>
+                                            </center>
+                                        </div>
+                                        <div style="border:1px solid #f15a22; background-color:white;">
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:15%;">Name</th>
+                                                    <th style="width:7%;">Type</th>
+                                                    <th style="width:13%;">Birth Date</th>
+                                                    <th style="width:12%;">Visa Type</th>
+                                                    <th style="width:12%;">Entry Type</th>
+                                                    <th style="width:12%;">Process Type</th>
+                                                    <th style="width:10%;">Required</th>
+                                                    <th style="width:14%;">Price</th>
+                                                    <th style="width:1%;"> </th>
+                                                </tr>
+                                                {% for person in pax.adult %}
+                                                {% with forloop.counter as counter%}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
+                                                    <td>Adult</td>
+                                                    <td>{{person.birth_date}}</td>
+                                                    <td>
+                                                        {% for visa_type in type.visa_type.adult %}
+                                                            <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">{{visa_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for entry_type in type.entry_type.adult %}
+                                                            <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for process_type in type.process_type.adult %}
+                                                            <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>{{process_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td id="adult_required{{counter}}"></td>
+                                                    <td id="adult_price{{counter}}"> - </td>
+                                                    <td>
+                                                        <input type="hidden" id="adult_check{{counter}}" value="false"/>
+                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('adult',{{counter}})" />
+                                                    </td>
+                                                </tr>
+                                                {% endwith %}
+                                                {% endfor %}
+                                                {% for person in pax.child %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
+                                                    <td>Child</td>
+                                                    <td>{{person.birth_date}}</td>
+                                                    <td id="child_price{{counter}}">Price</td>
+                                                    <td><a onclick="set_value_radio_first('child',{{counter}})">a</a></td>
+                                                </tr>
+                                                {% endfor %}
+                                                {% for person in pax.infant %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
+                                                    <td>Infant</td>
+                                                    <td>{{person.birth_date}}</td>
+                                                    <td id="infant_price{{counter}}">Price</td>
+                                                    <td><a onclick="set_value_radio_first('infant',{{counter}})">a</a></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--testing-->
+                                <!--<div class="row" style="padding-top:20px;">-->
+                                    <!--<div class="col-lg-12">-->
+                                        <!--<div style="background-color:#f15a22;">-->
+                                            <!--<center>-->
+                                                <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
+                                            <!--</center>-->
+                                        <!--</div>-->
+                                        <!--<div style="border:1px solid #f15a22; background-color:white;">-->
+                                            <!--<table style="width:100%;" id="list-of-passenger">-->
+                                                <!--<tr>-->
+                                                    <!--<th>Visa Type</th>-->
+                                                    <!--<th>Entry Type</th>-->
+                                                    <!--<th>Process Type</th>-->
+                                                    <!--<th>Passenger</th>-->
+                                                <!--</tr>-->
+                                                <!--{% for list in visa.list_of_visa %}-->
+                                                    <!--{% if list.total_pax > 0 %}-->
+                                                <!--<tr>-->
+                                                    <!--<td>{{list.visa_type.1}}</td>-->
+                                                    <!--<td>{{list.entry_type.1}}</td>-->
+                                                    <!--<td>{{list.type.process_type.1}}</td>-->
+                                                    <!--<td>-->
+                                                        <!--<select>-->
+                                                        <!--{% if list.pax_type.0 == 'ADT' %}-->
+                                                            <!--{% for person in pax.adult %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% elif list.pax_type.0 == 'CHD' %}-->
+                                                            <!--{% for person in pax.child %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% elif list.pax_type.0 == 'INF' %}-->
+                                                            <!--{% for person in pax.infant %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% elif list.pax_type.0 == 'YCD' %}-->
+                                                            <!--{% for person in pax.elder %}-->
+                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                                            <!--{% endfor %}-->
+                                                        <!--{% endif %}-->
+                                                        <!--</select>-->
+                                                    <!--</td>-->
+                                                <!--</tr>-->
+                                                    <!--{% endif %}-->
+                                                <!--{% endfor %}-->
+                                            <!--</table>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+
+                            </div>
+                            <div class="row" style="padding-top:15px;">
+                                <div class="col-lg-4" style="padding-bottom:15px;">
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="check_hold_booking();" style="width:100%;"/>
+                                </div>
+                                <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                                <div class="col-lg-4" style="padding-bottom:15px;">
+                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3" style="padding-bottom:20px;">
+                    <div style="background-color:#f15a22;">
+                        <center>
+                            <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
+                        </center>
+                    </div>
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="detail">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<footer class="footer-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
+                    </p>
+                    <p>
+                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Feature</a></li>
+                                <li><a href="#">Services</a></li>
+                                <li><a href="#">Portfolio</a></li>
+                            </ul>
+                        </div>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Team</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">Blog</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Dapatkan Penawaran Langsung di Inbox Email Anda!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="#"><i class="fas fa-facebook-square"></i></a>
+                <a href="#"><i class="fas fa-twitter-square"></i></a>
+                <a href="#"><i class="fas fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    update_table('review');
+    for(i in pax.adult)
+        set_value_radio_first('adult',parseInt(i)+1);
+    for(i in pax.child)
+        set_value_radio_first('child',parseInt(i)+1);
+    for(i in pax.infant)
+        set_value_radio_first('infant',parseInt(i)+1);
+    for(i in pax.elder)
+        set_value_radio_first('elder',parseInt(i)+1);
+</script>
+<!-- loader -->
+{% endblock %}

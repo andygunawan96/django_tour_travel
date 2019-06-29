@@ -12,37 +12,47 @@ function get_visa_config(type){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-        console.log(msg);
-        visa_config = msg.destinations;
-        var destination = document.getElementById("visa_destination_id");
-        for(i in msg.destinations){
+
+        if(type == 'search')
+            visa_signin('');
+        visa_config = msg;
+        destination = document.getElementById('visa_destination_id');
+        for(i in msg){
+            console.log(i)
             var node = document.createElement("option");
-            node.text = msg.destinations[i].country;
-            node.value = msg.destinations[i].country;
+            node.text = i;
+            node.value = i;
             if(type == 'search'){
                 try{
-                    if(visa_request['destination'] == msg.destinations[i].country){
+                    console.log(i);
+                    console.log(visa_request['destination']);
+                    if(visa_request['destination'] == i){
                         node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = msg.destinations[i].country;
+                        document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }catch(err){
 
                 }
             }else{
                 try{
-                    if(cache['visa']['destination'] == msg.destinations[i].country){
+                    if(cache['visa']['destination'] == i){
                         node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = msg.destinations[i].country;
+                        document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }catch(err){
-                    if('Australia' == msg.destinations[i].country){
+                    if('Albania' == i){
                         node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = msg.destinations[i].country;
+                        document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }
             }
             destination.add(node);
         }
+//        visa_config = msg.destinations;
+//        var destination = document.getElementById("visa_destination_id");
+//        for(i in msg.destinations){
+//
+//        }
         get_consulate(type);
 
        },
@@ -63,8 +73,6 @@ function visa_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-            console.log(msg);
-            console.log(data);
             if(data == ''){
                 search_visa();
             }else if(data != ''){
@@ -93,45 +101,11 @@ function search_visa(){
        },
        success: function(msg) {
             console.log(msg);
-            visa = msg.result.response.list_of_visa;
-            country = msg.result.response.country;
             var node;
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
                     node = document.createElement("div");
-                    if(msg.result.response.list_of_visa[i].pax_type == 'ADT')
-                        msg.result.response.list_of_visa[i].pax_type = ['ADT','Adult'];
-                    else if(msg.result.response.list_of_visa[i].pax_type == 'CHD')
-                        msg.result.response.list_of_visa[i].pax_type = ['CHD','Child'];
-                    else if(msg.result.response.list_of_visa[i].pax_type == 'INF')
-                        msg.result.response.list_of_visa[i].pax_type = ['INF','Infant'];
-                    else if(msg.result.response.list_of_visa[i].pax_type == 'YCD')
-                        msg.result.response.list_of_visa[i].pax_type = ['YCD','Elder'];
-
-                    //entry type
-                    if(msg.result.response.list_of_visa[i].entry_type == 'single')
-                        msg.result.response.list_of_visa[i].entry_type = ['single','Single'];
-                    else if(msg.result.response.list_of_visa[i].entry_type == 'double')
-                        msg.result.response.list_of_visa[i].entry_type = ['double','Double'];
-                    else if(msg.result.response.list_of_visa[i].entry_type == 'multiple')
-                        msg.result.response.list_of_visa[i].entry_type = ['multiple','Multiple'];
-
-                    //visa type
-                    if(msg.result.response.list_of_visa[i].visa_type == 'tourist')
-                        msg.result.response.list_of_visa[i].visa_type = ['tourist','Tourist'];
-                    else if(msg.result.response.list_of_visa[i].visa_type == 'business')
-                        msg.result.response.list_of_visa[i].visa_type = ['business','Business'];
-                    else if(msg.result.response.list_of_visa[i].visa_type == 'student')
-                        msg.result.response.list_of_visa[i].visa_type = ['student','Student'];
-
-                    //process type
-                    if(msg.result.response.list_of_visa[i].type.process_type == 'regular')
-                        msg.result.response.list_of_visa[i].type.process_type = ['regular','Regular'];
-                    else if(msg.result.response.list_of_visa[i].type.process_type == 'kilat')
-                        msg.result.response.list_of_visa[i].type.process_type = ['kilat','Express'];
-                    else if(msg.result.response.list_of_visa[i].type.process_type == 'super')
-                        msg.result.response.list_of_visa[i].type.process_type = ['super','Super Express'];
 
                     text= `
                         <div style="background-color:white; margin-bottom:15px;" id="journey`+i+`">
@@ -154,14 +128,14 @@ function search_visa(){
                                         </table>
                                         <div class="row">
                                             <label>Qty: </label>
-                                            <input type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table();"/>
+                                            <input type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3">
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
-                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">IDR `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
+                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
 
                                         </div>
                                     </div>
@@ -199,8 +173,204 @@ function search_visa(){
                     document.getElementById("visa_ticket").appendChild(node);
                 }
             }
+            visa = msg.result.response.list_of_visa;
+            country = msg.result.response.country;
             document.getElementById('loading-search-visa').hidden = true;
-            update_table();
+            update_table('search');
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function sell_visa(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'sell_visa',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function check_hold_booking(){
+    error_log = '';
+    for(i in pax){
+        if(i != 'booker' && i != 'contact'){
+            for(k in pax[i]){
+                count_pax = parseInt(k) + 1;
+                var radios = document.getElementsByName('adult_visa_type'+count_pax);
+                visa_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        visa_type = radios[j].value;
+                    }
+                }
+                radios = document.getElementsByName('adult_entry_type'+count_pax);
+                entry_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        entry_type = radios[j].value;
+                    }
+                }
+                radios = document.getElementsByName('adult_process_type'+count_pax);
+                process_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        process_type = radios[j].value;
+                    }
+                }
+
+                if(visa_type == '')
+                    error_log += 'Please fill visa for '+ i + ' passenger '+ count_pax + '\n';
+                if(entry_type == '')
+                    error_log += 'Please fill entry for '+ i + ' passenger '+ count_pax + '\n';
+                if(process_type == '')
+                    error_log += 'Please fill process for '+ i + ' passenger '+ count_pax + '\n';
+            }
+        }
+    }
+    if(error_log == '')
+        visa_hold_booking(1);
+    else
+        alert(error_log)
+}
+
+function visa_hold_booking(val){
+    if(val == 0){}
+
+    else if(val == 1){
+        update_passenger();
+    }
+}
+
+function update_passenger(){
+    data_pax = [];
+    console.log(pax);
+    for(i in pax){ //pax type
+        for(k in pax[i]){ //pax
+            if(i != 'booker' && i != 'contact'){
+                console.log(pax[i]);
+                console.log(k);
+                pax_count = parseInt(k) + 1;
+                var radios = document.getElementsByName('adult_visa_type'+pax_count);
+                visa_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        visa_type = radios[j].value;
+                    }
+                }
+                console.log(visa_type);
+                radios = document.getElementsByName('adult_entry_type'+pax_count);
+                entry_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        entry_type = radios[j].value;
+                    }
+                }
+                console.log(entry_type);
+                radios = document.getElementsByName('adult_process_type'+pax_count);
+                process_type = '';
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].checked == true){
+                        process_type = radios[j].value;
+                    }
+                }
+                console.log(process_type);
+                for(j in visa.list_of_visa){ //list of visa
+                    if(visa.list_of_visa[j].pax_type[0] == pax[i][k].pax_type &&
+                    visa.list_of_visa[j].visa_type[0] == visa_type &&
+                    visa.list_of_visa[j].type.process_type[0] == process_type &&
+                    visa.list_of_visa[j].entry_type[0] == entry_type){
+                        required = [];
+                        for(count in visa.list_of_visa[j].requirements){
+                            if(visa.list_of_visa[j].requirements[count].required == true){
+                                required.push({
+                                    'boolean': document.getElementById('adult_required'+pax_count+'_'+count).checked,
+                                    'id': visa.list_of_visa[j].requirements[count].id
+                                });
+                            }
+                        }
+                        data_pax.push({
+                            'id':visa.list_of_visa[j].id.toString(),
+                            'required': required
+                        });
+                    }
+                }
+            }
+        }
+    }
+    console.log(data_pax);
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'update_passengers',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'id': JSON.stringify(data_pax)
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                update_contact();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function update_contact(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'update_contact',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+           console.log(msg);
+            if(msg.result.error_code == 0){
+                commit_booking();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function commit_booking(){
+    console.log('here');
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'commit_booking',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'force_issued': 'true'
+       },
+       success: function(msg) {
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

@@ -747,6 +747,7 @@ $(document).ready(function(){
               locale: {
                   format: 'DD MMM YYYY',
               }
+
             });
 
             $('input[name="airline_departure_return"]').on('apply.daterangepicker', function(ev, picker) {

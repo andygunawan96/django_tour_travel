@@ -132,7 +132,7 @@ def search(request):
             print('no return')
 
         try:
-            if request.POST['is_combo_price'] == 'on':
+            if request.POST['is_combo_price'] == '':
                 is_combo_price = 'true'
         except:
             is_combo_price = 'false'
