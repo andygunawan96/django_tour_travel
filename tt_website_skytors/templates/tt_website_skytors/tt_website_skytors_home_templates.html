@@ -17,6 +17,7 @@
 <script src="{{ static_path }}js/hotel_javascript.js"></script>
 <script src="{{ static_path }}js/tour_javascript.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/daterangepicker.js"></script>
 <script>
     time = 300;
     triggered_balance();
@@ -95,10 +96,13 @@
 
 <!-- Search Ticket -->
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
-    {% if username != null %}
     <div class="animated fadeInDown delay-1s">
         <div class="container">
             <div class="row">
+                {% if username != null %}
+                <input type="hidden" id="country_id"/>
+                <input type="hidden" id="start"/>
+                <input type="hidden" id="end"/>
                 <div class="col-lg-12">
                     <div class="banner-right scrollmenu">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -163,136 +167,119 @@
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
-                                            <div class="checkbox">
-                                                <label><input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>Is Combo Price</label>
+                                            <div class="checkbox" style="display:none;" id="checkbox_combo_price">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="font-size:13px;">Is Combo Price</span>
+                                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">From</span>
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-plane-departure icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
 
-                                                </select>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
                                             </div>
-                                            <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="z-index:5; padding:0px;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="z-index:5; padding:0px;">
+                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5; color:white !important;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                                             <span class="span-search-ticket">To</span>
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-plane-arrival icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
 
-                                                </select>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
                                             </div>
-                                            <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
                                         </div>
 
                                         <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
 
-                                        <!--<div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">-->
-                                            <!--<span class="span-search-ticket">Departure</span>-->
-                                            <!--<div class="input-container-search-ticket">-->
-                                                <!--<input type="text" class="form-control date-picker" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off">-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-lg-3 col-md-4 col-sm-3 col-xs-6" style="padding:0px;">-->
-                                            <!--<label class="check_box_custom">-->
-                                                <!--<span class="span-search-ticket">Return</span>-->
-                                                <!--<input type="checkbox" id="directionflight" name="directionflight" onclick="showReturnDateAirline()"/>-->
-                                                <!--<span class="check_box_span_custom"></span>-->
-                                            <!--</label>-->
-                                            <!--<div class="input-container-search-ticket">-->
-                                                <!--<input type="text" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off" disabled>-->
-                                            <!--</div>-->
-                                        <!--</div>-->
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">Passenger</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                                <i class="fas fa-users icon-search-ticket"></i>
+                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left;"></button>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
                                                                 <label>
-                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
-                                                                    <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                                    <span style="color:black; font-size:13px;">Adult</span><br/>
+                                                                    <span style="color:gray; font-size:11px;">(Age 11+)</span>
                                                                 </label>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn" style="text-align:left;">
-                                                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
-                                                                            <span><i class="fas fa-minus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="adult_flight" name="adult_flight" value="1" min="1">
-                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_flight" name="show_adult_flight"></span>
-                                                                    <span class="input-group-btn" style="text-align:right;">
-                                                                        <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
-                                                                            <span><i class="fas fa-plus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Child<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn" style="text-align:left;">
-                                                                        <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
-                                                                            <span><i class="fas fa-minus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="child_flight" name="child_flight" value="0" min="0">
-                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_child_flight" id="show_child_flight"></span>
-                                                                    <span class="input-group-btn" style="text-align:right;">
-                                                                        <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
-                                                                            <span><i class="fas fa-plus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                <label>
-                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
-                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age <3)</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn">
-                                                                    <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
-                                                                        <span><i class="fas fa-minus"></i></span>
-                                                                    </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="infant_flight" name="infant_flight" value="0">
-                                                                    <span style="color:black; font-size:14px;padding:5px;" id="show_infant_flight" id="show_infant_flight"></span>
-                                                                    <span class="input-group-btn">
-                                                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
-                                                                        <span><i class="fas fa-plus"></i></span>
-                                                                    </button>
-                                                                    </span>
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <!--<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">-->
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">Child<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
+                                                                <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age < 2)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
+                                                                <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">Airline</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
+                                                <i class="fas fa-plane icon-search-ticket"></i>
+                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left;">Choose Airline</button>
                                                 <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
                                                 <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
                                                     {% for provider in airline_provider_list %}
@@ -324,7 +311,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">Class</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <div class="form-select" id="default-select">
@@ -352,84 +339,77 @@
                                 <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">From</span>
                                             <div class="input-container-search-ticket">
+                                                <img src="{{static_path}}img/icon/train-01.png" class="icon-search-ticket"/>
                                                 <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
                                                 <datalist id="train_origin_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:4; padding:0px;">
-                                            <h2 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h2>
+                                        <div class="col-lg-3 col-md-6 col-sm-6" style="z-index:4; padding:0px;">
+                                            <h4 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
                                             <span class="span-search-ticket">To</span>
                                             <div class="input-container-search-ticket">
+                                                <img src="{{static_path}}img/icon/train-02.png" class="icon-search-ticket"/>
                                                 <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
                                                 <datalist id="train_destination_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">Departure</span>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker departure_date_train" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off"/>
+                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                                <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket">Passenger</span>
-
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_train" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                                <i class="fas fa-users icon-search-ticket"></i>
+                                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                 <ul class="dropdown-menu" role="menu">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
                                                                 <label>
-                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
                                                                     <span style="color:black; font-size:13px;">Adult<br/></span>
                                                                     <span style="color:gray; font-size:11px;">(Age 3+)</span>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn" style="text-align:left;">
-                                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
-                                                                            <span><i class="fas fa-minus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="train_adult" name="train_adult" value="1" min="1">
-                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_train" id="show_adult_train"></span>
-                                                                    <span class="input-group-btn" style="text-align:right;">
-                                                                        <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
-                                                                            <span><i class="fas fa-plus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                <label>
-                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
-                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age <3)</span>
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn">
-                                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
-                                                                        <span><i class="fas fa-minus"></i></span>
-                                                                    </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="train_infant" name="train_infant" value="0">
-                                                                    <span style="color:black; font-size:14px;padding:5px;" id="show_infant_train" id="show_infant_train"></span>
-                                                                    <span class="input-group-btn">
-                                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
-                                                                        <span><i class="fas fa-plus"></i></span>
-                                                                    </button>
-                                                                    </span>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
                                                             </div>
                                                         </div>
-                                                        <!--<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">-->
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
+                                                                <label>
+                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                    <span style="color:gray; font-size:11px;">(Age < 3)</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" readonly>
+                                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </ul>
                                             </div>
@@ -450,121 +430,106 @@
                                 <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination or Hotel Name</span>
+                                        <div class="col-lg-3 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Destination or Hotel</span>
                                             <div class="input-container-search-ticket">
+                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
                                                 <datalist id="hotel_destination_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-2 col-md-6" style="padding:0px;">
                                             <span class="span-search-ticket">Guest Nationality</span>
                                             <div class="input-container-search-ticket">
+                                                <i class="fas fa-globe-asia icon-search-ticket"></i>
                                                 <input list="hotel_country_nationality" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
                                                 <datalist id="hotel_country_nationality"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
-                                            <span class="span-search-ticket">Check-in</span>
+                                        <div class="col-lg-4 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Check-in - Check-out</span>
                                             <div class="input-container-search-ticket">
-                                                <input class="form-control date-picker" type="text" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" onchange="change_date_hotel('checkin');"/>
+                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                                <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                                <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
                                             </div>
+                                            <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
+                                            <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
                                         </div>
-                                        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
-                                            <span class="span-search-ticket">Check-out</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" id="hotel_checkout" class="form-control date-picker" name="hotel_checkout" autocomplete="off" onchange="change_date_hotel('checkout');" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-3 col-md-6" style="padding:0px;">
                                             <span class="span-search-ticket">Guest</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_hotel" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                                <i class="fas fa-users icon-search-ticket"></i>
+                                                <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                                 <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                                    <div class="container">
-                                                        <div class="row">
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div class="row" style="padding:10px;">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
                                                                 <label>
-                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
                                                                     <span style="color:black; font-size:13px;">Room<br/></span>
                                                                     <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn" style="text-align:left;">
-                                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                                            <span><i class="fas fa-minus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="hotel_room" name="hotel_room" value="1" min="1">
-                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_room_hotel" name="show_room_hotel"></span>
-                                                                    <span class="input-group-btn" style="text-align:right;">
-                                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                                            <span><i class="fas fa-plus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="1" min="1" readonly>
+                                                                <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
                                                             </div>
+                                                        </div>
 
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
                                                                 <label>
                                                                     <span style="color:black; font-size:13px;">Adult<br/></span>
                                                                     <span style="color:gray; font-size:11px;">(Age 12+)</span>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn" style="text-align:left;">
-                                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                                            <span><i class="fas fa-minus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="hotel_adult" name="hotel_adult" value="2" min="1">
-                                                                    <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_hotel" id="show_adult_hotel"></span>
-                                                                    <span class="input-group-btn" style="text-align:right;">
-                                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                                            <span><i class="fas fa-plus"></i></span>
-                                                                        </button>
-                                                                    </span>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="2" min="1" readonly>
+                                                                <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
                                                             </div>
-                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        </div>
+
+                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                            <div style="float:left;">
                                                                 <label>
-                                                                    <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
                                                                     <span style="color:black; font-size:13px;">Child<br/></span>
                                                                     <span style="color:gray; font-size:11px;">(Age <12)</span>
                                                                 </label>
                                                             </div>
-                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                                <div style="float:right; padding:5px 0px 5px 5px;">
-                                                                    <span class="input-group-btn">
-                                                                    <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                                        <span><i class="fas fa-minus"></i></span>
-                                                                    </button>
-                                                                    </span>
-                                                                    <input type="hidden" id="hotel_child" name="hotel_child" value="0">
-                                                                    <span style="color:black; font-size:14px;padding:5px;" id="show_child_hotel" id="show_child_hotel"></span>
-                                                                    <span class="input-group-btn">
-                                                                    <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                                        <span><i class="fas fa-plus"></i></span>
-                                                                    </button>
-                                                                    </span>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="0" readonly>
+                                                                <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
                                                             </div>
-                                                            <div class="col-lg-12">
-                                                                <div class="row" id="guest_child_age">
+                                                        </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="row" id="guest_child_age">
 
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </ul>
                                             </div>
-
-
-
-
                                         </div>
 
                                         <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
@@ -790,32 +755,40 @@
                                     </button>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
+                {% else %}
+                <div class="col-lg-12">
+                    <h4 style="color:white;">Already a RODEX Trip member?</h4>
+                    <h5 style="color:white;">Sign in to make booking easier!</h5>
+                    <br/>
+                    <button class="primary-btn text-uppercase" type="button">
+                        <a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="color:white;">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                    </button>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>
-    {% endif %}
 </section>
 
 <section class="destinations-area" style="padding-top:15px; z-index:0; position:relative;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
                     <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> TERBAIK</h4>
                     <p>RODEX TRIP telah bekerja sama dengan banyak ribuan jaringan.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
                     <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> TERPERCAYA</h4>
                     <p>RODEX TRIP telah memiliki banyak customer.</p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
                     <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> KITA PASTI BISA</h4>
                     <p>RODEX TRIP memiliki harga yang sangat bersahabat.</p>
@@ -1134,80 +1107,13 @@
     </div>
 </section>
 
-<!-- start footer Area -->
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        Dapatkan Penawaran Langsung di Inbox Email Anda!
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fas fa-facebook-square"></i></a>
-                <a href="#"><i class="fas fa-twitter-square"></i></a>
-                <a href="#"><i class="fas fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
     <span><i class="fas fa-chevron-up"></i></span>
 </button>
 
 <script>
+
     document.getElementById("airline_date_search").innerHTML = '';
     text='';
     var node = document.createElement("div");
@@ -1224,8 +1130,10 @@
     node = document.createElement("div");
 
     $( document ).ready(function() {
-        $('.js-example-basic-single').select2();
-        var now = moment().format('DD MMM YYYY');
+      $('.js-example-basic-single').select2();
+      $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+      $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
+      var now = moment().format('DD MMM YYYY');
         try{
             airline_date = cache.airline.departure;
         }catch(err){
@@ -1248,18 +1156,59 @@
         }catch(err){
             visa_date = now;
         }
-        $('input[name="airline_departure"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              startDate: airline_date,
-              minDate: visa_date,
-              maxDate: moment().subtract(-365, 'days'),
-              showDropdowns: true,
-              opens: 'center',
-              locale: {
-                  format: 'DD MMM YYYY',
-            }
+              $('input[name="airline_departure"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: airline_date,
+          minDate: moment(),
+          maxDate: moment().subtract(-1, 'years'),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
+      $('input[name="train_departure"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: train_date,
+          minDate: moment(),
+          maxDate: moment().subtract(-90, 'days'),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
+      $('input[name="hotel_checkin_checkout"]').daterangepicker({
+          singleDatePicker: false,
+          autoUpdateInput: true,
+          opens: 'center',
+          startDate: hotel_checkin,
+          endDate: moment().subtract(-2, 'days'),
+          minDate: moment().subtract(-1, 'days'),
+          maxDate: moment().subtract(-366, 'days'),
+          showDropdowns: true,
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
+      $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+          $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+            $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
+            $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
+
+            var oneDay = 24*60*60*1000;
+            var firstDate = new Date($("#hotel_checkin").val());
+            var secondDate = new Date($("#hotel_checkout").val());
+
+            var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+            $("#total_night_search").text(diffDays);
         });
+
         $('input[name="visa_departure"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1275,9 +1224,9 @@
 
     });
 
-    var check_date = moment(document.getElementById('hotel_checkin').value);
-    check_date = check_date.add(1, 'days');
-    document.getElementById('hotel_checkout').value = check_date._d.toString().split(' ')[2]+' '+check_date._d.toString().split(' ')[1]+' '+check_date._d.toString().split(' ')[3];
+<!--    var check_date = moment(document.getElementById('hotel_checkin').value);-->
+<!--    check_date = check_date.add(1, 'days');-->
+<!--    document.getElementById('hotel_checkout').value = check_date._d.toString().split(' ')[2]+' '+check_date._d.toString().split(' ')[1]+' '+check_date._d.toString().split(' ')[3];-->
 
     function change_date(type){
         if(type == 'checkin'){
@@ -1328,7 +1277,12 @@
             text_notification += `<li><a href="#">See more notification ... </a></li>`;
         }
         document.getElementById('notification_detail').innerHTML = text_notification;
+        document.getElementById('notification_detail2').innerHTML = text_notification;
     }
+
+    document.getElementById("country_id").value = 101;
+    document.getElementById("start").value = "2019-01-01";
+    document.getElementById("end").value = "2020-12-31";
     //get_agent_booking();
     get_visa_config('home');
     //get_dept_year();

@@ -100,11 +100,11 @@ $(document).ready(function() {
                 nav:false
             },
             768:{
-                items:4,
+                items:3,
                 nav:false
             },
             961:{
-                items:4,
+                items:3,
                 nav:true,
                 loop:true
             }
@@ -358,9 +358,9 @@ $(document).ready(function() {
             'class': '',
             'id': ''
         });
-        $('body .main-menu').append($mobile_nav);
-        $('body .main-menu').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu"></i></button>');
-        $('body .main-menu').append('<div id="mobile-body-overly"></div>');
+        $('body .main-menu .container').append($mobile_nav);
+        $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu"></i></button>');
+        $('body .main-menu .container').append('<div id="mobile-body-overly"></div>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
 
         $(document).on('click', '.menu-has-children i', function(e) {

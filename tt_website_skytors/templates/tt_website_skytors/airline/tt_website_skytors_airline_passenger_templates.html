@@ -3,6 +3,8 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}js/daterangepicker.js"></script>
+<script src="{{ static_path }}js/moment.min.js"></script>
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
@@ -58,15 +60,14 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+            <div class="col-lg-12" style="margin-top:10px; margin-bottom:10px;">
+                <ul class="progressbar">
+                    <li class="active" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="active" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <div class="banner-right">
@@ -76,17 +77,14 @@
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px;">
-                                    <center>
-                                        <span style="color:white; font-size:16px;">Booker Information <i class="fas fa-info-circle"></i></span>
-                                    </center>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
                                 <div id="booker" style="background-color:white; padding:10px; border:1px solid #f15a22;">
                                     <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Booker Infomartion</h4>
+                                            <hr/>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
-                                            <label>Booker Type :</label>
+                                            <label>Booker Type :</label><br/>
                                             <label class="radio-button-custom">
                                                 Corporate
                                                 <input type="radio" checked="checked" name="radio-booker-type">
@@ -205,21 +203,19 @@
                                         <div class="col-lg-6">
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <div class="form-select">
-                                                            <select id="booker_phone_code" name="booker_phone_code">
-                                                                {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="form-select">
+                                                        <select id="booker_phone_code" name="booker_phone_code">
+                                                            {% for country in countries%}
+                                                            <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                        <input type="hidden" class="form-control" name="booker_id" id="booker_id">
-                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: +62812345678</label>
@@ -259,13 +255,12 @@
                         {% for adult in adults%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Adult - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -273,52 +268,60 @@
                                 </div>
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
-                                        <div class="col-lg-6" style="text-align:left;"></div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                            <div class="input-container-search-ticket">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
+                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact({{forloop.counter}})" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                        </div>
-                                        <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'airline')">Search</button>
-                                                        <div class="row" id="loading-pax-train" style="display:none;">
-                                                            <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
+                                            <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                            <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <div class="row" id="loading-pax-train" style="display:none;">
+                                                                <div class="col-lg-12">
+                                                                    <div class="sk-circle">
+                                                                        <div class="sk-circle1 sk-child"></div>
+                                                                        <div class="sk-circle2 sk-child"></div>
+                                                                        <div class="sk-circle3 sk-child"></div>
+                                                                        <div class="sk-circle4 sk-child"></div>
+                                                                        <div class="sk-circle5 sk-child"></div>
+                                                                        <div class="sk-circle6 sk-child"></div>
+                                                                        <div class="sk-circle7 sk-child"></div>
+                                                                        <div class="sk-circle8 sk-child"></div>
+                                                                        <div class="sk-circle9 sk-child"></div>
+                                                                        <div class="sk-circle10 sk-child"></div>
+                                                                        <div class="sk-circle11 sk-child"></div>
+                                                                        <div class="sk-circle12 sk-child"></div>
+                                                                    </div>
+                                                                    <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                                 </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                            <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
+
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
-
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -330,10 +333,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact({{forloop.counter}})" /><span>Make this to Contact Person</span>
-                                        </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
@@ -342,7 +343,7 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
@@ -350,7 +351,7 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -362,29 +363,26 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -397,19 +395,19 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
-                                        <div class="col-lg-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="input-container-search-ticket">
                                                         <div class="form-select">
                                                             <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
                                                                 {% for country in countries%}
@@ -418,7 +416,9 @@
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-lg-9">
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     </div>
                                                 </div>
@@ -435,13 +435,12 @@
                         {% for child in childs%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Child - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -581,13 +580,12 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Infant - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -687,7 +685,7 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -701,7 +699,7 @@
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
+                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -727,20 +725,23 @@
 
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
-                        <div style="background-color:#f15a22; padding:5px;">
-                            <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                        </div>
                         <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="airline_detail">
 
                         </div>
-                        <br/>
-                        <center>
-                            <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
-                                Next
-                                <i class="fas fa-angle-right"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </center>
+                    </div>
+
+                    <div class="col-lg-8" style="margin-top:15px;">
+                        <div class="row">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                    Next
+                                    <i class="fas fa-angle-right"></i>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -748,78 +749,97 @@
     </div>
 </section>
 
-
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script>
     airline_detail();
+
+    $(function() {
+      for (var i = 1; i <= adult; i++){
+          $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment().subtract(17, 'years'),
+              minDate: moment().subtract(100, 'years'),
+              maxDate: moment().subtract(12, 'years'),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="adult_birth_date'+i+'"]').val("");
+
+          $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="adult_passport_expired_date'+i+'"]').val("");
+      }
+
+      for (var i = 1; i <= child; i++){
+          $('input[name="child_birth_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment().subtract(5, 'years'),
+              minDate: moment().subtract(11, 'years').subtract(365, 'days'),
+              maxDate: moment().subtract(2, 'years'),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="child_birth_date'+i+'"]').val("");
+
+          $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="child_passport_expired_date'+i+'"]').val("");
+      }
+
+      for (var i = 1; i <= infant; i++){
+          $('input[name="infant_birth_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment().subtract(1, 'years'),
+              minDate: moment().subtract(1, 'years').subtract(364, 'days'),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="infant_birth_date'+i+'"]').val("");
+
+          $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="infant_passport_expired_date'+i+'"]').val("");
+      }
+    });
 </script>
 
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
