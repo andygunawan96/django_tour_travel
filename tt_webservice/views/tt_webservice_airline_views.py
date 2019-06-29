@@ -165,7 +165,7 @@ def search2(request):
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
         "provider": request.POST['provider'],
-        "carrier_codes": [],
+        "carrier_codes": ['SQ'],
         "is_combo_price": is_combo_price
 
     }
@@ -182,6 +182,11 @@ def search2(request):
                 'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
                 'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
             })
+            if journey.get('arrival_date_return'):
+                journey.update({
+                    'departure_date_return': parse_date_time_front_end(string_to_datetime(journey['departure_date_return'])),
+                    'arrival_date_return': parse_date_time_front_end(string_to_datetime(journey['arrival_date_return']))
+                })
             if journey.get('return_date'):
                 journey.update({
                     'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
@@ -422,8 +427,8 @@ def commit_booking(request):
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST', timeout=300)
 
-    if res['result']['error_code'] == 0:
-        request.session['airline_order_number'] = res['result']['response']['order_number']
+    # if res['result']['error_code'] == 0:
+    #     request.session['airline_order_number'] = res['result']['response']['order_number']
 
     return res
 
