@@ -119,7 +119,7 @@ def search(request):
 
         providers = []
         try:
-            if request.POST['directionflight'] == 'on':
+            if request.POST['directionflight'] == 'roundtrip':
                 direction = 'RT'
                 return_date = request.POST['airline_return']
             else:
