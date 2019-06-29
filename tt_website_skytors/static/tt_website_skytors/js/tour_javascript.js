@@ -413,146 +413,227 @@ function get_total_price(discount_total) {
     }
 }
 
-function check_passenger(room_amount){
+function check_passenger(adult, child, infant){
     //booker
     error_log = '';
-    if(document.getElementById('booker_title').value!= '' &&
-       document.getElementById('booker_first_name').value!= '' &&
-       document.getElementById('booker_last_name').value!='' &&
-       document.getElementById('booker_nationality').value!='' &&
-       document.getElementById('booker_email').value!='' &&
-       document.getElementById('booker_phone_code').value!='' &&
-       document.getElementById('booker_phone').value!= ''){
+    if(check_name(document.getElementById('booker_title').value,
+                    document.getElementById('booker_first_name').value,
+                    document.getElementById('booker_last_name').value,
+                    25) == false){
+        error_log+= 'Total of Booker name maximum 25 characters!\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+        document.getElementById('booker_last_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+    }if(document.getElementById('booker_first_name').value == ''){
+        error_log+= 'Please fill booker first name!\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+        error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
+        document.getElementById('booker_phone').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+    }if(check_email(document.getElementById('booker_email').value)==false){
+        error_log+= 'Invalid Booker email!\n';
+        document.getElementById('booker_email').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
+    }
+    length = 41;
 
-        if(check_name(document.getElementById('booker_title').value,
-                        document.getElementById('booker_first_name').value,
-                        document.getElementById('booker_last_name').value,
-                        25) == false)
-            error_log+= 'Total of Booker name maximum 25 characters!\n';
-        if(check_phone_number(document.getElementById('booker_phone').value)==false)
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
-        if(check_email(document.getElementById('booker_email').value)==false)
-            error_log+= 'Invalid Booker email!\n';
+   //adult
+   for(i=1;i<=adult;i++){
 
-       length = 41;
-
-       for (j=1;j<=room_amount;j++)
-       {
-           adult = parseInt(document.getElementById('adult_amount_room_'+j).value);
-           child = parseInt(document.getElementById('child_amount_room_'+j).value);
-           infant = parseInt(document.getElementById('infant_amount_room_'+j).value);
-           //adult
-           for(i=1;i<=adult;i++){
-               if(document.getElementById('room'+j+'_adult_title'+i).value != '' &&
-               document.getElementById('room'+j+'_adult_first_name'+i).value != '' &&
-               document.getElementById('room'+j+'_adult_last_name'+i).value != '' &&
-               document.getElementById('room'+j+'_adult_nationality'+i).value != ''){
-                   if(check_name(document.getElementById('room'+j+'_adult_title'+i).value,
-                   document.getElementById('room'+j+'_adult_first_name'+i).value,
-                   document.getElementById('room'+j+'_adult_last_name'+i).value,
-                   length) == false)
-                       error_log+= 'Total of room '+j+' adult '+i+' name maximum '+length+' characters!\n';
-                   if(check_date(document.getElementById('room'+j+'_adult_birth_date'+i).value)==false)
-                       error_log+= 'Birth date wrong for passenger room '+j+' adult '+i+'!\n';
-                   if(document.getElementById('room'+j+'_adult_nationality'+i).value == '')
-                       error_log+= 'Please fill nationality for passenger room '+j+' adult '+i+'!\n';
-                   if(document.getElementById('room'+j+'_adult_passport_number'+i).value != '' ||
-                      document.getElementById('room'+j+'_adult_passport_expired_date'+i).value != '' ||
-                      document.getElementById('room'+j+'_adult_country_of_issued'+i).value != ''){
-                       if(document.getElementById('room'+j+'_adult_passport_number'+i).value == '')
-                           error_log+= 'Please fill passport number for passenger room '+j+' adult '+i+'!\n';
-                       if(document.getElementById('room'+j+'_adult_passport_expired_date'+i).value == '')
-                           error_log+= 'Please fill passport expired date for passenger room '+j+' adult '+i+'!\n';
-                       if(document.getElementById('room'+j+'_adult_country_of_issued'+i).value == '')
-                           error_log+= 'Please fill country of issued for passenger room '+j+' adult '+i+'!\n';
-                   }
-
-               }else{
-                   error_log+= 'Please fill all the blank for room '+j+' adult passenger '+i+'!\n';
-               }
-           }
-
-           //child
-           for(i=1;i<=child;i++){
-               if(document.getElementById('room'+j+'_child_title'+i).value != '' &&
-               document.getElementById('room'+j+'_child_first_name'+i).value != '' &&
-               document.getElementById('room'+j+'_child_last_name'+i).value != '' &&
-               document.getElementById('room'+j+'_child_nationality'+i).value != ''){
-                   if(check_name(document.getElementById('room'+j+'_child_title'+i).value,
-                   document.getElementById('room'+j+'_child_first_name'+i).value,
-                   document.getElementById('room'+j+'_child_last_name'+i).value,
-                   length) == false)
-                       error_log+= 'Total of room '+j+' child '+i+' name maximum '+length+' characters!\n';
-                   if(check_date(document.getElementById('room'+j+'_child_birth_date'+i).value)==false)
-                       error_log+= 'Birth date wrong for passenger room '+j+' child '+i+'!\n';
-                   if(document.getElementById('room'+j+'_child_nationality'+i).value == '')
-                       error_log+= 'Please fill nationality for passenger room '+j+' child '+i+'!\n';
-                   if(document.getElementById('room'+j+'_child_passport_number'+i).value != '' ||
-                      document.getElementById('room'+j+'_child_passport_expired_date'+i).value != '' ||
-                      document.getElementById('room'+j+'_child_country_of_issued'+i).value != '' || is_lion_air == true){
-                       if(document.getElementById('room'+j+'_child_passport_number'+i).value == '')
-                           error_log+= 'Please fill passport number for passenger room '+j+' child '+i+'!\n';
-                       if(document.getElementById('room'+j+'_child_passport_expired_date'+i).value == '')
-                           error_log+= 'Please fill passport expired date for passenger room '+j+' child '+i+'!\n';
-                       if(document.getElementById('room'+j+'_child_country_of_issued'+i).value == '')
-                           error_log+= 'Please fill country of issued for passenger room '+j+' child '+i+'!\n';
-                   }
-
-               }else{
-                   error_log+= 'Please fill all the blank for room '+j+' child passenger '+i+'!\n';
-               }
-           }
-
-           //infant
-           for(i=1;i<=infant;i++){
-               if(document.getElementById('room'+j+'_infant_title'+i).value != '' &&
-               document.getElementById('room'+j+'_infant_first_name'+i).value != '' &&
-               document.getElementById('room'+j+'_infant_last_name'+i).value != '' &&
-               document.getElementById('room'+j+'_infant_nationality'+i).value != ''){
-                   if(check_name(document.getElementById('room'+j+'_infant_title'+i).value,
-                   document.getElementById('room'+j+'_infant_first_name'+i).value,
-                   document.getElementById('room'+j+'_infant_last_name'+i).value,
-                   length) == false)
-                       error_log+= 'Total of room '+j+' infant '+i+' name maximum '+length+' characters!\n';
-                   if(check_date(document.getElementById('room'+j+'_infant_birth_date'+i).value)==false)
-                       error_log+= 'Birth date wrong for passenger room '+j+' infant '+i+'!\n';
-                   if(document.getElementById('room'+j+'_infant_nationality'+i).value == '')
-                       error_log+= 'Please fill nationality for passenger room '+j+' infant '+i+'!\n';
-                   if(document.getElementById('room'+j+'_infant_passport_number'+i).value != '' ||
-                      document.getElementById('room'+j+'_infant_passport_expired_date'+i).value != '' ||
-                      document.getElementById('room'+j+'_infant_country_of_issued'+i).value != '' || is_lion_air == true){
-                       if(document.getElementById('room'+j+'_infant_passport_number'+i).value == '')
-                           error_log+= 'Please fill passport number for passenger room '+j+' infant '+i+'!\n';
-                       if(document.getElementById('room'+j+'_infant_passport_expired_date'+i).value == '')
-                           error_log+= 'Please fill passport expired date for passenger room '+j+' infant '+i+'!\n';
-                       if(document.getElementById('room'+j+'_infant_country_of_issued'+i).value == '')
-                           error_log+= 'Please fill country of issued for passenger room '+j+' infant '+i+'!\n';
-                   }
-
-               }else{
-                   error_log+= 'Please fill all the blank for room '+j+' infant passenger '+i+'!\n';
-               }
+       if(check_name(document.getElementById('adult_title'+i).value,
+       document.getElementById('adult_first_name'+i).value,
+       document.getElementById('adult_last_name'+i).value,
+       length) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_first_name'+i).value == ''){
+           error_log+= 'Please input first name of adult passenger '+i+'!\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_last_name'+i).value == ''){
+           error_log+= 'Please input last name of adult passenger '+i+'!\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       console.log(check_date(document.getElementById('adult_birth_date'+i).value));
+       console.log(document.getElementById('adult_birth_date'+i).value);
+       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger adult '+i+'!\n';
+           document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_passport_number'+i).value != '' ||
+          document.getElementById('adult_passport_expired_date'+i).value != '' ||
+          document.getElementById('adult_country_of_issued'+i).value != ''){
+           if(document.getElementById('adult_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger adult '+i+'!\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!\n';
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!\n';
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
-       if(error_log=='')
-           document.getElementById('tour_review').submit();
-       else
-           alert(error_log);
-     }else{
-        alert('Please Fill all the blank !');
-     }
+   }
+   //child
+   for(i=1;i<=child;i++){
+       if(check_name(document.getElementById('child_title'+i).value,
+       document.getElementById('child_first_name'+i).value,
+       document.getElementById('child_last_name'+i).value,
+       length) == false){
+           error_log+= 'Total of child '+i+' name maximum '+length+' characters!\n';
+           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_first_name'+i).value == ''){
+           error_log+= 'Please input first name of child passenger '+i+'!\n';
+           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_last_name'+i).value == ''){
+           error_log+= 'Please input last name of child passenger '+i+'!\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger child '+i+'!\n';
+           document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger child '+i+'!\n';
+           document.getElementById('child_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_passport_number'+i).value != '' ||
+          document.getElementById('child_passport_expired_date'+i).value != '' ||
+          document.getElementById('child_country_of_issued'+i).value != ''){
+           if(document.getElementById('child_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger child '+i+'!\n';
+               document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('child_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger child '+i+'!\n';
+               document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('child_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger child '+i+'!\n';
+               document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
+   }
+
+   //infant
+   for(i=1;i<=infant;i++){
+       if(check_name(document.getElementById('infant_title'+i).value,
+       document.getElementById('infant_first_name'+i).value,
+       document.getElementById('infant_last_name'+i).value,
+       length) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_first_name'+i).value == ''){
+           error_log+= 'Please input first name of infant passenger '+i+'!\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_last_name'+i).value == ''){
+           error_log+= 'Please input last name of infant passenger '+i+'!\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
+           document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger infant '+i+'!\n';
+           document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_passport_number'+i).value != '' ||
+          document.getElementById('infant_passport_expired_date'+i).value != '' ||
+          document.getElementById('infant_country_of_issued'+i).value != ''){
+           if(document.getElementById('infant_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger infant '+i+'!\n';
+               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!\n';
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!\n';
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
+
+   }
+   if(error_log=='')
+       document.getElementById('tour_review').submit();
+   else
+       alert(error_log);
+
 }
 
-function update_contact(room_val, val){
+function update_contact(val){
     console.log(val);
-    console.log(document.getElementById('room'+room_val.toString()+'_adult_cp'+val.toString()).checked);
-    if(document.getElementById('room'+room_val.toString()+'_adult_cp'+val.toString()).checked == true){
-        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden1_'+val.toString()).hidden = false;
-        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden2_'+val.toString()).hidden = false;
+    console.log(document.getElementById('adult_cp'+val.toString()).checked);
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
     }else{
-        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden1_'+val.toString()).hidden = true;
-        document.getElementById('room'+room_val.toString()+'_adult_cp_hidden2_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
+
+}
+
+function refresh_room_availability(seq){
+    pax_type = document.getElementById('pax_type'+seq.toString()).value;
+    room_id = document.getElementById('room_select_pax'+seq.toString()).value;
+    total_pax = document.getElementById('total_pax_all').value;
+
 
 }
 

@@ -66,97 +66,128 @@
                         <div class="col-lg-12">
                             <div style="background-color:#f15a22;">
                                 <center>
+                                    <span style="color:white; font-size:16px;"> List of Rooms <i class="fas fa-bed"></i></span>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <input type="hidden" id="room_amount" value="{{room_amount}}"/>
+                            <div id="tour_review_rooms" style="background-color: white; border: 1px solid #f15a22; overflow-x: auto;">
+                                <table style="width:100%;" id="list-of-rooms" class="list-of-passenger-class">
+                                    <tr>
+                                        <th style="width:10%;" class="list-of-passenger-left">Number</th>
+                                        <th style="width:20%;">Name</th>
+                                        <th style="width:20%;">Type</th>
+                                        <th style="width:20%;">Hotel</th>
+                                        <th style="width:30%;" class="list-of-passenger-right">Notes</th>
+                                    </tr>
+                                    {% for room in room_list %}
+                                    <tr>
+                                        <td>
+                                            {{forloop.counter}}
+                                            <input type="hidden" id="adult_quota_room{{room.id}}" value="{{room.adult}}"/>
+                                            <input type="hidden" id="child_quota_room{{room.id}}" value="{{room.child}}"/>
+                                            <input type="hidden" id="infant_quota_room{{room.id}}" value="{{room.infant}}"/>
+                                            <input type="hidden" id="ori_adult_quota_room{{room.id}}" value="{{room.adult}}"/>
+                                            <input type="hidden" id="ori_child_quota_room{{room.id}}" value="{{room.child}}"/>
+                                            <input type="hidden" id="ori_infant_quota_room{{room.id}}" value="{{room.infant}}"/>
+                                        </td>
+                                        <td>{{room.name}}</td>
+                                        <td>{{room.bed_type}}</td>
+                                        <td>{% if room.hotel %}{{room.hotel}}{% else %} - {% endif %}</td>
+                                        <td>{% if room.notes %}{{room.notes}}{% else %} - {% endif %}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div style="background-color:#f15a22;">
+                                <center>
+                                    <span style="color:white; font-size:16px;"> Contact Information <i class="fas fa-address-book"></i></span>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div id="tour_review_booker" style="background-color: white; border: 1px solid #f15a22; overflow-x: auto;">
+                                <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
+                                    <tr>
+                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                        <th style="width:45%;">Full Name</th>
+                                        <th style="width:25%;">Email</th>
+                                        <th style="width:25%;" class="list-of-passenger-right">Mobile Phone</th>
+                                    </tr>
+                                    {% if contact_person|length > 0 %}
+                                    {% for con in contact_person %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>{{con.title}}. {{con.name}}</td>
+                                        <td>{{con.email}}</td>
+                                        <td>{{con.mobile}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td>1</td>
+                                        <td>{{contact.title}}. {{contact.first_name}} {{contact.last_name}}</td>
+                                        <td>{{contact.email}}</td>
+                                        <td>{{contact.mobile}}</td>
+                                    </tr>
+                                    {% endif %}
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div style="background-color:#f15a22;">
+                                <center>
                                     <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
                                 </center>
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <div id="tour_review_booker" style="background-color: white; padding:15px; border: 1px solid #f15a22;">
-                                <h5>Booker Information</h5>
-                                <table>
-                                    <tr>
-                                        <td style="width:35%;">
-                                            Full Name
-                                        </td>
-                                        <td style="width:3%;">
-                                            :
-                                        </td>
-                                        <td style="width:62%;">
-                                            {{contact.title}}. {{contact.first_name}} {{contact.last_name}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:35%;">
-                                            Email
-                                        </td>
-                                        <td style="width:3%;">
-                                            :
-                                        </td>
-                                        <td style="width:62%;">
-                                            {{contact.email}}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="width:35%;">
-                                            Mobile Phone
-                                        </td>
-                                        <td style="width:3%;">
-                                            :
-                                        </td>
-                                        <td style="width:62%;">
-                                            {{contact.mobile}}
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br/>
-                                <h5>Passenger Information</h5>
-                                {% for room in room_list %}
-                                <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;">Room {{forloop.counter}}</span>
-                                <span style="padding: 10px 5px 0px 0px; font-size:13px; display:inline;"> - {{room.name}} {{room.bed_type}}</span>
-                                {% if room.hotel %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">{{room.hotel}}</span><br/>{% endif %}
-                                {% if room.notes %}<span style="padding: 10px 25px 0px 0px; font-size:13px; display:inline;">Notes : {{room.notes}}</span>{% endif %}
+                            <input type="hidden" id="total_pax_all" value="{{total_pax_all}}"/>
+                            <div id="tour_review_passengers" style="background-color: white; border: 1px solid #f15a22;">
                                 <table style="width:100%;" id="list-of-passenger">
                                     <tr>
-                                        <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                        <th style="width:26%;">Name</th>
+                                        <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                        <th style="width:20%;">Name</th>
                                         <th style="width:7%;">Type</th>
-                                        <th style="width:15%;">Birth Date</th>
-                                        <th style="width:20%;">Mobile</th>
-                                        <th style="width:25%;" class="list-of-passenger-right">Email</th>
+                                        <th style="width:18%;">Birth Date</th>
+                                        <th style="width:50%;" class="list-of-passenger-right">Room</th>
                                     </tr>
-                                    {% for pax_adt in room.adult_obj %}
+                                    {% for pax in all_pax %}
                                     <tr>
-                                        <td>{{pax_adt.sequence}}</td>
-                                        <td>{{pax_adt.title}}. {{pax_adt.name}}</td>
-                                        <td>{{pax_adt.pax_type}}</td>
-                                        <td>{{pax_adt.birth_date}}</td>
-                                        <td>{% if room.hotel %}{{pax_adt.mobile}}{% else %} - {% endif %}</td>
-                                        <td>{% if room.hotel %}{{pax_adt.email}}{% else %} - {% endif %}</td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for pax_chd in room.child_obj %}
-                                    <tr>
-                                        <td>{{pax_chd.sequence}}</td>
-                                        <td>{{pax_chd.title}}. {{pax_chd.name}}</td>
-                                        <td>{{pax_chd.pax_type}}</td>
-                                        <td>{{pax_chd.birth_date}}</td>
-                                        <td> - </td>
-                                        <td> - </td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for pax_inf in room.infant_obj %}
-                                    <tr>
-                                        <td>{{pax_inf.sequence}}</td>
-                                        <td>{{pax_inf.title}}. {{pax_inf.name}}</td>
-                                        <td>{{pax_inf.pax_type}}</td>
-                                        <td>{{pax_inf.birth_date}}</td>
-                                        <td> - </td>
-                                        <td> - </td>
+                                        <td>
+                                            {{forloop.counter}}
+                                            <input type="hidden" id="pax_sequence{{forloop.counter}}" value="{{pax.sequence}}"/>
+                                        </td>
+                                        <td>{{pax.title}}. {{pax.name}}</td>
+                                        <td>{{pax.pax_type}}</td>
+                                        <td>{{pax.birth_date}}</td>
+                                        <td>
+                                            <div class="form-select" id="default-select">
+                                                <select id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});">
+                                                    <option value="0">Please select a room!</option>
+                                                    {% for room in room_list %}
+                                                    {% if pax.pax_type == 'ADT' and room.adult > 0 %}
+                                                    <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                    {% elif pax.pax_type == 'CHD' and room.child > 0 %}
+                                                    <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                    {% elif pax.pax_type == 'INF' and room.infant > 0 %}
+                                                    <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <input type="hidden" id="pax_type{{forloop.counter}}" value="{{pax.pax_type}}"/>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 </table>
-                                <br/>
-                                {% endfor %}
                             </div>
                         </div>
                     </div>

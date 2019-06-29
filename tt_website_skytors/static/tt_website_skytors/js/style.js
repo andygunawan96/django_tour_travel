@@ -969,75 +969,23 @@ function show_paxs_airline(pax_type, key){
         paxs = document.getElementById('adult_paxs'+i);
         paxs_up = document.getElementById('adult_up_paxs'+i);
         paxs_down = document.getElementById('adult_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     for (var i=1; i <= parseInt(child); i++){
         paxs = document.getElementById('child_paxs'+i);
         paxs_up = document.getElementById('child_up_paxs'+i);
         paxs_down = document.getElementById('child_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     for (var i=1; i <= parseInt(infant); i++){
         paxs = document.getElementById('infant_paxs'+i);
         paxs_up = document.getElementById('infant_up_paxs'+i);
         paxs_down = document.getElementById('infant_down_paxs'+i);
-
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
     }
 
     paxs = document.getElementById(pax_type+'_paxs'+key);
     paxs_down = document.getElementById(pax_type+'_down_paxs'+key);
     paxs_up = document.getElementById(pax_type+'_up_paxs'+key);
-
-    if (paxs.style.display === "none") {
-        paxs.style.display = "block";
-        paxs_down.style.display = "block";
-        paxs_up.style.display = "none";
-    }
-    else {
-        paxs.style.display = "none";
-        paxs_down.style.display = "none";
-        paxs_up.style.display = "block";
-    }
-}
-
-function show_paxs_tour(room_amount, pax_type, key1, key2){
-    var paxs = document.getElementById('room'+key1+'_'+pax_type+'_paxs'+key2);
-    var paxs_down = document.getElementById('room'+key1+'_'+pax_type+'_down_paxs'+key2);
-    var paxs_up = document.getElementById('room'+key1+'_'+pax_type+'_up_paxs'+key2);
-    for (var j=1; j <= parseInt(room_amount); j++)
-    {
-        for (var i=1; i <= parseInt(adult); i++){
-            paxs = document.getElementById('room'+j+'_adult_paxs'+i);
-            paxs_up = document.getElementById('room'+j+'_adult_up_paxs'+i);
-            paxs_down = document.getElementById('room'+j+'_adult_down_paxs'+i);
-        }
-
-        for (var i=1; i <= parseInt(child); i++){
-            paxs = document.getElementById('room'+j+'_child_paxs'+i);
-            paxs_up = document.getElementById('room'+j+'_child_up_paxs'+i);
-            paxs_down = document.getElementById('room'+j+'_child_down_paxs'+i);
-        }
-
-        for (var i=1; i <= parseInt(infant); i++){
-            paxs = document.getElementById('room'+j+'_infant_paxs'+i);
-            paxs_up = document.getElementById('room'+j+'_infant_up_paxs'+i);
-            paxs_down = document.getElementById('room'+j+'_infant_down_paxs'+i);
-        }
-    }
-    paxs = document.getElementById('room'+key1+'_'+pax_type+'_paxs'+key2);
-    paxs_down = document.getElementById('room'+key1+'_'+pax_type+'_down_paxs'+key2);
-    paxs_up = document.getElementById('room'+key1+'_'+pax_type+'_up_paxs'+key2);
 
     if (paxs.style.display === "none") {
         paxs.style.display = "block";
