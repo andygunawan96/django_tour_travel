@@ -119,16 +119,20 @@ def search(request):
 
         providers = []
         try:
-            if request.POST['radio_airline_type'] == 'roundtrip':
+            if request.POST['directionflight'] == 'on':
                 direction = 'RT'
                 return_date = request.POST['airline_return']
+            else:
+                direction = 'OW'
+                return_date = request.POST['airline_departure']
+                print('no return')
         except:
             direction = 'OW'
             return_date = request.POST['airline_departure']
             print('no return')
 
         try:
-            if request.POST['is_combo_price'] == 'on':
+            if request.POST['is_combo_price'] == '':
                 is_combo_price = 'true'
         except:
             is_combo_price = 'false'

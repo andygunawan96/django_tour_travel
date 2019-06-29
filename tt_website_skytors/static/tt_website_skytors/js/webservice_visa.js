@@ -292,7 +292,19 @@ function update_passenger(){
                     visa.list_of_visa[j].visa_type[0] == visa_type &&
                     visa.list_of_visa[j].type.process_type[0] == process_type &&
                     visa.list_of_visa[j].entry_type[0] == entry_type){
-                        data_pax.push(visa.list_of_visa[j].id.toString());
+                        required = [];
+                        for(count in visa.list_of_visa[j].requirements){
+                            if(visa.list_of_visa[j].requirements[count].required == true){
+                                required.push({
+                                    'boolean': document.getElementById('adult_required'+pax_count+'_'+count).checked,
+                                    'id': visa.list_of_visa[j].requirements[count].id
+                                });
+                            }
+                        }
+                        data_pax.push({
+                            'id':visa.list_of_visa[j].id.toString(),
+                            'required': required
+                        });
                     }
                 }
             }
