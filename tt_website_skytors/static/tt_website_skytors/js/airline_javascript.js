@@ -1384,7 +1384,8 @@ function airline_detail(){
                    $text += airline_pick[0].segments[i].departure_date + ' → ' + airline_pick[0].segments[i].arrival_date + '\n';
                    $text += airline_pick[0].segments[i].origin_name + ' (' + airline_pick[0].segments[i].origin_city + ') - ';
                    $text += airline_pick[0].segments[i].destination_name + ' (' + airline_pick[0].segments[i].destination_city + ')\n\n';
-                   text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[i]+`.png"><span> </span>`;
+                   for(j in airline_pick[0].carrier_code_list)
+                       text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[j]+`.png"><span> </span>`;
 
                }else{
                    break;
@@ -1423,8 +1424,63 @@ function airline_detail(){
             <span style="font-size:12px;">`+airline_pick[0].arrival_date.split(' - ')[0]+` `+airline_pick[0].arrival_date.split(' - ')[1]+`</span></br>
         </div>
     </div>
-    <hr/>
+    <hr/>`;
+    if(airline_pick[0].is_combo_price == true){
+        text += `
+        <div class="row" style="margin-bottom:5px; ">
+            <div class="col-lg-12">
+               <h6>Return</h6>`;
+               $text ='Return\n';
+               for(i in airline_pick[0].segments){
+                   if(airline_pick[0].segments[i].journey_type == 'RET'){
+                       $text += airline_carriers[airline_pick[0].segments[i].carrier_code] + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
+                       $text += airline_pick[0].segments[i].departure_date + ' → ' + airline_pick[0].segments[i].arrival_date + '\n';
+                       $text += airline_pick[0].segments[i].origin_name + ' (' + airline_pick[0].segments[i].origin_city + ') - ';
+                       $text += airline_pick[0].segments[i].destination_name + ' (' + airline_pick[0].segments[i].destination_city + ')\n\n';
+//                       text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[i]+`.png"><span> </span>`;
+                       check = 1;
+                   }else if(check == 1){
+                       break;
+                   }
+               }
+               console.log($text);
+            text+=`</div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <table style="width:100%">
+                    <tr>
+                        <td class="airport-code"><h6>`+airline_pick[0].destination+`</h6></td>
+                        <td style="padding-left:15px;">
+                            <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                        </td>
+                        <td style="height:30px;padding:0 15px;width:100%">
+                            <div style="display:inline-block;position:relative;width:100%">
+                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <span style="font-size:12px;">`+airline_pick[0].destination_city+`</span></br>
+                <span style="font-size:12px;">`+airline_pick[0].departure_date_return.split(' - ')[0]+` `+airline_pick[0].departure_date_return.split(' - ')[1]+`</span></br>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <table style="width:100%; margin-bottom:6px;">
+                    <tr>
+                        <td><h6>`+airline_pick[0].origin+`</h6></td>
+                        <td></td>
+                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                    </tr>
+                </table>
+                <span style="font-size:12px;">`+airline_pick[0].origin_city+`</span><br/>
+                <span style="font-size:12px;">`+airline_pick[0].arrival_date_return.split(' - ')[0]+` `+airline_pick[0].arrival_date_return.split(' - ')[1]+`</span></br>
+            </div>
+        </div>
+        <hr/>`;
+    }
+    text+=`
     <div class="row">`;
+        price = 0;
         price = 0;
         //adult
         console.log(dep_price);
