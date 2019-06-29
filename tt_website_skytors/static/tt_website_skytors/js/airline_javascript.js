@@ -1500,6 +1500,7 @@ function airline_detail(){
             text+=`
         <div class="row" style="margin-top:5px; margin-bottom:5px;">
             <div class="col-lg-12">
+                <hr/>
                 <h6>Return</h6>`;
                 $text ='Return\n';
                    for(i in airline_pick[1].segments){
@@ -2073,12 +2074,14 @@ function on_change_ssr(idhidden, id){
 function get_airline_review(){
     text = '';
     console.log(airline_pick);
-    text = `<div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;">`;
+    text = `<div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;">
+            <h4>Flight Detail</h4>
+            <hr/>`;
     for(i in airline_pick){
         if(i == 0)
             text += '<h6>Departure</h6>';
         else
-            text += '<h6>Return</h6>';
+            text += '<hr/><h6>Return</h6>';
 
         for(j in airline_pick[i].segments){
 
@@ -2138,12 +2141,8 @@ function get_airline_review(){
     text+=`
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
-            <div style="background-color:#f15a22;">
-                <center>
-                    <span style="color:white; font-size:16px;"> List of Contact(s) Person <i class="fas fa-users"></i></span>
-                </center>
-            </div>
             <div style="border:1px solid #f15a22; background-color:white;">
+                <h4 style="padding:10px 10px 0px 10px;"> List of Contact(s) Person</h4><br/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
@@ -2168,12 +2167,9 @@ function get_airline_review(){
     text+=`
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
-            <div style="background-color:#f15a22;">
-                <center>
-                    <span style="color:white; font-size:16px;"> List of Passenger(s) <i class="fas fa-users"></i></span>
-                </center>
-            </div>
+
             <div style="border:1px solid #f15a22; background-color:white;">
+                <h4 style="padding:10px 10px 0px 10px;">List of Passenger(s)</h4><br/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>

@@ -879,7 +879,7 @@ function get_price_itinerary(val){
                         if(airline_pick_list[0].is_combo_price == true){
                             text+=`
                             <div class="col-lg-12" style="margin-bottom:5px; margin-top:5px;">
-                                <center><h6>Return</h6></center>`;
+                               <h6>Return</h6>`;
                                    $text +='Return\n';
                                    check_return = 0;
                                    date_return = [];
@@ -904,7 +904,7 @@ function get_price_itinerary(val){
                             text+=`
                             <div class="col-lg-12">
                                 <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <table style="width:100%">
                                             <tr>
                                                 <td class="airport-code"><h6>`+airline_pick_list[0].destination+`</h6></td>
@@ -923,7 +923,7 @@ function get_price_itinerary(val){
                                         <span style="font-size:13px;">`+airline_pick_list[0].destination_city+`</span></br>
                                         <span style="font-size:13px;">`+date_return[0].split(' - ')[1]+` `+date_return[0].split(' - ')[0]+`</span></br>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <table style="width:100%; margin-bottom:6px;">
                                             <tr>
                                                 <td><h5>`+airline_pick_list[0].origin+`</h5></td>
@@ -934,7 +934,7 @@ function get_price_itinerary(val){
                                         <span style="font-size:13px;">`+airline_pick_list[0].destination_city+`</span></br>
                                         <span style="font-size:13px;">`+date_return[1].split(' - ')[1]+` `+date_return[1].split(' - ')[0]+`</span></br>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" id="rules`+j+`">
+                                    <div class="col-lg-12" id="rules`+j+`">
 
                                     </div>
                                 </div>
@@ -1658,16 +1658,11 @@ function airline_get_booking(data){
             text+=`</table>
             </div>
 
-            <div style="background-color:#f15a22;">
-                <center>
-                    <span style="color:white; font-size:16px;"> Flight Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/plane.png"/></span>
-                </center>
-            </div>
-
             <div style="background-color:white; border:1px solid #f15a22;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div style="padding:10px; background-color:white;">`;
+                        <div style="padding:10px; background-color:white;">
+                        <span style="color:white; font-size:16px;"> Flight Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/plane.png"/></span>`;
                     for(i in msg.result.response.journeys){
                         var cabin_class = '';
 
@@ -1743,14 +1738,8 @@ function airline_get_booking(data){
                 </div>
             </div>
 
-            <div style="background-color:#f15a22; margin-top:20px;">
-                <center>
-                    <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
-                </center>
-            </div>
-
             <div style="border:1px solid #f15a22; padding:10px; background-color:white;">
-
+            <span style="color:white; font-size:16px;"> List of Passenger</span>
             <table style="width:100%" id="list-of-passenger">
                 <tr>
                     <th style="width:10%;" class="list-of-passenger-left">No</th>
