@@ -1,4 +1,4 @@
-domestic_carriers = ['airasia', 'citilink', 'sriwijaya', 'lionair', 'trigana', 'transnusa', 'altea', 'xpress_scrap', 'garuda'];
+domestic_carriers = ['amadeus','airasia', 'citilink', 'sriwijaya', 'lionair', 'trigana', 'transnusa', 'altea', 'xpress_scrap', 'garuda'];
 
 international_carriers = ['amadeus','sabre', 'airasia', 'jetstar', 'trigana', 'lionair', 'scoot', 'citilink', 'sriwijaya'];
 
@@ -936,25 +936,26 @@ function sort(airline){
                     </div>
                     <div id="detail_departjourney`+airline[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="margin-bottom:15px; border-top: 1px solid #f15a22; display:none;">`;
                         for(j in airline[i].segments){
-                        var depart = 0;
-                        if(airline[i].segments[j].origin == airline_request.destination.substr(airline_request.destination.length-4,3))
-                            depart = 1;
-                        if(depart == 0 && j == 0)
+                            var depart = 0;
+                            if(airline[i].segments[j].origin == airline_request.destination.substr(airline_request.destination.length-4,3))
+                                depart = 1;
+                            if(depart == 0 && j == 0)
+                                text+=`
+                                <div style="text-align:right; border: 2px solid white; background-color:white; padding:10px 10px 0px 10px;">
+                                <span style="font-weight: bold; font-size: 14px;">Departure</span>
+                                </div>`;
+                            else if(depart == 1){
+                                text+=`
+                                <div style="text-align:right; border: 2px solid white; background-color:white; padding:0px 10px 0px 10px;">
+                                <span style="font-weight: bold; font-size: 14px;">Return</span>
+                                </div>`;
+                                depart = 2;
+                            }
                             text+=`
-                            <div style="text-align:right; border: 2px solid white; background-color:white; padding:10px 10px 0px 10px;">
-                            <span style="font-weight: bold; font-size: 14px;">Departure</span>
-                            </div>`;
-                        else if(depart == 1){
-                            text+=`
-                            <div style="text-align:right; border: 2px solid white; background-color:white; padding:0px 10px 0px 10px;">
-                            <span style="font-weight: bold; font-size: 14px;">Return</span>
-                            </div>`;
-                            depart = 2;
-                        }
-                        text+=`
                             <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">
                                 <span style="font-weight: bold;">`+airline_carriers[airline[i].segments[j].carrier_code]+` - </span>
                                 <span style="color:#f15a22; font-weight: bold;">`+airline[i].segments[j].carrier_name+`</span><hr/>`;
+                                for(k in airline[i].segments[j].legs)
                                 text+=`
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -962,7 +963,7 @@ function sort(airline){
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                 <table style="width:100%">
                                                     <tr>
-                                                        <td class="airport-code"><h5>`+airline[i].segments[j].origin+`</h5></td>
+                                                        <td class="airport-code"><h5>`+airline[i].segments[j].legs[k].origin+`</h5></td>
                                                         <td style="padding-left:15px;">
                                                             <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                         </td>
@@ -975,31 +976,32 @@ function sort(airline){
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <span>`+airline[i].segments[j].origin_city+`</span> - <span>`+airline[i].segments[j].origin_name+`</span></br>
+                                                <span>`+airline[i].segments[j].legs[k].origin_city+`</span> - <span>`+airline[i].segments[j].legs[k].origin_name+`</span></br>
                                                 <span>Schedule depature</span></br>
-                                                <span>`+airline[i].segments[j].departure_date.split(' - ')[0]+` `+airline[i].segments[j].departure_date.split(' - ')[1]+`</span></br>
+                                                <span>`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+` `+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span></br>
                                                 <span>Terminal</span></br>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <table style="width:100%; margin-bottom:6px;">
                                                 <tr>
-                                                    <td><h5>`+airline[i].segments[j].destination+`</h5></td>
+                                                    <td><h5>`+airline[i].segments[j].legs[k].destination+`</h5></td>
                                                     <td></td>
                                                     <td style="height:30px;padding:0 15px;width:100%"></td>
                                                 </tr>
                                             </table>
-                                            <span>`+airline[i].segments[j].destination_city+`</span> - <span>`+airline[i].segments[j].destination_name+`</span><br/>
+                                            <span>`+airline[i].segments[j].legs[k].destination_city+`</span> - <span>`+airline[i].segments[j].legs[k].destination_name+`</span><br/>
                                             <span>Schedule arrival</span></br>
-                                            <span>`+airline[i].segments[j].arrival_date.split(' - ')[0]+` `+airline[i].segments[j].arrival_date.split(' - ')[1]+`</span></br>
+                                            <span>`+airline[i].segments[j].legs[k].arrival_date.split(' - ')[0]+` `+airline[i].segments[j].legs[k].arrival_date.split(' - ')[1]+`</span></br>
                                             <span>Terminal</span></br>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>`;
+                                text+=`
                                 <br/>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span><b>Choose Seat (Sub class / Seat left) :</b></span>
+                                        <span><b>Choose Seat (Class Of Service / Seat left) :</b></span>
                                         <div style="overflow:auto; white-space:nowrap;">
                                         <table>
                                             <tr>`;
@@ -1009,14 +1011,14 @@ function sort(airline){
                                                 if(k==0)
                                                 text+=`
                                                 <label class="radio-button-custom">
-                                                    `+airline[i].segments[j].fares[k].subclass+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                    `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                     <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
                                                     <span class="checkmark-radio"></span>
                                                 </label>`;
                                                 else
                                                 text+=`
                                                 <label class="radio-button-custom">
-                                                    `+airline[i].segments[j].fares[k].subclass+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                    `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                     <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`">
                                                     <span class="checkmark-radio"></span>
                                                 </label>`;

@@ -165,7 +165,7 @@ def search2(request):
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
         "provider": request.POST['provider'],
-        "carrier_codes": ['SQ'],
+        "carrier_codes": ['GA'],
         "is_combo_price": is_combo_price
 
     }
@@ -225,6 +225,28 @@ def search2(request):
                             'destination_name': destination['name']
                         })
                         break
+
+                for leg in segment['legs']:
+                    leg.update({
+                        'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                    })
+
+                    for destination in airline_destinations:
+                        if destination['code'] == leg['origin']:
+                            leg.update({
+                                'origin_city': destination['city'],
+                                'origin_name': destination['name'],
+                            })
+                            break
+
+                    for destination in airline_destinations:
+                        if destination['code'] == leg['destination']:
+                            leg.update({
+                                'destination_city': destination['city'],
+                                'destination_name': destination['name']
+                            })
+                            break
 
     return res['result']
 
