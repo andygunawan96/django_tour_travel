@@ -683,7 +683,7 @@ function refresh_room_availability(seq){
         }
     }
 
-    for (i=1; i <= total_pax; i++)
+    for (i=1; i <= parseInt(total_pax); i++)
     {
         var pax_type = document.getElementById('pax_type'+i.toString()).value;
         var op = document.getElementById('room_select_pax'+i.toString()).getElementsByTagName("option");
@@ -762,6 +762,36 @@ function refresh_room_availability(seq){
             }
         }
         $('#room_select_pax'+i.toString()).niceSelect('update');
+    }
+}
+
+function tour_check_rooms()
+{
+    var all_clear = true;
+    var total_pax = document.getElementById('total_pax_all').value;
+    for (i=1; i <= parseInt(total_pax); i++){
+        if (document.getElementById('room_select_pax'+i.toString()).value == 0)
+        {
+            all_clear = false;
+            document.getElementById('div_select_pax'+i.toString()).style['border'] = '1px solid red';
+        }
+        else
+        {
+            document.getElementById('div_select_pax'+i.toString()).style['border'] = 'none';
+        }
+    }
+    return all_clear;
+}
+
+function tour_hold_booking(val){
+    var check_rooms = tour_check_rooms();
+    if (check_rooms == true)
+    {
+
+    }
+    else
+    {
+        alert("Please assign a room to each passengers.");
     }
 }
 
