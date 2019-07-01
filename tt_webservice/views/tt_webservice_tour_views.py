@@ -98,7 +98,7 @@ def search(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
 
     data_tour = []
     counter = 0
@@ -131,7 +131,7 @@ def get_countries(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
@@ -145,7 +145,7 @@ def get_details(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
@@ -159,7 +159,7 @@ def update_passenger(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
@@ -173,7 +173,7 @@ def get_booking(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
@@ -187,7 +187,7 @@ def commit_booking(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
@@ -201,7 +201,7 @@ def issued(request):
         "signature": request.session['tour_signature'],
     })
 
-    res = util.send_request(url=url + 'tour/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
