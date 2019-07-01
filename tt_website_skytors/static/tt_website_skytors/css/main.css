@@ -6245,6 +6245,7 @@ input[type="radio"].themespark, input[type="checkbox"].themespark {
     background-color: #f15a22;
     height: 41px !important;
 }
+
 #list-of-passenger tr:nth-child(even){background-color:#FAF9FA;}
 .list-of-passenger-left {
     padding-left: 10px;
@@ -6256,6 +6257,21 @@ input[type="radio"].themespark, input[type="checkbox"].themespark {
 }
 
 #list-of-passenger td, #list-of-passenger th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.list-of-passenger-class tr:nth-child(even){background-color:#FAF9FA;}
+.list-of-passenger-left {
+    padding-left: 10px;
+    text-align:center;
+}
+
+.list-of-passenger-right {
+    padding-right: 10px;
+}
+
+.list-of-passenger-class td, .list-of-passenger-class th {
   border: 1px solid #ddd;
   padding: 8px;
 }

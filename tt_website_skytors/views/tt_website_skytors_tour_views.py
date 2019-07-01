@@ -240,30 +240,11 @@ def passenger(request):
             temp = str(idx + 1)
             note = 'notes_' + str(idx + 1)
             room = {
-                'adult': request.POST['adult_tour_room_' + temp],
-                'child': request.POST['child_tour_room_' + temp],
-                'infant': request.POST['infant_tour_room_' + temp],
+                'adult': int(request.POST['adult_tour_room_' + temp]),
+                'child': int(request.POST['child_tour_room_' + temp]),
+                'infant': int(request.POST['infant_tour_room_' + temp]),
                 'data': request.POST['data_per_room_hidden_' + temp].split('~'),
             }
-            adult_obj = []
-            child_obj = []
-            infant_obj = []
-
-            try:
-                for temp in range(int(room['adult'])):
-                    adult_obj.append('')
-            except:
-                print('no adult')
-            try:
-                for temp in range(int(room['child'])):
-                    child_obj.append('')
-            except:
-                print('no child')
-            try:
-                for temp in range(int(room['infant'])):
-                    infant_obj.append('')
-            except:
-                print('no infant')
 
             room.update({
                 'address': room['data'][1],
@@ -274,9 +255,6 @@ def passenger(request):
                 'star': room['data'][12],
                 'id': room['data'][14],
                 'notes': request.POST.get(note) and request.POST[note] or '',
-                'adult_obj': adult_obj,
-                'child_obj': child_obj,
-                'infant_obj': infant_obj,
             })
             render_pax_per_room.append(room)
 
@@ -287,6 +265,9 @@ def passenger(request):
         request.session['booking_data'] = {
             'room_list': render_pax_per_room,
             'room_amount': room_amount,
+            'adults': int(request.POST['adult_total_pax'].replace(',', '')),
+            'childs': int(request.POST['child_total_pax'].replace(',', '')),
+            'infants': int(request.POST['infant_amount'].replace(',', '')),
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_passenger_templates.html', values)
@@ -336,6 +317,12 @@ def review(request):
             'sameBooker': request.POST['myRadios'],
         }
 
+        adult = []
+        child = []
+        infant = []
+        all_pax = []
+        contact = []
+
         booker = {
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
@@ -347,99 +334,106 @@ def review(request):
             'booker_id': request.POST['booker_id']
         }
 
-        for j in range(int(request.session['booking_data']['room_amount'])):
-            adult = []
-            child = []
-            infant = []
-            prs_idx = 1
-            for i in range(int(request.session['booking_data']['room_list'][j]['adult'])):
-                adult.append({
-                    "first_name": request.POST['room' + str(j + 1) + '_adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['room' + str(j + 1) + '_adult_last_name' + str(i + 1)],
-                    "name": request.POST['room' + str(j + 1) + '_adult_first_name' + str(i + 1)] + " " + request.POST[
-                        'room' + str(j + 1) + '_adult_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['room' + str(j + 1) + '_adult_nationality' + str(i + 1)],
-                    "title": request.POST['room' + str(j + 1) + '_adult_title' + str(i + 1)],
-                    "pax_type": "ADT",
-                    "birth_date": request.POST['room' + str(j + 1) + '_adult_birth_date' + str(i + 1)],
-                    "birth_date_f": '%s-%s-%s' % (request.POST['room' + str(j + 1) + '_adult_birth_date' + str(i + 1)].split(' ')[2], month[request.POST['room' + str(j + 1) + '_adult_birth_date' + str(i + 1)].split(' ')[1]], request.POST['room' + str(j + 1) + '_adult_birth_date' + str(i + 1)].split(' ')[0]),
-                    "passport_number": request.POST['room' + str(j + 1) + '_adult_passport_number' + str(i + 1)],
-                    "passport_expdate": request.POST['room' + str(j + 1) + '_adult_passport_expired_date' + str(i + 1)],
-                    "passport_expdate_f": '%s-%s-%s' % (request.POST['room' + str(j + 1) + '_adult_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['room' + str(j + 1) + '_adult_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['room' + str(j + 1) + '_adult_passport_expired_date' + str(i + 1)].split(' ')[0]),
-                    "country_of_issued_code": request.POST['room' + str(j + 1) + '_adult_country_of_issued' + str(i + 1)],
-                    "passenger_id": request.POST['room' + str(j + 1) + '_adult_id' + str(i + 1)],
-                    "mobile": request.POST.get('room' + str(j + 1) + '_adult_cp' + str(i + 1)) and request.POST['room' + str(j + 1) + '_adult_phone_code' + str(i + 1)] + request.POST['room' + str(j + 1) + '_adult_phone' + str(i + 1)] or ' - ',
-                    "email": request.POST.get('room' + str(j + 1) + '_adult_cp' + str(i + 1)) and request.POST['room' + str(j + 1) + '_adult_email' + str(i + 1)] or ' - ',
-                    "room_id": request.session['booking_data']['room_list'][j]['data'][14],
-                    'agent_id': int(request.session['agent']['id']),
-                    "sequence": prs_idx,
-                })
-                prs_idx += 1
-
-            for i in range(int(request.session['booking_data']['room_list'][j]['child'])):
-                child.append({
-                    "first_name": request.POST['room' + str(j + 1) + '_child_first_name' + str(i + 1)],
-                    "last_name": request.POST['room' + str(j + 1) + '_child_last_name' + str(i + 1)],
-                    "name": request.POST['room' + str(j + 1) + '_child_first_name' + str(i + 1)] + " " + request.POST[
-                        'room' + str(j + 1) + '_child_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['room' + str(j + 1) + '_child_nationality' + str(i + 1)],
-                    "title": request.POST['room' + str(j + 1) + '_child_title' + str(i + 1)],
-                    "pax_type": "CHD",
-                    "birth_date": request.POST['room' + str(j + 1) + '_child_birth_date' + str(i + 1)],
-                    "birth_date_f": '%s-%s-%s' % (request.POST['room' + str(j + 1) + '_child_birth_date' + str(i + 1)].split(' ')[2],month[request.POST['room' + str(j + 1) + '_child_birth_date' + str(i + 1)].split(' ')[1]],request.POST['room' + str(j + 1) + '_child_birth_date' + str(i + 1)].split(' ')[0]),
-                    "passport_number": request.POST['room' + str(j + 1) + '_child_passport_number' + str(i + 1)],
-                    "passport_expdate": request.POST['room' + str(j + 1) + '_child_passport_expired_date' + str(i + 1)],
-                    "passport_expdate_f": '%s-%s-%s' % (request.POST['room' + str(j + 1) + '_child_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['room' + str(j + 1) + '_child_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['room' + str(j + 1) + '_child_passport_expired_date' + str(i + 1)].split(' ')[0]),
-                    "country_of_issued_code": request.POST['room' + str(j + 1) + '_child_country_of_issued' + str(i + 1)],
-                    "passenger_id": request.POST['room' + str(j + 1) + '_child_id' + str(i + 1)],
-                    "room_id": request.session['booking_data']['room_list'][j]['data'][14],
-                    'agent_id': int(request.session['agent']['id']),
-                    "sequence": prs_idx,
-                })
-                prs_idx += 1
-
-            for i in range(int(request.session['booking_data']['room_list'][j]['infant'])):
-                infant.append({
-                    "first_name": request.POST['room' + str(j + 1) + '_infant_first_name' + str(i + 1)],
-                    "last_name": request.POST['room' + str(j + 1) + '_infant_last_name' + str(i + 1)],
-                    "name": request.POST['room' + str(j + 1) + '_infant_first_name' + str(i + 1)] + " " + request.POST[
-                        'room' + str(j + 1) + '_infant_last_name' + str(i + 1)],
-                    "nationality_code": request.POST['room' + str(j + 1) + '_infant_nationality' + str(i + 1)],
-                    "title": request.POST['room' + str(j + 1) + '_infant_title' + str(i + 1)],
-                    "pax_type": "INF",
-                    "birth_date": request.POST['room' + str(j + 1) + '_infant_birth_date' + str(i + 1)],
-                    "birth_date_f": '%s-%s-%s' % (request.POST['room' + str(j + 1) + '_infant_birth_date' + str(i + 1)].split(' ')[2],month[request.POST['room' + str(j + 1) + '_infant_birth_date' + str(i + 1)].split(' ')[1]],request.POST['room' + str(j + 1) + '_infant_birth_date' + str(i + 1)].split(' ')[0]),
-                    "passport_number": request.POST['room' + str(j + 1) + '_infant_passport_number' + str(i + 1)],
-                    "passport_expdate": request.POST['room' + str(j + 1) + '_infant_passport_expired_date' + str(i + 1)],
-                    "passport_expdate_f": '%s-%s-%s' % (request.POST['room' + str(j + 1) + '_infant_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['room' + str(j + 1) + '_infant_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['room' + str(j + 1) + '_infant_passport_expired_date' + str(i + 1)].split(' ')[0]),
-                    "country_of_issued_code": request.POST['room' + str(j + 1) + '_infant_country_of_issued' + str(i + 1)],
-                    "passenger_id": request.POST['room' + str(j + 1) + '_infant_id' + str(i + 1)],
-                    "room_id": request.session['booking_data']['room_list'][j]['data'][14],
-                    'agent_id': int(request.session['agent']['id']),
-                    "sequence": prs_idx,
-                })
-                prs_idx += 1
-
-            request.session['booking_data']['room_list'][j].update({
-                'adult_obj': adult,
-                'child_obj': child,
-                'infant_obj': infant,
+        for i in range(int(request.session['booking_data']['adults'])):
+            adult.append({
+                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                "name": request.POST['adult_first_name' + str(i + 1)] + " " + request.POST['adult_last_name' + str(i + 1)],
+                "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                "title": request.POST['adult_title' + str(i + 1)],
+                "pax_type": "ADT",
+                "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                "birth_date_f": '%s-%s-%s' % (request.POST['adult_birth_date' + str(i + 1)].split(' ')[2], month[request.POST['adult_birth_date' + str(i + 1)].split(' ')[1]], request.POST['adult_birth_date' + str(i + 1)].split(' ')[0]),
+                "passport_number": request.POST['adult_passport_number' + str(i + 1)],
+                "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                "passport_expdate_f": '%s-%s-%s' % (request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[0]),
+                "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
+                "passenger_id": request.POST['adult_id' + str(i + 1)],
+                "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)] + request.POST['adult_phone' + str(i + 1)] or ' - ',
+                "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
+                "agent_id": int(request.session['agent']['id']),
+                "is_cp": request.POST.get('adult_cp' + str(i + 1)),
             })
+
+        for i in range(int(request.session['booking_data']['childs'])):
+            child.append({
+                "first_name": request.POST['child_first_name' + str(i + 1)],
+                "last_name": request.POST['child_last_name' + str(i + 1)],
+                "name": request.POST['child_first_name' + str(i + 1)] + " " + request.POST['child_last_name' + str(i + 1)],
+                "nationality_code": request.POST['child_nationality' + str(i + 1)],
+                "title": request.POST['child_title' + str(i + 1)],
+                "pax_type": "CHD",
+                "birth_date": request.POST['child_birth_date' + str(i + 1)],
+                "birth_date_f": '%s-%s-%s' % (request.POST['child_birth_date' + str(i + 1)].split(' ')[2],month[request.POST['child_birth_date' + str(i + 1)].split(' ')[1]],request.POST['child_birth_date' + str(i + 1)].split(' ')[0]),
+                "passport_number": request.POST['child_passport_number' + str(i + 1)],
+                "passport_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
+                "passport_expdate_f": '%s-%s-%s' % (request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[0]),
+                "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
+                "passenger_id": request.POST['child_id' + str(i + 1)],
+                "agent_id": int(request.session['agent']['id']),
+            })
+
+        for i in range(int(request.session['booking_data']['infants'])):
+            infant.append({
+                "first_name": request.POST['infant_first_name' + str(i + 1)],
+                "last_name": request.POST['infant_last_name' + str(i + 1)],
+                "name": request.POST['infant_first_name' + str(i + 1)] + " " + request.POST['infant_last_name' + str(i + 1)],
+                "nationality_code": request.POST['infant_nationality' + str(i + 1)],
+                "title": request.POST['infant_title' + str(i + 1)],
+                "pax_type": "INF",
+                "birth_date": request.POST['infant_birth_date' + str(i + 1)],
+                "birth_date_f": '%s-%s-%s' % (request.POST['infant_birth_date' + str(i + 1)].split(' ')[2],month[request.POST['infant_birth_date' + str(i + 1)].split(' ')[1]],request.POST['infant_birth_date' + str(i + 1)].split(' ')[0]),
+                "passport_number": request.POST['infant_passport_number' + str(i + 1)],
+                "passport_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
+                "passport_expdate_f": '%s-%s-%s' % (request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[0]),
+                "country_of_issued_code": request.POST['infant_country_of_issued' + str(i + 1)],
+                "passenger_id": request.POST['infant_id' + str(i + 1)],
+                "agent_id": int(request.session['agent']['id']),
+            })
+
+        for rec in adult:
+            all_pax.append(rec)
+            if rec.get('is_cp'):
+                contact.append(rec)
+        for rec in child:
+            all_pax.append(rec)
+        for rec in infant:
+            all_pax.append(rec)
+
+        temp_idx = 0
+        for rec in all_pax:
+            rec.update({
+                'sequence': temp_idx,
+            })
+            temp_idx += 1
+
+        request.session['booking_data'].update({
+            'adult_pax': adult,
+            'child_pax': child,
+            'infant_pax': infant,
+            'all_pax': all_pax,
+            'contact_person': contact,
+            'sameBooker': request.POST['myRadios'],
+            'contact': booker,
+            'total_pax_all': temp_idx,
+        })
 
         values.update({
             'contact': booker,
             'room_list': request.session['booking_data']['room_list'],
             'room_amount': request.session['booking_data']['room_amount'],
-        })
-
-        request.session['booking_data'].update({
-            'sameBooker': request.POST['myRadios'],
-            'contact': booker,
+            'adult_pax': adult,
+            'child_pax': child,
+            'infant_pax': infant,
+            'all_pax': all_pax,
+            'contact_person': contact,
+            'total_pax_all': temp_idx,
         })
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_review_templates.html', values)
     else:
         return index(request)
+
 
 def booking(request):
     if 'username' in request.session._session:
