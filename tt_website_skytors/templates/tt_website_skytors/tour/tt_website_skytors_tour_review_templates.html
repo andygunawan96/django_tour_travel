@@ -170,19 +170,21 @@
                                         <td>{{pax.pax_type}}</td>
                                         <td>{{pax.birth_date}}</td>
                                         <td>
-                                            <div class="form-select" id="default-select">
-                                                <select id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});">
-                                                    <option value="0">Please select a room!</option>
-                                                    {% for room in room_list %}
-                                                    {% if pax.pax_type == 'ADT' and room.adult > 0 %}
-                                                    <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
-                                                    {% elif pax.pax_type == 'CHD' and room.child > 0 %}
-                                                    <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
-                                                    {% elif pax.pax_type == 'INF' and room.infant > 0 %}
-                                                    <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px;">
+                                                <div class="form-select" id="default-select">
+                                                    <select id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});">
+                                                        <option value="0">Please select a room!</option>
+                                                        {% for room in room_list %}
+                                                        {% if pax.pax_type == 'ADT' and room.adult > 0 %}
+                                                        <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        {% elif pax.pax_type == 'CHD' and room.child > 0 %}
+                                                        <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        {% elif pax.pax_type == 'INF' and room.infant > 0 %}
+                                                        <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
                                             </div>
                                             <input type="hidden" id="pax_type{{forloop.counter}}" value="{{pax.pax_type}}"/>
                                         </td>
