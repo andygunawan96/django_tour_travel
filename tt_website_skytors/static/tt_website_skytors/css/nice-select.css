@@ -128,8 +128,8 @@
       font-weight: bold; }
     .nice-select .option.disabled {
       background-color: transparent;
-      color: #999;
-      cursor: default; }
+      color: #999 !important;
+      cursor: not-allowed; }
 
 .no-csspointerevents .nice-select .list {
   display: none; }

@@ -630,11 +630,139 @@ function update_contact(val){
 }
 
 function refresh_room_availability(seq){
-    pax_type = document.getElementById('pax_type'+seq.toString()).value;
-    room_id = document.getElementById('room_select_pax'+seq.toString()).value;
-    total_pax = document.getElementById('total_pax_all').value;
+    var room_amount = document.getElementById('room_amount').value;
+    var total_pax = document.getElementById('total_pax_all').value;
+    var disabled_rooms_adt = []
+    var disabled_rooms_chd = []
+    var disabled_rooms_inf = []
 
+    for (i=1; i <= parseInt(room_amount); i++)
+    {
+        room_id = document.getElementById('room_sequence'+i.toString()).value;
+        document.getElementById('adult_quota_room'+room_id.toString()).value = document.getElementById('ori_adult_quota_room'+room_id.toString()).value;
+        document.getElementById('child_quota_room'+room_id.toString()).value = document.getElementById('ori_child_quota_room'+room_id.toString()).value;
+        document.getElementById('infant_quota_room'+room_id.toString()).value = document.getElementById('ori_infant_quota_room'+room_id.toString()).value;
+    }
 
+    for (i=1; i <= parseInt(total_pax); i++)
+    {
+        var pax_type = document.getElementById('pax_type'+i.toString()).value;
+        if (document.getElementById('room_select_pax'+i.toString()).value != 0)
+        {
+            room_id = document.getElementById('room_select_pax'+i.toString()).value;
+            if (pax_type == 'ADT')
+            {
+                target = document.getElementById('adult_quota_room'+room_id.toString());
+                changes = parseInt(target.value) - 1;
+                target.value = changes;
+                if (changes <= 0)
+                {
+                    disabled_rooms_adt.push(room_id);
+                }
+            }
+            else if (pax_type == 'CHD')
+            {
+                target = document.getElementById('child_quota_room'+room_id.toString());
+                changes = parseInt(target.value) - 1;
+                target.value = changes;
+                if (changes <= 0)
+                {
+                    disabled_rooms_chd.push(room_id);
+                }
+            }
+            else if (pax_type == 'INF')
+            {
+                target = document.getElementById('infant_quota_room'+room_id.toString());
+                changes = parseInt(target.value) - 1;
+                target.value = changes;
+                if (changes <= 0)
+                {
+                    disabled_rooms_inf.push(room_id);
+                }
+            }
+        }
+    }
+
+    for (i=1; i <= total_pax; i++)
+    {
+        var pax_type = document.getElementById('pax_type'+i.toString()).value;
+        var op = document.getElementById('room_select_pax'+i.toString()).getElementsByTagName("option");
+        for (var k = 0; k < op.length; k++) {
+            if (pax_type == 'ADT')
+            {
+                found_in_dis = 0;
+                for (j=0; j<disabled_rooms_adt.length; j++)
+                {
+                    if (parseInt(op[k].value) == parseInt(disabled_rooms_adt[j])) {
+                        found_in_dis = 1;
+                    }
+                }
+                if (found_in_dis == 1)
+                {
+                    if (op[k].disabled != true)
+                    {
+                        op[k].disabled = true;
+                    }
+                }
+                else
+                {
+                    if (op[k].disabled == true)
+                    {
+                        op[k].disabled = false;
+                    }
+                }
+            }
+            else if (pax_type == 'CHD')
+            {
+                found_in_dis = 0;
+                for (j=0; j<disabled_rooms_chd.length; j++)
+                {
+                    if (parseInt(op[k].value) == parseInt(disabled_rooms_chd[j])) {
+                        found_in_dis = 1;
+                    }
+                }
+                if (found_in_dis == 1)
+                {
+                    if (op[k].disabled != true)
+                    {
+                        op[k].disabled = true;
+                    }
+                }
+                else
+                {
+                    if (op[k].disabled == true)
+                    {
+                        op[k].disabled = false;
+                    }
+                }
+            }
+            else if (pax_type == 'INF')
+            {
+                found_in_dis = 0;
+                for (j=0; j<disabled_rooms_inf.length; j++)
+                {
+                    if (parseInt(op[k].value) == parseInt(disabled_rooms_inf[j])) {
+                        found_in_dis = 1;
+                    }
+                }
+                if (found_in_dis == 1)
+                {
+                    if (op[k].disabled != true)
+                    {
+                        op[k].disabled = true;
+                    }
+                }
+                else
+                {
+                    if (op[k].disabled == true)
+                    {
+                        op[k].disabled = false;
+                    }
+                }
+            }
+        }
+        $('#room_select_pax'+i.toString()).niceSelect('update');
+    }
 }
 
 $(document).ready(function () {
