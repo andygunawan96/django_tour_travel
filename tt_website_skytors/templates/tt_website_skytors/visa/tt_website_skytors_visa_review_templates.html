@@ -32,14 +32,13 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="active" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <br/>
@@ -52,18 +51,15 @@
                     <h4>Prices may changes at any time</h4>
                     <br/>
                 </div>
-                <div class="col-lg-9" style="padding-bottom:20px;">
+                <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="visa_review">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div style="background-color:#f15a22;">
-                                            <center>
-                                                <span style="color:white; font-size:16px;"> List of Contact(s) Person <i class="fas fa-users"></i></span>
-                                            </center>
-                                        </div>
                                         <div style="border:1px solid #f15a22; background-color:white;">
+                                            <h4 style="padding:10px 10px 0px 10px;">List of Contact(s)</h4>
+                                            <hr/>
                                             <table style="width:100%;" id="list-of-passenger">
                                                 <tr>
                                                     <th style="width:7%;" class="list-of-passenger-left">No</th>
@@ -86,12 +82,9 @@
 
                                 <div class="row" style="padding-top:20px;">
                                     <div class="col-lg-12">
-                                        <div style="background-color:#f15a22;">
-                                            <center>
-                                                <span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>
-                                            </center>
-                                        </div>
                                         <div style="border:1px solid #f15a22; background-color:white;">
+                                            <h4 style="padding:10px 10px 0px 10px;">List of Passenger(s)</h4>
+                                            <hr/>
                                             <table style="width:100%;" id="list-of-passenger">
                                                 <tr>
                                                     <th style="width:5%;" class="list-of-passenger-left">No</th>
@@ -114,17 +107,17 @@
                                                     <td>{{person.birth_date}}</td>
                                                     <td>
                                                         {% for visa_type in type.visa_type.adult %}
-                                                            <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">{{visa_type.1}}<br/>
+                                                        <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">{{visa_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
                                                     <td>
                                                         {% for entry_type in type.entry_type.adult %}
-                                                            <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
+                                                        <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
                                                     <td>
                                                         {% for process_type in type.process_type.adult %}
-                                                            <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>{{process_type.1}}<br/>
+                                                        <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>{{process_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
                                                     <td id="adult_required{{counter}}"></td>
@@ -163,76 +156,73 @@
 
                                 <!--testing-->
                                 <!--<div class="row" style="padding-top:20px;">-->
-                                    <!--<div class="col-lg-12">-->
-                                        <!--<div style="background-color:#f15a22;">-->
-                                            <!--<center>-->
-                                                <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
-                                            <!--</center>-->
-                                        <!--</div>-->
-                                        <!--<div style="border:1px solid #f15a22; background-color:white;">-->
-                                            <!--<table style="width:100%;" id="list-of-passenger">-->
-                                                <!--<tr>-->
-                                                    <!--<th>Visa Type</th>-->
-                                                    <!--<th>Entry Type</th>-->
-                                                    <!--<th>Process Type</th>-->
-                                                    <!--<th>Passenger</th>-->
-                                                <!--</tr>-->
-                                                <!--{% for list in visa.list_of_visa %}-->
-                                                    <!--{% if list.total_pax > 0 %}-->
-                                                <!--<tr>-->
-                                                    <!--<td>{{list.visa_type.1}}</td>-->
-                                                    <!--<td>{{list.entry_type.1}}</td>-->
-                                                    <!--<td>{{list.type.process_type.1}}</td>-->
-                                                    <!--<td>-->
-                                                        <!--<select>-->
-                                                        <!--{% if list.pax_type.0 == 'ADT' %}-->
-                                                            <!--{% for person in pax.adult %}-->
-                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                                            <!--{% endfor %}-->
-                                                        <!--{% elif list.pax_type.0 == 'CHD' %}-->
-                                                            <!--{% for person in pax.child %}-->
-                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                                            <!--{% endfor %}-->
-                                                        <!--{% elif list.pax_type.0 == 'INF' %}-->
-                                                            <!--{% for person in pax.infant %}-->
-                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                                            <!--{% endfor %}-->
-                                                        <!--{% elif list.pax_type.0 == 'YCD' %}-->
-                                                            <!--{% for person in pax.elder %}-->
-                                                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                                            <!--{% endfor %}-->
-                                                        <!--{% endif %}-->
-                                                        <!--</select>-->
-                                                    <!--</td>-->
-                                                <!--</tr>-->
-                                                    <!--{% endif %}-->
-                                                <!--{% endfor %}-->
-                                            <!--</table>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
+                                <!--<div class="col-lg-12">-->
+                                <!--<div style="background-color:#f15a22;">-->
+                                <!--<center>-->
+                                <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
+                                <!--</center>-->
+                                <!--</div>-->
+                                <!--<div style="border:1px solid #f15a22; background-color:white;">-->
+                                <!--<table style="width:100%;" id="list-of-passenger">-->
+                                <!--<tr>-->
+                                <!--<th>Visa Type</th>-->
+                                <!--<th>Entry Type</th>-->
+                                <!--<th>Process Type</th>-->
+                                <!--<th>Passenger</th>-->
+                                <!--</tr>-->
+                                <!--{% for list in visa.list_of_visa %}-->
+                                <!--{% if list.total_pax > 0 %}-->
+                                <!--<tr>-->
+                                <!--<td>{{list.visa_type.1}}</td>-->
+                                <!--<td>{{list.entry_type.1}}</td>-->
+                                <!--<td>{{list.type.process_type.1}}</td>-->
+                                <!--<td>-->
+                                <!--<select>-->
+                                <!--{% if list.pax_type.0 == 'ADT' %}-->
+                                <!--{% for person in pax.adult %}-->
+                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                <!--{% endfor %}-->
+                                <!--{% elif list.pax_type.0 == 'CHD' %}-->
+                                <!--{% for person in pax.child %}-->
+                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                <!--{% endfor %}-->
+                                <!--{% elif list.pax_type.0 == 'INF' %}-->
+                                <!--{% for person in pax.infant %}-->
+                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                <!--{% endfor %}-->
+                                <!--{% elif list.pax_type.0 == 'YCD' %}-->
+                                <!--{% for person in pax.elder %}-->
+                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                                <!--{% endfor %}-->
+                                <!--{% endif %}-->
+                                <!--</select>-->
+                                <!--</td>-->
+                                <!--</tr>-->
+                                <!--{% endif %}-->
+                                <!--{% endfor %}-->
+                                <!--</table>-->
+                                <!--</div>-->
+                                <!--</div>-->
                                 <!--</div>-->
 
-                            </div>
-                            <div class="row" style="padding-top:15px;">
-                                <div class="col-lg-4" style="padding-bottom:15px;">
-                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="check_hold_booking();" style="width:100%;"/>
-                                </div>
-                                <div class="col-lg-4" style="padding-bottom:15px;"></div>
-                                <div class="col-lg-4" style="padding-bottom:15px;">
-                                    <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3" style="padding-bottom:20px;">
-                    <div style="background-color:#f15a22;">
-                        <center>
-                            <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
-                        </center>
-                    </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="detail">
 
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row" style="padding-top:15px;">
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="check_hold_booking();" style="width:100%;"/>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                        <div class="col-lg-4" style="padding-bottom:15px;">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
+                        </div>
                     </div>
                 </div>
             </div>

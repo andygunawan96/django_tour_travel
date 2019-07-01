@@ -129,19 +129,19 @@ $(document).ready(function() {
         navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
         responsive:{
             0:{
-                items:4,
+                items:1,
                 nav:true
             },
             480:{
-                items:4,
+                items:1,
                 nav:true
             },
             768:{
-                items:4,
+                items:3,
                 nav:true
             },
             961:{
-                items:4,
+                items:3,
                 nav:true,
             }
         }

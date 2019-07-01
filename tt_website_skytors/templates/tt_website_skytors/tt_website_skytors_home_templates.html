@@ -99,6 +99,14 @@
     <div class="animated fadeInDown delay-1s">
         <div class="container">
             <div class="row">
+                <ul class="cb-slideshow">
+                    <li><span>Image 01</span></li>
+                    <li><span>Image 02</span></li>
+                    <li><span>Image 03</span></li>
+                    <li><span>Image 04</span></li>
+                    <li><span>Image 05</span></li>
+                    <li><span>Image 06</span></li>
+                </ul>
                 {% if username != null %}
                 <input type="hidden" id="country_id"/>
                 <input type="hidden" id="start"/>
@@ -714,35 +722,40 @@
                             </div>
 
                             <!--VISA-->
-                            <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="activity-tab">
+                            <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
                                 <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <span class="span-search-ticket">Destination</span>
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
 
-                                                </select>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <span class="span-search-ticket">Departure Date</span>
                                             <div class="form-group">
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                     <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                 </div>
-
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <span class="span-search-ticket">Consulate</span>
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-city icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
 
-                                                </select>
+                                                    </select>
+                                                </div>
                                             </div>
                                             <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
                                         </div>
@@ -778,7 +791,7 @@
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
-                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> TERBAIK</h4>
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> HARGA BERSAING</h4>
                     <p>RODEX TRIP telah bekerja sama dengan banyak ribuan jaringan.</p>
                 </div>
             </div>
@@ -790,7 +803,7 @@
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
-                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> KITA PASTI BISA</h4>
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> MUDAH DAN AMAN</h4>
                     <p>RODEX TRIP memiliki harga yang sangat bersahabat.</p>
                 </div>
             </div>
@@ -810,7 +823,7 @@
                 </div>
             </div>
             <div class="col-lg-12">
-                <div class="owl-carousel owl-theme">
+                <div class="owl-carousel-suggest owl-theme">
                     <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">

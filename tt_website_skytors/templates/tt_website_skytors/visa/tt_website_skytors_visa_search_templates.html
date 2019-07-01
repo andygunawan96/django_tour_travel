@@ -23,14 +23,17 @@
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                     <span class="span-search-ticket">Destination</span>
-                                    <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
 
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                     <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                     <span class="span-search-ticket">Departure Date</span>
                                     <div class="form-group">
                                         <div class="input-container-search-ticket">
@@ -40,12 +43,15 @@
 
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                     <span class="span-search-ticket">Consulate</span>
-                                    <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-city icon-search-ticket"></i>
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
 
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                     <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
                                 </div>
@@ -69,27 +75,19 @@
 
         <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <form action="{% url 'tt_website_skytors:visa_passenger'%}" method="POST" id="visa_passenger">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-9" style="margin-top:10px;">
-                    <div class="row" class="sorting-search-train" id="sorting-search-train">
-                        <div class="col-lg-12">
-                            <div id="sorting-train" style="margin-bottom:15px;">
-
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-lg-8" style="margin-top:10px;">
                     <div class="row" id="loading-search-visa">
                         <div class="col-lg-12">
                             <div class="sk-circle">
@@ -116,8 +114,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3" style="margin-top:10px;">
-                    <div style="background-color:white; padding:10px;" class="filter-search-train" id="filter-search-train">
+                <div class="col-lg-4" style="margin-top:10px;">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" class="filter-search-train" id="filter-search-train">
                         <div class="row">
                             <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
                                 <div id="detail">
@@ -131,98 +129,6 @@
         </form>
     </div>
 </section>
-
-<footer class="footer-area section-gap">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn primary-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget mail-chimp">
-                    <h6 class="mb-20">InstaFeed</h6>
-                    <ul class="instafeed d-flex flex-wrap">
-                        <li><img src="{{static_path}}img/i1.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i2.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i3.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i4.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i5.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i6.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i7.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i8.jpg" alt=""></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<div id="mybuttonfiltersort">
-    <button class="filtersort" data-toggle="modal" data-target="#myModalFilterSort">
-        <span style="color:white;"> Filter & Sorting </span>
-    </button>
-</div>
 
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
     <span style="color:white; font-size:20px;"><i class="fas fa-chevron-up"></i></span>

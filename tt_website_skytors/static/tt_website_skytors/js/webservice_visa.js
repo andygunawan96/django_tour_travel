@@ -108,16 +108,16 @@ function search_visa(){
                     node = document.createElement("div");
 
                     text= `
-                        <div style="background-color:white; margin-bottom:15px;" id="journey`+i+`">
+                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding-top:15px;" id="journey`+i+`">
                             <div class="row">
                                 <div class="col-lg-9">
                                     <div class="col-lg-12">
-                                        <table style="width:100%">
+                                        <table style="width:100%" id="list-of-passenger">
                                             <tr>
-                                                <td>Pax Type</td>
-                                                <td>Visa Type</td>
-                                                <td>Entry Type</td>
-                                                <td>Regular Type</td>
+                                                <th>Pax Type</th>
+                                                <th>Visa Type</th>
+                                                <th>Entry Type</th>
+                                                <th>Regular Type</th>
                                             </tr>
                                             <tr>
                                                 <td>`+msg.result.response.list_of_visa[i].pax_type[1]+`</td>
@@ -126,9 +126,9 @@ function search_visa(){
                                                 <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
                                             </tr>
                                         </table>
-                                        <div class="row">
-                                            <label>Qty: </label>
-                                            <input type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
+                                        <div style="margin-top:10px;">
+                                            <label>Qty : </label>
+                                            <input class="form-control" type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
                                         </div>
                                     </div>
                                 </div>
@@ -142,18 +142,17 @@ function search_visa(){
                                 </div>
                                 <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
                                     <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
-                                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:none;" id="flight_details_up0"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:block;" id="flight_details_down0"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                     </a>
                                 </div>
                             </div>
                         </div>
                         <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-bottom: 15px; border-top: 1px solid rgb(241, 90, 34); display: none;">
-                            <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white;">
-                                <span style="font-weight: bold;">Consulate Address</span><br/>
+                            <div id="journey0segment0" style="padding:10px; background-color:white; border-left:1px solid #cdcdcd; border-right:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
+                                <h6>Consulate Address</h6>
                                 <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>
-                                <br/>
-                                <span style="font-weight: bold;">Visa Required</span><br/>`;
+                                <h6>Visa Required</h6>`;
                                 for(j in msg.result.response.list_of_visa[i].requirements){
                                     text+=`<span>`+parseInt(parseInt(j)+1)+` `+msg.result.response.list_of_visa[i].requirements[j].name;
                                     if(msg.result.response.list_of_visa[i].requirements[j].description != '')
@@ -161,7 +160,7 @@ function search_visa(){
                                         `, `+msg.result.response.list_of_visa[i].requirements[j].description+`</span><br/>
                                     `;
                                     else
-                                        text+='<span><br/>';
+                                        text+='<span> - </span><br/>';
                                 }
 
                                 text+=`
