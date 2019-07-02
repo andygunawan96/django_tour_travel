@@ -79,8 +79,8 @@ function set_commission_price_visa(){
 function update_table(type){
     text = ''
     if(type == 'search'){
-        text += `<h4>Price detail</h4>
-                <table width="100%">`;
+        text += `<h4>Price detail</h4><hr/>
+                <table style="width:100%;">`;
         price = 0;
         commission = 0;
         for(i in visa){
@@ -104,10 +104,10 @@ function update_table(type){
 
         text+=`
                     <tr>
-                        <td>Grand Total</td>
-                        <td style="text-align:right;">IDR `+getrupiah(price)+`</td>
+                        <td><h6>Grand Total</h6></td>
+                        <td style="text-align:right;"><h6>IDR `+getrupiah(price)+`</h6></td>
                     </tr>
-                </table>`;
+                </table><br/>`;
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -115,22 +115,20 @@ function update_table(type){
         }
         text+=`
                 <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom:5px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Hide Commission"><br>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+                    <div class="col-lg-12" style="padding-bottom:10px;">
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+                    <div class="col-lg-12" style="padding-bottom:10px;">
                         <button class="primary-btn-ticket next-search-train ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
                             Next
                             <i class="fas fa-angle-right"></i>
@@ -140,8 +138,8 @@ function update_table(type){
                 </div>
                 `;
     }else if(type == 'passenger'){
-        text += `<h4>Price detail</h4>
-                <table width="100%">`;
+        text += `<h4>Price detail</h4><hr/>
+                <table style="width:100%; margin-bottom:10px;">`;
         price = 0;
         commission = 0;
         for(i in visa.list_of_visa){
@@ -161,8 +159,8 @@ function update_table(type){
 
         text+=`
                     <tr>
-                        <td>Grand Total</td>
-                        <td style="text-align:right;">IDR `+getrupiah(price)+`</td>
+                        <td><h6>Grand Total</h6></td>
+                        <td style="text-align:right;"><h6>IDR `+getrupiah(price)+`</h6></td>
                     </tr>
                 </table>`;
         try{
@@ -179,17 +177,17 @@ function update_table(type){
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Commission"><br>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+                    <div class="col-lg-12" style="padding-bottom:10px;">
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
                 </div>
                 `;
     }else if(type == 'review'){
-        text += `<h4>Price detail</h4>
-                <table width="100%">`;
+        text += `<h4>Price detail</h4><hr/>
+                <table style="width:100%; margin-bottom:10px;">`;
         price = 0;
         commission = 0;
         for(i in visa.list_of_visa){
@@ -209,8 +207,8 @@ function update_table(type){
 
         text+=`
                     <tr>
-                        <td>Grand Total</td>
-                        <td style="text-align:right;">IDR `+getrupiah(price)+`</td>
+                        <td><h6>Grand Total</h6></td>
+                        <td style="text-align:right;"><h6>IDR `+getrupiah(price)+`</h6></td>
                     </tr>
                 </table>`;
         try{
@@ -220,17 +218,17 @@ function update_table(type){
         }
         text+=`
                 <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <span style="font-size:13px;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Commission"><br>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+                    <div class="col-lg-12" style="padding-bottom:10px;">
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
                 </div>
