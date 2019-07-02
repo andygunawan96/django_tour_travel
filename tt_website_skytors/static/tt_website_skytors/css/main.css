@@ -6765,12 +6765,12 @@ th input {
     line-height: 200px;
 }
 .cb-slideshow li:nth-child(1) span {
-    background-image: url("../images/bg_4.jpg");
+    background-image: url("../images/bg_7.jpg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 .cb-slideshow li:nth-child(2) span {
-    background-image: url("../images/bg_7.jpg");
+    background-image: url("../images/bg_8.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-animation-delay: 6s;
@@ -6780,7 +6780,7 @@ th input {
     animation-delay: 6s;
 }
 .cb-slideshow li:nth-child(3) span {
-    background-image: url("../images/bg_8.jpg");
+    background-image: url("../images/bg_9.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-animation-delay: 12s;
@@ -6790,7 +6790,7 @@ th input {
     animation-delay: 12s;
 }
 .cb-slideshow li:nth-child(4) span {
-    background-image: url("../images/bg_9.jpg");
+    background-image: url("../images/bg_10.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-animation-delay: 18s;
@@ -6800,7 +6800,7 @@ th input {
     animation-delay: 18s;
 }
 .cb-slideshow li:nth-child(5) span {
-    background-image: url("../images/bg_10.jpg");
+    background-image: url("../images/bg_11.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-animation-delay: 24s;
@@ -6810,7 +6810,7 @@ th input {
     animation-delay: 24s;
 }
 .cb-slideshow li:nth-child(6) span {
-    background-image: url("../images/bg_11.jpg");
+    background-image: url("../images/bg_5.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-animation-delay: 30s;
