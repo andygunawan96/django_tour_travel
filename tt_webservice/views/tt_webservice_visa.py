@@ -75,10 +75,12 @@ def api_models(request):
     return Response(res)
 
 def login(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "signin",
-        "signature": ''
-    })
+        "signature": '',
+    }
 
     data = {
         "user": user_global,
@@ -128,10 +130,12 @@ def search(request):
         "departure_date": departure_date,
         "provider": 'skytors_visa'
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "search",
         "signature": request.session['visa_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
 
@@ -211,12 +215,12 @@ def sell_visa(request):
         'pax': request.session['visa_passenger'],
         "provider": 'skytors_visa'
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "sell_visa",
-        "signature": request.session['visa_signature']
-
-    })
-
+        "signature": request.session['visa_signature'],
+    }
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
 
@@ -226,10 +230,12 @@ def update_contact(request):
         'booker': request.session['visa_create_passengers']['booker'],
         'contacts': request.session['visa_create_passengers']['contact']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "update_contact",
-        "signature": request.session['visa_signature']
-    })
+        "signature": request.session['visa_signature'],
+    }
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
@@ -284,10 +290,12 @@ def update_passengers(request):
     data = {
         'passengers': passengers
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "update_passenger",
-        "signature": request.session['visa_signature']
-    })
+        "signature": request.session['visa_signature'],
+    }
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     return res
@@ -301,10 +309,12 @@ def commit_booking(request):
     data = {
         'force_issued': force_issued
     }
-    headers.update({
-        "action": "commit_booking", #get_ssr_availability
-        "signature": request.session['visa_signature']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "commit_booking",
+        "signature": request.session['visa_signature'],
+    }
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
 

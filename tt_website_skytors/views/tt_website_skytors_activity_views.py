@@ -70,7 +70,7 @@ def search(request):
             'activity_categories': activity_categories,
             'activity_types': activity_types,
             'activity_countries': activity_countries,
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'query': request.POST['themespark_query'],
             'parsed_country': request.POST['themespark_countries'] and int(request.POST['themespark_countries']) or '',
@@ -91,7 +91,7 @@ def detail(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'response': request.session['activity_search'][int(request.POST['sequence'])],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
@@ -292,7 +292,7 @@ def passenger(request):
             'childs': child,
             'price': request.session['activity_price']['result']['response'][int(request.POST['event_pick'])][int(request.POST['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.POST['activity_type_pick'])],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
@@ -1009,7 +1009,7 @@ def review(request):
             'childs': child,
             'price': request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.session['activity_request']['activity_type_pick'])],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             # 'booker': booker,
             # 'adults': adult,
@@ -1038,7 +1038,7 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'order_number': request.POST['order_number'],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit']

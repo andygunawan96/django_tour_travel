@@ -119,48 +119,51 @@ def search(request):
 
         providers = []
         try:
-            if request.POST['radio_airline_type'] == 'roundtrip':
-                direction = 'RT'
-                return_date = request.POST['airline_return']
-            else:
+            try:
+                if request.POST['radio_airline_type'] == 'roundtrip':
+                    direction = 'RT'
+                    return_date = request.POST['airline_return']
+                else:
+                    direction = 'OW'
+                    return_date = request.POST['airline_departure']
+                    print('no return')
+            except:
                 direction = 'OW'
                 return_date = request.POST['airline_departure']
                 print('no return')
-        except:
-            direction = 'OW'
-            return_date = request.POST['airline_departure']
-            print('no return')
 
-        try:
-            if request.POST['is_combo_price'] == '':
-                is_combo_price = 'true'
-        except:
-            is_combo_price = 'false'
-
-
-        for provider in airline_provider_list:
             try:
-                providers.append(request.POST['provider_box_'+provider['value']])
-
+                if request.POST['is_combo_price'] == '':
+                    is_combo_price = 'true'
             except:
-                print('%s %s' % ('no ', provider))
+                is_combo_price = 'false'
+
+
+            for provider in airline_provider_list:
+                try:
+                    providers.append(request.POST['provider_box_'+provider['value']])
+
+                except:
+                    print('%s %s' % ('no ', provider))
 
 
 
-        airline_request = {
-            'origin': request.POST['origin_id_flight'],
-            'destination': request.POST['destination_id_flight'],
-            'departure': request.POST['airline_departure'],
-            'return': return_date,
-            'direction': direction,
-            'adult': int(request.POST['adult_flight']),
-            'child': int(request.POST['child_flight']),
-            'infant': int(request.POST['infant_flight']),
-            'cabin_class': request.POST['cabin_class_flight'],
-            'provider': providers,
-            'is_combo_price': is_combo_price,
-            'carrier_codes': []
-        }
+            airline_request = {
+                'origin': request.POST['origin_id_flight'],
+                'destination': request.POST['destination_id_flight'],
+                'departure': request.POST['airline_departure'],
+                'return': return_date,
+                'direction': direction,
+                'adult': int(request.POST['adult_flight']),
+                'child': int(request.POST['child_flight']),
+                'infant': int(request.POST['infant_flight']),
+                'cabin_class': request.POST['cabin_class_flight'],
+                'provider': providers,
+                'is_combo_price': is_combo_price,
+                'carrier_codes': []
+            }
+        except:
+            airline_request = request.session['airline_request']
 
         check = 2
         flight = ''
@@ -196,7 +199,7 @@ def search(request):
             'airline_provider_list': airline_provider_list,
             'airline_cabin_class_list': airline_cabin_class_list,
             'airline_carriers': airline_carriers,
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -250,23 +253,24 @@ def passenger(request):
             infant.append('')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-        request.session['airline_pick'] = request.POST['airline_pick']
-
+        try:
+            request.session['airline_pick'] = request.POST['airline_pick']
+        except:
+            pass
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': airline_country,
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
             'airline_carriers': airline_carriers,
-            'airline_pick': request.POST['airline_pick'],
+            'airline_pick': request.session['airline_pick'],
             'adults': adult,
             'childs': child,
             'infants': infant,
             'adult_title': adult_title,
             'infant_title': infant_title,
             'id_types': id_type,
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -411,7 +415,7 @@ def ssr(request):
             'airline_pick': request.session['airline_pick'],
             'airline_ssrs': request.session['airline_ssr'],
             'passengers': passenger,
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -612,7 +616,7 @@ def review(request):
             'airline_get_price_request': request.session['airline_get_price_request'],
             'airline_carriers': airline_carriers,
             'additional_price': additional_price,
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers']
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -629,7 +633,7 @@ def booking(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),

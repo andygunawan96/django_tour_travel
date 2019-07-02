@@ -35,7 +35,6 @@
     console.log(passengers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-    document.getElementById('username').innerHTML = '{{username}}';
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
@@ -44,9 +43,9 @@
         <div class="row">
             <div class="col-lg-12" style="margin-top:10px;">
                 <ul class="progressbar">
-                    <li class="active" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="active" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li class="active" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
                     <li><span>Book <i class="fas fa-book-open"></i></span></li>
                     <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
                 </ul>

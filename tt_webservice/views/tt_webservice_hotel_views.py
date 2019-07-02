@@ -65,9 +65,12 @@ def login(request):
         "api_key": api_key_hotel,
         'co_uid': int(request.session['co_uid'])
     }
-    headers.update({
-        "action": 'signin'
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": ''
+    }
     res = util.send_request(url=url + "hotel/session", data=data, headers=headers, method='POST')
 
     request.session['hotel_sid'] = res['result']['sid']
@@ -123,11 +126,12 @@ def search(request):
         'room': int(request.POST['room'])
     }
     request.session['hotel_request'] = data
-    headers.update({
-        "action": 'search',
-        # "action": 'search',
-        "sid": request.session['hotel_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "search",
+        "signature": request.session['hotel_signature']
+    }
     res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST', timeout=300)
 
     counter = 0
@@ -181,10 +185,12 @@ def detail(request):
         'check_out': str(datetime.strptime(request.POST['check_out'], '%d %b %Y'))[:10],
         'pax_country': False
     })
-    headers.update({
-        "action": 'hotel_search_detail',
-        "sid": request.session['hotel_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "hotel_search_detail",
+        "signature": request.session['train_signature'],
+    }
     res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
     request.session['hotel_detail'] = res
     return res
@@ -195,10 +201,12 @@ def get_cancellation_policy(request):
         "price_code": request.POST['price_code'],
         "provider": request.POST['provider']
     }
-    headers.update({
-        "action": 'get_cancellation_policy',
-        "sid": request.session['hotel_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_cancellation_policy",
+        "signature": request.session['train_signature'],
+    }
     res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
 
     request.session['hotel_cancellation_policy'] = res
@@ -210,10 +218,12 @@ def provision(request):
         'price_code': request.POST['price_code'],
         'provider': request.POST['provider']
     }
-    headers.update({
-        "action": 'provision',
-        "sid": request.session['hotel_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "provision",
+        "signature": request.session['train_signature'],
+    }
     res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
 
     request.session['hotel_provision'] = res
@@ -258,11 +268,12 @@ def create_booking(request):
         'os_res_no': '',
         'journeys_booking': ''
     }
-
-    headers.update({
-        "action": 'create_booking',
-        "sid": request.session['hotel_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "create_booking",
+        "signature": request.session['train_signature'],
+    }
     res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
 
 

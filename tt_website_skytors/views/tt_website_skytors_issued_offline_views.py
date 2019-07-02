@@ -40,20 +40,20 @@ def issued_offline(request):
 
         train_destination = response['result']['response']['train']
 
-        get_balance(request)
+        # get_balance(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'issued_offline_data': response['result']['response']['issued_offline'],
-            'agent': request.session['agent'],
+            # 'agent': request.session['agent'],
             'airline_destinations': airline_destinations,
             'train_destination': train_destination,
-            'username': request.session['username'],
-            'co_uid': request.session['co_uid'],
+            'username': request.session['user_account'],
+            # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_templates.html', values)
@@ -76,7 +76,7 @@ def issued_offline_history(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_history_templates.html', values)

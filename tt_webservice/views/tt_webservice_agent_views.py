@@ -41,8 +41,6 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = signin(request)
-        elif req_data['action'] == 'get_balance':
-            res = get_balance(request)
         elif req_data['action'] == 'url':
             res = get_url()
         elif req_data['action'] == 'get_agent_booker':
@@ -72,10 +70,12 @@ def api_models(request):
     return Response(res)
 
 def signin(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "signin",
         "signature": ''
-    })
+    }
 
     data = {
         "user": user_global,
@@ -88,29 +88,18 @@ def signin(request):
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:
-
-        request.session['username'] = request.POST['username'] #res['result']['response']['agent_details']['name']
-        # request.session['agent'] = res['result']['response']['agent_details']
-        # request.session['co_uid'] = res['result']['response']['co_uid']
-        # request.session['agent_sid'] = res['result']['sid']
-        # request.session['agent_cookie'] = res['result']['cookies']
-        # request.session['company_details'] = res['result']['response']['company_details']
         request.session['signature'] = res['result']['response']['signature']
 
-        #tambah add balance here
-        # data = {
-        #     'agent_id': res['result']['response']['agent_details']['id']
-        # }
-        # headers.update({
-        #     "action": "get_agent_balance",
-        #     "sid": res['result']['sid'],
-        # })
-        # res_balance = util.send_request(url=url + 'agent/session', data=data, headers=headers, cookies=res['result']['cookies'], method='POST')
-        #
-        # request.session['balance'] = {
-        #     'balance': res_balance['result']['response']['balance'],
-        #     'credit_limit': res_balance['result']['response']['credit_limit']
-        # }
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_account",
+            "signature": request.session['signature'],
+        }
+
+        res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+        request.session['user_account'] = res_user['result']['response']
 
         try:
             if res['result']['error_code'] == 0:
@@ -141,147 +130,85 @@ def signin(request):
             data = {
                 'provider': 'skytors_visa'
             }
-            headers.update({
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_config",
                 "signature": request.session['signature'],
-            })
+            }
 
             res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
             #
 
             #issuedoffline
-            data = {}
-            headers.update({
+            data = {
+                'provider': 'skytors_issued_offline'
+            }
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_config",
-                "sid": res['result']['sid'],
-            })
-            res_config_issued_offline = util.send_request(url=url + 'agent/issued_offline', data=data, headers=headers,
-                                            cookies=res['result']['cookies'], method='POST')
+                "provider": 'skytors_issued_offline',
+                "signature": request.session['signature'],
+            }
+
+            res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
+
+            # return res
 
             #train
-            data = {
-                "user": user,
-                "password": password,
-                'api_key': api_key_train,
-                'co_uid': res['result']['response']['co_uid']
-            }
-            headers.update({
-                "action": 'signin'
-            })
-            headers.pop('sid')
-            res_train = util.send_request(url=url+"train/session", data=data, headers=headers, method='POST')
-
             data = {}
-            headers.update({
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_origins",
-                "sid": res_train['result']['sid'],
-            })
+                "signature": request.session['signature'],
+            }
 
             res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, cookies=res_train['result']['cookies'], method='POST')
 
             #activity
-            data = {
-                "user": user,
-                "password": password,
-                'api_key': api_key_activity,
-                'co_uid': res['result']['response']['co_uid']
-            }
-            headers.update({
-                "action": 'signin'
-            })
-            headers.pop('sid')
-            res_activity = util.send_request(url=url + "themespark/session", data=data, headers=headers, method='POST')
-
             data = {}
-            headers.update({
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_config2",
-                "sid": res_activity['result']['sid'],
-            })
+                "signature": request.session['signature'],
+            }
 
             res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
                                                  cookies=res_activity['result']['cookies'], method='POST')
 
-            #hotel
-            data = {
-                "user": user,
-                "password": password,
-                'api_key': api_key_hotel,
-                'co_uid': res['result']['response']['co_uid']
-            }
-            headers.update({
-                "action": 'signin'
-            })
-            headers.pop('sid')
-            res_hotel = util.send_request(url=url + "hotel/session", data=data, headers=headers, method='POST')
-
-            data = {}
-            headers.update({
-                "action": 'get_autocomplete',
-                "sid": res_hotel['result']['sid'],
-            })
-            res_hotel = util.send_request(url=url + "hotel/session", data=data, headers=headers, method='POST')
-
-            res_hotel_auto_complete = [{
-                    'id': hotel['id'],
-                    'name': hotel['name'],
-                    'type': 'Country'
-            } for hotel in res_hotel['result']['response']['country_ids']]
-
-            res_hotel_auto_complete += [{
-                    'id': hotel['id'],
-                    'name': hotel['name'],
-                    'type': 'City'
-            } for hotel in res_hotel['result']['response']['city_ids']]
-
-            res_hotel_auto_complete += [{
-                'id': hotel['id'],
-                'name': hotel['name'],
-                'type': 'Hotel'
-            } for hotel in res_hotel['result']['response']['hotel_ids']]
-
-            res_hotel_auto_complete += [{
-                    'id': hotel['id'],
-                    'name': hotel['name'],
-                    'type': 'Landmark'
-            } for hotel in res_hotel['result']['response']['landmark_ids']]
-
-
             #airline
-            data = {
-                "user": user,
-                "password": password,
-                'api_key': api_key_airline,
-                'co_uid': res['result']['response']['co_uid']
-            }
-            headers.update({
-                "action": 'signin'
-            })
-            headers.pop('sid')
-            res_airline = util.send_request(url=url + "airlines/session", data=data, headers=headers, method='POST')
-
             data = {}
-            headers.update({
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_countries",
-                "sid": res_airline['result']['sid'],
-            })
+                "signature": request.session['signature'],
+            }
 
             res_country_airline = util.send_request(url=url + 'airlines/session', data=data, headers=headers,
                                                     cookies=res_airline['result']['cookies'], method='POST')
 
             data = {}
-            headers.update({
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_carriers",
-                "sid": res_airline['result']['sid'],
-            })
+                "signature": request.session['signature'],
+            }
 
             res_carrier_airline = util.send_request(url=url + 'airlines/session', data=data, headers=headers,
                                                     cookies=res_airline['result']['cookies'], method='POST')
 
             data = {}
-            headers.update({
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
                 "action": "get_destinations",
-                "sid": res_airline['result']['sid'],
-            })
+                "signature": request.session['signature'],
+            }
 
             res_destination_airline = util.send_request(url=url + 'airlines/session', data=data, headers=headers,
                                                     cookies=res_airline['result']['cookies'], method='POST')
@@ -313,34 +240,16 @@ def signin(request):
 
     return res['result']['error_code']
 
-def get_balance(request):
-
-    data = {
-        "agent_id": request.session['agent']['id'],
-    }
-    headers.update({
-        "action": "get_agent_balance",
-        "sid": request.session['agent_sid'],
-    })
-
-    res = util.send_request(url=url+'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
-    if res['result']['error_code'] == 0:
-        request.session['balance'] = {
-            'balance': res['result']['response']['balance'],
-            'credit_limit': res['result']['response']['credit_limit']
-        }
-    return res
-
 def get_url():
     return url_web
 
 def get_agent_booker(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_agent_booker",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {
         "agent_id": request.session['agent']['id'],
@@ -370,10 +279,12 @@ def get_agent_booker(request):
     return res
 
 def get_agent_passenger(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_agent_passenger",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {
         "agent_id": request.session['agent']['id'],
@@ -410,11 +321,12 @@ def get_agent_passenger(request):
 #BACKEND
 
 def get_agent_booking(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_agent_booking",
-        "sid": request.session['agent_sid'],
-    })
-
+        "signature": request.session['signature'],
+    }
     data = {
         "co_uid": int(request.session['co_uid']),
         "offset": int(request.POST['offset']),
@@ -428,11 +340,12 @@ def get_agent_booking(request):
     return res
 
 def get_top_up(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_top_up",
-        "sid": request.session['agent_sid'],
-    })
-
+        "signature": request.session['signature'],
+    }
     data = {
         "co_uid": int(request.session['co_uid']),
         "offset": int(request.POST['offset']),
@@ -444,11 +357,12 @@ def get_top_up(request):
     return res
 
 def get_top_up_amount(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_top_up_amount",
-        "sid": request.session['agent_sid'],
-    })
-
+        "signature": request.session['signature'],
+    }
     data = {}
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
@@ -456,10 +370,12 @@ def get_top_up_amount(request):
     return res
 
 def create_top_up(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "create_top_up",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {
         "amount_id": request.POST['amount_id'],
@@ -473,10 +389,12 @@ def create_top_up(request):
     return res
 
 def top_up_payment(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "top_up_payment",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {
         "token": request.POST['token'],
@@ -488,10 +406,12 @@ def top_up_payment(request):
     return res
 
 def get_merchant_info(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_merchant_info",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {}
     res = util.send_request(url=url + 'payment/session', data=data,
@@ -500,10 +420,12 @@ def get_merchant_info(request):
     return res
 
 def request_va(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "request_va",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {}
     res = util.send_request(url=url + 'payment/session', data=data,
@@ -512,10 +434,12 @@ def request_va(request):
     return res
 
 def request_inv_va(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "request_inv_va",
-        "sid": request.session['agent_sid'],
-    })
+        "signature": request.session['signature'],
+    }
 
     data = {
         'amount': '1000.00',

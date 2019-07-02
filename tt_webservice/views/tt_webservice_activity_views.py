@@ -69,9 +69,11 @@ def login(request):
         'api_key': api_key_activity,
         'co_uid': int(request.session['co_uid'])
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": 'signin'
-    })
+    }
     res = util.send_request(url=url + "themespark/session", data=data, headers=headers, method='POST')
     request.session['activity_sid'] = res['result']['sid']
     request.session['activity_cookie'] = res['result']['cookies']
@@ -92,10 +94,12 @@ def search2(request):
         'limit': int(request.POST['limit']),
         'offset': int(request.POST['offset']),
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "search2",
         "sid": request.session['activity_sid'],
-    })
+    }
 
     res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
 
@@ -126,10 +130,12 @@ def get_details2(request):
     data = {
         'uuid': request.POST['uuid']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_details2",
         "sid": request.session['activity_sid'],
-    })
+    }
 
     res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
     try:
@@ -158,10 +164,12 @@ def get_pricing2(request):
         'date_end': to_date_now((datetime.now()+timedelta(days=365)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
         "provider": request.POST['provider']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_pricing2",
         "sid": request.session['activity_sid'],
-    })
+    }
 
     res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
     request.session['activity_price'] = res
@@ -254,10 +262,12 @@ def create_booking(request):
         "provider": request.session['activity_pick']['provider'],
         "upload_value": request.session['activity_review_booking']['upload_value']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "create_booking",
         "sid": request.session['activity_sid'],
-    })
+    }
 
     res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
                             cookies=request.session['activity_cookie'], method='POST')
@@ -271,10 +281,12 @@ def get_booking(request):
     data = {
         'order_number': request.POST['order_number']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_booking2",
         "sid": request.session['activity_sid'],
-    })
+    }
 
     res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
     return res
@@ -284,10 +296,12 @@ def get_voucher(request):
     data = {
         'order_number': request.session['activity_order_number']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_vouchers2",
         "sid": request.session['activity_sid'],
-    })
+    }
 
     res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
     return res

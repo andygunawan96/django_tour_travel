@@ -15,7 +15,7 @@ function get_data_issued_offline(){
            issued_offline_data = msg;
            text = '<option value=""></option>';
            for(i in issued_offline_data.transaction_type){
-               text+= `<option value='`+issued_offline_data.transaction_type[i][0]+`'>`+issued_offline_data.transaction_type[i][1]+`</option>`;
+               text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
            $('#transaction_type').niceSelect('update');
@@ -27,12 +27,12 @@ function get_data_issued_offline(){
            document.getElementById('sector').innerHTML = text;
            $('#sector').niceSelect('update');
 
-           text = '<option value=""></option>';
-           for(i in issued_offline_data.carrier_id){
-               text+= `<option value='`+issued_offline_data.carrier_id[i].id+`'>`+issued_offline_data.carrier_id[i].name+`</option>`;
-           }
-           document.getElementById('carrier_id').innerHTML = text;
-           $('#carrier_id').niceSelect('update');
+//           text = '<option value=""></option>';
+//           for(i in issued_offline_data.carrier_id){
+//               text+= `<option value='`+issued_offline_data.carrier_id[i].id+`'>`+issued_offline_data.carrier_id[i].name+`</option>`;
+//           }
+//           document.getElementById('carrier_id').innerHTML = text;
+//           $('#carrier_id').niceSelect('update');
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.social_media_id){
@@ -40,13 +40,86 @@ function get_data_issued_offline(){
            }
            document.getElementById('social_media').innerHTML = text;
            $('#social_media').niceSelect('update');
+           var carrier = document.getElementById("carrier_name");
+           for(i in msg.carrier_id){
+                var node = document.createElement("option");
+                node.text = msg.carrier_id[i].name;
+                node.value = msg.carrier_id[i].id;
+                try{
+                }catch(err){
+                }
+                carrier.add(node);
+           }
 
-            console.log(msg);
+           console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
     });
+}
+
+function get_data2(data){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/issued_offline",
+       headers:{
+            'action': 'get_data2',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+           console.log(msg);
+           issued_offline_data = msg;
+           text = '<option value=""></option>';
+           for(i in issued_offline_data.transaction_type){
+               text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
+           }
+           console.log(text);
+           document.getElementById('transaction_type').innerHTML = text;
+           $('#transaction_type').niceSelect('update');
+
+           text = '<option value=""></option>';
+           for(i in issued_offline_data.sector_type){
+               text+= `<option value='`+issued_offline_data.sector_type[i][0]+`'>`+issued_offline_data.sector_type[i][1]+`</option>`;
+           }
+           document.getElementById('sector').innerHTML = text;
+           $('#sector').niceSelect('update');
+
+//           text = '<option value=""></option>';
+//           for(i in issued_offline_data.carrier_id){
+//               text+= `<option value='`+issued_offline_data.carrier_id[i].id+`'>`+issued_offline_data.carrier_id[i].name+`</option>`;
+//           }
+//           document.getElementById('carrier_id').innerHTML = text;
+//           $('#carrier_id').niceSelect('update');
+
+           text = '<option value=""></option>';
+           for(i in issued_offline_data.social_media_id){
+               text+= `<option value='`+issued_offline_data.social_media_id[i].name+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
+           }
+           document.getElementById('social_media').innerHTML = text;
+           $('#social_media').niceSelect('update');
+           var carrier = document.getElementById("carrier_name");
+           var node = document.createElement("option");
+           node.text = '';
+           node.value = '';
+           carrier.add(node);
+           for(i in msg.carrier_id){
+                var node = document.createElement("option");
+                node.text = msg.carrier_id[i].name;
+                node.value = msg.carrier_id[i].id;
+                try{
+                }catch(err){
+                }
+                carrier.add(node);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+
 }
 
 function create_issued_offline(){

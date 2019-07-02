@@ -197,7 +197,7 @@ def index(request):
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'cache': json.dumps(cache),
                     # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-                    'username': request.session['username'],
+                    'username': request.session['user_account'],
                     # 'co_uid': request.session['co_uid'],
                     'airline_provider_list': airline_provider_list,
                     'airline_cabin_class_list': airline_cabin_class_list,
@@ -224,7 +224,7 @@ def index(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-    return render(request, MODEL_NAME+'/tt_website_skytors_home_templates.html', values)
+    return render(request, MODEL_NAME+'/testing.html', values)
 
 def login(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -262,7 +262,7 @@ def reservation(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'airline_carriers': new_airline_carriers,
         'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['username']
+        'username': request.session['user_account']
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_reservation_templates.html', values)
 
@@ -273,7 +273,7 @@ def top_up(request):
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['username']
+        'username': request.session['user_account']
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
 
@@ -294,7 +294,7 @@ def top_up_payment(request):
             },
             'agent': request.session['agent'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-            'username': request.session['username']
+            'username': request.session['user_account']
         }
         return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_payment_templates.html', values)
     except:
@@ -310,7 +310,7 @@ def top_up_history(request):
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['username']
+        'username': request.session['user_account']
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_history_templates.html', values)
 

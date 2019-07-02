@@ -19,13 +19,15 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
 
-    visa_request = {
-        'destination': request.POST['visa_destination_id'],
-        'departure': request.POST['visa_departure'],
-        'consulate': request.POST['visa_consulate_id'],
-    }
-
-    request.session['visa_request'] = visa_request
+    try:
+        visa_request = {
+            'destination': request.POST['visa_destination_id'],
+            'departure': request.POST['visa_departure'],
+            'consulate': request.POST['visa_consulate_id'],
+        }
+        request.session['visa_request'] = visa_request
+    except:
+        visa_request = request.session['visa_request']
 
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -33,7 +35,7 @@ def search(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'visa_request': visa_request,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['username']
+        'username': request.session['user_account']
     }
     return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_search_templates.html', values)
 
@@ -132,7 +134,7 @@ def passenger(request):
         'id_types': id_type,
         # 'visa_request': visa_request,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['username']
+        'username': request.session['user_account']
     }
     return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_passenger_templates.html', values)
 
@@ -250,6 +252,16 @@ def review(request):
             'infant': infant,
             'contact': contact
         }
+        pax = request.session['visa_create_passengers']
+
+        count = 1
+        for i in pax:
+            if i != 'booker' and i != 'contact':
+                for passenger in pax[i]:
+                    passenger.update({
+                        'number': count
+                    })
+                    count = count + 1
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -257,9 +269,9 @@ def review(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'visa': request.session['visa_search']['result']['response'],
             'type': request.session['list_of_visa_type'],
-            'passengers': request.session['visa_passenger'],
+            'passengers': pax,
             'pax': request.session['visa_create_passengers'],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 

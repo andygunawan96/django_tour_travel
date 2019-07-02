@@ -8,6 +8,8 @@
 <script src="{{ static_path }}js/webservice_agent.js"></script>
 <script src="{{ static_path }}js/webservice_visa.js"></script>
 <script src="{{ static_path }}js/visa_javascript.js"></script>
+<script src="{{ static_path }}js/agent_javascript.js"></script>
+<script src="{{ static_path }}js/pricing_javascript.js"></script>
 
 <script>
     passenger = `{{passengers}}`;
@@ -24,8 +26,49 @@
     pax = `{{pax}}`;
     pax = JSON.parse(pax.replace(/&#39;/g, '"'));
     console.log(pax);
-    document.getElementById('username').innerHTML = '{{username}}';
-    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    for(i in visa.list_of_visa){
+        if(visa.list_of_visa[i].total_pax > 0){
+            //pax type
+            check = 0;
+            for(j in pax_type){
+                if(pax_type[j][0] == visa.list_of_visa[i].pax_type[0]){
+                    check = 1;
+                    break;
+                }
+            }
+            if(check == 0)
+                pax_type.push(visa.list_of_visa[i].pax_type);
+
+            //type amount
+            check = 0;
+            for(j in visa.list_of_visa[i].sale_price){
+                if(type_amount.length == 0 && j != "commission" && j != 'currency' && j != 'total_price'){
+                    type_amount.push(j);
+                }else if(j == 'total_price'){
+                    price_arr[visa.list_of_visa[i].pax_type[1]] = {
+                        'total_price': visa.list_of_visa[i].sale_price.total_price
+                    }
+                }
+                for(k in type_amount){
+                    if(type_amount[k] != j && j != "commission" && j != 'currency' && j != 'total_price'){
+                        type_amount.push(j);
+                    }
+                }
+            }
+
+        }
+    }
+    for(i in price_arr){
+        total = 0
+        for(j in price_arr[i]){
+            total += price_arr[i][j];
+        }
+        price_arr[i]['total'] = total;
+    }
+    console.log(type_amount);
+    console.log(pax_type);
+    console.log(price_arr);
+
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -33,9 +76,9 @@
         <div class="row">
             <div class="col-lg-12" style="margin-top:10px;">
                 <ul class="progressbar">
-                    <li class="active" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="active" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:visa_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:visa_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
                     <li><span>Book <i class="fas fa-book-open"></i></span></li>
                     <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
                 </ul>
@@ -101,7 +144,7 @@
                                                 {% for person in pax.adult %}
                                                 {% with forloop.counter as counter%}
                                                 <tr>
-                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td class="list-of-passenger-left">{{person.number}}</td>
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
                                                     <td>Adult</td>
                                                     <td>{{person.birth_date}}</td>
@@ -130,24 +173,66 @@
                                                 {% endwith %}
                                                 {% endfor %}
                                                 {% for person in pax.child %}
+                                                {% with forloop.counter as counter%}
                                                 <tr>
-                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td class="list-of-passenger-left">{{person.number}}</td>
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Child</td>
+                                                    <td>Adult</td>
                                                     <td>{{person.birth_date}}</td>
-                                                    <td id="child_price{{counter}}">Price</td>
-                                                    <td><a onclick="set_value_radio_first('child',{{counter}})">a</a></td>
+                                                    <td>
+                                                        {% for visa_type in type.visa_type.adult %}
+                                                        <input type="radio" checked="checked" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">{{visa_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for entry_type in type.entry_type.adult %}
+                                                        <input type="radio" checked="checked" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for process_type in type.process_type.adult %}
+                                                        <input type="radio" checked="checked" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>{{process_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td id="child_required{{counter}}"></td>
+                                                    <td id="child_price{{counter}}"> - </td>
+                                                    <td>
+                                                        <input type="hidden" id="child_check{{counter}}" value="false"/>
+                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('child',{{counter}})" />
+                                                    </td>
                                                 </tr>
+                                                {% endwith %}
                                                 {% endfor %}
                                                 {% for person in pax.infant %}
+                                                {% with forloop.counter as counter%}
                                                 <tr>
-                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td class="list-of-passenger-left">{{person.number}}</td>
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Infant</td>
+                                                    <td>Adult</td>
                                                     <td>{{person.birth_date}}</td>
-                                                    <td id="infant_price{{counter}}">Price</td>
-                                                    <td><a onclick="set_value_radio_first('infant',{{counter}})">a</a></td>
+                                                    <td>
+                                                        {% for visa_type in type.visa_type.adult %}
+                                                        <input type="radio" checked="checked" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">{{visa_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for entry_type in type.entry_type.adult %}
+                                                        <input type="radio" checked="checked" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td>
+                                                        {% for process_type in type.process_type.adult %}
+                                                        <input type="radio" checked="checked" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'process')" disabled>{{process_type.1}}<br/>
+                                                        {% endfor %}
+                                                    </td>
+                                                    <td id="infant_required{{counter}}"></td>
+                                                    <td id="infant_price{{counter}}"> - </td>
+                                                    <td>
+                                                        <input type="hidden" id="infant_check{{counter}}" value="false"/>
+                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('infant',{{counter}})" />
+                                                    </td>
                                                 </tr>
+                                                {% endwith %}
                                                 {% endfor %}
                                             </table>
                                         </div>
@@ -212,6 +297,64 @@
                 <div class="col-lg-4" style="padding-bottom:20px;">
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="detail">
 
+                    </div>
+                    <div id="pricing">
+                        <div class="col-lg-12 col-md-12 col-sm-12" style="max-height:500px; overflow-y:auto; border:1px solid red;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="padding-top:15px;">Pricing</h4>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:10px;" id="table_of_equation">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Fare</div>
+                                        <div class="col-lg-3">Tax</div>
+                                        <div class="col-lg-3">Total</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="adult">
+                                        <div class="col-lg-3">Adult</div>
+                                        <div class="col-lg-3" id="adult_fare">-</div>
+                                        <div class="col-lg-3" id="adult_tax">-</div>
+                                        <div class="col-lg-3" id="adult_total">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="child">
+                                        <div class="col-lg-3">Child</div>
+                                        <div class="col-lg-3" id="child_fare">-</div>
+                                        <div class="col-lg-3" id="child_tax">-</div>
+                                        <div class="col-lg-3" id="child_total">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row" id="infant">
+                                        <div class="col-lg-3">Infant</div>
+                                        <div class="col-lg-3" id="infant_fare">-</div>
+                                        <div class="col-lg-3" id="infant_tax">-</div>
+                                        <div class="col-lg-3" id="infant_total">-</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                    <hr/>
+                                    <center>
+                                        <input class="primary-btn-ticket" type="button" onclick="calculate();" value="Calculate">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-8">

@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_airline.js"></script>
 <script src="{{ static_path }}js/webservice_hotel.js"></script>
 <script src="{{ static_path }}js/webservice_visa.js"></script>
+<script src="{{ static_path }}js/webservice_account.js"></script>
 <script src="{{ static_path }}js/train_javascript.js"></script>
 <script src="{{ static_path }}js/visa_javascript.js"></script>
 <script src="{{ static_path }}js/activity_javascript.js"></script>
@@ -68,12 +69,11 @@
     {% endfor %}
 
     {% if username != undefined %}
-        console.log('here');
         //hotel_signin('home');
         get_airline_config('home');
         //get_train_config('home');
-        document.getElementById('username').innerHTML = '{{username}}';
-        //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+        get_balance();
+        get_transactions();
     {% endif %}
 
 </script>

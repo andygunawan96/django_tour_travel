@@ -47,7 +47,6 @@
         sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
         sub_category_list = [];
     {% endfor %}
-    document.getElementById('username').innerHTML = '{{username}}';
     document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 

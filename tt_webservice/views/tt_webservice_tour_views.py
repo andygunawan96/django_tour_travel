@@ -73,9 +73,13 @@ def signin(request):
         "co_password": password_default,  # request.POST['password'],
         "co_uid": "",
     }
-    headers.update({
-        "action": 'signin'
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": ''
+    }
+
     res = util.send_request(url=url + "session", data=data, headers=headers, method='POST')
     request.session['tour_signature'] = res['result']['response']['signature']
     res = get_countries(request)
@@ -93,10 +97,12 @@ def search(request):
         'budget_min': request.session['tour_request']['budget_min'],
         'budget_max': request.session['tour_request']['budget_max'],
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "search",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
 
@@ -126,10 +132,12 @@ def get_countries(request):
     data = {
         'provider': 'skytors_tour',
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_countries",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
@@ -140,10 +148,12 @@ def get_details(request):
         'provider': 'skytors_tour',
         'id': request.POST['id'],
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_details",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
@@ -154,10 +164,12 @@ def update_passenger(request):
         'provider': 'skytors_tour',
         'booking_data': request.session['booking_data'],
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "update_passenger",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
@@ -168,10 +180,12 @@ def get_booking(request):
         'provider': 'skytors_tour',
         'order_number': request.POST['order_number']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_booking",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
@@ -182,10 +196,12 @@ def commit_booking(request):
         'provider': 'skytors_tour',
         'force_issued': bool(request.POST['value'])
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "commit_booking",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
@@ -196,10 +212,12 @@ def issued(request):
         'provider': 'skytors_tour',
         'order_number': request.POST['order_number']
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "issued",
-        "signature": request.session['tour_signature'],
-    })
+        "signature": request.session['tour_signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
