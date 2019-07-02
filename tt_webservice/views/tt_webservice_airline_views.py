@@ -89,10 +89,12 @@ def api_models(request):
     return Response(res)
 
 def login(request):
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "signin",
         "signature": ''
-    })
+    }
 
     data = {
         "user": user_global,
@@ -169,10 +171,12 @@ def search2(request):
         "is_combo_price": is_combo_price
 
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "search",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
 
@@ -293,11 +297,12 @@ def get_price_itinerary(request):
     }
 
     request.session['airline_get_price_request'] = data
-
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_price_itinerary",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
 
@@ -328,11 +333,12 @@ def get_fare_rules(request):
     }
 
     request.session['airline_get_price_request'] = data
-
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "get_fare_rules",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
 
@@ -357,13 +363,14 @@ def sell_journeys(request):
         "adult": request.session['airline_get_price_request']['adult'],
         "child": request.session['airline_get_price_request']['child'],
         "infant": request.session['airline_get_price_request']['infant'],
-
         "journeys_booking": journeys_booking
     }
-    headers.update({
-        "action": "sell_journeys", #select_journey
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "sell_journeys",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
 
@@ -374,10 +381,12 @@ def update_contacts(request):
         'booker': request.session['airline_create_passengers']['booker'],
         'contacts': request.session['airline_create_passengers']['contact']
     }
-    headers.update({
-        "action": "update_contacts",  # select_journey
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_contacts",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
 
@@ -427,10 +436,12 @@ def update_passengers(request):
     data = {
         'passengers': passenger
     }
-    headers.update({
-        "action": "update_passengers",  # select_journey
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_passengers",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
 
@@ -442,10 +453,12 @@ def commit_booking(request):
     data = {
         'force_issued': bool(request.POST['value'])
     }
-    headers.update({
-        "action": "commit_booking", #get_ssr_availability
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "commit_booking",
         "signature": request.session['airline_signature'],
-    })
+    }
 
     res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST', timeout=300)
 
@@ -457,10 +470,13 @@ def commit_booking(request):
 def get_buy_information(request):
     #nanti ganti ke get_ssr_availability
     data = {}
-    headers.update({
-        "action": "get_buy_information", #get_ssr_availability
-        "sid": request.session['airline_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_buy_information",
+        "signature": request.session['airline_signature'],
+    }
+
 
     res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
 
@@ -545,10 +561,12 @@ def create_passengers(request):
         "kwargs": {},
         "promotion_codes_request": []
     }
-    headers.update({
-        "action": "create_passengers", #get_ssr_availability
-        "sid": request.session['airline_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "create_passengers",
+        "signature": request.session['airline_signature'],
+    }
 
     res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
 
@@ -612,10 +630,12 @@ def set_ssr_ff(request):
         "buy_ssrs_request": buy_ssrs_request,
         "ff_request": ff_request
     }
-    headers.update({
-        "action": "set_ssr_ff", #get_ssr_availability
-        "sid": request.session['airline_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "set_ssr_ff",
+        "signature": request.session['airline_signature'],
+    }
 
     res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
 
@@ -631,10 +651,12 @@ def get_booking(request):
         # 'order_number': 'TB.190329533467'
         'order_number': request.POST['order_number']
     }
-    headers.update({
-        "action": "get_booking",  # get_ssr_availability
-        "sid": request.session['airline_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_booking",
+        "signature": request.session['airline_signature'],
+    }
 
     res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers,
                             cookies=request.session['airline_cookie'], method='POST')
@@ -651,10 +673,12 @@ def issued(request):
         # 'order_number': 'TB.190329533467'
         'order_number': request.POST['order_number']
     }
-    headers.update({
-        "action": "issued",  # get_ssr_availability
-        "sid": request.session['airline_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "issued",
+        "signature": request.session['airline_signature'],
+    }
 
     res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers,
                             cookies=request.session['airline_cookie'], method='POST')

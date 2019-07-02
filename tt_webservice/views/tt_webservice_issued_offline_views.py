@@ -129,10 +129,12 @@ def create_issued_offline(request):
         "passenger_ids": passenger,
         "line_ids": line
     }
-    headers.update({
-        "action": 'create_issued_offline',
-        "sid": request.session['agent_sid'],
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "create_issued_offline",
+        "signature": request.session['signature'],
+    }
     res = util.send_request(url=url + "agent/issued_offline", data=data, cookies=request.session['agent_cookie'], headers=headers, method='POST')
     return res
 
@@ -142,9 +144,11 @@ def get_history_issued_offline(request):
         "offset": int(request.POST['offset']),
         "limit": 80
     }
-    headers.update({
-        "action": 'get_history_issued_offline',
-        "sid": request.session['agent_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_history_issued_offline",
+        "signature": request.session['train_signature'],
+    }
     res = util.send_request(url=url + "agent/issued_offline", data=data, cookies=request.session['agent_cookie'], headers=headers, method='POST')
     return res

@@ -38,19 +38,6 @@ function get_consulate(type){
     }
 }
 
-function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
-        }
-        priceshow+=temp.charAt(x);
-    }
-    return priceshow;
-}
-
 function set_price_visa(val){
     price = 0;
     qty = document.getElementById('qty_pax_'+val).value;
@@ -105,7 +92,7 @@ function update_table(type){
         text+=`
                     <tr>
                         <td><h6>Grand Total</h6></td>
-                        <td style="text-align:right;"><h6>IDR `+getrupiah(price)+`</h6></td>
+                        <td style="text-align:right;"><h6>`+visa[0].sale_price.currency+` `+getrupiah(price)+`</h6></td>
                     </tr>
                 </table><br/>`;
         try{
@@ -117,7 +104,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>
@@ -146,7 +133,7 @@ function update_table(type){
             text+=`
                     <tr>
                         <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
-                        <td style="text-align:right;">@IDR `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">@`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
                     </tr>`;
             try{
 
@@ -160,7 +147,7 @@ function update_table(type){
         text+=`
                     <tr>
                         <td><h6>Grand Total</h6></td>
-                        <td style="text-align:right;"><h6>IDR `+getrupiah(price)+`</h6></td>
+                        <td style="text-align:right;"><h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6></td>
                     </tr>
                 </table>`;
         try{
@@ -172,7 +159,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>
@@ -194,7 +181,7 @@ function update_table(type){
             text+=`
                     <tr>
                         <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
-                        <td style="text-align:right;">@IDR `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">@`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
                     </tr>`;
             try{
 
@@ -208,7 +195,7 @@ function update_table(type){
         text+=`
                     <tr>
                         <td><h6>Grand Total</h6></td>
-                        <td style="text-align:right;"><h6>IDR `+getrupiah(price)+`</h6></td>
+                        <td style="text-align:right;"><h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6></td>
                     </tr>
                 </table>`;
         try{
@@ -220,7 +207,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px;">Your Commission: +visa.list_of_visa[0].sale_price.currency+ `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>

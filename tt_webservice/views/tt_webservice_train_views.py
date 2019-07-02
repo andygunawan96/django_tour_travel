@@ -67,9 +67,13 @@ def login(request):
         'api_key': api_key_train,
         'co_uid': int(request.session['co_uid'])
     }
-    headers.update({
-        "action": 'signin'
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": '',
+    }
+
     res = util.send_request(url=url + "train/session", data=data, headers=headers, method='POST')
 
     request.session['train_sid'] = res['result']['sid']
@@ -95,10 +99,12 @@ def search2(request):
         "infant": int(request.POST['infant']),
         "provider": provider_kai
     }
-    headers.update({
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
         "action": "search2",
-        "sid": request.session['train_sid'],
-    })
+        "signature": request.session['train_signature'],
+    }
 
     res = util.send_request(url=url + 'train/booking', data=data, headers=headers, cookies=request.session['train_cookie'], method='POST')
 
@@ -144,10 +150,12 @@ def create_booking(request):
         },
 
     }
-    headers.update({
-        "action": 'create_booking',
-        "train_sid": request.session['train_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "create_booking",
+        "signature": request.session['train_signature'],
+    }
 
     res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
                                          cookies=request.session['train_cookie'], method='POST')
@@ -161,10 +169,12 @@ def get_booking(request):
     data = {
         'order_number': request.POST['order_number']
     }
-    headers.update({
-        "action": 'get_booking',
-        "train_sid": request.session['train_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_booking",
+        "signature": request.session['train_signature'],
+    }
 
     res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
                                          cookies=request.session['train_cookie'], method='POST')
@@ -223,10 +233,12 @@ def seat_map(request):
         "pnr": request.session['train_pick']['pnr'],
         "provider": provider_kai
     }
-    headers.update({
-        "action": 'get_seat_map',
-        "train_sid": request.session['train_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_seat_map",
+        "signature": request.session['train_signature'],
+    }
 
     res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
                                          cookies=request.session['train_cookie'], method='POST')
@@ -239,10 +251,12 @@ def issued_booking(request):
         "order_number": request.session['train_order_number'],
 
     }
-    headers.update({
-        "action": 'issued',
-        "train_sid": request.session['train_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "issued",
+        "signature": request.session['train_signature'],
+    }
 
     res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
                                          cookies=request.session['train_cookie'], method='POST')
@@ -269,10 +283,12 @@ def manual_seat(request):
         "seats_request": seats_request,
         "provider": provider_kai
     }
-    headers.update({
-        "action": 'manual_seat',
-        "train_sid": request.session['train_sid']
-    })
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "manual_seat",
+        "signature": request.session['train_signature'],
+    }
 
     res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
                                          cookies=request.session['train_cookie'], method='POST')

@@ -1,3 +1,7 @@
+{% extends 'tt_website_skytors/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
 <script>
     counter = 0;
     price = {
@@ -39,17 +43,69 @@
 <!--<label>Fare</label><input id="fare_amount" value="3000" disabled/><br/>-->
 <!--<label>Tax</label><input id="tax_amount" value="3000" disabled/><br/>-->
 <!--<label>total amount</label><input id="total_amount" value="6000" disabled/><br/>-->
-<table style="width:100%" id="table_of_equation">
-    <tr>
-        <td>Type</td>
-        <td>Type Amount</td>
-        <td>Pax Type</td>
-        <td>Equation</td>
-        <td><a href="javascript:add_table_of_equation();">Add</a></td>
-        <td><a href="javascript:delete_table_of_equation();">Delete</a></td>
-    </tr>
-</table>
-<input type="button" onclick="calculate();" value="calculate">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4" style="max-height:500px; overflow-y:auto; border:1px solid red;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h4 style="padding-top:15px;">Pricing</h4>
+                        <hr/>
+                    </div>
+                    <div class="col-lg-12" style="text-align:right;">
+                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                        <br/>
+                    </div>
+                    <div class="col-lg-12">
+                        <div style="padding:10px;" id="table_of_equation">
+
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Fare</div>
+                            <div class="col-lg-3">Tax</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row" id="adult">
+                            <div class="col-lg-3">Adult</div>
+                            <div class="col-lg-3" id="adult_fare">-</div>
+                            <div class="col-lg-3" id="adult_tax">-</div>
+                            <div class="col-lg-3" id="adult_total">-</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row" id="child">
+                            <div class="col-lg-3">Child</div>
+                            <div class="col-lg-3" id="child_fare">-</div>
+                            <div class="col-lg-3" id="child_tax">-</div>
+                            <div class="col-lg-3" id="child_total">-</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row" id="infant">
+                            <div class="col-lg-3">Infant</div>
+                            <div class="col-lg-3" id="infant_fare">-</div>
+                            <div class="col-lg-3" id="infant_tax">-</div>
+                            <div class="col-lg-3" id="infant_total">-</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                        <hr/>
+                        <center>
+                            <input class="primary-btn-ticket" type="button" onclick="calculate();" value="Calculate">
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <script>
     function add_table_of_equation(){
         if(counter != 0){
@@ -70,37 +126,58 @@
             document.getElementById("selection_fare"+temp).innerHTML = text;
         }
         text= '';
-        var node = document.createElement("tr");
+        var node = document.createElement("div");
         text += `
-        <td>
-            <select id="selection_type`+counter+`">
-                <option value="upsell">Upsell</option>
-                <option value="discount">Discount</option>
-            </select>
-        </td>`;
+        <div class="col-lg-4" style="padding:0px;">
+            <span style="font-size:11px;">Type</span><br/>
+            <div class="form-select">
+                <div class="input-container-search-ticket">
+                    <select id="selection_type`+counter+`" style="width:100%;">
+                        <option value="upsell">Upsell</option>
+                        <option value="discount">Discount</option>
+                    </select>
+                </div>
+            </div>
+        </div>`;
         text += `
-        <td>
-            <select id="selection_fare`+counter+`" style="width:100px;">
-                <option value="fare">Fare</option>
-                <option value="tax">Tax</option>
-                <option value="total">Total</option>
-            </select>
-        </td>`;
+        <div class="col-lg-4" style="padding:0px;">
+            <span style="font-size:11px;">Type Amount</span><br/>
+            <div class="input-container-search-ticket">
+                <div class="form-select">
+                    <select id="selection_fare`+counter+`" style="width:100%;">
+                        <option value="fare">Fare</option>
+                        <option value="tax">Tax</option>
+                        <option value="total">Total</option>
+                    </select>
+                </div>
+            </div>
+        </div>`;
         text += `
-        <td>
-            <select id="selection_pax`+counter+`">
-                <option value="adult">Adult</option>
-                <option value="child">Child</option>
-                <option value="infant">Infant</option>
-            </select>
-        </td>`;
+        <div class="col-lg-4" style="padding:0px;">
+            <span style="font-size:11px;">Pax Amount</span><br/>
+            <div class="input-container-search-ticket">
+                <div class="form-select">
+                    <select id="selection_pax`+counter+`" style="width:100%;">
+                        <option value="adult">Adult</option>
+                        <option value="child">Child</option>
+                        <option value="infant">Infant</option>
+                    </select>
+                </div>
+            </div>
+        </div>`;
         text += `
-            <td>
-                <input id="calculation`+counter+`" type="text"/>
-            </td>`;
+            <div class="col-lg-12" style="padding:0px;">
+                <span style="font-size:11px;">Equation</span><br/>
+                <div class="input-container-search-ticket">
+                    <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
+                </div>
+                <hr/>
+            </div>`;
+        node.className = 'row';
         node.innerHTML = text;
-        node.setAttribute('id', 'table'+counter);
+        node.setAttribute('id', 'div'+counter);
         document.getElementById("table_of_equation").appendChild(node);
+        $('select').niceSelect();
         counter++;
     }
 
@@ -111,7 +188,7 @@
                 temp = counter-1;
                 document.getElementById("selection_fare"+temp).innerHTML = `<option value="fare">Fare</option><option value="tax">Tax</option><option value="fare">Total</option>`;
             }
-            var element = document.getElementById('table'+counter);
+            var element = document.getElementById('div'+counter);
             element.parentNode.removeChild(element);
         }
     }
@@ -171,7 +248,18 @@
                     }
                 }
             }
+            document.getElementById('adult_fare').innerHTML = price_duplication.adult.fare;
+            document.getElementById('adult_tax').innerHTML = price_duplication.adult.tax;
+            document.getElementById('adult_total').innerHTML = price_duplication.adult.total;
+            document.getElementById('child_fare').innerHTML = price_duplication.child.fare;
+            document.getElementById('child_tax').innerHTML = price_duplication.child.tax;
+            document.getElementById('child_total').innerHTML = price_duplication.child.total;
+            document.getElementById('infant_fare').innerHTML = price_duplication.infant.fare;
+            document.getElementById('infant_tax').innerHTML = price_duplication.infant.tax;
+            document.getElementById('infant_total').innerHTML = price_duplication.infant.total;
+
             console.log(price_duplication);
         }
     }
 </script>
+{% endblock %}

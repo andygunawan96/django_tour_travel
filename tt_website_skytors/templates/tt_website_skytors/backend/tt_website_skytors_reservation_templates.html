@@ -14,7 +14,6 @@
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
-    document.getElementById('username').innerHTML = '{{username}}';
     document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 

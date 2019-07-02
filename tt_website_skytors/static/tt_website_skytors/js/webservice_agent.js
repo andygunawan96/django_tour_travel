@@ -43,30 +43,6 @@ function triggered_balance(){
     }, 1000);
 }
 
-function get_balance(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
-            'action': 'get_balance',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
-       success: function(msg) {
-        if(msg.result.error_code == 0){
-            document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-            console.log('success');
-        }else{
-            console.log('error');
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
 function check_string_length(value){
     return value.length;
 }

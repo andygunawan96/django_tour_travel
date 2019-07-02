@@ -117,8 +117,13 @@ Licence URI: http://www.os-templates.com/template-terms
                                     <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
                                 </ul>
                             </li>
-                            <li style="font-size:12px;color:black;"><a id="balance"></a></li>
-                            <li class="menu-has-children"><a href="#" id="username">{{username}}</a>
+                            <li class="menu-has-children"><a href="#">Saldo</a>
+                                <ul>
+                                    <li><a id="balance"></a></li>
+                                    <li><a id="credit_limit"></a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-has-children"><a href="#" id="username">{{username.agent_name}}</a>
                                 <ul>
                                     <li><a>My Virtual Account: 9317918739186</a></li>
                                     <li><a href="#">Edit Agent Profile</a></li>

@@ -97,7 +97,7 @@ def search(request):
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'dest_destination': request.POST['tour_destination'],
             'dest_year': request.POST['tour_dest_year'],
@@ -123,7 +123,7 @@ def detail(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
 
@@ -183,7 +183,7 @@ def passenger(request):
             'infant_title': infant_title,
             'child_title': child_title,
             'countries': airline_country,
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'tour_data': request.session['tour_pick'],
             'adults': adult,
@@ -282,7 +282,7 @@ def review(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'tour_data': request.session['tour_pick'],
             'price_itinerary': {
@@ -442,7 +442,7 @@ def booking(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
