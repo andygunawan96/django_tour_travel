@@ -224,7 +224,7 @@ def index(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-    return render(request, MODEL_NAME+'/testing.html', values)
+    return render(request, MODEL_NAME+'/tt_website_skytors_home_templates.html', values)
 
 def login(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:

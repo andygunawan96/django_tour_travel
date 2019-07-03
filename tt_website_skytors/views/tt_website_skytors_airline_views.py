@@ -26,7 +26,7 @@ def can_book(now, dep):
     return dep > now
 
 def search(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -210,7 +210,7 @@ def search(request):
         return index(request)
 
 def passenger(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -281,7 +281,7 @@ def passenger(request):
         return index(request)
 
 def ssr(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open(str(datetime.now().date()) + ".txt", "r")
         for line in file:
             response = json.loads(line)
@@ -426,7 +426,7 @@ def ssr(request):
         return index(request)
 
 def review(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -627,7 +627,7 @@ def review(request):
         return index(request)
 
 def booking(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

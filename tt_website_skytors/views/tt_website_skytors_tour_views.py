@@ -47,7 +47,7 @@ infant_title = ['MSTR', 'MISS']
 MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -111,7 +111,7 @@ def search(request):
         return index(request)
 
 def detail(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -132,7 +132,7 @@ def detail(request):
         return index(request)
 
 def passenger(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
         file = open("version_cache.txt", "r")
         for line in file:
@@ -276,7 +276,7 @@ def passenger(request):
 
 
 def review(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -436,7 +436,7 @@ def review(request):
 
 
 def booking(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

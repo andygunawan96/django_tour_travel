@@ -38,7 +38,7 @@ def can_book(now, dep):
     return dep > now
 
 def search(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
 
         file = open("version_cache.txt", "r")
         for line in file:
@@ -77,7 +77,7 @@ def search(request):
         return index(request)
 
 def passenger(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -134,7 +134,7 @@ def passenger(request):
         return index(request)
 
 def review(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         #adult
         adult = []
         infant = []
@@ -243,7 +243,7 @@ def review(request):
         return index(request)
 
 def booking(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         get_balance(request)
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -261,7 +261,7 @@ def booking(request):
         return index(request)
 
 def seat_map(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         get_balance(request)
         passenger = []
         for pax in request.session['train_pax']:

@@ -139,7 +139,7 @@ def passenger(request):
     return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_passenger_templates.html', values)
 
 def review(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
