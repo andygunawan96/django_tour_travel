@@ -6649,10 +6649,6 @@ th input {
     display: none;
 }
 
-.maxwidth100 table {
-    width:100% !important;
-}
-
 .progressbar {
   margin: 0;
   padding: 0;
