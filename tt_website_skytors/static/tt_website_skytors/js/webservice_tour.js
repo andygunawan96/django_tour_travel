@@ -1,7 +1,7 @@
 tour_data = [];
 offset = 0;
 
-function tour_login(){
+function tour_login(data){
     //document.getElementById('themespark_category').value.split(' - ')[1]
     getToken();
     $.ajax({
@@ -16,44 +16,15 @@ function tour_login(){
        },
        success: function(msg) {
            console.log(msg);
-           temp = document.getElementById('tour_hidden_destination').value;
-           if (temp == "" || temp == "0"){
-               var text = '<option value="0" selected="">All Destinations</option>';
+           console.log(data);
+           if(data == ''){
+                tour_get_countries();
            }
            else {
-               var text = '<option value="0">All Destinations</option>';
+                tour_get_countries();
+                tour_search();
            }
 
-           var counter = 0;
-           if(msg.result.error_code == 0){
-               tour_countries = msg.result.response.response.countries;
-               for(i in tour_countries){
-                   if (temp == tour_countries[i].id)
-                   {
-                       text+=`
-                       <option value="`+tour_countries[i].id+`" selected="">`+tour_countries[i].name+`</option>
-                       `;
-                   }
-                   else
-                   {
-                       text+=`
-                       <option value="`+tour_countries[i].id+`">`+tour_countries[i].name+`</option>
-                       `;
-                   }
-               }
-
-               console.log(text);
-               if (text != '') {
-                    document.getElementById('tour_destination').innerHTML = text;
-                    $('#tour_destination').niceSelect('update');
-               }
-               else {
-
-               }
-
-           }else{
-
-           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -407,4 +378,10 @@ function tour_get_details(package_id){
            alert(errorThrown);
        }
     });
+}
+
+function tour_update_passenger()
+{
+
+
 }

@@ -78,7 +78,6 @@ def signin(request):
     })
     res = util.send_request(url=url + "session", data=data, headers=headers, method='POST')
     request.session['tour_signature'] = res['result']['response']['signature']
-    res = get_countries(request)
 
     return res
 

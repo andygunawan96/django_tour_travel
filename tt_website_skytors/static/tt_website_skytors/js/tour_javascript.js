@@ -787,7 +787,25 @@ function tour_hold_booking(val){
     var check_rooms = tour_check_rooms();
     if (check_rooms == true)
     {
+        var pax_ids = tour_update_passenger();
+        if (pax_ids.length > 0)
+        {
+            var booking_id = tour_commit_booking(vals, pax_ids);
+            if (booking_id != 0)
+            {
+                document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_id+'>';
+                document.getElementById('tour_booking').submit();
+            }
+            else
+            {
 
+                alert("Booking process failed, please try again!");
+            }
+        }
+        else
+        {
+            alert("Booking process failed, please try again!");
+        }
     }
     else
     {
