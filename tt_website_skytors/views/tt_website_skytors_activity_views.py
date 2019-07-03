@@ -25,7 +25,7 @@ infant_title = ['MSTR', 'MISS']
 
 
 def search(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -82,7 +82,7 @@ def search(request):
         return index(request)
 
 def detail(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
         get_balance(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -100,7 +100,7 @@ def detail(request):
         return index(request)
 
 def passenger(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
         file = open("version_cache.txt", "r")
         for line in file:
@@ -301,7 +301,7 @@ def passenger(request):
         return index(request)
 
 def review(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         #adult
         adult = []
         child = []
@@ -1032,7 +1032,7 @@ def review(request):
         return index(request)
 
 def booking(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {

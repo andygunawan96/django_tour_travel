@@ -18,7 +18,7 @@ from tools.parser import *
 MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -68,7 +68,7 @@ def search(request):
         return index(request)
 
 def detail(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         get_balance(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -93,7 +93,7 @@ def detail(request):
         return index(request)
 
 def passengers(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         get_balance(request)
 
         file = open("version_cache.txt", "r")
@@ -150,7 +150,7 @@ def passengers(request):
         return index(request)
 
 def review(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         get_balance(request)
 
         file = open("version_cache.txt", "r")

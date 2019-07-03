@@ -18,7 +18,7 @@ from tools.parser import *
 MODEL_NAME = 'tt_website_skytors'
 
 def issued_offline(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
 
         file = open("version_cache.txt", "r")
         for line in file:
@@ -61,7 +61,7 @@ def issued_offline(request):
         return index(request)
 
 def issued_offline_history(request):
-    if 'username' in request.session._session:
+    if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
