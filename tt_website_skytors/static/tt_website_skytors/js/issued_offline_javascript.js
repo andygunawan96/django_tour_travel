@@ -31,6 +31,19 @@ function search_carrier(){
     }, 500);
 }
 
+function issued_offline_price(){
+    total_price = 0;
+    insentif = 0;
+    if(document.getElementById('total_sale_price').value != '')
+        total_price = parseInt(document.getElementById('total_sale_price').value);
+    if(document.getElementById('insentif').value != '')
+        insentif = parseInt(document.getElementById('insentif').value);
+    document.getElementById('agent_nta_price').innerHTML = 'IDR ' + getrupiah(insentif);
+
+    document.getElementById('nta_price').innerHTML = 'IDR ' + getrupiah(parseInt(document.getElementById('total_sale_price').value) - parseInt(document.getElementById('insentif').value));
+}
+
+
 function search_origin_departure(val,sequence){
     clearTimeout(myVarOriginDestination);
     myVarOriginDestination = setTimeout(function() {
@@ -84,8 +97,7 @@ function add_table_of_passenger(){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="border-radius: 28px; margin-bottom:5px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
-                <button type="button" class="primary-delete" style="border-radius: 28px;"><i class="fas fa-trash-alt"></i></button>
+                <button type="button" class="primary-btn" style="border-radius: 28px; margin-bottom:5px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-plus"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog">
@@ -94,14 +106,135 @@ function add_table_of_passenger(){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Passenger</h4>
+                            <h4 class="modal-title">Passenger `+(counter_passenger+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
-                            <input type="text" id="train`+(counter_passenger+1)+`_search" placeholder="Search" />
-                            <button type="button" class="btn btn-default" onclick="search_passenger('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
-                            <div id="search_result`+(counter_passenger+1)+`" style="overflow:auto;height:200px;">
+                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Search</span>
+                                    <input type="radio" checked="checked" id="radio_passenger_search`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="search" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px;">Input</span>
+                                    <input type="radio" id="radio_passenger_input`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="create" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                            </div>
+                            <div id="passenger_content">
+                                <div id="passenger_search`+parseInt(counter_passenger+1)+`">
+                                    <input type="text" id="train`+(counter_passenger+1)+`_search" placeholder="Search" />
+                                    <button type="button" class="btn btn-default" onclick="search_passenger('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
+                                    <div id="search_result`+(counter_passenger+1)+`" style="overflow:auto;height:200px;">
 
+                                    </div>
+                                </div>
+                                <div id="passenger_input`+parseInt(counter_passenger+1)+`" style="background-color:white;" hidden>
+                                    <div class="col-lg-12">
+                                        <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                    <span style="color:white; text-align:center; font-size:15px;">Passenger - `+parseInt(counter_passenger+1)+`</span>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                                    <div class="input-container-search-ticket">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
+
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Title</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select-2">
+                                                            <select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                                                for(i in titles){
+                                                                    text+= `<option>`+titles[i]+`</option>`;
+                                                                }
+                                                            text+=`</select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <br/>
+                                                    <label>First name and middle name (if any)</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                        <input type="hidden" class="form-control" name="adult_id`+parseInt(counter_passenger+1)+`" id="adult_id`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                    <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <br/>
+                                                    <label>Last name</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_last_name`+parseInt(counter_passenger+1)+`" id="adult_last_name`+parseInt(counter_passenger+1)+`" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    </div>
+                                                    <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Nationality</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="adult_nationality`+parseInt(counter_passenger+1)+`" name="adult_nationality`+parseInt(counter_passenger+1)+`">`;
+                                                                for(i in countries){
+                                                                    if(countries[i].code == 'ID')
+                                                                       text+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                                    else
+                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                }
+                                                            text+=`</select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Birth Date</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                        <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Passport Number</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_passport_number`+parseInt(counter_passenger+1)+`" id="adult_passport_number`+parseInt(counter_passenger+1)+`" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Passport Expired Date</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" id="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                    <label>Country of Issued</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`">
+                                                                <option value="">Select Country</option>`;
+                                                                for(i in countries){
+                                                                    if(countries[i].code == 'ID')
+                                                                       text+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
+                                                                    else
+                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                }
+                                                            text+=`</select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -111,10 +244,13 @@ function add_table_of_passenger(){
                 </div>
             </div>
         </td>`;
+
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
+//    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
     counter_passenger++;
+    $('select').niceSelect();
 }
 
 function delete_table_of_passenger(){
@@ -152,13 +288,12 @@ function add_table_of_line(){
                 <select id='class`+counter_line+`' name='class`+counter_line+`' class="form-control" style="height:42px;">`;
                 for(i in class_of_service)
                     text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
-                    text+=`
+            text+=`
                 </select>
             </div>
         </div>
     </td>
-    <td><input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class"></td>
-    <td><button type="button" class="primary-delete" style="border-radius: 28px;"><i class="fas fa-trash-alt"></i></button></td>`;
+    <td><input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class"></td>`;
     node.innerHTML = text;
     $('#class'+counter_line).niceSelect('update');
     node.setAttribute('id', 'table_line'+counter_line);
@@ -219,4 +354,42 @@ function table_issued_offline_history(data){
         text = '';
         data_counter++;
     }
+}
+
+function radio_button(type,val){
+    console.log(val);
+    var radios = ''
+    if(type == 'booker')
+        radios = document.getElementsByName('radio_booker');
+    else if(type == 'passenger'){
+        radios = document.getElementsByName('radio_passenger'+val);
+    }
+    value = '';
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            value = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    console.log(value);
+    if(value == 'search' && type == 'booker'){
+        document.getElementById('booker_search').hidden = false;
+        document.getElementById('booker_input').hidden = true;
+    }else if(value == 'create' && type == 'booker'){
+        document.getElementById('booker_search').hidden = true;
+        document.getElementById('booker_input').hidden = false;
+    }else if(value == 'search' && type == 'passenger'){
+        document.getElementById('passenger_search'+val).hidden = false;
+        document.getElementById('passenger_input'+val).hidden = true;
+    }else if(value == 'create' && type == 'passenger'){
+        document.getElementById('passenger_search'+val).hidden = true;
+        document.getElementById('passenger_input'+val).hidden = false;
+    }
+}
+
+function update_contact(type){
+    if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
+        document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
 }

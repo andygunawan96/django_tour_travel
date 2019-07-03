@@ -84,7 +84,7 @@ def create_issued_offline(request):
 
     carriers = response['result']['response']['issued_offline']['carrier_id']
     for carrier in carriers:
-        if carrier['name'] == request.POST['provider']:
+        if carrier['code'] == request.POST['provider']:
             carrier_id = carrier['id']
             break
 
@@ -93,7 +93,15 @@ def create_issued_offline(request):
     line = []
 
     for i in range(int(request.POST['counter_passenger'])):
-        passenger.append({'id':int(request.POST['id_passenger'+str(i)])})
+        passenger.append({
+            'passenger_id': request.POST['passenger_id'+str(i)] != '' and int(request.POST['passenger_id'+str(i)]) or '',
+            'first_name': request.POST['passenger_first_name'+str(i)],
+            'last_name': request.POST['passenger_last_name'+str(i)],
+            'title': request.POST['passenger_title'+str(i)],
+            'calling_code': request.POST['passenger_calling_code'+str(i)],
+            'mobile': request.POST['passenger_mobile'+str(i)],
+            'nationality_code': request.POST['passenger_nationality_code'+str(i)],
+        })
 
     for i in range(int(request.POST['counter_line'])):
         departure = request.POST['line_departure'+str(i)].split('T')
@@ -112,20 +120,25 @@ def create_issued_offline(request):
     exp_date = request.POST['expired_date'].split('T')
 
     data = {
-        "agent_id": int(request.session['agent']['id']),
-        "sub_agent_id": int(request.POST['sub_agent_id']),
-        "sub_agent_type": int(request.session['agent']['type_id']),
-        "contact_id": int(request.POST['contact_id']),
+        "booker": {
+            'title': request.POST['booker_title'],
+            'first_name': request.POST['booker_first_name'],
+            'last_name': request.POST['booker_last_name'],
+            'email': request.POST['booker_email'],
+            'calling_code': request.POST['booker_calling_code'],
+            'mobile': request.POST['booker_mobile'],
+            'nationality_code': request.POST['booker_nationality_code'],
+            'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id'+str(i)]) or ''
+        },
         "type": request.POST['type'],
         "sector_type": request.POST['sector_type'],
         "total_sale_price": int(request.POST['total_sale_price']),
         "desc": request.POST['desc'],
-        "carrier_id": int(carrier_id),
+        "carrier_name": carrier_id,
         "provider": request.POST['provider'],
         "pnr": request.POST['pnr'],
-        "social_media_id": int(request.POST['social_media_id']),
+        "social_media_id": request.POST['social_media'],
         "expired_date": exp_date[0]+' '+exp_date[1],
-        "co_uid": int(request.session['co_uid']),
         "passenger_ids": passenger,
         "line_ids": line
     }

@@ -32,6 +32,19 @@
             'name':train_destination.split(', ')[1]
         });
     {% endfor %}
+
+    titles = `{{titles}}`;
+    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
+    countries = `{{countries}}`;
+    countries = countries.replace(/Cote D&#39;Ivoire/g, "Cote D'Ivoire"); //case khusus
+    countries = countries.replace(/&#39;/g, '"');
+    countries = countries.replace(/&quot;/g, '"');
+    countries = countries.replace(/False/g, 'false');
+    countries = countries.replace(/True/g, 'true');
+    countries = JSON.parse(countries);
+    console.log(countries)
+    console.log(titles);
+
     get_balance();
     console.log(`{{username}}`);
 </script>
@@ -69,7 +82,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px 15px 0px 0px; text-align:right;">
-                                            <button type="button" style="width:95%;" class="primary-btn" data-toggle="modal" data-target="#myModal"><i class="fas fa-search"></i></button>
+                                            <button type="button" style="width:95%;" class="primary-btn" data-toggle="modal" data-target="#myModal"><i class="fas fa-plus"></i></button>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px 15px 0px 0px;; text-align:right;">
                                             <button type="button" style="width:95%;" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);"/><i class="fas fa-times"></i></button>
@@ -82,17 +95,177 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Booker</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="update_contact();">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_booker_search" placeholder="Search" />
-                                                        <button type="button" class="btn btn-default" onclick="search_passenger('Booker','1','issued_offline')">Search</button>
-                                                        <div id="search_result" style="overflow:auto;height:200px;">
+                                                        <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:14px;">Search</span>
+                                                                <input type="radio" checked="checked" name="radio_booker" value="search" onclick="radio_button('booker');">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label>
+                                                            <label class="radio-button-custom">
+                                                                <span style="font-size:14px;">Input</span>
+                                                                <input type="radio" name="radio_booker" value="create" onclick="radio_button('booker');">
+                                                                <span class="checkmark-radio"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div id="booker_content">
+                                                            <div id="booker_search">
+                                                                <input type="text" id="train_booker_search" placeholder="Search" />
+                                                                <button type="button" class="btn btn-default" onclick="search_passenger('Booker','1','issued_offline')">Search</button>
+                                                                <div id="search_result" style="overflow:auto;height:200px;">
 
+                                                                </div>
+                                                            </div>
+                                                            <div id="booker_input" style="background-color:white; padding:10px; border:1px solid #f15a22;" hidden>
+                                                                <div class="row">
+                                                                    <div class="col-lg-12">
+                                                                        <h4>Booker Infomartion</h4>
+                                                                        <hr/>
+                                                                    </div>
+                                                                    <div class="col-lg-6" style="text-align:left;">
+                                                                        <label>Booker Type :</label><br/>
+                                                                        <label class="radio-button-custom">
+                                                                            Corporate
+                                                                            <input type="radio" checked="checked" name="radio-booker-type">
+                                                                            <span class="checkmark-radio"></span>
+                                                                        </label>
+                                                                        <label class="radio-button-custom">
+                                                                            Individual
+                                                                            <input type="radio" name="radio-booker-type">
+                                                                            <span class="checkmark-radio"></span>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="col-lg-6" style="text-align:right;">
+                                                                    </div>
+
+                                                                    <div class="modal fade" id="myModal" role="dialog">
+                                                                        <div class="modal-dialog">
+
+                                                                            <!-- Modal content-->
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
+                                                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
+                                                                                    <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="search_passenger('Booker','1','train')">Search <i class="fas fa-search"></i></button>
+                                                                                    <div class="row" id="loading-booker-train" style="display:none;">
+                                                                                        <div class="col-lg-12">
+                                                                                            <div class="sk-circle">
+                                                                                                <div class="sk-circle1 sk-child"></div>
+                                                                                                <div class="sk-circle2 sk-child"></div>
+                                                                                                <div class="sk-circle3 sk-child"></div>
+                                                                                                <div class="sk-circle4 sk-child"></div>
+                                                                                                <div class="sk-circle5 sk-child"></div>
+                                                                                                <div class="sk-circle6 sk-child"></div>
+                                                                                                <div class="sk-circle7 sk-child"></div>
+                                                                                                <div class="sk-circle8 sk-child"></div>
+                                                                                                <div class="sk-circle9 sk-child"></div>
+                                                                                                <div class="sk-circle10 sk-child"></div>
+                                                                                                <div class="sk-circle11 sk-child"></div>
+                                                                                                <div class="sk-circle12 sk-child"></div>
+                                                                                            </div>
+                                                                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="modal-footer">
+                                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6 col-xs-6">
+                                                                        <label>Title</label>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <div class="form-select-2" id="default-select">
+                                                                                <select id="booker_title" name="booker_title">
+                                                                                    {% for title in titles%}
+                                                                                    <option>{{title}}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-lg-6"></div>
+                                                                    <div class="col-lg-6">
+                                                                        <br/>
+                                                                        <label>First name and middle name (if any)</label>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                                            <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                                            <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                                            <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                                            <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
+                                                                        </div>
+                                                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6">
+                                                                        <br/>
+                                                                        <label>Last name</label>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <input type="text" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                                        </div>
+                                                                        <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6">
+                                                                        <label>Nationality</label>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <div class="form-select">
+                                                                                <select id="booker_nationality" name="booker_nationality">
+                                                                                    {% for country in countries%}
+                                                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                                                    {% endfor %}
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="col-lg-6">
+                                                                        <label>Contact Email Address</label>
+                                                                        <div class="input-container-search-ticket">
+                                                                            <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                                        </div>
+                                                                        <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                                                    </div>
+
+                                                                    <div class="col-lg-6">
+                                                                        <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                                                        <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                                                        <div class="row">
+                                                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                                                <div class="form-select">
+                                                                                    <select id="booker_phone_code" name="booker_phone_code">
+                                                                                        {% for country in countries%}
+                                                                                        <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                                        {% endfor %}
+                                                                                    </select>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                                                <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                                                <input type="hidden" class="form-control" name="booker_id" id="booker_id">
+                                                                            </div>
+                                                                        </div>
+                                                                        <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact();">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -124,10 +297,6 @@
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" id="total_sale_price" name="total_sale_price"/>
                                     </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <span>Agent NTA Price</span><br/>
-                                    <span id="agent_nta_price"></span><br/>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +351,8 @@
 
                         <div class="col-lg-12" style="text-align:left;">
                             <h4>List of Passenger</h4><br/>
-                            <h5><a href="javascript:add_table_of_passenger();"  style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a></h5>
+                            <h5><a href="javascript:add_table_of_passenger();"  style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a> <a href="javascript:delete_table_of_passenger();"  style="color:blue; text-decoration: underline;">Delete <i class="fas fa-minus-circle"></i></a></h5>
+
                             <br/>
                             <!--                            <td><a href="javascript:delete_table_of_passenger();">DELETE GANTI ICON</a></td>-->
                             <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
@@ -197,7 +367,7 @@
 
                         <div class="col-lg-12" style="text-align:left;margin-top:15px;" id="show_line" hidden>
                             <h4>Segment</h4><br/>
-                            <h5><a href="javascript:add_table_of_line();" style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a></h5>
+                            <h5><a href="javascript:add_table_of_line();" style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a> <a href="javascript:delete_table_of_line();" style="color:blue; text-decoration: underline;">Delete <i class="fas fa-minus-circle"></i></a></h5>
                             <br/>
 <!--                            <th><a href="javascript:delete_table_of_line();">DELETE GANTI ICON</a></th>-->
                             <table id="table_of_line" name="table_of_line" style="width=100%" class="list-of-table">
@@ -298,6 +468,7 @@
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
       get_data_issued_offline();
+      radio_button('booker');
       //get_data2();
     });
 

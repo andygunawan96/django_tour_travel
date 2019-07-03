@@ -40,6 +40,8 @@ def issued_offline(request):
 
         train_destination = response['result']['response']['train']
 
+        airline_country = response['result']['response']['airline']['country']
+
         # get_balance(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -47,6 +49,8 @@ def issued_offline(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'issued_offline_data': response['result']['response']['issued_offline'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             # 'agent': request.session['agent'],
             'airline_destinations': airline_destinations,
             'train_destination': train_destination,

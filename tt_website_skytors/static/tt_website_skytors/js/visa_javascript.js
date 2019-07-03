@@ -241,14 +241,17 @@ function copy_data(){
         $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
         $text += 'Consulate Address :\n';
         $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
-        $text += 'Visa Requirement:\n';
-        for(j in visa[i].requirements){
-            $text += visa[i].requirements[j].name;
-            if(visa[i].requirements[j].description)
-                $text += ': ' + visa[i].requirements[j].description;
+        if(visa[i].requirements.length == 0){
+            $text += 'Visa Requirement:\n';
+
+            for(j in visa[i].requirements){
+                $text += visa[i].requirements[j].name;
+                if(visa[i].requirements[j].description)
+                    $text += ': ' + visa[i].requirements[j].description;
+                $text += '\n';
+            }
             $text += '\n';
         }
-        $text += '\n';
     }
     console.log($text);
     const el = document.createElement('textarea');

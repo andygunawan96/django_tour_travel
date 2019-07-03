@@ -15,7 +15,7 @@ function get_data_issued_offline(){
            issued_offline_data = msg;
            text = '<option value=""></option>';
            for(i in issued_offline_data.transaction_type){
-               text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
+               text+= `<option value='`+issued_offline_data.transaction_type[i][0]+`'>`+issued_offline_data.transaction_type[i][1]+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
            $('#transaction_type').niceSelect('update');
@@ -44,7 +44,7 @@ function get_data_issued_offline(){
            for(i in msg.carrier_id){
                 var node = document.createElement("option");
                 node.text = msg.carrier_id[i].name;
-                node.value = msg.carrier_id[i].id;
+                node.value = msg.carrier_id[i].code;
                 try{
                 }catch(err){
                 }
@@ -128,12 +128,20 @@ function create_issued_offline(){
     request = {};
     if(counter_passenger == 0)
         error_log += 'Please fill passengers\n';
-    else
+    else{
+        request['passenger'] = []
         for(i=0; i < counter_passenger; i++){
-            if(document.getElementById('id_passenger'+i).value == '')
-                error_log += 'Please fill passenger ' + (i+1) + '\n';
-            request['id_passenger'+i] = document.getElementById('id_passenger'+i).value;
+            //kasi if kosong
+            request['passenger_first_name'+i] = document.getElementById('adult_first_name' + (i + 1)).value;
+            request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
+            request['passenger_title'+i] = document.getElementById('adult_title' + (i + 1)).value;
+            request['passenger_email'+i] = "asndasdn@gmail.com";
+            request['passenger_calling_code'+i] = "+62";
+            request['passenger_mobile'+i] = '81237123812';
+            request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
+            request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
         }
+    }
     if(counter_line == 0 && document.getElementById('transaction_type').value == 'airline' || counter_line == 0 && document.getElementById('transaction_type').value == 'train')
         error_log += 'Please fill line\n';
     else{
@@ -176,10 +184,7 @@ function create_issued_offline(){
             }
         }
     }
-    if(document.getElementById('sub_agent_id').value == '')
-        error_log += 'Please fill sub agent id\n';
-    if(document.getElementById('contact_id').value == '')
-        error_log += 'Please fill contact id\n';
+//    if(document.getElementById('contact_id').value == ''){}
     if(document.getElementById('transaction_type').value == '')
         error_log += 'Please fill transaction type\n';
     if(document.getElementById('sector').value == '')
@@ -197,16 +202,23 @@ function create_issued_offline(){
     if(error_log == ''){
         request["counter_line"] = counter_line;
         request["counter_passenger"] = counter_passenger;
-        request["sub_agent_id"] = document.getElementById('sub_agent_id').value;
-        request["contact_id"] = document.getElementById('contact_id').value;
+
+        request["booker_title"] = document.getElementById('booker_title').value;
+        request["booker_first_name"] = document.getElementById('booker_first_name').value;
+        request["booker_last_name"] = document.getElementById('booker_last_name').value;
+        request["booker_email"] = document.getElementById('booker_email').value;
+        request["booker_calling_code"] = document.getElementById('booker_phone_code').value;
+        request["booker_mobile"] = document.getElementById('booker_phone').value;
+        request["booker_nationality_code"] = document.getElementById('booker_nationality').value;
+        request["booker_id"] = document.getElementById('booker_id').value;
+
         request["type"] = document.getElementById('transaction_type').value;
         request["sector_type"] = document.getElementById('sector').value;
         request["total_sale_price"] = document.getElementById('total_sale_price').value;
         request["desc"] = document.getElementById('description').value;
-        request["carrier_id"] = document.getElementById('carrier_id').value;
         request["provider"] = document.getElementById('carrier_name').value;
         request["pnr"] = document.getElementById('pnr').value;
-        request["social_media_id"] = document.getElementById('social_media').value;
+        request["social_media"] = document.getElementById('social_media').value;
         request["expired_date"] = document.getElementById('timelimit').value;
 
         console.log(request);
