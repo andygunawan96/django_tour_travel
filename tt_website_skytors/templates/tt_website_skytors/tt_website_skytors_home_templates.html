@@ -99,14 +99,6 @@
     <div class="animated fadeInDown delay-1s">
         <div class="container">
             <div class="row">
-                <ul class="cb-slideshow">
-                    <li><span>Image 01</span></li>
-                    <li><span>Image 02</span></li>
-                    <li><span>Image 03</span></li>
-                    <li><span>Image 04</span></li>
-                    <li><span>Image 05</span></li>
-                    <li><span>Image 06</span></li>
-                </ul>
                 {% if username != null %}
                 <input type="hidden" id="country_id"/>
                 <input type="hidden" id="start"/>
@@ -172,6 +164,11 @@
                                             </label>
                                             <label class="radio-button-custom">
                                                 <span style="font-size:14px; color:white;">Round-trip</span>
+                                                <input type="radio" name="radio_airline_type" value="roundtrip">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:14px; color:white;">Multy-City</span>
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
@@ -726,7 +723,7 @@
                                 <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">Destination</span>
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-map-marker-alt icon-search-ticket"></i>
@@ -738,16 +735,14 @@
                                             </div>
                                             <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">Departure Date</span>
-                                            <div class="form-group">
-                                                <div class="input-container-search-ticket">
-                                                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
-                                                    <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                                </div>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                                <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">Consulate</span>
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-city icon-search-ticket"></i>
@@ -773,10 +768,10 @@
                 </div>
                 {% else %}
                 <div class="col-lg-12">
-                    <h4 style="color:white;">Already a RODEX Trip member?</h4>
+                    <h4 style="color:white;">Already a RODEXTRIP member?</h4>
                     <h5 style="color:white;">Sign in to make booking easier!</h5>
                     <br/>
-                    <button class="primary-btn text-uppercase" type="button">
+                    <button class="primary-btn-sign text-uppercase" type="button">
                         <a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="color:white;">Sign in <i class="fas fa-sign-in-alt"></i></a>
                     </button>
                 </div>
@@ -791,20 +786,20 @@
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
-                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> HARGA BERSAING</h4>
-                    <p>RODEX TRIP telah bekerja sama dengan banyak ribuan jaringan.</p>
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Competitive Pricing</h4>
+                    <p>RODEXTRIP can save you more!.</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
-                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> TERPERCAYA</h4>
-                    <p>RODEX TRIP telah memiliki banyak customer.</p>
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Trusted</h4>
+                    <p>RODEXTRIP have many customers and agents</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4">
                 <div class="single-defination">
-                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> MUDAH DAN AMAN</h4>
-                    <p>RODEX TRIP memiliki harga yang sangat bersahabat.</p>
+                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Easy and Safe</h4>
+                    <p>RODEXTRIP is very easy to use and data remains safe.</p>
                 </div>
             </div>
         </div>
@@ -827,8 +822,14 @@
                     <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
-                                <div class="overlay overlay-bg"></div>
-                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
+                                <div class="overlay overlay-bg">
+                                    <div class="row" style="padding:10px;">
+                                        <div class="col-lg-12">
+                                            <h6 style="color:white;">HAHAHA</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <img class="img-fluid-deals" src="{{static_path}}img/bg/tour1.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -852,7 +853,7 @@
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
-                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
+                                <img class="img-fluid" src="{{static_path}}img/bg/tour2.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -860,7 +861,7 @@
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
-                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
+                                <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">
                             </div>
                         </div>
                     </div>
@@ -868,78 +869,178 @@
                         <div class="single-destination relative">
                             <div class="thumb relative">
                                 <div class="overlay overlay-bg"></div>
-                                <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">
+                                <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">
                             </div>
                         </div>
                     </div>
-
                 </div>
-                <!--                <div class="active-recent-blog-carusel">-->
-                <!--                    <div class="single-recent-blog-post item">-->
-                <!--                        <div class="single-destination relative">-->
-                <!--                            <div class="thumb relative">-->
-                <!--                                <div class="overlay overlay-bg"></div>-->
-                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <div class="single-recent-blog-post item">-->
-                <!--                        <div class="single-destination relative">-->
-                <!--                            <div class="thumb relative">-->
-                <!--                                <div class="overlay overlay-bg"></div>-->
-                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <div class="single-recent-blog-post item">-->
-                <!--                        <div class="single-destination relative">-->
-                <!--                            <div class="thumb relative">-->
-                <!--                                <div class="overlay overlay-bg"></div>-->
-                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    <div class="single-recent-blog-post item">-->
-                <!--                        <div class="single-destination relative">-->
-                <!--                            <div class="thumb relative">-->
-                <!--                                <div class="overlay overlay-bg"></div>-->
-                <!--                                <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    &lt;!&ndash;                    <div class="single-recent-blog-post item">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                        <div class="single-destination relative">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                            <div class="thumb relative">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                <div class="overlay overlay-bg"></div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                            </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                            <div class="desc">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                <a class="price-btn">RP. 6.000.000+</a>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                            </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                            <div class="card card-effect-promotion">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                <div class="card-body">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                    <div class="row details">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                            <h4>Holiday Sea beach Blue Ocean</h4>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                            <p>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                                United staes of America&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                            </p>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                            <a href="#" class="btn btn-primary">BOOK</a>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                        </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                                </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                            </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                        </div>&ndash;&gt;-->
-                <!--                    &lt;!&ndash;                    </div>&ndash;&gt;-->
-                <!--                </div>-->
             </div>
         </div>
     </div>
 </section>
-<!--convenience-->
-<section class="destinations-area section-gap">
+
+
+<!--POPULAR DESTINATION-->
+<section class="destinations-area section-gap" style="z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>POPULAR DESTINATIONS</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}img/bg/pop1.jpg" alt="">
+                            </div>
+                            <h4>Japan</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}img/bg/pop2.jpg" alt="">
+                            </div>
+                            <h4>Indonesian</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}img/bg/pop3.jpg" alt="">
+                            </div>
+                            <h4>England</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}img/bg/pop4.jpeg" alt="">
+                            </div>
+                            <h4>Thailand</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--Rekom Hotel-->
+<section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>RECOMMENDED HOTELS</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">
+                            </div>
+                            <h4>Park Central Hotel NewYork</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" alt="">
+                            </div>
+                            <h4>New York Marriott Downtown</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">
+                            </div>
+                            <h4>Boro Hotel</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" alt="">
+                            </div>
+                            <h4>New York Hilton Midtown</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--Rekom Hotel-->
+<section class="destinations-area section-gap" style="z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>POPULAR ATTRACTIONS</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">
+                            </div>
+                            <h4>Park Central Hotel NewYork</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" alt="">
+                            </div>
+                            <h4>New York Marriott Downtown</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">
+                            </div>
+                            <h4>Boro Hotel</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" alt="">
+                            </div>
+                            <h4>New York Hilton Midtown</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--TOUR PACKAGE-->
+<section class="popular-destination-area section-gap">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -952,26 +1053,22 @@
             </div>
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="single-recent-blog-post item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
-                                </div>
-                                <div class="desc">
-                                    <a class="price-btn">RP. 6.000.000+</a>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt="">
                                 </div>
                                 <div class="card card-effect-promotion">
                                     <div class="card-body">
                                         <div class="row details">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                <h4>Holiday Sea beach Blue Ocean</h4>
-                                                <p>
-                                                    United staes of America
-                                                </p>
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>5 Days - Thailand</h6>
+                                                <span style="font-size:11px;font-weight:bold;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>
+                                                <span style="font-size:11px;font-weight:bold;">Qty: 13/25</span>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <div class="col-lg-12" style="text-align:right;">
                                                 <a href="#" class="btn btn-primary">BOOK</a>
                                             </div>
                                         </div>
@@ -980,59 +1077,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="single-recent-blog-post item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
-                                </div>
-                                <div class="desc">
-                                    <span class="price-btn">Departure Date: 10 April 2019
-                                        <br/>
-                                        Qty: 1/10
-                                    </span>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/tour2.jpg" alt="">
                                 </div>
                                 <div class="card card-effect-promotion">
                                     <div class="card-body">
                                         <div class="row details">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                <h4>Holiday Sea beach Blue Ocean</h4>
-                                                <p>
-                                                    United staes of America
-                                                </p>
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>6 Days - Dubai</h6>
+                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>
+                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                <a href="#" class="btn btn-primary">BOOK</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--007bff-->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-recent-blog-post item">
-                            <div class="single-destination relative">
-                                <div class="thumb relative">
-                                    <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{{static_path}}img/bg/bg3.png" alt="">
-                                </div>
-                                <div class="desc">
-                                    <a class="price-btn">RP. 6.000.000+</a>
-                                </div>
-                                <div class="card card-effect-promotion">
-                                    <div class="card-body">
-                                        <div class="row details">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                <h4>Holiday Sea beach Blue Ocean</h4>
-                                                <p>
-                                                    United staes of America
-                                                </p>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <div class="col-lg-12" style="text-align:right;">
                                                 <a href="#" class="btn btn-primary">BOOK</a>
                                             </div>
                                         </div>
@@ -1041,26 +1101,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="single-recent-blog-post item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{{static_path}}img/bg/bg1.png" alt="">
-                                </div>
-                                <div class="desc">
-                                    <a class="price-btn">RP. 6.000.000+</a>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/tour3.jpg" alt="">
                                 </div>
                                 <div class="card card-effect-promotion">
                                     <div class="card-body">
                                         <div class="row details">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                <h4>Holiday Sea beach Blue Ocean</h4>
-                                                <p>
-                                                    United staes of America
-                                                </p>
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>5 Days - Taiwan + Alishan</h6>
+                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>
+                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <div class="col-lg-12" style="text-align:right;">
                                                 <a href="#" class="btn btn-primary">BOOK</a>
                                             </div>
                                         </div>
@@ -1069,26 +1125,70 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6">
+                    <div class="col-lg-3 col-md-6">
                         <div class="single-recent-blog-post item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
                                     <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="{{static_path}}img/bg/bg2.png" alt="">
-                                </div>
-                                <div class="desc">
-                                    <a class="price-btn">RP. 6.000.000+</a>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">
                                 </div>
                                 <div class="card card-effect-promotion">
                                     <div class="card-body">
                                         <div class="row details">
-                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                <h4>Holiday Sea beach Blue Ocean</h4>
-                                                <p>
-                                                    United staes of America
-                                                </p>
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>7 Days - Japan</h6>
+                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>
+                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>4 Days - Singapore</h6>
+                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>
+                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="single-recent-blog-post item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="{{static_path}}img/bg/tour6.jpg" alt="">
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>6 Days - Korean + Hongkong</h6>
+                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>
+                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
                                                 <a href="#" class="btn btn-primary">BOOK</a>
                                             </div>
                                         </div>
@@ -1104,22 +1204,50 @@
     </div>
 </section>
 
-<section style="background-color:#f15a22;">
+<section class="apps-area" style="background-color:#f15a22;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6">
-                <img src="{{static_path}}img/test.png" alt="" title="" />
+                <center>
+                    <img src="{{static_path}}img/rodextrip.png" style="width:300px; height:400px;" alt="" title="" />
+                </center>
             </div>
             <div class="col-lg-6" style="padding-top:50px; padding-bottom:20px;">
-                <h4 style="color:white;">Lebih dari 1 Juta Pelanggan menggunakan aplikasi mobile RODEX TRIP</h4>
+                <h4 style="color:white;">Easy to use and easy to access with application RODEXTRIP!</h4>
                 <br/>
-                <img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="" />
-                <img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="" />
+                <a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>
+                <a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>
             </div>
         </div>
     </div>
 </section>
 
+<div class="modal fade" id="myModalPopUp" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <center>
+                            <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> HOT DEALS TODAY! </h2>
+                        </center>
+                    </div>
+                    <div class="col-lg-12">
+                        <center>
+                            <span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>
+                        </center>
+                    </div>
+                    <div class="col-lg-12">
+                        <center>
+                            <img src="{{static_path}}img/bg/bg1.png" style="width:300px; height:300px;" alt="">
+                        </center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
     <span><i class="fas fa-chevron-up"></i></span>
@@ -1299,7 +1427,7 @@
     //get_agent_booking();
     get_visa_config('home');
     get_dept_year();
-    tour_login();
+    tour_login('');
 </script>
 
 {% endblock %}

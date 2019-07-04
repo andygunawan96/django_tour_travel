@@ -126,7 +126,7 @@ function search_visa(){
                                                 <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
                                             </tr>
                                         </table>
-                                        <div style="margin-top:10px;">
+                                        <div style="margin-top:10px; margin-bottom:10px;">
                                             <label>Qty : </label>
                                             <input class="form-control" type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
                                         </div>

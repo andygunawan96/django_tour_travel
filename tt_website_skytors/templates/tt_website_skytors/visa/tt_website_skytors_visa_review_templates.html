@@ -96,213 +96,289 @@
                 </div>
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div id="visa_review">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div style="border:1px solid #f15a22; background-color:white;">
-                                            <h4 style="padding:10px 10px 0px 10px;">List of Contact(s)</h4>
-                                            <hr/>
-                                            <table style="width:100%;" id="list-of-passenger">
-                                                <tr>
-                                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:28%;">Name</th>
-                                                    <th style="width:7%;">Email</th>
-                                                    <th style="width:18%;">Phone Number</th>
-                                                </tr>
-                                                {% for cp in pax.contact %}
-                                                <tr>
-                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
-                                                    <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
-                                                    <td>{{cp.email}}</td>
-                                                    <td>{{cp.calling_code}} - {{cp.mobile}}</td>
-                                                </tr>
-                                                {% endfor %}
-                                            </table>
-                                        </div>
+                        <div class="col-lg-12" id="visa_review">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+                                        <h4>List of Contact(s)</h4>
+                                        <hr/>
+                                        <table style="width:100%;" id="list-of-passenger">
+                                            <tr>
+                                                <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                                <th style="width:28%;">Name</th>
+                                                <th style="width:7%;">Email</th>
+                                                <th style="width:18%;">Phone Number</th>
+                                            </tr>
+                                            {% for cp in pax.contact %}
+                                            <tr>
+                                                <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
+                                                <td>{{cp.email}}</td>
+                                                <td>{{cp.calling_code}} - {{cp.mobile}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
                                     </div>
                                 </div>
-
-                                <div class="row" style="padding-top:20px;">
-                                    <div class="col-lg-12">
-                                        <div style="border:1px solid #f15a22; background-color:white;">
-                                            <h4 style="padding:10px 10px 0px 10px;">List of Passenger(s)</h4>
-                                            <hr/>
-                                            <table style="width:100%;" id="list-of-passenger">
-                                                <tr>
-                                                    <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:15%;">Name</th>
-                                                    <th style="width:7%;">Type</th>
-                                                    <th style="width:13%;">Birth Date</th>
-                                                    <th style="width:12%;">Visa Type</th>
-                                                    <th style="width:12%;">Entry Type</th>
-                                                    <th style="width:12%;">Process Type</th>
-                                                    <th style="width:10%;">Required</th>
-                                                    <th style="width:14%;">Price</th>
-                                                    <th style="width:1%;"> </th>
-                                                </tr>
-                                                {% for person in pax.adult %}
-                                                {% with forloop.counter as counter%}
-                                                <tr>
-                                                    <td class="list-of-passenger-left">{{person.number}}</td>
-                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Adult</td>
-                                                    <td>{{person.birth_date}}</td>
-                                                    <td>
-                                                        {% for visa_type in type.visa_type.adult %}
-                                                        <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">{{visa_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td>
-                                                        {% for entry_type in type.entry_type.adult %}
-                                                        <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td>
-                                                        {% for process_type in type.process_type.adult %}
-                                                        <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>{{process_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td id="adult_required{{counter}}"></td>
-                                                    <td id="adult_price{{counter}}"> - </td>
-                                                    <td>
-                                                        <input type="hidden" id="adult_check{{counter}}" value="false"/>
-                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('adult',{{counter}})" />
-                                                    </td>
-                                                </tr>
-                                                {% endwith %}
-                                                {% endfor %}
-                                                {% for person in pax.child %}
-                                                {% with forloop.counter as counter%}
-                                                <tr>
-                                                    <td class="list-of-passenger-left">{{person.number}}</td>
-                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Children</td>
-                                                    <td>{{person.birth_date}}</td>
-                                                    <td>
-                                                        {% for visa_type in type.visa_type.child %}
-                                                        <input type="radio" checked="checked" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">{{visa_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td>
-                                                        {% for entry_type in type.entry_type.child %}
-                                                        <input type="radio" checked="checked" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td>
-                                                        {% for process_type in type.process_type.child %}
-                                                        <input type="radio" checked="checked" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>{{process_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td id="child_required{{counter}}"></td>
-                                                    <td id="child_price{{counter}}"> - </td>
-                                                    <td>
-                                                        <input type="hidden" id="child_check{{counter}}" value="false"/>
-                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('child',{{counter}})" />
-                                                    </td>
-                                                </tr>
-                                                {% endwith %}
-                                                {% endfor %}
-                                                {% for person in pax.infant %}
-                                                {% with forloop.counter as counter%}
-                                                <tr>
-                                                    <td class="list-of-passenger-left">{{person.number}}</td>
-                                                    <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Infant</td>
-                                                    <td>{{person.birth_date}}</td>
-                                                    <td>
-                                                        {% for visa_type in type.visa_type.infant %}
-                                                        <input type="radio" checked="checked" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">{{visa_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td>
-                                                        {% for entry_type in type.entry_type.infant %}
-                                                        <input type="radio" checked="checked" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td>
-                                                        {% for process_type in type.process_type.adult %}
-                                                        <input type="radio" checked="checked" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'process')" disabled>{{process_type.1}}<br/>
-                                                        {% endfor %}
-                                                    </td>
-                                                    <td id="infant_required{{counter}}"></td>
-                                                    <td id="infant_price{{counter}}"> - </td>
-                                                    <td>
-                                                        <input type="hidden" id="infant_check{{counter}}" value="false"/>
-                                                        <img style="width:18px;" src="{{static_path}}img/refresh.png" onclick="set_value_radio_first('infant',{{counter}})" />
-                                                    </td>
-                                                </tr>
-                                                {% endwith %}
-                                                {% endfor %}
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--testing-->
-                                <!--<div class="row" style="padding-top:20px;">-->
-                                <!--<div class="col-lg-12">-->
-                                <!--<div style="background-color:#f15a22;">-->
-                                <!--<center>-->
-                                <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
-                                <!--</center>-->
-                                <!--</div>-->
-                                <!--<div style="border:1px solid #f15a22; background-color:white;">-->
-                                <!--<table style="width:100%;" id="list-of-passenger">-->
-                                <!--<tr>-->
-                                <!--<th>Visa Type</th>-->
-                                <!--<th>Entry Type</th>-->
-                                <!--<th>Process Type</th>-->
-                                <!--<th>Passenger</th>-->
-                                <!--</tr>-->
-                                <!--{% for list in visa.list_of_visa %}-->
-                                <!--{% if list.total_pax > 0 %}-->
-                                <!--<tr>-->
-                                <!--<td>{{list.visa_type.1}}</td>-->
-                                <!--<td>{{list.entry_type.1}}</td>-->
-                                <!--<td>{{list.type.process_type.1}}</td>-->
-                                <!--<td>-->
-                                <!--<select>-->
-                                <!--{% if list.pax_type.0 == 'ADT' %}-->
-                                <!--{% for person in pax.adult %}-->
-                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                <!--{% endfor %}-->
-                                <!--{% elif list.pax_type.0 == 'CHD' %}-->
-                                <!--{% for person in pax.child %}-->
-                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                <!--{% endfor %}-->
-                                <!--{% elif list.pax_type.0 == 'INF' %}-->
-                                <!--{% for person in pax.infant %}-->
-                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                <!--{% endfor %}-->
-                                <!--{% elif list.pax_type.0 == 'YCD' %}-->
-                                <!--{% for person in pax.elder %}-->
-                                <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                                <!--{% endfor %}-->
-                                <!--{% endif %}-->
-                                <!--</select>-->
-                                <!--</td>-->
-                                <!--</tr>-->
-                                <!--{% endif %}-->
-                                <!--{% endfor %}-->
-                                <!--</table>-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <!--</div>-->
-
                             </div>
+
+                            <div class="row" style="padding-top:20px;">
+                                <div class="col-lg-12">
+
+
+                                    <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
+                                        <h4>List of Passenger(s)</h4>
+                                        <hr/>
+                                        {% for person in pax.adult %}
+                                        {% with forloop.counter as counter%}
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:10px;">
+                                                <h6>{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
+                                                <span>Adult - Birth Date: {{person.birth_date}}</span>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Visa Type</h6>
+                                                {% for visa_type in type.visa_type.adult %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{visa_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="adult_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'visa')">
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Entry Type</h6>
+                                                {% for entry_type in type.entry_type.adult %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{entry_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="adult_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'entry')" disabled>
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Process Type</h6>
+                                                {% for process_type in type.process_type.adult %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{process_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="adult_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('adult',{{counter}},'process')" disabled>
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col-lg-6">
+                                                <h6>Required</h6>
+                                                <div id="adult_required{{counter}}">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3" style="text-align:right;">
+                                                <h6>Price</h6>
+                                                <div id="adult_price{{counter}}">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h6>Refresh</h6>
+                                                <input type="hidden" id="adult_check{{counter}}" value="false"/>
+                                                <span style="cursor:pointer;" onclick="set_value_radio_first('adult',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
+                                            </div>
+                                        </div>
+                                        {% endwith %}
+                                        {% endfor %}
+                                        <hr/>
+
+                                        {% for person in pax.child %}
+                                        {% with forloop.counter as counter%}
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:10px;">
+                                                <h6>{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
+                                                <span>Child - Birth Date: {{person.birth_date}}</span>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Visa Type</h6>
+                                                {% for visa_type in type.visa_type.child %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{visa_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Entry Type</h6>
+                                                {% for entry_type in type.entry_type.child %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{entry_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Process Type</h6>
+                                                {% for process_type in type.process_type.child %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{process_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col-lg-6">
+                                                <h6>Required</h6>
+                                                <div id="child_required{{counter}}">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3" style="text-align:right;">
+                                                <h6>Price</h6>
+                                                <div id="child_price{{counter}}">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h6>Refresh</h6>
+                                                <input type="hidden" id="child_check{{counter}}" value="false"/>
+                                                <span style="cursor:pointer;" onclick="set_value_radio_first('child',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
+                                            </div>
+                                        </div>
+                                        {% endwith %}
+                                        {% endfor %}
+
+                                        <hr/>
+
+                                        {% for person in pax.infant %}
+                                        {% with forloop.counter as counter%}
+                                        <div class="row">
+                                            <div class="col-lg-12" style="margin-bottom:10px;">
+                                                <h6>{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
+                                                <span>Child - Birth Date: {{person.birth_date}}</span>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Visa Type</h6>
+                                                {% for visa_type in type.visa_type.infant %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{visa_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Entry Type</h6>
+                                                {% for entry_type in type.entry_type.infant %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{entry_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <h6>Process Type</h6>
+                                                {% for process_type in type.process_type.infant %}
+                                                <label class="radio-button-custom">
+                                                    <span>{{process_type.1}}</span>
+                                                    <input type="radio" checked="checked" name="infant_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'process')" disabled>
+                                                    <span class="checkmark-radio"></span>
+                                                </label><br/>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col-lg-6">
+                                                <h6>Required</h6>
+                                                <div id="infant_required{{counter}}">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3" style="text-align:right;">
+                                                <h6>Price</h6>
+                                                <div id="infant_price{{counter}}">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <h6>Refresh</h6>
+                                                <input type="hidden" id="infant_check{{counter}}" value="false"/>
+                                                <span style="cursor:pointer;" onclick="set_value_radio_first('infant',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
+                                            </div>
+                                        </div>
+                                        {% endwith %}
+                                        {% endfor %}
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--testing-->
+                            <!--<div class="row" style="padding-top:20px;">-->
+                            <!--<div class="col-lg-12">-->
+                            <!--<div style="background-color:#f15a22;">-->
+                            <!--<center>-->
+                            <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
+                            <!--</center>-->
+                            <!--</div>-->
+                            <!--<div style="border:1px solid #f15a22; background-color:white;">-->
+                            <!--<table style="width:100%;" id="list-of-passenger">-->
+                            <!--<tr>-->
+                            <!--<th>Visa Type</th>-->
+                            <!--<th>Entry Type</th>-->
+                            <!--<th>Process Type</th>-->
+                            <!--<th>Passenger</th>-->
+                            <!--</tr>-->
+                            <!--{% for list in visa.list_of_visa %}-->
+                            <!--{% if list.total_pax > 0 %}-->
+                            <!--<tr>-->
+                            <!--<td>{{list.visa_type.1}}</td>-->
+                            <!--<td>{{list.entry_type.1}}</td>-->
+                            <!--<td>{{list.type.process_type.1}}</td>-->
+                            <!--<td>-->
+                            <!--<select>-->
+                            <!--{% if list.pax_type.0 == 'ADT' %}-->
+                            <!--{% for person in pax.adult %}-->
+                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                            <!--{% endfor %}-->
+                            <!--{% elif list.pax_type.0 == 'CHD' %}-->
+                            <!--{% for person in pax.child %}-->
+                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                            <!--{% endfor %}-->
+                            <!--{% elif list.pax_type.0 == 'INF' %}-->
+                            <!--{% for person in pax.infant %}-->
+                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                            <!--{% endfor %}-->
+                            <!--{% elif list.pax_type.0 == 'YCD' %}-->
+                            <!--{% for person in pax.elder %}-->
+                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
+                            <!--{% endfor %}-->
+                            <!--{% endif %}-->
+                            <!--</select>-->
+                            <!--</td>-->
+                            <!--</tr>-->
+                            <!--{% endif %}-->
+                            <!--{% endfor %}-->
+                            <!--</table>-->
+                            <!--</div>-->
+                            <!--</div>-->
+                            <!--</div>-->
+
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="detail">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
 
                     </div>
                     <div id="pricing">
-                        <div class="col-lg-12 col-md-12 col-sm-12" style="max-height:500px; overflow-y:auto; border:1px solid red;">
+                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <h4 style="padding-top:15px;">Pricing</h4>
+                                    <h4 style="padding-top:10px;">Pricing</h4>
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:right;">

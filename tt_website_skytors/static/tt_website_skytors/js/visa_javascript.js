@@ -77,8 +77,10 @@ function update_table(type){
 
             text+=`
                     <tr>
-                        <td>`+pax_count+`x `+visa[i].pax_type[1]+` @`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+`</td>
-                        <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(pax_count * visa[i].sale_price.total_price)+`</td>
+                        <td>`+pax_count+` `+visa[i].pax_type[1]+`</td>
+                        <td>x</td>
+                        <td>`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+` </td>
+                        <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</td>
                     </tr>`;
             try{
 
@@ -89,12 +91,19 @@ function update_table(type){
             }
         }
 
+        text+=`</table>`;
         text+=`
-                    <tr>
-                        <td><h6>Grand Total</h6></td>
-                        <td style="text-align:right;"><h6>`+visa[0].sale_price.currency+` `+getrupiah(price)+`</h6></td>
-                    </tr>
-                </table><br/>`;
+            <div class="row" style="padding-bottom:15px;">
+                <div class="col-lg-12">
+                    <hr/>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                    <h6>Grand Total</h6>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                    <h6>`+visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                </div>
+            </div>`;
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -132,8 +141,10 @@ function update_table(type){
         for(i in visa.list_of_visa){
             text+=`
                     <tr>
-                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+` @`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price+`</td>
+                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
+                        <td>x</td>
+                        <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</td>
                     </tr>`;
             try{
 
@@ -144,34 +155,41 @@ function update_table(type){
             }
         }
 
+        text+=`</table>`;
+
         text+=`
-                    <tr>
-                        <td><h6>Grand Total</h6></td>
-                        <td style="text-align:right;"><h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6></td>
-                    </tr>
-                </table>`;
+            <div class="row" style="padding-bottom:15px;">
+                <div class="col-lg-12">
+                    <hr/>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                    <h6>Grand Total</h6>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                </div>
+            </div>`;
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
             display = 'none';
         }
         text+=`
-                <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                        </div>
+            <div class="row" id="show_commission" style="display: `+display+`;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-                    </div>
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                 </div>
-                `;
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                </div>
+            </div>`;
     }else if(type == 'review'){
         text += `<h4>Price detail</h4><hr/>
                 <table style="width:100%; margin-bottom:10px;">`;
@@ -180,8 +198,10 @@ function update_table(type){
         for(i in visa.list_of_visa){
             text+=`
                     <tr>
-                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+` @`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
+                        <td>x</td>
+                        <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</td>
                     </tr>`;
             try{
 
@@ -192,12 +212,20 @@ function update_table(type){
             }
         }
 
+        text+=`</table>`;
+
         text+=`
-                    <tr>
-                        <td><h6>Grand Total</h6></td>
-                        <td style="text-align:right;"><h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6></td>
-                    </tr>
-                </table>`;
+            <div class="row" style="padding-bottom:15px;">
+                <div class="col-lg-12">
+                    <hr/>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                    <h6>Grand Total</h6>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                </div>
+            </div>`;
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -207,7 +235,7 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px;">Your Commission: +visa.list_of_visa[0].sale_price.currency+ `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>
