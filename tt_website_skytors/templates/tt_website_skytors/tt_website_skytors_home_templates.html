@@ -723,7 +723,7 @@
                                 <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">Destination</span>
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-map-marker-alt icon-search-ticket"></i>
@@ -735,16 +735,14 @@
                                             </div>
                                             <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">Departure Date</span>
-                                            <div class="form-group">
-                                                <div class="input-container-search-ticket">
-                                                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
-                                                    <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                                </div>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                                <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
                                             <span class="span-search-ticket">Consulate</span>
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-city icon-search-ticket"></i>
@@ -896,7 +894,7 @@
             </div>
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
                         <div class="single-other-issue">
                             <div class="thumb">
                                 <img class="img-fluid" src="{{static_path}}img/bg/pop1.jpg" alt="">
@@ -904,7 +902,7 @@
                             <h4>Japan</h4>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
                         <div class="single-other-issue">
                             <div class="thumb">
                                 <img class="img-fluid" src="{{static_path}}img/bg/pop2.jpg" alt="">
@@ -912,7 +910,7 @@
                             <h4>Indonesian</h4>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
                         <div class="single-other-issue">
                             <div class="thumb">
                                 <img class="img-fluid" src="{{static_path}}img/bg/pop3.jpg" alt="">
@@ -920,7 +918,7 @@
                             <h4>England</h4>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
                         <div class="single-other-issue">
                             <div class="thumb">
                                 <img class="img-fluid" src="{{static_path}}img/bg/pop4.jpeg" alt="">
@@ -933,6 +931,113 @@
         </div>
     </div>
 </section>
+
+
+<!--Rekom Hotel-->
+<section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>RECOMMENDED HOTELS</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">
+                            </div>
+                            <h4>Park Central Hotel NewYork</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" alt="">
+                            </div>
+                            <h4>New York Marriott Downtown</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">
+                            </div>
+                            <h4>Boro Hotel</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" alt="">
+                            </div>
+                            <h4>New York Hilton Midtown</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!--Rekom Hotel-->
+<section class="destinations-area section-gap" style="z-index:0; position:relative;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="menu-content">
+                    <div class="title text-center">
+                        <h2>POPULAR ATTRACTIONS</h2>
+                    </div>
+                    <br/>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">
+                            </div>
+                            <h4>Park Central Hotel NewYork</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" alt="">
+                            </div>
+                            <h4>New York Marriott Downtown</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">
+                            </div>
+                            <h4>Boro Hotel</h4>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                        <div class="single-other-issue">
+                            <div class="thumb">
+                                <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" alt="">
+                            </div>
+                            <h4>New York Hilton Midtown</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!--TOUR PACKAGE-->
 <section class="popular-destination-area section-gap">
