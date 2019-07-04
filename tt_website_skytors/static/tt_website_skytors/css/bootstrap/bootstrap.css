@@ -483,6 +483,11 @@ mark,
   height: auto;
 }
 
+.img-fluid-deals {
+  width: auto;
+  height: 300px;
+}
+
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #fff;
@@ -3943,7 +3948,6 @@ tbody.collapse.show {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
 }
 
 .card > hr {
