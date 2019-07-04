@@ -98,7 +98,6 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'dest_destination': request.POST['tour_destination'],
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
@@ -124,7 +123,6 @@ def detail(request):
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_detail_templates.html', values)
@@ -184,7 +182,6 @@ def passenger(request):
             'child_title': child_title,
             'countries': airline_country,
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'tour_data': request.session['tour_pick'],
             'adults': adult,
             'infants': infant,
@@ -283,7 +280,6 @@ def review(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'tour_data': request.session['tour_pick'],
             'price_itinerary': {
                 'adult_amount': int(request.POST['adult_amount'].replace(',', '')),
@@ -443,7 +439,6 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_booking_templates.html', values)

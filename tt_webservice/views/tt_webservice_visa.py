@@ -67,7 +67,7 @@ def api_models(request):
         elif req_data['action'] == 'update_contact':
             res = update_contact(request)
         elif req_data['action'] == 'commit_booking':
-            res = commit_booking(request)
+                res = commit_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
