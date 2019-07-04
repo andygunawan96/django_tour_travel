@@ -77,8 +77,8 @@ function update_table(type){
 
             text+=`
                     <tr>
-                        <td>`+pax_count+`x `+visa[i].pax_type[1]+`</td>
-                        <td style="text-align:right;">@`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+`</td>
+                        <td>`+pax_count+`x `+visa[i].pax_type[1]+` @`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(pax_count * visa[i].sale_price.total_price)+`</td>
                     </tr>`;
             try{
 
@@ -132,8 +132,8 @@ function update_table(type){
         for(i in visa.list_of_visa){
             text+=`
                     <tr>
-                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
-                        <td style="text-align:right;">@`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+` @`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price+`</td>
                     </tr>`;
             try{
 
@@ -180,8 +180,8 @@ function update_table(type){
         for(i in visa.list_of_visa){
             text+=`
                     <tr>
-                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
-                        <td style="text-align:right;">@`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+` @`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price)+`</td>
                     </tr>`;
             try{
 
@@ -497,110 +497,143 @@ function get_visa_review(){
 }
 
 function check_on_off_radio(pax_type,number,value){
-    if(pax_type == 'adult'){
-        if(value == 'visa'){
+    pax_required = '';
+    pax_check = '';
+    pax_visa = '';
+    pax_entry = '';
+    pax_process = '';
+    pax_price = '';
 
-            var radios = document.getElementsByName('adult_visa_type'+number);
-            visa_type = '';
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    visa_type = radios[j].value;
-                }
+    if(pax_type == 'adult'){
+        pax_required = document.getElementById('adult_required'+number);
+        pax_check = document.getElementById('adult_check'+number);
+        pax_visa = document.getElementsByName('adult_visa_type'+number);
+        pax_entry = document.getElementsByName('adult_entry_type'+number);
+        pax_process = document.getElementsByName('adult_process_type'+number);
+        pax_price = document.getElementById('adult_price'+number);
+    }else if(pax_type == 'child'){
+        pax_required = document.getElementById('child_required'+number);
+        pax_check = document.getElementById('child_check'+number);
+        pax_visa = document.getElementsByName('child_visa_type'+number);
+        pax_entry = document.getElementsByName('child_entry_type'+number);
+        pax_process = document.getElementsByName('child_process_type'+number);
+        pax_price = document.getElementById('child_price'+number);
+    }else if(pax_type == 'infant'){
+        pax_required = document.getElementById('infant_required'+number);
+        pax_check = document.getElementById('infant_check'+number);
+        pax_visa = document.getElementsByName('infant_visa_type'+number);
+        pax_entry = document.getElementsByName('infant_entry_type'+number);
+        pax_process = document.getElementsByName('infant_process_type'+number);
+        pax_price = document.getElementById('infant_price'+number);
+    }
+    if(value == 'visa'){
+        console.log(number);
+        if(pax_check.value != 'false'){
+            visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
+            pax_required.innerHTML = '';
+            pax_check.value = 'false';
+        }
+        var radios = pax_visa;
+        visa_type = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                visa_type = radios[j].value;
             }
-            radios = document.getElementsByName('adult_entry_type'+number);
-            for (var j = 0, length = radios.length; j < length; j++) {
-                radios[j].disabled = true;
-                radios[j].checked = false;
-            }
-            for(i in visa.list_of_visa){
-                if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type && visa.list_of_visa[i].visa_type[0] == visa_type){
-                    for (var j = 0, length = radios.length; j < length; j++) {
-                        if(radios[j].value == visa.list_of_visa[i].entry_type[0] && visa.list_of_visa[i].total_pax > 0){
-                            radios[j].disabled = false;
-                        }
+        }
+        radios = pax_entry;
+        for (var j = 0, length = radios.length; j < length; j++) {
+            radios[j].disabled = true;
+            radios[j].checked = false;
+        }
+        for(i in visa.list_of_visa){
+            if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type && visa.list_of_visa[i].visa_type[0] == visa_type){
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].value == visa.list_of_visa[i].entry_type[0] && visa.list_of_visa[i].total_pax > 0){
+                        radios[j].disabled = false;
                     }
-                }
-            }
-            radios = document.getElementsByName('adult_process_type'+number);
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    radios[j].disabled = true;
-                    radios[j].checked = false;
-                }
-            }
-            document.getElementById('adult_price'+number).innerHTML = '-';
-            //check max pax
-        }else if(value == 'entry'){
-            var radios = document.getElementsByName('adult_visa_type'+number);
-            visa_type = '';
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    visa_type = radios[j].value;
-                }
-            }
-            radios = document.getElementsByName('adult_entry_type'+number);
-            entry_type = '';
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    entry_type = radios[j].value;
-                }
-            }
-            radios = document.getElementsByName('adult_process_type'+number);
-            for (var j = 0, length = radios.length; j < length; j++) {
-                radios[j].disabled = true;
-                radios[j].checked = false;
-            }
-            for(i in visa.list_of_visa){
-                if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type && visa.list_of_visa[i].visa_type[0] == visa_type && visa.list_of_visa[i].entry_type[0] == entry_type){
-                    for (var j = 0, length = radios.length; j < length; j++) {
-                        if(radios[j].value == visa.list_of_visa[i].type.process_type[0] && visa.list_of_visa[i].total_pax > 0){
-                            radios[j].disabled = false;
-                        }
-                    }
-                }
-            }
-            document.getElementById('adult_price'+number).innerHTML = '-';
-        }else if(value == 'process'){
-            var radios = document.getElementsByName('adult_visa_type'+number);
-            visa_type = '';
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    visa_type = radios[j].value;
-                }
-            }
-            radios = document.getElementsByName('adult_entry_type'+number);
-            entry_type = '';
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    entry_type = radios[j].value;
-                }
-            }
-            radios = document.getElementsByName('adult_process_type'+number);
-            process_type = '';
-            for (var j = 0, length = radios.length; j < length; j++) {
-                if(radios[j].checked == true){
-                    process_type = radios[j].value;
-                }
-            }
-            for(i in visa.list_of_visa){
-                if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type &&
-                    visa.list_of_visa[i].visa_type[0] == visa_type &&
-                    visa.list_of_visa[i].entry_type[0] == entry_type &&
-                    visa.list_of_visa[i].type.process_type[0] == process_type){
-                    document.getElementById('adult_price'+number).innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + visa.list_of_visa[i].sale_price.total_price.toString();
-                    text_requirements = '';
-                    for(j in visa.list_of_visa[i].requirements){
-                        if(visa.list_of_visa[i].requirements[j].required == true){
-                            text_requirements += `<input type="checkbox" id="adult_required`+number+`_`+j+`"/><span>`+visa.list_of_visa[i].requirements[j].name+`</span>`;
-                        }
-                    }
-                    document.getElementById('adult_required'+number).innerHTML = text_requirements;
-                    visa.list_of_visa[i].total_pax--;
-                    document.getElementById('adult_check'+number).value = i;
                 }
             }
         }
+        radios = pax_process;
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                radios[j].disabled = true;
+                radios[j].checked = false;
+            }
+        }
+        pax_price.innerHTML = '-';
+        //check max pax
+    }else if(value == 'entry'){
+        var radios = pax_visa;
+        visa_type = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                visa_type = radios[j].value;
+            }
+        }
+        radios = pax_entry;
+        entry_type = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                entry_type = radios[j].value;
+            }
+        }
+        radios = pax_process;
+        for (var j = 0, length = radios.length; j < length; j++) {
+            radios[j].disabled = true;
+            radios[j].checked = false;
+        }
+        for(i in visa.list_of_visa){
+            if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type && visa.list_of_visa[i].visa_type[0] == visa_type && visa.list_of_visa[i].entry_type[0] == entry_type){
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if(radios[j].value == visa.list_of_visa[i].type.process_type[0] && visa.list_of_visa[i].total_pax > 0){
+                        radios[j].disabled = false;
+                    }
+                }
+            }
+        }
+        pax_price.innerHTML = '-';
+    }else if(value == 'process'){
+        var radios = pax_visa;
+        visa_type = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                visa_type = radios[j].value;
+            }
+        }
+        radios = pax_entry;
+        entry_type = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                entry_type = radios[j].value;
+            }
+        }
+        radios = pax_process;
+        process_type = '';
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if(radios[j].checked == true){
+                process_type = radios[j].value;
+            }
+        }
+        for(i in visa.list_of_visa){
+            if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type &&
+                visa.list_of_visa[i].visa_type[0] == visa_type &&
+                visa.list_of_visa[i].entry_type[0] == entry_type &&
+                visa.list_of_visa[i].type.process_type[0] == process_type){
+                pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + visa.list_of_visa[i].sale_price.total_price.toString();
+                text_requirements = '';
+                for(j in visa.list_of_visa[i].requirements){
+                    if(visa.list_of_visa[i].requirements[j].required == true){
+                        text_requirements += `<input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`"/><span>`+visa.list_of_visa[i].requirements[j].name+`</span>`;
+                    }
+                }
+                pax_required.innerHTML = text_requirements;
+                visa.list_of_visa[i].total_pax--;
+                pax_check.value = i;
+            }
+        }
     }
+
 
 }
 

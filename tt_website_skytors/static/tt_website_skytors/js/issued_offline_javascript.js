@@ -91,7 +91,7 @@ function add_table_of_passenger(){
             <input id="id_passenger`+counter_passenger+`" name="id_passenger`+counter_passenger+`" type="hidden"/>
         </td>
         <td>
-            <span id='pax_type`+counter_passenger+`' name='pax_type`+counter_passenger+`'></span>
+            <span id='birth_date`+counter_passenger+`' name='birth_date`+counter_passenger+`'></span>
         </td>
         `;
     text += `
@@ -100,14 +100,14 @@ function add_table_of_passenger(){
                 <button type="button" class="primary-btn" style="border-radius: 28px; margin-bottom:5px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-plus"></i></button>
             </div>
             <!-- Modal -->
-            <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog">
+            <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
                 <div class="modal-dialog">
 
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Passenger `+(counter_passenger+1)+`</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -146,6 +146,11 @@ function add_table_of_passenger(){
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
+                                                            <input type="checkbox" id="adult_cp`+parseInt(counter_passenger+1)+`" name="adult_cp`+parseInt(counter_passenger+1)+`" onclick="update_contact_cp(`+parseInt(counter_passenger+1)+`)" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
@@ -231,6 +236,39 @@ function add_table_of_passenger(){
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`" hidden>
+                                                    <label>Contact Email Address</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_email`+parseInt(counter_passenger+1)+`" id="adult_email`+parseInt(counter_passenger+1)+`" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                    </div>
+                                                    <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                                </div>
+                                                <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`" hidden>
+                                                    <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                                    <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="row">
+                                                            <div class="col-lg-3">
+                                                                <div class="form-select">
+                                                                    <select id="adult_phone_code`+parseInt(counter_passenger+1)+`" name="adult_phone_code`+parseInt(counter_passenger+1)+`">`;
+                                                                        for(i in countries){
+                                                                            if(countries[i].code == 'ID')
+                                                                               text+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                                            else
+                                                                               text+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                                                        }
+
+                                                            text+=` </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-9">
+                                                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -238,7 +276,7 @@ function add_table_of_passenger(){
                             </div>
                         </div>
                         <div class="modal-footer">
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact('passenger',`+parseInt(counter_passenger+1)+`);">Close</button>
                         </div>
                     </div>
                 </div>
@@ -275,6 +313,17 @@ function add_table_of_line(){
         <datalist id="airline_destination_name`+counter_line+`"/>
     </td>
     <td>
+        <div class="input-container-search-ticket">
+            <i class="fas fa-plane-departure icon-search-ticket"></i>
+            <div class="form-select">
+                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="provider_data`+counter_line+`" placeholder="Carrier Name" onchange="set_provider(`+counter_line+`)">
+
+                </select>
+            </div>
+            <input type="hidden" name="provider`+counter_line+`" id="provider`+counter_line+`" />
+        </div>
+    </td>
+    <td>
         <input type="datetime-local" id='departure`+counter_line+`' class="form-control" name='departure`+counter_line+`' placeholder="datetime"/>
     </td>
     <td>
@@ -298,6 +347,8 @@ function add_table_of_line(){
     $('#class'+counter_line).niceSelect('update');
     node.setAttribute('id', 'table_line'+counter_line);
     document.getElementById("table_of_line").appendChild(node);
+    set_provider_data(counter_line);
+    $('.js-example-basic-single').select2();
     counter_line++;
 }
 
@@ -389,7 +440,48 @@ function radio_button(type,val){
     }
 }
 
-function update_contact(type){
-    if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
-        document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
+function update_contact(type,val){
+    if(type == 'booker'){
+        if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')
+            document.getElementById('contact_person').value = document.getElementById('booker_title').value + ' ' + document.getElementById('booker_first_name').value + ' ' + document.getElementById('booker_last_name').value;
+    }else if(type == 'passenger'){
+        if(document.getElementById('adult_title'+val).value != '' && document.getElementById('adult_first_name'+val).value != '' && document.getElementById('adult_last_name'+val).value != '')
+            document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ' + document.getElementById('adult_first_name'+val).value + ' ' + document.getElementById('adult_last_name'+val).value;
+        if(document.getElementById('adult_birth_date'+val).value != ''){
+            console.log('inside here');
+            document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('adult_birth_date'+val).value;
+        }
+    }
+}
+
+function update_contact_cp(val){
+    console.log(val);
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
+
+}
+
+function set_provider_data(val){
+    console.log(val);
+    var carrier = document.getElementById("provider_data"+val);
+    for(i in issued_offline_data.carrier_id){
+        var node = document.createElement("option");
+        node.text = issued_offline_data.carrier_id[i].name;
+        node.value = issued_offline_data.carrier_id[i].code;
+        try{
+        }catch(err){
+        }
+        carrier.add(node);
+    }
+}
+
+function set_provider(val){
+    console.log(val);
+    console.log(document.getElementById('select2-provider_data'+val+'-container').innerHTML);
+    document.getElementById('provider'+val).value = document.getElementById('select2-provider_data'+val+'-container').innerHTML;
 }

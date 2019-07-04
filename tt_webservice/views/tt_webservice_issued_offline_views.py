@@ -41,7 +41,9 @@ month = {
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
-        if req_data['action'] == 'get_data':
+        if req_data['action'] == 'signin':
+            res = signin(request)
+        elif req_data['action'] == 'get_data':
             res = get_data(request)
         elif req_data['action'] == 'create_issued_offline':
             res = create_issued_offline(request)
@@ -53,6 +55,27 @@ def api_models(request):
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
 
+def singin(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": '',
+    }
+
+    data = {
+        "user": user_global,
+        "password": password_global,
+        "api_key": api_key,
+        "co_user": user_default,  # request.POST['username'],
+        "co_password": password_default,  # request.POST['password'],
+        "co_uid": ""
+    }
+    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+
+    request.session['issued_offline_signature'] = res['result']['response']['signature']
+
+    return res
 
 def get_data(request):
     file = open("version_cache.txt", "r")
@@ -82,26 +105,53 @@ def create_issued_offline(request):
         response = json.loads(line)
     file.close()
 
-    carriers = response['result']['response']['issued_offline']['carrier_id']
-    for carrier in carriers:
-        if carrier['code'] == request.POST['provider']:
-            carrier_id = carrier['id']
-            break
-
-
     passenger = []
+    contact = []
     line = []
 
     for i in range(int(request.POST['counter_passenger'])):
+        birth_date = ''
+        passport_expdate = ''
+        if request.POST['passenger_birth_date' + str(i )] != '':
+            birth_date = '%s-%s-%s' % (request.POST['passenger_birth_date' + str(i)].split(' ')[2],
+                                        month[request.POST['passenger_birth_date' + str(i)].split(' ')[1]],
+                                        request.POST['passenger_birth_date' + str(i)].split(' ')[0])
+        if request.POST['passenger_passport_expired_date' + str(i)] != '':
+            passport_expdate = '%s-%s-%s' % (request.POST['passenger_passport_expired_date' + str(i)].split(' ')[2],
+                                        month[request.POST['passenger_passport_expired_date' + str(i)].split(' ')[1]],
+                                        request.POST['passenger_passport_expired_date' + str(i)].split(' ')[0])
+        pax_type = ''
+        if int(request.POST['passenger_years_old' + str(i)]) > 12:
+            pax_type = 'ADT'
+        elif int(request.POST['passenger_years_old' + str(i)]) >= 2:
+            pax_type = 'CHD'
+        elif int(request.POST['passenger_years_old' + str(i)]) < 2:
+            pax_type = 'INF'
         passenger.append({
-            'passenger_id': request.POST['passenger_id'+str(i)] != '' and int(request.POST['passenger_id'+str(i)]) or '',
-            'first_name': request.POST['passenger_first_name'+str(i)],
-            'last_name': request.POST['passenger_last_name'+str(i)],
-            'title': request.POST['passenger_title'+str(i)],
-            'calling_code': request.POST['passenger_calling_code'+str(i)],
-            'mobile': request.POST['passenger_mobile'+str(i)],
-            'nationality_code': request.POST['passenger_nationality_code'+str(i)],
+            "pax_type": pax_type,
+            "first_name": request.POST['passenger_first_name' + str(i)],
+            "last_name": request.POST['passenger_last_name' + str(i)],
+            "title": request.POST['passenger_title' + str(i)],
+            "birth_date": birth_date,
+            "nationality_code": request.POST['passenger_nationality_code' + str(i)],
+            "country_of_issued_code": request.POST['passenger_country_of_issued' + str(i)],
+            "passport_expdate": passport_expdate,
+            "passport_number": request.POST['passenger_passport_number' + str(i)],
+            'passenger_id': request.POST['passenger_id'+str(i)] != '' and int(request.POST['passenger_id'+str(i)]) or ''
         })
+        if request.POST['passenger_cp'+str(i)] == 'true':
+            contact.append({
+                'title': request.POST['passenger_title' + str(i)],
+                'first_name': request.POST['passenger_first_name' + str(i)],
+                'last_name': request.POST['passenger_last_name' + str(i)],
+                'email': request.POST['passenger_email' + str(i)],
+                'calling_code': request.POST['booker_calling_code'],
+                'mobile': request.POST['booker_mobile'],
+                'nationality_code': request.POST['booker_nationality_code'],
+                'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id' + str(i)]) or ''
+            })
+        else:
+            pass
 
     for i in range(int(request.POST['counter_line'])):
         departure = request.POST['line_departure'+str(i)].split('T')
@@ -109,6 +159,7 @@ def create_issued_offline(request):
         line.append({
             "origin": request.POST['line_origin'+str(i)].split(' - ')[0],
             "destination": request.POST['line_destination'+str(i)].split(' - ')[0],
+            "provider": request.POST['line_provider'+str(i)],
             "departure": departure[0]+' '+departure[1],
             "arrival": arrival[0]+' '+arrival[1],
             "carrier_code": request.POST['line_carrier_code'+str(i)],
@@ -134,8 +185,6 @@ def create_issued_offline(request):
         "sector_type": request.POST['sector_type'],
         "total_sale_price": int(request.POST['total_sale_price']),
         "desc": request.POST['desc'],
-        "carrier_name": carrier_id,
-        "provider": request.POST['provider'],
         "pnr": request.POST['pnr'],
         "social_media_id": request.POST['social_media'],
         "expired_date": exp_date[0]+' '+exp_date[1],
@@ -146,7 +195,7 @@ def create_issued_offline(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "create_issued_offline",
-        "signature": request.session['signature'],
+        "signature": request.session['issued_offline_signature'],
     }
     res = util.send_request(url=url + "agent/issued_offline", data=data, cookies=request.session['agent_cookie'], headers=headers, method='POST')
     return res

@@ -369,7 +369,7 @@ function commit_booking(){
             'force_issued': 'true'
        },
        success: function(msg) {
-
+            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

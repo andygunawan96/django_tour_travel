@@ -46,7 +46,13 @@
     console.log(titles);
 
     get_balance();
-    console.log(`{{username}}`);
+
+    function check_years_old(sequence){
+        var birth_date = '';
+        console.log(document.getElementById('adult_birth_date'+sequence).value);
+        birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
+        document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+    }
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -88,14 +94,14 @@
                                             <button type="button" style="width:95%;" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);"/><i class="fas fa-times"></i></button>
                                         </div>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="myModal" role="dialog">
+                                        <div class="modal fade" id="myModal" role="dialog" data-keyboard="false">
                                             <div class="modal-dialog">
 
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title">Booker</h4>
-                                                        <button type="button" class="close" data-dismiss="modal" onclick="update_contact();">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="update_contact('booker');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -247,7 +253,7 @@
                                                                                 <div class="form-select">
                                                                                     <select id="booker_phone_code" name="booker_phone_code">
                                                                                         {% for country in countries%}
-                                                                                        <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                                        <option value="{{country.phone_code}}" {%if country.code == 'ID' %} selected {%endif%}>{{country.phone_code}}</option>
                                                                                         {% endfor %}
                                                                                     </select>
                                                                                 </div>
@@ -265,7 +271,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact();">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact('booker');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -292,29 +298,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="margin-bottom:15px;">
-                                    <span>Total Sale Price</span><br/>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" id="total_sale_price" name="total_sale_price"/>
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
                         <div class="col-lg-6">
                             <div class="row" style="text-align:left;">
-                                <div class="col-lg-12">
-                                    <span>Carrier</span><br/>
-                                    <div class="input-container-search-ticket">
-                                        <i class="fas fa-plane-departure icon-search-ticket"></i>
-                                        <div class="form-select">
-                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="carrier_name" placeholder="Carrier Name">
-
-                                            </select>
-                                        </div>
-                                        <input type="hidden" name="carrier_name_id" id="carrier_name_id" />
-                                    </div>
-                                </div>
                                 <div class="col-lg-12">
                                     <span>PNR</span><br/>
                                     <div class="input-container-search-ticket">
@@ -341,6 +329,12 @@
                                         <input class="form-control"  type="datetime-local" id="timelimit" name="timelimit"/>
                                     </div>
                                 </div>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <span>Total Sale Price</span><br/>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" id="total_sale_price" name="total_sale_price"/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -359,7 +353,7 @@
                                 <tr>
                                     <th style="width:5%;">No.</th>
                                     <th style="width:40%;">Name</th>
-                                    <th style="width:35%;">Pax Type</th>
+                                    <th style="width:35%;">Birth Date</th>
                                     <th style="width:20%;"></th>
                                 </tr>
                             </table>
@@ -375,13 +369,13 @@
                                     <th style="width:5%;">No.</th>
                                     <th style="width:15%;">Origin</th>
                                     <th style="width:15%;">Destination</th>
+                                    <th style="width:15%;">Provider</th>
                                     <th style="width:15%;">Departure Date</th>
                                     <th style="width:15%;">Arrival Date</th>
                                     <th style="width:5%;">Carrier Code</th>
                                     <th style="width:5%;">Carrier Number</th>
                                     <th style="width:10%;">Class</th>
                                     <th style="width:8%;">Sub Class</th>
-                                    <th style="width:7%;"></th>
                                 </tr>
                             </table>
                         </div>
@@ -469,7 +463,6 @@
       $('.js-example-basic-single').select2();
       get_data_issued_offline();
       radio_button('booker');
-      //get_data2();
     });
 
 </script>

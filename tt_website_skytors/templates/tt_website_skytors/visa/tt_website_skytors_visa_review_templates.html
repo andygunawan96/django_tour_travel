@@ -177,20 +177,20 @@
                                                 <tr>
                                                     <td class="list-of-passenger-left">{{person.number}}</td>
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Adult</td>
+                                                    <td>Children</td>
                                                     <td>{{person.birth_date}}</td>
                                                     <td>
-                                                        {% for visa_type in type.visa_type.adult %}
+                                                        {% for visa_type in type.visa_type.child %}
                                                         <input type="radio" checked="checked" name="child_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('child',{{counter}},'visa')">{{visa_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
                                                     <td>
-                                                        {% for entry_type in type.entry_type.adult %}
+                                                        {% for entry_type in type.entry_type.child %}
                                                         <input type="radio" checked="checked" name="child_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('child',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
                                                     <td>
-                                                        {% for process_type in type.process_type.adult %}
+                                                        {% for process_type in type.process_type.child %}
                                                         <input type="radio" checked="checked" name="child_process_type{{counter}}" value="{{process_type.0}}" onclick="check_on_off_radio('child',{{counter}},'process')" disabled>{{process_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
@@ -208,15 +208,15 @@
                                                 <tr>
                                                     <td class="list-of-passenger-left">{{person.number}}</td>
                                                     <td>{{person.title}} {{person.first_name}} {{person.last_name}}</td>
-                                                    <td>Adult</td>
+                                                    <td>Infant</td>
                                                     <td>{{person.birth_date}}</td>
                                                     <td>
-                                                        {% for visa_type in type.visa_type.adult %}
+                                                        {% for visa_type in type.visa_type.infant %}
                                                         <input type="radio" checked="checked" name="infant_visa_type{{counter}}" value="{{visa_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'visa')">{{visa_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
                                                     <td>
-                                                        {% for entry_type in type.entry_type.adult %}
+                                                        {% for entry_type in type.entry_type.infant %}
                                                         <input type="radio" checked="checked" name="infant_entry_type{{counter}}" value="{{entry_type.0}}" onclick="check_on_off_radio('infant',{{counter}},'entry')" disabled>{{entry_type.1}}<br/>
                                                         {% endfor %}
                                                     </td>
