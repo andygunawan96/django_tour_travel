@@ -181,15 +181,18 @@ def create_issued_offline(request):
             'nationality_code': request.POST['booker_nationality_code'],
             'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id'+str(i)]) or ''
         },
-        "type": request.POST['type'],
-        "sector_type": request.POST['sector_type'],
-        "total_sale_price": int(request.POST['total_sale_price']),
-        "desc": request.POST['desc'],
-        "pnr": request.POST['pnr'],
-        "social_media_id": request.POST['social_media'],
-        "expired_date": exp_date[0]+' '+exp_date[1],
+        "contact": contact,
         "passenger_ids": passenger,
-        "line_ids": line
+        "data_issued_offline": {
+            "type": request.POST['type'],
+            "sector_type": request.POST['sector_type'],
+            "total_sale_price": int(request.POST['total_sale_price']),
+            "desc": request.POST['desc'],
+            "pnr": request.POST['pnr'],
+            "social_media_id": request.POST['social_media'],
+            "expired_date": exp_date[0]+' '+exp_date[1],
+            "line_ids": line
+        }
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",

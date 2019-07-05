@@ -76,7 +76,7 @@ function visa_signin(data){
             if(data == ''){
                 search_visa();
             }else if(data != ''){
-
+                visa_get_data(data);
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -369,6 +369,238 @@ function commit_booking(){
             'force_issued': 'true'
        },
        success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                document.getElementById('order_number').value = msg.result.response.id;
+                document.getElementById('visa_booking').submit();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function visa_get_data(data){
+    console.log('here');
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'get_booking',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'order_number': data
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                /*set pricing*/
+                for(i in msg.result.response.passenger){
+                    check = 0;
+                    for(j in pax_type)
+                        if(pax_type[j][0] == msg.result.response.passenger[i].visa.pax_type)
+                            check = 1;
+                    if(check == 0)
+                        if(msg.result.response.passenger[i].visa.pax_type == 'ADT')
+                            pax_type.push(['ADT',['Adult']])
+                        else if(msg.result.response.passenger[i].visa.pax_type == 'CHD')
+                            pax_type.push(['CHD',['Child']])
+                        else if(msg.result.response.passenger[i].visa.pax_type == 'INF')
+                            pax_type.push(['INF',['Infant']])
+
+                    //belum bisa multi user
+                    for(j in msg.result.response.passenger[i].visa.price){
+                        check = 0;
+                        for(k in type_amount){
+                            if(type_amount[k] == j)
+                                check = 1;
+                        }
+                        if(check == 0 && j != 'currency'){
+                            console.log(j);
+                            for(k in price_arr)
+                                if(k == msg.result.response.passenger[i].visa.pax_type)
+                                    check = 1;
+                            if(check == 0)
+                                price_arr[msg.result.response.passenger[i].visa.pax_type] = {};
+                            price_arr[msg.result.response.passenger[i].visa.pax_type][j] = msg.result.response.passenger[i].visa.price[j];
+                            console.log(msg.result.response.passenger[i].visa.price[j]);
+                            type_amount.push(j);
+                        }
+                    }
+
+                }
+
+                for(i in price_arr){
+                    total = 0
+                    for(j in price_arr[i]){
+                        total += price_arr[i][j];
+                    }
+                    price_arr[i]['total'] = total;
+                }
+                console.log(price_arr);
+                console.log(type_amount);
+                console.log(pax_type);
+                /*set pricing*/
+                text= '';
+
+                /* contact*/
+                text+=`<div class="row">
+                    <div class="col-lg-12">
+                        <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+                            <h4>List of Contact(s)</h4>
+                            <hr/>
+                            <table style="width:100%;" id="list-of-passenger">
+                                <tr>
+                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                    <th style="width:28%;">Name</th>
+                                    <th style="width:18%;">Phone Number</th>
+                                </tr>`;
+                                for(i in msg.result.response.contact){
+                         text+=`<tr>
+                                    <td class="list-of-passenger-left">`+parseInt(i+1)+`</td>
+                                    <td>`+msg.result.response.contact[i].name+`</td>
+                                    <td>`+msg.result.response.contact[i].phone_number+`</td>
+                                </tr>`;
+                                }
+                                text+=`
+                            </table>
+                        </div>
+                    </div>
+                </div>`;
+                /*pax*/
+                text+=`
+                <div class="row" style="padding-top:20px;">
+                    <div class="col-lg-12">
+                        <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
+                            <h4>List of Passenger(s)</h4>
+                            <hr/>`;
+                            for(i in msg.result.response.passenger){
+                            text+=`<div class="row">
+                                <div class="col-lg-12" style="margin-bottom:10px;">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <h6>`+parseInt(i+1)+`. `+msg.result.response.passenger[i].title+` `+msg.result.response.passenger[i].first_name+` `+msg.result.response.passenger[i].last_name+`</h6>`;
+                                            if(parseInt(msg.result.response.passenger[i].age) > 12)
+                                     text+=`<span>Adult - `;
+                                            else if(parseInt(msg.result.response.passenger[i].age) > 3)
+                                     text+=`<span>Child - `;
+                                            else
+                                     text+=`<span>Infant - `;
+                                            text+=`Birth Date: `+msg.result.response.passenger[i].birth_date+`</span>`;
+                                 text+=`</div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <span>`+msg.result.response.passenger[i].visa.immigration_consulate+`</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h6>Visa Type</h6>
+                                    <label class="radio-button-custom">
+                                        <span>`+msg.result.response.passenger[i].visa.visa_type+`</span>
+                                    </label><br/>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h6>Entry Type</h6>
+                                    <label class="radio-button-custom">
+                                        <span>`+msg.result.response.passenger[i].visa.entry_type+`</span>
+                                    </label><br/>
+                                </div>
+                                <div class="col-lg-4">
+                                    <h6>Process Type</h6>
+                                    <label class="radio-button-custom">
+                                        <span>`+msg.result.response.passenger[i].visa.process+`</span>
+                                    </label><br/>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:10px;">
+                                <div class="col-lg-6">
+                                    <h6>Required</h6>
+                                    <div id="adult_required{{counter}}">
+                                        `;
+                                    for(j in msg.result.response.passenger[i].visa.requirement){
+                                        text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passenger[i].visa.requirement[i].name+`</b></label><br/>`;
+                                    }
+                                    text+=`
+                                    </div>
+                                </div>
+                                <div class="col-lg-3" style="text-align:right;">
+                                    <h6>Price</h6>
+                                    <div id="adult_price{{counter}}">
+                                        <label>`+msg.result.response.passenger[i].visa.price.currency+` `+msg.result.response.passenger[i].visa.price.sale_price+`</label>
+                                    </div>
+                                </div>
+                            </div>`;
+                            }
+                            text+=`
+                        </div>
+                    </div>
+                </div>`;
+                document.getElementById('visa_booking').innerHTML = text;
+
+                //set pricing
+                text = `
+                    <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h4 style="padding-top:10px;">Pricing</h4>
+                                <hr/>
+                            </div>
+                            <div class="col-lg-12" style="text-align:right;">
+                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                <br/>
+                            </div>
+                            <div class="col-lg-12">
+                                <div style="padding:10px;" id="table_of_equation">
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row">
+                                    <div class="col-lg-3"></div>
+                                    <div class="col-lg-3">Fare</div>
+                                    <div class="col-lg-3">Tax</div>
+                                    <div class="col-lg-3">Total</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="adult">
+                                    <div class="col-lg-3">Adult</div>
+                                    <div class="col-lg-3" id="adult_fare">-</div>
+                                    <div class="col-lg-3" id="adult_tax">-</div>
+                                    <div class="col-lg-3" id="adult_total">-</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="child">
+                                    <div class="col-lg-3">Child</div>
+                                    <div class="col-lg-3" id="child_fare">-</div>
+                                    <div class="col-lg-3" id="child_tax">-</div>
+                                    <div class="col-lg-3" id="child_total">-</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="infant">
+                                    <div class="col-lg-3">Infant</div>
+                                    <div class="col-lg-3" id="infant_fare">-</div>
+                                    <div class="col-lg-3" id="infant_tax">-</div>
+                                    <div class="col-lg-3" id="infant_total">-</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                <hr/>
+                                <center>
+                                    <input class="primary-btn-ticket" type="button" onclick="calculate('visa');" value="Calculate">
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('pricing').innerHTML = text;
+            }
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

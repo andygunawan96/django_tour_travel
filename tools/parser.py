@@ -15,5 +15,8 @@ def string_to_datetime(date):
 def convert_string_to_date_to_string_front_end(date):
     return datetime.strptime(date, "%Y-%m-%d").strftime('%d %b %Y')
 
+def convert_string_to_date_to_string_front_end_with_time(date):
+    return datetime.strptime(date, "%Y-%m-%d %H:%M:%S").strftime('%d %b %Y  %H:%M')
+
 def to_date_now(date):
     return datetime.strftime(datetime.strptime(date, '%Y-%m-%d %H:%M:%S') + timedelta(hours=7), '%Y-%m-%d %H:%M:%S')

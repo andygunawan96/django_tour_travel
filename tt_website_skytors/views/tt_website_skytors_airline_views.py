@@ -640,6 +640,6 @@ def booking(request):
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
-        return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)
+        return render(request, MODEL_NAME+'/airline/tt_website_skytors_visa_booking_templates.html', values)
     else:
         return index(request)

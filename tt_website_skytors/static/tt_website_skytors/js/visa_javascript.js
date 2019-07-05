@@ -122,7 +122,7 @@ function update_table(type){
                         <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                     </div>
                     <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
                     </div>
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <button class="primary-btn-ticket next-search-train ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
@@ -187,7 +187,7 @@ function update_table(type){
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                 </div>
                 <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                 </div>
             </div>`;
     }else if(type == 'review'){
@@ -244,7 +244,7 @@ function update_table(type){
                         <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                     </div>
                     <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
                     </div>
                 </div>
                 `;
@@ -262,23 +262,43 @@ function show_commission(){
     }
 }
 
-function copy_data(){
+function copy_data(type){
     $text = '';
-    for(i in visa){
-        $text += 'Visa '+ country +'('+getrupiah(visa[i].sale_price.total_price)+')\n';
-        $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
-        $text += 'Consulate Address :\n';
-        $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
-        if(visa[i].requirements.length == 0){
-            $text += 'Visa Requirement:\n';
+    if(type == 'search'){
+        for(i in visa){
+            $text += 'Visa '+ country +'('+visa[i].sale_price.currency+ ' ' +getrupiah(visa[i].sale_price.total_price)+')\n';
+            $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
+            $text += 'Consulate Address :\n';
+            $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
+            if(visa[i].requirements.length == 0){
+                $text += 'Visa Requirement:\n';
 
-            for(j in visa[i].requirements){
-                $text += visa[i].requirements[j].name;
-                if(visa[i].requirements[j].description)
-                    $text += ': ' + visa[i].requirements[j].description;
+                for(j in visa[i].requirements){
+                    $text += visa[i].requirements[j].name;
+                    if(visa[i].requirements[j].description)
+                        $text += ': ' + visa[i].requirements[j].description;
+                    $text += '\n';
+                }
                 $text += '\n';
             }
-            $text += '\n';
+        }
+    }else{
+        for(i in visa.list_of_visa){
+            $text += 'Visa '+ visa_request.country +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
+            $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
+            $text += 'Consulate Address :\n';
+            $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
+            if(visa.list_of_visa[i].requirements.length == 0){
+                $text += 'Visa Requirement:\n';
+
+                for(j in visa.list_of_visa[i].requirements){
+                    $text += visa.list_of_visa[i].requirements[j].name;
+                    if(visa.list_of_visa[i].requirements[j].description)
+                        $text += ': ' + visa.list_of_visa[i].requirements[j].description;
+                    $text += '\n';
+                }
+                $text += '\n';
+            }
         }
     }
     console.log($text);
@@ -738,3 +758,14 @@ function set_value_radio_first(pax_type,number){
     }
 }
 
+function update_contact_cp(val){
+    console.log(val);
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
+
+}

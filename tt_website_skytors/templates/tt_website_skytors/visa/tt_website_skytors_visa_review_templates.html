@@ -6,14 +6,18 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/webservice_account`.js"></script>
 <script src="{{ static_path }}js/webservice_visa.js"></script>
 <script src="{{ static_path }}js/visa_javascript.js"></script>
 <script src="{{ static_path }}js/agent_javascript.js"></script>
-<script src="{{ static_path }}js/pricing_javascript.js"></script>
-
 <script>
+    time = 300;
+    triggered_balance();
+    //get_balance();
     passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
+    visa_request = `{{visa_request}}`;
+    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     console.log(passenger);
     adult = passenger.adult;
     infant = passenger.infant;
@@ -26,48 +30,6 @@
     pax = `{{pax}}`;
     pax = JSON.parse(pax.replace(/&#39;/g, '"'));
     console.log(pax);
-    for(i in visa.list_of_visa){
-        if(visa.list_of_visa[i].total_pax > 0){
-            //pax type
-            check = 0;
-            for(j in pax_type){
-                if(pax_type[j][0] == visa.list_of_visa[i].pax_type[0]){
-                    check = 1;
-                    break;
-                }
-            }
-            if(check == 0)
-                pax_type.push(visa.list_of_visa[i].pax_type);
-
-            //type amount
-            check = 0;
-            for(j in visa.list_of_visa[i].sale_price){
-                if(type_amount.length == 0 && j != "commission" && j != 'currency' && j != 'total_price'){
-                    type_amount.push(j);
-                }else if(j == 'total_price'){
-                    price_arr[visa.list_of_visa[i].pax_type[1]] = {
-                        'total_price': visa.list_of_visa[i].sale_price.total_price
-                    }
-                }
-                for(k in type_amount){
-                    if(type_amount[k] != j && j != "commission" && j != 'currency' && j != 'total_price'){
-                        type_amount.push(j);
-                    }
-                }
-            }
-
-        }
-    }
-    for(i in price_arr){
-        total = 0
-        for(j in price_arr[i]){
-            total += price_arr[i][j];
-        }
-        price_arr[i]['total'] = total;
-    }
-    console.log(type_amount);
-    console.log(pax_type);
-    console.log(price_arr);
 
 </script>
 
@@ -86,7 +48,7 @@
         </div>
         <br/>
 
-        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
+        <form method="POST" id="visa_booking" action="{% url 'tt_website_skytors:visa_booking'%}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -315,58 +277,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!--testing-->
-                            <!--<div class="row" style="padding-top:20px;">-->
-                            <!--<div class="col-lg-12">-->
-                            <!--<div style="background-color:#f15a22;">-->
-                            <!--<center>-->
-                            <!--<span style="color:white; font-size:16px;"> List of Passenger(s) Person <i class="fas fa-users"></i></span>-->
-                            <!--</center>-->
-                            <!--</div>-->
-                            <!--<div style="border:1px solid #f15a22; background-color:white;">-->
-                            <!--<table style="width:100%;" id="list-of-passenger">-->
-                            <!--<tr>-->
-                            <!--<th>Visa Type</th>-->
-                            <!--<th>Entry Type</th>-->
-                            <!--<th>Process Type</th>-->
-                            <!--<th>Passenger</th>-->
-                            <!--</tr>-->
-                            <!--{% for list in visa.list_of_visa %}-->
-                            <!--{% if list.total_pax > 0 %}-->
-                            <!--<tr>-->
-                            <!--<td>{{list.visa_type.1}}</td>-->
-                            <!--<td>{{list.entry_type.1}}</td>-->
-                            <!--<td>{{list.type.process_type.1}}</td>-->
-                            <!--<td>-->
-                            <!--<select>-->
-                            <!--{% if list.pax_type.0 == 'ADT' %}-->
-                            <!--{% for person in pax.adult %}-->
-                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                            <!--{% endfor %}-->
-                            <!--{% elif list.pax_type.0 == 'CHD' %}-->
-                            <!--{% for person in pax.child %}-->
-                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                            <!--{% endfor %}-->
-                            <!--{% elif list.pax_type.0 == 'INF' %}-->
-                            <!--{% for person in pax.infant %}-->
-                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                            <!--{% endfor %}-->
-                            <!--{% elif list.pax_type.0 == 'YCD' %}-->
-                            <!--{% for person in pax.elder %}-->
-                            <!--<option>{{person.title}} {{person.first_name}} {{person.last_name}}</option>-->
-                            <!--{% endfor %}-->
-                            <!--{% endif %}-->
-                            <!--</select>-->
-                            <!--</td>-->
-                            <!--</tr>-->
-                            <!--{% endif %}-->
-                            <!--{% endfor %}-->
-                            <!--</table>-->
-                            <!--</div>-->
-                            <!--</div>-->
-                            <!--</div>-->
-
                         </div>
                     </div>
                 </div>
@@ -374,76 +284,19 @@
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
 
                     </div>
-                    <div id="pricing">
-                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h4 style="padding-top:10px;">Pricing</h4>
-                                    <hr/>
-                                </div>
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
-                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                                    <br/>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div style="padding:10px;" id="table_of_equation">
 
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Fare</div>
-                                        <div class="col-lg-3">Tax</div>
-                                        <div class="col-lg-3">Total</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3">Adult</div>
-                                        <div class="col-lg-3" id="adult_fare">-</div>
-                                        <div class="col-lg-3" id="adult_tax">-</div>
-                                        <div class="col-lg-3" id="adult_total">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="child">
-                                        <div class="col-lg-3">Child</div>
-                                        <div class="col-lg-3" id="child_fare">-</div>
-                                        <div class="col-lg-3" id="child_tax">-</div>
-                                        <div class="col-lg-3" id="child_total">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="infant">
-                                        <div class="col-lg-3">Infant</div>
-                                        <div class="col-lg-3" id="infant_fare">-</div>
-                                        <div class="col-lg-3" id="infant_tax">-</div>
-                                        <div class="col-lg-3" id="infant_total">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                                    <hr/>
-                                    <center>
-                                        <input class="primary-btn-ticket" type="button" onclick="calculate();" value="Calculate">
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:15px;">
-                        <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="check_hold_booking();" style="width:100%;"/>
+                        <div class="col-lg-6" style="padding-bottom:15px;">
+
                         </div>
-                        <div class="col-lg-4" style="padding-bottom:15px;"></div>
-                        <div class="col-lg-4" style="padding-bottom:15px;">
+                        <div class="col-lg-6" style="padding-bottom:15px;">
                             <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
                         </div>
                     </div>
                 </div>
+                <input type="hidden" name="order_number" id="order_number" />
             </div>
         </form>
     </div>
