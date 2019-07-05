@@ -586,6 +586,9 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_last_name1').readOnly = true;
         document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
         document.getElementById('adult_birth_date1').value = document.getElementById('booker_birth_date').value;
+        document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
+        document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
+        document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
         if(document.getElementById('adult_birth_date1').value != '' && check_date(document.getElementById('adult_birth_date1').value) == true){
             check_years_old(passenger_number,'adult');
             document.getElementById('adult_birth_date1').readOnly = true;

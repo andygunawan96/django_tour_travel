@@ -132,6 +132,7 @@ def passenger(request):
         'adult_title': adult_title,
         'infant_title': infant_title,
         'id_types': id_type,
+        'visa_request': request.session['visa_request'],
         # 'visa_request': visa_request,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account']
@@ -269,6 +270,7 @@ def review(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'visa': request.session['visa_search']['result']['response'],
             'type': request.session['list_of_visa_type'],
+            'visa_request': request.session['visa_request'],
             'passengers': pax,
             'pax': request.session['visa_create_passengers'],
             'username': request.session['user_account'],
@@ -277,5 +279,20 @@ def review(request):
 
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_review_templates.html', values)
+    else:
+        return index(request)
+
+def booking(request):
+    if 'user_account' in request.session._session:
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            'order_number': request.POST['order_number'],
+            # 'cookies': json.dumps(res['result']['cookies']),
+        }
+        return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_booking_templates.html', values)
     else:
         return index(request)

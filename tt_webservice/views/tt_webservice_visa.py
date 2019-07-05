@@ -67,7 +67,9 @@ def api_models(request):
         elif req_data['action'] == 'update_contact':
             res = update_contact(request)
         elif req_data['action'] == 'commit_booking':
-                res = commit_booking(request)
+            res = commit_booking(request)
+        elif req_data['action'] == 'get_booking':
+            res = get_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -320,3 +322,25 @@ def commit_booking(request):
 
     return res
 
+def get_booking(request):
+    # nanti ganti ke get_ssr_availability
+
+    data = {
+        # 'order_number': 'TB.190329533467'
+        'order_number': request.POST['order_number']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_booking",
+        "signature": request.session['visa_signature'],
+    }
+
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    if res['result']['error_code'] == 0:
+        res['result']['response']['journey']['departure_date'] = convert_string_to_date_to_string_front_end(res['result']['response']['journey']['departure_date'])
+        for pax in res['result']['response']['passenger']:
+            pax['birth_date'] = convert_string_to_date_to_string_front_end(pax['birth_date'])
+
+
+    return res

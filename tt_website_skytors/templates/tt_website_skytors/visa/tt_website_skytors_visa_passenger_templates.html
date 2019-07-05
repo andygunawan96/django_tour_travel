@@ -7,6 +7,7 @@
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
 <script src="{{ static_path }}js/webservice_visa.js"></script>
+<script src="{{ static_path }}js/webservice_account.js"></script>
 <script src="{{ static_path }}js/visa_javascript.js"></script>
 <script src="{{ static_path }}js/agent_javascript.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
@@ -26,9 +27,9 @@
 
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
-
     time = 300;
-    //triggered_balance();
+    triggered_balance();
+    get_balance();
     passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
     adult = passenger.adult;
@@ -39,6 +40,9 @@
     visa = visa.replace(/True/g, 'true');
     visa = visa.replace(/False/g, 'false');
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
+    console.log(visa);
+    visa_request = `{{visa_request}}`;
+    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     sell_visa();
 </script>
 
@@ -194,7 +198,7 @@
                                                         <div class="form-select">
                                                             <select id="booker_phone_code" name="booker_phone_code">
                                                                 {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {% endif %}>{{country.phone_code}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
@@ -259,7 +263,7 @@
                                             <div class="input-container-search-ticket">
                                                 <label class="check_box_custom">
                                                     <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
-                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact({{forloop.counter}})" />
+                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact_cp({{forloop.counter}})" />
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
                                             </div>
@@ -379,7 +383,7 @@
                                                     <select id="adult_country_of_issued{{forloop.counter}}" name="adult_country_of_issued{{forloop.counter}}">
                                                         <option value="">Select Country</option>
                                                         {% for country in countries%}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -401,7 +405,7 @@
                                                         <div class="form-select">
                                                             <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
                                                                 {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>

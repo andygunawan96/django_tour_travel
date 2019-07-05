@@ -1,14 +1,24 @@
 counter = 0;
-type_amount = [];
-pax_type = [];
-price_arr = {};
+type_amount = []; // --> list of string
+pax_type = []; // --> list of list ex : [['ADT','Adult'],['CHD','Child']]
+price_arr = {}; // --> dict of dict ex : {'Adult':{'fare':50,'tax':20}} -- di tambah total
+//total wajib tinggal copy aja
+/*
+for(i in price_arr){
+    total = 0
+    for(j in price_arr[i]){
+        total += price_arr[i][j];
+    }
+    price_arr[i]['total'] = total;
+}
+*/
 
-/*FORMAT DASAR
+/*
+FORMAT DASAR
     TYPE AMOUNT --> list of string
     pax type --> list of list --> ['ADT','Adult']
     price --> list of Dict --> price:{'adult':{'fare':1000,'tax':1000,'total':1000}}
     price berisi list of pax --> pax berisi list of price yang di pakai sesuai yang dipakai
-
 */
 function add_table_of_equation(){
     if(counter != 0){
@@ -59,7 +69,7 @@ function add_table_of_equation(){
             <div class="form-select">
                 <select id="selection_pax`+counter+`" style="width:100%;">`;
                 for(i in pax_type){
-                    text += `<option value="`+pax_type[i][1]+`">`+pax_type[i][1]+`</option>`;
+                    text += `<option value="`+pax_type[i][0]+`">`+pax_type[i][1]+`</option>`;
                 }
                 text+=`
                 </select>
@@ -94,7 +104,7 @@ function delete_table_of_equation(){
     }
 }
 
-function calculate(){
+function calculate(type){
     console.log(price_arr);
     price_duplication = JSON.parse(JSON.stringify(price_arr));
     console.log(price_duplication);
@@ -102,6 +112,10 @@ function calculate(){
         var selection_calculation = document.getElementById('calculation'+i).value;
         var selection_pax = document.getElementById('selection_pax'+i).value;
         var selection_fare = document.getElementById('selection_fare'+i).value;
+
+        console.log(selection_calculation);
+        console.log(selection_pax);
+        console.log(selection_fare);
         if(selection_calculation == '' || selection_calculation == null)
             selection_calculation = '0';
         if(selection_calculation.match('-')){
@@ -207,16 +221,18 @@ function calculate(){
                 }
             }
         }
-//        document.getElementById('adult_fare').innerHTML = price_duplication.adult.fare;
+        if(type == 'visa'){
+        document.getElementById('adult_fare').innerHTML = price_duplication['ADT'].sale_price;
 //        document.getElementById('adult_tax').innerHTML = price_duplication.adult.tax;
-        document.getElementById('adult_total').innerHTML = price_duplication.Adult.total;
+        document.getElementById('adult_total').innerHTML = price_duplication['ADT'].total;
 //        document.getElementById('child_fare').innerHTML = price_duplication.child.fare;
 //        document.getElementById('child_tax').innerHTML = price_duplication.child.tax;
 //        document.getElementById('child_total').innerHTML = price_duplication.child.total;
 //        document.getElementById('infant_fare').innerHTML = price_duplication.infant.fare;
 //        document.getElementById('infant_tax').innerHTML = price_duplication.infant.tax;
 //        document.getElementById('infant_total').innerHTML = price_duplication.infant.total;
-
+        }
         console.log(price_duplication);
+
     }
 }
