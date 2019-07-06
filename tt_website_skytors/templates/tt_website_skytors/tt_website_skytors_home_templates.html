@@ -656,36 +656,42 @@
                                 <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
+                                        <div class="col-lg-4" style="padding:0px;">
                                             <span class="span-search-ticket">Destination</span>
                                             <input id="tour_hidden_destination" type="hidden" value=""/>
-                                            <div class="form-select">
-                                                <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select onchange="" name="tour_destination" id="tour_destination" size="5">
 
-                                                </select>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-3 col-md-7 col-sm-7 col-xs-7" style="padding:0px;">
                                             <span class="span-search-ticket">Destination Month</span>
-                                            <div class="form-select">
-                                                <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                    <option value="00" selected="True">All Months</option>
-                                                    <option value="01">January</option>
-                                                    <option value="02">February</option>
-                                                    <option value="03">March</option>
-                                                    <option value="04">April</option>
-                                                    <option value="05">May</option>
-                                                    <option value="06">June</option>
-                                                    <option value="07">July</option>
-                                                    <option value="08">August</option>
-                                                    <option value="09">September</option>
-                                                    <option value="10">October</option>
-                                                    <option value="11">November</option>
-                                                    <option value="12">December</option>
-                                                </select>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                        <option value="00" selected="True">All Months</option>
+                                                        <option value="01">January</option>
+                                                        <option value="02">February</option>
+                                                        <option value="03">March</option>
+                                                        <option value="04">April</option>
+                                                        <option value="05">May</option>
+                                                        <option value="06">June</option>
+                                                        <option value="07">July</option>
+                                                        <option value="08">August</option>
+                                                        <option value="09">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6" style="padding:0px;">
+                                        <div class="col-lg-2 col-md-5 col-sm-5 col-xs-5" style="padding:0px;">
                                             <span class="span-search-ticket">Destination Year</span>
                                             <input id="tour_hidden_year" type="hidden" value=""/>
                                             <div class="form-select">
@@ -694,18 +700,21 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
+                                        <div class="col-lg-3" style="padding:0px;">
                                             <span class="span-search-ticket">Budget</span>
-                                            <div class="form-select">
-                                                <select onchange="" name="tour_budget" id="tour_budget" size="5">
-                                                    <option value="0-999999999" selected="True">All</option>
-                                                    <option value="0-1000000">0-1 juta</option>
-                                                    <option value="1000000-2000000">1-2 juta</option>
-                                                    <option value="2000000-5000000">2-5 juta</option>
-                                                    <option value="5000000-10000000">5-10 juta</option>
-                                                    <option value="10000000-20000000">10-20 juta</option>
-                                                    <option value="20000000-99000000">> 20 juta</option>
-                                                </select>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-coins icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select onchange="" name="tour_budget" id="tour_budget" size="5">
+                                                        <option value="0-999999999" selected="True">All Budget</option>
+                                                        <option value="0-1000000">0-1 juta</option>
+                                                        <option value="1000000-2000000">1-2 juta</option>
+                                                        <option value="2000000-5000000">2-5 juta</option>
+                                                        <option value="5000000-10000000">5-10 juta</option>
+                                                        <option value="10000000-20000000">10-20 juta</option>
+                                                        <option value="20000000-99000000">> 20 juta</option>
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
