@@ -143,7 +143,7 @@ function tour_search(){
                         <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
                         <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
                         <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
-                        <div class="single-recent-blog-post item">
+                        <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
                                     <div class="overlay overlay-bg"></div>
@@ -257,20 +257,31 @@ function tour_get_details(package_id){
                                         </a>
                                     </div>`;
 
-                    image_text += `<div class="owl-carousel-tour-img owl-theme" style="width:100%; height:100%;">`;
+                    image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                     for (j in tour_data[i].images_obj)
                     {
-                        image_text+=`<div class="item" style="cursor:zoom-in;">
-                                        <img class="img-fluid zoom-img" src="`+tour_data[i].images_obj[j].url+`" style="width:100%; height:100%;" alt="">
-                                    </div>`;
+                        image_text+=`
+                        <div class="item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <img class="img-fluid zoom-img" src="`+tour_data[i].images_obj[j].url+`" alt="">
+                                </div>
+                            </div>
+                        </div>`;
                     }
                     if (image_text == '')
                     {
-                        image_text += `<div class="item" style="cursor:zoom-in;">
-                                        <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height:100%;" alt="">
-                                    </div>`;
+                        image_text += `
+                        <div class="item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height:100%;" alt="">
+                                </div>
+                            </div>
+                        </div>`;
                     }
                     image_text += `</div>`;
+
 
                     itinerary_text += tour_data[i].itinerary;
                     remarks_text += tour_data[i].requirements;
@@ -357,6 +368,36 @@ function tour_get_details(package_id){
                document.getElementById('remarks').innerHTML += remarks_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
                document.getElementById('commission_agent_type').value = com_agent;
+
+               $('.owl-carousel-tour-img').owlCarousel({
+                    loop:true,
+                    nav: true,
+                    rewind: true,
+                    margin: 20,
+                    responsiveClass:true,
+                    dots: false,
+                    lazyLoad:true,
+                    merge: false,
+                    smartSpeed:500,
+                    autoplay: true,
+                    autoplayTimeout:6000,
+                    autoplayHoverPause:false,
+                    navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+                    responsive:{
+                        0:{
+                            items:1,
+                            nav:true
+                        },
+                        600:{
+                            items:1,
+                            nav:false
+                        },
+                        1000:{
+                            items:1,
+                            nav:true,
+                        }
+                    }
+                });
                if (include_flight == 1)
                {
                    document.getElementById('flight_details').innerHTML += flight_details_text;
@@ -373,6 +414,7 @@ function tour_get_details(package_id){
                                 index++;
                                 document.getElementById("room_amount").value = index;
                                 document.getElementById("total-price-container").classList.remove("hide");
+                                $('select').niceSelect();
 
                                 var additional_charge = parseInt(data_list[0]);
                                 if (additional_charge > 0)
