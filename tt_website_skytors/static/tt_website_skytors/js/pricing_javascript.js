@@ -36,7 +36,7 @@ function add_table_of_equation(){
     text= '';
     var node = document.createElement("div");
     text += `
-    <div class="col-lg-4" style="padding:0px;">
+    <div class="col-lg-3">
         <span style="font-size:11px;">Type</span><br/>
         <div class="form-select">
             <div class="input-container-search-ticket">
@@ -48,7 +48,7 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-    <div class="col-lg-4" style="padding:0px;">
+    <div class="col-lg-3">
         <span style="font-size:11px;">Type Amount</span><br/>
         <div class="input-container-search-ticket">
             <div class="form-select">
@@ -63,7 +63,7 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-    <div class="col-lg-4" style="padding:0px;">
+    <div class="col-lg-3">
         <span style="font-size:11px;">Pax Amount</span><br/>
         <div class="input-container-search-ticket">
             <div class="form-select">
@@ -77,12 +77,15 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-        <div class="col-lg-12" style="padding:0px;">
+        <div class="col-lg-3">
             <span style="font-size:11px;">Equation</span><br/>
-            <div class="input-container-search-ticket">
-                <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px !important;">
+                    <div class="input-container-search-ticket">
+                        <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
+                    </div>
+                </div>
             </div>
-            <hr/>
         </div>`;
     node.className = 'row';
     node.innerHTML = text;
@@ -222,7 +225,7 @@ function calculate(type){
             }
         }
         if(type == 'visa'){
-        document.getElementById('adult_fare').innerHTML = price_duplication['ADT'].sale_price;
+        document.getElementById('adult_fare').innerHTML = price_duplication['ADT'].total_price;
 //        document.getElementById('adult_tax').innerHTML = price_duplication.adult.tax;
         document.getElementById('adult_total').innerHTML = price_duplication['ADT'].total;
 //        document.getElementById('child_fare').innerHTML = price_duplication.child.fare;
