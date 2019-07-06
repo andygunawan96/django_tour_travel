@@ -57,6 +57,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
+        elif req_data['action'] == 'get_payment_rules':
+            res = get_payment_rules(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -193,7 +195,11 @@ def get_booking(request):
 def commit_booking(request):
     data = {
         'provider': 'skytors_tour',
-        'force_issued': bool(request.POST['value'])
+        'force_issued': bool(request.POST['value']),
+        'booker_id': request.POST['booker_id'],
+        'pax_ids': request.POST['pax_ids'],
+        'payment_method': request.POST['payment_method'],
+        'booking_data': request.session['booking_data'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -215,6 +221,22 @@ def issued(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "issued",
+        "signature": request.session['tour_signature']
+    }
+
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    return res
+
+
+def get_payment_rules(request):
+    data = {
+        'provider': 'skytors_tour',
+        'id': request.POST['id']
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_payment_rules",
         "signature": request.session['tour_signature']
     }
 

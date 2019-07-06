@@ -785,27 +785,21 @@ function tour_check_rooms()
 
 function tour_hold_booking(val){
     var check_rooms = tour_check_rooms();
+    var radios = document.getElementsByName('payment_opt');
+    var pay_method = 'cash';
+
+    for (var i = 0; i < radios.length; i++)
+    {
+        if (radios[i].checked)
+        {
+            pay_method = radios[i].value;
+            break;
+        }
+    }
+
     if (check_rooms == true)
     {
-        var pax_ids = tour_update_passenger();
-        if (pax_ids.length > 0)
-        {
-            var booking_id = tour_commit_booking(vals, pax_ids);
-            if (booking_id != 0)
-            {
-                document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_id+'>';
-                document.getElementById('tour_booking').submit();
-            }
-            else
-            {
-
-                alert("Booking process failed, please try again!");
-            }
-        }
-        else
-        {
-            alert("Booking process failed, please try again!");
-        }
+        tour_update_passenger(val, pay_method);
     }
     else
     {

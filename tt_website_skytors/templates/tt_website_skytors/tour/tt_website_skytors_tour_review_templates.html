@@ -9,22 +9,25 @@
 <script src="{{ static_path }}js/tour_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/webservice_account.js"></script>
 <script>
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    time = 300;
+    triggered_balance();
+    get_balance();
+    get_transactions();
 </script>
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <br/>
@@ -40,15 +43,10 @@
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Tour Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/tour.png"/></span>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
                             <div id="tour_review_detail" style="background-color: white; padding:15px; border: 1px solid #f15a22;">
-                                <h3>{{tour_data.name}}</h3>
+                                <h4> Tour Detail </h4>
+                                <hr/>
+                                <h4>{{tour_data.name}}</h4>
                                 <br/>
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{tour_data.departure_date_f}} - {{tour_data.arrival_date_f}}
@@ -63,15 +61,12 @@
                     </div>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> List of Rooms <i class="fas fa-bed"></i></span>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
                             <input type="hidden" id="room_amount" value="{{room_amount}}"/>
                             <div id="tour_review_rooms" style="background-color: white; border: 1px solid #f15a22; overflow-x: auto;">
+                                <div style="padding:15px 15px 5px 15px;">
+                                    <h4> List of Room(s) </h4>
+                                    <hr/>
+                                </div>
                                 <table style="width:100%;" id="list-of-rooms" class="list-of-passenger-class">
                                     <tr>
                                         <th style="width:10%;" class="list-of-passenger-left">Number</th>
@@ -104,14 +99,11 @@
                     </div>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Contact Information <i class="fas fa-address-book"></i></span>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
                             <div id="tour_review_booker" style="background-color: white; border: 1px solid #f15a22; overflow-x: auto;">
+                                <div style="padding:15px 15px 5px 15px;">
+                                    <h4> Contact Information </h4>
+                                    <hr/>
+                                </div>
                                 <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
                                     <tr>
                                         <th style="width:5%;" class="list-of-passenger-left">No</th>
@@ -142,15 +134,12 @@
                     </div>
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
-                                </center>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
                             <input type="hidden" id="total_pax_all" value="{{total_pax_all}}"/>
                             <div id="tour_review_passengers" style="background-color: white; border: 1px solid #f15a22;">
+                                <div style="padding:15px 15px 5px 15px;">
+                                    <h4> List of Passenger(s) </h4>
+                                    <hr/>
+                                </div>
                                 <table style="width:100%;" id="list-of-passenger">
                                     <tr>
                                         <th style="width:5%;" class="list-of-passenger-left">No</th>
@@ -195,10 +184,9 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom: 20px;">
-                    <div style="background-color:#f15a22; padding:5px;">
-                        <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                    </div>
                     <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="tour_detail">
+                        <h4> Price Detail </h4>
+                        <hr/>
                         <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
                             <table style="width:100%;">
                                 <tr>
@@ -359,12 +347,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+                            <div class="row" style="margin-top:10px; text-align:center;">
                                 <div class="col-xs-12">
                                     <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                                 </div>
                             </div>
-                            <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+                            <div class="row" style="margin-top:10px; text-align:center;">
                                 <div class="col-xs-12">
                                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                                 </div>
@@ -398,7 +386,37 @@
                             <input class="primary-btn hold-seat-booking-train" type="button" value="Print Form" style="width:100%;"/>
                         </div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" onclick="tour_hold_booking(1);" style="width:100%;"/>
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" data-toggle="modal" data-target="#issuedModal" style="width:100%;"/>
+                        </div>
+                    </div>
+                </div>
+                <div id="issuedModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Payment Option</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="radio" name="payment_opt" value="cash" checked=""/> Full Payment ({{total_itinerary_price}}) <br/>
+                                <input type="radio" name="payment_opt" value="installment"/> Installment <br/>
+                                <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
+                                <table class="table table-bordered" style="font-size:12px;">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Amount</th>
+                                        <th>Due Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tour_payment_rules">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Now" onclick="tour_hold_booking(1);" style="width:100%;"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -491,5 +509,6 @@
     document.getElementById("sub_total").value = getrupiah('{{price_itinerary.sub_total_itinerary_price}}');
     document.getElementById("discount_total").value = getrupiah('{{price_itinerary.discount_total_itinerary_price}}');
     document.getElementById("grand_total").value = getrupiah('{{total_itinerary_price}}');
+    get_payment_rules('{{tour_data.id}}');
 </script>
 {% endblock %}

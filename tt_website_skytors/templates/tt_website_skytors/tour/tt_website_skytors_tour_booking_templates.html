@@ -6,10 +6,16 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/tour_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/webservice_account.js"></script>
 
 <script>
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    time = 300;
+    triggered_balance();
+    get_balance();
+    get_transactions();
 </script>
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
