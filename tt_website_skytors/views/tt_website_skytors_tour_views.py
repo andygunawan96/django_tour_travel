@@ -98,7 +98,6 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'dest_destination': request.POST['tour_destination'],
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
@@ -124,7 +123,6 @@ def detail(request):
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_detail_templates.html', values)
@@ -184,7 +182,6 @@ def passenger(request):
             'child_title': child_title,
             'countries': airline_country,
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'tour_data': request.session['tour_pick'],
             'adults': adult,
             'infants': infant,
@@ -268,6 +265,8 @@ def passenger(request):
             'adults': int(request.POST['adult_total_pax'].replace(',', '')),
             'childs': int(request.POST['child_total_pax'].replace(',', '')),
             'infants': int(request.POST['infant_amount'].replace(',', '')),
+            'price_itinerary': values['price_itinerary'],
+            'tour_data': request.session['tour_pick'],
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_passenger_templates.html', values)
@@ -283,7 +282,6 @@ def review(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'tour_data': request.session['tour_pick'],
             'price_itinerary': {
                 'adult_amount': int(request.POST['adult_amount'].replace(',', '')),
@@ -330,7 +328,6 @@ def review(request):
             'nationality_code': request.POST['booker_nationality'],
             'email': request.POST['booker_email'],
             'mobile': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            'agent_id': int(request.session['agent']['id']),
             'booker_id': request.POST['booker_id']
         }
 
@@ -351,7 +348,6 @@ def review(request):
                 "passenger_id": request.POST['adult_id' + str(i + 1)],
                 "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)] + request.POST['adult_phone' + str(i + 1)] or ' - ',
                 "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
-                "agent_id": int(request.session['agent']['id']),
                 "is_cp": request.POST.get('adult_cp' + str(i + 1)),
             })
 
@@ -370,7 +366,6 @@ def review(request):
                 "passport_expdate_f": '%s-%s-%s' % (request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[0]),
                 "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
                 "passenger_id": request.POST['child_id' + str(i + 1)],
-                "agent_id": int(request.session['agent']['id']),
             })
 
         for i in range(int(request.session['booking_data']['infants'])):
@@ -388,7 +383,6 @@ def review(request):
                 "passport_expdate_f": '%s-%s-%s' % (request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[0]),
                 "country_of_issued_code": request.POST['infant_country_of_issued' + str(i + 1)],
                 "passenger_id": request.POST['infant_id' + str(i + 1)],
-                "agent_id": int(request.session['agent']['id']),
             })
 
         for rec in adult:
@@ -407,7 +401,9 @@ def review(request):
             })
             temp_idx += 1
 
-        request.session['booking_data'].update({
+        temp_booking_data = request.session['booking_data']
+
+        temp_booking_data.update({
             'adult_pax': adult,
             'child_pax': child,
             'infant_pax': infant,
@@ -417,6 +413,8 @@ def review(request):
             'contact': booker,
             'total_pax_all': temp_idx,
         })
+
+        request.session['booking_data'] = temp_booking_data
 
         values.update({
             'contact': booker,
@@ -443,7 +441,6 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_booking_templates.html', values)

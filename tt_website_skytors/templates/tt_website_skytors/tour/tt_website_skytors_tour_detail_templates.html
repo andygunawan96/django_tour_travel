@@ -9,9 +9,13 @@
 <script src="{{ static_path }}js/tour_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/webservice_account.js"></script>
 
 <script>
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    time = 300;
+    triggered_balance();
+    get_balance();
+    get_transactions();
 </script>
 
 <style>
@@ -30,22 +34,19 @@
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
-        <div class="row" style="padding-bottom:10px; padding-top:20px; margin-left: -30px !important;">
+        <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <div class="row full_tour_details" style="padding-top: 20px;">
             <div class="col-lg-12" style="padding-left:0px !important;">
-                <hr/>
-
                 {% csrf_token %}
                 <div class="row">
                     <input type="hidden" id="selected_tour_id" value="{{response.id}}"/>
@@ -136,10 +137,9 @@
 
                                             </div>
                                             <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 hide" id="total-price-container">
-                                                <div style="background-color:#f15a22; padding:5px;">
-                                                    <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                                                </div>
                                                 <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="tour_detail">
+                                                    <h4> Price Detail </h4>
+                                                    <hr/>
                                                     <div id="tour_detail_table">
                                                         <div class="row">
                                                             <div class="col-xs-5">Adult Price</div>
@@ -303,12 +303,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+                                                        <div class="row" style="margin-top:10px; text-align:center;">
                                                             <div class="col-xs-12">
                                                                 <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                                                             </div>
                                                         </div>
-                                                        <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+                                                        <div class="row" style="margin-top:10px; text-align:center;">
                                                             <div class="col-xs-12">
                                                                 <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                                                             </div>
@@ -334,7 +334,7 @@
                                                 </div>
                                                 <br/>
                                                 <center>
-                                                    <button type="submit" class="primary-btn-ticket" value="Next" style="width:90%;">
+                                                    <button type="submit" class="primary-btn-ticket" value="Next" style="width:100%;">
                                                         Next
                                                         <i class="fas fa-angle-right"></i>
                                                     </button>

@@ -9,6 +9,7 @@
 <script src="{{ static_path }}js/tour_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/webservice_account.js"></script>
 <script>
     function check_years_old(sequence, type){
         var birth_date = '';
@@ -29,21 +30,23 @@
     child = {{price_itinerary.child_total_pax}};
     infant = {{price_itinerary.infant_amount}};
 
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    time = 300;
+    triggered_balance();
+    get_balance();
+    get_transactions();
 </script>
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+            <div class="col-lg-12" style="margin-top:10px; margin-bottom:10px;">
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <div class="banner-right">
@@ -51,18 +54,15 @@
                 {% csrf_token %}
                 <input type="hidden" id="additional_price" name="additional_price">
                 <div class="row">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="margin-top:10px;">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px;">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px;">
-                                    <center>
-                                        <span style="color:white; font-size:16px;">Booker Information <i class="fas fa-info-circle"></i></span>
-                                    </center>
-                                </div>
-                            </div>
                             <div class="col-lg-12">
                                 <div id="booker" style="background-color:white; padding:10px; border:1px solid #f15a22;">
                                     <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Booker Infomartion</h4>
+                                            <hr/>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
                                             <label>Booker Type :</label>
                                             <label class="radio-button-custom">
@@ -202,7 +202,6 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: +62812345678</label>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -237,13 +236,12 @@
                         {% for adult in adults%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Adult - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <h6 style="color:white;">Passenger Adult - {{forloop.counter}}</h6>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -413,13 +411,12 @@
                         {% for child in childs%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Child - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <h6 style="color:white;">Passenger Child - {{forloop.counter}}</h6>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -559,13 +556,12 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Infant - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <h6 style="color:white;">Passenger Infant - {{forloop.counter}}</h6>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -704,10 +700,9 @@
                         {% endfor %}
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
-                        <div style="background-color:#f15a22; padding:5px;">
-                            <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                        </div>
                         <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="tour_detail">
+                            <h4> Price Detail </h4>
+                            <hr/>
                             <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
                                 <table style="width:100%;">
                                     <tr>
@@ -868,12 +863,12 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+                                <div class="row" style="margin-top: 10px; text-align:center;">
                                     <div class="col-xs-12">
                                         <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                                     </div>
                                 </div>
-                                <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+                                <div class="row" style="margin-top: 10px; text-align:center;">
                                     <div class="col-xs-12">
                                         <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                                     </div>
@@ -899,7 +894,7 @@
                         </div>
                         <br/>
                         <center>
-                            <button type="button" class="primary-btn-ticket" value="Next" onclick="check_passenger({{price_itinerary.adult_total_pax}}, {{price_itinerary.child_total_pax}}, {{price_itinerary.infant_amount}});" style="width:90%;">
+                            <button type="button" class="primary-btn-ticket" value="Next" onclick="check_passenger({{price_itinerary.adult_total_pax}}, {{price_itinerary.child_total_pax}}, {{price_itinerary.infant_amount}});" style="width:100%;">
                                 Next
                                 <i class="fas fa-angle-right"></i>
                             </button>
