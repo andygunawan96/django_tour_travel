@@ -13,7 +13,7 @@
 <script src="{{ static_path }}js/pricing_javascript.js"></script>
 
 <script>
-    time = 300;
+time = 300;
     triggered_balance();
     get_balance();
     passenger = `{{passengers}}`;
@@ -84,8 +84,6 @@
 
                             <div class="row" style="padding-top:20px;">
                                 <div class="col-lg-12">
-
-
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
                                         <h4>List of Passenger(s)</h4>
                                         <hr/>
@@ -141,14 +139,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
-                                                <h6>Refresh</h6>
+                                                <h6>Reset</h6>
                                                 <input type="hidden" id="adult_check{{counter}}" value="false"/>
                                                 <span style="cursor:pointer;" onclick="set_value_radio_first('adult',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
                                             </div>
                                         </div>
+                                        <hr/>
                                         {% endwith %}
                                         {% endfor %}
-                                        <hr/>
 
                                         {% for person in passengers.child %}
                                         {% with forloop.counter as counter%}
@@ -202,11 +200,12 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
-                                                <h6>Refresh</h6>
+                                                <h6>Reset</h6>
                                                 <input type="hidden" id="child_check{{counter}}" value="false"/>
                                                 <span style="cursor:pointer;" onclick="set_value_radio_first('child',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
                                             </div>
                                         </div>
+                                        <hr/>
                                         {% endwith %}
                                         {% endfor %}
 
@@ -264,18 +263,19 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-3">
-                                                <h6>Refresh</h6>
+                                                <h6>Reset</h6>
                                                 <input type="hidden" id="infant_check{{counter}}" value="false"/>
                                                 <span style="cursor:pointer;" onclick="set_value_radio_first('infant',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
                                             </div>
                                         </div>
+                                        <hr/>
                                         {% endwith %}
                                         {% endfor %}
-
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
@@ -310,12 +310,80 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-lg-8">
+                    <div id="pricing">
+                        <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; max-height:400px; overflow-y:auto;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right; margin-bottom:10px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div id="table_of_equation">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                    <center>
+                                        <input class="primary-btn-ticket" type="button" onclick="calculate('visa');" value="Calculate">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                        <h4>Pricing Result</h4>
+                        <hr/>
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"></div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Fare</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Tax</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Total</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="adult">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Adult</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="adult_fare">-</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="adult_tax">-</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="adult_total">-</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="child">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Child</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="child_fare">-</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="child_tax">-</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="child_total">-</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="infant">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Infant</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="infant_fare">-</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="infant_tax">-</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" id="infant_total">-</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:15px;">
-                        <div class="col-lg-6" style="padding-bottom:15px;">
-
-                        </div>
-                        <div class="col-lg-6" style="padding-bottom:15px;">
+                        <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                        <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                        <div class="col-lg-4" style="padding-bottom:15px;">
                             <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
                         </div>
                     </div>
@@ -325,74 +393,6 @@
         </form>
     </div>
 </section>
-
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        Dapatkan Penawaran Langsung di Inbox Email Anda!
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fas fa-facebook-square"></i></a>
-                <a href="#"><i class="fas fa-twitter-square"></i></a>
-                <a href="#"><i class="fas fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <script>
     for(i in passenger.adult)

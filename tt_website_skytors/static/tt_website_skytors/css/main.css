@@ -5255,6 +5255,7 @@ div.scrollmenu li:hover {
   cursor: pointer;
 }
 
+
 /* Create a custom radio button */
 .checkmark-radio {
   position: absolute;
@@ -5262,13 +5263,17 @@ div.scrollmenu li:hover {
   left: 0;
   height: 21px;
   width: 21px;
-  background-color: #eee;
+  background-color: #D0D0D0;
   border-radius: 50%;
+}
+
+.radio-button-custom input:disabled ~ .checkmark-radio {
+  background-color: #eee !important;
 }
 
 /* On mouse-over, add a grey background color */
 .radio-button-custom:hover input ~ .checkmark-radio {
-  background-color: #ccc;
+  background-color: #9A9A9A;
 }
 
 /* When the radio button is checked, add a blue background */

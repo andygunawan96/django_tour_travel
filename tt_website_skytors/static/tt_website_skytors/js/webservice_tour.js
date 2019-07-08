@@ -126,33 +126,47 @@ function tour_search(){
 
                    if (tour_data[i].state_tour == 'sold')
                    {
-                       dat_content1 = `Sold Out`
-                       dat_content2 = ``
+                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].arrival_date;
+                       dat_content2 = `Sold Out`
                    }
                    else
                    {
-                       dat_content1 = tour_data[i].departure_date+` - `+tour_data[i].arrival_date;
+                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].arrival_date;
                        dat_content2 = `Availability: `+tour_data[i].seat+`/`+tour_data[i].quota;
                    }
 
                    text+=`
-                   <form action='/tour/detail' method=POST id='myForm`+tour_data[i].sequence+`'>
-                       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" style="padding: 0px; text-align: center;">
-                            <div id='csrf`+tour_data[i].sequence+`'></div>
-                            <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
-                            <input id='uuid' name='uuid' type=hidden value='`+tour_data[i].id+`'/>
-                            <input id='sequence' name='sequence' type=hidden value='`+tour_data[i].sequence+`'/>
-                            <button class="panel_themespark" type="button" data-content-1="`+dat_content1+`" data-content-2="`+dat_content2+`" onclick="go_to_detail('`+tour_data[i].sequence+`')">
-                                <div class="themespark-image-thumbnail">
-                                    <img style="width: 100%; height: 100%;" src="`+img_src+`">
+
+                   <div class="col-lg-4 col-md-6">
+                        <form action='/tour/detail' method='POST' id='myForm`+tour_data[i].sequence+`'>
+                        <div id='csrf`+tour_data[i].sequence+`'></div>
+                        <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
+                        <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
+                        <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
+                        <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="`+img_src+`" alt="">
                                 </div>
-                                <div class="row themespark-description-thumbnail" style="display:block;">
-                                    <span class="span-themespark-desc" style="font-weight:bold;">`+tour_data[i].name+`</span><br/>`;
-                                text+=`
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6>`+tour_data[i].name+`</h6>
+                                                <span style="font-size:13px;font-weight:bold;">`+dat_content1+`</span><br/>
+                                                <span style="font-size:13px;font-weight:bold;">`+dat_content2+`</span>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </button>
-                       </div>
-                   </form>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
                    `;
                }
                offset++;
@@ -243,20 +257,31 @@ function tour_get_details(package_id){
                                         </a>
                                     </div>`;
 
-                    image_text += `<div class="owl-carousel-tour-img owl-theme" style="width:100%; height:100%;">`;
+                    image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                     for (j in tour_data[i].images_obj)
                     {
-                        image_text+=`<div class="item" style="cursor:zoom-in;">
-                                        <img class="img-fluid zoom-img" src="`+tour_data[i].images_obj[j].url+`" style="width:100%; height:100%;" alt="">
-                                    </div>`;
+                        image_text+=`
+                        <div class="item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <img class="img-fluid zoom-img" src="`+tour_data[i].images_obj[j].url+`" alt="">
+                                </div>
+                            </div>
+                        </div>`;
                     }
                     if (image_text == '')
                     {
-                        image_text += `<div class="item" style="cursor:zoom-in;">
-                                        <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height:100%;" alt="">
-                                    </div>`;
+                        image_text += `
+                        <div class="item">
+                            <div class="single-destination relative">
+                                <div class="thumb relative">
+                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height:100%;" alt="">
+                                </div>
+                            </div>
+                        </div>`;
                     }
                     image_text += `</div>`;
+
 
                     itinerary_text += tour_data[i].itinerary;
                     remarks_text += tour_data[i].requirements;
@@ -343,6 +368,36 @@ function tour_get_details(package_id){
                document.getElementById('remarks').innerHTML += remarks_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
                document.getElementById('commission_agent_type').value = com_agent;
+
+               $('.owl-carousel-tour-img').owlCarousel({
+                    loop:true,
+                    nav: true,
+                    rewind: true,
+                    margin: 20,
+                    responsiveClass:true,
+                    dots: false,
+                    lazyLoad:true,
+                    merge: false,
+                    smartSpeed:500,
+                    autoplay: true,
+                    autoplayTimeout:6000,
+                    autoplayHoverPause:false,
+                    navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+                    responsive:{
+                        0:{
+                            items:1,
+                            nav:true
+                        },
+                        600:{
+                            items:1,
+                            nav:false
+                        },
+                        1000:{
+                            items:1,
+                            nav:true,
+                        }
+                    }
+                });
                if (include_flight == 1)
                {
                    document.getElementById('flight_details').innerHTML += flight_details_text;
@@ -359,6 +414,7 @@ function tour_get_details(package_id){
                                 index++;
                                 document.getElementById("room_amount").value = index;
                                 document.getElementById("total-price-container").classList.remove("hide");
+                                $('select').niceSelect();
 
                                 var additional_charge = parseInt(data_list[0]);
                                 if (additional_charge > 0)
@@ -380,8 +436,121 @@ function tour_get_details(package_id){
     });
 }
 
-function tour_update_passenger()
+function tour_update_passenger(val, pay_method)
 {
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'update_passenger',
+       },
+       data: {
 
+       },
+       success: function(msg) {
+           console.log(msg);
+           var pax_list = [];
+           var booker_data = msg.result.response.response.booker_data;
+           var results = msg.result.response.response.pax_list;
+           for(i in results){
+               pax_list.push(parseInt(results[i]));
+           }
+           var result_data = {
+               'pax_ids': pax_list,
+               'booker_id': booker_data,
+           }
+           if (result_data)
+           {
+               var booker_id = result_data.booker_id;
+               var pax_ids = result_data.pax_ids;
+               var pax_ids_str = '';
 
+               for (i in pax_ids)
+               {
+                   pax_ids_str += String(pax_ids[i]) + '|';
+               }
+
+               tour_commit_booking(val, booker_id, pax_ids_str, pay_method);
+           }
+           else
+           {
+               alert("Booking process failed, please try again!");
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function tour_commit_booking(val, booker_id, pax_ids, pay_method)
+{
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'commit_booking',
+       },
+       data: {
+           'value': val,
+           'booker_id': booker_id,
+           'pax_ids': pax_ids,
+           'payment_method': pay_method
+       },
+       success: function(msg) {
+           console.log(msg);
+           var booking_id = msg.result.response.response.booking_id;
+           if (booking_id)
+           {
+               document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_id+'>';
+               document.getElementById('tour_booking').submit();
+           }
+           else
+           {
+               alert("Booking process failed, please try again!");
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function get_payment_rules(id)
+{
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_payment_rules',
+       },
+       data: {
+           'id': id,
+       },
+       success: function(msg) {
+           console.log(msg);
+           payment = msg.result.response.response.payment_rules;
+           pay_text = '';
+           var idx = 1;
+           var tot_price = parseInt(document.getElementById("grand_total_hidden").value);
+           for (i in payment)
+           {
+               pay_text += `
+                <tr>
+                    <td>` +payment[i].name+ `</td>
+                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">` + (parseInt(payment[i].payment_percentage) / 100) * tot_price+ `</td>
+                    <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
+                </tr>
+               `;
+               idx += 1;
+           }
+           document.getElementById('tour_payment_rules').innerHTML += pay_text;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
 }
