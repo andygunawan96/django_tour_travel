@@ -15,66 +15,20 @@
 <script>
 time = 300;
     triggered_balance();
-   get_balance();
-   passenger = `{{passengers}}`;
-   passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
-   visa_request = `{{visa_request}}`;
-   visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
-   console.log(passenger);
-   adult = passenger.adult;
-   infant = passenger.infant;
-   elder = passenger.elder;
-   child = passenger.child;
-   visa = `{{visa}}`;visa = visa.replace(/True/g, 'true');
-   visa = visa.replace(/False/g, 'false');
-   visa = JSON.parse(visa.replace(/&#39;/g, '"'));
-   console.log(visa);
-   pax = `{{pax}}`;
-   pax = JSON.parse(pax.replace(/&#39;/g, '"'));
-   console.log(pax);
-   for(i in visa.list_of_visa){
-       if(visa.list_of_visa[i].total_pax > 0){
-           //pax type
-           check = 0;
-           for(j in pax_type){
-               if(pax_type[j][0] == visa.list_of_visa[i].pax_type[0]){
-                   check = 1;
-                   break;
-               }
-           }
-           if(check == 0)
-               pax_type.push(visa.list_of_visa[i].pax_type);
-
-           //type amount
-           for(j in visa.list_of_visa[i].sale_price){
-               check = 0;
-               for(k in type_amount)
-                   if(type_amount[k] == j)
-                       check = 1;
-               if(j == 'currency')
-                   check = 1;
-               if(check == 0){
-                   check = 0;
-                   type_amount.push(j);
-                   for(k in price_arr)
-                       if(k == visa.list_of_visa[i].pax_type[0])
-                           check = 1;
-                   if(check == 0)
-                       price_arr[visa.list_of_visa[i].pax_type[0]] = {};
-                   price_arr[visa.list_of_visa[i].pax_type[0]][j] = visa.list_of_visa[i].sale_price[j];
-               }
-           }
-       }
-   }
-   for(i in price_arr){
-       total = 0
-       for(j in price_arr[i]){
-           total += price_arr[i][j];
-       }
-       price_arr[i]['total'] = total;
-   }
-   console.log(price_arr);
-
+    get_balance();
+    passenger = `{{passengers}}`;
+    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
+    visa_request = `{{visa_request}}`;
+    visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
+    console.log(passenger);
+    adult = passenger.adult;
+    infant = passenger.infant;
+    elder = passenger.elder;
+    child = passenger.child;
+    visa = `{{visa}}`;visa = visa.replace(/True/g, 'true');
+    visa = visa.replace(/False/g, 'false');
+    visa = JSON.parse(visa.replace(/&#39;/g, '"'));
+    console.log(visa);
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -115,7 +69,7 @@ time = 300;
                                                 <th style="width:7%;">Email</th>
                                                 <th style="width:18%;">Phone Number</th>
                                             </tr>
-                                            {% for cp in pax.contact %}
+                                            {% for cp in passengers.contact %}
                                             <tr>
                                                 <td class="list-of-passenger-left">{{forloop.counter}}</td>
                                                 <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
@@ -133,11 +87,11 @@ time = 300;
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
                                         <h4>List of Passenger(s)</h4>
                                         <hr/>
-                                        {% for person in pax.adult %}
+                                        {% for person in passengers.adult %}
                                         {% with forloop.counter as counter%}
                                         <div class="row">
                                             <div class="col-lg-12" style="margin-bottom:10px;">
-                                                <h6>{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
+                                                <h6 id="adult_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
                                                 <span>Adult - Birth Date: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-4">
@@ -194,11 +148,11 @@ time = 300;
                                         {% endwith %}
                                         {% endfor %}
 
-                                        {% for person in pax.child %}
+                                        {% for person in passengers.child %}
                                         {% with forloop.counter as counter%}
                                         <div class="row">
                                             <div class="col-lg-12" style="margin-bottom:10px;">
-                                                <h6>{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
+                                                <h6 id="child_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
                                                 <span>Child - Birth Date: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-4">
@@ -255,11 +209,13 @@ time = 300;
                                         {% endwith %}
                                         {% endfor %}
 
-                                        {% for person in pax.infant %}
+                                        <hr/>
+
+                                        {% for person in passengers.infant %}
                                         {% with forloop.counter as counter%}
                                         <div class="row">
                                             <div class="col-lg-12" style="margin-bottom:10px;">
-                                                <h6>{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
+                                                <h6 id="infant_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
                                                 <span>Child - Birth Date: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-4">
@@ -325,6 +281,33 @@ time = 300;
                 <div class="col-lg-4" style="padding-bottom:20px;">
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
 
+                    </div>
+                    <div id="pricing">
+                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <button class="primary-btn-ticket" type="button" onclick="check_before_add_repricing();"><i class="fas fa-plus-circle"></i></button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:10px;" id="table_of_equation">
+
+                                    </div>
+                                </div>
+                                <div id="repricing_div" class="col-lg-12"></div>
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                    <hr/>
+                                    <center>
+                                        <input class="primary-btn-ticket" type="button" onclick="check_before_calculate();" value="Calculate">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -412,14 +395,13 @@ time = 300;
 </section>
 
 <script>
-    update_table('review');
-    for(i in pax.adult)
+    for(i in passenger.adult)
         set_value_radio_first('adult',parseInt(i)+1);
-    for(i in pax.child)
+    for(i in passenger.child)
         set_value_radio_first('child',parseInt(i)+1);
-    for(i in pax.infant)
+    for(i in passenger.infant)
         set_value_radio_first('infant',parseInt(i)+1);
-    for(i in pax.elder)
+    for(i in passenger.elder)
         set_value_radio_first('elder',parseInt(i)+1);
 </script>
 <!-- loader -->

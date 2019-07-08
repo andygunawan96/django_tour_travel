@@ -397,6 +397,8 @@ function visa_get_data(data){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+                visa = msg.result.response;
+                update_table('booking');
                 /*set pricing*/
 //                for(i in msg.result.response.passenger){
 //                    check = 0;
@@ -482,7 +484,7 @@ function visa_get_data(data){
                                 <div class="col-lg-12" style="margin-bottom:10px;">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h6>`+parseInt(i+1)+`. `+msg.result.response.passenger[i].title+` `+msg.result.response.passenger[i].first_name+` `+msg.result.response.passenger[i].last_name+`</h6>`;
+                                            <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passenger[i].title+` `+msg.result.response.passenger[i].first_name+` `+msg.result.response.passenger[i].last_name+`</h6>`;
                                             if(parseInt(msg.result.response.passenger[i].age) > 12)
                                      text+=`<span>Adult - `;
                                             else if(parseInt(msg.result.response.passenger[i].age) > 3)

@@ -14,24 +14,30 @@
     time = 300;
     triggered_balance();
 
-    destination = [];
+    airline_destination = [];
+    train_destination = [];
+
     {% for airline in airline_destinations %}
-        destination.push({
+        airline_destination.push({
             "name": "{{airline.name}}",
-            "code": "{{airline.code}}"
+            "code": "{{airline.code}}",
+            "city": "{{airline.city}}"
         });
     {% endfor %}
 
     {% for train in train_destination %}
-        train_destination = `{{train}}`;
-        train_destination = train_destination.replace(/&#39;/g, "");
-        train_destination = train_destination.replace('[', "");
-        train_destination = train_destination.replace(']', "");
-        destination.push({
-            'code':train_destination.split(', ')[0],
-            'name':train_destination.split(', ')[1]
+        temp_train = `{{train}}`;
+        temp_train = temp_train.replace(/&#39;/g, "");
+        temp_train = temp_train.replace('[', "");
+        temp_train = temp_train.replace(']', "");
+        train_destination.push({
+            'code':temp_train.split(', ')[0],
+            'name':temp_train.split(', ')[1]
         });
     {% endfor %}
+
+    console.log(train_destination);
+    console.log(airline_destination);
 
     titles = `{{titles}}`;
     titles = JSON.parse(titles.replace(/&#39;/g, '"'));
@@ -288,7 +294,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" id="sector_div" hidden>
                                     <span>Sector</span><br/>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select">
@@ -360,28 +366,11 @@
                         </div>
 
                         <div class="col-lg-12" style="text-align:left;margin-top:15px;" id="show_line" hidden>
-                            <h4>Segment</h4><br/>
-                            <h5><a href="javascript:add_table_of_line();" style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a> <a href="javascript:delete_table_of_line();" style="color:blue; text-decoration: underline;">Delete <i class="fas fa-minus-circle"></i></a></h5>
-                            <br/>
-<!--                            <th><a href="javascript:delete_table_of_line();">DELETE GANTI ICON</a></th>-->
-                            <table id="table_of_line" name="table_of_line" style="width=100%" class="list-of-table">
-                                <tr>
-                                    <th style="width:5%;">No.</th>
-                                    <th style="width:15%;">Origin</th>
-                                    <th style="width:15%;">Destination</th>
-                                    <th style="width:15%;">Provider</th>
-                                    <th style="width:15%;">Departure Date</th>
-                                    <th style="width:15%;">Arrival Date</th>
-                                    <th style="width:5%;">Carrier Code</th>
-                                    <th style="width:5%;">Carrier Number</th>
-                                    <th style="width:10%;">Class</th>
-                                    <th style="width:8%;">Sub Class</th>
-                                </tr>
-                            </table>
+
                         </div>
 
                         <div class="col-lg-12" style="margin-top:15px;margin-bottom:15px;">
-                            <button class="primary-btn text-uppercase" type="button" onclick="create_issued_offline()">SUBMIT</button>
+                            <button class="primary-btn text-uppercase" type="button" onclick="check_issued_offline()">SUBMIT</button>
                         </div>
                     </div>
                 </div>

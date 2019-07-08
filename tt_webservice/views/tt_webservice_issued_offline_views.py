@@ -55,7 +55,7 @@ def api_models(request):
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
 
-def singin(request):
+def signin(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -148,27 +148,78 @@ def create_issued_offline(request):
                 'calling_code': request.POST['booker_calling_code'],
                 'mobile': request.POST['booker_mobile'],
                 'nationality_code': request.POST['booker_nationality_code'],
-                'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id' + str(i)]) or ''
+                'contact_id': request.POST['passenger_id'+str(i)] != '' and int(request.POST['passenger_id'+str(i)]) or ''
             })
         else:
             pass
 
-    for i in range(int(request.POST['counter_line'])):
-        departure = request.POST['line_departure'+str(i)].split('T')
-        arrival = request.POST['line_arrival'+str(i)].split('T')
-        line.append({
-            "origin": request.POST['line_origin'+str(i)].split(' - ')[0],
-            "destination": request.POST['line_destination'+str(i)].split(' - ')[0],
-            "provider": request.POST['line_provider'+str(i)],
-            "departure": departure[0]+' '+departure[1],
-            "arrival": arrival[0]+' '+arrival[1],
-            "carrier_code": request.POST['line_carrier_code'+str(i)],
-            "carrier_number": request.POST['line_carrier_number'+str(i)],
-            "sub_class": request.POST['line_sub_class'+str(i)],
-            "class_of_service": request.POST['line_class_of_service'+str(i)]
+    if len(contact) == 0:
+        contact.append({
+            'title': request.POST['booker_title'],
+            'first_name': request.POST['booker_first_name'],
+            'last_name': request.POST['booker_last_name'],
+            'email': request.POST['booker_email'],
+            'calling_code': request.POST['booker_calling_code'],
+            'mobile': request.POST['booker_mobile'],
+            'nationality_code': request.POST['booker_nationality_code'],
+            'contact_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or ''
         })
+    for i in range(int(request.POST['counter_line'])):
+        if request.POST['type'] == 'airline' or request.POST['type'] == 'train':
+            departure = request.POST['line_departure' + str(i)].split('T')
+            arrival = request.POST['line_arrival' + str(i)].split('T')
+            if request.POST['type'] == 'airline':
+                origin = request.POST['line_origin'+str(i)][-4:][:3]
+                destination = request.POST['line_destination'+str(i)][-4:][:3]
+            elif request.POST['type'] == 'train':
+                origin = request.POST['line_origin' + str(i)].split(' - ')[0]
+                destination = request.POST['line_destination' + str(i)].split(' - ')[0]
+            line.append({
+                "origin": origin,
+                "destination": destination,
+                "provider": request.POST['line_provider'+str(i)],
+                "departure": departure[0]+' '+departure[1],
+                "arrival": arrival[0]+' '+arrival[1],
+                "carrier_code": request.POST['line_carrier_code'+str(i)],
+                "carrier_number": request.POST['line_carrier_number'+str(i)],
+                "sub_class": request.POST['line_sub_class'+str(i)],
+                "class_of_service": request.POST['line_class_of_service'+str(i)]
+            })
+        elif request.POST['type'] == 'hotel':
+            departure = request.POST['line_hotel_check_in' + str(i)].split('T')
+            arrival = request.POST['line_hotel_check_out' + str(i)].split('T')
+            line.append({
+                "name": request.POST['line_hotel_name' + str(i)],
+                "room": request.POST['line_hotel_room' + str(i)],
+                "qty": request.POST['line_hotel_qty' + str(i)],
+                "check_in": departure[0] + ' ' + departure[1],
+                "check_out": arrival[0] + ' ' + arrival[1],
+                "description": request.POST['line_hotel_description' + str(i)]
+            })
+        elif request.POST['type'] == 'activity':
+            departure = request.POST['line_activity_datetime' + str(i)].split('T')
+            line.append({
+                "name": request.POST['line_activity_name' + str(i)],
+                "package": request.POST['line_activity_package' + str(i)],
+                "qty": request.POST['line_activity_qty' + str(i)],
+                "visit_date": departure[0] + ' ' + departure[1],
+                "description": request.POST['line_activity_description' + str(i)]
+            })
 
     exp_date = request.POST['expired_date'].split('T')
+
+    data_issued_offline = {
+        "type": request.POST['type'],
+        "total_sale_price": int(request.POST['total_sale_price']),
+        "desc": request.POST['desc'],
+        "pnr": request.POST['pnr'],
+        "social_media_id": request.POST['social_media'],
+        "expired_date": exp_date[0] + ' ' + exp_date[1],
+        "line_ids": line
+    }
+
+    if request.POST['type'] == 'airline':
+        data_issued_offline["sector_type"] = request.POST['sector_type']
 
     data = {
         "booker": {
@@ -179,20 +230,11 @@ def create_issued_offline(request):
             'calling_code': request.POST['booker_calling_code'],
             'mobile': request.POST['booker_mobile'],
             'nationality_code': request.POST['booker_nationality_code'],
-            'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id'+str(i)]) or ''
+            'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or ''
         },
         "contact": contact,
         "passenger_ids": passenger,
-        "data_issued_offline": {
-            "type": request.POST['type'],
-            "sector_type": request.POST['sector_type'],
-            "total_sale_price": int(request.POST['total_sale_price']),
-            "desc": request.POST['desc'],
-            "pnr": request.POST['pnr'],
-            "social_media_id": request.POST['social_media'],
-            "expired_date": exp_date[0]+' '+exp_date[1],
-            "line_ids": line
-        }
+        "data_issued_offline": data_issued_offline
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -200,7 +242,7 @@ def create_issued_offline(request):
         "action": "create_issued_offline",
         "signature": request.session['issued_offline_signature'],
     }
-    res = util.send_request(url=url + "agent/issued_offline", data=data, cookies=request.session['agent_cookie'], headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
     return res
 
 def get_history_issued_offline(request):

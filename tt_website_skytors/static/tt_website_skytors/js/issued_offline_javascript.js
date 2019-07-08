@@ -73,11 +73,34 @@ function search_origin_departure(val,sequence){
     }, 500);
 }
 
-function change_transaction_type(){
-    if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train'){
+function change_transaction_type(type){
+    counter_line = 0;
+    if(document.getElementById('transaction_type').value  == 'airline')
+        document.getElementById('sector_div').hidden = false;
+    else
+        document.getElementById('sector_div').hidden = true;
+    document.getElementById('show_line').innerHTML = '';
+    if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train' || document.getElementById('transaction_type').value  == 'hotel' || document.getElementById('transaction_type').value  == 'activity'){
         document.getElementById('show_line').hidden = false;
+        $('transaction_type').niceSelect();
+        text = '';
+        if(document.getElementById('transaction_type').value == 'airline')
+            text+=`<h4>Airline Line(s)</h4><br/>`;
+        else if(document.getElementById('transaction_type').value == 'train')
+            text+=`<h4>Train Line(s)</h4><br/>`;
+        else if(document.getElementById('transaction_type').value == 'hotel')
+            text+=`<h4>Hotel Line(s)</h4><br/>`;
+        else if(document.getElementById('transaction_type').value == 'activity')
+            text+=`<h4>Activity/Theme Park Line(s)</h4><br/>`;
+        text+=`<h5><a href="javascript:add_table_of_line('`+document.getElementById('transaction_type').value+`');" style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a> <a href="javascript:delete_table_of_line();" style="color:blue; text-decoration: underline;">Delete <i class="fas fa-minus-circle"></i></a></h5>
+        <br/>
+        <div id="table_of_line">
+        </div>`;
+        document.getElementById('show_line').innerHTML = text;
+        $('select').niceSelect();
     }else{
         document.getElementById('show_line').hidden = true;
+        document.getElementById('show_line').innerHTML = '';
     }
 }
 
@@ -227,10 +250,7 @@ function add_table_of_passenger(){
                                                             <select id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`">
                                                                 <option value="">Select Country</option>`;
                                                                 for(i in countries){
-                                                                    if(countries[i].code == 'ID')
-                                                                       text+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
-                                                                    else
-                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                   text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                                 }
                                                             text+=`</select>
                                                         </div>
@@ -299,56 +319,179 @@ function delete_table_of_passenger(){
     }
 }
 
-function add_table_of_line(){
+function add_table_of_line(type){
     text= '';
-    var node = document.createElement("tr");
-    text += `
-    <td>`+(parseInt(counter_line)+1)+`</td>
-    <td>
-        <input list="airline_origin_name`+counter_line+`" id="origin`+counter_line+`" class="form-control" name="origin`+counter_line+`" onkeyup="search_origin_departure('origin',`+counter_line+`);" />
-        <datalist id="airline_origin_name`+counter_line+`"/>
-    </td>
-    <td>
-        <input list="airline_destination_name`+counter_line+`" id="destination`+counter_line+`" class="form-control" name="destination`+counter_line+`" onkeyup="search_origin_departure('destination',`+counter_line+`);" />
-        <datalist id="airline_destination_name`+counter_line+`"/>
-    </td>
-    <td>
-        <div class="input-container-search-ticket">
-            <i class="fas fa-plane-departure icon-search-ticket"></i>
-            <div class="form-select">
-                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="provider_data`+counter_line+`" placeholder="Carrier Name" onchange="set_provider(`+counter_line+`)">
+    var node = document.createElement("div");
+    if(type == 'airline' || type == 'train'){
+        text += `
+        <div class="col-lg-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-1 col-xs-1">
+                    <span>No.</span><br/>
+                    <span>`+parseInt(counter_line+1)+`</span>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>Origin</span><br/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                        <div class="form-select">
+                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'origin')">
 
-                </select>
+                            </select>
+                        </div>
+                        <input type="hidden" name="origin`+counter_line+`" id="origin`+counter_line+`" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>Destination</span><br/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                        <div class="form-select">
+                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'destination')">
+
+                            </select>
+                        </div>
+                        <input type="hidden" name="destination`+counter_line+`" id="destination`+counter_line+`" />
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Provider</span><br/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                        <div class="form-select">
+                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="provider_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'provider')">
+
+                            </select>
+                        </div>
+                        <input type="hidden" name="provider`+counter_line+`" id="provider`+counter_line+`" />
+                    </div>
+                </div>
             </div>
-            <input type="hidden" name="provider`+counter_line+`" id="provider`+counter_line+`" />
-        </div>
-    </td>
-    <td>
-        <input type="datetime-local" id='departure`+counter_line+`' class="form-control" name='departure`+counter_line+`' placeholder="datetime"/>
-    </td>
-    <td>
-        <input type="datetime-local" id='arrival`+counter_line+`' class="form-control" name='arrival`+counter_line+`' placeholder="datetime"/>
-    </td>
-    <td><input type="text" class="form-control" id='carrier_code`+counter_line+`' name='carrier_code`+counter_line+`' placeholder="Carrier Code"></td>
-    <td><input type="text" class="form-control" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number"></td>
-    <td>
-        <div class="input-container-search-ticket btn-group">
-            <div class="form-select" id="default-select">
-                <select id='class`+counter_line+`' name='class`+counter_line+`' class="form-control" style="height:42px;">`;
-                for(i in class_of_service)
-                    text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
-            text+=`
-                </select>
+            <div class="row">
+                <div class="col-lg-3 col-xs-3">
+                    <span>Departure Date</span><br/>
+                    <input type="datetime-local" id='departure`+counter_line+`' class="form-control" name='departure`+counter_line+`' placeholder="datetime"/>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Arrival Date</span><br/>
+                    <input type="datetime-local" id='arrival`+counter_line+`' class="form-control" name='arrival`+counter_line+`' placeholder="datetime"/>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Carrier Code</span><br/>
+                    <input type="text" class="form-control" id='carrier_code`+counter_line+`' name='carrier_code`+counter_line+`' placeholder="Carrier Code">
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Carrier Number</span><br/>
+                    <input type="text" class="form-control" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number">
+                </div>
             </div>
-        </div>
-    </td>
-    <td><input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class"></td>`;
-    node.innerHTML = text;
-    $('#class'+counter_line).niceSelect('update');
-    node.setAttribute('id', 'table_line'+counter_line);
-    document.getElementById("table_of_line").appendChild(node);
-    set_provider_data(counter_line);
+            <div class="row">
+                <div class="col-lg-2 col-xs-2">
+                    <span>Class</span><br/>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id='class`+counter_line+`' name='class`+counter_line+`' class="form-control" style="height:42px;">`;
+                            for(i in class_of_service)
+                                text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
+                        text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-xs-2">
+                    <span>Sub Class</span><br/>
+                    <input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class">
+                </div>
+            </div>
+        </div><hr/>`;
+        node.innerHTML = text;
+        $('#class'+counter_line).niceSelect('update');
+        node.setAttribute('id', 'table_line'+counter_line);
+        document.getElementById("table_of_line").appendChild(node);
+        set_provider_data(counter_line, type);
+        set_origin_data(counter_line, type);
+        set_destination_data(counter_line, type);
+    }else if(type == 'hotel'){
+        text += `
+        <div class="col-lg-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-1 col-xs-1">
+                    <span>No.</span><br/>
+                    <span>`+parseInt(counter_line+1)+`</span>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>Name</span><br/>
+                    <input type="input" id='hotel_name`+counter_line+`' class="form-control" name='hotel_name`+counter_line+`' placeholder="Name"/>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>Room</span><br/>
+                    <input type="input" id='hotel_room`+counter_line+`' class="form-control" name='hotel_room`+counter_line+`' placeholder="Room Type"/>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Qty</span><br/>
+                    <input type="input" id='hotel_qty`+counter_line+`' class="form-control" name='hotel_qty`+counter_line+`' placeholder="Quantity"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-xs-3">
+                    <span>Check in Date</span><br/>
+                    <input type="datetime-local" id='hotel_check_in`+counter_line+`' class="form-control" name='hotel_check_in`+counter_line+`' placeholder="Check in"/>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Check out Date</span><br/>
+                    <input type="datetime-local" id='hotel_check_out`+counter_line+`' class="form-control" name='hotel_check_out`+counter_line+`' placeholder="Check out"/>
+                </div>
+                <div class="col-lg-6 col-xs-6">
+                    <span>Description</span><br/>
+                    <textarea id='hotel_description`+counter_line+`' class="form-control" name='hotel_description`+counter_line+`'></textarea>
+                </div>
+            </div>
+
+        </div><hr/>`;
+        node.innerHTML = text;
+        $('#class'+counter_line).niceSelect('update');
+        node.setAttribute('id', 'table_line'+counter_line);
+        document.getElementById("table_of_line").appendChild(node);
+    }else if(type == 'activity'){
+        text += `
+        <div class="col-lg-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-1 col-xs-1">
+                    <span>No.</span><br/>
+                    <span>`+parseInt(counter_line+1)+`</span>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>Name</span><br/>
+                    <input type="input" id='activity_name`+counter_line+`' class="form-control" name='activity_name`+counter_line+`' placeholder="Name"/>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>Package</span><br/>
+                    <input type="input" id='activity_package`+counter_line+`' class="form-control" name='activity_package`+counter_line+`' placeholder="Package Type"/>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <span>Qty</span><br/>
+                    <input type="input" id='activity_qty`+counter_line+`' class="form-control" name='activity_qty`+counter_line+`' placeholder="Quantity"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-xs-3">
+                    <span>Visit Date Time</span><br/>
+                    <input type="datetime-local" id='activity_datetime`+counter_line+`' class="form-control" name='activity_datetime`+counter_line+`' placeholder="Datetime"/>
+                </div>
+                <div class="col-lg-9 col-xs-9">
+                    <span>Description</span><br/>
+                    <textarea id='activity_description`+counter_line+`' class="form-control" name='activity_description`+counter_line+`'></textarea>
+                </div>
+            </div>
+
+        </div><hr/>`;
+        node.innerHTML = text;
+        $('#class'+counter_line).niceSelect('update');
+        node.setAttribute('id', 'table_line'+counter_line);
+        document.getElementById("table_of_line").appendChild(node);
+    }
     $('.js-example-basic-single').select2();
+
     counter_line++;
 }
 
@@ -466,22 +609,91 @@ function update_contact_cp(val){
 
 }
 
-function set_provider_data(val){
+function set_provider_data(val,type){
     console.log(val);
+    console.log(type);
     var carrier = document.getElementById("provider_data"+val);
-    for(i in issued_offline_data.carrier_id){
-        var node = document.createElement("option");
-        node.text = issued_offline_data.carrier_id[i].name;
-        node.value = issued_offline_data.carrier_id[i].code;
-        try{
-        }catch(err){
+    if(type == 'airline'){
+        for(i in issued_offline_data.carrier_id){
+            var node = document.createElement("option");
+            node.text = issued_offline_data.carrier_id[i].name;
+            node.value = issued_offline_data.carrier_id[i].code;
+            try{
+            }catch(err){
+            }
+            carrier.add(node);
         }
+    }else if(type == 'train'){
+        var node = document.createElement("option");
+        node.text = 'KAI';
+        node.value = 'kai_outlet';
         carrier.add(node);
+        document.getElementById('provider'+val).value = 'kai_outlet';
     }
 }
 
-function set_provider(val){
+function set_destination_data(val,type){
     console.log(val);
-    console.log(document.getElementById('select2-provider_data'+val+'-container').innerHTML);
-    document.getElementById('provider'+val).value = document.getElementById('select2-provider_data'+val+'-container').innerHTML;
+    var carrier = document.getElementById("destination_data"+val);
+    if(type == 'airline'){
+        for(i in airline_destination){
+            var node = document.createElement("option");
+            node.text = airline_destination[i].name+` - `+airline_destination[i].city +' ('+airline_destination[i].code+')';
+            node.value = airline_destination[i].code;
+            try{
+            }catch(err){
+            }
+            carrier.add(node);
+        }
+    }else if(type == 'train'){
+        for(i in train_destination){
+            var node = document.createElement("option");
+            node.text = train_destination[i].code +` - `+ train_destination[i].name;
+            node.value = train_destination[i].name;
+            try{
+            }catch(err){
+            }
+            carrier.add(node);
+        }
+    }else if(type == 'hotel'){
+
+    }
+}
+
+function set_origin_data(val,type){
+    console.log(val);
+    var carrier = document.getElementById("origin_data"+val);
+    if(type == 'airline'){
+        for(i in airline_destination){
+            var node = document.createElement("option");
+            node.text = airline_destination[i].name+` - `+airline_destination[i].city +' ('+airline_destination[i].code+')';
+            node.value = airline_destination[i].code;
+            try{
+            }catch(err){
+            }
+            carrier.add(node);
+        }
+    }else if(type == 'train'){
+        for(i in train_destination){
+            var node = document.createElement("option");
+            node.text = train_destination[i].code +` - `+ train_destination[i].name;
+            node.value = train_destination[i].name;
+            try{
+            }catch(err){
+            }
+            carrier.add(node);
+        }
+    }else if(type == 'hotel'){
+
+    }
+}
+
+function set_data(val,type){
+    console.log(document.getElementById('select2-origin_data'+val+'-container').title);
+    if(type == 'provider')
+        document.getElementById('provider'+val).value = document.getElementById('select2-provider_data'+val+'-container').innerHTML;
+    else if(type == 'origin')
+        document.getElementById('origin'+val).value = document.getElementById('select2-origin_data'+val+'-container').title;
+    else if(type == 'destination')
+        document.getElementById('destination'+val).value = document.getElementById('select2-destination_data'+val+'-container').title;
 }
