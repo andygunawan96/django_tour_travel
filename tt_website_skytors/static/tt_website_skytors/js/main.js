@@ -7,15 +7,6 @@
 
 	"use strict";
 
-	$(window).stellar({
-    responsive: false,
-    parallaxBackgrounds: true,
-    parallaxElements: true,
-    horizontalScrolling: false,
-    hideDistantElements: false,
-    scrollProperty: 'scroll'
-  });
-
 
 	// loader
 	var loader = function() {
@@ -261,69 +252,6 @@
 		});
 	};
 	burgerMenu();
-	
-	var counter = function() {
-		
-		$('#section-counter').waypoint( function( direction ) {
-
-			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
-
-				var comma_separator_number_step = $.animateNumber.numberStepFactories.separator(',')
-				$('.number').each(function(){
-					var $this = $(this),
-						num = $this.data('number');
-						console.log(num);
-					$this.animateNumber(
-					  {
-					    number: num,
-					    numberStep: comma_separator_number_step
-					  }, 7000
-					);
-				});
-				
-			}
-
-		} , { offset: '95%' } );
-
-	}
-	counter();
-
-	var contentWayPoint = function() {
-		var i = 0;
-		$('.ftco-animate').waypoint( function( direction ) {
-
-			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
-				
-				i++;
-
-				$(this.element).addClass('item-animate');
-				setTimeout(function(){
-
-					$('body .ftco-animate.item-animate').each(function(k){
-						var el = $(this);
-						setTimeout( function () {
-							var effect = el.data('animate-effect');
-							if ( effect === 'fadeIn') {
-								el.addClass('fadeIn ftco-animated');
-							} else if ( effect === 'fadeInLeft') {
-								el.addClass('fadeInLeft ftco-animated');
-							} else if ( effect === 'fadeInRight') {
-								el.addClass('fadeInRight ftco-animated');
-							} else {
-								el.addClass('fadeInUp ftco-animated');
-							}
-							el.removeClass('item-animate');
-						},  k * 50, 'easeInOutExpo' );
-					});
-					
-				}, 100);
-				
-			}
-
-		} , { offset: '95%' } );
-	};
-	contentWayPoint();
-
 
 	// navigation
 	var OnePageNav = function() {
@@ -381,26 +309,6 @@
     fixedContentPos: false
   });
 
-//   setting date picker
-   $('#airline_departure, #airline_return, #train_departure, #train_return, #hotel_checkin, #hotel_checkout, #activity_date, #visa_departure_date, #passport_departure_date, #group_booking_departure_start_date, #group_booking_departure_end_date').datepicker({
-	  'format': 'dd M yyyy',
-	  'todayHighlight': true,
-	  'autoclose': true,
-   });
-
-   //passenger
-   $('#adult_birth_date1, #adult_birth_date2, #adult_birth_date3, #adult_birth_date4, #adult_birth_date5, #adult_birth_date6, #adult_birth_date7, #adult_birth_date8, #adult_birth_date9, #infant_birth_date1, #infant_birth_date2, #infant_birth_date3, #infant_birth_date4, #infant_birth_date5, #infant_birth_date6, #infant_birth_date7, #infant_birth_date8, #infant_birth_date9, #child_birth_date1, #child_birth_date2, #child_birth_date3, #child_birth_date4, #child_birth_date5, #child_birth_date6, #child_birth_date7, #child_birth_date8, #child_birth_date9, #senior_birth_date1, #senior_birth_date2, #senior_birth_date3, #senior_birth_date4, #senior_birth_date5, #senior_birth_date6, #senior_birth_date7, #senior_birth_date8, #senior_birth_date9').datepicker({
-	  'format': 'dd M yyyy',
-	  'todayHighlight': true,
-	  'autoclose': true
-   });
-
-   //exp date passport
-   $('#adult_passport_expired_date1, #adult_passport_expired_date2, #adult_passport_expired_date3, #adult_passport_expired_date4, #adult_passport_expired_date5, #adult_passport_expired_date6, #adult_passport_expired_date7, #adult_passport_expired_date8, #adult_passport_expired_date9, #infant_passport_expired_date1, #infant_passport_expired_date2, #infant_passport_expired_date3, #infant_passport_expired_date4, #infant_passport_expired_date5, #infant_passport_expired_date6, #infant_passport_expired_date7, #infant_passport_expired_date8, #infant_passport_expired_date9, #child_passport_expired_date1, #child_passport_expired_date2, #child_passport_expired_date3, #child_passport_expired_date4, #child_passport_expired_date5, #child_passport_expired_date6, #child_passport_expired_date7, #child_passport_expired_date8, #child_passport_expired_date9, #senior_passport_expired_date1, #senior_passport_expired_date2, #senior_passport_expired_date3, #senior_passport_expired_date4, #senior_passport_expired_date5, #senior_passport_expired_date6, #senior_passport_expired_date7, #senior_passport_expired_date8, #senior_passport_expired_date9').datepicker({
-	  'format': 'dd M yyyy',
-	  'todayHighlight': true,
-	  'autoclose': true
-   });
 
 })(jQuery);
 
