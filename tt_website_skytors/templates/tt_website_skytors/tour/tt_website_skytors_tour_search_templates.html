@@ -25,30 +25,36 @@
                         <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
+                                <div class="col-lg-4" style="padding:0px;">
                                     <span class="span-search-ticket">Destination</span>
                                     <input id="tour_hidden_destination" type="hidden" value="{{dest_destination}}"/>
-                                    <div class="form-select" id="default-select">
-                                        <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+                                        <div class="form-select" id="default-select">
+                                            <select onchange="" name="tour_destination" id="tour_destination" size="5">
 
-                                        </select>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6" style="padding:0px;">
+                                <div class="col-lg-3 col-md-7 col-sm-7 col-xs-7" style="padding:0px;">
                                     <span class="span-search-ticket">Destination Month</span>
-                                    <div class="form-select">
-                                        <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                            {% for month_data in dest_month_data %}
-                                            {% if month_data.value == dest_month %}
-                                            <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                            {% else %}
-                                            <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                        <div class="form-select">
+                                            <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                {% for month_data in dest_month_data %}
+                                                {% if month_data.value == dest_month %}
+                                                <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
+                                                {% else %}
+                                                <option value="{{month_data.value}}">{{month_data.string}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6" style="padding:0px;">
+                                <div class="col-lg-2 col-md-5 col-sm-5 col-xs-5" style="padding:0px;">
                                     <span class="span-search-ticket">Destination Year</span>
                                     <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                     <div class="form-select">
@@ -57,18 +63,21 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" style="padding:0px;">
+                                <div class="col-lg-3" style="padding:0px;">
                                     <span class="span-search-ticket">Budget</span>
-                                    <div class="form-select">
-                                        <select onchange="" name="tour_budget" id="tour_budget" size="5">
-                                            {% for budget in budget_data %}
-                                            {% if budget.value == budget_sel %}
-                                            <option value="{{budget.value}}" selected="">{{budget.string}}</option>
-                                            {% else %}
-                                            <option value="{{budget.value}}">{{budget.string}}</option>
-                                            {% endif %}
-                                            {% endfor %}
-                                        </select>
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-coins icon-search-ticket"></i>
+                                        <div class="form-select">
+                                            <select onchange="" name="tour_budget" id="tour_budget" size="5">
+                                                {% for budget in budget_data %}
+                                                {% if budget.value == budget_sel %}
+                                                <option value="{{budget.value}}" selected="">{{budget.string}}</option>
+                                                {% else %}
+                                                <option value="{{budget.value}}">{{budget.string}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

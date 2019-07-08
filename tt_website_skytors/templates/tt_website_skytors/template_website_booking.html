@@ -16,29 +16,32 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
     <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
 
-    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
     <link rel="icon" href="{{ static_path }}images/icon/skytors.png" sizes="16x16" type="image/png">
-
-
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css">
-    <link rel="stylesheet" href="{{ static_path }}css/select2.css">
-    <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css">
+
+    <!--template1-->
+    <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/bootstrap.css">
-    <link rel="stylesheet" href="{{ static_path }}css/magnific-popup.css">
-    <!--    <link rel="stylesheet" href="{{ static_path }}css/jquery-ui.css">-->
+    <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/jquery-ui.css">
+    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/magnific-popup.css">
+    <link rel="stylesheet" href="{{ static_path }}css/main.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/nice-select.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.carousel.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.green.min.css">
+    <!--cart-->
+    <link rel="stylesheet" href="{{ static_path }}css/cart.css">
+    <!--daterangepicker-->
     <link rel="stylesheet" href="{{ static_path }}css/daterangepicker.css">
-    <link rel="stylesheet" href="{{ static_path }}css/nice-select.css">
-    <link rel="stylesheet" href="{{ static_path }}css/animate.min.css">
-    <link rel="stylesheet" href="{{ static_path }}css/owl.carousel.css">
-    <link rel="stylesheet" href="{{ static_path }}css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="{{ static_path }}css/owl.theme.green.min.css">
+    <!--loadingbar-->
     <link rel="stylesheet" href="{{ static_path }}css/loading.css">
     <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css">
     <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css">
-    <link rel="stylesheet" href="{{ static_path }}css/main.css">
-    <link rel="stylesheet" href="{{ static_path }}css/cart.css">
-    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">-->
+    <!--select2-->
+    <link rel="stylesheet" href="{{ static_path }}css/select2.css">
+    <!--other-->
     <script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js"></script>
     <style media="screen" type="text/css">
         .bx-imopenlines-config-sidebar{
@@ -55,206 +58,208 @@ Licence URI: http://www.os-templates.com/template-terms
         }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
-
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
-<body style="">
-<div class="wrapper">
-    <header id="header">
-        <div class="main-menu-2">
-            <div class="container" style="padding-right:0px;">
-                <div class="align-items-center justify-content-between d-flex" style="justify-content: flex-end !important;">
-                    <nav>
-                        <ul class="nav-menu">
-                            <li style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>
-                            <li style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; border-right:1px solid black; margin-right:3px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>
-                            <li class="menu-has-children"><a href="#" style="border-right:1px solid black;"> <i class="fas fa-globe-asia"></i> </a>
-                                <ul>
-                                    <li><a href="#"> ID </a></li>
-                                    <li><a href="#"> ENG</a></li>
-                                    <li><a href="#"> JP </a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
+<body>
+<header id="header">
+    <div class="main-menu-2">
+        <div class="container" style="padding-right:0px;">
+            <div class="align-items-center justify-content-between d-flex" style="justify-content: flex-end !important;">
+                <nav>
+                    <ul class="nav-menu">
+                        <li style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>
+                        <li style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; border-right:1px solid black; margin-right:3px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>
+                        <li class="menu-has-children"><a href="#" style="border-right:1px solid black;"> <i class="fas fa-globe-asia"></i> </a>
+                            <ul>
+                                <li><a href="#"> ID </a></li>
+                                <li><a href="#"> ENG</a></li>
+                                <li><a href="#"> JP </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
-        <div class="main-menu">
-            <div class="container">
-                <div class="row align-items-center justify-content-between d-flex">
-                    <div id="logo">
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
-                    </div>
-                    <nav id="nav-menu-container">
-                        <ul class="nav-menu">
-                            <li class="menu-has-children"><a href="#">Partnership</a>
-                                <ul>
-                                    <li><a href="/registration">Register Agent</a></li>
-                                    <li><a href="#">Registration List</a></li>
-                                    <li><a href="#">Search Registration</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-has-children"><a href="#">User Guide</a>
-                                <ul>
-                                    <li><a href="#">Guidelines</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
-
-                            {% if username != null %}
-                            <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
-                            <li><a href="#">Top Up</a>
-                                <ul>
-                                    <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
-                                    <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#" style="border-right:1px solid black; margin-right:5px;">Issued Offline</a>
-                                <ul>
-                                    <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
-                                    <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-has-children"><a href="#">Saldo</a>
-                                <ul>
-                                    <li><a id="balance"></a></li>
-                                    <li><a id="credit_limit"></a></li>
-                                </ul>
-                            </li>
-                            <li class="menu-has-children"><a href="#" id="username">{{username.agent_name}}</a>
-                                <ul>
-                                    <li><a>My Virtual Account: 9317918739186</a></li>
-                                    <li><a href="#">Edit Agent Profile</a></li>
-                                    <li>
-                                        <a>
-                                            <form action="" method="POST">
-                                                {% csrf_token %}
-                                                <button type="submit" class="primary-btn-logout" style="color:white;">Logout</button>
-                                                <input type="hidden" id="logout" name="logout" value=true>
-                                            </form>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-has-children" id="notification-pc" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
-                                <ul id="notification_detail"></ul>
-                            </li>
-                            {% else %}
-                            <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="border: 2px solid #f15a22;">Sign in</a></li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                    <nav id="notification-mobile" style="display:none;">
-                        <ul class="nav-menu">
-                            <li class="menu-has-children" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
-                                <ul id="notification_detail2"></ul>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
-
-    </header>
-    <!--FF8C00-->
-    {% block content %}
-
-    {% endblock %}
-
-    <footer class="footer-area section-gap">
+    </div>
+    <div class="main-menu">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>About RODEX TRIP</h6>
-                        <p>
-                            PT. Roda Express Sukses Mandiri is a company engaged in the field of Tour & Travel and is known as RODEX TOUR & TRAVEL. Rodex Tour & Travel was first established on September 9, 2009 at a leading shopping center in Surabaya, namely the Mall Pakuwon Trade Center (PTC). Under the leadership of Mr. Galuh Suryono Cipto Adi, Rodex Tour & Travel has experienced significant developments from year to year.
-                        </p>
-                        <p>
-                            Until now, we have approximately 1,000 registered resellers and dozens of Mitra (Citra) branches spread throughout Indonesia.
-                        </p>
-                    </div>
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Navigation Links</h6>
-                        <div class="row">
-                            <div class="col">
-                                <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Reservation</a></li>
-                                    <li><a href="#">Top Up</a></li>
-                                    <li><a href="#">Partnership</a></li>
-                                </ul>
-                            </div>
-                            <div class="col">
-                                <ul>
-                                    <li><a href="#">Issued Offline</a></li>
-                                    <li><a href="#">User Guide</a></li>
-                                </ul>
-                            </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li class="menu-has-children"><a href="#">Partnership</a>
+                            <ul>
+                                <li><a href="/registration">Register Agent</a></li>
+                                <li><a href="#">Registration List</a></li>
+                                <li><a href="#">Search Registration</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+
+                        {% if username != null %}
+                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        <li><a href="#">Top Up</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" style="border-right:1px solid black; margin-right:5px;">Issued Offline</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
+                                <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">Saldo</a>
+                            <ul>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#" id="username">{{username.agent_name}}</a>
+                            <ul>
+                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li>
+                                    <a>
+                                        <form action="" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="primary-btn-logout" style="color:white;">Logout</button>
+                                            <input type="hidden" id="logout" name="logout" value=true>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children" id="notification-pc" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
+                            <ul id="notification_detail"></ul>
+                        </li>
+                        {% else %}
+                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="border: 2px solid #f15a22;">Sign in</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                <nav id="notification-mobile" style="display:none;">
+                    <ul class="nav-menu">
+                        <li class="menu-has-children" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
+                            <ul id="notification_detail2"></ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</header>
+<!--FF8C00-->
+{% block content %}
+
+{% endblock %}
+
+<footer class="footer-area section-gap">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>About RODEX TRIP</h6>
+                    <p>
+                        PT. Roda Express Sukses Mandiri is a company engaged in the field of Tour & Travel and is known as RODEX TOUR & TRAVEL. Rodex Tour & Travel was first established on September 9, 2009 at a leading shopping center in Surabaya, namely the Mall Pakuwon Trade Center (PTC). Under the leadership of Mr. Galuh Suryono Cipto Adi, Rodex Tour & Travel has experienced significant developments from year to year.
+                    </p>
+                    <p>
+                        Until now, we have approximately 1,000 registered resellers and dozens of Mitra (Citra) branches spread throughout Indonesia.
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Navigation Links</h6>
+                    <div class="row">
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Reservation</a></li>
+                                <li><a href="#">Top Up</a></li>
+                                <li><a href="#">Partnership</a></li>
+                            </ul>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="single-footer-widget">
-                        <h6>Newsletter</h6>
-                        <p>
-                            Get Deals Directly in Your Email Inbox!
-                        </p>
-                        <div id="mc_embed_signup">
-                            <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                                <div class="input-group d-flex flex-row">
-                                    <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                    <button class="btn bb-btn"><i class="fas fa-paper-plane"></i></button>
-                                </div>
-                                <div class="mt-10 info"></div>
-                            </form>
+                        <div class="col">
+                            <ul>
+                                <li><a href="#">Issued Offline</a></li>
+                                <li><a href="#">User Guide</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row footer-bottom d-flex justify-content-between align-items-center">
-                <p class="col-lg-8 col-sm-12 footer-text m-0" style="color:white;"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEXTRIP
-                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-                <div class="col-lg-4 col-sm-12 footer-social">
-                    <a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:24px; width:auto;" src="{{static_path}}img/facebook.png"/></a>
-                    <a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:24px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6>Newsletter</h6>
+                    <p>
+                        Get Deals Directly in Your Email Inbox!
+                    </p>
+                    <div id="mc_embed_signup">
+                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
+                            <div class="input-group d-flex flex-row">
+                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
+                                <button class="btn bb-btn"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                            <div class="mt-10 info"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
-
-
-</div>
+        <div class="row footer-bottom d-flex justify-content-between align-items-center">
+            <p class="col-lg-8 col-sm-12 footer-text m-0" style="color:white;"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEXTRIP
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+            <div class="col-lg-4 col-sm-12 footer-social">
+                <a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:24px; width:auto;" src="{{static_path}}img/facebook.png"/></a>
+                <a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:24px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
+            </div>
+        </div>
+    </div>
+</footer>
 </body>
 <!-- JAVASCRIPTS -->
 
-
-<script src="{{ static_path }}js/popper.min.js"></script>
-<script src="{{ static_path }}js/vendor/bootstrap.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
-<script src="{{ static_path }}js/jquery-ui.js"></script>
-<script src="{{ static_path }}js/easing.min.js"></script>
-<script src="{{ static_path }}js/hoverIntent.js"></script>
-<script src="{{ static_path }}js/superfish.min.js"></script>
-<script src="{{ static_path }}js/jquery.ajaxchimp.min.js"></script>
-<script src="{{ static_path }}js/jquery.magnific-popup.min.js"></script>
-<script src="{{ static_path }}js/jquery.nice-select.min.js"></script>
+<!--template1-->
+<script src="{{ static_path }}js/template1/easing.min.js"></script>
+<script src="{{ static_path }}js/template1/hoverIntent.js"></script>
+<script src="{{ static_path }}js/template1/jquery.ajaxchimp.min.js"></script>
+<script src="{{ static_path }}js/template1/jquery.magnific-popup.min.js"></script>
+<script src="{{ static_path }}js/template1/jquery.nice-select.min.js"></script>
+<script src="{{ static_path }}js/template1/jquery-ui.js"></script>
+<script src="{{ static_path }}js/template1/mail-script.js"></script>
+<script src="{{ static_path }}js/template1/main2.js"></script>
+<script src="{{ static_path }}js/template1/owl.carousel.min.js"></script>
+<script src="{{ static_path }}js/template1/popper.min.js"></script>
+<script src="{{ static_path }}js/template1/superfish.min.js"></script>
+<!--zoom-->
 <script src="{{ static_path }}js/jquery.zoom.min.js"></script>
-<script src="{{ static_path }}js/owl.carousel.min.js"></script>
-<script src="{{ static_path }}js/price-slider.js"></script>
-<script src="{{ static_path }}js/mail-script.js"></script>
-<script src="{{ static_path }}js/main2.js"></script>
+<!--select2-->
 <script src="{{ static_path }}js/select2.js"></script>
-<script src="{{ static_path }}js/style.js"></script>
-<script src="{{ static_path }}js/cart.js"></script>
+<!--price slider-->
+<script src="{{ static_path }}js/price-slider.js"></script>
+<!--loading-bar-->
 <script src="{{ static_path }}js/loading-bar.js"></script>
+<!--datetimepicker-->
 <script src="{{ static_path }}js/daterangepicker.js"></script>
 <script src="{{ static_path }}js/moment.min.js"></script>
+<!--cart-->
+<script src="{{ static_path }}js/cart.js"></script>
+<!--other-->
+<script src="{{ static_path }}js/style.js"></script>
+
+<script src="{{ static_path }}js/vendor/bootstrap.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script data-skip-moving="true">
