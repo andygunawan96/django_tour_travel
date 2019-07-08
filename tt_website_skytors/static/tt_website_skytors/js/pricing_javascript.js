@@ -1,7 +1,7 @@
 counter = 0;
-type_amount = []; // --> list of string
-pax_type = []; // --> list of list ex : [['ADT','Adult'],['CHD','Child']]
-price_arr = {}; // --> dict of dict ex : {'Adult':{'fare':50,'tax':20}} -- di tambah total
+type_amount_repricing = []; // --> list of string
+pax_type_repricing = []; // --> list of list ex : [['ADT','Adult'],['CHD','Child']]
+price_arr_repricing = {}; // --> dict of dict ex : {'Adult':{'fare':50,'tax':20}} -- di tambah total
 //total wajib tinggal copy aja
 /*
 for(i in price_arr){
@@ -23,12 +23,11 @@ FORMAT DASAR
 function add_table_of_equation(){
     if(counter != 0){
         temp = counter-1;
-        console.log(temp);
         if(document.getElementById("selection_fare"+temp).value == 'total' && type_amount.length != 0){
             alert("Type amount has been reset please check!");
             text = '';
-            for(i in type_amount){
-                text += `<option value="`+type_amount[i]+`">`+type_amount[i]+`</option>`;
+            for(i in type_amount_repricing){
+                text += `<option value="`+type_amount[i]+`">`+type_amount_repricing[i]+`</option>`;
             }
             document.getElementById("selection_fare"+temp).innerHTML = text;
         }
@@ -53,8 +52,8 @@ function add_table_of_equation(){
         <div class="input-container-search-ticket">
             <div class="form-select">
                 <select id="selection_fare`+counter+`" style="width:100%;">`
-                for(i in type_amount){
-                    text += `<option value="`+type_amount[i]+`">`+type_amount[i]+`</option>`;
+                for(i in type_amount_repricing){
+                    text += `<option value="`+type_amount_repricing[i]+`">`+type_amount_repricing[i]+`</option>`;
                 }
                 text+=`
                     <option value="total">Total</option>
@@ -68,8 +67,8 @@ function add_table_of_equation(){
         <div class="input-container-search-ticket">
             <div class="form-select">
                 <select id="selection_pax`+counter+`" style="width:100%;">`;
-                for(i in pax_type){
-                    text += `<option value="`+pax_type[i][0]+`">`+pax_type[i][1]+`</option>`;
+                for(i in pax_type_repricing){
+                    text += `<option value="`+pax_type_repricing[i][0]+`">`+pax_type_repricing[i][1]+`</option>`;
                 }
                 text+=`
                 </select>
@@ -105,8 +104,7 @@ function delete_table_of_equation(){
 }
 
 function calculate(type){
-    console.log(price_arr);
-    price_duplication = JSON.parse(JSON.stringify(price_arr));
+    price_duplication = JSON.parse(JSON.stringify(price_arr_repricing));
     console.log(price_duplication);
     for(i=0;i<counter;i++){
         var selection_calculation = document.getElementById('calculation'+i).value;
@@ -152,17 +150,17 @@ function calculate(type){
                 if(selection_fare != 'total'){
                     price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + parseFloat(selection_calculation);
                     total = 0;
-                    if(type_amount.length != 0){
-                        for(j in type_amount)
-                            total += price_duplication[selection_pax][type_amount[j]];
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing)
+                            total += price_duplication[selection_pax][type_amount_repricing[j]];
                         price_duplication[selection_pax]['total'] = total
                     }else{
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax][selection_fare];
                     }
                 }else{
-                    if(type_amount.length != 0){
-                        for(j in type_amount){
-                            total += price_duplication[selection_pax][type_amount[j]] + parseFloat(selection_calculation);
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing){
+                            total += price_duplication[selection_pax][type_amount_repricing[j]] + parseFloat(selection_calculation);
                         }
                         price_duplication[selection_pax]['total'] = total;
                     }else{
@@ -179,18 +177,18 @@ function calculate(type){
                 }else if(selection_fare != 'total'){
                     price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] - ( price_duplication[selection_pax][selection_fare] * parseFloat(selection_calculation) / 100 );
                     total = 0;
-                    if(type_amount.length != 0){
-                        for(j in type_amount)
-                            total += price_duplication[selection_pax][type_amount[j]];
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing)
+                            total += price_duplication[selection_pax][type_amount_repricing[j]];
                         price_duplication[selection_pax]['total'] = total;
                     }else{
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax][selection_fare];
                     }
                 }else{
-                    if(type_amount.length != 0){
-                        for(j in type_amount){
-                            price_duplication[selection_pax][type_amount[j]] = price_duplication[selection_pax][type_amount[j]] - (price_duplication[selection_pax][type_amount[j]] * parseFloat(selection_calculation) / 100);
-                            total += price_duplication[selection_pax][type_amount[j]] + (price_duplication[selection_pax][type_amount[j]] * parseFloat(selection_calculation) / 100);
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing){
+                            price_duplication[selection_pax][type_amount_repricing[j]] = price_duplication[selection_pax][type_amount_repricing[j]] - (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
+                            total += price_duplication[selection_pax][type_amount_repricing[j]] + (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
                         }
                         price_duplication[selection_pax]['total'] = total;
                     }else{
@@ -201,18 +199,18 @@ function calculate(type){
                 if(selection_fare != 'total'){
                     price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] - parseFloat(selection_calculation);
                     total = 0;
-                    if(type_amount.length != 0){
-                        for(j in type_amount)
-                            total += price_duplication[selection_pax][type_amount[j]];
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing)
+                            total += price_duplication[selection_pax][type_amount_repricing[j]];
                         price_duplication[selection_pax]['total'] = total;
                     }else{
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax][selection_fare];
                     }
                 }else{
-                    if(type_amount.length != 0){
-                        for(j in type_amount){
-                            price_duplication[selection_pax][type_amount[j]] = price_duplication[selection_pax][type_amount[j]] - (price_duplication[selection_pax][type_amount[j]] * parseFloat(selection_calculation) / 100);
-                            total += price_duplication[selection_pax][type_amount[j]] -  parseFloat(selection_calculation) / 100;
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing){
+                            price_duplication[selection_pax][type_amount_repricing[j]] = price_duplication[selection_pax][type_amount_repricing[j]] - (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
+                            total += price_duplication[selection_pax][type_amount_repricing[j]] -  parseFloat(selection_calculation) / 100;
                         }
                         price_duplication[selection_pax]['total'] = total;
                     }else{
@@ -222,15 +220,13 @@ function calculate(type){
             }
         }
         if(type == 'visa'){
-        document.getElementById('adult_fare').innerHTML = price_duplication['ADT'].sale_price;
-//        document.getElementById('adult_tax').innerHTML = price_duplication.adult.tax;
-        document.getElementById('adult_total').innerHTML = price_duplication['ADT'].total;
-//        document.getElementById('child_fare').innerHTML = price_duplication.child.fare;
-//        document.getElementById('child_tax').innerHTML = price_duplication.child.tax;
-//        document.getElementById('child_total').innerHTML = price_duplication.child.total;
-//        document.getElementById('infant_fare').innerHTML = price_duplication.infant.fare;
-//        document.getElementById('infant_tax').innerHTML = price_duplication.infant.tax;
-//        document.getElementById('infant_total').innerHTML = price_duplication.infant.total;
+            console.log(price_duplication);
+            for(i in price_duplication)
+                for(j in price_duplication[i]){
+                    console.log(i);
+                    console.log(j);
+                    document.getElementById(i+'_'+j).innerHTML = price_duplication[i][j];
+                }
         }
         console.log(price_duplication);
 

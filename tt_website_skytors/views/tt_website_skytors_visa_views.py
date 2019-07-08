@@ -272,7 +272,6 @@ def review(request):
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],
             'passengers': pax,
-            'pax': request.session['visa_create_passengers'],
             'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -290,7 +289,8 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'order_number': request.POST['order_number'],
+            # 'order_number': request.POST['order_number'],
+            'order_number': 'VS.19070600014',
             # 'cookies': json.dumps(res['result']['cookies']),
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_booking_templates.html', values)

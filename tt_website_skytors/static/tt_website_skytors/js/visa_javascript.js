@@ -1,4 +1,4 @@
-
+detail_for_repricing = {};
 
 function visa_autocomplete(type){
     if(type == 'consulate'){
@@ -191,25 +191,25 @@ function update_table(type){
                 </div>
             </div>`;
     }else if(type == 'review'){
+
         text += `<h4>Price detail</h4><hr/>
                 <table style="width:100%; margin-bottom:10px;">`;
         price = 0;
         commission = 0;
-        for(i in visa.list_of_visa){
+        currency = '';
+        price_pax = 0;
+        for(i in detail_for_repricing){
+            currency = detail_for_repricing[i].currency;
+            price += detail_for_repricing[i].fare;
+            commission += detail_for_repricing[i].commission;
+            price_pax = detail_for_repricing[i].fare;
+            console.log(detail_for_repricing[i]);
             text+=`
                     <tr>
-                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
-                        <td>x</td>
-                        <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</td>
+                        <td>`+i+`</td>
+                        <td style="text-align:right;">`+currency+` `+getrupiah(price_pax)+`</td>
                     </tr>`;
-            try{
 
-                price += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price;
-                commission += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.commission;
-            }catch(err){
-
-            }
         }
 
         text+=`</table>`;
@@ -223,7 +223,7 @@ function update_table(type){
                     <h6>Grand Total</h6>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                    <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
         try{
@@ -235,7 +235,68 @@ function update_table(type){
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                    </div>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
+                    </div>
+                </div>
+                `;
+    }else if(type == 'booking'){
+        text += `<h4>Price detail</h4><hr/>
+                <table style="width:100%; margin-bottom:10px;">`;
+        price = 0;
+        price_pax = 0;
+        commission = 0;
+        currency = '';
+        for(i in visa.sale_price){
+            console.log(i);
+            console.log(visa.sale_price);
+            currency = visa.sale_price[i][0].currency;
+            for(sale_price in visa.sale_price[i])
+                if(visa.sale_price[i][sale_price].charge_code == 'sale_price'){
+                    price += visa.sale_price[i][sale_price].amount;
+                    price_pax = visa.sale_price[i][sale_price].amount;
+                }else if(visa.sale_price[i].charge_code == 'commission')
+                    commission += visa.sale_price[i][sale_price].amount;
+            text+=`
+                    <tr>
+                        <td>`+i+`</td>
+                        <td style="text-align:right;">`+currency+` `+getrupiah(price_pax)+`</td>
+                    </tr>`;
+
+        }
+
+        text+=`</table>`;
+
+        text+=`
+            <div class="row" style="padding-bottom:15px;">
+                <div class="col-lg-12">
+                    <hr/>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                    <h6>Grand Total</h6>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                    <h6>`+currency+` `+getrupiah(price)+`</h6>
+                </div>
+            </div>`;
+        try{
+            display = document.getElementById('show_commission').style.display;
+        }catch(err){
+            display = 'none';
+        }
+        text+=`
+                <div class="row" id="show_commission" style="display: `+display+`;">
+                    <div class="col-lg-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
                 </div>
@@ -551,7 +612,9 @@ function check_on_off_radio(pax_type,number,value){
     pax_entry = '';
     pax_process = '';
     pax_price = '';
-
+    name = '';
+    list_of_name = []
+    console.log(number);
     if(pax_type == 'adult'){
         pax_required = document.getElementById('adult_required'+number);
         pax_check = document.getElementById('adult_check'+number);
@@ -559,6 +622,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_entry = document.getElementsByName('adult_entry_type'+number);
         pax_process = document.getElementsByName('adult_process_type'+number);
         pax_price = document.getElementById('adult_price'+number);
+        name = document.getElementById('adult_name'+number).innerHTML;
     }else if(pax_type == 'child'){
         pax_required = document.getElementById('child_required'+number);
         pax_check = document.getElementById('child_check'+number);
@@ -566,6 +630,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_entry = document.getElementsByName('child_entry_type'+number);
         pax_process = document.getElementsByName('child_process_type'+number);
         pax_price = document.getElementById('child_price'+number);
+        name = document.getElementById('adult_name'+number).innerHTML;
     }else if(pax_type == 'infant'){
         pax_required = document.getElementById('infant_required'+number);
         pax_check = document.getElementById('infant_check'+number);
@@ -573,7 +638,9 @@ function check_on_off_radio(pax_type,number,value){
         pax_entry = document.getElementsByName('infant_entry_type'+number);
         pax_process = document.getElementsByName('infant_process_type'+number);
         pax_price = document.getElementById('infant_price'+number);
+        name = document.getElementById('adult_name'+number).innerHTML;
     }
+    console.log(name);
     if(value == 'visa'){
         console.log(number);
         if(pax_check.value != 'false'){
@@ -678,6 +745,58 @@ function check_on_off_radio(pax_type,number,value){
                 pax_required.innerHTML = text_requirements;
                 visa.list_of_visa[i].total_pax--;
                 pax_check.value = i;
+
+                //price detail
+                list_of_name = name.split(' ');
+                list_of_name.shift();
+                list_of_name.shift();
+                list_of_name = list_of_name.join(' ');
+                console.log(list_of_name);
+
+                check = 0;
+
+                for(j in detail_for_repricing)
+                    if(j == list_of_name)
+                        check = 1;
+                detail_for_repricing[list_of_name] = {
+                    'commission':visa.list_of_visa[i].sale_price.commission,
+                    'currency':visa.list_of_visa[i].sale_price.currency,
+                    'fare':visa.list_of_visa[i].sale_price.total_price
+                };
+
+                if(check == 0){
+                    pax_type_repricing.push([list_of_name,list_of_name]);
+                }
+                price_arr_repricing[list_of_name] = {};
+                price_arr_repricing[list_of_name] = {
+                    'fare': detail_for_repricing[list_of_name]['fare'],
+                    'commission': detail_for_repricing[list_of_name]['commission']
+                }
+                for(j in price_arr_repricing){
+                    total = 0
+                    for(k in price_arr_repricing[j]){
+                        total += price_arr_repricing[j][k];
+                    }
+                    price_arr_repricing[j]['total'] = total;
+                }
+
+                for(j in detail_for_repricing){
+                    for(k in detail_for_repricing[j]){
+                        check = 0;
+                        for(l in type_amount_repricing){
+                            if(type_amount_repricing[l] == k){
+                                check = 1;
+                            }
+                        }
+                        if(check == 0 && k != 'currency')
+                            type_amount_repricing.push(k)
+                    }
+                }
+
+                console.log(detail_for_repricing);
+
+                update_table('review');
+
             }
         }
     }
@@ -768,4 +887,67 @@ function update_contact_cp(val){
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
 
+}
+
+function check_before_calculate(){
+    check = 0;
+    console.log('here')
+    for(i in visa.list_of_visa)
+        if(visa.list_of_visa[i].total_pax != 0){
+            check = 1;
+        }
+    if(check == 0)
+        calculate('visa');
+    else
+        alert('Please fill all visa type, entry type, and process type!');
+}
+
+function check_before_add_repricing(){
+    text_repricing = `
+    <div class="col-lg-12">
+        <div style="padding:5px;" class="row">
+            `;
+            for(i in detail_for_repricing){
+                length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
+                text_repricing+= `<div class="col-lg-`+length+`"></div>`;
+                for(j in detail_for_repricing[i]){
+                    if(j!= 'currency')
+                    text_repricing+= `<div class="col-lg-`+length+`">`+j+`</div>`;
+                }
+                text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
+                break;
+            }
+
+    text_repricing+=`</div>
+    </div>`;
+    for(i in detail_for_repricing){
+        length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
+       text_repricing += `
+       <div class="col-lg-12">
+            <div style="padding:5px;" class="row" id="adult">
+                <div class="col-lg-`+length+`">`+i+`</div>`;
+
+                for(j in detail_for_repricing[i]){
+                    console.log(j);
+                    if(j != 'currency')
+                        text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_`+j+`">-</div>`;
+                }
+                text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_total">-</div>`;
+            text_repricing+=`</div>
+        </div>`;
+    }
+    document.getElementById('repricing_div').innerHTML = text_repricing;
+
+    check = 0;
+    console.log('here')
+    console.log(visa.list_of_visa);
+    for(i in visa.list_of_visa){
+        if(visa.list_of_visa[i].total_pax != 0){
+            check = 1;
+        }
+    }
+    if(check == 0)
+        add_table_of_equation();
+    else
+        alert('Please fill all visa type, entry type, and process type!');
 }

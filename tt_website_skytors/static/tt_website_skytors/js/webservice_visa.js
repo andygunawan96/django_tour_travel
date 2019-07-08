@@ -397,52 +397,54 @@ function visa_get_data(data){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+                visa = msg.result.response;
+                update_table('booking');
                 /*set pricing*/
-                for(i in msg.result.response.passenger){
-                    check = 0;
-                    for(j in pax_type)
-                        if(pax_type[j][0] == msg.result.response.passenger[i].visa.pax_type)
-                            check = 1;
-                    if(check == 0)
-                        if(msg.result.response.passenger[i].visa.pax_type == 'ADT')
-                            pax_type.push(['ADT',['Adult']])
-                        else if(msg.result.response.passenger[i].visa.pax_type == 'CHD')
-                            pax_type.push(['CHD',['Child']])
-                        else if(msg.result.response.passenger[i].visa.pax_type == 'INF')
-                            pax_type.push(['INF',['Infant']])
+//                for(i in msg.result.response.passenger){
+//                    check = 0;
+//                    for(j in pax_type)
+//                        if(pax_type[j][0] == msg.result.response.passenger[i].visa.pax_type)
+//                            check = 1;
+//                    if(check == 0)
+//                        if(msg.result.response.passenger[i].visa.pax_type == 'ADT')
+//                            pax_type.push(['ADT',['Adult']])
+//                        else if(msg.result.response.passenger[i].visa.pax_type == 'CHD')
+//                            pax_type.push(['CHD',['Child']])
+//                        else if(msg.result.response.passenger[i].visa.pax_type == 'INF')
+//                            pax_type.push(['INF',['Infant']])
+//
+//                    //belum bisa multi user
+//                    for(j in msg.result.response.passenger[i].visa.price){
+//                        check = 0;
+//                        for(k in type_amount){
+//                            if(type_amount[k] == j)
+//                                check = 1;
+//                        }
+//                        if(check == 0 && j != 'currency'){
+//                            console.log(j);
+//                            for(k in price_arr)
+//                                if(k == msg.result.response.passenger[i].visa.pax_type)
+//                                    check = 1;
+//                            if(check == 0)
+//                                price_arr[msg.result.response.passenger[i].visa.pax_type] = {};
+//                            price_arr[msg.result.response.passenger[i].visa.pax_type][j] = msg.result.response.passenger[i].visa.price[j];
+//                            console.log(msg.result.response.passenger[i].visa.price[j]);
+//                            type_amount.push(j);
+//                        }
+//                    }
+//
+//                }
 
-                    //belum bisa multi user
-                    for(j in msg.result.response.passenger[i].visa.price){
-                        check = 0;
-                        for(k in type_amount){
-                            if(type_amount[k] == j)
-                                check = 1;
-                        }
-                        if(check == 0 && j != 'currency'){
-                            console.log(j);
-                            for(k in price_arr)
-                                if(k == msg.result.response.passenger[i].visa.pax_type)
-                                    check = 1;
-                            if(check == 0)
-                                price_arr[msg.result.response.passenger[i].visa.pax_type] = {};
-                            price_arr[msg.result.response.passenger[i].visa.pax_type][j] = msg.result.response.passenger[i].visa.price[j];
-                            console.log(msg.result.response.passenger[i].visa.price[j]);
-                            type_amount.push(j);
-                        }
-                    }
-
-                }
-
-                for(i in price_arr){
-                    total = 0
-                    for(j in price_arr[i]){
-                        total += price_arr[i][j];
-                    }
-                    price_arr[i]['total'] = total;
-                }
-                console.log(price_arr);
-                console.log(type_amount);
-                console.log(pax_type);
+//                for(i in price_arr){
+//                    total = 0
+//                    for(j in price_arr[i]){
+//                        total += price_arr[i][j];
+//                    }
+//                    price_arr[i]['total'] = total;
+//                }
+//                console.log(price_arr);
+//                console.log(type_amount);
+//                console.log(pax_type);
                 /*set pricing*/
                 text= '';
 
@@ -482,7 +484,7 @@ function visa_get_data(data){
                                 <div class="col-lg-12" style="margin-bottom:10px;">
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <h6>`+parseInt(i+1)+`. `+msg.result.response.passenger[i].title+` `+msg.result.response.passenger[i].first_name+` `+msg.result.response.passenger[i].last_name+`</h6>`;
+                                            <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passenger[i].title+` `+msg.result.response.passenger[i].first_name+` `+msg.result.response.passenger[i].last_name+`</h6>`;
                                             if(parseInt(msg.result.response.passenger[i].age) > 12)
                                      text+=`<span>Adult - `;
                                             else if(parseInt(msg.result.response.passenger[i].age) > 3)
@@ -541,65 +543,65 @@ function visa_get_data(data){
                 document.getElementById('visa_booking').innerHTML = text;
 
                 //set pricing
-                text = `
-                    <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h4 style="padding-top:10px;">Pricing</h4>
-                                <hr/>
-                            </div>
-                            <div class="col-lg-12" style="text-align:right;">
-                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
-                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                                <br/>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:10px;" id="table_of_equation">
-
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Fare</div>
-                                    <div class="col-lg-3">Tax</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row" id="adult">
-                                    <div class="col-lg-3">Adult</div>
-                                    <div class="col-lg-3" id="adult_fare">-</div>
-                                    <div class="col-lg-3" id="adult_tax">-</div>
-                                    <div class="col-lg-3" id="adult_total">-</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row" id="child">
-                                    <div class="col-lg-3">Child</div>
-                                    <div class="col-lg-3" id="child_fare">-</div>
-                                    <div class="col-lg-3" id="child_tax">-</div>
-                                    <div class="col-lg-3" id="child_total">-</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row" id="infant">
-                                    <div class="col-lg-3">Infant</div>
-                                    <div class="col-lg-3" id="infant_fare">-</div>
-                                    <div class="col-lg-3" id="infant_tax">-</div>
-                                    <div class="col-lg-3" id="infant_total">-</div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                                <hr/>
-                                <center>
-                                    <input class="primary-btn-ticket" type="button" onclick="calculate('visa');" value="Calculate">
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('pricing').innerHTML = text;
+//                text = `
+//                    <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+//                        <div class="row">
+//                            <div class="col-lg-12">
+//                                <h4 style="padding-top:10px;">Pricing</h4>
+//                                <hr/>
+//                            </div>
+//                            <div class="col-lg-12" style="text-align:right;">
+//                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+//                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+//                                <br/>
+//                            </div>
+//                            <div class="col-lg-12">
+//                                <div style="padding:10px;" id="table_of_equation">
+//
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-12">
+//                                <div style="padding:5px;" class="row">
+//                                    <div class="col-lg-3"></div>
+//                                    <div class="col-lg-3">Fare</div>
+//                                    <div class="col-lg-3">Tax</div>
+//                                    <div class="col-lg-3">Total</div>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-12">
+//                                <div style="padding:5px;" class="row" id="adult">
+//                                    <div class="col-lg-3">Adult</div>
+//                                    <div class="col-lg-3" id="adult_fare">-</div>
+//                                    <div class="col-lg-3" id="adult_tax">-</div>
+//                                    <div class="col-lg-3" id="adult_total">-</div>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-12">
+//                                <div style="padding:5px;" class="row" id="child">
+//                                    <div class="col-lg-3">Child</div>
+//                                    <div class="col-lg-3" id="child_fare">-</div>
+//                                    <div class="col-lg-3" id="child_tax">-</div>
+//                                    <div class="col-lg-3" id="child_total">-</div>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-12">
+//                                <div style="padding:5px;" class="row" id="infant">
+//                                    <div class="col-lg-3">Infant</div>
+//                                    <div class="col-lg-3" id="infant_fare">-</div>
+//                                    <div class="col-lg-3" id="infant_tax">-</div>
+//                                    <div class="col-lg-3" id="infant_total">-</div>
+//                                </div>
+//                            </div>
+//                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+//                                <hr/>
+//                                <center>
+//                                    <input class="primary-btn-ticket" type="button" onclick="calculate('visa');" value="Calculate">
+//                                </center>
+//                            </div>
+//                        </div>
+//                    </div>
+//                `;
+//                document.getElementById('pricing').innerHTML = text;
             }
             console.log(msg);
        },
