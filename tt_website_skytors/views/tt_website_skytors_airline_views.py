@@ -525,55 +525,56 @@ def review(request):
                     "passport_number": request.POST['adult_passport_number' + str(i + 1)],
                     "passenger_id": request.POST['adult_id' + str(i + 1)]
                 })
+
                 if i == 0:
-                    try:
-                        if request.POST['adult_cp' + str(i + 1)] == 'on':
-                            adult[0].update({
-                                "is_contact": True
-                            })
-                        else:
-                            adult[0].update({
-                                "is_contact": False
-                            })
-                    except:
-                        adult[0].update({
-                            "is_contact": False
-                        })
-                    if request.POST['myRadios'] == 'yes':
-                        adult[0].update({
-                            "is_booker": True,
-                            "is_contact": True
+                    if request.POST['myRadios'] == 'true':
+                        adult[len(adult) - 1].update({
+                            'is_booker': True
                         })
                     else:
-                        adult[0].update({
-                            "is_booker": False,
-                            "is_contact": False
+                        adult[len(adult) - 1].update({
+                            'is_booker': False
                         })
-
-
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_booker': False
+                    })
                 try:
-                    if request.POST['adult_cp'+str(i+1)] == 'on':
+                    if request.POST['passenger_cp' + str(i)] == 'true':
+                        adult[len(adult) - 1].update({
+                            'is_contact': True
+                        })
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_contact': False
+                        })
+                except:
+                    adult[len(adult) - 1].update({
+                        'is_contact': False
+                    })
+                try:
+                    if request.POST['adult_cp' + str(i + 1)] == 'on':
                         contact.append({
                             "first_name": request.POST['adult_first_name' + str(i + 1)],
                             "last_name": request.POST['adult_last_name' + str(i + 1)],
                             "title": request.POST['adult_title' + str(i + 1)],
-                            "email": "asndasdn@gmail.com",
-                            "calling_code": "+62",
-                            "mobile": "81237123812",
+                            "email": request.POST['adult_email' + str(i + 1)],
+                            "calling_code": request.POST['adult_calling_code' + str(i + 1)],
+                            "mobile": request.POST['adult_mobile' + str(i + 1)],
                             "nationality_code": request.POST['adult_nationality' + str(i + 1)],
                             "contact_id": request.POST['adult_id' + str(i + 1)]
                         })
                     if i == 0:
                         if request.POST['myRadios'] == 'yes':
-                            contact[0].update({
+                            contact[len(contact)].update({
                                 'is_booker': True
                             })
                         else:
-                            contact[0].update({
+                            contact[len(contact)].update({
                                 'is_booker': False
                             })
                 except:
-                    continue
+                    pass
 
             if len(contact) == 0:
                 contact.append({

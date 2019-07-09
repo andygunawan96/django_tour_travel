@@ -569,7 +569,6 @@ function set_data_issued_offline(){
             console.log(msg);
             if(msg.result.error_code == 0)
                 update_booker();
-
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -654,14 +653,13 @@ function update_booker(){
             request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
             document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
         }
-
-        if(i == 0){
-            request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
+        if(document.getElementById('adult_cp' + (i + 1)).checked == true){
             request['passenger_years_old'+i] = document.getElementById('adult_years_old' + (i + 1)).value;
             request['passenger_phone_code'+i] = document.getElementById('adult_phone_code' + (i + 1)).value;
             request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
             request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
         }
+        request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
         request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
     }
     if(document.getElementsByName('myRadios')[0].checked == true)
@@ -723,14 +721,6 @@ function update_passenger(){
         request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
         request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
         request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
-
-
-        request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
-        request['passenger_years_old'+i] = document.getElementById('adult_years_old' + (i + 1)).value;
-        request['passenger_phone_code'+i] = document.getElementById('adult_phone_code' + (i + 1)).value;
-        request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
-        request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
-        request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
     }
     request["counter_passenger"] = counter_passenger;
     getToken();
