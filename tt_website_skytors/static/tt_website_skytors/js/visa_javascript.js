@@ -739,12 +739,7 @@ function check_on_off_radio(pax_type,number,value){
                 text_requirements = '';
                 for(j in visa.list_of_visa[i].requirements){
                     if(visa.list_of_visa[i].requirements[j].required == true){
-                        text_requirements += `
-                        <label class="check_box_custom">
-                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+`</span>
-                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`"/>
-                            <span class="check_box_span_custom"></span>
-                        </label>`;
+                        text_requirements += `<input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`"/><span>`+visa.list_of_visa[i].requirements[j].name+`</span>`;
                     }
                 }
                 pax_required.innerHTML = text_requirements;
@@ -944,8 +939,6 @@ function check_before_add_repricing(){
     document.getElementById('repricing_div').innerHTML = text_repricing;
 
     check = 0;
-    console.log('here')
-    console.log(visa.list_of_visa);
     for(i in visa.list_of_visa){
         if(visa.list_of_visa[i].total_pax != 0){
             check = 1;
