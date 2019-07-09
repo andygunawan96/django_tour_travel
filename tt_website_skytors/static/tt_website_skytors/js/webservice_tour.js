@@ -436,9 +436,10 @@ function tour_get_details(package_id){
     });
 }
 
-function tour_update_passenger(val, pay_method)
+function tour_update_passenger(val, pay_method, pax_list_res)
 {
     getToken();
+    console.log(pax_list_res);
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -446,12 +447,13 @@ function tour_update_passenger(val, pay_method)
             'action': 'update_passenger',
        },
        data: {
-
+            'pax_list_js': JSON.stringify(pax_list_res)
        },
        success: function(msg) {
            console.log(msg);
            var pax_list = [];
            var booker_data = msg.result.response.response.booker_data;
+           var book_line = msg.result.response.response.book_line;
            var results = msg.result.response.response.pax_list;
            for(i in results){
                pax_list.push(parseInt(results[i]));
@@ -459,19 +461,12 @@ function tour_update_passenger(val, pay_method)
            var result_data = {
                'pax_ids': pax_list,
                'booker_id': booker_data,
+               'book_line_ids': book_line,
+               'pay_method': pay_method
            }
            if (result_data)
            {
-               var booker_id = result_data.booker_id;
-               var pax_ids = result_data.pax_ids;
-               var pax_ids_str = '';
-
-               for (i in pax_ids)
-               {
-                   pax_ids_str += String(pax_ids[i]) + '|';
-               }
-
-               tour_commit_booking(val, booker_id, pax_ids_str, pay_method);
+               tour_commit_booking(val, result_data);
            }
            else
            {
@@ -484,9 +479,25 @@ function tour_update_passenger(val, pay_method)
     });
 }
 
-function tour_commit_booking(val, booker_id, pax_ids, pay_method)
+function tour_commit_booking(val, result_data)
 {
     getToken();
+    var booker_id = result_data.booker_id;
+    var pax_ids = result_data.pax_ids;
+    var pax_ids_str = '';
+    var book_line_ids = result_data.book_line_ids;
+    var book_line_ids_str = '';
+
+    for (i in pax_ids)
+    {
+        pax_ids_str += String(pax_ids[i]) + '|';
+    }
+
+    for (i in book_line_ids)
+    {
+        book_line_ids_str += String(book_line_ids[i]) + '|';
+    }
+
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -496,8 +507,9 @@ function tour_commit_booking(val, booker_id, pax_ids, pay_method)
        data: {
            'value': val,
            'booker_id': booker_id,
-           'pax_ids': pax_ids,
-           'payment_method': pay_method
+           'pax_ids': pax_ids_str,
+           'payment_method': result_data.pay_method,
+           'book_line_ids': book_line_ids_str
        },
        success: function(msg) {
            console.log(msg);

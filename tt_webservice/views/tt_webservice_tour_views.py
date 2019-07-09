@@ -161,6 +161,14 @@ def get_details(request):
 
 
 def update_passenger(request):
+    temp_booking_data = request.session['booking_data']
+
+    temp_booking_data.update({
+        'all_pax': json.loads(request.POST['pax_list_js']),
+    })
+
+    request.session['booking_data'] = temp_booking_data
+
     data = {
         'provider': 'skytors_tour',
         'booking_data': request.session['booking_data'],
@@ -195,10 +203,11 @@ def get_booking(request):
 def commit_booking(request):
     data = {
         'provider': 'skytors_tour',
-        'force_issued': bool(request.POST['value']),
+        'force_issued': request.POST['value'],
         'booker_id': request.POST['booker_id'],
         'pax_ids': request.POST['pax_ids'],
         'payment_method': request.POST['payment_method'],
+        'book_line_ids': request.POST['book_line_ids'],
         'booking_data': request.session['booking_data'],
     }
     headers = {

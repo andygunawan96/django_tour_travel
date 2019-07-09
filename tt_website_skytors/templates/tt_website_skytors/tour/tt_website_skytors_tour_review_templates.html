@@ -15,6 +15,12 @@
     triggered_balance();
     get_balance();
     get_transactions();
+    pax_list_js = `{{all_pax}}`;
+    pax_list_js = pax_list_js.replace(/'"'/g, "'");
+    pax_list_js = pax_list_js.replace(/&#39;/g, '"');
+    pax_list_js = JSON.parse(pax_list_js.replace(/None/g, false));
+    total_pax_js = `{{total_pax_all}}`;
+    total_pax_js = parseInt(total_pax_js);
 </script>
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -78,13 +84,14 @@
                                         <tr>
                                             <td>
                                                 {{forloop.counter}}
-                                                <input type="hidden" id="room_sequence{{forloop.counter}}" value="{{room.id}}"/>
-                                                <input type="hidden" id="adult_quota_room{{room.id}}" value="{{room.adult}}"/>
-                                                <input type="hidden" id="child_quota_room{{room.id}}" value="{{room.child}}"/>
-                                                <input type="hidden" id="infant_quota_room{{room.id}}" value="{{room.infant}}"/>
-                                                <input type="hidden" id="ori_adult_quota_room{{room.id}}" value="{{room.adult}}"/>
-                                                <input type="hidden" id="ori_child_quota_room{{room.id}}" value="{{room.child}}"/>
-                                                <input type="hidden" id="ori_infant_quota_room{{room.id}}" value="{{room.infant}}"/>
+                                                <input type="hidden" id="room_sequence{{forloop.counter}}" value="{{forloop.counter}}"/>
+                                                <input type="hidden" id="room_id_{{forloop.counter}}" value="{{room.id}}"/>
+                                                <input type="hidden" id="adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
+                                                <input type="hidden" id="child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
+                                                <input type="hidden" id="infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
+                                                <input type="hidden" id="ori_adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
+                                                <input type="hidden" id="ori_child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
+                                                <input type="hidden" id="ori_infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
                                             </td>
                                             <td>{{room.name}}</td>
                                             <td>{{room.bed_type}}</td>
@@ -162,11 +169,11 @@
                                                         <option value="0">Please select a room!</option>
                                                         {% for room in room_list %}
                                                         {% if pax.pax_type == 'ADT' and room.adult > 0 %}
-                                                        <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        <option value="{{forloop.counter}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
                                                         {% elif pax.pax_type == 'CHD' and room.child > 0 %}
-                                                        <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        <option value="{{forloop.counter}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
                                                         {% elif pax.pax_type == 'INF' and room.infant > 0 %}
-                                                        <option value="{{room.id}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        <option value="{{forloop.counter}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
                                                         {% endif %}
                                                         {% endfor %}
                                                     </select>
