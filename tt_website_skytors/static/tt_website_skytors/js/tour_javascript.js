@@ -372,6 +372,12 @@ function get_price_itinerary() {
     document.getElementById("tipping_tour_leader_total").setAttribute("data-price", tipping_tour_leader_total);
     document.getElementById("tipping_tour_leader_total").value = getrupiah(tipping_tour_leader_total);
     get_total_price(discount_total);
+    for (var i=0; i<room_amount.value; i++)
+    {
+        $('#adult_tour_room_'+String(i+1)).niceSelect('update');
+        $('#child_tour_room_'+String(i+1)).niceSelect('update');
+        $('#infant_tour_room_'+String(i+1)).niceSelect('update');
+    }
 }
 
 function get_total_price(discount_total) {
@@ -638,10 +644,10 @@ function refresh_room_availability(seq){
 
     for (i=1; i <= parseInt(room_amount); i++)
     {
-        room_id = document.getElementById('room_sequence'+i.toString()).value;
-        document.getElementById('adult_quota_room'+room_id.toString()).value = document.getElementById('ori_adult_quota_room'+room_id.toString()).value;
-        document.getElementById('child_quota_room'+room_id.toString()).value = document.getElementById('ori_child_quota_room'+room_id.toString()).value;
-        document.getElementById('infant_quota_room'+room_id.toString()).value = document.getElementById('ori_infant_quota_room'+room_id.toString()).value;
+        room_seq = document.getElementById('room_sequence'+i.toString()).value;
+        document.getElementById('adult_quota_room'+room_seq.toString()).value = document.getElementById('ori_adult_quota_room'+room_seq.toString()).value;
+        document.getElementById('child_quota_room'+room_seq.toString()).value = document.getElementById('ori_child_quota_room'+room_seq.toString()).value;
+        document.getElementById('infant_quota_room'+room_seq.toString()).value = document.getElementById('ori_infant_quota_room'+room_seq.toString()).value;
     }
 
     for (i=1; i <= parseInt(total_pax); i++)
@@ -649,35 +655,35 @@ function refresh_room_availability(seq){
         var pax_type = document.getElementById('pax_type'+i.toString()).value;
         if (document.getElementById('room_select_pax'+i.toString()).value != 0)
         {
-            room_id = document.getElementById('room_select_pax'+i.toString()).value;
+            room_seq = document.getElementById('room_select_pax'+i.toString()).value;
             if (pax_type == 'ADT')
             {
-                target = document.getElementById('adult_quota_room'+room_id.toString());
+                target = document.getElementById('adult_quota_room'+room_seq.toString());
                 changes = parseInt(target.value) - 1;
                 target.value = changes;
                 if (changes <= 0)
                 {
-                    disabled_rooms_adt.push(room_id);
+                    disabled_rooms_adt.push(room_seq);
                 }
             }
             else if (pax_type == 'CHD')
             {
-                target = document.getElementById('child_quota_room'+room_id.toString());
+                target = document.getElementById('child_quota_room'+room_seq.toString());
                 changes = parseInt(target.value) - 1;
                 target.value = changes;
                 if (changes <= 0)
                 {
-                    disabled_rooms_chd.push(room_id);
+                    disabled_rooms_chd.push(room_seq);
                 }
             }
             else if (pax_type == 'INF')
             {
-                target = document.getElementById('infant_quota_room'+room_id.toString());
+                target = document.getElementById('infant_quota_room'+room_seq.toString());
                 changes = parseInt(target.value) - 1;
                 target.value = changes;
                 if (changes <= 0)
                 {
-                    disabled_rooms_inf.push(room_id);
+                    disabled_rooms_inf.push(room_seq);
                 }
             }
         }
@@ -799,7 +805,13 @@ function tour_hold_booking(val){
 
     if (check_rooms == true)
     {
-        tour_update_passenger(val, pay_method);
+        for (var i=0; i < total_pax_js; i++)
+        {
+            var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
+            pax_list_js[i].room_id = document.getElementById("room_id_"+String(temp_room_seq)).value;
+            pax_list_js[i].room_seq = parseInt(temp_room_seq);
+        }
+        tour_update_passenger(val, pay_method, pax_list_js);
     }
     else
     {

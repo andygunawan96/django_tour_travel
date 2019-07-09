@@ -311,6 +311,7 @@ function update_table(type){
                 `;
     }
     document.getElementById('detail').innerHTML = text;
+    $("#select_visa_first").hide();
 }
 
 function show_commission(){
@@ -736,7 +737,12 @@ function check_on_off_radio(pax_type,number,value){
                 text_requirements = '';
                 for(j in visa.list_of_visa[i].requirements){
                     if(visa.list_of_visa[i].requirements[j].required == true){
-                        text_requirements += `<input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`"/><span>`+visa.list_of_visa[i].requirements[j].name+`</span>`;
+                        text_requirements += `
+                        <label class="check_box_custom">
+                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+`</span>
+                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`"/>
+                            <span class="check_box_span_custom"></span>
+                        </label>`;
                     }
                 }
                 pax_required.innerHTML = text_requirements;

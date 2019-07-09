@@ -35,7 +35,7 @@ function add_table_of_equation(){
     text= '';
     var node = document.createElement("div");
     text += `
-    <div class="col-lg-4" style="padding:0px;">
+    <div class="col-lg-3" style="padding:0px;">
         <span style="font-size:11px;">Type</span><br/>
         <div class="form-select">
             <div class="input-container-search-ticket">
@@ -47,7 +47,7 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-    <div class="col-lg-4" style="padding:0px;">
+    <div class="col-lg-3" style="padding:0px;">
         <span style="font-size:11px;">Type Amount</span><br/>
         <div class="input-container-search-ticket">
             <div class="form-select">
@@ -62,7 +62,7 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-    <div class="col-lg-4" style="padding:0px;">
+    <div class="col-lg-3" style="padding:0px;">
         <span style="font-size:11px;">Pax Amount</span><br/>
         <div class="input-container-search-ticket">
             <div class="form-select">
@@ -76,12 +76,15 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-        <div class="col-lg-12" style="padding:0px;">
+        <div class="col-lg-3" style="padding:0px;">
             <span style="font-size:11px;">Equation</span><br/>
-            <div class="input-container-search-ticket">
-                <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px;">
+                    <div class="input-container-search-ticket">
+                        <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
+                    </div>
+                </div>
             </div>
-            <hr/>
         </div>`;
     node.className = 'row';
     node.innerHTML = text;

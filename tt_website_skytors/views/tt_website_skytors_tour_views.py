@@ -398,6 +398,8 @@ def review(request):
         for rec in all_pax:
             rec.update({
                 'sequence': temp_idx,
+                'room_id': 0,
+                'room_seq': 0,
             })
             temp_idx += 1
 
