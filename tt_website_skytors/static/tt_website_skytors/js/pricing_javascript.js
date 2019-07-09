@@ -222,16 +222,15 @@ function calculate(type){
                 }
             }
         }
-        if(type == 'visa'){
-            console.log(price_duplication);
-            for(i in price_duplication)
-                for(j in price_duplication[i]){
-                    console.log(i);
-                    console.log(j);
-                    document.getElementById(i+'_'+j).innerHTML = price_duplication[i][j];
-                }
-        }
-        console.log(price_duplication);
-
     }
+    if(type == 'visa'){
+        console.log(price_duplication);
+        for(i in price_duplication)
+            for(j in price_duplication[i]){
+                console.log(i);
+                console.log(j);
+                document.getElementById(i+'_'+j).innerHTML = price_duplication[i][j];
+            }
+    }
+    console.log(price_duplication);
 }

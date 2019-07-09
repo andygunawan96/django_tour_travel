@@ -640,7 +640,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_price = document.getElementById('infant_price'+number);
         name = document.getElementById('adult_name'+number).innerHTML;
     }
-    console.log(name);
+    console.log(value);
     if(value == 'visa'){
         console.log(number);
         if(pax_check.value != 'false'){
@@ -671,10 +671,8 @@ function check_on_off_radio(pax_type,number,value){
         }
         radios = pax_process;
         for (var j = 0, length = radios.length; j < length; j++) {
-            if(radios[j].checked == true){
-                radios[j].disabled = true;
-                radios[j].checked = false;
-            }
+            radios[j].disabled = true;
+            radios[j].checked = false;
         }
         pax_price.innerHTML = '-';
         //check max pax
@@ -748,7 +746,9 @@ function check_on_off_radio(pax_type,number,value){
                     }
                 }
                 pax_required.innerHTML = text_requirements;
-                visa.list_of_visa[i].total_pax--;
+                console.log(visa.list_of_visa[i].total_pax);
+                visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
+                console.log(visa.list_of_visa[i]);
                 pax_check.value = i;
 
                 //price detail
@@ -768,23 +768,23 @@ function check_on_off_radio(pax_type,number,value){
                     'currency':visa.list_of_visa[i].sale_price.currency,
                     'fare':visa.list_of_visa[i].sale_price.total_price
                 };
-
                 if(check == 0){
                     pax_type_repricing.push([list_of_name,list_of_name]);
                 }
                 price_arr_repricing[list_of_name] = {};
                 price_arr_repricing[list_of_name] = {
                     'fare': detail_for_repricing[list_of_name]['fare'],
-                    'commission': detail_for_repricing[list_of_name]['commission']
+                    'commission': detail_for_repricing[list_of_name]['commission'],
                 }
                 for(j in price_arr_repricing){
-                    total = 0
+                    total = 0;
                     for(k in price_arr_repricing[j]){
-                        total += price_arr_repricing[j][k];
+                        if(k != 'total')
+                            total += price_arr_repricing[j][k];
                     }
                     price_arr_repricing[j]['total'] = total;
                 }
-
+                console.log(price_arr_repricing);
                 for(j in detail_for_repricing){
                     for(k in detail_for_repricing[j]){
                         check = 0;
@@ -797,20 +797,52 @@ function check_on_off_radio(pax_type,number,value){
                             type_amount_repricing.push(k)
                     }
                 }
-
-                console.log(detail_for_repricing);
-
                 update_table('review');
 
             }
         }
     }
+    text_repricing = `
+    <div class="col-lg-12">
+        <div style="padding:5px;" class="row">
+            `;
+            for(i in detail_for_repricing){
+                length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
+                text_repricing+= `<div class="col-lg-`+length+`"></div>`;
+                for(j in detail_for_repricing[i]){
+                    if(j!= 'currency')
+                    text_repricing+= `<div class="col-lg-`+length+`">`+j+`</div>`;
+                }
+                text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
+                break;
+            }
 
+    text_repricing+=`</div>
+    </div>`;
+    for(i in detail_for_repricing){
+       length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
+       text_repricing += `
+       <div class="col-lg-12">
+
+            <div style="padding:5px;" class="row" id="adult">
+                <div class="col-lg-`+length+`">`+i+`</div>`;
+
+                for(j in detail_for_repricing[i]){
+                    console.log(j);
+                    if(j != 'currency')
+                        text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_`+j+`">-</div>`;
+                }
+                text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_total">-</div>`;
+            text_repricing+=`</div>
+        </div>`;
+    }
+    document.getElementById('repricing_div').innerHTML = text_repricing;
 
 }
 
 function set_value_radio_first(pax_type,number){
-
+    console.log(pax_type);
+    console.log(number);
     if(pax_type == 'adult'){
         var radios = document.getElementsByName('adult_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -830,6 +862,7 @@ function set_value_radio_first(pax_type,number){
         if(document.getElementById('adult_check'+number).value != 'false'){
             visa.list_of_visa[parseInt(document.getElementById('adult_check'+number).value)].total_pax++;
             document.getElementById('adult_check'+number).value = 'false';
+            document.getElementById('adult_required'+number).innerHTML = '';
         }
     }else if(pax_type == 'child'){
         var radios = document.getElementsByName('child_entry_type'+number);
@@ -846,7 +879,12 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
-        document.getElementById('adult_price'+number).innerHTML = '-';
+        document.getElementById('child_price'+number).innerHTML = '-';
+        if(document.getElementById('child_check'+number).value != 'false'){
+            visa.list_of_visa[parseInt(document.getElementById('child_check'+number).value)].total_pax++;
+            document.getElementById('child_check'+number).value = 'false';
+            document.getElementById('child_required'+number).innerHTML = '';
+        }
     }else if(pax_type == 'infant'){
         var radios = document.getElementsByName('infant_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -862,7 +900,12 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
-        document.getElementById('adult_price'+number).innerHTML = '-';
+        document.getElementById('infant_price'+number).innerHTML = '-';
+        if(document.getElementById('infant_check'+number).value != 'false'){
+            visa.list_of_visa[parseInt(document.getElementById('infant_check'+number).value)].total_pax++;
+            document.getElementById('infant_check'+number).value = 'false';
+            document.getElementById('infant_required'+number).innerHTML = '';
+        }
     }else if(pax_type == 'elder'){
         var radios = document.getElementsByName('elder_entry_type'+number);
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -878,12 +921,27 @@ function set_value_radio_first(pax_type,number){
             radios[j].checked = false;
             radios[j].disabled = true;
         }
-        document.getElementById('adult_price'+number).innerHTML = '-';
+        document.getElementById('elder_price'+number).innerHTML = '-';
+        if(document.getElementById('elder_check'+number).value != 'false'){
+            visa.list_of_visa[parseInt(document.getElementById('elder_check'+number).value)].total_pax++;
+            document.getElementById('elder_check'+number).value = 'false';
+            document.getElementById('elder_required'+number).innerHTML = '';
+        }
     }
 }
 
 function update_contact_cp(val){
-    console.log(val);
+    temp = 1;
+    while(temp != adult+1){
+        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
     if(document.getElementById('adult_cp'+val.toString()).checked == true){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
@@ -891,7 +949,6 @@ function update_contact_cp(val){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
-
 }
 
 function check_before_calculate(){
@@ -908,40 +965,8 @@ function check_before_calculate(){
 }
 
 function check_before_add_repricing(){
-    text_repricing = `
-    <div class="col-lg-12">
-        <div style="padding:5px;" class="row">`;
-            for(i in detail_for_repricing){
-                length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
-                text_repricing+= `<div class="col-lg-`+length+`"></div>`;
-                for(j in detail_for_repricing[i]){
-                    if(j!= 'currency')
-                    text_repricing+= `<div class="col-lg-`+length+`">`+j+`</div>`;
-                }
-                text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
-                break;
-            }
-
-    text_repricing+=`</div>
-    </div>`;
-    for(i in detail_for_repricing){
-        length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
-       text_repricing += `
-       <div class="col-lg-12">
-            <div style="padding:5px;" class="row" id="adult">
-                <div class="col-lg-`+length+`">`+i+`</div>`;
-                for(j in detail_for_repricing[i]){
-                    console.log(j);
-                    if(j != 'currency')
-                        text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_`+j+`">-</div>`;
-                }
-                text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_total">-</div>`;
-            text_repricing+=`</div>
-        </div>`;
-    }
-    document.getElementById('repricing_div').innerHTML = text_repricing;
-
     check = 0;
+    console.log(visa.list_of_visa);
     for(i in visa.list_of_visa){
         if(visa.list_of_visa[i].total_pax != 0){
             check = 1;

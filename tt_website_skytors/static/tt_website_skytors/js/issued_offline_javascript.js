@@ -167,16 +167,15 @@ function add_table_of_passenger(){
                                         </div>
                                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">`;
-                                            if(counter_passenger == 0)
-                                            text+=`<div class="input-container-search-ticket">
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                                    <div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
                                                             <input type="checkbox" id="adult_cp`+parseInt(counter_passenger+1)+`" name="adult_cp`+parseInt(counter_passenger+1)+`" onclick="update_contact_cp(`+parseInt(counter_passenger+1)+`)" />
                                                             <span class="check_box_span_custom"></span>
                                                         </label>
-                                                    </div>`;
-                                        text+=`</div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
 
                                                 </div>
@@ -599,7 +598,17 @@ function update_contact(type,val){
 }
 
 function update_contact_cp(val){
-    console.log(val);
+    temp = 1;
+    while(temp != counter_passenger+1){
+        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
     if(document.getElementById('adult_cp'+val.toString()).checked == true){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
@@ -607,7 +616,6 @@ function update_contact_cp(val){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
-
 }
 
 function set_provider_data(val,type){

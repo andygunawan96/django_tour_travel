@@ -260,7 +260,6 @@
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
-                                            {% if forloop.counter == 1%}
                                             <div class="input-container-search-ticket">
                                                 <label class="check_box_custom">
                                                     <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
@@ -268,7 +267,6 @@
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
                                             </div>
-                                            {% endif %}
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>

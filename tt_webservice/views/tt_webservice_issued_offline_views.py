@@ -190,13 +190,17 @@ def update_contact(request):
             })
             if i == 0:
                 if request.POST['myRadios'] == 'true':
-                    contact[0].update({
+                    contact[len(contact)-1].update({
                         'is_booker': True
                     })
                 else:
-                    contact[0].update({
+                    contact[len(contact)-1].update({
                         'is_booker': False
                     })
+            else:
+                contact[len(contact)-1].update({
+                    'is_booker': False
+                })
         else:
             pass
 
@@ -268,26 +272,29 @@ def update_passenger(request):
             "country_of_issued_code": request.POST['passenger_country_of_issued' + str(i)],
             "passport_expdate": passport_expdate,
             "passport_number": request.POST['passenger_passport_number' + str(i)],
-            'passenger_id': request.POST['passenger_id' + str(i)] != '' and int(
-                request.POST['passenger_id' + str(i)]) or ''
+            'passenger_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
         })
         if i == 0:
             if request.POST['myRadios'] == 'true':
-                passenger[0].update({
+                passenger[len(passenger)-1].update({
                     'is_booker': True
                 })
             else:
-                passenger[0].update({
+                passenger[len(passenger)-1].update({
                     'is_booker': False
                 })
-            if request.POST['passenger_cp0'] == 'true':
-                passenger[0].update({
-                    'is_contact': True
-                })
-            else:
-                passenger[0].update({
-                    'is_contact': False
-                })
+        else:
+            passenger[len(passenger) - 1].update({
+                'is_booker': False
+            })
+        if request.POST['passenger_cp' + str(i)] == 'true':
+            passenger[len(passenger)-1].update({
+                'is_contact': True
+            })
+        else:
+            passenger[len(passenger)-1].update({
+                'is_contact': False
+            })
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",

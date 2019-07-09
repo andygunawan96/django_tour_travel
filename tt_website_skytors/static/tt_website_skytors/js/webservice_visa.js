@@ -204,9 +204,9 @@ function sell_visa(){
 
 function check_hold_booking(){
     error_log = '';
-    for(i in pax){
+    for(i in passenger){
         if(i != 'booker' && i != 'contact'){
-            for(k in pax[i]){
+            for(k in passenger[i]){
                 count_pax = parseInt(k) + 1;
                 var radios = document.getElementsByName('adult_visa_type'+count_pax);
                 visa_type = '';
