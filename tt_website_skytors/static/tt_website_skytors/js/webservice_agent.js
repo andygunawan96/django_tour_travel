@@ -579,6 +579,14 @@ function pick_passenger(type, sequence, product){
 
 function copy_booker_to_passenger(val,type){
     if(val == 'copy'){
+        if(type == 'issued_offline'){
+            try{
+                document.getElementById('adult_title1').value;
+            }catch(err){
+                document.getElementsByName('myRadios')[1].checked = true;
+                alert('Please add passenger first!');
+            }
+        }
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
         document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
         document.getElementById('adult_first_name1').readOnly = true;

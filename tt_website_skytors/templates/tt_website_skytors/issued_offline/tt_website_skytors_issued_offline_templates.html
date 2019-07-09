@@ -349,6 +349,30 @@
                             <textarea id="description" name="description" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" class="form-control" placeholder="Leave any notes here"></textarea>
                         </div>
 
+                        <div class="col-lg-12">
+                            <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                                <label>Do you book this trip for you?</label>
+                                <label class="radio-button-custom">
+                                    Yes
+                                    <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy','issued_offline');" value="yes"/>
+                                    <span class="checkmark-radio"></span>
+                                </label>
+
+                                <label class="radio-button-custom">
+                                    No
+                                    <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','issued_offline');" value="no" checked="checked"/>
+                                    <span class="checkmark-radio"></span>
+                                </label>
+
+                                <br/>
+                                <label>Passenger Data</label><br/>
+                                <ul>
+                                    <li>1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM</li>
+                                    <li>2. Passenger data can't be changed after the passing of this page</li>
+                                </ul>
+                            </div>
+                        </div>
+
                         <div class="col-lg-12" style="text-align:left;">
                             <h4>List of Passenger</h4><br/>
                             <h5><a href="javascript:add_table_of_passenger();"  style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a> <a href="javascript:delete_table_of_passenger();"  style="color:blue; text-decoration: underline;">Delete <i class="fas fa-minus-circle"></i></a></h5>

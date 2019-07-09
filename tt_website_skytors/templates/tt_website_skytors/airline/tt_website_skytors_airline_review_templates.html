@@ -30,8 +30,11 @@
     airline_get_price_request = JSON.parse(airline_get_price_request.replace(/&#39;/g, '"'));
     console.log(airline_get_price_request);
     passengers = `{{passengers}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/True/g, true);
+    passengers = passengers.replace(/False/g, false);
     console.log(passengers);
-    passengers = JSON.parse(passengers.replace(/&#39;/g, '"'));
+    passengers = JSON.parse(passengers);
     console.log(passengers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));

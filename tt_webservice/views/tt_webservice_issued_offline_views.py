@@ -170,8 +170,6 @@ def set_data_issued_offline(request):
 
     res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
 
-    request.session['issued_offline_signature'] = res['result']['response']['signature']
-
     return res
 
 def update_contact(request):
@@ -179,37 +177,6 @@ def update_contact(request):
     contact = []
 
     for i in range(int(request.POST['counter_passenger'])):
-        birth_date = ''
-        passport_expdate = ''
-        if request.POST['passenger_birth_date' + str(i)] != '':
-            birth_date = '%s-%s-%s' % (request.POST['passenger_birth_date' + str(i)].split(' ')[2],
-                                       month[request.POST['passenger_birth_date' + str(i)].split(' ')[1]],
-                                       request.POST['passenger_birth_date' + str(i)].split(' ')[0])
-        if request.POST['passenger_passport_expired_date' + str(i)] != '':
-            passport_expdate = '%s-%s-%s' % (request.POST['passenger_passport_expired_date' + str(i)].split(' ')[2],
-                                             month[request.POST['passenger_passport_expired_date' + str(i)].split(' ')[
-                                                 1]],
-                                             request.POST['passenger_passport_expired_date' + str(i)].split(' ')[0])
-        pax_type = ''
-        if int(request.POST['passenger_years_old' + str(i)]) > 12:
-            pax_type = 'ADT'
-        elif int(request.POST['passenger_years_old' + str(i)]) >= 2:
-            pax_type = 'CHD'
-        elif int(request.POST['passenger_years_old' + str(i)]) < 2:
-            pax_type = 'INF'
-        passenger.append({
-            "pax_type": pax_type,
-            "first_name": request.POST['passenger_first_name' + str(i)],
-            "last_name": request.POST['passenger_last_name' + str(i)],
-            "title": request.POST['passenger_title' + str(i)],
-            "birth_date": birth_date,
-            "nationality_code": request.POST['passenger_nationality_code' + str(i)],
-            "country_of_issued_code": request.POST['passenger_country_of_issued' + str(i)],
-            "passport_expdate": passport_expdate,
-            "passport_number": request.POST['passenger_passport_number' + str(i)],
-            'passenger_id': request.POST['passenger_id' + str(i)] != '' and int(
-                request.POST['passenger_id' + str(i)]) or ''
-        })
         if request.POST['passenger_cp' + str(i)] == 'true':
             contact.append({
                 'title': request.POST['passenger_title' + str(i)],
@@ -219,9 +186,17 @@ def update_contact(request):
                 'calling_code': request.POST['booker_calling_code'],
                 'mobile': request.POST['booker_mobile'],
                 'nationality_code': request.POST['booker_nationality_code'],
-                'contact_id': request.POST['passenger_id' + str(i)] != '' and int(
-                    request.POST['passenger_id' + str(i)]) or ''
+                'contact_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
             })
+            if i == 0:
+                if request.POST['myRadios'] == 'true':
+                    contact[0].update({
+                        'is_booker': True
+                    })
+                else:
+                    contact[0].update({
+                        'is_booker': False
+                    })
         else:
             pass
 
@@ -234,7 +209,8 @@ def update_contact(request):
             'calling_code': request.POST['booker_calling_code'],
             'mobile': request.POST['booker_mobile'],
             'nationality_code': request.POST['booker_nationality_code'],
-            'contact_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or ''
+            'contact_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or '',
+            'is_booker': True
         })
 
     headers = {
@@ -295,7 +271,23 @@ def update_passenger(request):
             'passenger_id': request.POST['passenger_id' + str(i)] != '' and int(
                 request.POST['passenger_id' + str(i)]) or ''
         })
-
+        if i == 0:
+            if request.POST['myRadios'] == 'true':
+                passenger[0].update({
+                    'is_booker': True
+                })
+            else:
+                passenger[0].update({
+                    'is_booker': False
+                })
+            if request.POST['passenger_cp0'] == 'true':
+                passenger[0].update({
+                    'is_contact': True
+                })
+            else:
+                passenger[0].update({
+                    'is_contact': False
+                })
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -306,8 +298,6 @@ def update_passenger(request):
         'passengers': passenger
     }
     res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
-
-    request.session['issued_offline_signature'] = res['result']['response']['signature']
 
     return res
 
