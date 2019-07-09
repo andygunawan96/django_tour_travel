@@ -513,10 +513,10 @@ function tour_commit_booking(val, result_data)
        },
        success: function(msg) {
            console.log(msg);
-           var booking_id = msg.result.response.response.booking_id;
-           if (booking_id)
+           var booking_num = msg.result.response.response.booking_num;
+           if (booking_num)
            {
-               document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_id+'>';
+               document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
                document.getElementById('tour_booking').submit();
            }
            else
@@ -560,6 +560,50 @@ function get_payment_rules(id)
                idx += 1;
            }
            document.getElementById('tour_payment_rules').innerHTML += pay_text;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function tour_issued_booking(order_number)
+{
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'issued',
+       },
+       data: {
+           'order_number': order_number,
+       },
+       success: function(msg) {
+           console.log(msg);
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function tour_get_booking(order_number)
+{
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'issued',
+       },
+       data: {
+           'order_number': order_number,
+       },
+       success: function(msg) {
+           console.log(msg);
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
