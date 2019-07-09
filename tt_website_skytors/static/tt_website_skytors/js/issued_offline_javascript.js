@@ -167,15 +167,16 @@ function add_table_of_passenger(){
                                         </div>
                                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
-                                                    <div class="input-container-search-ticket">
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">`;
+                                            if(counter_passenger == 0)
+                                            text+=`<div class="input-container-search-ticket">
                                                         <label class="check_box_custom">
                                                             <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
                                                             <input type="checkbox" id="adult_cp`+parseInt(counter_passenger+1)+`" name="adult_cp`+parseInt(counter_passenger+1)+`" onclick="update_contact_cp(`+parseInt(counter_passenger+1)+`)" />
                                                             <span class="check_box_span_custom"></span>
                                                         </label>
-                                                    </div>
-                                                </div>
+                                                    </div>`;
+                                        text+=`</div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
 
                                                 </div>

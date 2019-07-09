@@ -525,6 +525,32 @@ def review(request):
                     "passport_number": request.POST['adult_passport_number' + str(i + 1)],
                     "passenger_id": request.POST['adult_id' + str(i + 1)]
                 })
+                if i == 0:
+                    try:
+                        if request.POST['adult_cp' + str(i + 1)] == 'on':
+                            adult[0].update({
+                                "is_contact": True
+                            })
+                        else:
+                            adult[0].update({
+                                "is_contact": False
+                            })
+                    except:
+                        adult[0].update({
+                            "is_contact": False
+                        })
+                    if request.POST['myRadios'] == 'yes':
+                        adult[0].update({
+                            "is_booker": True,
+                            "is_contact": True
+                        })
+                    else:
+                        adult[0].update({
+                            "is_booker": False,
+                            "is_contact": False
+                        })
+
+
                 try:
                     if request.POST['adult_cp'+str(i+1)] == 'on':
                         contact.append({
@@ -537,6 +563,15 @@ def review(request):
                             "nationality_code": request.POST['adult_nationality' + str(i + 1)],
                             "contact_id": request.POST['adult_id' + str(i + 1)]
                         })
+                    if i == 0:
+                        if request.POST['myRadios'] == 'yes':
+                            contact[0].update({
+                                'is_booker': True
+                            })
+                        else:
+                            contact[0].update({
+                                'is_booker': False
+                            })
                 except:
                     continue
 
@@ -549,7 +584,8 @@ def review(request):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_code': request.POST['booker_nationality'],
-                    'contact_id': request.POST['booker_id']
+                    'contact_id': request.POST['booker_id'],
+                    'is_booker': True
                 })
 
             for i in range(int(request.session['airline_request']['child'])):

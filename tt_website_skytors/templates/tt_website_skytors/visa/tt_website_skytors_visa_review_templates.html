@@ -17,7 +17,10 @@
     triggered_balance();
     get_balance();
     passenger = `{{passengers}}`;
-    passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
+    passenger = passenger.replace(/&#39;/g, '"');
+    passenger = passenger.replace(/True/g, true);
+    passenger = passenger.replace(/False/g, false);
+    passenger = JSON.parse(passenger);
     visa_request = `{{visa_request}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     console.log(passenger);
@@ -25,7 +28,8 @@
     infant = passenger.infant;
     elder = passenger.elder;
     child = passenger.child;
-    visa = `{{visa}}`;visa = visa.replace(/True/g, 'true');
+    visa = `{{visa}}`;
+    visa = visa.replace(/True/g, 'true');
     visa = visa.replace(/False/g, 'false');
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
     console.log(visa);

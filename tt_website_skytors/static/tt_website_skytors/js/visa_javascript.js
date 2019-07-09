@@ -453,8 +453,7 @@ function check_passenger(adult, child, infant){
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
-       console.log(check_date(document.getElementById('adult_birth_date'+i).value));
-       console.log(document.getElementById('adult_birth_date'+i).value);
+
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';

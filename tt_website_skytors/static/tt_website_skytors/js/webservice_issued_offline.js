@@ -85,13 +85,50 @@ function check_issued_offline(){
                 request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
                 document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
-
-            request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
-            request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
-            request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
-            request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
-
-
+            if(check_date(document.getElementById('adult_birth_date'+ (i + 1)).value)==false){
+                error_log+= 'Birth date wrong for passenger passenger '+i+'!\n';
+                document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = 'red';
+            }else{
+                request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
+                document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('adult_passport_number'+ (i + 1)).value == ''){
+                error_log+= 'Please fill passport number for passenger '+i+'!\n';
+                document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = 'red';
+            }else{
+                request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
+                document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('adult_passport_expired_date'+ (i + 1)).value == ''){
+                error_log+= 'Please fill passport expired date for passenger '+i+'!\n';
+                document.getElementById('adult_passport_expired_date'+ (i + 1)).style['border-color'] = 'red';
+            }else{
+                request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
+                document.getElementById('adult_passport_expired_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
+                error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
+            }else{
+                request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+                document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+            }
+            if(document.getElementById('adult_cp' + (i + 1)).checked == true){
+                if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
+                    error_log+= 'Phone number only contain number 8 - 12 digits for passenger '+i+'!\n';
+                    document.getElementById('adult_phone' + (i + 1)).style['border-color'] = 'red';
+                }else{
+                    request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
+                    document.getElementById('adult_phone' + (i + 1)).style['border-color'] = '#EFEFEF';
+                }
+                if(check_email(document.getElementById('adult_email' + (i + 1)).value)==false){
+                    error_log+= 'Invalid Passenger '+i+' email!\n';
+                    document.getElementById('adult_email' + (i + 1)).style['border-color'] = 'red';
+                }else{
+                    request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
+                    document.getElementById('adult_email' + (i + 1)).style['border-color'] = '#EFEFEF';
+                }
+            }
             request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
             request['passenger_years_old'+i] = document.getElementById('adult_years_old' + (i + 1)).value;
             request['passenger_phone_code'+i] = document.getElementById('adult_phone_code' + (i + 1)).value;
@@ -529,6 +566,7 @@ function set_data_issued_offline(){
        },
        data: request,
        success: function(msg) {
+            console.log(msg);
             if(msg.result.error_code == 0)
                 update_booker();
 
@@ -617,19 +655,19 @@ function update_booker(){
             document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = '#EFEFEF';
         }
 
-        request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
-        request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
-        request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
-        request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
-
-
-        request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
-        request['passenger_years_old'+i] = document.getElementById('adult_years_old' + (i + 1)).value;
-        request['passenger_phone_code'+i] = document.getElementById('adult_phone_code' + (i + 1)).value;
-        request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
-        request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
+        if(i == 0){
+            request['passenger_cp'+i] = document.getElementById('adult_cp' + (i + 1)).checked;
+            request['passenger_years_old'+i] = document.getElementById('adult_years_old' + (i + 1)).value;
+            request['passenger_phone_code'+i] = document.getElementById('adult_phone_code' + (i + 1)).value;
+            request['passenger_phone'+i] = document.getElementById('adult_phone' + (i + 1)).value;
+            request['passenger_email'+i] = document.getElementById('adult_email' + (i + 1)).value;
+        }
         request['passenger_id'+i] = document.getElementById('adult_id' + (i + 1)).value;
     }
+    if(document.getElementsByName('myRadios')[0].checked == true)
+        request['myRadios'] = true;
+    else
+        request['myRadios'] = false;
     getToken();
     $.ajax({
        type: "POST",
