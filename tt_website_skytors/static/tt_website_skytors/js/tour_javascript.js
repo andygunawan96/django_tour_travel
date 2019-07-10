@@ -622,9 +622,18 @@ function check_passenger(adult, child, infant){
 
 }
 
-function update_contact(val){
-    console.log(val);
-    console.log(document.getElementById('adult_cp'+val.toString()).checked);
+function update_contact_cp(val){
+    temp = 1;
+    while(temp != adult+1){
+        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
     if(document.getElementById('adult_cp'+val.toString()).checked == true){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
@@ -632,7 +641,6 @@ function update_contact(val){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
-
 }
 
 function refresh_room_availability(seq){

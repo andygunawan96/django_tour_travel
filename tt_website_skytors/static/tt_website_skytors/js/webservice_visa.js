@@ -255,11 +255,10 @@ function visa_hold_booking(val){
 
 function update_passenger(){
     data_pax = [];
-    console.log(pax);
-    for(i in pax){ //pax type
-        for(k in pax[i]){ //pax
+    for(i in passenger){ //pax type
+        for(k in passenger[i]){ //pax
             if(i != 'booker' && i != 'contact'){
-                console.log(pax[i]);
+                console.log(passenger[i]);
                 console.log(k);
                 pax_count = parseInt(k) + 1;
                 var radios = document.getElementsByName('adult_visa_type'+pax_count);
@@ -287,7 +286,7 @@ function update_passenger(){
                 }
                 console.log(process_type);
                 for(j in visa.list_of_visa){ //list of visa
-                    if(visa.list_of_visa[j].pax_type[0] == pax[i][k].pax_type &&
+                    if(visa.list_of_visa[j].pax_type[0] == passenger[i][k].pax_type &&
                     visa.list_of_visa[j].visa_type[0] == visa_type &&
                     visa.list_of_visa[j].type.process_type[0] == process_type &&
                     visa.list_of_visa[j].entry_type[0] == entry_type){
