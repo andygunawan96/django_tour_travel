@@ -813,11 +813,19 @@ $(document).ready(function(){
             if(document.getElementById("airline_return_temp").value == ""){
 
                 document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
-                document.getElementById("airline_return").value = date_tomorrow;
-                document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
+
+                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+                ];
 
                 var date_tomorrow = new Date(document.getElementById("airline_departure").value);
                 date_tomorrow.setDate(date_tomorrow.getDate() + 1);
+                date_tomorrow = date_tomorrow.getDate()+" "+monthNames[date_tomorrow.getMonth()]+" "+date_tomorrow.getFullYear();
+
+                document.getElementById("airline_return").value = date_tomorrow;
+
+                alert(document.getElementById("airline_return").value);
+                document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
 
                 $('input[name="airline_departure_return"]').daterangepicker({
                   singleDatePicker: false,
@@ -846,6 +854,8 @@ $(document).ready(function(){
                 document.getElementById("airline_return").value = document.getElementById("airline_return_temp").value;
                 document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
 
+                alert(document.getElementById("airline_departure").value);
+                alert(document.getElementById("airline_return").value);
                 $('input[name="airline_departure_return"]').daterangepicker({
                   singleDatePicker: false,
                   autoUpdateInput: true,
