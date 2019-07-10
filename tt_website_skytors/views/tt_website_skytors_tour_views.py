@@ -346,14 +346,10 @@ def review(request):
                 "passport_expdate_f": '%s-%s-%s' % (request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[0]),
                 "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
                 "passenger_id": request.POST['adult_id' + str(i + 1)],
+                "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)] + request.POST['adult_phone' + str(i + 1)] or ' - ',
+                "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
+                "is_cp": request.POST.get('adult_cp' + str(i + 1)),
             })
-            if i == 0:
-                if request.POST.get('adult_cp'+str(i + 1)) == 'on':
-                    adult[-1].update({
-                        "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)] + request.POST['adult_phone' + str(i + 1)] or ' - ',
-                        "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
-                        "is_cp": request.POST.get('adult_cp' + str(i + 1)),
-                    })
 
         for i in range(int(request.session['booking_data']['childs'])):
             child.append({
