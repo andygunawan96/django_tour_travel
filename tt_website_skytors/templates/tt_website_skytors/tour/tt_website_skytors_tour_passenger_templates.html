@@ -253,7 +253,7 @@
                                             <div class="input-container-search-ticket">
                                                 <label class="check_box_custom">
                                                     <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
-                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact({{forloop.counter}})"/>
+                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact_cp({{forloop.counter}})" />
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
                                             </div>
@@ -395,7 +395,7 @@
                                                         <div class="form-select">
                                                             <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
                                                                 {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
