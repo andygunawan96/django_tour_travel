@@ -104,8 +104,10 @@ def set_data_issued_offline(request):
 
     for i in range(int(request.POST['counter_line'])):
         if request.POST['type'] == 'airline' or request.POST['type'] == 'train':
-            departure = request.POST['line_departure' + str(i)].split('T')
-            arrival = request.POST['line_arrival' + str(i)].split('T')
+            temp_date = request.POST['line_departure' + str(i)].split(' ')
+            departure = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
+            temp_date = request.POST['line_arrival' + str(i)].split(' ')
+            arrival = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
             if request.POST['type'] == 'airline':
                 origin = request.POST['line_origin'+str(i)][-4:][:3]
                 destination = request.POST['line_destination'+str(i)][-4:][:3]
@@ -143,7 +145,9 @@ def set_data_issued_offline(request):
                 "visit_date": departure[0] + ' ' + departure[1],
                 "description": request.POST['line_activity_description' + str(i)]
             })
-    exp_date = request.POST['expired_date'].split('T')
+    temp_date = request.POST['expired_date'].split(' ')
+    exp_date = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],
+                 temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
     data_issued_offline = {
         "type": request.POST['type'],
         "total_sale_price": int(request.POST['total_sale_price']),
