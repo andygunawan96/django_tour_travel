@@ -90,9 +90,9 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                    <div id="airline_date_search"></div>
                                     <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
-                                    <div id="airline_date_search"></div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
@@ -415,7 +415,16 @@
         node = document.createElement("div");
 
         document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
-        document.getElementById("airline_return").value = document.getElementById("airline_return_temp").value;
+
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+
+        var date_convert = new Date(document.getElementById("airline_return_temp").value);
+        date_convert.setDate(date_convert.getDate());
+        date_convert = date_convert.getDate()+" "+monthNames[date_convert.getMonth()]+" "+date_convert.getFullYear();
+
+        document.getElementById("airline_return").value = date_convert;
         document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
 
         $('input[name="airline_departure_return"]').daterangepicker({
