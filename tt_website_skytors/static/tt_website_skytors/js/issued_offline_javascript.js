@@ -85,16 +85,18 @@ function change_transaction_type(type){
         $('transaction_type').niceSelect();
         text = '';
         if(document.getElementById('transaction_type').value == 'airline')
-            text+=`<h4>Airline Line(s)</h4><br/>`;
+            text+=`<h4>Airline Line(s)</h4><hr/>`;
         else if(document.getElementById('transaction_type').value == 'train')
-            text+=`<h4>Train Line(s)</h4><br/>`;
+            text+=`<h4>Train Line(s)</h4><hr/>`;
         else if(document.getElementById('transaction_type').value == 'hotel')
-            text+=`<h4>Hotel Line(s)</h4><br/>`;
+            text+=`<h4>Hotel Line(s)</h4><hr/>`;
         else if(document.getElementById('transaction_type').value == 'activity')
-            text+=`<h4>Activity/Theme Park Line(s)</h4><br/>`;
-        text+=`<h5><a href="javascript:add_table_of_line('`+document.getElementById('transaction_type').value+`');" style="color:blue; text-decoration: underline;">Add <i class="fas fa-plus-circle"></i></a> <a href="javascript:delete_table_of_line();" style="color:blue; text-decoration: underline;">Delete <i class="fas fa-minus-circle"></i></a></h5>
+            text+=`<h4>Activity/Theme Park Line(s)</h4><hr/>`;
+        text+=`
+        <button class="primary-btn-ticket" type="button" onclick="add_table_of_line('`+document.getElementById('transaction_type').value+`');"><i class="fas fa-plus"></i> Add</button>
+        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_line()"><i class="fas fa-trash-alt"></i> Delete</button>
         <br/>
-        <div id="table_of_line">
+        <div class="row" id="table_of_line" style="margin-top:15px;">
         </div>`;
         document.getElementById('show_line').innerHTML = text;
         $('select').niceSelect();
@@ -120,7 +122,7 @@ function add_table_of_passenger(){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="border-radius: 28px; margin-bottom:5px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-plus"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -140,15 +142,15 @@ function add_table_of_passenger(){
                                     <span class="checkmark-radio"></span>
                                 </label>
                                 <label class="radio-button-custom">
-                                    <span style="font-size:14px;">Input</span>
+                                    <span style="font-size:14px;">Input Passenger</span>
                                     <input type="radio" id="radio_passenger_input`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="create" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
-                                    <input type="text" id="train`+(counter_passenger+1)+`_search" placeholder="Search" />
-                                    <button type="button" class="btn btn-default" onclick="search_passenger('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
+                                    <input type="text" id="train`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
+                                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
                                     <div id="search_result`+(counter_passenger+1)+`" style="overflow:auto;height:200px;">
 
                                     </div>
@@ -306,6 +308,30 @@ function add_table_of_passenger(){
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
+    $('input[type="text"].date-picker-birth').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          maxDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
+    $('input[type="text"].date-picker-passport').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          minDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
 //    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
     counter_passenger++;
     $('select').niceSelect();
@@ -324,16 +350,21 @@ function add_table_of_line(type){
     var node = document.createElement("div");
     if(type == 'airline' || type == 'train'){
         text += `
-        <div class="col-lg-12 col-xs-12">
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-1 col-xs-1">
-                    <span>No.</span><br/>
-                    <span>`+parseInt(counter_line+1)+`</span>
+                <div class="col-lg-12">
+                    <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
-                <div class="col-lg-4 col-xs-4">
+                <div class="col-lg-6 col-md-6">
                     <span>Origin</span><br/>
-                    <div class="input-container-search-ticket">
-                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                    <div class="input-container-search-ticket">`;
+                        if(type == 'airline'){
+                            text+=`<i class="fas fa-plane-departure icon-search-ticket"></i>`;
+                        }
+                        else{
+                            text+=`<img src="static/tt_website_skytors/img/icon/train-01.png" class="icon-search-ticket"/>`;
+                        }
+                        text+=`
                         <div class="form-select">
                             <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'origin')">
 
@@ -342,10 +373,16 @@ function add_table_of_line(type){
                         <input type="hidden" name="origin`+counter_line+`" id="origin`+counter_line+`" />
                     </div>
                 </div>
-                <div class="col-lg-4 col-xs-4">
+                <div class="col-lg-6 col-md-6">
                     <span>Destination</span><br/>
-                    <div class="input-container-search-ticket">
-                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                    <div class="input-container-search-ticket">`;
+                        if(type == 'airline'){
+                            text+=`<i class="fas fa-plane-arrival icon-search-ticket"></i>`;
+                        }
+                        else{
+                            text+=`<img src="static/tt_website_skytors/img/icon/train-02.png" class="icon-search-ticket"/>`;
+                        }
+                        text+=`
                         <div class="form-select">
                             <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'destination')">
 
@@ -354,10 +391,16 @@ function add_table_of_line(type){
                         <input type="hidden" name="destination`+counter_line+`" id="destination`+counter_line+`" />
                     </div>
                 </div>
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-4 col-md-4">
                     <span>Provider</span><br/>
-                    <div class="input-container-search-ticket">
-                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                    <div class="input-container-search-ticket">`;
+                        if(type == 'airline'){
+                            text+=`<i class="fas fa-plane icon-search-ticket"></i>`;
+                        }
+                        else{
+                            text+=`<i class="fas fa-train icon-search-ticket"></i>`;
+                        }
+                        text+=`
                         <div class="form-select">
                             <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="provider_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'provider')">
 
@@ -366,27 +409,29 @@ function add_table_of_line(type){
                         <input type="hidden" name="provider`+counter_line+`" id="provider`+counter_line+`" />
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-4 col-md-4">
                     <span>Departure Date</span><br/>
-                    <input type="datetime-local" id='departure`+counter_line+`' class="form-control" name='departure`+counter_line+`' placeholder="datetime"/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                        <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime"/>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-4 col-md-4">
                     <span>Arrival Date</span><br/>
-                    <input type="datetime-local" id='arrival`+counter_line+`' class="form-control" name='arrival`+counter_line+`' placeholder="datetime"/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                        <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime"/>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-3 col-md-3">
                     <span>Carrier Code</span><br/>
                     <input type="text" class="form-control" id='carrier_code`+counter_line+`' name='carrier_code`+counter_line+`' placeholder="Carrier Code">
                 </div>
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-3 col-md-3">
                     <span>Carrier Number</span><br/>
                     <input type="text" class="form-control" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number">
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-2 col-xs-2">
+                <div class="col-lg-3 col-md-3">
                     <span>Class</span><br/>
                     <div class="input-container-search-ticket btn-group">
                         <div class="form-select" id="default-select">
@@ -398,7 +443,7 @@ function add_table_of_line(type){
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-xs-2">
+                <div class="col-lg-3 col-md-3">
                     <span>Sub Class</span><br/>
                     <input type="text" class="form-control" id='sub_class`+counter_line+`' name='sub_class`+counter_line+`' placeholder="Sub Class">
                 </div>
@@ -411,37 +456,83 @@ function add_table_of_line(type){
         set_provider_data(counter_line, type);
         set_origin_data(counter_line, type);
         set_destination_data(counter_line, type);
+
+        $('input[type="text"].departure_date').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss',
+              }
+          });
+
+          $('input[type="text"].arrival_date').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss',
+              }
+          });
+        set_data(0,'origin');
+        set_data(0,'destination');
+        set_data(0,'provider');
     }else if(type == 'hotel'){
         text += `
-        <div class="col-lg-12 col-xs-12">
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-1 col-xs-1">
-                    <span>No.</span><br/>
-                    <span>`+parseInt(counter_line+1)+`</span>
+                <div class="col-lg-12">
+                    <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
-                <div class="col-lg-4 col-xs-4">
+                <div class="col-lg-4 col-md-4">
                     <span>Name</span><br/>
-                    <input type="input" id='hotel_name`+counter_line+`' class="form-control" name='hotel_name`+counter_line+`' placeholder="Name"/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-hotel icon-search-ticket"></i>
+                        <input type="input" id='hotel_name`+counter_line+`' class="form-control" name='hotel_name`+counter_line+`' placeholder="Name"/>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-xs-4">
+                <div class="col-lg-4 col-md-4">
                     <span>Room</span><br/>
-                    <input type="input" id='hotel_room`+counter_line+`' class="form-control" name='hotel_room`+counter_line+`' placeholder="Room Type"/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-bed icon-search-ticket"></i>
+                        <input type="input" id='hotel_room`+counter_line+`' class="form-control" name='hotel_room`+counter_line+`' placeholder="Room Type"/>
+                    </div>
                 </div>
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-4 col-md-4">
                     <span>Qty</span><br/>
                     <input type="input" id='hotel_qty`+counter_line+`' class="form-control" name='hotel_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-xs-3">
-                    <span>Check in Date</span><br/>
-                    <input type="datetime-local" id='hotel_check_in`+counter_line+`' class="form-control" name='hotel_check_in`+counter_line+`' placeholder="Check in"/>
-                </div>
-                <div class="col-lg-3 col-xs-3">
-                    <span>Check out Date</span><br/>
-                    <input type="datetime-local" id='hotel_check_out`+counter_line+`' class="form-control" name='hotel_check_out`+counter_line+`' placeholder="Check out"/>
+                <div class="col-lg-6 col-xs-6">
+                    <span>Check-in Date</span><br/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                        <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in"/>
+                    </div>
                 </div>
                 <div class="col-lg-6 col-xs-6">
+                    <span>Check-out Date</span><br/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                        <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out"/>
+                    </div>
+                </div>
+                <div class="col-lg-12">
                     <span>Description</span><br/>
                     <textarea id='hotel_description`+counter_line+`' class="form-control" name='hotel_description`+counter_line+`'></textarea>
                 </div>
@@ -452,33 +543,66 @@ function add_table_of_line(type){
         $('#class'+counter_line).niceSelect('update');
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
+
+        $('input[type="text"].check-in-date').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss',
+              }
+          });
+
+          $('input[type="text"].check-out-date').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss',
+              }
+          });
+
     }else if(type == 'activity'){
         text += `
-        <div class="col-lg-12 col-xs-12">
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-1 col-xs-1">
-                    <span>No.</span><br/>
-                    <span>`+parseInt(counter_line+1)+`</span>
+                <div class="col-lg-12">
+                    <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
-                <div class="col-lg-4 col-xs-4">
+                <div class="col-lg-3 col-md-3">
                     <span>Name</span><br/>
                     <input type="input" id='activity_name`+counter_line+`' class="form-control" name='activity_name`+counter_line+`' placeholder="Name"/>
                 </div>
-                <div class="col-lg-4 col-xs-4">
+                <div class="col-lg-3 col-md-3">
                     <span>Package</span><br/>
                     <input type="input" id='activity_package`+counter_line+`' class="form-control" name='activity_package`+counter_line+`' placeholder="Package Type"/>
                 </div>
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-2 col-md-2">
                     <span>Qty</span><br/>
                     <input type="input" id='activity_qty`+counter_line+`' class="form-control" name='activity_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 col-xs-3">
+                <div class="col-lg-4 col-md-4">
                     <span>Visit Date Time</span><br/>
-                    <input type="datetime-local" id='activity_datetime`+counter_line+`' class="form-control" name='activity_datetime`+counter_line+`' placeholder="Datetime"/>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                        <input type="text" id='activity_datetime`+counter_line+`' class="form-control visit_date" name='activity_datetime`+counter_line+`' placeholder="Datetime"/>
+                    </div>
                 </div>
-                <div class="col-lg-9 col-xs-9">
+                <div class="col-lg-12">
                     <span>Description</span><br/>
                     <textarea id='activity_description`+counter_line+`' class="form-control" name='activity_description`+counter_line+`'></textarea>
                 </div>
@@ -489,6 +613,22 @@ function add_table_of_line(type){
         $('#class'+counter_line).niceSelect('update');
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
+
+        $('input[type="text"].visit_date').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-1, 'years'),
+              showDropdowns: true,
+              timePicker: true,
+              timePicker24Hour: true,
+              timePickerSeconds: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY hh:mm:ss',
+              }
+          });
     }
     $('.js-example-basic-single').select2();
 

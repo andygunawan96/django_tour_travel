@@ -1306,7 +1306,7 @@
         }catch(err){
             visa_date = now;
         }
-              $('input[name="airline_departure"]').daterangepicker({
+      $('input[name="airline_departure"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
           startDate: airline_date,
@@ -1435,8 +1435,8 @@
     document.getElementById("end").value = "2020-12-31";
     //get_agent_booking();
     get_visa_config('home');
-    get_dept_year();
-    tour_login('');
+    //get_dept_year();
+    //tour_login('');
 </script>
 
 {% endblock %}

@@ -395,7 +395,7 @@
                                                         <div class="form-select">
                                                             <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
                                                                 {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
+                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
