@@ -196,7 +196,7 @@ def get_booking(request):
         "signature": request.session['tour_signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
