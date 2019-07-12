@@ -612,6 +612,7 @@ function tour_get_booking(order_number)
            var tour_package = msg.result.response.response.tour_package;
            var passengers = msg.result.response.response.passengers;
            var rooms = msg.result.response.response.rooms;
+           var price_itinerary = msg.result.response.response.price_itinerary;
            var cur_state = '';
            pax_txt = '';
            room_txt = '';
@@ -630,7 +631,7 @@ function tour_get_booking(order_number)
            <h4>Order Detail</h4>
            <hr/>
            <h4>`+ book_obj.name +`</h4>
-           <span style="font-size: 15px;" aria-hidden="true">Status:
+           <span style="font-size: 15px; font-weight: bold;" aria-hidden="true">Status:
            `;
            if (book_obj.state == 'issued')
            {
@@ -649,9 +650,11 @@ function tour_get_booking(order_number)
                     </ul>
            `;
            order_detail_txt += `</span>
-
-
            `;
+           if (book_obj.state != 'issued')
+           {
+                order_detail_txt += `<span style="font-size: 15px; font-weight: bold; float:right;" aria-hidden="true">Hold Date: `+ book_obj.hold_date +`</span>`;
+           }
 
            for (i in rooms)
            {
@@ -672,7 +675,7 @@ function tour_get_booking(order_number)
                 pax_txt += `
                     <div class="row">
                         <div class="col-lg-6" style="margin-bottom:10px;">
-                            <h6>`+ passengers[i].room_number +`. `+ passengers[i].title +`. `+ passengers[i].first_name +` `+ passengers[i].last_name +`</h6>
+                            <h6>`+ idx +`. `+ passengers[i].title +`. `+ passengers[i].first_name +` `+ passengers[i].last_name +`</h6>
                             <span>`;
 
                 if(passengers[i].pax_type == 'ADT')
@@ -721,7 +724,33 @@ function tour_get_booking(order_number)
            document.getElementById('list-of-rooms').innerHTML += room_txt;
            document.getElementById('list-of-bookers').innerHTML += booker_txt;
            document.getElementById('pax_list_table').innerHTML += pax_txt;
-           document.getElementById('full_payment_val').innerHTML += String(book_obj.total);
+           document.getElementById('full_payment_val').innerHTML += String(price_itinerary.total_itinerary_price);
+           document.getElementById('grand_total_hidden').value = parseInt(price_itinerary.total_itinerary_price);
+
+           document.getElementById("commission_total_content").innerHTML = getrupiah(price_itinerary.commission_total);
+           document.getElementById("adult_price").value = getrupiah(price_itinerary.adult_price);
+           document.getElementById("adult_amount").value = getrupiah(price_itinerary.adult_amount);
+           document.getElementById("adult_surcharge_price").value = getrupiah(price_itinerary.adult_surcharge_price);
+           document.getElementById("adult_surcharge_amount").value = getrupiah(price_itinerary.adult_surcharge_amount);
+           document.getElementById("child_price").value = getrupiah(price_itinerary.child_price);
+           document.getElementById("child_amount").value = getrupiah(price_itinerary.child_amount);
+           document.getElementById("child_surcharge_price").value = getrupiah(price_itinerary.child_surcharge_price);
+           document.getElementById("child_surcharge_amount").value = getrupiah(price_itinerary.child_surcharge_amount);
+           document.getElementById("infant_price").value = getrupiah(price_itinerary.infant_price);
+           document.getElementById("infant_amount").value = getrupiah(price_itinerary.infant_amount);
+           document.getElementById("single_supplement_price").value = getrupiah(price_itinerary.single_supplement_price);
+           document.getElementById("single_supplement_amount").value = getrupiah(price_itinerary.single_supplement_amount);
+           document.getElementById("airport_tax_total").value = getrupiah(price_itinerary.airport_tax_total);
+           document.getElementById("airport_tax_amount").value = getrupiah(price_itinerary.airport_tax_amount);
+           document.getElementById("tipping_guide_total").value = getrupiah(price_itinerary.tipping_guide_total);
+           document.getElementById("tipping_guide_amount").value = getrupiah(price_itinerary.tipping_guide_amount);
+           document.getElementById("tipping_tour_leader_total").value = getrupiah(price_itinerary.tipping_tour_leader_total);
+           document.getElementById("tipping_tour_leader_amount").value = getrupiah(price_itinerary.tipping_tour_leader_amount);
+           document.getElementById("additional_charge_total").value = getrupiah(price_itinerary.additional_charge_total);
+           document.getElementById("additional_charge_amount").value = getrupiah(price_itinerary.additional_charge_amount);
+           document.getElementById("sub_total").value = getrupiah(price_itinerary.sub_total_itinerary_price);
+           document.getElementById("discount_total").value = getrupiah(price_itinerary.discount_total_itinerary_price);
+           document.getElementById("grand_total").value = getrupiah(price_itinerary.total_itinerary_price);
 
            get_payment_rules(tour_package.id);
        },
