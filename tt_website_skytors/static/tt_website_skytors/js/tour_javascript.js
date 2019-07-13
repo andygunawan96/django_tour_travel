@@ -827,6 +827,22 @@ function tour_hold_booking(val){
     }
 }
 
+function check_before_calculate(){
+    check = 0;
+    if(check == 0)
+        calculate('tour');
+    else
+        alert('Please re-check all the tour datas!');
+}
+
+function check_before_add_repricing(){
+    check = 0;
+    if(check == 0)
+        add_table_of_equation();
+    else
+        alert('Please re-check all the tour datas!');
+}
+
 $(document).ready(function () {
     $('#btnDeleteRooms').click(function(){
         var index = document.getElementById('room_amount').value;
