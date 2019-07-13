@@ -1372,7 +1372,8 @@ function airline_detail(){
                 }
             }
         }
-
+    console.log(dep_price);
+    console.log(ret_price);
    text = `
     <div class="row" style="margin-bottom:5px; ">
         <div class="col-lg-12">
@@ -1488,8 +1489,8 @@ function airline_detail(){
         console.log(dep_price);
         console.log(ret_price);
         if(airline_request.adult != '0'){
-            if(dep_price.ADT['r.oc'] != null)
-                price = dep_price.ADT['r.oc'];
+            if(dep_price.ADT['roc'] != null)
+                price = dep_price.ADT['roc'];
             if(dep_price.ADT.tax != null)
                 price += dep_price.ADT.tax;
             text+=`
@@ -1509,8 +1510,8 @@ function airline_detail(){
         }
         //child
         if(airline_request.child != '0'){
-            if(dep_price.CHD['r.oc'] != null)
-                price = dep_price.CHD['r.oc'];
+            if(dep_price.CHD['roc'] != null)
+                price = dep_price.CHD['roc'];
             if(dep_price.CHD.tax != null)
                 price += dep_price.CHD.tax;
             text+=`
@@ -1530,8 +1531,8 @@ function airline_detail(){
         }
         //infant
         if(airline_request.infant != '0'){
-            if(dep_price.INF['r.oc'] != null)
-                price = dep_price.INF['r.oc'];
+            if(dep_price.INF['roc'] != null)
+                price = dep_price.INF['roc'];
             if(dep_price.INF.tax != null)
                 price += dep_price.INF.tax;
             if(dep_price.INF.inf != null)
@@ -1607,8 +1608,8 @@ function airline_detail(){
         <div class="row">`;
             //adult
             if(parseInt(airline_request.adult) != 0){
-                if(dep_price.ADT['r.oc'] != null)
-                    price = ret_price.ADT['r.oc'];
+                if(dep_price.ADT['roc'] != null)
+                    price = ret_price.ADT['roc'];
                 if(dep_price.ADT.tax != null)
                     price += ret_price.ADT.tax;
                 text+=`
@@ -1628,8 +1629,8 @@ function airline_detail(){
             }
             //child
             if(parseInt(airline_request.child) != 0){
-                if(ret_price.CHD['r.oc'] != null)
-                    price = ret_price.CHD['r.oc'];
+                if(ret_price.CHD['roc'] != null)
+                    price = ret_price.CHD['roc'];
                 if(ret_price.CHD.tax != null)
                     price += ret_price.CHD.tax;
                 text+=`
@@ -1649,8 +1650,8 @@ function airline_detail(){
             }
             //infant
             if(parseInt(airline_request.infant) != 0){
-                if(ret_price.INF['r.oc'] != null)
-                    price = ret_price.INF['r.oc'];
+                if(ret_price.INF['roc'] != null)
+                    price = ret_price.INF['roc'];
                 if(ret_price.INF.tax != null)
                     price += ret_price.INF.tax;
                 if(ret_price.INF.inf != null)
@@ -1680,19 +1681,19 @@ function airline_detail(){
                 if(airline_pick[0].is_combo_price == true){
                     if(dep_price.ADT.fare != null)
                         price = dep_price.ADT.fare;
-                    if(dep_price.ADT['r.oc'] != null)
-                        price += dep_price.ADT['r.oc'];
+                    if(dep_price.ADT['roc'] != null)
+                        price += dep_price.ADT['roc'];
                     if(dep_price.ADT.tax != null)
                         price += dep_price.ADT.tax;
                     total_price += airline_request.adult * price;
                     temp_price += airline_request.adult * price;
-                    if(dep_price.ADT['r.ac'] != null)
+                    if(dep_price.ADT['rac'] != null)
                         commission_price += airline_request.adult * (dep_price.ADT['r.ac']);
                 }else{
                     if(dep_price.ADT.fare != null)
                         price = dep_price.ADT.fare;
-                    if(dep_price.ADT['r.oc'] != null)
-                        price += dep_price.ADT['r.oc'];
+                    if(dep_price.ADT['roc'] != null)
+                        price += dep_price.ADT['roc'];
                     if(dep_price.ADT.tax != null)
                         price += dep_price.ADT.tax;
 
@@ -1702,30 +1703,30 @@ function airline_detail(){
 
                     if(ret_price.ADT.fare != null)
                         price = ret_price.ADT.fare;
-                    if(ret_price.ADT['r.oc'] != null)
-                        price += ret_price.ADT['r.oc'];
+                    if(ret_price.ADT['roc'] != null)
+                        price += ret_price.ADT['roc'];
                     if(ret_price.ADT.tax != null)
                         price += ret_price.ADT.tax;
 
                     total_price += airline_request.adult * price;
                     temp_price += airline_request.adult * price;
 
-                    if(dep_price.ADT['r.ac'] != null)
-                        commission_price += airline_request.adult * (dep_price.ADT['r.ac']);
-                    if(ret_price.ADT['r.ac'] != null)
-                    commission_price += airline_request.adult * (ret_price.ADT['r.ac']);
+                    if(dep_price.ADT['rac'] != null)
+                        commission_price += airline_request.adult * (dep_price.ADT['rac']);
+                    if(ret_price.ADT['rac'] != null)
+                    commission_price += airline_request.adult * (ret_price.ADT['rac']);
                 }
             else{
                 if(dep_price.ADT.fare != null)
                     price = dep_price.ADT.fare;
-                if(dep_price.ADT['r.oc'] != null)
-                    price += dep_price.ADT['r.oc'];
+                if(dep_price.ADT['roc'] != null)
+                    price += dep_price.ADT['roc'];
                 if(dep_price.ADT.tax != null)
                     price += dep_price.ADT.tax;
                 total_price += airline_request.adult * price;
                 temp_price += airline_request.adult * price;
-                if(dep_price.ADT['r.ac'] != null)
-                    commission_price += airline_request.adult * (dep_price.ADT['r.ac']);
+                if(dep_price.ADT['rac'] != null)
+                    commission_price += airline_request.adult * (dep_price.ADT['rac']);
             }
         }
         if(parseInt(airline_request.adult) != 0)
@@ -1736,19 +1737,19 @@ function airline_detail(){
                 if(airline_pick[0].is_combo_price == true){
                     if(dep_price.CHD.fare != null)
                         price = dep_price.CHD.fare;
-                    if(dep_price.CHD['r.oc'] != null)
-                        price += dep_price.CHD['r.oc'];
+                    if(dep_price.CHD['roc'] != null)
+                        price += dep_price.CHD['roc'];
                     if(dep_price.CHD.tax != null)
                         price += dep_price.CHD.tax;
                     total_price += airline_request.child * price;
                     temp_price += airline_request.child * price;
-                    if(dep_price.CHD['r.ac'] != null)
-                        commission_price += airline_request.child * (dep_price.CHD['r.ac']);
+                    if(dep_price.CHD['rac'] != null)
+                        commission_price += airline_request.child * (dep_price.CHD['rac']);
                 }else{
                     if(dep_price.CHD.fare != null)
                         price = dep_price.CHD.fare;
-                    if(dep_price.CHD['r.oc'] != null)
-                        price += dep_price.CHD['r.oc'];
+                    if(dep_price.CHD['roc'] != null)
+                        price += dep_price.CHD['roc'];
                     if(dep_price.CHD.tax != null)
                         price += dep_price.CHD.tax;
 
@@ -1757,30 +1758,30 @@ function airline_detail(){
 
                     if(ret_price.ADT.fare != null)
                         price = ret_price.ADT.fare;
-                    if(ret_price.ADT['r.oc'] != null)
-                        price += ret_price.ADT['r.oc'];
+                    if(ret_price.ADT['roc'] != null)
+                        price += ret_price.ADT['roc'];
                     if(ret_price.ADT.tax != null)
                         price += ret_price.ADT.tax;
 
                     total_price += airline_request.child * price;
                     temp_price += airline_request.child * price;
-                    if(dep_price.CHD['r.ac'] != null)
-                        commission_price += airline_request.child * (dep_price.CHD['r.ac']);
-                    if(ret_price.CHD['r.ac'] != null)
-                        commission_price += airline_request.child * (ret_price.CHD['r.ac']);
+                    if(dep_price.CHD['rac'] != null)
+                        commission_price += airline_request.child * (dep_price.CHD['rac']);
+                    if(ret_price.CHD['rac'] != null)
+                        commission_price += airline_request.child * (ret_price.CHD['rac']);
                 }
             else{
                 if(dep_price.CHD.fare != null)
                     price = dep_price.CHD.fare;
-                if(dep_price.CHD['r.oc'] != null)
-                    price += dep_price.CHD['r.oc'];
+                if(dep_price.CHD['roc'] != null)
+                    price += dep_price.CHD['roc'];
                 if(dep_price.CHD.tax != null)
                     price += dep_price.CHD.tax;
 
                 total_price += airline_request.child * price;
                 temp_price += airline_request.child * price;
-                if(dep_price.CHD['r.ac'] != null)
-                    commission_price += airline_request.child * (dep_price.CHD['r.ac']);
+                if(dep_price.CHD['rac'] != null)
+                    commission_price += airline_request.child * (dep_price.CHD['rac']);
             }
         }
         if(parseInt(airline_request.child) != 0)
@@ -1791,8 +1792,8 @@ function airline_detail(){
                 if(airline_pick[0].is_combo_price == true){
                     if(dep_price.INF.fare != null)
                         price = dep_price.INF.fare;
-                    if(dep_price.INF['r.oc'] != null)
-                        price += dep_price.INF['r.oc'];
+                    if(dep_price.INF['roc'] != null)
+                        price += dep_price.INF['roc'];
                     if(dep_price.INF.tax != null)
                         price += dep_price.INF.tax;
                     if(dep_price.INF.inf != null)
@@ -1800,13 +1801,13 @@ function airline_detail(){
                     console.log(price);
                     total_price += airline_request.infant * price;
                     temp_price += airline_request.infant * price;
-                    if(dep_price.INF['r.ac'] != null)
-                        commission_price += airline_request.infant * (dep_price.INF['r.ac']);
+                    if(dep_price.INF['rac'] != null)
+                        commission_price += airline_request.infant * (dep_price.INF['rac']);
                 }else{
                     if(dep_price.INF.fare != null)
                         price = dep_price.INF.fare;
-                    if(dep_price.INF['r.oc'] != null)
-                        price += dep_price.INF['r.oc'];
+                    if(dep_price.INF['roc'] != null)
+                        price += dep_price.INF['roc'];
                     if(dep_price.INF.tax != null)
                         price += dep_price.INF.tax;
                     total_price += airline_request.infant * price;
@@ -1814,32 +1815,32 @@ function airline_detail(){
 
                     if(ret_price.INF.fare != null)
                         price = ret_price.INF.fare;
-                    if(ret_price.INF['r.oc'] != null)
-                        price += ret_price.INF['r.oc'];
+                    if(ret_price.INF['roc'] != null)
+                        price += ret_price.INF['roc'];
                     if(ret_price.INF.tax != null)
                         price += ret_price.INF.tax;
                     if(ret_price.INF.inf != null)
                         price += ret_price.INF.inf;
                     total_price += airline_request.infant * price;
                     temp_price += airline_request.infant * price;
-                    if(dep_price.INF['r.ac'] != null)
-                        commission_price += airline_request.infant * (dep_price.INF['r.ac']);
-                    if(ret_price.INF['r.ac'] != null)
-                        commission_price += airline_request.infant * (ret_price.INF['r.ac']);
+                    if(dep_price.INF['rac'] != null)
+                        commission_price += airline_request.infant * (dep_price.INF['rac']);
+                    if(ret_price.INF['rac'] != null)
+                        commission_price += airline_request.infant * (ret_price.INF['rac']);
                 }
             else{
                 if(dep_price.INF.fare != null)
                     price = dep_price.INF.fare;
-                if(dep_price.INF['r.oc'] != null)
-                    price += dep_price.INF['r.oc'];
+                if(dep_price.INF['roc'] != null)
+                    price += dep_price.INF['roc'];
                 if(dep_price.INF.tax != null)
                     price += dep_price.INF.tax;
                 if(dep_price.INF.inf != null)
                     price += dep_price.INF.inf;
                 total_price += airline_request.infant * price;
                 temp_price += airline_request.infant * price;
-                if(dep_price.INF['r.ac'] != null)
-                    commission_price += airline_request.infant * (dep_price.INF['r.ac']);
+                if(dep_price.INF['rac'] != null)
+                    commission_price += airline_request.infant * (dep_price.INF['rac']);
             }
         }
         if(commission_price < 0)
@@ -2268,9 +2269,19 @@ function get_airline_review(){
 
 }
 
-function update_contact(val){
+function update_contact_cp(val){
+    temp = 1;
     console.log(val);
-    console.log(document.getElementById('adult_cp'+val.toString()).checked);
+    while(temp != airline_request.adult+1){
+        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
     if(document.getElementById('adult_cp'+val.toString()).checked == true){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
@@ -2278,5 +2289,4 @@ function update_contact(val){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
-
 }
