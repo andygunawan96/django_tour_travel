@@ -581,7 +581,12 @@ function tour_issued_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
-
+           var booking_num = msg.result.response.response.order_number;
+           if (booking_num)
+           {
+               document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+               document.getElementById('tour_booking').submit();
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -596,14 +601,200 @@ function tour_get_booking(order_number)
        type: "POST",
        url: "/webservice/tour",
        headers:{
-            'action': 'issued',
+            'action': 'get_booking',
        },
        data: {
            'order_number': order_number,
        },
        success: function(msg) {
            console.log(msg);
+           var book_obj = msg.result.response.response.result;
+           var tour_package = msg.result.response.response.tour_package;
+           var passengers = msg.result.response.response.passengers;
+           var rooms = msg.result.response.response.rooms;
+           var price_itinerary = msg.result.response.response.price_itinerary;
+           var cur_state = '';
+           updownsell_txt = '';
+           pax_txt = '';
+           room_txt = '';
+           booker_txt = '';
+           order_detail_txt = '';
+           breadcrumb_txt = `
+                    <ul class="progressbar">
+                        <li class="active"><span>Home <i class="fas fa-home"></i></span></li>
+                        <li class="active"><span>Search <i class="fas fa-search"></i></span></li>
+                        <li class="active"><span>Passenger <i class="fas fa-users"></i></span></li>
+                        <li class="active"><span>Book <i class="fas fa-book-open"></i></span></li>
 
+           `;
+
+           order_detail_txt += `
+           <h4>Order Detail</h4>
+           <hr/>
+           <h4>`+ book_obj.name +`</h4>
+           <span style="font-size: 15px; font-weight: bold;" aria-hidden="true">Status:
+           `;
+           if (book_obj.state == 'issued')
+           {
+                breadcrumb_txt += `<li class="active"><span>Issued <i class="fas fa-check-circle"></i></span></li>`;
+                cur_state = 'Issued';
+                order_detail_txt += `Issued`;
+           }
+           else
+           {
+                breadcrumb_txt += `<li><span>Issued <i class="fas fa-check-circle"></i></span></li>`;
+                cur_state = 'Booked';
+                order_detail_txt += `Booked`;
+                document.getElementById('issued_btn_place').innerHTML += '<input class="primary-btn hold-seat-booking-train" type="button" value="Issued" data-toggle="modal" data-target="#issuedModal" style="width:100%;"/>';
+                document.getElementById('upsell_downsell_opt').innerHTML += `
+                    <div id="pricing">
+                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <button class="primary-btn-ticket" type="button" onclick="check_before_add_repricing();"><i class="fas fa-plus-circle"></i></button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:10px;" id="table_of_equation">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                    <hr/>
+                                    <center>
+                                        <input class="primary-btn-ticket" type="button" onclick="check_before_calculate();" value="Calculate">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('upsell_downsell_opt2').innerHTML += `
+                    <div class="row">
+                        <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                            <h4>Result Pricing</h4>
+                            <hr/>
+                            <div class="row" id="repricing_div">
+
+                            </div>
+                        </div>
+                    </div>
+                `;
+           }
+           breadcrumb_txt += `
+                    </ul>
+           `;
+           order_detail_txt += `</span>
+           `;
+           if (book_obj.state != 'issued')
+           {
+                order_detail_txt += `<span style="font-size: 15px; font-weight: bold; float:right;" aria-hidden="true">Hold Date: `+ book_obj.hold_date +`</span>`;
+           }
+
+           for (i in rooms)
+           {
+                room_txt += `
+                    <tr>
+                        <td>`+rooms[i].room_number+`</td>
+                        <td>`+rooms[i].room_name+`</td>
+                        <td>`+rooms[i].room_bed_type+`</td>
+                        <td>`+rooms[i].room_hotel+`</td>
+                        <td>`+rooms[i].room_notes+`</td>
+                    </tr>
+                `;
+           }
+
+           var idx = 1;
+           for (i in passengers)
+           {
+                pax_txt += `
+                    <div class="row">
+                        <div class="col-lg-6" style="margin-bottom:10px;">
+                            <h6>`+ idx +`. `+ passengers[i].title +`. `+ passengers[i].first_name +` `+ passengers[i].last_name +`</h6>
+                            <span>`;
+
+                if(passengers[i].pax_type == 'ADT')
+                {
+                    pax_txt += `Adult`;
+                }
+                else if(passengers[i].pax_type == 'CHD')
+                {
+                    pax_txt += `Child`;
+                }
+                else
+                {
+                    pax_txt += `Infant`;
+                }
+
+                pax_txt += `- Birth Date: `+ passengers[i].birth_date +`
+                            </span>
+                        </div>
+                        <div class="col-lg-6">
+                            <div id="div_select_pax`+ idx +`" style="padding: 2px 2px 4px 2px;">
+                                Room `+ passengers[i].room_number +` ; `+ passengers[i].room_name +`/`+ passengers[i].room_bed_type +` ; `+ passengers[i].room_hotel +`
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                `;
+                idx += 1;
+           }
+
+           booker_txt += `
+                     <tr>
+                        <td>1</td>
+                        <td>`+book_obj.contact_title+`. `+book_obj.contact_first_name+` `+book_obj.contact_last_name+`</td>
+                        <td>`+book_obj.contact_email+`</td>
+                        <td>`+book_obj.contact_phone+`</td>
+                     </tr>
+           `;
+
+           document.getElementById('tour_book_breadcrumb').innerHTML += breadcrumb_txt;
+           document.getElementById('state_title').innerHTML += 'Your Order Has Been ' + cur_state + '!';
+           document.getElementById('tour_data_name').innerHTML += tour_package.name;
+           document.getElementById('tour_data_dates').innerHTML += ' ' + tour_package.departure_date_f + ' - ' + tour_package.arrival_date_f;
+           document.getElementById('tour_data_duration').innerHTML += ' ' + tour_package.duration + ' Days';
+           document.getElementById('tour_data_flight_visa').innerHTML += tour_package.flight + ' Flight, ' + tour_package.visa + ' Visa';
+           document.getElementById('tour_order_detail').innerHTML += order_detail_txt;
+           document.getElementById('list-of-rooms').innerHTML += room_txt;
+           document.getElementById('list-of-bookers').innerHTML += booker_txt;
+           document.getElementById('pax_list_table').innerHTML += pax_txt;
+           document.getElementById('full_payment_val').innerHTML += String(price_itinerary.total_itinerary_price);
+           document.getElementById('grand_total_hidden').value = parseInt(price_itinerary.total_itinerary_price);
+
+           document.getElementById("commission_total_content").innerHTML = getrupiah(price_itinerary.commission_total);
+           document.getElementById("adult_price").value = getrupiah(price_itinerary.adult_price);
+           document.getElementById("adult_amount").value = getrupiah(price_itinerary.adult_amount);
+           document.getElementById("adult_surcharge_price").value = getrupiah(price_itinerary.adult_surcharge_price);
+           document.getElementById("adult_surcharge_amount").value = getrupiah(price_itinerary.adult_surcharge_amount);
+           document.getElementById("child_price").value = getrupiah(price_itinerary.child_price);
+           document.getElementById("child_amount").value = getrupiah(price_itinerary.child_amount);
+           document.getElementById("child_surcharge_price").value = getrupiah(price_itinerary.child_surcharge_price);
+           document.getElementById("child_surcharge_amount").value = getrupiah(price_itinerary.child_surcharge_amount);
+           document.getElementById("infant_price").value = getrupiah(price_itinerary.infant_price);
+           document.getElementById("infant_amount").value = getrupiah(price_itinerary.infant_amount);
+           document.getElementById("single_supplement_price").value = getrupiah(price_itinerary.single_supplement_price);
+           document.getElementById("single_supplement_amount").value = getrupiah(price_itinerary.single_supplement_amount);
+           document.getElementById("airport_tax_total").value = getrupiah(price_itinerary.airport_tax_total);
+           document.getElementById("airport_tax_amount").value = getrupiah(price_itinerary.airport_tax_amount);
+           document.getElementById("tipping_guide_total").value = getrupiah(price_itinerary.tipping_guide_total);
+           document.getElementById("tipping_guide_amount").value = getrupiah(price_itinerary.tipping_guide_amount);
+           document.getElementById("tipping_tour_leader_total").value = getrupiah(price_itinerary.tipping_tour_leader_total);
+           document.getElementById("tipping_tour_leader_amount").value = getrupiah(price_itinerary.tipping_tour_leader_amount);
+           document.getElementById("additional_charge_total").value = getrupiah(price_itinerary.additional_charge_total);
+           document.getElementById("additional_charge_amount").value = getrupiah(price_itinerary.additional_charge_amount);
+           document.getElementById("sub_total").value = getrupiah(price_itinerary.sub_total_itinerary_price);
+           document.getElementById("discount_total").value = getrupiah(price_itinerary.discount_total_itinerary_price);
+           document.getElementById("grand_total").value = getrupiah(price_itinerary.total_itinerary_price);
+
+           console.log(price_itinerary);
+
+           get_payment_rules(tour_package.id);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
