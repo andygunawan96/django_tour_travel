@@ -614,6 +614,7 @@ function tour_get_booking(order_number)
            var rooms = msg.result.response.response.rooms;
            var price_itinerary = msg.result.response.response.price_itinerary;
            var cur_state = '';
+           updownsell_txt = '';
            pax_txt = '';
            room_txt = '';
            booker_txt = '';
@@ -645,6 +646,45 @@ function tour_get_booking(order_number)
                 cur_state = 'Booked';
                 order_detail_txt += `Booked`;
                 document.getElementById('issued_btn_place').innerHTML += '<input class="primary-btn hold-seat-booking-train" type="button" value="Issued" data-toggle="modal" data-target="#issuedModal" style="width:100%;"/>';
+                document.getElementById('upsell_downsell_opt').innerHTML += `
+                    <div id="pricing">
+                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <button class="primary-btn-ticket" type="button" onclick="check_before_add_repricing();"><i class="fas fa-plus-circle"></i></button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:10px;" id="table_of_equation">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                    <hr/>
+                                    <center>
+                                        <input class="primary-btn-ticket" type="button" onclick="check_before_calculate();" value="Calculate">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('upsell_downsell_opt2').innerHTML += `
+                    <div class="row">
+                        <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                            <h4>Result Pricing</h4>
+                            <hr/>
+                            <div class="row" id="repricing_div">
+
+                            </div>
+                        </div>
+                    </div>
+                `;
            }
            breadcrumb_txt += `
                     </ul>
@@ -751,6 +791,8 @@ function tour_get_booking(order_number)
            document.getElementById("sub_total").value = getrupiah(price_itinerary.sub_total_itinerary_price);
            document.getElementById("discount_total").value = getrupiah(price_itinerary.discount_total_itinerary_price);
            document.getElementById("grand_total").value = getrupiah(price_itinerary.total_itinerary_price);
+
+           console.log(price_itinerary);
 
            get_payment_rules(tour_package.id);
        },

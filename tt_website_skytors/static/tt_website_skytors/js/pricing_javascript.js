@@ -1,7 +1,7 @@
 counter = 0;
-type_amount_repricing = []; // --> list of string
+type_amount_repricing = []; // --> list of string ['Fare', 'Commission']
 pax_type_repricing = []; // --> list of list ex : [['ADT','Adult'],['CHD','Child']]
-price_arr_repricing = {}; // --> dict of dict ex : {'Adult':{'fare':50,'tax':20}} -- di tambah total
+price_arr_repricing = {}; // --> dict of dict ex : {'Adult':{'total_price':50,'commission':20}} -- di tambah total
 //total wajib tinggal copy aja
 /*
 for(i in price_arr){
@@ -23,7 +23,7 @@ FORMAT DASAR
 function add_table_of_equation(){
     if(counter != 0){
         temp = counter-1;
-        if(document.getElementById("selection_fare"+temp).value == 'total' && type_amount.length != 0){
+        if(document.getElementById("selection_fare"+temp).value == 'total' && type_amount_repricing.length != 0){
             alert("Type amount has been reset please check!");
             text = '';
             for(i in type_amount_repricing){
@@ -131,18 +131,18 @@ function calculate(type){
                 if(selection_fare != 'total'){
                     price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + ( price_duplication[selection_pax][selection_fare] * parseFloat(selection_calculation) / 100 );
                     total = 0;
-                    if(type_amount.length != 0){
-                        for(j in type_amount)
-                            total += price_duplication[selection_pax][type_amount[j]];
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing)
+                            total += price_duplication[selection_pax][type_amount_repricing[j]];
                         price_duplication[selection_pax]['total'] = total;
                     }else{
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax][selection_fare];
                     }
                 }else{
-                    if(type_amount.length != 0){
-                        for(j in type_amount){
-                            total += price_duplication[selection_pax][type_amount[j]] + (price_duplication[selection_pax][type_amount[j]] * parseFloat(selection_calculation) / 100);
-                            price_duplication[selection_pax][type_amount[j]] = price_duplication[selection_pax][type_amount[j]] + (price_duplication[selection_pax][type_amount[j]] * parseFloat(selection_calculation) / 100);
+                    if(type_amount_repricing.length != 0){
+                        for(j in type_amount_repricing){
+                            total += price_duplication[selection_pax][type_amount_repricing[j]] + (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
+                            price_duplication[selection_pax][type_amount_repricing[j]] = price_duplication[selection_pax][type_amount_repricing[j]] + (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
                         }
                         price_duplication[selection_pax]['total'] = total
                     }else{

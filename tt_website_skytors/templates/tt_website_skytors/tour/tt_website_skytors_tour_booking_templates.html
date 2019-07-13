@@ -6,6 +6,7 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/pricing_javascript.js"></script>
 <script src="{{ static_path }}js/tour_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_tour.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
@@ -118,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom: 20px;">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">
                         <h4> Price Detail </h4>
                         <hr/>
@@ -312,7 +313,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="col-lg-8" id="upsell_downsell_opt">
+
+                </div>
+                <div class="col-lg-4" id="upsell_downsell_opt2">
+
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top: 20px;">
                     <div class="row">
                         <div class="col-lg-4" style="padding-bottom:15px;">
 
@@ -350,7 +357,7 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Now" onclick="tour_issued_booking('{{order_number}}');" style="width:100%;"/>
+                                <input class="primary-btn-ticket" type="button" value="Issued Now" onclick="tour_issued_booking('{{order_number}}');" style="width:100%;"/>
                             </div>
                         </div>
                     </div>
