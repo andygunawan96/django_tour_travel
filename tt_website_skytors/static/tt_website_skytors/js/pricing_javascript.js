@@ -163,7 +163,8 @@ function calculate(type){
                 }else{
                     if(type_amount_repricing.length != 0){
                         for(j in type_amount_repricing){
-                            total += price_duplication[selection_pax][type_amount_repricing[j]] + parseFloat(selection_calculation);
+                            if(type_amount_repricing!='Total')
+                                total += price_duplication[selection_pax][type_amount_repricing[j]] + parseFloat(selection_calculation);
                         }
                         price_duplication[selection_pax]['total'] = total;
                     }else{
@@ -212,8 +213,8 @@ function calculate(type){
                 }else{
                     if(type_amount_repricing.length != 0){
                         for(j in type_amount_repricing){
-                            price_duplication[selection_pax][type_amount_repricing[j]] = price_duplication[selection_pax][type_amount_repricing[j]] - (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
-                            total += price_duplication[selection_pax][type_amount_repricing[j]] -  parseFloat(selection_calculation) / 100;
+                            if(type_amount_repricing!='Total')
+                                total += price_duplication[selection_pax][type_amount_repricing[j]] -  parseFloat(selection_calculation) / 100;
                         }
                         price_duplication[selection_pax]['total'] = total;
                     }else{
