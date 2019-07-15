@@ -273,6 +273,8 @@ def update_passengers(request):
                 })
             except:
                 print('no passport exp date')
+        pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
+        pax['required'] = master_visa_id[len(passengers)]['required']
         passengers.append(pax)
 
     for pax in request.session['visa_create_passengers']['infant']:
@@ -287,6 +289,8 @@ def update_passengers(request):
                 })
             except:
                 print('no passport exp date')
+        pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
+        pax['required'] = master_visa_id[len(passengers)]['required']
         passengers.append(pax)
 
     data = {

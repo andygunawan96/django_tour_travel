@@ -255,13 +255,17 @@ function visa_hold_booking(val){
 
 function update_passenger(){
     data_pax = [];
+    passenger_type = '';
+    pax_count = 0;
     for(i in passenger){ //pax type
         for(k in passenger[i]){ //pax
             if(i != 'booker' && i != 'contact'){
                 console.log(passenger[i]);
                 console.log(k);
-                pax_count = parseInt(k) + 1;
-                var radios = document.getElementsByName('adult_visa_type'+pax_count);
+                if(i != passenger_type)
+                    pax_count = 0;
+                pax_count++;
+                var radios = document.getElementsByName(i+'_visa_type'+pax_count);
                 visa_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if(radios[j].checked == true){
@@ -269,7 +273,7 @@ function update_passenger(){
                     }
                 }
                 console.log(visa_type);
-                radios = document.getElementsByName('adult_entry_type'+pax_count);
+                radios = document.getElementsByName(i+'_entry_type'+pax_count);
                 entry_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if(radios[j].checked == true){
@@ -277,7 +281,7 @@ function update_passenger(){
                     }
                 }
                 console.log(entry_type);
-                radios = document.getElementsByName('adult_process_type'+pax_count);
+                radios = document.getElementsByName(i+'_process_type'+pax_count);
                 process_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if(radios[j].checked == true){
@@ -294,7 +298,7 @@ function update_passenger(){
                         for(count in visa.list_of_visa[j].requirements){
                             if(visa.list_of_visa[j].requirements[count].required == true){
                                 required.push({
-                                    'boolean': document.getElementById('adult_required'+pax_count+'_'+count).checked,
+                                    'boolean': document.getElementById(i+'_required'+pax_count+'_'+count).checked,
                                     'id': visa.list_of_visa[j].requirements[count].id
                                 });
                             }
@@ -522,7 +526,7 @@ function visa_get_data(data){
                                     <div id="adult_required{{counter}}">
                                         `;
                                     for(j in msg.result.response.passenger[i].visa.requirement){
-                                        text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passenger[i].visa.requirement[i].name+`</b></label><br/>`;
+                                        text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passenger[i].visa.requirement[j].name+`</b></label><br/>`;
                                     }
                                     text+=`
                                     </div>

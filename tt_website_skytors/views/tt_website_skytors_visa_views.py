@@ -329,8 +329,8 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            # 'order_number': request.POST['order_number'],
-            'order_number': 'VS.19070600014',
+            'order_number': request.POST['order_number'],
+            # 'order_number': 'VS.19070600014',
             # 'cookies': json.dumps(res['result']['cookies']),
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_booking_templates.html', values)
