@@ -615,6 +615,8 @@ function check_on_off_radio(pax_type,number,value){
     name = '';
     list_of_name = []
     console.log(number);
+    console.log(pax_type);
+    console.log(value);
     if(pax_type == 'adult'){
         pax_required = document.getElementById('adult_required'+number);
         pax_check = document.getElementById('adult_check'+number);
@@ -630,7 +632,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_entry = document.getElementsByName('child_entry_type'+number);
         pax_process = document.getElementsByName('child_process_type'+number);
         pax_price = document.getElementById('child_price'+number);
-        name = document.getElementById('adult_name'+number).innerHTML;
+        name = document.getElementById('child_name'+number).innerHTML;
     }else if(pax_type == 'infant'){
         pax_required = document.getElementById('infant_required'+number);
         pax_check = document.getElementById('infant_check'+number);
@@ -638,7 +640,7 @@ function check_on_off_radio(pax_type,number,value){
         pax_entry = document.getElementsByName('infant_entry_type'+number);
         pax_process = document.getElementsByName('infant_process_type'+number);
         pax_price = document.getElementById('infant_price'+number);
-        name = document.getElementById('adult_name'+number).innerHTML;
+        name = document.getElementById('infant_name'+number).innerHTML;
     }
     console.log(value);
     if(value == 'visa'){
