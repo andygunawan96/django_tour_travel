@@ -488,6 +488,7 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss',
               }
           });
+          $('.js-example-basic-single').select2();
         set_data(0,'origin');
         set_data(0,'destination');
         set_data(0,'provider');
@@ -575,6 +576,7 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss',
               }
           });
+          $('.js-example-basic-single').select2();
 
     }else if(type == 'activity'){
         text += `
@@ -628,9 +630,10 @@ function add_table_of_line(type){
               locale: {
                   format: 'DD MMM YYYY hh:mm:ss',
               }
-          });
+        });
+        $('.js-example-basic-single').select2();
     }
-    $('.js-example-basic-single').select2();
+
 
     counter_line++;
 }

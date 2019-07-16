@@ -64,7 +64,7 @@ def api_models(request):
             res = sell_visa(request)
         elif req_data['action'] == 'update_passengers':
             res = update_passengers(request)
-        elif req_data['action'] == 'update_contact':
+        elif req_data['action'] == 'update_contacts':
             res = update_contact(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
@@ -235,7 +235,7 @@ def update_contact(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "update_contact",
+        "action": "update_contacts",
         "signature": request.session['visa_signature'],
     }
 
@@ -299,7 +299,7 @@ def update_passengers(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "update_passenger",
+        "action": "update_passengers",
         "signature": request.session['visa_signature'],
     }
 
