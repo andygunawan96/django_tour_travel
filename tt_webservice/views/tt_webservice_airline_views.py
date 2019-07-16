@@ -178,7 +178,7 @@ def search2(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:
         for journey in res['result']['response']['journeys']:
@@ -304,7 +304,7 @@ def get_price_itinerary(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     try:
         if res['result']['error_code'] == 0:
@@ -340,7 +340,7 @@ def get_fare_rules(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     try:
         if res['result']['error_code'] == 0:
@@ -372,7 +372,7 @@ def sell_journeys(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     return res
 
@@ -388,7 +388,7 @@ def update_contacts(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     return res
 
@@ -443,7 +443,7 @@ def update_passengers(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     return res
 
@@ -460,7 +460,7 @@ def commit_booking(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airlines', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
 
     # if res['result']['error_code'] == 0:
     #     request.session['airline_order_number'] = res['result']['response']['order_number']
