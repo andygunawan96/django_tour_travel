@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/visa_javascript.js"></script>
 <script src="{{ static_path }}js/agent_javascript.js"></script>
 <script src="{{ static_path }}js/pricing_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js"></script>
 
 <script>
     time = 300;
@@ -290,6 +291,10 @@
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
+                        <h4>Payment Method</h4><hr/>
+
+                    </div>
                 </div>
                 <div class="col-lg-8">
                     <div id="pricing">
@@ -335,7 +340,6 @@
                         <div class="col-lg-4" style="padding-bottom:15px;"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>
                         </div>
                     </div>
                 </div>
@@ -422,6 +426,8 @@
         set_value_radio_first('infant',parseInt(i)+1);
     for(i in passenger.elder)
         set_value_radio_first('elder',parseInt(i)+1);
+    get_payment_acq();
+    testing_bca();
 </script>
 <!-- loader -->
 {% endblock %}

@@ -7,7 +7,9 @@ from ..views import tt_webservice_activity_views as ActivityWebserviceView
 from ..views import tt_webservice_airline_views as AirlineWebserviceView
 from ..views import tt_webservice_tour_views as TourWebserviceView
 from ..views import tt_webservice_hotel_views as HotelWebserviceView
-from ..views import tt_webservice_visa as VisaWebserviceView
+from ..views import tt_webservice_visa_views as VisaWebserviceView
+from ..views import tt_webservice_registration_views as RegisterWebserviceView
+from ..views import tt_webservice_bca_views as BcaWebserviceView
 
 app_name = 'tt_webservice'
 
@@ -20,6 +22,8 @@ urlpatterns = [
     re_path('/airline', AirlineWebserviceView.api_models, name="airline"),
     re_path('/tour', TourWebserviceView.api_models, name="tour"),
     re_path('/hotel', HotelWebserviceView.api_models, name="hotel"),
+    re_path('/registration', RegisterWebserviceView.api_models, name="registration"),
     re_path('/visa', VisaWebserviceView.api_models, name="visa"),
+    re_path('/bca', BcaWebserviceView.api_models, name="bca"),
     # url(r'^$', views.index),
 ]
