@@ -57,5 +57,26 @@ function set_city(){
         text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
     }
     document.getElementById('city_id').innerHTML = text;
-    $('#city_id').niceSelect('update');
+    console.log(text);
+
+}
+
+function agent_register_get_config(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/registration",
+       headers:{
+            'action': 'get_config',
+       },
+       data: {
+
+       },
+       success: function(msg) {
+            console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
 }

@@ -4,11 +4,11 @@
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
-<script src="{{ static_path }}js/registration_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_registration.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js"></script>
 <script>
     city = [];
     country_list = [];
@@ -247,155 +247,164 @@
 
             <form id="agent_registration" class="form-wrap" action="{% url 'tt_website_skytors:registration_register'%}" method="post" style="padding:0; text-align:unset; width:100%;" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="col-lg-12 div-register-partnership" style="margin-top:10px; margin-bottom:15px;">
-                    <div style="background-color:white; padding:15px;">
-                        <h3 style="margin-bottom:15px;">Register</h3>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="agent_type">Agent Type<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <div class="form-select" id="default-select">
-                                        <select id="agent_type" name="agent_type" required="1">
-                                            <option value="2">Citra</option>
-                                            <option value="3">JaPro</option>
-                                            <option value="11">FiPro</option>
-                                        </select>
+                <div class="row">
+                    <div class="col-lg-8 div-register-partnership" style="margin-top:10px; margin-bottom:15px;">
+                        <div style="background-color:white; padding:15px;">
+                            <h3 style="margin-bottom:15px;">Register</h3>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="agent_type">Agent Type<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="agent_type" name="agent_type" required="1">
+                                                <option value="2">Citra</option>
+                                                <option value="3">JaPro</option>
+                                                <option value="11">FiPro</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="person_name">Name<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="person_name" name="person_name" required="1" placeholder="Ex: John Smith"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="comp_name">Agent Name<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name" required="1" placeholder="Ex: Rodex Travel"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="person_name">Name<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control o_website_form_input" id="person_name" name="person_name" required="1" placeholder="Ex: John Smith"/>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="birth_date">Birth Date<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type='text' class="form-control o_website_form_input date-picker-birth" id="birth_date" name="birth_date" required="1" autocomplete="off"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="email">Email<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="email" class="form-control o_website_form_input" id="email" name="email" required="1"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="comp_name">Agent Name<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name" required="1" placeholder="Ex: Rodex Travel"/>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="mobile">Mobile<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="mobile" name="mobile" required="1"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="phone">Phone</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="phone" name="phone"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="birth_date">Birth Date<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket">
-                                    <input type='text' class="form-control o_website_form_input date-picker-birth" id="birth_date" name="birth_date" required="1" autocomplete="off"/>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="street">Street<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="street2">Street #2</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="email">Email<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket">
-                                    <input type="email" class="form-control o_website_form_input" id="email" name="email" required="1"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="mobile">Mobile<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control o_website_form_input" id="mobile" name="mobile" required="1"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="phone">Phone</span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control o_website_form_input" id="phone" name="phone"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="street">Street<span class="required-txt">* </span></span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <span class="control-label" for="street2">Street #2</span>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <span class="control-label" for="city_id">Country<span class="required-txt">* </span></span>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <div class="form-select">
-                                                <select onchange="set_city();" id="country_id" name="country_id" required="1">
-                                                    {% for country in countries %}
-                                                    {% if country.name == 'Indonesia' %}
-                                                    <option value="{{country.id}}" selected="">{{country.name}}</option>
-                                                    {% else %}
-                                                    <option value="{{country.id}}">{{country.name}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                </select>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <span class="control-label" for="city_id">Country<span class="required-txt">* </span></span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select">
+                                                    <select onchange="set_city();" id="country_id" name="country_id" required="1">
+                                                        {% for country in countries %}
+                                                        {% if country.name == 'Indonesia' %}
+                                                        <option value="{{country.id}}" selected="">{{country.name}}</option>
+                                                        {% else %}
+                                                        <option value="{{country.id}}">{{country.name}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <span class="control-label" for="city_id">City<span class="required-txt">* </span></span>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <div class="form-select">
-                                                <select id="city_id" name="city_id" required="1">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <span class="control-label" for="city_id">City<span class="required-txt">* </span></span>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-plane-departure icon-search-ticket"></i>
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="city_id" style="width:100%;" id="city_id" onchange="set_city()">
 
-                                                </select>
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="city_id_name" id="city_id_name" />
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <span class="control-label" for="zip">ZIP</span>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <span class="control-label" for="resume">ID Card</span>
-                                        <div class="input-container-search-ticket">
-                                            <input type="file" class="form-control o_website_form_input" id="resume" name="Resume"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                        <span class="control-label" for="socmed_id">Know us From?</span>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <div class="form-select">
-                                                <select class="form-control" id="socmed_id" name="socmed_id">
-
-                                                </select>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <span class="control-label" for="zip">ZIP</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <span class="control-label" for="resume">ID Card</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="file" class="form-control o_website_form_input" id="resume" name="Resume"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <span class="control-label" for="socmed_id">Know us From?</span>
+                                            <div class="input-container-search-ticket btn-group">
+                                                <div class="form-select">
+                                                    <select class="form-control" id="socmed_id" name="socmed_id">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important;">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">I agree to the Terms and Conditions given by Rodex Tours and Travels</span>
+                                        <input type="checkbox" value="" name="tacagree" required="1" style="margin-right: 5px;"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important;">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">I agree to the Terms and Conditions given by Rodex Tours and Travels</span>
-                                    <input type="checkbox" value="" name="tacagree" required="1" style="margin-right: 5px;"/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
-                                <button class="primary-btn text-uppercase" type="submit" value="Submit">
-                                    Submit
-                                </button>
-                            </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
+                            <h4>Payment Method</h4><hr/>
                         </div>
                     </div>
                 </div>
@@ -473,7 +482,11 @@
     </div>
 </footer>
 <script>
-    get_social_media();
-    set_city();
+    $( document ).ready(function() {
+        $('.js-example-basic-single').select2();
+        agent_register_get_config();
+        get_payment_acq();
+    });
+
 </script>
 {% endblock %}
