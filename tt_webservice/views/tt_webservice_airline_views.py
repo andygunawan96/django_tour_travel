@@ -167,7 +167,7 @@ def search2(request):
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
         "provider": request.POST['provider'],
-        "carrier_codes": ['SQ'],
+        "carrier_codes": [],
         "is_combo_price": is_combo_price
 
     }

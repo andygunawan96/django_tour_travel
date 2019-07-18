@@ -23,7 +23,7 @@ def api_models(request):
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
 
-def login(request):
+def login(request,func):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -42,7 +42,10 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
 
     request.session['signature'] = res['result']['response']['signature']
-    get_config(request)
+    if func == 'get_config':
+        get_config(request)
+    elif func == 'register':
+        register(request)
     return res
 
 def get_config(request):
@@ -57,30 +60,19 @@ def get_config(request):
     }
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
     if res['result']['error_code'] != 0:
-        login(request)
+        login(request, 'get_config')
     return res
 
 def register(request):
-    data = {
-        'comp_name': request.session['registration_request']['comp_name'],
-        'birth_date': request.session['registration_request']['birth_date'],
-        'name': request.session['registration_request']['name'],
-        'email': request.session['registration_request']['email'],
-        'socmed_id': 1,
-        'agent_type': request.session['registration_request']['agent_type'],
-        'city_id': 269,
-        'phone': request.session['registration_request']['phone'],
-        'mobile': request.session['registration_request']['mobile'],
-        'street': request.session['registration_request']['street'],
-        'street2': request.session['registration_request']['street2'],
-        'zip': request.session['registration_request']['zip'],
-    }
+    data = request.session['registration_request']
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "agent_registration",
-        "signature": request.session['issued_offline_signature'],
+        "signature": request.session['signature'],
     }
     res = util.send_request(url=url + "agent/session", data=data, headers=headers, method='POST')
+    if res['result']['error_code'] != 0:
+        login(request, 'register')
 
     return res
