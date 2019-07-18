@@ -1381,18 +1381,21 @@ function airline_detail(){
            <hr/>
            <h6>Departure</h6>`;
            $text ='Departure\n';
+           count = 0;
            for(i in airline_pick[0].segments){
                if(airline_pick[0].segments[i].journey_type == 'DEP'){
                    $text += airline_carriers[airline_pick[0].segments[i].carrier_code] + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
                    $text += airline_pick[0].segments[i].departure_date + ' → ' + airline_pick[0].segments[i].arrival_date + '\n';
                    $text += airline_pick[0].segments[i].origin_name + ' (' + airline_pick[0].segments[i].origin_city + ') - ';
                    $text += airline_pick[0].segments[i].destination_name + ' (' + airline_pick[0].segments[i].destination_city + ')\n\n';
-                   for(j in airline_pick[0].carrier_code_list)
-                       text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[j]+`.png"><span> </span>`;
+                   if(count == 0)
+                       for(j in airline_pick[0].carrier_code_list)
+                           text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[j]+`.png"><span> </span>`;
 
                }else{
                    break;
                }
+               count++;
            }
            console.log($text);
         text+=`</div>
@@ -1562,13 +1565,20 @@ function airline_detail(){
                 <hr/>
                 <h6>Return</h6>`;
                 $text ='Return\n';
+                count = 0;
                    for(i in airline_pick[1].segments){
-                       if(airline_pick[1].segments[i].journey_type=='RET')
-                       $text += airline_carriers[airline_pick[1].segments[i].carrier_code] + ' ' + airline_pick[1].segments[i].carrier_code + airline_pick[1].segments[i].carrier_number + '\n';
-                       $text += airline_pick[1].segments[i].departure_date + ' → ' + airline_pick[1].segments[i].arrival_date + '\n';
-                       $text += airline_pick[1].segments[i].origin_name + ' (' + airline_pick[1].segments[i].origin_city + ') - '
-                       $text += airline_pick[1].segments[i].destination_name + ' (' + airline_pick[1].segments[i].destination_city + ')\n\n'
-                       text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[1].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[1].carrier_code_list[i]+`.png"><span> </span>`;
+                       if(airline_pick[1].segments[i].journey_type=='RET'){
+                           $text += airline_carriers[airline_pick[1].segments[i].carrier_code] + ' ' + airline_pick[1].segments[i].carrier_code + airline_pick[1].segments[i].carrier_number + '\n';
+                           $text += airline_pick[1].segments[i].departure_date + ' → ' + airline_pick[1].segments[i].arrival_date + '\n';
+                           $text += airline_pick[1].segments[i].origin_name + ' (' + airline_pick[1].segments[i].origin_city + ') - '
+                           $text += airline_pick[1].segments[i].destination_name + ' (' + airline_pick[1].segments[i].destination_city + ')\n\n'
+                           if(count == 0)
+                               for(j in airline_pick[1].carrier_code_list)
+                                    text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[1].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[1].carrier_code_list[j]+`.png"><span> </span>`;
+                       }else{
+                           break;
+                       }
+                       count++;
                    }
             text+=`</div>`;
 
