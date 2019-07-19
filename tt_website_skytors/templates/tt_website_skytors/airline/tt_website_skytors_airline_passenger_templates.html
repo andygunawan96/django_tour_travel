@@ -33,11 +33,12 @@
     triggered_balance();
     // &&& separator
     airline_pick = `{{airline_pick}}`;
-    airline_pick = airline_pick.replace(/&quot;/g, '"');
-    airline_pick = airline_pick.replace(/&amp;/g, '&');
+    airline_pick = airline_pick.replace(/&#39;/g, '"');
+    airline_pick = airline_pick.replace(/True/g, 'true');
+    airline_pick = airline_pick.replace(/False/g, 'false');
+    //airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
     airline_pick = JSON.parse(airline_pick);
-    console.log(airline_pick);
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
     price_itinerary = price_itinerary.replace(/None/g, '"None"');
@@ -182,12 +183,13 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="booker_nationality" name="booker_nationality">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="airline_autocomplete('booker_nationality')">
+                                                        {% for key, country in countries.items %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="booker_nationality" id="booker_nationality" />
                                             </div>
                                         </div>
 
@@ -206,12 +208,13 @@
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
-                                                        <select id="booker_phone_code" name="booker_phone_code">
-                                                            {% for country in countries%}
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" placeholder="Nationality" onchange="airline_autocomplete('booker_phone_code')">
+                                                            {% for key, country in countries.items%}
                                                             <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                             {% endfor %}
                                                         </select>
                                                     </div>
+                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
@@ -355,12 +358,13 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="adult_nationality{{forloop.counter}}" name="adult_nationality{{forloop.counter}}">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="airline_autocomplete('adult_nationality{{forloop.counter}}')">
+                                                        {% for key, country in countries.items %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -386,13 +390,13 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="adult_country_of_issued{{forloop.counter}}" name="adult_country_of_issued{{forloop.counter}}">
-                                                        <option value="">Select Country</option>
-                                                        {% for country in countries%}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="airline_autocomplete('adult_country_of_issued{{forloop.counter}}')">
+                                                        {% for key, country in countries.items %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -407,14 +411,16 @@
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select id="adult_phone_code{{forloop.counter}}" name="adult_phone_code{{forloop.counter}}">
-                                                                {% for country in countries%}
-                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
+                                                            <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="airline_autocomplete('adult_phone_code{{forloop.counter}}')">
+                                                                {% for key, country in countries.items %}
+                                                                <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>
+                                                        <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
@@ -527,12 +533,13 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="child_nationality{{forloop.counter}}" name="child_nationality{{forloop.counter}}">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="airline_autocomplete('child_nationality{{forloop.counter}}')">
+                                                        {% for key, country in countries.items %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -560,13 +567,13 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="child_country_of_issued{{forloop.counter}}" name="child_country_of_issued{{forloop.counter}}">
-                                                        <option value="">Select Country</option>
-                                                        {% for country in countries%}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="airline_autocomplete('child_country_of_issued{{forloop.counter}}')">
+                                                        {% for key, country in countries.items %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>
@@ -674,13 +681,15 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="infant_nationality{{forloop.counter}}" name="infant_nationality{{forloop.counter}}">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="airline_autocomplete('infant_nationality{{forloop.counter}}')">
+                                                        {% for key, country in countries.items %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
                                             </div>
+
                                         </div>
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
@@ -706,13 +715,13 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="infant_country_of_issued{{forloop.counter}}" name="infant_country_of_issued{{forloop.counter}}">
-                                                        <option value="">Select Country</option>
-                                                        {% for country in countries%}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="airline_autocomplete('infant_country_of_issued{{forloop.counter}}')">
+                                                        {% for key, country in countries.items %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>
@@ -751,7 +760,24 @@
 
 <script>
     airline_detail();
-
+    $( document ).ready(function() {
+      $('.js-example-basic-single').select2();
+      airline_autocomplete('booker_nationality');
+      airline_autocomplete('booker_phone_code');
+      {% for adult in adults%}
+          airline_autocomplete('adult_nationality{{forloop.counter}}');
+          airline_autocomplete('adult_country_of_issued{{forloop.counter}}');
+          airline_autocomplete('adult_phone_code{{forloop.counter}}');
+      {% endfor %}
+      {% for child in childs%}
+          airline_autocomplete('child_nationality{{forloop.counter}}');
+          airline_autocomplete('child_country_of_issued{{forloop.counter}}');
+      {% endfor %}
+      {% for infant in infants%}
+          airline_autocomplete('infant_nationality{{forloop.counter}}');
+          airline_autocomplete('infant_country_of_issued{{forloop.counter}}');
+      {% endfor %}
+    });
     $(function() {
       for (var i = 1; i <= adult; i++){
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({

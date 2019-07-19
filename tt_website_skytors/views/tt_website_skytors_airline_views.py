@@ -50,11 +50,6 @@ def search(request):
 
         airline_carriers = response['result']['response']['airline']['carriers']
 
-        airline_carriers.pop('SO')
-        airline_carriers.pop('E9')
-        airline_carriers.pop('7L')
-        airline_carriers.pop('UD')
-
         airline_provider_list = [
             {
                 'value': 'all',
@@ -230,15 +225,6 @@ def passenger(request):
 
         # agent
 
-        airline_country = response['result']['response']['airline']['country']
-
-        airline_carriers = response['result']['response']['airline']['carriers']
-
-        airline_carriers.pop('SO')
-        airline_carriers.pop('E9')
-        airline_carriers.pop('7L')
-        airline_carriers.pop('UD')
-
         # get_balance(request)
 
         #pax
@@ -255,20 +241,21 @@ def passenger(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
             airline_pick = json.loads(request.POST['airline_pick'])
-
+            for idx, journey in enumerate(airline_pick):
+                journey['sequence'] = idx + 1
             for journey in airline_pick:
                 for segment in journey['segments']:
-                    airline['segments']['fare_pick'] = request.session['airline_get_price_request']['journeys_booking'][journey['sequence'] - 1]['segments'][segment['sequence'] - 1]['fare_pick']
+                    segment['fare_pick'] = request.session['airline_get_price_request']['journeys_booking'][journey['sequence'] - 1]['segments'][segment['sequence'] - 1]['fare_pick']
             request.session['airline_pick'] = airline_pick
 
         except:
             pass
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'countries': airline_country,
+            'countries': response['result']['response']['airline']['country'],
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
-            'airline_carriers': airline_carriers,
+            'airline_carriers': response['result']['response']['airline']['carriers'],
             'airline_pick': request.session['airline_pick'],
             'adults': adult,
             'childs': child,
@@ -397,11 +384,6 @@ def ssr(request):
         }
 
         airline_carriers = response['result']['response']['airline']['carriers']
-
-        airline_carriers.pop('SO')
-        airline_carriers.pop('E9')
-        airline_carriers.pop('7L')
-        airline_carriers.pop('UD')
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -640,13 +622,6 @@ def review(request):
 
         airline_carriers = response['result']['response']['airline']['carriers']
 
-        airline_carriers.pop('SO')
-        airline_carriers.pop('E9')
-        airline_carriers.pop('7L')
-        airline_carriers.pop('UD')
-
-        json_airline_pick = request.session['airline_pick'].replace('&&&', ',')
-
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -655,7 +630,7 @@ def review(request):
             'price': request.session['airline_price_itinerary'],
             'airline_pick': request.session['airline_pick'],
             'back_page': request.META.get('HTTP_REFERER'),
-            'json_airline_pick': json.loads(json_airline_pick),
+            'json_airline_pick': request.session['airline_pick'],
             'airline_get_price_request': request.session['airline_get_price_request'],
             'airline_carriers': airline_carriers,
             'additional_price': additional_price,

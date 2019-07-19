@@ -777,7 +777,9 @@ $(document).ready(function(){
             node.innerHTML = text;
             document.getElementById("airline_date_search").appendChild(node);
             node = document.createElement("div");
-
+            document.getElementById('is_combo_price').disabled = true;
+            document.getElementById('is_combo_price').checked = false;
+            document.getElementById('checkbox_combo_price').style.display = "none";
             document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
             document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
             $('input[name="airline_departure"]').daterangepicker({
@@ -797,6 +799,8 @@ $(document).ready(function(){
             document.getElementById("airline_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");
+            document.getElementById('is_combo_price').disabled = false;
+            document.getElementById('checkbox_combo_price').style.display = "block";
             text+=`
             <span class="span-search-ticket">Departure - Return</span>
             <div class="input-container-search-ticket">
@@ -824,7 +828,7 @@ $(document).ready(function(){
 
                 document.getElementById("airline_return").value = date_tomorrow;
 
-                alert(document.getElementById("airline_return").value);
+//                alert(document.getElementById("airline_return").value);
                 document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
 
                 $('input[name="airline_departure_return"]').daterangepicker({
@@ -854,8 +858,6 @@ $(document).ready(function(){
                 document.getElementById("airline_return").value = document.getElementById("airline_return_temp").value;
                 document.getElementById("airline_departure_return").value = document.getElementById("airline_departure").value + '-' + document.getElementById("airline_return").value;
 
-                alert(document.getElementById("airline_departure").value);
-                alert(document.getElementById("airline_return").value);
                 $('input[name="airline_departure_return"]').daterangepicker({
                   singleDatePicker: false,
                   autoUpdateInput: true,

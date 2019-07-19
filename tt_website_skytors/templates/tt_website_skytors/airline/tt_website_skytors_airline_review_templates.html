@@ -10,12 +10,15 @@
 <script src="{{ static_path }}js/airline_javascript.js"></script>
 
 <script>
-    airline_pick = `{{airline_pick}}`;
     additional_price = {{additional_price}};
-    airline_pick = airline_pick.replace(/&quot;/g, '"');
-    airline_pick = airline_pick.replace(/&amp;/g, '&');
+    airline_pick = `{{airline_pick}}`;
+    airline_pick = airline_pick.replace(/&#39;/g, '"');
+    airline_pick = airline_pick.replace(/True/g, 'true');
+    airline_pick = airline_pick.replace(/False/g, 'false');
+    //airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
     airline_pick = JSON.parse(airline_pick);
+    console.log(airline_pick);
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
     price_itinerary = price_itinerary.replace(/None/g, '"None"');

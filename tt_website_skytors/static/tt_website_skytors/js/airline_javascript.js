@@ -375,6 +375,8 @@ function airline_autocomplete(type){
         document.getElementById('airline_origin_flight').value = document.getElementById('select2-origin_id_flight-container').innerHTML;
     else if(type == 'destination')
         document.getElementById('airline_destination_flight').value = document.getElementById('select2-destination_id_flight-container').innerHTML;
+    else
+        document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
 }
 
 function airline_switch(){
@@ -785,7 +787,7 @@ function sort(airline){
                                     <div class="col-lg-12">`;
                                     for(j in airline[i].carrier_code_list)
                                     text+=`
-                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]]+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
+                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
                                     if(airline[i].is_combo_price == true){
                                         text+=`<span style="float:right; font-weight: bold; padding:5px; border:2px solid #f15a22;">Combo Price</span>`;
                                     }
@@ -953,7 +955,7 @@ function sort(airline){
                             }
                             text+=`
                             <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">
-                                <span style="font-weight: bold;">`+airline_carriers[airline[i].segments[j].carrier_code]+` - </span>
+                                <span style="font-weight: bold;">`+airline_carriers[airline[i].segments[j].carrier_code].name+` - </span>
                                 <span style="color:#f15a22; font-weight: bold;">`+airline[i].segments[j].carrier_name+`</span><hr/>`;
                                 for(k in airline[i].segments[j].legs)
                                 text+=`
@@ -1059,7 +1061,7 @@ function sort(airline){
                                 <div class="col-lg-12">`;
                                 for(j in airline[i].carrier_code_list)
                                 text+=`
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]]+`" class="airline-logo" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><span> </span>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><span> </span>`;
                                 text+=`
                                 </div>
                             </div>
@@ -1155,7 +1157,7 @@ function sort(airline){
                     }
                     text+=`
                         <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white;">
-                            <span style="font-weight: bold;">`+airline_carriers[airline[i].segments[j].carrier_code]+` - </span>
+                            <span style="font-weight: bold;">`+airline_carriers[airline[i].segments[j].carrier_code].name+` - </span>
                             <span style="color:#f15a22; font-weight: bold;">`+airline[i].segments[j].carrier_name+`</span><hr/>`;
                             text+=`
                             <div class="row">
@@ -1384,13 +1386,13 @@ function airline_detail(){
            count = 0;
            for(i in airline_pick[0].segments){
                if(airline_pick[0].segments[i].journey_type == 'DEP'){
-                   $text += airline_carriers[airline_pick[0].segments[i].carrier_code] + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
+                   $text += airline_carriers[airline_pick[0].segments[i].carrier_code].name + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
                    $text += airline_pick[0].segments[i].departure_date + ' → ' + airline_pick[0].segments[i].arrival_date + '\n';
                    $text += airline_pick[0].segments[i].origin_name + ' (' + airline_pick[0].segments[i].origin_city + ') - ';
                    $text += airline_pick[0].segments[i].destination_name + ' (' + airline_pick[0].segments[i].destination_city + ')\n\n';
                    if(count == 0)
                        for(j in airline_pick[0].carrier_code_list)
-                           text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[j]+`.png"><span> </span>`;
+                           text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[0].segments[i].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[0].carrier_code_list[j]+`.png"><span> </span>`;
 
                }else{
                    break;
@@ -1439,7 +1441,7 @@ function airline_detail(){
                $text ='Return\n';
                for(i in airline_pick[0].segments){
                    if(airline_pick[0].segments[i].journey_type == 'RET'){
-                       $text += airline_carriers[airline_pick[0].segments[i].carrier_code] + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
+                       $text += airline_carriers[airline_pick[0].segments[i].carrier_code].name + ' ' + airline_pick[0].segments[i].carrier_code + airline_pick[0].segments[i].carrier_number + '\n';
                        $text += airline_pick[0].segments[i].departure_date + ' → ' + airline_pick[0].segments[i].arrival_date + '\n';
                        $text += airline_pick[0].segments[i].origin_name + ' (' + airline_pick[0].segments[i].origin_city + ') - ';
                        $text += airline_pick[0].segments[i].destination_name + ' (' + airline_pick[0].segments[i].destination_city + ')\n\n';
@@ -1568,13 +1570,13 @@ function airline_detail(){
                 count = 0;
                    for(i in airline_pick[1].segments){
                        if(airline_pick[1].segments[i].journey_type=='RET'){
-                           $text += airline_carriers[airline_pick[1].segments[i].carrier_code] + ' ' + airline_pick[1].segments[i].carrier_code + airline_pick[1].segments[i].carrier_number + '\n';
+                           $text += airline_carriers[airline_pick[1].segments[i].carrier_code].name + ' ' + airline_pick[1].segments[i].carrier_code + airline_pick[1].segments[i].carrier_number + '\n';
                            $text += airline_pick[1].segments[i].departure_date + ' → ' + airline_pick[1].segments[i].arrival_date + '\n';
                            $text += airline_pick[1].segments[i].origin_name + ' (' + airline_pick[1].segments[i].origin_city + ') - '
                            $text += airline_pick[1].segments[i].destination_name + ' (' + airline_pick[1].segments[i].destination_city + ')\n\n'
                            if(count == 0)
                                for(j in airline_pick[1].carrier_code_list)
-                                    text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[1].segments[i].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[1].carrier_code_list[j]+`.png"><span> </span>`;
+                                    text+=`<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[1].segments[i].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[1].carrier_code_list[j]+`.png"><span> </span>`;
                        }else{
                            break;
                        }
@@ -2158,11 +2160,11 @@ function get_airline_review(){
                 text += '<h6>Return</h6>';
             text+= `<div class="row">`;
             text+= `<div class="col-lg-12">
-            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[i].segments[j].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
+            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
             </div>`;
 
             text+= `<div class="col-lg-12">
-                        <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code]+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
+                        <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
             if(airline_get_price_request.journeys_booking[i].segments[j].fare_pick != ''){
                  console.log(airline_get_price_request.journeys_booking[i].segments[j].fare_pick);
                  text+=`<h6>Class: `+airline_pick[i].segments[j].fares[airline_get_price_request.journeys_booking[i].segments[j].fare_pick].subclass+`</h6>`;
