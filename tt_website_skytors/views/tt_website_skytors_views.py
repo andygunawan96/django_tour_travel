@@ -60,12 +60,7 @@ def index(request):
 
                 airline_country = response['result']['response']['airline']['country']
 
-                airline_carriers = response['result']['response']['airline']['carriers']
-
-                airline_carriers.pop('SO')
-                airline_carriers.pop('E9')
-                airline_carriers.pop('7L')
-                airline_carriers.pop('UD')
+                # airline_carriers = response['result']['response']['airline']['carriers']
 
                 airline_provider_list = [
                     {
@@ -248,10 +243,6 @@ def reservation(request):
 
     airline_carriers = response['result']['response']['airline']['carriers']
 
-    airline_carriers.pop('SO')
-    airline_carriers.pop('E9')
-    airline_carriers.pop('7L')
-    airline_carriers.pop('UD')
     new_airline_carriers = {}
     for key, value  in airline_carriers.items():
         new_airline_carriers[value] = key

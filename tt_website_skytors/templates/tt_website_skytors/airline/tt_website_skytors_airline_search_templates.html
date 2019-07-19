@@ -59,6 +59,18 @@
                                         <input type="radio" name="radio_airline_type" {%if airline_request.direction == 'RT' %} checked="checked" {% endif %} id="radio_airline_rt" value="roundtrip">
                                         <span class="checkmark-radio"></span>
                                     </label>
+                                    <label class="radio-button-custom">
+                                        <span style="font-size:14px; color:white;">Multy-City</span>
+                                        <input type="radio" name="radio_airline_type" value="roundtrip">
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' %}display:none; {% endif %}" id="checkbox_combo_price">
+                                        <label class="check_box_custom">
+                                            <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                            <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+                                    </div>
                                 </div>
 
                                 <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">

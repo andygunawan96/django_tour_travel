@@ -499,7 +499,7 @@ function get_price_itinerary(val){
 
     value_pick.push(val);
     airline_pick_list.push(airline_data_filter[val]);
-
+    console.log(airline_pick_list);
     price = 0;
     if(airline_request.direction == 'OW')
         journey.push({'segments':segment, 'provider': provider});
@@ -933,7 +933,7 @@ function get_price_itinerary(val){
                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                             </tr>
                                         </table>
-                                        <span style="font-size:13px;">`+airline_pick_list[0].destination_city+`</span></br>
+                                        <span style="font-size:13px;">`+airline_pick_list[0].origin_city+`</span></br>
                                         <span style="font-size:13px;">`+date_return[1].split(' - ')[1]+` `+date_return[1].split(' - ')[0]+`</span></br>
                                     </div>
                                     <div class="col-lg-12" id="rules`+j+`">

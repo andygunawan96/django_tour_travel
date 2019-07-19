@@ -126,6 +126,36 @@ def signin(request):
                     'hotel_config': res_data['result']['response']['hotel_config'],
                 })
         except:
+            # airline
+            data = {'provider_type': 'airline'}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_carriers",
+                "signature": request.session['signature'],
+            }
+
+            res_carrier_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
+            data = {'provider_type': 'airline'}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_destinations",
+                "signature": request.session['signature'],
+            }
+
+            res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+            data = {}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_countries",
+                "signature": request.session['signature'],
+            }
+
+            res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
             #visa odoo12
             data = {
                 'provider': 'skytors_visa'
@@ -179,39 +209,7 @@ def signin(request):
             res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
                                                  cookies=res_activity['result']['cookies'], method='POST')
 
-            #airline
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_countries",
-                "signature": request.session['signature'],
-            }
 
-            res_country_airline = util.send_request(url=url + 'airlines/session', data=data, headers=headers,
-                                                    cookies=res_airline['result']['cookies'], method='POST')
-
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_carriers",
-                "signature": request.session['signature'],
-            }
-
-            res_carrier_airline = util.send_request(url=url + 'airlines/session', data=data, headers=headers,
-                                                    cookies=res_airline['result']['cookies'], method='POST')
-
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_destinations",
-                "signature": request.session['signature'],
-            }
-
-            res_destination_airline = util.send_request(url=url + 'airlines/session', data=data, headers=headers,
-                                                    cookies=res_airline['result']['cookies'], method='POST')
 
             res['result']['response'].update({
                 'balance': {
