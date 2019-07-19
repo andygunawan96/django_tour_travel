@@ -254,7 +254,13 @@ def passenger(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            request.session['airline_pick'] = request.POST['airline_pick']
+            airline_pick = json.loads(request.POST['airline_pick'])
+
+            for journey in airline_pick:
+                for segment in journey['segments']:
+                    airline['segments']['fare_pick'] = request.session['airline_get_price_request']['journeys_booking'][journey['sequence'] - 1]['segments'][segment['sequence'] - 1]['fare_pick']
+            request.session['airline_pick'] = airline_pick
+
         except:
             pass
         values = {
@@ -529,28 +535,28 @@ def review(request):
                 if i == 0:
                     if request.POST['myRadios'] == 'true':
                         adult[len(adult) - 1].update({
-                            'is_booker': True
+                            'is_also_booker': True
                         })
                     else:
                         adult[len(adult) - 1].update({
-                            'is_booker': False
+                            'is_also_booker': False
                         })
                 else:
                     adult[len(adult) - 1].update({
-                        'is_booker': False
+                        'is_also_booker': False
                     })
                 try:
                     if request.POST['passenger_cp' + str(i)] == 'true':
                         adult[len(adult) - 1].update({
-                            'is_contact': True
+                            'is_also_contact': True
                         })
                     else:
                         adult[len(adult) - 1].update({
-                            'is_contact': False
+                            'is_also_contact': False
                         })
                 except:
                     adult[len(adult) - 1].update({
-                        'is_contact': False
+                        'is_also_contact': False
                     })
                 try:
                     if request.POST['adult_cp' + str(i + 1)] == 'on':
@@ -567,11 +573,11 @@ def review(request):
                     if i == 0:
                         if request.POST['myRadios'] == 'yes':
                             contact[len(contact)].update({
-                                'is_booker': True
+                                'is_also_booker': True
                             })
                         else:
                             contact[len(contact)].update({
-                                'is_booker': False
+                                'is_also_booker': False
                             })
                 except:
                     pass
@@ -586,7 +592,7 @@ def review(request):
                     'mobile': request.POST['booker_phone'],
                     'nationality_code': request.POST['booker_nationality'],
                     'contact_id': request.POST['booker_id'],
-                    'is_booker': True
+                    'is_also_booker': True
                 })
 
             for i in range(int(request.session['airline_request']['child'])):
