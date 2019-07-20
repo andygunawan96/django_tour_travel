@@ -114,7 +114,15 @@
                                                 <input type="hidden" id="tour_id" name="tour_id" value="{{response.id}}"/>
                                                 <input type="hidden" id="tipping_guide" name="tipping_guide" value="{{response.tipping_guide}}"/>
                                                 <input type="hidden" id="tipping_tour_leader" name="tipping_tour_leader" value="{{response.tipping_tour_leader}}"/>
+                                                <input type="hidden" id="tipping_driver" name="tipping_driver" value="{{response.tipping_driver}}"/>
+                                                <input type="hidden" id="tipping_guide_child" name="tipping_guide" value="{{response.tipping_guide_child}}"/>
+                                                <input type="hidden" id="tipping_tour_leader_child" name="tipping_tour_leader" value="{{response.tipping_tour_leader_child}}"/>
+                                                <input type="hidden" id="tipping_driver_child" name="tipping_driver" value="{{response.tipping_driver_child}}"/>
+                                                <input type="hidden" id="tipping_guide_infant" name="tipping_guide" value="{{response.tipping_guide_infant}}"/>
+                                                <input type="hidden" id="tipping_tour_leader_infant" name="tipping_tour_leader" value="{{response.tipping_tour_leader_infant}}"/>
+                                                <input type="hidden" id="tipping_driver_infant" name="tipping_driver" value="{{response.tipping_driver_infant}}"/>
                                                 <input type="hidden" id="guiding_days" name="guiding_days" value="{{response.guiding_days}}"/>
+                                                <input type="hidden" id="driving_times" name="driving_times" value="{{response.driving_times}}"/>
                                                 <input type="hidden" id="duration" name="duration" value="{{response.duration}}"/>
                                                 <input type="hidden" id="airport_tax" name="airport_tax" value="{{response.airport_tax}}"/>
                                                 <input type="hidden" id="seat" name="seat" value="{{response.seat}}"/>
@@ -250,6 +258,17 @@
                                                             <div class="col-xs-1"></div>
                                                             <div class="col-xs-3" style="text-align: right;" data-price="0">
                                                                 <input id="tipping_tour_leader_total" name="tipping_tour_leader_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-xs-5">Tipping Driver</div>
+                                                            <div class="col-xs-1">x</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="tipping_driver_amount" name="tipping_driver_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="tipping_driver_total" name="tipping_driver_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
                                                             </div>
                                                         </div>
                                                         <div class="row">
