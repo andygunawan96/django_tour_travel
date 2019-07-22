@@ -50,6 +50,14 @@ cabin_class_list = {
     'First': 'F',
 }
 
+class provider_airline:
+    def __init__(self, name):
+        self.get_time_provider_airline = name
+    def set_new_time_out(self):
+        self.get_time_provider_airline = datetime.now()
+
+a = provider_airline(datetime.now())
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -58,6 +66,10 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_provider_list':
+            res = get_provider_list(request)
+        elif req_data['action'] == 'get_carrier_code_list':
+            res = get_carrier_code_list(request)
         elif req_data['action'] == 'search':
             res = search2(request)
         elif req_data['action'] == 'get_price_itinerary':
@@ -107,6 +119,47 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
 
     request.session['airline_signature'] = res['result']['response']['signature']
+
+    return res
+
+def get_carrier_code_list(request):
+    file = open("version_cache.txt", "r")
+    for line in file:
+        file_cache_name = line
+    file.close()
+
+    file = open(str(file_cache_name) + ".txt", "r")
+    for line in file:
+        response = json.loads(line)
+    file.close()
+
+    return response['result']['response']['airline']['carriers']
+
+def get_provider_list(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_carrier_providers",
+        "signature": request.session['airline_signature']
+    }
+
+    data = {
+        "provider_type": 'airline'
+    }
+    date_time = datetime.now() - a.get_time_provider_airline
+    if date_time.seconds >= 300:
+        a.set_new_time_out()
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        res = json.dumps(res['result']['response'])
+        file = open("get_list_provider.txt", "w+")
+        file.write(res)
+        file.close()
+    else:
+        file = open("get_list_provider.txt", "r")
+        for line in file:
+            res = line
+        file.close()
+
 
     return res
 
@@ -167,7 +220,7 @@ def search2(request):
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
         "provider": request.POST['provider'],
-        "carrier_codes": ['CX','SQ'],
+        "carrier_codes": json.loads(request.POST['carrier_codes']),
         "is_combo_price": is_combo_price
 
     }

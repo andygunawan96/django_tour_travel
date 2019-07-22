@@ -1,9 +1,3 @@
-domestic_carriers = ['amadeus','airasia', 'citilink', 'sriwijaya', 'lionair', 'trigana', 'transnusa', 'altea', 'xpress_scrap', 'garuda'];
-
-international_carriers = ['amadeus','sabre', 'airasia', 'jetstar', 'trigana', 'lionair', 'scoot', 'citilink', 'sriwijaya'];
-
-airline_provider_list = ['amadeus', 'sabre', 'airasia', 'citilink', 'jetstar', 'lionair', 'sriwijaya', 'garuda', 'altea', 'trigana', 'transnusa', 'scoot', 'xpress_scrap']
-
 price_type = [];
 
 additional_price = 0;
@@ -127,7 +121,6 @@ function return_airline(){
 
 function airline_check_search_values(){
     error_log = '';
-    console.log(document.getElementById('destination_id_flight').value.split(' - '));
     if(document.getElementById('origin_id_flight').value.split(' - ').length != 2)
         error_log += 'Please use autocomplete for From field';
     if(document.getElementById('destination_id_flight').value.split(' - ').length != 2)
@@ -206,7 +199,7 @@ function airline_filter_render(){
 
         <div id="airline_list">
 
-    </div>`;
+        </div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -392,7 +385,6 @@ function airline_switch(){
 function search_airport(val){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-       console.log(val);
        find = '';
        if(val == 'origin'){
            find = document.getElementById('origin_id_flight').value.toLowerCase();
@@ -402,12 +394,9 @@ function search_airport(val){
            document.getElementById("airline_destination_name").innerHTML = '';
        }
        if(find.length>1){
-           console.log(find);
            text = '';
-           console.log(airline_destination);
            airline_destination.forEach((obj)=> {
              if(obj.name.toString().toLowerCase().search(find) !== -1 || obj.city.toString().toLowerCase().search(find) !== -1 || obj.code.toString().toLowerCase().search(find) !== -1){
-               console.log('find');
                node = document.createElement("div");
                node.innerHTML = `<option value="`+obj.name+' - '+obj.city+' ('+obj.code+`)">`+obj.code+`</option>`;
                if(val == 'origin')
@@ -596,7 +585,6 @@ function filtering(type){
            data = temp_data;
            temp_data = [];
        }
-       console.log(data);
        if(check_transit_duration == 1){
            data.forEach((obj)=> {
                transit_time = 0;
@@ -620,12 +608,9 @@ function filtering(type){
                    }
                });
                check = 0;
-               console.log(transit_time);
                transit_duration_list.forEach((obj1)=> {
-                   console.log(obj1);
                    if(obj1.status == true && check == 0){
                        if(obj1.value == '12h+'){
-                           console.log('here');
                            if(transit_time >= 43200){
                                temp_data.push(obj);
                                check = 1;
@@ -643,7 +628,6 @@ function filtering(type){
            temp_data = [];
        }
        sort(data);
-       console.log(data);
 
    }else if(type == 'sort'){
        sort(airline_data);
@@ -689,7 +673,6 @@ function sort_button(value){
 }
 
 function sort(airline){
-    console.log(airline);
     if (airline.length == 0 && count == airline_choose){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
@@ -720,7 +703,6 @@ function sort(airline){
         if(sorting_value != ''){
             sorting = sorting_value;
        }
-       console.log(sorting);
         for(var i = 0; i < airline.length-1; i++) {
             for(var j = i+1; j < airline.length; j++) {
                 if(sorting == ''){
@@ -731,7 +713,6 @@ function sort(airline){
                     }
                 }
                 if(sorting == 'Lowest Price'){
-                    console.log('sadsad');
                     if(airline[i].total_price > airline[j].total_price){
                         var temp = airline[i];
                         airline[i] = airline[j];
@@ -772,10 +753,10 @@ function sort(airline){
             }
         }
         airline_data_filter = airline;
-        console.log(airline);
         //change sort render
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
+        console.log(airline);
         for(i in airline){
            if(airline[i].origin == airline_request.origin.substr(airline_request.origin.length-4,3) && airline_departure == 'departure'){
                var price = 0;
@@ -785,6 +766,12 @@ function sort(airline){
                             <div class="col-lg-12">
                                 <div class="row" style="padding:10px;">
                                     <div class="col-lg-12">`;
+                                    if(airline[i].operated_by == false)
+                                        try{
+                                            text += `<label>Operated By `+airline_carriers[airline[i].operated_by_carrier_code].name+`</label><br/>`;
+                                        }catch(err){
+                                            text += `<label>Operated By `+airline[i].operated_by_carrier_code+`</label><br/>`;
+                                        }
                                     for(j in airline[i].carrier_code_list)
                                     text+=`
                                     <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
@@ -856,8 +843,6 @@ function sort(airline){
                                             }
                                         }
                                         return_date = [airline[i].segments[airline[i].segments.length-1].departure_date, airline[i].segments[airline[i].segments.length-1].arrival_date];
-                                        console.log(return_date);
-                                        console.log('comboprice');
                                         for(j in airline[i].segments){
                                             if(airline[i].segments[j].origin == airline_request.destination.substr(airline_request.destination.length-4,3)){
                                                 text+=`
@@ -1059,6 +1044,12 @@ function sort(airline){
                         <div class="col-lg-12">
                             <div class="row" style="padding:10px;">
                                 <div class="col-lg-12">`;
+                                if(airline[i].operated_by == false)
+                                    try{
+                                        text += `<label>Operated By `+airline_carriers[airline[i].operated_by_carrier_code].name+`</label><br/>`;
+                                    }catch(err){
+                                        text += `<label>Operated By `+airline[i].operated_by_carrier_code+`</label><br/>`;
+                                    }
                                 for(j in airline[i].carrier_code_list)
                                 text+=`
                                 <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><span> </span>`;
@@ -1297,7 +1288,7 @@ function airline_check_search(){
 function check_provider(val){
     if(val == 'all'){
         for(i in airline_provider_list){
-            document.getElementById('provider_box_'+airline_provider_list[i]).checked = false;
+            document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
         }
         document.getElementById('provider_box_all').checked = true;
     }
@@ -1335,7 +1326,6 @@ function getrupiah(price){
 }
 
 function copy_data(){
-    console.log($text);
     const el = document.createElement('textarea');
     el.value = $text;
     document.body.appendChild(el);
@@ -1345,27 +1335,18 @@ function copy_data(){
 }
 
 function airline_detail(){
-    console.log(price_itinerary);
     if(price_itinerary.price_itinerary_provider.length!=0){
         for(i in price_itinerary.price_itinerary_provider){
             for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
-                console.log(i);
-                console.log('price');
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
-                    console.log('segments');
                     for(l in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
-                        console.log('fares');
                         for(m in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
-                            console.log('service charge summary');
                             for(n in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                console.log('total price');
                                 price_type[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code] = price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                             }
                             if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP' || price_itinerary.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
-                                console.log('dep');
                                 dep_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
-                                console.log('ret');
                                 ret_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             }
                                 price_type = [];
@@ -1374,8 +1355,6 @@ function airline_detail(){
                 }
             }
         }
-    console.log(dep_price);
-    console.log(ret_price);
    text = `
     <div class="row" style="margin-bottom:5px; ">
         <div class="col-lg-12">

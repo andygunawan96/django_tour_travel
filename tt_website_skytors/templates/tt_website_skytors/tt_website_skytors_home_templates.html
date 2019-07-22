@@ -287,32 +287,7 @@
                                                 <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left;">Choose Airline</button>
                                                 <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
                                                 <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
-                                                    {% for provider in airline_provider_list %}
-                                                    {% if forloop.counter == 1 %}
-                                                    <li>
-                                                        <a class="small" data-value="option1" tabIndex="-1">
-                                                            <label class="check_box_custom">
-                                                                <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                                <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label>
-                                                        </a>
-                                                        <br/>
-                                                        <!--                                                        <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                    </li>
-                                                    {% else %}
-                                                    <li>
-                                                        <a class="small" data-value="option1" tabIndex="-1">
-                                                            <label class="check_box_custom">
-                                                                <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                                <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label><br/>
-                                                            <!--                                                            <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                        </a>
-                                                    </li>
-                                                    {% endif %}
-                                                    {% endfor %}
+
                                                 </ul>
                                             </div>
                                         </div>
@@ -1306,6 +1281,7 @@
         }catch(err){
             visa_date = now;
         }
+        get_carrier_code_list();
       $('input[name="airline_departure"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
@@ -1434,9 +1410,9 @@
     document.getElementById("start").value = "2019-01-01";
     document.getElementById("end").value = "2020-12-31";
     //get_agent_booking();
-    get_visa_config('home');
-    get_dept_year();
-    tour_login('');
+    //get_visa_config('home');
+    //get_dept_year();
+    //tour_login('');
 </script>
 
 {% endblock %}

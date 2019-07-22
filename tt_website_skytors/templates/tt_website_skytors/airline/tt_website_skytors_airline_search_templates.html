@@ -23,6 +23,8 @@
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = airline_carriers.replace(/False/g, 'false');
+    airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
 
     airline_destination = [];
@@ -184,17 +186,16 @@
                                         <i class="fas fa-plane icon-search-ticket"></i>
                                         <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
                                         <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
-                                            {% for provider in airline_provider_list %}
-                                            <li>
-                                                <a class="small" data-value="option1" tabIndex="-1">
-                                                    <label class="check_box_custom">
-                                                        <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                        <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')" {% for provider_true in airline_request.provider %} {%if provider_true == provider.value %} checked {% endif %} {% endfor %}/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label><br/>
-                                                    <!--                                                            <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                </a>
-                                            </li>
+                                            {% for key,value in airline_carriers.items %}
+                                                <li>
+                                                    <a class="small" data-value="option1" tabIndex="-1">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
+                                                            <input type="checkbox" id="provider_box_{{value.code}}" name="provider_box_{{value.code}}" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label><br/>
+                                                    </a>
+                                                </li>
                                             {% endfor %}
                                         </ul>
                                     </div>
