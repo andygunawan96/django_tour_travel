@@ -92,36 +92,9 @@ function airline_signin(data){
        success: function(msg) {
            console.log(msg);
            if(data == ''){
-               for(i in airline_request.provider){
-                   if(airline_request.provider[i] == 'all'){
-                       if(flight == 'domestic'){
-                           for(j in domestic_carriers){
-                               airline_search(domestic_carriers[j]);
-                           }
-                       }else if(flight == 'international'){
-                           for(j in international_carriers){
-                               airline_search(international_carriers[j]);
-                           }
-                       }
-                       break;
-                   }else{
-                       if(flight == 'domestic'){
-                           for(j in domestic_carriers)
-                               if(domestic_carriers[j] == airline_request.provider[i]){
-                                   airline_search(domestic_carriers[j]);
-                                   break;
-                               }
-                       }else
-                           for(j in international_carriers)
-                               if(international_carriers[j] == airline_request.provider[i]){
-                                   airline_search(international_carriers[j]);
-                                   break;
-                               }
+               temp = get_provider_list();
+               console.log(temp);
 
-                   }
-
-
-               }
            }else if(data != '')
                airline_get_booking(data);
 //            document.getElementById('train_searchForm').submit();
@@ -131,6 +104,115 @@ function airline_signin(data){
        }
     });
 
+}
+
+function get_carrier_code_list(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_carrier_code_list',
+       },
+       data: {},
+       success: function(msg) {
+           console.log(msg);
+           airline_provider_list = msg;
+           text = `
+                <li>
+                    <a class="small" data-value="option1" tabIndex="-1">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket" style="color:black;">All</span>
+                            <input type="checkbox" id="provider_box_all" name="provider_box_all" value="all" checked="checked" onclick="check_provider('all')"/>
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                    </a>
+                    <br/>
+                </li>
+           `;
+           for(i in msg){
+                text+=`
+                    <li>
+                        <a class="small" data-value="option1" tabIndex="-1">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket" style="color:black;">`+msg[i].name+`</span>
+                                <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </a>
+                        <br/>
+                    </li>
+                `;
+           }
+           document.getElementById('provider_flight_content').innerHTML = text;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+
+}
+
+function get_provider_list(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_provider_list',
+       },
+       data: {},
+       success: function(msg) {
+           console.log(msg);
+           provider_list = JSON.parse(msg);
+           carrier_to_provider();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+
+}
+
+function carrier_to_provider(){
+    airline = {};
+    console.log(airline_carriers);
+    console.log(provider_list);
+    for(i in airline_carriers){
+        if(airline_carriers[i].code == 'all' && airline_carriers[i].bool == true){
+            for(i in provider_list){
+                airline[i] = provider_list[i];
+            }
+        }else if(airline_carriers[i].bool == true){
+            try{
+                airline[airline_carriers[i].code] = provider_list[airline_carriers[i].code];
+            }catch(err){
+
+            }
+        }
+    }
+    provider = {}
+    for(i in airline){
+        for(j in airline[i]){
+            check = 0;
+            for(k in provider)
+                if(provider[k] == airline[i][j])
+                    check = 1;
+            if(check == 0)
+                provider[airline[i][j]] = [];
+        }
+    }
+    for(i in airline){
+        for(j in airline[i]){
+            for(k in provider){
+                if(k == airline[i][j])
+                    provider[k].push(i);
+                }
+        }
+    }
+    for(i in provider){
+        airline_search(i,provider[i]);
+    }
 }
 
 function get_airline_config(type){
@@ -167,9 +249,12 @@ function get_airline_config(type){
                     if(cache['airline']['origin'] == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                    }else if('Juanda International Airport - Surabaya (SUB)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
+                        node.setAttribute('selected', 'selected');
+                        document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                     }
                 }catch(err){
-                    if('Juanda - Surabaya (SUB)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
+                    if('Juanda International Airport - Surabaya (SUB)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                     }
@@ -193,6 +278,9 @@ function get_airline_config(type){
                     if(cache['airline']['destination'] == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                    }else if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
+                        node.setAttribute('selected', 'selected');
+                        document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                     }
                 }catch(err){
                     if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
@@ -210,7 +298,7 @@ function get_airline_config(type){
     });
 }
 
-function airline_search(val){
+function airline_search(provider,carrier_codes){
     document.getElementById("airlines_ticket").innerHTML = '';
     getToken();
     count++;
@@ -222,7 +310,8 @@ function airline_search(val){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-           'provider': val
+           'provider': provider,
+           'carrier_codes': JSON.stringify(carrier_codes)
        },
        success: function(msg) {
        console.log(msg);
@@ -273,10 +362,12 @@ function airline_search(val){
                        check=1;
                });
                if(check == 0){
+                   console.log(airline_carriers);
+                   console.log(obj.segments[0].carrier_code);
                    var node = document.createElement("div");
                    node.innerHTML = `<div class="checkbox-inline1">
                    <label class="check_box_custom">
-                        <span class="span-search-ticket" style="color:black;">`+airline_carriers[obj.segments[0].carrier_code]+`</span>
+                        <span class="span-search-ticket" style="color:black;">`+airline_carriers[obj.segments[0].carrier_code].name+`</span>
                         <input type="checkbox" id="checkbox_airline`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
                         <span class="check_box_span_custom"></span>
                     </label><br/>
@@ -287,7 +378,7 @@ function airline_search(val){
                    var node2 = document.createElement("div");
                    node2.innerHTML = `<div class="checkbox-inline1">
                    <label class="check_box_custom">
-                        <span class="span-search-ticket" style="color:black;">`+airline_carriers[obj.segments[0].carrier_code]+`</span>
+                        <span class="span-search-ticket" style="color:black;">`+airline_carriers[obj.segments[0].carrier_code].name+`</span>
                         <input type="checkbox" id="checkbox_airline2`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
                         <span class="check_box_span_custom"></span>
                     </label><br/>
@@ -329,15 +420,12 @@ function datasearch2(airline){
        counter++;
    }
    for(i in airline.journeys){
-       console.log('journey');
        airline.journeys[i].sequence = counter;
        price = 0;
+       airline.journeys[i].operated_by = true;
        for(j in airline.journeys[i].segments){
-           console.log('segments');
            for(k in airline.journeys[i].segments[j].fares){
-               console.log('fares');
                if(airline.journeys[i].segments[j].fares[k].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
-                   console.log('here');
                    for(l in airline.journeys[i].segments[j].fares[k].service_charge_summary){
                        for(m in airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges){
                            if(airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac' && airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac1' && airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code && 'rac2')
@@ -347,12 +435,18 @@ function datasearch2(airline){
                    break;
                }
            }
+           if(airline.journeys[i].segments[j].carrier_code == airline.journeys[i].segments[j].operating_airline_code && airline.journeys[i].operated_by != false){
+               airline.journeys[i].operated_by_carrier_code = airline.journeys[i].segments[j].operating_airline_code;
+           }else if(airline.journeys[i].segments[j].carrier_code != airline.journeys[i].segments[j].operating_airline_code){
+               airline.journeys[i].operated_by_carrier_code = airline.journeys[i].segments[j].operating_airline_code;
+               airline.journeys[i].operated_by = false;
+           }
        }
        airline.journeys[i].total_price = price;
        data.push(airline.journeys[i]);
        counter++;
    }
-
+   console.log(data);
    airline_data = data;
    sort_button('');
 //   filtering('filter');

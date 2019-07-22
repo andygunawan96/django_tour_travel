@@ -198,34 +198,29 @@ def signin(request):
             res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, cookies=res_train['result']['cookies'], method='POST')
 
             #activity
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_config2",
-                "signature": request.session['signature'],
-            }
-
-            res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
-                                                 cookies=res_activity['result']['cookies'], method='POST')
+            # data = {}
+            # headers = {
+            #     "Accept": "application/json,text/html,application/xml",
+            #     "Content-Type": "application/json",
+            #     "action": "get_config2",
+            #     "signature": request.session['signature'],
+            # }
+            #
+            # res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
+            #                                      cookies=res_activity['result']['cookies'], method='POST')
 
 
 
             res['result']['response'].update({
-                'balance': {
-                    'balance': res_balance['result']['response']['balance'],
-                    'credit_limit': res_balance['result']['response']['credit_limit']
-                },
                 'visa': res_config_visa,
                 'issued_offline': res_config_issued_offline['result']['response'],
                 'train': res_origin_train['result']['response'],
-                'activity': res_config_activity['result'],
+                # 'activity': res_config_activity['result'],
                 'airline': {
                     'country': res_country_airline['result']['response'],
                     'carriers': res_carrier_airline['result']['response'],
                     'destination': res_destination_airline['result']['response'],
                 },
-                'hotel_config': res_hotel_auto_complete
             })
 
             file = open("version1.0"+".txt", "w+")

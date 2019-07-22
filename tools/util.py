@@ -15,6 +15,8 @@ _LOGGER = logging.getLogger(getattr(settings, 'django', __name__))
 # In seconds
 TIMEOUT = 30
 
+def __init__(self):
+    pass
 
 def get_static():
     return static('')

@@ -46,55 +46,14 @@ def search(request):
                 })
                 airline_destinations.append(des)
 
-        airline_country = response['result']['response']['airline']['country']
-
-        airline_carriers = response['result']['response']['airline']['carriers']
-
-        airline_provider_list = [
-            {
-                'value': 'all',
-                'name': 'All'
-            }, {
-                'value': 'amadeus',
-                'name': 'Amadeus'
-            }, {
-                'value': 'sabre',
-                'name': 'GDS (IATA)'
-            }, {
-                'value': 'altea',
-                'name': 'Garuda Al'
-            }, {
-                'value': 'garuda',
-                'name': 'Garuda AGS'
-            }, {
-                'value': 'airasia',
-                'name': 'Air Asia'
-            }, {
-                'value': 'citilink',
-                'name': 'Citilink'
-            }, {
-                'value': 'jetstar',
-                'name': 'Jetstar'
-            }, {
-                'value': 'lionair',
-                'name': 'Lion Air'
-            }, {
-                'value': 'sriwijaya',
-                'name': 'Sriwijaya'
-            }, {
-                'value': 'trigana',
-                'name': 'Trigana'
-            }, {
-                'value': 'transnusa',
-                'name': 'Transnusa'
-            }, {
-                'value': 'scoot',
-                'name': 'Scoot'
-            }, {
-                'value': 'xpress_scrap',
-                'name': 'Xpress'
+        airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
+        for i in response['result']['response']['airline']['carriers']:
+            airline_carriers[i] = {
+                'name': response['result']['response']['airline']['carriers'][i]['name'],
+                'code': response['result']['response']['airline']['carriers'][i]['code'],
+                'icao': response['result']['response']['airline']['carriers'][i]['icao'],
+                'call_sign': response['result']['response']['airline']['carriers'][i]['call_sign']
             }
-        ]
 
         airline_cabin_class_list = [
             {
@@ -134,11 +93,14 @@ def search(request):
                 is_combo_price = 'false'
 
 
-            for provider in airline_provider_list:
+            for provider in airline_carriers:
                 try:
-                    providers.append(request.POST['provider_box_'+provider['value']])
-
+                    if(request.POST['provider_box_'+provider]):
+                        airline_carriers[provider]['bool'] = True
+                    else:
+                        airline_carriers[provider]['bool'] = False
                 except:
+                    airline_carriers[provider]['bool'] = False
                     print('%s %s' % ('no ', provider))
 
 
@@ -153,7 +115,6 @@ def search(request):
                 'child': int(request.POST['child_flight']),
                 'infant': int(request.POST['infant_flight']),
                 'cabin_class': request.POST['cabin_class_flight'],
-                'provider': providers,
                 'is_combo_price': is_combo_price,
                 'carrier_codes': []
             }
@@ -191,7 +152,6 @@ def search(request):
             'airline_request': airline_request,
             'airline_destinations': airline_destinations,
             'flight': flight,
-            'airline_provider_list': airline_provider_list,
             'airline_cabin_class_list': airline_cabin_class_list,
             'airline_carriers': airline_carriers,
             'username': request.session['user_account'],
@@ -392,7 +352,7 @@ def ssr(request):
 
         # agent
 
-        get_balance(request)
+        # get_balance(request)
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
