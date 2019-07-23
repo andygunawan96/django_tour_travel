@@ -95,8 +95,7 @@ def search(request):
         'country_id': request.session['tour_request']['country_id'],
         'month': request.session['tour_request']['month'],
         'year': request.session['tour_request']['year'],
-        'budget_min': request.session['tour_request']['budget_min'],
-        'budget_max': request.session['tour_request']['budget_max'],
+        'tour_query': request.session['tour_request']['tour_query'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
