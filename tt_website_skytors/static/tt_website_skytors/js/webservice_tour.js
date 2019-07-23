@@ -1,4 +1,4 @@
-tour_data = [];
+var tour_data = [];
 offset = 0;
 
 function tour_login(data){
@@ -114,6 +114,24 @@ function tour_search(){
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.response.result;
+               if (tour_data.length == 0)
+               {
+                    text += `
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="padding:5px; margin:10px;">
+                                <div style="text-align:center">
+                                    <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                                    <br/><br/>
+                                    <h6>NO TOUR AVAILABLE</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                        </div>
+                    `;
+               }
                for(i in tour_data){
                    if (tour_data[i].images_obj.length > 0)
                    {
@@ -171,7 +189,7 @@ function tour_search(){
                }
                offset++;
                document.getElementById('tour_ticket').innerHTML += text;
-               if(msg.result.response.length!=0)
+               if(msg.result.response.length != 0)
                    get_new = true;
            }else{
                alert(msg.result.error_msg);
@@ -984,7 +1002,7 @@ function get_price_itinerary(package_id) {
 
             var discount_total = 0;
             var tour_type = tour_data.tour_type;
-            if (tour_type == 'series' || tour_type == 'sic')
+            if (tour_type == 'sic')
             {
                 var discount = JSON.parse(document.getElementById("discount").value);
                 for (var i=0; i < discount.length; i++) {

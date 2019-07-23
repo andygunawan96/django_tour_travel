@@ -212,35 +212,35 @@ $(document).ready(function() {
         }
     });
 
-    $('.owl-carousel-tour-img').owlCarousel({
-        loop:true,
-        nav: true,
-        rewind: true,
-        margin: 20,
-        responsiveClass:true,
-        dots: false,
-        lazyLoad:true,
-        merge: false,
-        smartSpeed:500,
-        autoplay: true,
-        autoplayTimeout:6000,
-        autoplayHoverPause:false,
-        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
-        responsive:{
-            0:{
-                items:1,
-                nav:true
-            },
-            600:{
-                items:1,
-                nav:false
-            },
-            1000:{
-                items:1,
-                nav:true,
-            }
-        }
-    });
+//    $('.owl-carousel-tour-img').owlCarousel({
+//        loop:true,
+//        nav: true,
+//        rewind: true,
+//        margin: 20,
+//        responsiveClass:true,
+//        dots: false,
+//        lazyLoad:true,
+//        merge: false,
+//        smartSpeed:500,
+//        autoplay: true,
+//        autoplayTimeout:6000,
+//        autoplayHoverPause:false,
+//        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+//        responsive:{
+//            0:{
+//                items:1,
+//                nav:true
+//            },
+//            600:{
+//                items:1,
+//                nav:false
+//            },
+//            1000:{
+//                items:1,
+//                nav:true,
+//            }
+//        }
+//    });
 
     $('.active-hot-deal-carusel').owlCarousel({
         items:1,
