@@ -173,10 +173,16 @@
 
     function go_to_detail(sequence){
         console.log(sequence);
-        pick = JSON.stringify(tour_data[parseInt(sequence)]).replace(/'/g,'');
-        document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
-        document.getElementById(`csrf`+sequence).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
-        document.getElementById('myForm'+sequence).submit();
+        for (i in tour_data)
+        {
+            if(tour_data[i].sequence == sequence)
+            {
+                pick = JSON.stringify(tour_data[i]).replace(/'/g,'');
+                document.getElementById(`csrf`+i).innerHTML = `{% csrf_token %}`;
+                document.getElementById(`csrf`+i).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
+                document.getElementById('myForm'+i).submit();
+            }
+        }
     }
 </script>
 

@@ -1002,7 +1002,7 @@ function get_price_itinerary(package_id) {
 
             var discount_total = 0;
             var tour_type = tour_data.tour_type;
-            if (tour_type == 'series' || tour_type == 'sic')
+            if (tour_type == 'sic')
             {
                 var discount = JSON.parse(document.getElementById("discount").value);
                 for (var i=0; i < discount.length; i++) {
