@@ -7,11 +7,14 @@
 <script src="{{ static_path }}js/webservice_registration.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/agent_javascript.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js"></script>
 <script>
     city = [];
     country_list = [];
+    titles = `{{titles}}`;
+    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
     {% for country in countries %}
         {% for city in country.city %}
             city.push({
@@ -281,52 +284,13 @@
                                     <!--</div>-->
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
-                                </div>
-                            </div>
-                            <div class="row" id="company_details">
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="person_name">Name<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control o_website_form_input" id="person_name" name="person_name" required="1" placeholder="Ex: John Smith"/>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="comp_name">Agent Name<span class="required-txt">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name" required="1" placeholder="Ex: Rodex Travel"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="birth_date">Birth Date<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
-                                        <input type='text' class="form-control o_website_form_input date-picker-birth" id="birth_date" name="birth_date" required="1" autocomplete="off"/>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="email">Email<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="email" class="form-control o_website_form_input" id="email" name="email" required="1"/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="mobile">Mobile<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control o_website_form_input" id="mobile" name="mobile" required="1"/>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="phone">Phone</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control o_website_form_input" id="phone" name="phone"/>
-                                    </div>
-                                </div>
+                            <div class="row" id="company_details">
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -344,93 +308,108 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <span class="control-label" for="city_id">Country<span class="required-txt">* </span></span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
-                                                        {% for country in countries %}
-                                                            {% if country.name == 'Indonesia' %}
-                                                        <option value="{{country.id}}" selected="">{{country.name}}</option>
-                                                            {% else %}
-                                                        <option value="{{country.id}}">{{country.name}}</option>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="country" id="country" />
+                                    <span class="control-label" for="city_id">Country<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
+                                                {% for country in countries %}
+                                                    {% if country.name == 'Indonesia' %}
+                                                <option value="{{country.id}}" selected="">{{country.name}}</option>
+                                                    {% else %}
+                                                <option value="{{country.id}}">{{country.name}}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="country" id="country" />
 
-                                            <!--<span class="control-label" for="city_id">Country<span class="required-txt">* </span></span>-->
-                                            <!--<div class="input-container-search-ticket btn-group">-->
-                                                <!--<div class="form-select">-->
-                                                    <!--<select onchange="set_city();" id="country_id" name="country_id" required="1">-->
-                                                        <!--{% for country in countries %}-->
-                                                        <!--{% if country.name == 'Indonesia' %}-->
-                                                        <!--<option value="{{country.id}}" selected="">{{country.name}}</option>-->
-                                                        <!--{% else %}-->
-                                                        <!--<option value="{{country.id}}">{{country.name}}</option>-->
-                                                        <!--{% endif %}-->
-                                                        <!--{% endfor %}-->
-                                                    <!--</select>-->
-                                                <!--</div>-->
+                                    <!--<div class="row">-->
+
+                                        <!--<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">-->
+
+                                        <!--</div>-->
+                                        <!--<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">-->
+                                            <!--<span class="control-label" for="zip">ZIP</span>-->
+                                            <!--<div class="input-container-search-ticket">-->
+                                                <!--<input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>-->
                                             <!--</div>-->
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <span class="control-label" for="city_id">City<span class="required-txt">* </span></span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-plane-departure icon-search-ticket"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="city_id" style="width:100%;" id="city_id" onchange="auto_complete('city')">
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="city_id">City<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-plane-departure icon-search-ticket"></i>
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" name="city_id" style="width:100%;" id="city_id" onchange="auto_complete('city')">
 
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="city" id="city" />
-                                            </div>
+                                            </select>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="zip">ZIP</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
-                                            </div>
-                                        </div>
+                                        <input type="hidden" name="city" id="city" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="zip">ZIP</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="resume">ID Card</span>
-                                            <div class="input-container-search-ticket">
-                                                <input type="file" class="form-control o_website_form_input" id="resume" name="Resume"/>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="socmed_id">Know us From?</span>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="socmed_id" placeholder="Destination" onchange="auto_complete('social_media')">
-                                                        <option value="">Social Media</option>
-                                                        {% for social_media in social_medias %}
-                                                        <option value="{{social_media.name}}">{{social_media.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="social_media" id="social_media" />
-
-                                            <!--<span class="control-label" for="socmed_id">Know us From?</span>-->
-                                            <!--<div class="input-container-search-ticket btn-group">-->
-                                                <!--<div class="form-select">-->
-                                                    <!--<select class="form-control" id="socmed_id" name="socmed_id">-->
-
-                                                    <!--</select>-->
-                                                <!--</div>-->
-                                            <!--</div>-->
-
+                                    <span class="control-label" for="socmed_id">Know us From?</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="Destination" onchange="auto_complete('social_media')">
+                                                <option value="">Social Media</option>
+                                                {% for social_media in social_medias %}
+                                                <option value="{{social_media.name}}">{{social_media.name}}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="social_media" id="social_media" />
+
+                                    <!--&lt;!&ndash;<span class="control-label" for="socmed_id">Know us From?</span>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<div class="input-container-search-ticket btn-group">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;<div class="form-select">&ndash;&gt;-->
+                                            <!--&lt;!&ndash;<select class="form-control" id="socmed_id" name="socmed_id">&ndash;&gt;-->
+
+                                            <!--&lt;!&ndash;</select>&ndash;&gt;-->
+                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                <h4>List of Person In Charge</h4><hr/>
+                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> Add</button>
+                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                <div style="margin-top:15px;">
+                                    <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
+                                        <tr>
+                                            <th style="width:5%;">No.</th>
+                                            <th style="width:40%;">Name</th>
+                                            <th style="width:35%;">Birth Date</th>
+                                            <th style="width:20%;"></th>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                <h4>List of Document Registration</h4><hr/>
+                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_doc();"><i class="fas fa-plus"></i> Add</button>
+                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_doc();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                <div style="margin-top:15px;">
+                                    <table id="table_of_doc" name="table_of_doc" style="width:100%;" class="list-of-table">
+                                        <tr>
+                                            <th style="width:5%;">No.</th>
+                                            <th style="width:40%;">Type</th>
+                                            <th style="width:35%;">Image</th>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                             <div class="row">
@@ -534,9 +513,9 @@
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         agent_register_get_config();
-        auto_complete('country');
-        auto_complete('social_media');
-        get_payment_acq();
+        auto_complete_registration('country');
+        auto_complete_registration('social_media');
+        get_payment_acq('Registration');
     });
 
 </script>

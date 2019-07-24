@@ -44,7 +44,7 @@
     titles = `{{titles}}`;
     titles = JSON.parse(titles.replace(/&#39;/g, '"'));
     countries = `{{countries}}`;
-    countries = countries.replace(/Cote D&#39;Ivoire/g, "Cote D'Ivoire"); //case khusus
+    countries = countries.replace(/&quot;Côte d&#39;Ivoire&quot;/g, `"Cote D'Ivoire"`); //case khusus
     countries = countries.replace(/&#39;/g, '"');
     countries = countries.replace(/&quot;/g, '"');
     countries = countries.replace(/False/g, 'false');

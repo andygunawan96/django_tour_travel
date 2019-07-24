@@ -37,6 +37,7 @@ def open_page(request):
         values = {
             'countries': response['result']['response']['activity_config']['countries'],
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
             'social_medias': response['result']['response']['issued_offline']['social_media_id'],
             # 'username': request.session['username'],
@@ -50,31 +51,57 @@ def open_page(request):
 
 
 def register_agent(request):
+    regis_doc = []
+    pic = []
+    check = True
+    counter = 1
+    #pic
+    while(check):
+        try:
+            pic.append({
+                'birth_date': request.POST['birth_date'+str(counter)] and request.POST['birth_date'+str(counter)] or '',
+                'first_name': request.POST['first_name'+str(counter)] and request.POST['first_name'+str(counter)] or '',
+                'last_name': request.POST['last_name'+str(counter)] and request.POST['last_name'+str(counter)] or '',
+                'email': request.POST['email'+str(counter)] and request.POST['email'+str(counter)] or '',
+                'phone': request.POST['phone'+str(counter)] and request.POST['phone'+str(counter)] or '',
+                'mobile': request.POST['mobile'+str(counter)] and request.POST['mobile'+str(counter)] or '',
+            })
+        except:
+            check = False
+        counter = counter + 1
+    #regis
+    check = True
+    counter = 1
+    while (check):
+        try:
+            regis_doc.append({
+                'data': base64.b64encode(request.FILES['Resume'+str(counter)].read()).decode("utf-8"),
+                'content_type': request.FILES['Resume'+str(counter)].content_type,
+                'type': request.POST['type_regis_doc'+str(counter)] and request.POST['type_regis_doc'+str(counter)] or '',
+            })
+        except:
+            check = False
+        counter = counter + 1
+
     request.session['registration_request'] = {
         'company': {
             'company_type': request.POST['radio_company_type'],
             'business_license': request.POST.get('business_license') and request.POST['business_license'] or '',
             'npwp': request.POST.get('npwp') and request.POST['npwp'] or '',
             'name': request.POST['comp_name'] and request.POST['comp_name'] or '',
+        },
+        'address': {
+            'city': request.POST['city'] and request.POST['city_id'] or '',
             'zip': request.POST['zip'] and request.POST['zip'] or '',
-            'street': request.POST['street'] and request.POST['street'] or '',
-            'street2': request.POST['street2'] and request.POST['street2'] or '',
-            'city': request.POST['city'] and request.POST['city_id'] or 0,
+            'address': request.POST['street'] and request.POST['street'] or '',
+            'address2': request.POST['street2'] and request.POST['street2'] or '',
         },
-        'pic': {
-            'birth_date': request.POST['birth_date'] and request.POST['birth_date'] or '',
-            'name': request.POST['person_name'] and request.POST['person_name'] or '',
-            'email': request.POST['email'] and request.POST['email'] or '',
-            'phone': request.POST['phone'] and request.POST['phone'] or '',
-            'mobile': request.POST['mobile'] and request.POST['mobile'] or '',
-            'ktp': {
-                'data': base64.b64encode(request.FILES['Resume'].read()).decode("utf-8"),
-                'content_type': request.FILES['Resume'].content_type
-            }
-        },
+
+        'pic': pic,
+        'regis_doc': regis_doc,
         'other': {
-            'social_media': request.POST['social_media'] and request.POST['socmed_id'] or 0,
-            'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or 0,
+            'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
+            'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
         }
     }
 
