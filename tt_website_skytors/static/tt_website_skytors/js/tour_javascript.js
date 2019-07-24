@@ -48,8 +48,8 @@ var budget_list = [
     },
     {
         value:'2,000,000 - 5,000,000',
-        min: 1000000,
-        max: 2000000,
+        min: 2000000,
+        max: 5000000,
         status: false
     },
     {
