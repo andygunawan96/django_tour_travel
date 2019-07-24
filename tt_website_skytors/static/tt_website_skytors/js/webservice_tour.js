@@ -171,11 +171,12 @@ function tour_search(){
                                     <div class="card-body">
                                         <div class="row details">
                                             <div class="col-lg-12" style="text-align:left;">
-                                                <h6>`+tour_data[i].name+`</h6>
-                                                <span style="font-size:13px;font-weight:bold;">`+dat_content1+`</span><br/>
-                                                <span style="font-size:13px;font-weight:bold;">`+dat_content2+`</span>
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                <span style="font-size:12px;">`+dat_content1+`</span><br/>
+                                                <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
+                                                <span style="font-size:12px;font-weight:bold;">IDR `+tour_data[i].adult_sale_price_with_comma+`  </span>
                                                 <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
                                             </div>
                                         </div>
@@ -280,7 +281,7 @@ function tour_get_details(package_id){
                     image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                     for (j in tour_data[i].images_obj)
                     {
-                        image_text+=`
+                        image_text +=`
                         <div class="item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
@@ -289,13 +290,13 @@ function tour_get_details(package_id){
                             </div>
                         </div>`;
                     }
-                    if (image_text == '')
+                    if (tour_data[i].images_obj.length == 0)
                     {
                         image_text += `
                         <div class="item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
-                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height:100%;" alt="">
+                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" alt="">
                                 </div>
                             </div>
                         </div>`;

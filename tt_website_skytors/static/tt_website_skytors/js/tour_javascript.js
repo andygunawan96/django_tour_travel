@@ -1203,11 +1203,12 @@ function sort(tour_dat){
                             <div class="card-body">
                                 <div class="row details">
                                     <div class="col-lg-12" style="text-align:left;">
-                                        <h6>`+tour_dat[i].name+`</h6>
-                                        <span style="font-size:13px;font-weight:bold;">`+dat_content1+`</span><br/>
-                                        <span style="font-size:13px;font-weight:bold;">`+dat_content2+`</span>
+                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                        <span style="font-size:12px;">`+dat_content1+`</span><br/>
+                                        <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
                                     </div>
                                     <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:12px;font-weight:bold;">IDR `+tour_dat[i].adult_sale_price_with_comma+`  </span>
                                         <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
                                     </div>
                                 </div>
