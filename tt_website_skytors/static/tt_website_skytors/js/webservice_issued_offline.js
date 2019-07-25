@@ -71,6 +71,7 @@ function check_issued_offline(){
                 request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
                 document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
+            console.log(document.getElementById('adult_title' + (i + 1)).value);
             if(document.getElementById('adult_title' + (i + 1)).value == ''){
                 error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
                 document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';
@@ -647,7 +648,7 @@ function update_booker(){
             document.getElementById('adult_title' + (i + 1)).style['border-color'] = '#EFEFEF';
         }
         if(document.getElementById('adult_nationality' + (i + 1)).value == ''){
-            error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
+            error_log += 'Please fill nationality for passenger '+ (i + 1) + ' !\n';
             document.getElementById('adult_nationality' + (i + 1)).style['border-color'] = 'red';
         }else{
             request['passenger_nationality_code'+i] = document.getElementById('adult_nationality' + (i + 1)).value;
@@ -752,8 +753,33 @@ function commit_booking(){
        },
        data: {},
        success: function(msg) {
-            console.log(msg);
+           if(msg.result.error_code == 0){
+               alert('Issued Offline number booking: '+msg.result.response.id);
+               document.getElementById('transaction_type').value = '';
+               document.getElementById('sector').value = '';
+               document.getElementById('description').value = '';
+               document.getElementById('pnr').value = '';
+               document.getElementById('social_media').value = '';
+               document.getElementById('total_sale_price').value = '';
 
+               //booker
+               document.getElementsByName('radio-booker-type')[0].checked = true;
+               document.getElementById('booker_title').value = 'MR';
+               document.getElementById('booker_first_name').value = '';
+               document.getElementById('booker_last_name').value = '';
+               document.getElementById('booker_email').value = '';
+               document.getElementById('booker_phone').value = '';
+
+
+               for(i=counter_passenger; i >= 0; i--){
+                   delete_table_of_passenger();
+               }
+               for(i=counter_line; i >= 0; i--){
+                   delete_table_of_line();
+               }
+               document.getElementsByName('myRadios')[1].checked = true;
+               $('select').niceSelect('update');
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

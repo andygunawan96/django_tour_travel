@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tools import path_util
+from .tt_website_skytors_views import *
 from django.utils import translation
 import json
 from datetime import *
@@ -324,8 +325,8 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'order_number': request.POST['order_number'],
-            # 'order_number': 'VS.19070600014',
+            # 'order_number': request.POST['order_number'],
+            'order_number': 'VS.19072500003',
             # 'cookies': json.dumps(res['result']['cookies']),
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_booking_templates.html', values)

@@ -1738,23 +1738,24 @@ function airline_get_booking(data){
 
             var text = `
             <div class="col-lg-12" style="border:1px solid #f15a22; padding:10px; background-color:white; margin-top:20px; margin-bottom:20px;">
+                <label>`+msg.result.response.order_number+`</label><br/>
                 <table style="width:100%;">
                     <tr>
                         <th>PNR</th>
                         <th>Hold Date</th>
                         <th>Status</th>
                     </tr>`;
-                    for(i in msg.result.response.provider_booking_ids){
+                    for(i in msg.result.response.provider_bookings){
                         //datetime utc to local
 
-                        tes = moment.utc(msg.result.response.provider_booking_ids[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                        tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
                         var localTime  = moment.utc(tes).toDate();
-                        msg.result.response.provider_booking_ids[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         //
                         text+=`<tr>
-                            <td>`+msg.result.response.provider_booking_ids[i].pnr+`</td>
-                            <td>`+msg.result.response.provider_booking_ids[i].hold_date+`</td>
-                            <td id='pnr'>`+msg.result.response.provider_booking_ids[i].state_description+`</td>
+                            <td>`+msg.result.response.provider_bookings[i].pnr+`</td>
+                            <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>
+                            <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
                     }
             text+=`</table>
@@ -1766,42 +1767,42 @@ function airline_get_booking(data){
                         <div style="padding:10px; background-color:white;">
                         <span style="color:white; font-size:16px;"> Flight Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/plane.png"/></span>`;
                     check = 0;
-                    for(i in msg.result.response.provider_booking_ids){
-                        for(j in msg.result.response.provider_booking_ids[i].journeys)
+                    for(i in msg.result.response.provider_bookings){
+                        for(j in msg.result.response.provider_bookings[i].journeys)
                             var cabin_class = '';
 
-                            if(msg.result.response.provider_booking_ids[i].journeys[j].journey_type == 'DEP'){
+                            if(msg.result.response.provider_bookings[i].journeys[j].journey_type == 'DEP'){
                                 text+=`
                                     <h5>Departure</h5>`;
                                 check = 1;
-                            }else if(check == 1 && msg.result.response.provider_booking_ids[i].journeys[j].journey_type == 'RET'){
+                            }else if(check == 1 && msg.result.response.provider_bookings[i].journeys[j].journey_type == 'RET'){
                                 text+=`<br/><h5>Return</h5>`;
                                 check = 2;
                             }
-                            for(k in msg.result.response.provider_booking_ids[i].journeys[j].segment_ids){
+                            for(k in msg.result.response.provider_bookings[i].journeys[j].segments){
                                 //yang baru harus diganti
-                                if(msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].cabin_class == 'Y')
+                                if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                     cabin_class = 'Economy Class';
-                                else if(msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].cabin_class == 'W')
+                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                     cabin_class = 'Premium Economy Class';
-                                else if(msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].cabin_class == 'B')
+                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'B')
                                     cabin_class = 'Business Class';
-                                else if(msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].cabin_class == 'F')
+                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'F')
                                     cabin_class = 'First Class';
-                                for(l in msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids){
+                                for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
                                     text+= `
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].carrier_code+`.png"/>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
                                         </div>
                                     </div>`;
-                                    text+=`<h5>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].carrier_name+' '+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].carrier_number+`</h5>
-                                    <span>Class : `+cabin_class+` (`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].class_of_service+`)</span><br/>
+                                    text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
+                                    <span>Class : `+cabin_class+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service+`)</span><br/>
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6">
                                             <table style="width:100%">
                                                 <tr>
-                                                    <td><h6>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].origin+`</h6></td>
+                                                    <td><h6>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin+`</h6></td>
                                                     <td style="padding-left:15px;">
                                                         <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                     </td>
@@ -1814,28 +1815,28 @@ function airline_get_booking(data){
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <span>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].origin_name+` - `+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].origin_city+`</span><br/>
+                                            <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+`</span><br/>
                                             <span>Schedule departure</span><br>
-                                            <span>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].departure_date+`</span>
+                                            <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date+`</span>
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6" style="padding:0;">
                                             <table style="width:100%; margin-bottom:6px;">
                                                 <tr>
-                                                    <td><h6>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].destination+`</h6></td>
+                                                    <td><h6>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination+`</h6></td>
                                                     <td></td>
                                                     <td style="height:30px;padding:0 15px;width:100%"></td>
                                                 </tr>
                                             </table>
-                                            <span>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].destination_name+` - `+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].destination_city+`</span><br/>
+                                            <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name+` - `+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+`</span><br/>
                                             <span>Schedule arrival</span><br>
-                                            <span>`+msg.result.response.provider_booking_ids[i].journeys[j].segment_ids[k].leg_ids[l].arrival_date+`</span>
+                                            <span>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date+`</span>
                                         </div>
                                     </div>`;
                                 }
                             }
                     }
-            text+=`
+                    text+=`
                         </div>
                     </div>
                 </div>
@@ -1849,18 +1850,18 @@ function airline_get_booking(data){
                     <th style="width:40%;">Name</th>
                     <th style="width:30%;">Birth Date</th>
                 </tr>`;
-                for(pax in msg.result.response.passenger_ids){
+                for(pax in msg.result.response.passengers){
                     title = '';
-                    if(msg.result.response.passenger_ids[pax].gender == 'male')
+                    if(msg.result.response.passengers[pax].gender == 'male')
                         title = 'MR';
-                    else if(msg.result.response.passenger_ids[pax].gender == 'female' && msg.result.response.passenger_ids[pax].marital_status == '')
+                    else if(msg.result.response.passengers[pax].gender == 'female' && msg.result.response.passengers[pax].marital_status == '')
                         title = 'MRS';
                     else
                         title = 'MS';
                     text+=`<tr>
                         <td class="list-of-passenger-left">`+(parseInt(pax)+1)+`</td>
-                        <td>`+title+` `+msg.result.response.passenger_ids[pax].first_name+` `+msg.result.response.passenger_ids[pax].last_name+`</td>
-                        <td>`+msg.result.response.passenger_ids[pax].birth_date+`</td>
+                        <td>`+title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
+                        <td>`+msg.result.response.passengers[pax].birth_date+`</td>
                     </tr>`;
                 }
 
@@ -1920,10 +1921,11 @@ function airline_get_booking(data){
 
             //detail
             text = '';
-            commission = 0;
+            tax = 0;
+            fare = 0;
             total_price = 0;
-            roc_adult = 0;
-            roc_child = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
             text+=`
                 <div style="background-color:#f15a22; margin-top:20px;">
                     <center>
@@ -1931,118 +1933,83 @@ function airline_get_booking(data){
                     </center>
                 </div>
                 <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
+            for(i in msg.result.response.provider_bookings){
+                if(i == 0){
+                    text+=`
+                    <div style="text-align:center">
+                        Departure
+                    </div>`;
+                }else{
+                    text+=`
+                    <div style="text-align:center">
+                        Return
+                    </div>`;
+                }
+                for(j in msg.result.response.provider_bookings[i].cost_service_charges){
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 };
+                    for(k in msg.result.response.provider_bookings[i].cost_service_charges[j]){
+                        price[k] = msg.result.response.provider_bookings[i].cost_service_charges[j][k].amount;
+                    }
+                    console.log(price);
 
-//            for(i in msg.result.response.itinerary_price){
-//                if(msg.result.response.itinerary_price[i].charge_code == 'r.oc'){
-//                    if(msg.result.response.itinerary_price[i].pax_type == 'ADT'){
-//                        roc_adult+=passenger.adult*parseInt(msg.result.response.itinerary_price[i].amount);
-//                    }else if(msg.result.response.itinerary_price[i].pax_type == 'CHD'){
-//                        roc_child+=passenger.adult*parseInt(msg.result.response.itinerary_price[i].amount);
-//                    }
-//                }
-//            }
-//            for(i in msg.result.response.itinerary_price){
-//                if(msg.result.response.itinerary_price[i].charge_code == 'fare'){
-//                    if(msg.result.response.itinerary_price[i].pax_type == 'ADT'){
-//                        text+=`
-//                        <div class="row" style="margin-bottom:5px;">
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                <span style="font-size:13px;">`+passenger.adult+'x Adult '+msg.result.response.itinerary_price[i].charge_code+`</span>
-//                            </div>
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                <span style="font-size:13px;">IDR `+getrupiah(passenger.adult*parseInt(msg.result.response.itinerary_price[i].amount))+`</span>
-//                            </div>
-//                        </div>`;
-//                        total_price+=passenger.adult*parseInt(msg.result.response.itinerary_price[i].amount);
-//                    }
-//
-//                }else if(msg.result.response.itinerary_price[i].charge_code == 'tax'){
-//                    if(msg.result.response.itinerary_price[i].pax_type == 'ADT'){
-//                        text+=`
-//                        <div class="row" style="margin-bottom:5px;">
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                <span style="font-size:13px;">Tax Adult</span>
-//                            </div>
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                <span style="font-size:13px;">IDR `+getrupiah(passenger.adult*parseInt(msg.result.response.itinerary_price[i].amount+roc_adult))+`</span>
-//                            </div>
-//                        </div>`;
-//                        total_price+=passenger.adult*parseInt(msg.result.response.itinerary_price[i].amount+roc_adult);
-//                    }
-//                }
-//            }
-//
-//            for(i in msg.result.response.itinerary_price){
-//                if(msg.result.response.itinerary_price[i].charge_code == 'r.ac'){
-//                    commission += msg.result.response.itinerary_price[i].amount;
-//                }
-//                else if(msg.result.response.itinerary_price[i].charge_code == 'fare'){
-//                    if(msg.result.response.itinerary_price[i].pax_type == 'CHD'){
-//                        text+=`
-//                        <div class="row" style="margin-bottom:5px;">
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                <span style="font-size:13px;">`+passenger.child+'x Child '+msg.result.response.itinerary_price[i].charge_code+`</span>
-//                            </div>
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                <span style="font-size:13px;">IDR `+getrupiah(passenger.child*msg.result.response.itinerary_price[i].amount)+`</span>
-//                            </div>
-//                        </div>`;
-//                        total_price+=passenger.child*msg.result.response.itinerary_price[i].amount;
-//                    }
-//
-//                }else if(msg.result.response.itinerary_price[i].charge_code == 'tax'){
-//                    if(msg.result.response.itinerary_price[i].pax_type == 'CHD'){
-//                        text+=`
-//                        <div class="row" style="margin-bottom:5px;">
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                                <span style="font-size:13px;">Tax Child</span>
-//                            </div>
-//                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                                <span style="font-size:13px;">IDR `+getrupiah(passenger.child*(msg.result.response.itinerary_price[i].amount+roc_child))+`</span>
-//                            </div>
-//                        </div>`;
-//                        total_price+=passenger.child*(msg.result.response.itinerary_price[i].amount+roc_child);
-//                    }
-//                }
-//            }
-//
-//            for(i in msg.result.response.itinerary_price){
-//                if(msg.result.response.itinerary_price[i].charge_code == 'inf'){
-//                    text+=`
-//                    <div class="row" style="margin-bottom:5px;">
-//                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-//                            <span style="font-size:13px;">`+passenger.infant+`x Infant </span>
-//                        </div>
-//                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-//                            <span style="font-size:13px;">IDR `+getrupiah(passenger.infant*msg.result.response.itinerary_price[i].amount)+`</span>
-//                        </div>
-//                    </div>`;
-//                    total_price+=passenger.infant*msg.result.response.itinerary_price[i].amount;
-//
-//                }
-//            }
-//
-//            text+=`
-//            <div>
-//                <hr/>
-//            </div>
-//            <div class="row" style="margin-bottom:10px;">
-//                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-//                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-//                </div>
-//                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-//                    <span style="font-size:13px; font-weight: bold;">IDR `+getrupiah(total_price)+`</span>
-//                </div>
-//            </div>
-//
-//            <div class="row" id="show_commission" style="display:none;">
-//                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-//                    <div class="alert alert-success">
-//                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1)  )+`</span><br>
-//                    </div>
-//                </div>
-//            </div>`;
-//            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
+                    text+=`<div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:13px;">`+msg.result.response[j];
+                            if(j == 'ADT')
+                                text+=`x Adult Fare `+getrupiah(price.FARE)+`</span>`;
+                            else if(j == 'CHD')
+                                text+=`x Child Fare `+getrupiah(price.FARE)+`</span>`;
+                            else if(j == 'INF')
+                                text+=`x Infant Fare `+getrupiah(price.FARE)+`</span>`;
+                            else if(j == 'YCD')
+                                text+=`x Elder Fare `+getrupiah(price.FARE)+`</span>`;
+                        text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">IDR `+getrupiah(msg.result.response[j] * parseInt(price.FARE))+`</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:13px;">`+msg.result.response[j];
+                            if(j == 'ADT')
+                                text+=`x Adult Tax `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            else if(j == 'CHD')
+                                text+=`x Child Tax `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            else if(j == 'INF')
+                                text+=`x Infant Tax `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            else if(j == 'YCD')
+                                text+=`x Elder Tax `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                        text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">IDR `+getrupiah(msg.result.response[j] * parseInt(price.TAX + price.ROC))+`</span>
+                        </div>
+                    </div>`;
+
+                    total_price += msg.result.response[j] * parseInt(price.TAX + price.ROC + price.FARE);
+                    commission += msg.result.response[j] * parseInt(price.RAC);
+                }
+            }
+            text+=`
+            <div>
+                <hr/>
+            </div>
+            <div class="row" style="margin-bottom:10px;">
+                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                </div>
+                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                    <span style="font-size:13px; font-weight: bold;">IDR `+getrupiah(total_price)+`</span>
+                </div>
+            </div>
+
+            <div class="row" id="show_commission" style="display:none;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1)  )+`</span><br>
+                    </div>
+                </div>
+            </div>`;
+            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
             document.getElementById('airline_detail').innerHTML = text;
             loadingReviewHide();
             if (msg.result.response.state != 'booked'){

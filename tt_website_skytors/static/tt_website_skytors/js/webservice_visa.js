@@ -260,10 +260,12 @@ function update_passenger(){
     for(i in passenger){ //pax type
         for(k in passenger[i]){ //pax
             if(i != 'booker' && i != 'contact'){
-                console.log(passenger[i]);
+                console.log(passenger[i][k]);
                 console.log(k);
-                if(i != passenger_type)
+                if(i != passenger_type){
                     pax_count = 0;
+                    passenger_type = i;
+                }
                 pax_count++;
                 var radios = document.getElementsByName(i+'_visa_type'+pax_count);
                 visa_type = '';
@@ -303,6 +305,7 @@ function update_passenger(){
                                 });
                             }
                         }
+                        console.log(visa.list_of_visa[j]);
                         data_pax.push({
                             'id':visa.list_of_visa[j].id.toString(),
                             'required': required

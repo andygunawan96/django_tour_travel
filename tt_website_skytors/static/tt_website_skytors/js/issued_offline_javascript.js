@@ -211,11 +211,12 @@ function add_table_of_passenger(){
                                                     </div>
                                                     <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="col-lg-6">
                                                     <label>Nationality</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select id="adult_nationality`+parseInt(counter_passenger+1)+`" name="adult_nationality`+parseInt(counter_passenger+1)+`">`;
+                                                            <select class="form-control js-example-basic-single" name="adult_nationality`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_nationality`+parseInt(counter_passenger+1)+`_id" placeholder="Nationality" onchange="auto_complete('adult_nationality`+parseInt(counter_passenger+1)+`')">
+                                                                <option value="">Select Nationality</option>`;
                                                                 for(i in countries){
                                                                     if(countries[i].code == 'ID')
                                                                        text+=`<option value="`+countries[i].code+`" selected>`+countries[i].name+`</option>`;
@@ -224,6 +225,7 @@ function add_table_of_passenger(){
                                                                 }
                                                             text+=`</select>
                                                         </div>
+                                                        <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -245,17 +247,19 @@ function add_table_of_passenger(){
                                                         <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" id="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+
+                                                <div class="col-lg-6">
                                                     <label>Country of Issued</label>
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`">
-                                                                <option value="">Select Country</option>`;
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                                <option value="">Select Country Of Issued</option>`;
                                                                 for(i in countries){
                                                                    text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                                 }
                                                             text+=`</select>
                                                         </div>
+                                                        <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />
                                                     </div>
                                                 </div>
 
@@ -308,6 +312,8 @@ function add_table_of_passenger(){
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
+
+
     $('input[type="text"].date-picker-birth').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
@@ -318,7 +324,7 @@ function add_table_of_passenger(){
           locale: {
               format: 'DD MMM YYYY',
           }
-      });
+    });
 
     $('input[type="text"].date-picker-passport').daterangepicker({
           singleDatePicker: true,
@@ -330,11 +336,16 @@ function add_table_of_passenger(){
           locale: {
               format: 'DD MMM YYYY',
           }
-      });
+    });
 
 //    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
-    counter_passenger++;
+
+    $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
+    $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
+//    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
     $('select').niceSelect();
+    auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
+    counter_passenger++;
 }
 
 function delete_table_of_passenger(){

@@ -215,7 +215,7 @@ function get_payment_acq(val){
         </div>`;
     document.getElementById('payment_acq').innerHTML += text;
     set_payment(val);
-    $('select').niceSelect();
+//    $('select').niceSelect();
     document.getElementById('payment_acq').hidden = false;
 }
 
@@ -228,7 +228,7 @@ function set_payment(val){
                 <label class="radio-button-custom">
                     <span style="font-size:14px;">`+payment_acq.result.response[payment_method][i].name+`</span>
                     <img width="40px" height="40px" src="`+payment_acq.result.response[payment_method][i].image+`"/>
-                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price(`+val+`);">
+                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`');">
                     <span class="checkmark-radio"></span>
                 </label>`;
     }
