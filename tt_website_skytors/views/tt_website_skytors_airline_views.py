@@ -209,6 +209,7 @@ def passenger(request):
             request.session['airline_pick'] = airline_pick
 
         except:
+            print('error airline_pick')
             pass
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -623,7 +624,7 @@ def booking(request):
             'username': request.session['user_account'],
             'airline_carriers': response['result']['response']['airline']['carriers'],
             'order_number': request.POST['order_number'],
-            # 'order_number': 'AL.19072420047',
+            # 'order_number': 'AL.19072558013',
             # 'order_number': 'AL.19072446048',
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)

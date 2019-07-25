@@ -6,6 +6,12 @@ api_key = '208413e7-3dee-4bed-9e16-5cfb9ce555a5';
 user_default = 'mob.it@rodextravel.tours';
 password_default = '123';
 
+# user_global = 'sam.api'
+# password_global = '54321'
+# api_key = '16e84a51-5255-45ce-902c-0a8259eab99d'
+# user_default = 'sam.api'
+# password_default = '54321'
+
 #old
 # user = "ivankai"
 # password = "Ivankecil"
