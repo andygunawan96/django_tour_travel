@@ -1,4 +1,130 @@
 $test = '';
+sorting_value = '';
+
+var tour_type_list = [
+    {
+        value:'All',
+        real_val: 'all',
+        status: true
+    },{
+        value:'Series (With Tour Leader)',
+        real_val: 'series',
+        status: false
+    },{
+        value:'SIC (Without Tour Leader)',
+        real_val: 'sic',
+        status: false
+    },{
+        value:'Land Only',
+        real_val: 'land',
+        status: false
+    },{
+        value:'City Tour',
+        real_val: 'city',
+        status: false
+    },{
+        value:'Private Tour',
+        real_val: 'private',
+        status: false
+    }
+]
+
+var budget_list = [
+    {
+        value:'All',
+        status: true
+    },
+    {
+        value:'0 - 1,000,000',
+        min: 0,
+        max: 1000000,
+        status: false
+    },
+    {
+        value:'1,000,000 - 2,000,000',
+        min: 1000000,
+        max: 2000000,
+        status: false
+    },
+    {
+        value:'2,000,000 - 5,000,000',
+        min: 2000000,
+        max: 5000000,
+        status: false
+    },
+    {
+        value:'5,000,000 - 10,000,000',
+        min: 5000000,
+        max: 10000000,
+        status: false
+    },
+    {
+        value:'10,000,000 - 20,000,000',
+        min: 10000000,
+        max: 20000000,
+        status: false
+    },
+    {
+        value:'>= 20,000,000',
+        min: 20000000,
+        max: 9999999999,
+        status: false
+    }
+]
+
+var sorting_list = [
+    {
+        value:'Name A-Z',
+        status: false
+    },
+    {
+        value:'Name Z-A',
+        status: false
+    },
+    {
+        value:'Lowest Price',
+        status: false
+    },
+    {
+        value:'Highest Price',
+        status: false
+    },
+    {
+        value:'Earliest Departure',
+        status: false
+    },
+    {
+        value:'Latest Departure',
+        status: false
+    },
+    {
+        value:'Shortest Duration',
+        status: false
+    },
+    {
+        value:'Longest Duration',
+        status: false
+    }
+]
+
+var sorting_list2 = [
+    {
+        value:'Name',
+        status: false
+    },
+    {
+        value:'Price',
+        status: false
+    },
+    {
+        value:'Departure',
+        status: false
+    },
+    {
+        value:'Duration',
+        status: false
+    }
+]
 
 function get_dept_year(){
     temp = document.getElementById('tour_hidden_year').value;
@@ -62,6 +188,7 @@ function copy_data(){
 }
 
 function render_room_tour_field(id, idx, data_list, data_hidden) {
+    var package_id = parseInt(document.getElementById("tour_id").value);
     var room_lib = {
         'double': 'Double/Twin',
         'triple': 'Triple'
@@ -84,7 +211,7 @@ function render_room_tour_field(id, idx, data_list, data_hidden) {
         template += '</div>';
         template += '<div class="col-lg-4 col-md-4 col-sm-4">';
         template += '<span>Child</span><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="2-11 years old" style="padding-left:5px;"></i>';
-        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-child icon-search-ticket" style="font-size:14px;"></i><div class="form-select"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="get_price_itinerary()">';
+        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-child icon-search-ticket" style="font-size:14px;"></i><div class="form-select"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="get_price_itinerary(' + package_id + ')">';
         for (var i=0; i<=parseInt(data_list[10])-1; i++)
         {
             if (i == 0) {template += '<option selected value="' + i + '">' + i + '</option>';}
@@ -94,7 +221,7 @@ function render_room_tour_field(id, idx, data_list, data_hidden) {
         template += '</div>';
         template += '<div class="col-lg-4 col-md-4 col-sm-4">';
         template += '<span>Infant</span><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="below 2 years old" style="padding-left:5px;"></i>';
-        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-baby icon-search-ticket" style="font-size:14px;"></i><div class="form-select"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="get_price_itinerary()">';
+        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-baby icon-search-ticket" style="font-size:14px;"></i><div class="form-select"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="get_price_itinerary(' + package_id + ')">';
         template += '<option selected value="0">0</option>';
         template += '<option value="1">1</option>';
         template += '</select></div></div>';
@@ -119,6 +246,7 @@ function render_room_tour_field(id, idx, data_list, data_hidden) {
 
 function render_child_infant_selection(adult_select) {
     var id = adult_select.getAttribute("data-index");
+    var package_id = parseInt(document.getElementById("tour_id").value);
     var pax_limit = parseInt(adult_select.getAttribute("data-pax-limit"));
     var value = parseInt(adult_select.value);
     var child = pax_limit - value;
@@ -146,238 +274,7 @@ function render_child_infant_selection(adult_select) {
         option.value = i;
         $infant.appendChild(option);
     }
-    get_price_itinerary();
-}
-
-function get_price_itinerary() {
-    document.getElementById("single_supplement_amount").value = 0;
-    document.getElementById("single_supplement_price").value = 0;
-    document.getElementById("airport_tax_amount").value = 0;
-    document.getElementById("airport_tax_total").value = 0;
-    document.getElementById("tipping_guide_amount").value = 0;
-    document.getElementById("tipping_guide_total").value = 0;
-    document.getElementById("tipping_tour_leader_amount").value = 0;
-    document.getElementById("tipping_tour_leader_total").value = 0;
-
-    var airport_tax = document.getElementById("airport_tax").value;
-    var tipping_guide = document.getElementById("tipping_guide").value;
-    var tipping_tour_leader = document.getElementById("tipping_tour_leader").value;
-    var guiding_days = document.getElementById("guiding_days").value;
-    var duration = document.getElementById("duration").value;
-
-    var single_supplement_amount = 0;
-    var single_supplement_price = 0;
-    var grand_total_pax = 0;
-    var grand_total_pax_no_infant = 0;
-    var adult_total_pax = 0;
-    var child_total_pax = 0;
-    var infant_total_pax = 0;
-
-    document.getElementById("adult_amount").value = 0;
-    document.getElementById("adult_price").value = 0;
-    document.getElementById("adult_commission").value = 0;
-    var adult_sale_price = parseInt(document.getElementById("adult_sale_price_hidden").value);
-    var adult_commission = parseInt(document.getElementById("adult_commission_hidden").value);
-    var adult_amount = 0;
-
-    document.getElementById("adult_surcharge_amount").value = 0;
-    document.getElementById("adult_surcharge_price").value = 0;
-    var adult_surcharge_total = 0;
-    var adult_surcharge_amount = 0;
-
-    document.getElementById("child_amount").value = 0;
-    document.getElementById("child_price").value = 0;
-    document.getElementById("child_commission").value = 0;
-    var child_sale_price = parseInt(document.getElementById("child_sale_price_hidden").value);
-    var child_commission = parseInt(document.getElementById("child_commission_hidden").value);
-    var child_amount = 0;
-
-    document.getElementById("child_surcharge_amount").value = 0;
-    document.getElementById("child_surcharge_price").value = 0;
-    var child_surcharge_total = 0;
-    var child_surcharge_amount = 0;
-
-    document.getElementById("infant_amount").value = 0;
-    document.getElementById("infant_price").value = 0;
-    document.getElementById("infant_commission").value = 0;
-    var infant_sale_price = parseInt(document.getElementById("infant_sale_price_hidden").value);
-    var infant_commission = parseInt(document.getElementById("infant_commission_hidden").value);
-    var infant_amount = 0;
-
-    var room_amount = document.getElementById("room_amount");
-
-    if (room_amount.value <= 0)
-    {
-        $('#btnDeleteRooms').addClass("hide");
-        $('#total-price-container').addClass("hide");
-    }
-    else {
-        $('#btnDeleteRooms').removeClass("hide");
-        $('#total-price-container').removeClass("hide");
-    }
-
-    for (var i=0; i<room_amount.value; i++)
-    {
-        var temp = 'data_per_room_hidden_'+String(i+1);
-        var data_per_room_hidden = document.getElementById(temp).value;
-        var data_per_room_list = data_per_room_hidden.split("~");
-        var pax_minimum = parseInt(data_per_room_list[11]);
-        var extra_bed_limit = parseInt(data_per_room_list[15]);
-        var single_supplement = parseInt(data_per_room_list[13]);
-        var adult_surcharge_price = parseInt(data_per_room_list[3]);
-        var child_surcharge_price = parseInt(data_per_room_list[5]);
-
-        temp = 'adult_tour_room_'+String(i+1);
-        var adult_amount_per_room = parseInt(document.getElementById(temp).value);
-        temp = 'child_tour_room_'+String(i+1);
-        var child_amount_per_room = parseInt(document.getElementById(temp).value);
-        temp = 'infant_tour_room_'+String(i+1);
-        var infant_amount_per_room = parseInt(document.getElementById(temp).value);
-
-        var total_amount = adult_amount_per_room + child_amount_per_room + infant_amount_per_room;
-        var total_amount_no_infant = adult_amount_per_room + child_amount_per_room;
-
-        grand_total_pax += total_amount;
-        grand_total_pax_no_infant += total_amount_no_infant;
-        adult_total_pax += adult_amount_per_room;
-        child_total_pax += child_amount_per_room;
-        infant_total_pax += infant_amount_per_room;
-
-        if (total_amount_no_infant < pax_minimum) {
-            var single_sup = pax_minimum - total_amount_no_infant;
-            single_supplement_amount += single_sup;
-            single_supplement_price += single_sup * single_supplement;
-            adult_amount += total_amount_no_infant
-            infant_amount += infant_amount_per_room
-        }
-        else {
-            if (adult_amount_per_room >= pax_minimum) {
-                adult_amount += adult_amount_per_room;
-                if (adult_amount_per_room - pax_minimum <= extra_bed_limit) {
-                    adult_surcharge_amount += adult_amount_per_room - pax_minimum;
-                    adult_surcharge_total += (adult_amount_per_room - pax_minimum) * adult_surcharge_price;
-                    extra_bed_limit -= adult_amount_per_room - pax_minimum;
-                    if (child_amount_per_room <= extra_bed_limit) {
-                        child_amount += child_amount_per_room;
-                        child_surcharge_amount += child_amount_per_room;
-                        child_surcharge_total += child_amount_per_room * child_surcharge_price;
-                    }
-                    else {
-                        child_amount += child_amount_per_room;
-                        child_surcharge_amount += child_amount_per_room - extra_bed_limit;
-                        child_surcharge_total += (child_amount_per_room - extra_bed_limit) * child_surcharge_price;
-                    }
-                } else {
-                    adult_surcharge_amount += adult_amount_per_room - pax_minimum - extra_bed_limit;
-                    adult_surcharge_total += (adult_amount_per_room - pax_minimum - extra_bed_limit) * adult_surcharge_price;
-                    child_amount += child_amount_per_room;
-                }
-//                child_amount += child_amount_per_room;
-//                child_surcharge_amount += child_amount_per_room;
-//                child_surcharge_total += child_amount_per_room * child_surcharge_price;
-                infant_amount += infant_amount_per_room;
-            }
-            else {
-                adult_amount += pax_minimum;
-                if (child_amount_per_room > 0) {
-                    if (Math.max(child_amount_per_room - (pax_minimum - adult_amount_per_room), 0) != 0) {
-                        if ((child_amount_per_room - (pax_minimum - adult_amount_per_room)) > extra_bed_limit) {
-                            child_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
-                            child_surcharge_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room) - extra_bed_limit;
-                            child_surcharge_total += (child_amount_per_room - (pax_minimum - adult_amount_per_room) - extra_bed_limit) * child_surcharge_price;
-                        } else {
-                            child_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
-                            child_surcharge_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
-                            child_surcharge_total += (child_amount_per_room - (pax_minimum - adult_amount_per_room)) * child_surcharge_price;
-                        }
-                    }
-                }
-                if (infant_amount_per_room > 0) {
-                    if (adult_amount_per_room + child_amount_per_room < pax_minimum) {
-                        infant_amount += Math.max(infant_amount_per_room - (pax_minimum - adult_amount_per_room - child_amount_per_room), 0);
-                    }
-                    else {
-                        infant_amount += infant_amount_per_room;
-                    }
-                }
-            }
-        }
-    }
-
-    document.getElementById('adult_total_pax').value = adult_total_pax;
-    document.getElementById('child_total_pax').value = child_total_pax;
-
-    var discount_total = 0;
-    var tour_type = document.getElementById("tour_type").value;
-    if (tour_type == 'private' || tour_type== 'sic')
-    {
-        var discount = JSON.parse(document.getElementById("discount").value);
-        for (var i=0; i < discount.length; i++) {
-            var min_pax = discount[i]['min_pax'];
-            var max_pax = discount[i]['max_pax'];
-            var discount_per_pax = discount[i]['discount_per_pax'];
-            if ((grand_total_pax_no_infant >= min_pax) && (grand_total_pax_no_infant <= max_pax)) {
-                adult_sale_price = parseInt(document.getElementById("adult_sale_price_hidden").value) - discount_per_pax;
-                child_sale_price = parseInt(document.getElementById("child_sale_price_hidden").value) - discount_per_pax;
-                adult_commission *= 0.5;
-                child_commission *= 0.5;
-                infant_commission *= 0.5;
-                discount_total = discount[i]['discount_total'];
-                break;
-            }
-        }
-    }
-
-    document.getElementById("single_supplement_amount").value = single_supplement_amount;
-    document.getElementById("single_supplement_price").setAttribute("data-price", single_supplement_price);
-    document.getElementById("single_supplement_price").value = getrupiah(single_supplement_price);
-
-    document.getElementById("adult_amount").value = adult_amount;
-    document.getElementById("adult_price").setAttribute("data-price", adult_amount * adult_sale_price);
-    document.getElementById("adult_price").value = getrupiah(adult_amount * adult_sale_price);
-    document.getElementById("adult_commission").setAttribute("data-price", adult_amount * adult_commission);
-    document.getElementById("adult_commission").value = getrupiah(adult_amount * adult_commission);
-    document.getElementById("adult_surcharge_amount").value = adult_surcharge_amount;
-    document.getElementById("adult_surcharge_price").setAttribute("data-price", adult_surcharge_total);
-    document.getElementById("adult_surcharge_price").value = getrupiah(adult_surcharge_total);
-
-    document.getElementById("child_amount").value = child_amount;
-    document.getElementById("child_price").setAttribute("data-price", child_amount * child_sale_price);
-    document.getElementById("child_price").value = getrupiah(child_amount * child_sale_price);
-    document.getElementById("child_commission").setAttribute("data-price", child_amount * child_commission);
-    document.getElementById("child_commission").value = getrupiah(child_amount * child_commission);
-    document.getElementById("child_surcharge_amount").value = child_surcharge_amount;
-    document.getElementById("child_surcharge_price").setAttribute("data-price", child_surcharge_total);
-    document.getElementById("child_surcharge_price").value = getrupiah(child_surcharge_total);
-
-    document.getElementById("infant_amount").value = infant_amount;
-    document.getElementById("infant_price").setAttribute("data-price", infant_amount * infant_sale_price);
-    document.getElementById("infant_price").value = getrupiah(infant_amount * infant_sale_price);
-    document.getElementById("infant_commission").setAttribute("data-price", infant_amount * infant_commission);
-    document.getElementById("infant_commission").value = getrupiah(infant_amount * infant_commission);
-
-    var airport_tax = grand_total_pax * airport_tax;
-    document.getElementById("airport_tax_amount").value = grand_total_pax;
-    document.getElementById("airport_tax_total").setAttribute("data-price", airport_tax);
-    document.getElementById("airport_tax_total").value = getrupiah(airport_tax);
-
-    var tipping_guide_total = (adult_total_pax + child_total_pax) * tipping_guide * guiding_days;
-    var tipping_tour_leader_total = (adult_total_pax + child_total_pax) * tipping_tour_leader * duration;
-
-    document.getElementById("tipping_guide_amount").value = adult_total_pax + child_total_pax;
-    document.getElementById("tipping_guide_total").setAttribute("data-price", tipping_guide_total);
-    document.getElementById("tipping_guide_total").value = getrupiah(tipping_guide_total);
-
-    document.getElementById("tipping_tour_leader_amount").value = adult_total_pax + child_total_pax;
-    document.getElementById("tipping_tour_leader_total").setAttribute("data-price", tipping_tour_leader_total);
-    document.getElementById("tipping_tour_leader_total").value = getrupiah(tipping_tour_leader_total);
-    get_total_price(discount_total);
-    for (var i=0; i<room_amount.value; i++)
-    {
-        $('#adult_tour_room_'+String(i+1)).niceSelect('update');
-        $('#child_tour_room_'+String(i+1)).niceSelect('update');
-        $('#infant_tour_room_'+String(i+1)).niceSelect('update');
-    }
+    get_price_itinerary(package_id);
 }
 
 function get_total_price(discount_total) {
@@ -392,6 +289,7 @@ function get_total_price(discount_total) {
     total_price += parseInt(document.getElementById("airport_tax_total").getAttribute("data-price"));
     total_price += parseInt(document.getElementById("tipping_guide_total").getAttribute("data-price"));
     total_price += parseInt(document.getElementById("tipping_tour_leader_total").getAttribute("data-price"));
+    total_price += parseInt(document.getElementById("tipping_driver_total").getAttribute("data-price"));
     total_price += parseInt(document.getElementById("additional_charge_total").getAttribute("data-price"));
     document.getElementById("sub_total_hidden").value = total_price;
     document.getElementById("sub_total").value = getrupiah(total_price);
@@ -843,6 +741,489 @@ function check_before_add_repricing(){
         alert('Please re-check all the tour datas!');
 }
 
+function tour_filter_render(){
+
+    var node = document.createElement("div");
+    text = '';
+    text+= `<h4>Filter</h4>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+    for(i in tour_type_list){
+        if(i == 0)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_tour_type`+i+`" onclick="change_filter('tour_type',`+i+`);" checked/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_tour_type`+i+`" onclick="change_filter('tour_type',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+    node = document.createElement("div");
+
+    text=`
+        <hr/>
+        <h6 style="padding-bottom:10px;">Price (Rupiah)</h6>`;
+    for(i in budget_list){
+        if(i == 0)
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)" checked />
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)"/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+
+    text='';
+    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+
+    for(i in sorting_list2){
+        text+=`
+        <button class="primary-btn-sorting" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list2[i].value.toLowerCase()+`');" value="`+sorting_list2[i].value+`">
+            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
+            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
+        </button>`;
+    }
+    node = document.createElement("div");
+    node.className = 'sorting-box';
+    node.innerHTML = text;
+    document.getElementById("sorting-flight").appendChild(node);
+
+
+    var node2 = document.createElement("div");
+    text = '';
+    text+= `<h4>Filter</h4>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+    for(i in tour_type_list){
+        if(i == 0)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_tour_type2`+i+`" onclick="change_filter('tour_type',`+i+`);" checked/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+tour_type_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_tour_type2`+i+`" onclick="change_filter('tour_type',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+    node2 = document.createElement("div");
+
+    text=`
+        <hr/>
+        <h6 style="padding-bottom:10px;">Price</h6>`;
+    for(i in budget_list){
+        if(i == 0)
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_budget2`+i+`" onclick="change_filter('budget',`+i+`)" checked />
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text+=`
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
+                <input type="checkbox" id="checkbox_budget2`+i+`" onclick="change_filter('budget',`+i+`)"/>
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+
+    text='';
+    text+=`<h4>Sorting</h4>
+            <hr/>`;
+
+    for(i in sorting_list){
+
+            text+=`
+            <label class="radio-button-custom">
+                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+                <span class="checkmark-radio"></span>
+            </label></br>`;
+
+    }
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("sorting-flight2").appendChild(node2);
+}
+
+function sort_button(value){
+
+    if(value == 'name'){
+       if(sorting_value == '' || sorting_value == 'Name A-Z'){
+           sorting_value = 'Name Z-A';
+           document.getElementById("img-sort-down-name").style.display = "none";
+           document.getElementById("img-sort-up-name").style.display = "block";
+       }else{
+           sorting_value = 'Name A-Z';
+           document.getElementById("img-sort-down-name").style.display = "block";
+           document.getElementById("img-sort-up-name").style.display = "none";
+       }
+   }else if(value == 'price'){
+       if(sorting_value == '' || sorting_value == 'Lowest Price'){
+           sorting_value = 'Highest Price';
+           document.getElementById("img-sort-down-price").style.display = "none";
+           document.getElementById("img-sort-up-price").style.display = "block";
+       }else{
+           sorting_value = 'Lowest Price';
+           document.getElementById("img-sort-down-price").style.display = "block";
+           document.getElementById("img-sort-up-price").style.display = "none";
+       }
+
+   }else if(value == 'departure'){
+       if(sorting_value == '' || sorting_value == 'Earliest Departure'){
+           sorting_value = 'Latest Departure';
+           document.getElementById("img-sort-down-departure").style.display = "none";
+           document.getElementById("img-sort-up-departure").style.display = "block";
+       }else{
+           sorting_value = 'Earliest Departure';
+           document.getElementById("img-sort-down-departure").style.display = "block";
+           document.getElementById("img-sort-up-departure").style.display = "none";
+       }
+   }else if(value == 'duration'){
+       if(sorting_value == '' || sorting_value == 'Shortest Duration'){
+           sorting_value = 'Longest Duration';
+           document.getElementById("img-sort-down-duration").style.display = "none";
+           document.getElementById("img-sort-up-duration").style.display = "block";
+       }else{
+           sorting_value = 'Shortest Duration';
+           document.getElementById("img-sort-down-duration").style.display = "block";
+           document.getElementById("img-sort-up-duration").style.display = "none";
+       }
+   }else{
+       sorting_value = value;
+   }
+   filtering('filter');
+}
+
+function change_filter(type, value){
+    var check = 0;
+    if(type == 'tour_type'){
+        if(value == 0)
+            for(i in tour_type_list){
+                tour_type_list[i].status = false
+                document.getElementById("checkbox_tour_type"+i).checked = tour_type_list[i].status;
+                document.getElementById("checkbox_tour_type2"+i).checked = tour_type_list[i].status;
+            }
+        else{
+            tour_type_list[0].status = false;
+            document.getElementById("checkbox_tour_type0").checked = false;
+            document.getElementById("checkbox_tour_type20").checked = false;
+        }
+        tour_type_list[value].status = !tour_type_list[value].status;
+        for(i in tour_type_list){
+            if(tour_type_list[i].status == true)
+                check = 1;
+        }
+        if(check == 0)
+            tour_type_list[value].status = !tour_type_list[value].status;
+        document.getElementById("checkbox_tour_type"+value).checked = tour_type_list[value].status;
+        document.getElementById("checkbox_tour_type2"+value).checked = tour_type_list[value].status;
+    }else if(type == 'budget'){
+        if(value == 0)
+            for(i in budget_list){
+                budget_list[i].status = false
+                document.getElementById("checkbox_budget"+i).checked = budget_list[i].status;
+                document.getElementById("checkbox_budget2"+i).checked = budget_list[i].status;
+            }
+        else{
+            budget_list[0].status = false;
+            document.getElementById("checkbox_budget0").checked = false;
+            document.getElementById("checkbox_budget20").checked = false;
+        }
+        budget_list[value].status = !budget_list[value].status;
+        for(i in budget_list){
+            if(budget_list[i].status == true)
+                check = 1;
+        }
+        if(check == 0)
+            budget_list[value].status = !budget_list[value].status;
+        document.getElementById("checkbox_budget"+value).checked = budget_list[value].status;
+        document.getElementById("checkbox_budget2"+value).checked = budget_list[value].status;
+    }
+    filtering('filter');
+}
+
+function filtering(type){
+   var temp_data = [];
+   data = tour_data;
+   if(type == 'filter'){
+       check_tour_type = 0;
+       check_budget = 0;
+       for(i in tour_type_list)
+           if(tour_type_list[i].status == true && tour_type_list[i].value != 'All')
+               check_tour_type = 1;
+
+       for(i in budget_list)
+           if(budget_list[i].status == true && budget_list[i].value != 'All')
+               check_budget = 1;
+
+       var check = 0;
+       if(check_tour_type == 1){
+           data.forEach((obj)=> {
+               check = 0;
+               tour_type_list.forEach((obj1)=> {
+                   if(obj.tour_type == obj1.real_val && obj1.status==true){
+                       check = 1;
+                   }
+               });
+               if(check != 0){
+                   temp_data.push(obj);
+               }
+           });
+           data = temp_data;
+           temp_data = [];
+       }
+
+       if(check_budget == 1){
+           data.forEach((obj)=> {
+               check = 0;
+               budget_list.forEach((obj1)=> {
+                   if(obj1.status == true && check == 0){
+                       if (obj.adult_sale_price >= obj1.min && obj.adult_sale_price <= obj1.max)
+                       {
+                            temp_data.push(obj);
+                            check = 1;
+                       }
+                   }
+               });
+           });
+           data = temp_data;
+           temp_data = [];
+       }
+       console.log(data);
+       sort(data);
+
+   }else if(type == 'sort'){
+       sort(tour_data);
+   }
+}
+
+function sort(tour_dat){
+    console.log(tour_dat);
+    if (tour_dat.length == 0){
+        document.getElementById("tour_ticket").innerHTML = '';
+        text = '';
+        text += `
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                        <br/><br/>
+                        <h6>NO TOUR AVAILABLE</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+            </div>
+            `;
+        document.getElementById("tour_ticket").innerHTML = text;
+    }
+    else{
+        //show data
+        sorting = '';
+        var radios = document.getElementsByName('radio_sorting');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                sorting = document.getElementById('radio_sorting2'+j).value;
+                break;
+            }
+        }
+        if(sorting_value != ''){
+            sorting = sorting_value;
+        }
+        console.log(sorting);
+        for(var i = 0; i < tour_dat.length-1; i++) {
+            for(var j = i+1; j < tour_dat.length; j++) {
+                if(sorting == '' || sorting == 'Name A-Z'){
+                    if(tour_dat[i].name > tour_dat[j].name){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }
+                if(sorting == 'Name Z-A'){
+                    if(tour_dat[i].name < tour_dat[j].name){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }else if(sorting == 'Lowest Price'){
+                    if(tour_dat[i].adult_sale_price > tour_dat[j].adult_sale_price){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }else if(sorting == 'Highest Price'){
+                    if(tour_dat[i].adult_sale_price < tour_dat[j].adult_sale_price){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }else if(sorting == 'Earliest Departure'){
+                    var dept_datei = '';
+                    var dept_datej = '';
+                    if(tour_dat[i].tour_category == 'private')
+                    {
+                        dept_datei = Date.parse(tour_dat[i].start_period_ori);
+                    }
+                    else
+                    {
+                        dept_datei = Date.parse(tour_dat[i].departure_date_ori);
+                    }
+
+                    if(tour_dat[j].tour_category == 'private')
+                    {
+                        dept_datej = Date.parse(tour_dat[j].start_period_ori);
+                    }
+                    else
+                    {
+                        dept_datej = Date.parse(tour_dat[j].departure_date_ori);
+                    }
+                    if(dept_datei > dept_datej){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }else if(sorting == 'Latest Departure'){
+                    var dept_datei = '';
+                    var dept_datej = '';
+                    if(tour_dat[i].tour_category == 'private')
+                    {
+                        dept_datei = Date.parse(tour_dat[i].start_period_ori);
+                    }
+                    else
+                    {
+                        dept_datei = Date.parse(tour_dat[i].departure_date_ori);
+                    }
+
+                    if(tour_dat[j].tour_category == 'private')
+                    {
+                        dept_datej = Date.parse(tour_dat[j].start_period_ori);
+                    }
+                    else
+                    {
+                        dept_datej = Date.parse(tour_dat[j].departure_date_ori);
+                    }
+                    if(dept_datei < dept_datej){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }else if(sorting == 'Shortest Duration'){
+                    if(tour_dat[i].duration > tour_dat[j].duration){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }else if(sorting == 'Longest Duration'){
+                    if(tour_dat[i].duration < tour_dat[j].duration){
+                        var temp = tour_dat[i];
+                        tour_dat[i] = tour_dat[j];
+                        tour_dat[j] = temp;
+                    }
+                }
+
+            }
+        }
+        tour_data_filter = tour_dat;
+        console.log(tour_dat);
+        document.getElementById("tour_ticket").innerHTML = '';
+        text = '';
+        for(i in tour_dat)
+        {
+           if (tour_dat[i].images_obj.length > 0)
+           {
+               img_src = tour_dat[i].images_obj[0].url;
+           }
+           else
+           {
+               img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+           }
+
+           if (tour_dat[i].state_tour == 'sold')
+           {
+               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].arrival_date;
+               dat_content2 = `Sold Out`
+           }
+           else
+           {
+               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].arrival_date;
+               dat_content2 = `Availability: `+tour_dat[i].seat+`/`+tour_dat[i].quota;
+           }
+
+           text+=`
+
+           <div class="col-lg-4 col-md-6">
+                <form action='/tour/detail' method='POST' id='myForm`+tour_dat[i].sequence+`'>
+                <div id='csrf`+tour_dat[i].sequence+`'></div>
+                <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
+                <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
+                <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>
+                <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
+                    <div class="single-destination relative">
+                        <div class="thumb relative">
+                            <div class="overlay overlay-bg"></div>
+                            <img class="img-fluid" src="`+img_src+`" alt="">
+                        </div>
+                        <div class="card card-effect-promotion">
+                            <div class="card-body">
+                                <div class="row details">
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                        <span style="font-size:12px;">`+dat_content1+`</span><br/>
+                                        <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:right;">
+                                        <span style="font-size:12px;font-weight:bold;">IDR `+tour_dat[i].adult_sale_price_with_comma+`  </span>
+                                        <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+           `;
+        }
+        document.getElementById('tour_ticket').innerHTML += text;
+    }
+}
+
 $(document).ready(function () {
     $('#btnDeleteRooms').click(function(){
         var index = document.getElementById('room_amount').value;
@@ -850,6 +1231,7 @@ $(document).ready(function () {
         var data_room = '#data_per_room_hidden_' + String(index);
         var total_additional_amount = parseInt(document.getElementById("additional_charge_amount").value);
         var total_additional_price = parseInt(document.getElementById("additional_charge_total").getAttribute("data-price"))
+        var package_id = parseInt(document.getElementById("tour_id").value);
         data_room = $(data_room).val();
         var data_list = data_room.split('~');
         var additional_charge = parseInt(data_list[0]);
@@ -863,6 +1245,6 @@ $(document).ready(function () {
         $(temp).remove();
         index--;
         document.getElementById('room_amount').value = index;
-        get_price_itinerary();
+        get_price_itinerary(package_id);
     });
 });

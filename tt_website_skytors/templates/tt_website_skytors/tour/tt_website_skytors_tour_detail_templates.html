@@ -102,19 +102,38 @@
                                         {% csrf_token %}
                                         <div class="row">
                                             <div class="col-lg-7" style="margin-bottom:15px; padding-top:10px;">
-                                                {% if response.tour_type == 'private' or response.tour_type == 'sic'%}
-                                                <h3>Tour Date</h3>
-                                                <label for="departure_date_tour">Departure Date</label>
-                                                <input class="form-control calendar-logo dept_date_tour" type="text" name="departure_date_tour" id="departure_date_tour" placeholder="Choose your departure date"/>
-                                                <input type="hidden" id="departure_date_tour2" name="departure_date_tour2" value=""/><br/>
-                                                <label for="arrival_date_tour">Arrival Date</label>
-                                                <input class="form-control calendar-logo dept_date_tour" type="text" name="arrival_date_tour" id="arrival_date_tour" placeholder="Choose your arrival date"/>
-                                                <input type="hidden" id="arrival_date_tour2" name="arrival_date_tour2" value=""/>
+                                                {% if response.tour_type == 'private' %}
+                                                <div class="banner-right" style="margin-bottom: 25px;">
+                                                    <div class="form-wrap" style="text-align: left; padding:0px;">
+                                                        <h4>Tour Date</h4>
+                                                        <hr/>
+                                                        <label for="departure_date_tour">Departure Date</label>
+                                                        <div class="input-container-search-ticket btn-group">
+                                                            <i class="fas fa-calendar icon-search-ticket" style="font-size:14px;"></i>
+                                                            <input class="form-control" type="text" name="departure_date_tour" id="departure_date_tour" placeholder="Choose your departure date"/>
+                                                        </div>
+                                                        <input type="hidden" id="departure_date_tour2" name="departure_date_tour2" value=""/><br/>
+                                                        <label for="arrival_date_tour">Arrival Date</label>
+                                                        <div class="input-container-search-ticket btn-group">
+                                                            <i class="fas fa-calendar icon-search-ticket" style="font-size:14px;"></i>
+                                                            <input class="form-control" type="text" name="arrival_date_tour" id="arrival_date_tour" placeholder="Choose your arrival date"/>
+                                                        </div>
+                                                        <input type="hidden" id="arrival_date_tour2" name="arrival_date_tour2" value=""/>
+                                                    </div>
+                                                </div>
                                                 {% endif %}
                                                 <input type="hidden" id="tour_id" name="tour_id" value="{{response.id}}"/>
                                                 <input type="hidden" id="tipping_guide" name="tipping_guide" value="{{response.tipping_guide}}"/>
                                                 <input type="hidden" id="tipping_tour_leader" name="tipping_tour_leader" value="{{response.tipping_tour_leader}}"/>
+                                                <input type="hidden" id="tipping_driver" name="tipping_driver" value="{{response.tipping_driver}}"/>
+                                                <input type="hidden" id="tipping_guide_child" name="tipping_guide" value="{{response.tipping_guide_child}}"/>
+                                                <input type="hidden" id="tipping_tour_leader_child" name="tipping_tour_leader" value="{{response.tipping_tour_leader_child}}"/>
+                                                <input type="hidden" id="tipping_driver_child" name="tipping_driver" value="{{response.tipping_driver_child}}"/>
+                                                <input type="hidden" id="tipping_guide_infant" name="tipping_guide" value="{{response.tipping_guide_infant}}"/>
+                                                <input type="hidden" id="tipping_tour_leader_infant" name="tipping_tour_leader" value="{{response.tipping_tour_leader_infant}}"/>
+                                                <input type="hidden" id="tipping_driver_infant" name="tipping_driver" value="{{response.tipping_driver_infant}}"/>
                                                 <input type="hidden" id="guiding_days" name="guiding_days" value="{{response.guiding_days}}"/>
+                                                <input type="hidden" id="driving_times" name="driving_times" value="{{response.driving_times}}"/>
                                                 <input type="hidden" id="duration" name="duration" value="{{response.duration}}"/>
                                                 <input type="hidden" id="airport_tax" name="airport_tax" value="{{response.airport_tax}}"/>
                                                 <input type="hidden" id="seat" name="seat" value="{{response.seat}}"/>
@@ -253,6 +272,17 @@
                                                             </div>
                                                         </div>
                                                         <div class="row">
+                                                            <div class="col-xs-5">Tipping Driver</div>
+                                                            <div class="col-xs-1">x</div>
+                                                            <div class="col-xs-2">
+                                                                <input id="tipping_driver_amount" name="tipping_driver_amount" style="background-color: transparent; border: none; width:100%;" readonly="readonly"/>
+                                                            </div>
+                                                            <div class="col-xs-1"></div>
+                                                            <div class="col-xs-3" style="text-align: right;" data-price="0">
+                                                                <input id="tipping_driver_total" name="tipping_driver_total" style="text-align:right; background-color: transparent; border: none; width:100%;" data-price="0" readonly="readonly"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
                                                             <div class="col-xs-5">Additional Charge</div>
                                                             <div class="col-xs-1">x</div>
                                                             <div class="col-xs-2">
@@ -379,5 +409,30 @@
 <script>
     sel_id = document.getElementById('selected_tour_id').value;
     tour_get_details(sel_id);
+    $(function() {
+        $('#departure_date_tour').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              showDropdowns: true,
+              opens: 'right',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+
+        $('#arrival_date_tour').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment().subtract(-1, 'days'),
+              minDate: moment().subtract(-1, 'days'),
+              showDropdowns: true,
+              opens: 'right',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+      });
 </script>
 {% endblock %}

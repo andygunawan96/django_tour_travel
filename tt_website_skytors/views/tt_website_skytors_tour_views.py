@@ -75,7 +75,7 @@ def search(request):
         ]
 
         budget_data = [
-            {'value': '0-999999999', 'string': 'All'},
+            {'value': '0-999999999', 'string': 'All Budget'},
             {'value': '0-1000000', 'string': '0-1 juta'},
             {'value': '1000000-2000000', 'string': '1-2 juta'},
             {'value': '2000000-5000000', 'string': '2-5 juta'},
@@ -84,13 +84,11 @@ def search(request):
             {'value': '20000000-99000000', 'string': '> 20 juta'},
         ]
 
-        budget_limit = request.POST['tour_budget'].split('-')
         request.session['tour_request'] = {
+            'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
             'country_id': request.POST['tour_destination'],
             'month': request.POST['tour_dest_month'],
             'year': request.POST['tour_dest_year'],
-            'budget_min': budget_limit[0],
-            'budget_max': budget_limit[1],
             'limit': 25,
             'offset': 0,
         }
@@ -98,12 +96,11 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
             'dest_destination': request.POST['tour_destination'],
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,
-            'budget_sel': request.POST['tour_budget'],
-            'budget_data': budget_data,
         }
         return render(request, MODEL_NAME + '/tour/tt_website_skytors_tour_search_templates.html', values)
     else:
@@ -207,6 +204,8 @@ def passenger(request):
                 'tipping_guide_total': request.POST.get('tipping_guide_total') and int(request.POST['tipping_guide_total'].replace(',', '')) or 0,
                 'tipping_tour_leader_amount': request.POST.get('tipping_tour_leader_amount') and int(request.POST['tipping_tour_leader_amount'].replace(',', '')) or 0,
                 'tipping_tour_leader_total': request.POST.get('tipping_tour_leader_total') and int(request.POST['tipping_tour_leader_total'].replace(',', '')) or 0,
+                'tipping_driver_amount': request.POST.get('tipping_driver_amount') and int(request.POST['tipping_driver_amount'].replace(',', '')) or 0,
+                'tipping_driver_total': request.POST.get('tipping_driver_total') and int(request.POST['tipping_driver_total'].replace(',', '')) or 0,
                 'additional_charge_amount': request.POST.get('additional_charge_amount') and int(request.POST['additional_charge_amount'].replace(',', '')) or 0,
                 'additional_charge_total': request.POST.get('additional_charge_total') and int(request.POST['additional_charge_total'].replace(',', '')) or 0,
                 'total_itinerary_price': request.POST.get('grand_total_hidden') and int(request.POST['grand_total_hidden']) or 0,
@@ -304,6 +303,8 @@ def review(request):
                 'tipping_guide_total': int(request.POST['tipping_guide_total'].replace(',', '')),
                 'tipping_tour_leader_amount': int(request.POST['tipping_tour_leader_amount'].replace(',', '')),
                 'tipping_tour_leader_total': int(request.POST['tipping_tour_leader_total'].replace(',', '')),
+                'tipping_driver_amount': int(request.POST['tipping_driver_amount'].replace(',', '')),
+                'tipping_driver_total': int(request.POST['tipping_driver_total'].replace(',', '')),
                 'additional_charge_amount': int(request.POST['additional_charge_amount'].replace(',', '')),
                 'additional_charge_total': int(request.POST['additional_charge_total'].replace(',', '')),
                 'total_itinerary_price': int(request.POST['grand_total_hidden']),

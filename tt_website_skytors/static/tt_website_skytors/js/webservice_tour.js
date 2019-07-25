@@ -1,4 +1,4 @@
-tour_data = [];
+var tour_data = [];
 offset = 0;
 
 function tour_login(data){
@@ -114,6 +114,24 @@ function tour_search(){
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.response.result;
+               if (tour_data.length == 0)
+               {
+                    text += `
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="padding:5px; margin:10px;">
+                                <div style="text-align:center">
+                                    <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                                    <br/><br/>
+                                    <h6>NO TOUR AVAILABLE</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                        </div>
+                    `;
+               }
                for(i in tour_data){
                    if (tour_data[i].images_obj.length > 0)
                    {
@@ -153,11 +171,12 @@ function tour_search(){
                                     <div class="card-body">
                                         <div class="row details">
                                             <div class="col-lg-12" style="text-align:left;">
-                                                <h6>`+tour_data[i].name+`</h6>
-                                                <span style="font-size:13px;font-weight:bold;">`+dat_content1+`</span><br/>
-                                                <span style="font-size:13px;font-weight:bold;">`+dat_content2+`</span>
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                <span style="font-size:12px;">`+dat_content1+`</span><br/>
+                                                <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
+                                                <span style="font-size:12px;font-weight:bold;">IDR `+tour_data[i].adult_sale_price_with_comma+`  </span>
                                                 <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
                                             </div>
                                         </div>
@@ -171,7 +190,7 @@ function tour_search(){
                }
                offset++;
                document.getElementById('tour_ticket').innerHTML += text;
-               if(msg.result.response.length!=0)
+               if(msg.result.response.length != 0)
                    get_new = true;
            }else{
                alert(msg.result.error_msg);
@@ -209,12 +228,14 @@ function tour_get_details(package_id){
            var index = 0;
            var total_additional_price = 0;
            var total_additional_amount = 0;
+           var package_id = 0;
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.response.result;
                com_agent = msg.result.response.response.commission_agent_type;
                for (i in tour_data)
                {
+                    package_id = tour_data[i].id;
                     country_text += `<br/><span style="font-weight: bold; color: black; font-size: 16px;"> <i class="fa fa-map-marker" aria-hidden="true"></i>`;
                     for (j in tour_data[i].country_names)
                     {
@@ -260,7 +281,7 @@ function tour_get_details(package_id){
                     image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                     for (j in tour_data[i].images_obj)
                     {
-                        image_text+=`
+                        image_text +=`
                         <div class="item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
@@ -269,13 +290,13 @@ function tour_get_details(package_id){
                             </div>
                         </div>`;
                     }
-                    if (image_text == '')
+                    if (tour_data[i].images_obj.length == 0)
                     {
                         image_text += `
                         <div class="item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
-                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height:100%;" alt="">
+                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" alt="">
                                 </div>
                             </div>
                         </div>`;
@@ -423,7 +444,7 @@ function tour_get_details(package_id){
                                 document.getElementById("additional_charge_amount").value = total_additional_amount;
                                 document.getElementById("additional_charge_total").setAttribute("data-price", total_additional_price);
                                 document.getElementById("additional_charge_total").value = getrupiah(total_additional_price);
-                                get_price_itinerary();
+                                get_price_itinerary(package_id);
                            });
                         });
            }else{
@@ -786,6 +807,8 @@ function tour_get_booking(order_number)
            document.getElementById("tipping_guide_amount").value = getrupiah(price_itinerary.tipping_guide_amount);
            document.getElementById("tipping_tour_leader_total").value = getrupiah(price_itinerary.tipping_tour_leader_total);
            document.getElementById("tipping_tour_leader_amount").value = getrupiah(price_itinerary.tipping_tour_leader_amount);
+           document.getElementById("tipping_driver_total").value = getrupiah(price_itinerary.tipping_driver_total);
+           document.getElementById("tipping_driver_amount").value = getrupiah(price_itinerary.tipping_driver_amount);
            document.getElementById("additional_charge_total").value = getrupiah(price_itinerary.additional_charge_total);
            document.getElementById("additional_charge_amount").value = getrupiah(price_itinerary.additional_charge_amount);
            document.getElementById("sub_total").value = getrupiah(price_itinerary.sub_total_itinerary_price);
@@ -795,6 +818,288 @@ function tour_get_booking(order_number)
            console.log(price_itinerary);
 
            get_payment_rules(tour_package.id);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function get_price_itinerary(package_id) {
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_details',
+       },
+       data: {
+           'id': package_id
+       },
+       success: function(msg) {
+            console.log(msg);
+            tour_data = msg.result.response.response.result;
+            tour_data = tour_data[0]
+            document.getElementById("single_supplement_amount").value = 0;
+            document.getElementById("single_supplement_price").value = 0;
+            document.getElementById("airport_tax_amount").value = 0;
+            document.getElementById("airport_tax_total").value = 0;
+            document.getElementById("tipping_guide_amount").value = 0;
+            document.getElementById("tipping_guide_total").value = 0;
+            document.getElementById("tipping_tour_leader_amount").value = 0;
+            document.getElementById("tipping_tour_leader_total").value = 0;
+            document.getElementById("tipping_driver_amount").value = 0;
+            document.getElementById("tipping_driver_total").value = 0;
+
+            var airport_tax = tour_data.airport_tax;
+            var tipping_guide = tour_data.tipping_guide;
+            var tipping_tour_leader = tour_data.tipping_tour_leader;
+            var tipping_driver = tour_data.tipping_driver;
+            var guiding_days = tour_data.guiding_days;
+            var driving_times = tour_data.driving_times;
+            var duration = tour_data.duration;
+
+            var single_supplement_amount = 0;
+            var single_supplement_price = 0;
+            var grand_total_pax = 0;
+            var grand_total_pax_no_infant = 0;
+            var adult_total_pax = 0;
+            var child_total_pax = 0;
+            var infant_total_pax = 0;
+
+            document.getElementById("adult_amount").value = 0;
+            document.getElementById("adult_price").value = 0;
+            document.getElementById("adult_commission").value = 0;
+            var adult_sale_price = tour_data.adult_sale_price;
+            var adult_commission = tour_data.adult_commission;
+            var adult_amount = 0;
+
+            document.getElementById("adult_surcharge_amount").value = 0;
+            document.getElementById("adult_surcharge_price").value = 0;
+            var adult_surcharge_total = 0;
+            var adult_surcharge_amount = 0;
+
+            document.getElementById("child_amount").value = 0;
+            document.getElementById("child_price").value = 0;
+            document.getElementById("child_commission").value = 0;
+            var child_sale_price = tour_data.child_sale_price;
+            var child_commission = tour_data.child_commission;
+            var child_amount = 0;
+
+            document.getElementById("child_surcharge_amount").value = 0;
+            document.getElementById("child_surcharge_price").value = 0;
+            var child_surcharge_total = 0;
+            var child_surcharge_amount = 0;
+
+            document.getElementById("infant_amount").value = 0;
+            document.getElementById("infant_price").value = 0;
+            document.getElementById("infant_commission").value = 0;
+            var infant_sale_price = tour_data.infant_sale_price;
+            var infant_commission = tour_data.infant_commission;
+            var infant_amount = 0;
+
+            var room_amount = document.getElementById("room_amount");
+
+            if (room_amount.value <= 0)
+            {
+                $('#btnDeleteRooms').addClass("hide");
+                $('#total-price-container').addClass("hide");
+            }
+            else {
+                $('#btnDeleteRooms').removeClass("hide");
+                $('#total-price-container').removeClass("hide");
+            }
+
+            for (var i=0; i<room_amount.value; i++)
+            {
+                var temp = 'data_per_room_hidden_'+String(i+1);
+                var data_per_room_hidden = document.getElementById(temp).value;
+                var data_per_room_list = data_per_room_hidden.split("~");
+                var pax_minimum = parseInt(data_per_room_list[11]);
+                var extra_bed_limit = parseInt(data_per_room_list[15]);
+                var single_supplement = parseInt(data_per_room_list[13]);
+                var adult_surcharge_price = parseInt(data_per_room_list[3]);
+                var child_surcharge_price = parseInt(data_per_room_list[5]);
+
+                temp = 'adult_tour_room_'+String(i+1);
+                var adult_amount_per_room = parseInt(document.getElementById(temp).value);
+                temp = 'child_tour_room_'+String(i+1);
+                var child_amount_per_room = parseInt(document.getElementById(temp).value);
+                temp = 'infant_tour_room_'+String(i+1);
+                var infant_amount_per_room = parseInt(document.getElementById(temp).value);
+
+                var total_amount = adult_amount_per_room + child_amount_per_room + infant_amount_per_room;
+                var total_amount_no_infant = adult_amount_per_room + child_amount_per_room;
+
+                grand_total_pax += total_amount;
+                grand_total_pax_no_infant += total_amount_no_infant;
+                adult_total_pax += adult_amount_per_room;
+                child_total_pax += child_amount_per_room;
+                infant_total_pax += infant_amount_per_room;
+
+                if (total_amount_no_infant < pax_minimum) {
+                    var single_sup = pax_minimum - total_amount_no_infant;
+                    single_supplement_amount += single_sup;
+                    single_supplement_price += single_sup * single_supplement;
+                    adult_amount += total_amount_no_infant
+                    infant_amount += infant_amount_per_room
+                }
+                else {
+                    if (adult_amount_per_room >= pax_minimum) {
+                        adult_amount += adult_amount_per_room;
+                        if (adult_amount_per_room - pax_minimum <= extra_bed_limit) {
+                            adult_surcharge_amount += adult_amount_per_room - pax_minimum;
+                            adult_surcharge_total += (adult_amount_per_room - pax_minimum) * adult_surcharge_price;
+                            extra_bed_limit -= adult_amount_per_room - pax_minimum;
+                            if (child_amount_per_room <= extra_bed_limit) {
+                                child_amount += child_amount_per_room;
+                                child_surcharge_amount += child_amount_per_room;
+                                child_surcharge_total += child_amount_per_room * child_surcharge_price;
+                            }
+                            else {
+                                child_amount += child_amount_per_room;
+                                child_surcharge_amount += child_amount_per_room - extra_bed_limit;
+                                child_surcharge_total += (child_amount_per_room - extra_bed_limit) * child_surcharge_price;
+                            }
+                        } else {
+                            adult_surcharge_amount += adult_amount_per_room - pax_minimum - extra_bed_limit;
+                            adult_surcharge_total += (adult_amount_per_room - pax_minimum - extra_bed_limit) * adult_surcharge_price;
+                            child_amount += child_amount_per_room;
+                        }
+        //                child_amount += child_amount_per_room;
+        //                child_surcharge_amount += child_amount_per_room;
+        //                child_surcharge_total += child_amount_per_room * child_surcharge_price;
+                        infant_amount += infant_amount_per_room;
+                    }
+                    else {
+                        adult_amount += pax_minimum;
+                        if (child_amount_per_room > 0) {
+                            if (Math.max(child_amount_per_room - (pax_minimum - adult_amount_per_room), 0) != 0) {
+                                if ((child_amount_per_room - (pax_minimum - adult_amount_per_room)) > extra_bed_limit) {
+                                    child_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
+                                    child_surcharge_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room) - extra_bed_limit;
+                                    child_surcharge_total += (child_amount_per_room - (pax_minimum - adult_amount_per_room) - extra_bed_limit) * child_surcharge_price;
+                                } else {
+                                    child_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
+                                    child_surcharge_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
+                                    child_surcharge_total += (child_amount_per_room - (pax_minimum - adult_amount_per_room)) * child_surcharge_price;
+                                }
+                            }
+                        }
+                        if (infant_amount_per_room > 0) {
+                            if (adult_amount_per_room + child_amount_per_room < pax_minimum) {
+                                infant_amount += Math.max(infant_amount_per_room - (pax_minimum - adult_amount_per_room - child_amount_per_room), 0);
+                            }
+                            else {
+                                infant_amount += infant_amount_per_room;
+                            }
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('adult_total_pax').value = adult_total_pax;
+            document.getElementById('child_total_pax').value = child_total_pax;
+
+            var discount_total = 0;
+            var tour_type = tour_data.tour_type;
+            if (tour_type == 'sic')
+            {
+                var discount = JSON.parse(document.getElementById("discount").value);
+                for (var i=0; i < discount.length; i++) {
+                    var min_pax = discount[i]['min_pax'];
+                    var max_pax = discount[i]['max_pax'];
+                    var discount_per_pax = discount[i]['discount_per_pax'];
+                    if ((grand_total_pax_no_infant >= min_pax) && (grand_total_pax_no_infant <= max_pax)) {
+                        adult_sale_price = parseInt(tour_data.adult_sale_price) - discount_per_pax;
+                        child_sale_price = parseInt(tour_data.child_sale_price) - discount_per_pax;
+                        adult_commission *= 0.5;
+                        child_commission *= 0.5;
+                        infant_commission *= 0.5;
+                        discount_total = discount[i]['discount_total'];
+                        break;
+                    }
+                }
+            }
+
+            document.getElementById("single_supplement_amount").value = single_supplement_amount;
+            document.getElementById("single_supplement_price").setAttribute("data-price", single_supplement_price);
+            document.getElementById("single_supplement_price").value = getrupiah(single_supplement_price);
+
+            document.getElementById("adult_amount").value = adult_amount;
+            document.getElementById("adult_price").setAttribute("data-price", adult_amount * adult_sale_price);
+            document.getElementById("adult_price").value = getrupiah(adult_amount * adult_sale_price);
+            document.getElementById("adult_commission").setAttribute("data-price", adult_amount * adult_commission);
+            document.getElementById("adult_commission").value = getrupiah(adult_amount * adult_commission);
+            document.getElementById("adult_surcharge_amount").value = adult_surcharge_amount;
+            document.getElementById("adult_surcharge_price").setAttribute("data-price", adult_surcharge_total);
+            document.getElementById("adult_surcharge_price").value = getrupiah(adult_surcharge_total);
+
+            document.getElementById("child_amount").value = child_amount;
+            document.getElementById("child_price").setAttribute("data-price", child_amount * child_sale_price);
+            document.getElementById("child_price").value = getrupiah(child_amount * child_sale_price);
+            document.getElementById("child_commission").setAttribute("data-price", child_amount * child_commission);
+            document.getElementById("child_commission").value = getrupiah(child_amount * child_commission);
+            document.getElementById("child_surcharge_amount").value = child_surcharge_amount;
+            document.getElementById("child_surcharge_price").setAttribute("data-price", child_surcharge_total);
+            document.getElementById("child_surcharge_price").value = getrupiah(child_surcharge_total);
+
+            document.getElementById("infant_amount").value = infant_amount;
+            document.getElementById("infant_price").setAttribute("data-price", infant_amount * infant_sale_price);
+            document.getElementById("infant_price").value = getrupiah(infant_amount * infant_sale_price);
+            document.getElementById("infant_commission").setAttribute("data-price", infant_amount * infant_commission);
+            document.getElementById("infant_commission").value = getrupiah(infant_amount * infant_commission);
+
+            var airport_tax = grand_total_pax * airport_tax;
+            document.getElementById("airport_tax_amount").value = grand_total_pax;
+            document.getElementById("airport_tax_total").setAttribute("data-price", airport_tax);
+            document.getElementById("airport_tax_total").value = getrupiah(airport_tax);
+
+            var am_tipping_guide = adult_total_pax;
+            var am_tipping_tour_leader = adult_total_pax;
+            var am_tipping_driver = adult_total_pax;
+
+            if(tour_data.tipping_guide_child){
+                am_tipping_guide += child_total_pax;
+            }
+            if(tour_data.tipping_guide_infant){
+                am_tipping_guide += infant_total_pax;
+            }
+            if(tour_data.tipping_tour_leader_child){
+                am_tipping_tour_leader += child_total_pax;
+            }
+            if(tour_data.tipping_tour_leader_infant){
+                am_tipping_tour_leader += infant_total_pax;
+            }
+            if(tour_data.tipping_driver_child){
+                am_tipping_driver += child_total_pax;
+            }
+            if(tour_data.tipping_driver_infant){
+                am_tipping_driver += infant_total_pax;
+            }
+
+            var tipping_guide_total = am_tipping_guide * tipping_guide * guiding_days;
+            var tipping_tour_leader_total = am_tipping_tour_leader * tipping_tour_leader * duration;
+            var tipping_driver_total = am_tipping_driver * tipping_driver * driving_times;
+
+            document.getElementById("tipping_guide_amount").value = am_tipping_guide;
+            document.getElementById("tipping_guide_total").setAttribute("data-price", tipping_guide_total);
+            document.getElementById("tipping_guide_total").value = getrupiah(tipping_guide_total);
+
+            document.getElementById("tipping_tour_leader_amount").value = am_tipping_tour_leader;
+            document.getElementById("tipping_tour_leader_total").setAttribute("data-price", tipping_tour_leader_total);
+            document.getElementById("tipping_tour_leader_total").value = getrupiah(tipping_tour_leader_total);
+
+            document.getElementById("tipping_driver_amount").value = am_tipping_driver;
+            document.getElementById("tipping_driver_total").setAttribute("data-price", tipping_driver_total);
+            document.getElementById("tipping_driver_total").value = getrupiah(tipping_driver_total);
+            get_total_price(discount_total);
+            for (var i=0; i<room_amount.value; i++)
+            {
+                $('#adult_tour_room_'+String(i+1)).niceSelect('update');
+                $('#child_tour_room_'+String(i+1)).niceSelect('update');
+                $('#infant_tour_room_'+String(i+1)).niceSelect('update');
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
