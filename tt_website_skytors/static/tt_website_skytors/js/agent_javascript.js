@@ -85,6 +85,10 @@ function table_reservation(data){
     }
 }
 
+function auto_complete(type){
+    document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
+
+}
 function getrupiah(price){
     var pj = price.toString().length;
     var temp = price.toString();

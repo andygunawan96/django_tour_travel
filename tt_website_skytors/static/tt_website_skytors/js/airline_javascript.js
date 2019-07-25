@@ -368,8 +368,6 @@ function airline_autocomplete(type){
         document.getElementById('airline_origin_flight').value = document.getElementById('select2-origin_id_flight-container').innerHTML;
     else if(type == 'destination')
         document.getElementById('airline_destination_flight').value = document.getElementById('select2-destination_id_flight-container').innerHTML;
-    else
-        document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
 }
 
 function airline_switch(){

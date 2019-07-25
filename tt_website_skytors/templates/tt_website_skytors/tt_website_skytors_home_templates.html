@@ -72,8 +72,10 @@
         //hotel_signin('home');
         get_airline_config('home');
         //get_train_config('home');
+        get_visa_config('home');
         get_balance();
         get_transactions();
+        //get_agent_booking();
     {% endif %}
 
 </script>
@@ -1399,8 +1401,6 @@
     document.getElementById("country_id").value = 101;
     document.getElementById("start").value = "2019-01-01";
     document.getElementById("end").value = "2020-12-31";
-    //get_agent_booking();
-    //get_visa_config('home');
     get_dept_year();
     tour_login('');
 </script>

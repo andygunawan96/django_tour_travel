@@ -504,7 +504,7 @@ def commit_booking(request):
     #nanti ganti ke get_ssr_availability
 
     data = {
-        'force_issued': bool(request.POST['value'])
+        'force_issued': bool(int(request.POST['value']))
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -711,10 +711,244 @@ def get_booking(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers,
-                            cookies=request.session['airline_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=5)
 
-    request.session['airline_ssr'] = res['result']['response']
+    #request.session['airline_ssr'] = res['result']['response']
+    res = {
+        "jsonrpc": "2.0",
+        "id": 'null',
+        "result": {
+            "error_code": 0,
+            "error_msg": "",
+            "response": {
+                "order_number": "AL.19072409051",
+                "pnr": "RKMAEU",
+                "state": "booked",
+                "state_description": "Booked",
+                "hold_date": "2019-07-24 07:26:05",
+                "YCD": 0,
+                "ADT": 1,
+                "CHD": 0,
+                "INF": 0,
+                "departure_date": "2019-08-23",
+                "return_date": "2019-08-23",
+                "agent_id": 4,
+                "agent_type": "citra",
+                "customer_parent": "",
+                "customer_parent_type": "",
+                "direction": "OW",
+                "origin": "SUB",
+                "destination": "SIN",
+                "sector_type": "International",
+                "passenger_ids": [
+                    {
+                        "name": "ivan suryajaya",
+                        "first_name": "ivan",
+                        "last_name": "suryajaya",
+                        "gender": "male",
+                        "marital_status": "",
+                        "birth_date": "2002-04-08 00:00:00",
+                        "age": "17",
+                        "nationality_code": "",
+                        "country_of_issued_id": "",
+                        "identity_type": "",
+                        "identity_number": "",
+                        "agent_id": 4
+                    }
+                ],
+                "provider_booking_ids": [
+                    {
+                        "pnr": "RKMAEU",
+                        "pnr2": "RKMAEU",
+                        "provider": "amadeus",
+                        "state": "booked",
+                        "state_description": "Booked",
+                        "sequence": 1,
+                        "balance_due": 174805000,
+                        "direction": "OW",
+                        "origin": "SUB",
+                        "destination": "SIN",
+                        "departure_date": "2019-08-23 08:25:00",
+                        "return_date": False,
+                        "journeys": [
+                            {
+                                "sequence": 1,
+                                "journey_type": "DEP",
+                                "origin": "SUB",
+                                "destination": "SIN",
+                                "departure_date": "2019-08-23 08:25:00",
+                                "arrival_date": "2019-08-23 19:10:00",
+                                "segment_ids": [
+                                    {
+                                        "segment_code": "CX,780,SUB,2,2019-08-23 08:25:00,HKG,1,2019-08-23 14:20:00,amadeus",
+                                        "fare_code": "Y",
+                                        "journey_type": "DEP",
+                                        "pnr": "RKMAEU",
+                                        "carrier_name": "Cathay Pacific",
+                                        "carrier_code": "CX",
+                                        "carrier_number": "780",
+                                        "provider": "amadeus",
+                                        "origin": "SUB",
+                                        "origin_terinal": "2",
+                                        "destination": "HKG",
+                                        "destination_terminal": "1",
+                                        "departure_date": "2019-08-23 08:25:00",
+                                        "arrival_date": "2019-08-23 14:20:00",
+                                        "elapsed_time": "",
+                                        "class_of_service": "Y",
+                                        "cabin_class": "Y",
+                                        "sequence": 1,
+                                        "seat_ids": [],
+                                        "leg_ids": [
+                                            {
+                                                "leg_code": "CX,780,SUB,2,2019-08-23 08:25:00,HKG,1,2019-08-23 14:20:00,amadeus",
+                                                "journey_type": "DEP",
+                                                "origin": "SUB",
+                                                "destination": "HKG",
+                                                "departure_date": "2019-08-23 08:25:00",
+                                                "arrival_date": "2019-08-23 14:20:00",
+                                                "elapsed_time": "",
+                                                "sequence": 0
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "segment_code": "CX,635,HKG,1,2019-08-23 15:20:00,SIN,4,2019-08-23 19:10:00,amadeus",
+                                        "fare_code": "Y",
+                                        "journey_type": "DEP",
+                                        "pnr": "RKMAEU",
+                                        "carrier_name": "Cathay Pacific",
+                                        "carrier_code": "CX",
+                                        "carrier_number": "635",
+                                        "provider": "amadeus",
+                                        "origin": "HKG",
+                                        "origin_terinal": "1",
+                                        "destination": "SIN",
+                                        "destination_terminal": "4",
+                                        "departure_date": "2019-08-23 15:20:00",
+                                        "arrival_date": "2019-08-23 19:10:00",
+                                        "elapsed_time": "",
+                                        "class_of_service": "",
+                                        "subclass": "",
+                                        "cabin_class": "",
+                                        "sequence": 2,
+                                        "seat_ids": [],
+                                        "leg_ids": [
+                                            {
+                                                "leg_code": "CX,635,HKG,1,2019-08-23 15:20:00,SIN,4,2019-08-23 19:10:00,amadeus",
+                                                "journey_type": "DEP",
+                                                "origin": "HKG",
+                                                "destination": "SIN",
+                                                "departure_date": "2019-08-23 15:20:00",
+                                                "arrival_date": "2019-08-23 19:10:00",
+                                                "elapsed_time": "",
+                                                "sequence": 0
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ],
+                        "currency": "IDR",
+                        "hold_date": "2019-07-24 07:26:05",
+                        "tickets": []
+                    }
+                ],
+                "provider_type": "airline"
+            },
+            "sid": "session_id=b400d7b4a249db56b8706a4652e7e278ec927861; Expires=Tue, 22-Oct-2019 07:05:53 GMT; Max-Age=7776000; HttpOnly; Path=/",
+            "cookies": {
+                "session_id": "b400d7b4a249db56b8706a4652e7e278ec927861"
+            }
+        }
+    }
+
+    file = open("version_cache.txt", "r")
+    for line in file:
+        file_cache_name = line
+    file.close()
+
+    file = open(str(file_cache_name) + ".txt", "r")
+    for line in file:
+        response = json.loads(line)
+    file.close()
+
+    # airline
+    airline_destinations = []
+    for country in response['result']['response']['airline']['destination']:
+        for des in response['result']['response']['airline']['destination'][country]:
+            des.update({
+                'country': country
+            })
+            airline_destinations.append(des)
+
+    #pax
+    for pax in res['result']['response']['passenger_ids']:
+        pax.update({
+            'birth_date': '%s %s %s' % (
+                pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                pax['birth_date'].split(' ')[0].split('-')[0])
+        })
+        pass
+    for provider in res['result']['response']['provider_booking_ids']:
+        for journey in provider['journeys']:
+            journey.update({
+                'departure_date': convert_string_to_date_to_string_front_end_with_time(journey['departure_date']),
+            })
+            for destination in airline_destinations:
+                if destination['code'] == journey['origin']:
+                    journey.update({
+                        'origin_city': destination['city'],
+                        'origin_name': destination['name'],
+                    })
+                    break
+            for destination in airline_destinations:
+                if destination['code'] == journey['destination']:
+                    journey.update({
+                        'destination_city': destination['city'],
+                        'destination_name': destination['name'],
+                    })
+                    break
+            for segment in journey['segment_ids']:
+                segment.update({
+                    'departure_date': convert_string_to_date_to_string_front_end_with_time(segment['departure_date']),
+                    'arrival_date': convert_string_to_date_to_string_front_end_with_time(segment['arrival_date']),
+                })
+                for destination in airline_destinations:
+                    if destination['code'] == segment['origin']:
+                        segment.update({
+                            'origin_city': destination['city'],
+                            'origin_name': destination['name'],
+                        })
+                        break
+                for destination in airline_destinations:
+                    if destination['code'] == segment['destination']:
+                        segment.update({
+                            'destination_city': destination['city'],
+                            'destination_name': destination['name'],
+                        })
+                        break
+                for leg in segment['leg_ids']:
+                    leg.update({
+                        'departure_date': convert_string_to_date_to_string_front_end_with_time(
+                            leg['departure_date']),
+                        'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
+                    })
+                    for destination in airline_destinations:
+                        if destination['code'] == leg['origin']:
+                            leg.update({
+                                'origin_city': destination['city'],
+                                'origin_name': destination['name'],
+                            })
+                            break
+                    for destination in airline_destinations:
+                        if destination['code'] == leg['destination']:
+                            leg.update({
+                                'destination_city': destination['city'],
+                                'destination_name': destination['name'],
+                            })
+                            break
+
 
     return res
 

@@ -606,18 +606,26 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'airline_carriers': response['result']['response']['airline']['carriers'],
             'order_number': request.POST['order_number'],
-            'co_uid': request.session['co_uid'],
-            # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            # 'order_number': 'AL.19072420047',
+            # 'order_number': 'AL.19072446048',
         }
-        return render(request, MODEL_NAME+'/airline/tt_website_skytors_visa_booking_templates.html', values)
+        return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)
     else:
         return index(request)

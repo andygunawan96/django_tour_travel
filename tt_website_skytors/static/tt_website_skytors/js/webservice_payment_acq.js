@@ -186,10 +186,12 @@ payment_acq = {
 }
 console.log(payment_acq);
 
-function get_payment_acq(){
+function get_payment_acq(val){
     text = `
         <div class="col-lg-12">
-            <select id="payment_method" onchange="set_payment();">`;
+            <div class="input-container-search-ticket btn-group">
+                <div class="form-select">
+                    <select id="payment_method" onchange="set_payment(`+val+`);">`;
 
     print = '';
     for(i in payment_acq.result.response){
@@ -205,16 +207,19 @@ function get_payment_acq(){
 
         text+=`<option value="`+i+`">`+print+`</option>`;
     }
-    text+=` </select>`;
+    text+=` </select>
+            </div>
+        </div>`;
     text+=`<div id="payment_description"></div>`
     text+=`
         </div>`;
     document.getElementById('payment_acq').innerHTML += text;
-    set_payment();
+    set_payment(val);
+    $('select').niceSelect();
     document.getElementById('payment_acq').hidden = false;
 }
 
-function set_payment(){
+function set_payment(val){
     payment_method = document.getElementById('payment_method').value;
     text= '';
     for(i in payment_acq.result.response[payment_method]){
@@ -223,7 +228,7 @@ function set_payment(){
                 <label class="radio-button-custom">
                     <span style="font-size:14px;">`+payment_acq.result.response[payment_method][i].name+`</span>
                     <img width="40px" height="40px" src="`+payment_acq.result.response[payment_method][i].image+`"/>
-                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price();">
+                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price(`+val+`);">
                     <span class="checkmark-radio"></span>
                 </label>`;
     }
@@ -231,7 +236,7 @@ function set_payment(){
     document.getElementById('payment_description').innerHTML = text;
 }
 
-function set_price(){
+function set_price(val){
     var selected = '';
     var radios = document.getElementsByName('radio_payment_type');
     for (var j = 0, length = radios.length; j < length; j++) {
@@ -254,13 +259,42 @@ function set_price(){
         text += `<span style="font-size:14px;">`+payment_acq.result.response[payment_method][selected].account_number+`</span>`;
     if(text != '')
         text += '<br/>';
+    text+= `<div class='row'>`;
     //price
-    text += `<span style="font-size:14px;">Price: `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount)+`</span><br/>`;
+    text += `
+            <div class='col-sm-6'>
+                Price:
+            </div>
+            <div class='col-sm-2'>
+                `+payment_acq.result.response[payment_method][selected].currency+`
+            </div>
+            <div class='col-sm-4' style='text-align:right;'>
+                `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount)+`
+            </div>`;
     //fee
-    text += `<span style="font-size:14px;">Fee: `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.fee)+`</span><br/>`;
+    text += `
+            <div class='col-sm-6'>
+                Fee:
+            </div>
+            <div class='col-sm-2'>
+                `+payment_acq.result.response[payment_method][selected].currency+`
+            </div>
+            <div class='col-sm-4' style='text-align:right;'>
+                `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.fee)+`
+            </div>`;
     //grand total
-    text += `<span style="font-size:14px;">Grand Total: `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount + payment_acq.result.response[payment_method][selected].price_component.fee)+`</span><br/>`;
-    text += '<input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="check_hold_booking();" style="width:100%;"/>';
+    text += `
+            <div class='col-sm-6'>
+                Grand Total:
+            </div>
+            <div class='col-sm-2'>
+                `+payment_acq.result.response[payment_method][selected].currency+`
+            </div>
+            <div class='col-sm-4' style='text-align:right;'>
+                `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount + payment_acq.result.response[payment_method][selected].price_component.fee)+`
+            </div>`;
+    text+= `</div>`;
+    text += '<input class="primary-btn hold-seat-booking-train" type="button" value="'+val+'" onclick="check_hold_booking();" style="width:100%;"/>';
     document.getElementById('set_price').innerHTML = text;
 }
 

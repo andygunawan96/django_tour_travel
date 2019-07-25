@@ -8,16 +8,15 @@
 <script src="{{ static_path }}js/webservice_agent.js"></script>
 <script src="{{ static_path }}js/airline_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_airline.js"></script>
-
+<script src="{{ static_path }}js/moment.min.js"></script>
 <script>
-    time = 300;
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
 
+    time = 300;
     triggered_balance();
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
