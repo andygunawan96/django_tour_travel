@@ -30,7 +30,12 @@
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
     airline_get_price_request = `{{airline_get_price_request}}`;
-    airline_get_price_request = JSON.parse(airline_get_price_request.replace(/&#39;/g, '"'));
+    airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
+    airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');
+    airline_get_price_request = airline_get_price_request.replace(/False/g, 'false');
+    console.log(airline_get_price_request.replace(/&#39;/g, '"'));
+
+    airline_get_price_request = JSON.parse(airline_get_price_request);
     console.log(airline_get_price_request);
     passengers = `{{passengers}}`;
     passengers = passengers.replace(/&#39;/g, '"');

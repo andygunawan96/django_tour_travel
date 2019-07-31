@@ -759,7 +759,7 @@ function sort(airline){
            if(airline[i].origin == airline_request.origin.substr(airline_request.origin.length-4,3) && airline_departure == 'departure'){
                var price = 0;
                text += `
-                    <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px;" id="journey`+airline[i].sequence+`">
+                    <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px;" id="journey`+i+`">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="row" style="padding:10px;">
@@ -891,16 +891,8 @@ function sort(airline){
                             <div class="col-lg-3">
                                 <div class="row">
                                     <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
-                                        <span id="fare`+airline[i].sequence+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`;
-                                        for(j in airline[i].segments){
-                                            for(k in airline[i].segments[j].fares){
-                                                if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline[i].segments[j].fares[k].available_count){
-                                                    for(l in airline[i].segments[j].fares[k].service_charges)
-                                                        price+= airline[i].segments[j].fares[k].service_charges[l].amount;
-                                                    break;
-                                                }
-                                            }
-                                        }
+                                        <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`;
+
                                         text+=`</span>`;
                                         if(choose_airline != null && choose_airline == airline[i].sequence)
                                             text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
@@ -912,14 +904,14 @@ function sort(airline){
                             </div>`;
                             text+=`
                             <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
-                                <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+airline[i].sequence+`);" href="#detail_departjourney`+airline[i].sequence+`" style="color: #f15a22;" aria-expanded="true">
-                                    <span style="text-align:right; margin-right:10px; font-weight: bold; display:none;" id="flight_details_up`+airline[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                    <span style="text-align:right; margin-right:10px; font-weight: bold; display:block;" id="flight_details_down`+airline[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                    <span style="text-align:right; margin-right:10px; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                    <span style="text-align:right; margin-right:10px; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <div id="detail_departjourney`+airline[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="margin-bottom:15px; border-top: 1px solid #f15a22; display:none;">`;
+                    <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="margin-bottom:15px; border-top: 1px solid #f15a22; display:none;">`;
                         for(j in airline[i].segments){
                             var depart = 0;
                             if(airline[i].segments[j].origin == airline_request.destination.substr(airline_request.destination.length-4,3))
@@ -994,25 +986,34 @@ function sort(airline){
                                                 text+=`
                                                 <td style="padding:10px 15px 0px 0px;">`;
                                                 if(k==0)
-                                                text+=`
-                                                <label class="radio-button-custom">
-                                                    `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
-                                                    <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
-                                                    <span class="checkmark-radio"></span>
-                                                </label>`;
+                                                    text+=`
+                                                    <label class="radio-button-custom">
+                                                        `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                        <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label>`;
                                                 else
-                                                text+=`
-                                                <label class="radio-button-custom">
-                                                    `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
-                                                    <input onclick="change_fare(`+airline[i].sequence+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`">
-                                                    <span class="checkmark-radio"></span>
-                                                </label>`;
+                                                    text+=`
+                                                    <label class="radio-button-custom">
+                                                        `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                        <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label>`;
                                                 text+=`<br/>`;
                                                 var total_price = 0;
-                                                for(l in airline[i].segments[j].fares[k].service_charges){
-                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
-                                                }
-                                                text+=`<span id="journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
+                                                for(l in airline[i].segments[j].fares[k].service_charge_summary)
+                                                    for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                        if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                            total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                                console.log(total_price);
+//                                                for(l in airline[i].segments[j].fares[k].service_charges){
+//                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
+//                                                }
+                                                id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
+                                                console.log(airline[i]);
+                                                console.log(id_price_segment);
+                                                console.log(total_price);
+                                                text+=`<span id="`+id_price_segment+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
                                                 text+=`</td>
                                                 `;
                                             }
@@ -1033,7 +1034,7 @@ function sort(airline){
                node = document.createElement("div");
     //                   document.getElementById('airlines_ticket').innerHTML += text;
                text = '';
-               document.getElementById('fare'+airline[i].sequence).innerHTML = 'IDR '+ getrupiah(airline[i].total_price);
+               document.getElementById('fare'+i).innerHTML = 'IDR '+ getrupiah(airline[i].total_price);
            }else if(airline[i].origin == airline_request.destination.substr(airline_request.destination.length-4,3) && airline_departure == 'return'){
                var price = 0;
                text += `
@@ -1204,7 +1205,7 @@ function sort(airline){
                                             if(k==0)
                                             text+=`
                                             <label class="radio-button-custom">
-                                                `+airline[i].segments[j].fares[k].subclass+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
+                                                `+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`
                                                 <input onclick="change_fare(`+i+`,`+airline[i].segments[j].sequence+`,`+airline[i].segments[j].fares[k].sequence+`);" id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" name="journey`+i+`segment`+airline[i].segments[j].sequence+`fare" type="radio" value="`+airline[i].segments[j].fares[k].sequence+`" checked="checked">
                                                 <span class="checkmark-radio"></span>
                                             </label>`;
@@ -1217,9 +1218,11 @@ function sort(airline){
                                             </label>`;
                                             text+=`<br/>`;
                                             var total_price = 0;
-                                            for(l in airline[i].segments[j].fares[k].service_charges){
-                                                total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
-                                            }
+                                            for(l in airline[i].segments[j].fares[k].service_charge_summary)
+                                                for(m in airline[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                                    if(airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
+                                                        total_price+= airline[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                            console.log(total_price);
                                             text+=`<span id="journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
                                             text+=`</td>
                                             `;
@@ -1288,10 +1291,10 @@ function check_provider(val){
         for(i in airline_provider_list){
             document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
         }
-        document.getElementById('provider_box_all').checked = true;
+        document.getElementById('provider_box_All').checked = true;
     }
     else
-        document.getElementById('provider_box_all').checked = false;
+        document.getElementById('provider_box_All').checked = false;
 
 }
 
@@ -2142,8 +2145,9 @@ function get_airline_review(){
 
             text+= `<div class="col-lg-12">
                         <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
+            console.log(airline_get_price_request);
+            console.log(airline_pick);
             if(airline_get_price_request.journeys_booking[i].segments[j].fare_pick != ''){
-                 console.log(airline_get_price_request.journeys_booking[i].segments[j].fare_pick);
                  text+=`<h6>Class: `+airline_pick[i].segments[j].fares[airline_get_price_request.journeys_booking[i].segments[j].fare_pick].subclass+`</h6>`;
             }
             text+= `</div>`;

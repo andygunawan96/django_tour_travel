@@ -9,6 +9,8 @@
 <script src="{{ static_path }}js/airline_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_airline.js"></script>
 <script src="{{ static_path }}js/moment.min.js"></script>
+<script src="{{ static_path }}js/pricing_javascript.js"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js"></script>
 <script>
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
@@ -60,6 +62,49 @@
                     <div id="airline_detail">
 
                     </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
+                        <h4>Payment Method</h4><hr/>
+
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div id="pricing">
+                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                    <br/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div style="padding:10px;" id="table_of_equation">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                    <hr/>
+                                    <center>
+                                        <input class="primary-btn-ticket" type="button" onclick="calculate('airline');" value="Calculate">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                            <h4>Result Pricing</h4>
+                            <hr/>
+                            <div class="row" id="repricing_div">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -68,6 +113,8 @@
 
 <script>
     airline_signin('{{order_number}}');
+    get_payment_acq('Issued');
+    //testing_bca();
 </script>
 
 {% endblock %}

@@ -116,7 +116,7 @@ def search(request):
         'check_out': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
         'child': int(request.POST['child']),
         'child_ages': child_age,
-        'city_name': request.POST['destination'],
+        'search_name': request.POST['destination'],
         'country_id': country_id,
         'destination_id': destination_id,
         'hotel_id': hotel_id,
