@@ -68,10 +68,10 @@ def register(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "agent_registration",
+        "action": "create_agent",
         "signature": request.session['signature'],
     }
-    res = util.send_request(url=url + "agent/session", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
     if res['result']['error_code'] != 0:
         login(request, 'register')
 

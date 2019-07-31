@@ -200,17 +200,17 @@ def passenger(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            airline_pick = json.loads(request.POST['airline_pick'])
-            for idx, journey in enumerate(airline_pick):
-                journey['sequence'] = idx + 1
-            for journey in airline_pick:
-                for segment in journey['segments']:
-                    segment['fare_pick'] = request.session['airline_get_price_request']['journeys_booking'][journey['sequence'] - 1]['segments'][segment['sequence'] - 1]['fare_pick']
-            request.session['airline_pick'] = airline_pick
-
+            airline_pick = json.loads(request.POST['airline_pick'].replace('&&&', ','))
         except:
-            print('error airline_pick')
-            pass
+            airline_pick = json.loads(request.POST['airline_pick'])
+        for idx, journey in enumerate(airline_pick):
+            journey['sequence'] = idx + 1
+        for journey in airline_pick:
+            for segment in journey['segments']:
+                segment['fare_pick'] = \
+                request.session['airline_get_price_request']['journeys_booking'][journey['sequence'] - 1]['segments'][
+                    segment['sequence'] - 1]['fare_pick']
+        request.session['airline_pick'] = airline_pick
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': response['result']['response']['airline']['country'],
@@ -624,7 +624,7 @@ def booking(request):
             'username': request.session['user_account'],
             'airline_carriers': response['result']['response']['airline']['carriers'],
             'order_number': request.POST['order_number'],
-            # 'order_number': 'AL.19072558013',
+            # 'order_number': 'AL.19072922048',
             # 'order_number': 'AL.19072446048',
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)

@@ -198,12 +198,11 @@ function update_table(type){
         commission = 0;
         currency = '';
         price_pax = 0;
-        for(i in detail_for_repricing){
-            currency = detail_for_repricing[i].currency;
-            price += detail_for_repricing[i].fare;
-            commission += detail_for_repricing[i].commission;
-            price_pax = detail_for_repricing[i].fare;
-            console.log(detail_for_repricing[i]);
+        for(i in price_arr_repricing){
+            currency = price_arr_repricing[i].currency;
+            price += price_arr_repricing[i].Fare;
+            price_pax = price_arr_repricing[i].Fare;
+            console.log(price_arr_repricing[i]);
             text+=`
                     <tr>
                         <td>`+i+`</td>
@@ -255,19 +254,21 @@ function update_table(type){
         price_pax = 0;
         commission = 0;
         currency = '';
-        for(i in visa.sale_price){
-            console.log(i);
-            console.log(visa.sale_price);
-            currency = visa.sale_price[i][0].currency;
-            for(sale_price in visa.sale_price[i])
-                if(visa.sale_price[i][sale_price].charge_code == 'sale_price'){
-                    price += visa.sale_price[i][sale_price].amount;
-                    price_pax = visa.sale_price[i][sale_price].amount;
-                }else if(visa.sale_price[i].charge_code == 'commission')
-                    commission += visa.sale_price[i][sale_price].amount;
+        console.log(visa);
+        for(i in visa.passengers){
+            console.log(visa.passengers[i].visa.price);
+            for(j in visa.passengers[i].visa.price){
+                console.log(j);
+                if(visa.passengers[i].visa.price[j].charge_code == 'fare'){
+                    price += visa.passengers[i].visa.price[j].amount;
+                    price_pax = visa.passengers[i].visa.price[j].amount;
+                    currency = visa.passengers[i].visa.price[j].currency;
+                }else if(visa.passengers[i].visa.price[j].charge_code == 'rac')
+                    commission += visa.passengers[i].visa.price[j].amount;
+            }
             text+=`
                     <tr>
-                        <td>`+i+`</td>
+                        <td>`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</td>
                         <td style="text-align:right;">`+currency+` `+getrupiah(price_pax)+`</td>
                     </tr>`;
 
@@ -741,8 +742,13 @@ function check_on_off_radio(pax_type,number,value){
                     if(visa.list_of_visa[i].requirements[j].required == true){
                         text_requirements += `
                         <label class="check_box_custom">
-                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+`</span>
-                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`"/>
+                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` Copy</span>
+                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_copy"/>
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <label class="check_box_custom">
+                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` Original</span>
+                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
                             <span class="check_box_span_custom"></span>
                         </label>`;
                     }
@@ -754,6 +760,10 @@ function check_on_off_radio(pax_type,number,value){
                 pax_check.value = i;
 
                 //price detail
+                type_amount_repricing = ['Fare']; // --> list of string ['Fare', 'Commission']
+                pax_type_repricing = []; // --> list of list ex : [['nama pax key','nama pax tampil'],['CHD','Child']]
+                price_arr_repricing = {}; // --> dict of dict ex : {'nama pax tampil':{'total_price':50,'commission':20}} -- di tambah total
+
                 list_of_name = name.split(' ');
                 list_of_name.shift();
                 list_of_name.shift();
@@ -761,45 +771,22 @@ function check_on_off_radio(pax_type,number,value){
                 console.log(list_of_name);
 
                 check = 0;
-
-                for(j in detail_for_repricing)
-                    if(j == list_of_name)
+                for(j in pax_type_repricing){
+                    if(pax_type_repricing[j][0] == list_of_name)
                         check = 1;
-                detail_for_repricing[list_of_name] = {
-                    'commission':visa.list_of_visa[i].sale_price.commission,
-                    'currency':visa.list_of_visa[i].sale_price.currency,
-                    'fare':visa.list_of_visa[i].sale_price.total_price
-                };
+                }
                 if(check == 0){
                     pax_type_repricing.push([list_of_name,list_of_name]);
                 }
                 price_arr_repricing[list_of_name] = {};
                 price_arr_repricing[list_of_name] = {
-                    'fare': detail_for_repricing[list_of_name]['fare'],
-                    'commission': detail_for_repricing[list_of_name]['commission'],
+                    'Fare': visa.list_of_visa[i].sale_price.total_price,
+                    'currency':visa.list_of_visa[i].sale_price.currency
                 }
-                for(j in price_arr_repricing){
-                    total = 0;
-                    for(k in price_arr_repricing[j]){
-                        if(k != 'total')
-                            total += price_arr_repricing[j][k];
-                    }
-                    price_arr_repricing[j]['total'] = total;
-                }
-                console.log(price_arr_repricing);
-                for(j in detail_for_repricing){
-                    for(k in detail_for_repricing[j]){
-                        check = 0;
-                        for(l in type_amount_repricing){
-                            if(type_amount_repricing[l] == k){
-                                check = 1;
-                            }
-                        }
-                        if(check == 0 && k != 'currency')
-                            type_amount_repricing.push(k)
-                    }
-                }
+                add_repricing();
                 update_table('review');
+                console.log(price_arr_repricing);
+
 
             }
         }
@@ -808,11 +795,11 @@ function check_on_off_radio(pax_type,number,value){
     <div class="col-lg-12">
         <div style="padding:5px;" class="row">
             `;
-            for(i in detail_for_repricing){
-                length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
+            for(i in price_arr_repricing){
+                length = (12 / (Object.keys(price_arr_repricing[i]).length));
                 text_repricing+= `<div class="col-lg-`+length+`"></div>`;
-                for(j in detail_for_repricing[i]){
-                    if(j!= 'currency')
+                for(j in price_arr_repricing[i]){
+                    if(j!= 'currency' && j != 'total')
                     text_repricing+= `<div class="col-lg-`+length+`">`+j+`</div>`;
                 }
                 text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
@@ -821,17 +808,17 @@ function check_on_off_radio(pax_type,number,value){
 
     text_repricing+=`</div>
     </div>`;
-    for(i in detail_for_repricing){
-       length = (12 / (Object.keys(detail_for_repricing[i]).length+1));
+    for(i in price_arr_repricing){
+       length = (12 / (Object.keys(price_arr_repricing[i]).length));
        text_repricing += `
        <div class="col-lg-12">
 
             <div style="padding:5px;" class="row" id="adult">
                 <div class="col-lg-`+length+`">`+i+`</div>`;
 
-                for(j in detail_for_repricing[i]){
+                for(j in price_arr_repricing[i]){
                     console.log(j);
-                    if(j != 'currency')
+                    if(j != 'currency' && j != 'total')
                         text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_`+j+`">-</div>`;
                 }
                 text_repricing+= `<div class="col-lg-`+length+`" id="`+i+`_total">-</div>`;

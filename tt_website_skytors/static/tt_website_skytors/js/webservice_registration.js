@@ -12,8 +12,15 @@ function submit_agent_registration(){
 
        },
        success: function(msg) {
-            $("#result_data_id").html(msg.result.response);
-            console.log(msg.result);
+            console.log(msg);
+            text = '';
+            text += `<br/>
+                <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>
+                <label>`+msg.result.response.name+`</label><br/>
+                <label>Fee: `+msg.result.response.currency+` `+getrupiah(msg.result.response.registration_fee)+`</label><br/>
+            `;
+            $("#result_data_id").html(text);
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -45,7 +52,7 @@ function agent_register_get_config(){
             }
             document.getElementById('company_type').innerHTML = text;
             //agent type
-            text = '<option value="">Agent Type</option>';
+            text = '<option value="" disabled selected>Agent Type</option>';
             for(i in msg.result.response.agent_type){
 //                if(msg.result.response.agent_type[i].is_allow_regis == true)
                 text+=`<option value="`+msg.result.response.agent_type[i].name+`">`+msg.result.response.agent_type[i].name+`</option>`;

@@ -248,7 +248,7 @@
                 <hr/>
             </div>
 
-            <form id="agent_registration" class="form-wrap" action="{% url 'tt_website_skytors:registration_register'%}" method="post" style="padding:0; text-align:unset; width:100%;" enctype="multipart/form-data">
+            <form id="agent_registration" class="form-wrap" action="{% url 'tt_website_skytors:registration_register'%}" method="POST" style="padding:0; text-align:unset; width:100%;" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8 div-register-partnership" style="margin-top:10px; margin-bottom:15px;">

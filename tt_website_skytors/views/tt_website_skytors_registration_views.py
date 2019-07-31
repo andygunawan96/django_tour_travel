@@ -91,7 +91,8 @@ def register_agent(request):
             'name': request.POST['comp_name'] and request.POST['comp_name'] or '',
         },
         'address': {
-            'city': request.POST['city'] and request.POST['city_id'] or '',
+            # 'city': request.POST['city'] and request.POST['city_id'] or '',
+            'city': 1,
             'zip': request.POST['zip'] and request.POST['zip'] or '',
             'address': request.POST['street'] and request.POST['street'] or '',
             'address2': request.POST['street2'] and request.POST['street2'] or '',
@@ -102,23 +103,12 @@ def register_agent(request):
         'other': {
             'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
             'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
-        }
+        },
+        'provider': 'skytors_agent_registration'
     }
 
     values = {
         'username': request.session['user_account'],
-        'comp_name': request.session['registration_request']['company']['name'],
-        'birth_date': request.session['registration_request']['pic']['birth_date'],
-        'name': request.session['registration_request']['pic']['name'],
-        'email': request.session['registration_request']['pic']['email'],
-        'social_media': request.session['registration_request']['other']['social_media'],
-        'agent_type': request.session['registration_request']['other']['agent_type'],
-        'city_id': request.session['registration_request']['company']['city'],
-        'phone': request.session['registration_request']['pic']['phone'],
-        'mobile': request.session['registration_request']['pic']['mobile'],
-        'street': request.session['registration_request']['company']['street'],
-        'street2': request.session['registration_request']['company']['street2'],
-        'zip': request.session['registration_request']['company']['zip'],
         'static_path': path_util.get_static_path(MODEL_NAME),
     }
     return render(request, MODEL_NAME + '/agent_registration/tt_website_skytors_registration_finish_template.html', values)

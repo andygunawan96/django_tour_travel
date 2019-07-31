@@ -219,10 +219,10 @@ def search2(request):
         "child": int(request.session['airline_request']['child']),
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
-        "provider": request.POST['provider'],
+        # "provider": request.POST['provider'],
+        "provider": 'amadeus',
         "carrier_codes": json.loads(request.POST['carrier_codes']),
         "is_combo_price": is_combo_price
-
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -330,7 +330,12 @@ def get_data(request):
     return airline_destinations
 
 def get_price_itinerary(request):
-
+    journey_booking = json.loads(request.POST['journeys_booking'])
+    for idx, journey in enumerate(journey_booking):
+        if idx == 1:
+            journey.update({
+                "separate_journey": True
+            })
     data = {
         # "origin": "SUB",
         # "destination": "SIN",
@@ -346,7 +351,8 @@ def get_price_itinerary(request):
         "adult": int(request.session['airline_request']['adult']),
         "child": int(request.session['airline_request']['child']),
         "infant": int(request.session['airline_request']['infant']),
-        "journeys_booking": json.loads(request.POST['journeys_booking'])
+        "journeys_booking": journey_booking,
+
     }
 
     request.session['airline_get_price_request'] = data
@@ -713,387 +719,6 @@ def get_booking(request):
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=5)
 
-    #request.session['airline_ssr'] = res['result']['response']
-    # res = {
-    #     "jsonrpc": "2.0",
-    #     "id": "null",
-    #     "result": {
-    #         "error_code": 0,
-    #         "error_msg": "",
-    #         "response": {
-    #             "order_number": "AL.19072558013",
-    #             "pnr": "RQ824K, RQ7Y78",
-    #             "state": "booked",
-    #             "state_description": "Booked",
-    #             "hold_date": "2019-07-25 06:46:55",
-    #             "YCD": 0,
-    #             "ADT": 3,
-    #             "CHD": 2,
-    #             "INF": 0,
-    #             "departure_date": "2019-10-20",
-    #             "return_date": "2019-10-30",
-    #             "direction": "RT",
-    #             "origin": "SUB",
-    #             "destination": "BKK",
-    #             "sector_type": "International",
-    #             "passengers": [],
-    #             "provider_bookings": [
-    #                 {
-    #                     "pnr": "RQ824K",
-    #                     "pnr2": "RQ824K",
-    #                     "provider": "amadeus",
-    #                     "state": "booked",
-    #                     "state_description": "Booked",
-    #                     "sequence": 1,
-    #                     "balance_due": 129600000,
-    #                     "direction": "OW",
-    #                     "origin": "SUB",
-    #                     "destination": "BKK",
-    #                     "departure_date": "2019-10-20 10:10:00",
-    #                     "return_date": False,
-    #                     "journeys": [
-    #                         {
-    #                             "sequence": 1,
-    #                             "journey_type": "DEP",
-    #                             "origin": "SUB",
-    #                             "destination": "BKK",
-    #                             "departure_date": "2019-10-20 10:10:00",
-    #                             "arrival_date": "2019-10-20 19:00:00",
-    #                             "segments": [
-    #                                 {
-    #                                     "segment_code": "SQ,931,SUB,2,2019-10-20 10:10:00,SIN,0,2019-10-20 13:30:00,amadeus",
-    #                                     "fare_code": "M",
-    #                                     "journey_type": "DEP",
-    #                                     "pnr": "RQ824K",
-    #                                     "carrier_name": "Singapore Airlines",
-    #                                     "carrier_code": "SQ",
-    #                                     "carrier_number": "931",
-    #                                     "provider": "amadeus",
-    #                                     "origin": "SUB",
-    #                                     "origin_terinal": "2",
-    #                                     "destination": "SIN",
-    #                                     "destination_terminal": "0",
-    #                                     "departure_date": "2019-10-20 10:10:00",
-    #                                     "arrival_date": "2019-10-20 13:30:00",
-    #                                     "elapsed_time": "",
-    #                                     "class_of_service": "",
-    #                                     "cabin_class": "",
-    #                                     "sequence": 1,
-    #                                     "seats": [],
-    #                                     "legs": [
-    #                                         {
-    #                                             "leg_code": "SQ,931,SUB,2,2019-10-20 10:10:00,SIN,0,2019-10-20 13:30:00,amadeus",
-    #                                             "journey_type": "DEP",
-    #                                             "origin": "SUB",
-    #                                             "destination": "SIN",
-    #                                             "departure_date": "2019-10-20 10:10:00",
-    #                                             "arrival_date": "2019-10-20 13:30:00",
-    #                                             "elapsed_time": "",
-    #                                             "sequence": 0
-    #                                         }
-    #                                     ]
-    #                                 },
-    #                                 {
-    #                                     "segment_code": "SQ,982,SIN,2,2019-10-20 17:30:00,BKK,,2019-10-20 19:00:00,amadeus",
-    #                                     "fare_code": "M",
-    #                                     "journey_type": "DEP",
-    #                                     "pnr": "RQ824K",
-    #                                     "carrier_name": "Singapore Airlines",
-    #                                     "carrier_code": "SQ",
-    #                                     "carrier_number": "982",
-    #                                     "provider": "amadeus",
-    #                                     "origin": "SIN",
-    #                                     "origin_terinal": "2",
-    #                                     "destination": "BKK",
-    #                                     "destination_terminal": "",
-    #                                     "departure_date": "2019-10-20 17:30:00",
-    #                                     "arrival_date": "2019-10-20 19:00:00",
-    #                                     "elapsed_time": "",
-    #                                     "class_of_service": "",
-    #                                     "cabin_class": "",
-    #                                     "sequence": 2,
-    #                                     "seats": [],
-    #                                     "legs": [
-    #                                         {
-    #                                             "leg_code": "SQ,982,SIN,2,2019-10-20 17:30:00,BKK,,2019-10-20 19:00:00,amadeus",
-    #                                             "journey_type": "DEP",
-    #                                             "origin": "SIN",
-    #                                             "destination": "BKK",
-    #                                             "departure_date": "2019-10-20 17:30:00",
-    #                                             "arrival_date": "2019-10-20 19:00:00",
-    #                                             "elapsed_time": "",
-    #                                             "sequence": 0
-    #                                         }
-    #                                     ]
-    #                                 }
-    #                             ]
-    #                         }
-    #                     ],
-    #                     "currency": "IDR",
-    #                     "hold_date": "2019-08-12 16:00:00",
-    #                     "tickets": [],
-    #                     "cost_service_charges": {
-    #                         "ADT": {
-    #                             "FARE": {
-    #                                 "amount": 4800000,
-    #                                 "total": 14400000,
-    #                                 "foreign_amount": 4800000,
-    #                                 "charge_code": "FARE",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "TAX": {
-    #                                 "amount": 325000,
-    #                                 "total": 975000,
-    #                                 "foreign_amount": 325000,
-    #                                 "charge_code": "TAX",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "ROC": {
-    #                                 "amount": 1505000,
-    #                                 "total": 4515000,
-    #                                 "foreign_amount": 1505000,
-    #                                 "charge_code": "ROC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "RAC": {
-    #                                 "amount": -82410,
-    #                                 "total": -247230,
-    #                                 "foreign_amount": -82410,
-    #                                 "charge_code": "RAC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             }
-    #                         },
-    #                         "CHD": {
-    #                             "FARE": {
-    #                                 "amount": 3600000,
-    #                                 "total": 7200000,
-    #                                 "foreign_amount": 3600000,
-    #                                 "charge_code": "FARE",
-    #                                 "pax_count": 2,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "TAX": {
-    #                                 "amount": 325000,
-    #                                 "total": 650000,
-    #                                 "foreign_amount": 325000,
-    #                                 "charge_code": "TAX",
-    #                                 "pax_count": 2,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "ROC": {
-    #                                 "amount": 1145000,
-    #                                 "total": 3435000,
-    #                                 "foreign_amount": 1145000,
-    #                                 "charge_code": "ROC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "RAC": {
-    #                                 "amount": -63114,
-    #                                 "total": -189342,
-    #                                 "foreign_amount": -63114,
-    #                                 "charge_code": "RAC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             }
-    #                         }
-    #                     }
-    #                 },
-    #                 {
-    #                     "pnr": "RQ7Y78",
-    #                     "pnr2": "RQ7Y78",
-    #                     "provider": "amadeus",
-    #                     "state": "booked",
-    #                     "state_description": "Booked",
-    #                     "sequence": 2,
-    #                     "balance_due": 205324000,
-    #                     "direction": "OW",
-    #                     "origin": "BKK",
-    #                     "destination": "SUB",
-    #                     "departure_date": "2019-10-30 06:40:00",
-    #                     "return_date": False,
-    #                     "journeys": [
-    #                         {
-    #                             "sequence": 1,
-    #                             "journey_type": "RET",
-    #                             "origin": "BKK",
-    #                             "destination": "SUB",
-    #                             "departure_date": "2019-10-30 06:40:00",
-    #                             "arrival_date": "2019-10-30 17:40:00",
-    #                             "segments": [
-    #                                 {
-    #                                     "segment_code": "CX,616,BKK,,2019-10-30 06:40:00,HKG,1,2019-10-30 10:15:00,amadeus",
-    #                                     "fare_code": "L",
-    #                                     "journey_type": "RET",
-    #                                     "pnr": "RQ7Y78",
-    #                                     "carrier_name": "Cathay Pacific",
-    #                                     "carrier_code": "CX",
-    #                                     "carrier_number": "616",
-    #                                     "provider": "amadeus",
-    #                                     "origin": "BKK",
-    #                                     "origin_terinal": "",
-    #                                     "destination": "HKG",
-    #                                     "destination_terminal": "1",
-    #                                     "departure_date": "2019-10-30 06:40:00",
-    #                                     "arrival_date": "2019-10-30 10:15:00",
-    #                                     "elapsed_time": "",
-    #                                     "class_of_service": "",
-    #                                     "cabin_class": "",
-    #                                     "sequence": 1,
-    #                                     "seats": [],
-    #                                     "legs": [
-    #                                         {
-    #                                             "leg_code": "CX,616,BKK,,2019-10-30 06:40:00,HKG,1,2019-10-30 10:15:00,amadeus",
-    #                                             "journey_type": "DEP",
-    #                                             "origin": "BKK",
-    #                                             "destination": "HKG",
-    #                                             "departure_date": "2019-10-30 06:40:00",
-    #                                             "arrival_date": "2019-10-30 10:15:00",
-    #                                             "elapsed_time": "",
-    #                                             "sequence": 0
-    #                                         }
-    #                                     ]
-    #                                 },
-    #                                 {
-    #                                     "segment_code": "CX,781,HKG,1,2019-10-30 13:45:00,SUB,2,2019-10-30 17:40:00,amadeus",
-    #                                     "fare_code": "L",
-    #                                     "journey_type": "RET",
-    #                                     "pnr": "RQ7Y78",
-    #                                     "carrier_name": "Cathay Pacific",
-    #                                     "carrier_code": "CX",
-    #                                     "carrier_number": "781",
-    #                                     "provider": "amadeus",
-    #                                     "origin": "HKG",
-    #                                     "origin_terinal": "1",
-    #                                     "destination": "SUB",
-    #                                     "destination_terminal": "2",
-    #                                     "departure_date": "2019-10-30 13:45:00",
-    #                                     "arrival_date": "2019-10-30 17:40:00",
-    #                                     "elapsed_time": "",
-    #                                     "class_of_service": "",
-    #                                     "cabin_class": "",
-    #                                     "sequence": 2,
-    #                                     "seats": [],
-    #                                     "legs": [
-    #                                         {
-    #                                             "leg_code": "CX,781,HKG,1,2019-10-30 13:45:00,SUB,2,2019-10-30 17:40:00,amadeus",
-    #                                             "journey_type": "DEP",
-    #                                             "origin": "HKG",
-    #                                             "destination": "SUB",
-    #                                             "departure_date": "2019-10-30 13:45:00",
-    #                                             "arrival_date": "2019-10-30 17:40:00",
-    #                                             "elapsed_time": "",
-    #                                             "sequence": 0
-    #                                         }
-    #                                     ]
-    #                                 }
-    #                             ]
-    #                         }
-    #                     ],
-    #                     "currency": "IDR",
-    #                     "hold_date": "2019-07-25 06:46:55",
-    #                     "tickets": [],
-    #                     "cost_service_charges": {
-    #                         "ADT": {
-    #                             "FARE": {
-    #                                 "amount": 6518000,
-    #                                 "total": 19554000,
-    #                                 "foreign_amount": 6518000,
-    #                                 "charge_code": "FARE",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "TAX": {
-    #                                 "amount": 1020300,
-    #                                 "total": 3060900,
-    #                                 "foreign_amount": 1020300,
-    #                                 "charge_code": "TAX",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "ROC": {
-    #                                 "amount": 2159500,
-    #                                 "total": 6478500,
-    #                                 "foreign_amount": 2159500,
-    #                                 "charge_code": "ROC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "RAC": {
-    #                                 "amount": -121215.86,
-    #                                 "total": -363647.59,
-    #                                 "foreign_amount": -121215.86,
-    #                                 "charge_code": "RAC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             }
-    #                         },
-    #                         "CHD": {
-    #                             "FARE": {
-    #                                 "amount": 4889000,
-    #                                 "total": 9778000,
-    #                                 "foreign_amount": 4889000,
-    #                                 "charge_code": "FARE",
-    #                                 "pax_count": 2,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "TAX": {
-    #                                 "amount": 1020300,
-    #                                 "total": 2040600,
-    #                                 "foreign_amount": 1020300,
-    #                                 "charge_code": "TAX",
-    #                                 "pax_count": 2,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "ROC": {
-    #                                 "amount": 1670800,
-    #                                 "total": 5012400,
-    #                                 "foreign_amount": 1670800,
-    #                                 "charge_code": "ROC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             },
-    #                             "RAC": {
-    #                                 "amount": -95021.54,
-    #                                 "total": -285064.63,
-    #                                 "foreign_amount": -95021.54,
-    #                                 "charge_code": "RAC",
-    #                                 "pax_count": 3,
-    #                                 "currency_id": 12,
-    #                                 "foreign_currency_id": 12
-    #                             }
-    #                         }
-    #                     }
-    #                 }
-    #             ],
-    #             "provider_type": "airline"
-    #         },
-    #         "sid": "session_id=e451540a26c255400dd0887c7d0060d5326c7f9b; Expires=Wed, 23-Oct-2019 06:51:24 GMT; Max-Age=7776000; HttpOnly; Path=/",
-    #         "cookies": {
-    #             "session_id": "e451540a26c255400dd0887c7d0060d5326c7f9b"
-    #         }
-    #     }
-    # }
-
     file = open("version_cache.txt", "r")
     for line in file:
         file_cache_name = line
@@ -1198,7 +823,6 @@ def issued(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers,
-                            cookies=request.session['airline_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
 
     return res

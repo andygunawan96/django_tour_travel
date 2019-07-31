@@ -1,7 +1,18 @@
+/*
+DOCUMENT
+type_amount_repricing --> tidak usa diberi 'Total'
+price_arr_repricing --> tidak usa diberi total
+untuk total setelah mengisi type amount, pax type, dan price arr copy fungsi ini add_repricing();
+currency bisa diset langsung tapi gatau space kolom nya cukup ngga
+bisa liat contoh di airline
+
+*/
+
 counter = 0;
 type_amount_repricing = []; // --> list of string ['Fare', 'Commission']
-pax_type_repricing = []; // --> list of list ex : [['ADT','Adult'],['CHD','Child']]
-price_arr_repricing = {}; // --> dict of dict ex : {'Adult':{'total_price':50,'commission':20}} -- di tambah total
+pax_type_repricing = []; // --> list of list ex : [['nama pax key','nama pax tampil'],['CHD','Child']]
+price_arr_repricing = {}; // --> dict of dict ex : {'nama pax tampil':{'total_price':50,'commission':20}} -- di tambah total
+currency = '';
 //total wajib tinggal copy aja
 /*
 for(i in price_arr){
@@ -106,6 +117,18 @@ function delete_table_of_equation(){
     }
 }
 
+function add_repricing(){
+    for(j in price_arr_repricing){
+       total = 0
+       for(k in price_arr_repricing[j]){
+           console.log(price_arr_repricing[j][k]);
+           total += price_arr_repricing[j][k];
+       }
+       console.log(total);
+       price_arr_repricing[j]['total'] = total;
+    }
+}
+
 function calculate(type){
     price_duplication = JSON.parse(JSON.stringify(price_arr_repricing));
     console.log(price_duplication);
@@ -113,10 +136,9 @@ function calculate(type){
         var selection_calculation = document.getElementById('calculation'+i).value;
         var selection_pax = document.getElementById('selection_pax'+i).value;
         var selection_fare = document.getElementById('selection_fare'+i).value;
-
-        console.log(selection_calculation);
-        console.log(selection_pax);
         console.log(selection_fare);
+        console.log(selection_pax);
+        console.log(selection_calculation);
         if(selection_calculation == '' || selection_calculation == null)
             selection_calculation = '0';
         if(selection_calculation.match('-')){
@@ -139,7 +161,9 @@ function calculate(type){
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax][selection_fare];
                     }
                 }else{
+                    console.log(type_amount_repricing);
                     if(type_amount_repricing.length != 0){
+                        total = 0;
                         for(j in type_amount_repricing){
                             total += price_duplication[selection_pax][type_amount_repricing[j]] + (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
                             price_duplication[selection_pax][type_amount_repricing[j]] = price_duplication[selection_pax][type_amount_repricing[j]] + (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
@@ -154,22 +178,22 @@ function calculate(type){
                     price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + parseFloat(selection_calculation);
                     total = 0;
                     if(type_amount_repricing.length != 0){
-                        for(j in type_amount_repricing)
+                        for(j in type_amount_repricing){
                             total += price_duplication[selection_pax][type_amount_repricing[j]];
+                        }
                         price_duplication[selection_pax]['total'] = total
                     }else{
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax][selection_fare];
                     }
                 }else{
                     if(type_amount_repricing.length != 0){
+                        console.log(type_amount_repricing);
+                        total = 0;
                         for(j in type_amount_repricing){
-                            if(type_amount_repricing!='Total')
-                                total += price_duplication[selection_pax][type_amount_repricing[j]] + parseFloat(selection_calculation);
+                            total += price_duplication[selection_pax][type_amount_repricing[j]] + parseFloat(selection_calculation);
                         }
                         price_duplication[selection_pax]['total'] = total;
                     }else{
-                        console.log(selection_pax);
-                        console.log(price_duplication);
                         price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['total'] + parseFloat(selection_calculation);
                     }
                 }
@@ -190,6 +214,7 @@ function calculate(type){
                     }
                 }else{
                     if(type_amount_repricing.length != 0){
+                        total = 0;
                         for(j in type_amount_repricing){
                             price_duplication[selection_pax][type_amount_repricing[j]] = price_duplication[selection_pax][type_amount_repricing[j]] - (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
                             total += price_duplication[selection_pax][type_amount_repricing[j]] + (price_duplication[selection_pax][type_amount_repricing[j]] * parseFloat(selection_calculation) / 100);
@@ -212,6 +237,7 @@ function calculate(type){
                     }
                 }else{
                     if(type_amount_repricing.length != 0){
+                        total =0;
                         for(j in type_amount_repricing){
                             if(type_amount_repricing!='Total')
                                 total += price_duplication[selection_pax][type_amount_repricing[j]] -  parseFloat(selection_calculation) / 100;
@@ -224,13 +250,19 @@ function calculate(type){
             }
         }
     }
+    console.log(type);
     if(type == 'visa'){
         console.log(price_duplication);
         for(i in price_duplication)
             for(j in price_duplication[i]){
-                console.log(i);
-                console.log(j);
-                document.getElementById(i+'_'+j).innerHTML = price_duplication[i][j];
+                if(j != 'currency')
+                    document.getElementById(i+'_'+j).innerHTML = price_duplication[i][j];
+            }
+    }else if(type == 'airline'){
+        console.log(price_duplication);
+        for(i in price_duplication)
+            for(j in price_duplication[i]){
+                document.getElementById(i+'_'+j).innerHTML = getrupiah(price_duplication[i][j]);
             }
     }
     console.log(price_duplication);

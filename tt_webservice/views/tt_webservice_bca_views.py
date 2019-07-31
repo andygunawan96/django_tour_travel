@@ -72,14 +72,14 @@ def api_models(request):
 def login(request):
     credential = '%s:%s' % (data_bca['client_id'], data_bca['client_secret'])
     headers = {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "Authorization": 'Basic ' + str(base64.b64encode(credential.encode('utf-8')), 'utf-8').replace('\n', ''),
+        'Content-Type': 'application/x-www-form-urlencoded',
         'Accept': 'application/json',
+        'Authorization': 'Basic ' + str(base64.b64encode(credential.encode('utf-8')), 'utf-8').replace('\n', '')
     }
 
     data = 'grant_type=client_credentials'
     # https://sandbox.bca.co.id
-    res = util.send_request(url='https://devapi.klikbca.com:443/api/oauth/token', data=data, headers=headers, method='POST')
+    res = util.send_request(url='https://devapi.klikbca.com/api/oauth/token', data=data, headers=headers, method='POST')
 
 
     return res
