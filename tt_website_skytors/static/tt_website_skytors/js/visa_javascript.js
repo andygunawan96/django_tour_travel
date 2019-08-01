@@ -66,7 +66,8 @@ function set_commission_price_visa(){
 function update_table(type){
     text = ''
     if(type == 'search'){
-        text += `<h4>Price detail</h4><hr/>
+        text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                <h4>Price detail</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
         commission = 0;
@@ -110,29 +111,28 @@ function update_table(type){
             display = 'none';
         }
         text+=`
-                <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                        </div>
+            <div class="row" id="show_commission" style="display: `+display+`;">
+                <div class="col-lg-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-                    </div>
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
-                    </div>
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <button class="primary-btn-ticket next-search-train ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
-                            Next
-                            <i class="fas fa-angle-right"></i>
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                 </div>
-                `;
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
+                </div>
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
+                        Next
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
+                </div>
+            </div>
+        </div>`;
     }else if(type == 'passenger'){
         text += `<h4>Price detail</h4><hr/>
                 <table style="width:100%; margin-bottom:10px;">`;
@@ -294,22 +294,21 @@ function update_table(type){
             display = 'none';
         }
         text+=`
-                <div class="row" id="show_commission" style="display: `+display+`;">
-                    <div class="col-lg-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
-                        </div>
-                    </div>
+        <div class="row" id="show_commission" style="display: `+display+`;">
+            <div class="col-lg-12" style="text-align:center;">
+                <div class="alert alert-success">
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-                    </div>
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
-                    </div>
-                </div>
-                `;
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="padding-bottom:10px;">
+                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+            </div>
+            <div class="col-lg-12" style="padding-bottom:10px;">
+                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
+            </div>
+        </div>`;
     }
     document.getElementById('detail').innerHTML = text;
     $("#select_visa_first").hide();
@@ -321,7 +320,7 @@ function show_commission(){
         document.getElementById('show_commission_button').value = 'Hide Commission';
     }else{
         document.getElementById('show_commission').style.display = 'none';
-        document.getElementById('show_commission_button').value = 'Commission';
+        document.getElementById('show_commission_button').value = 'Show Commission';
     }
 }
 
@@ -393,6 +392,7 @@ function visa_check_search(){
             document.getElementById('qty_pax_'+i).style['border-color'] = 'red';
         }
         alert('Please input pax')
+        $('.next-loading').removeClass("running");
     }else if(error_log == ''){
         document.getElementById('visa_passenger').submit();
     }else{
@@ -597,9 +597,10 @@ function check_passenger(adult, child, infant){
    }
    if(error_log=='')
        document.getElementById('visa_review').submit();
-   else
+   else{
        alert(error_log);
-
+       $('.next-loading').removeClass("running");
+    }
 }
 
 function get_visa_review(){
@@ -965,4 +966,8 @@ function check_before_add_repricing(){
         add_table_of_equation();
     else
         alert('Please fill all visa type, entry type, and process type!');
+}
+
+function delete_expired_date(type, id){
+    document.getElementById(type+'_passport_expired_date'+id).value = "";
 }

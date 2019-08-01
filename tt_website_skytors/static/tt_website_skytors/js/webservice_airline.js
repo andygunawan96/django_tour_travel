@@ -576,11 +576,11 @@ function get_price_itinerary(val){
 
         segment.push({
             "segment_code": airline_data_filter[val].segments[i].segment_code,
-            'journey_type': airline_data_filter[val].segments[j].journey_type,
+            'journey_type': airline_data_filter[val].segments[i].journey_type,
             'fare_code': fare_code,
             'class_of_service': class_of_service,
 //            "fare_code": fare_code,
-            "fare_pick": parseInt(airline_data_filter[val].segments[j].fare_pick),
+            "fare_pick": parseInt(airline_data_filter[val].segments[i].fare_pick),
 //            "provider": provider,
 //            "subclass": subclass,
 //            "class_of_service": class_of_service

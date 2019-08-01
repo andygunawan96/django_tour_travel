@@ -102,33 +102,35 @@ function search_visa(){
        success: function(msg) {
             console.log(msg);
             var node;
-            if(msg.result.error_code == 0){
+            if(msg.result.error_code == 0 && msg.result.response.list_of_visa.length != 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
                     node = document.createElement("div");
 
                     text= `
-                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding-top:15px;" id="journey`+i+`">
+                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding-top:15px; padding-left:15px;" id="journey`+i+`">
                             <div class="row">
                                 <div class="col-lg-9">
-                                    <div class="col-lg-12">
-                                        <table style="width:100%" id="list-of-passenger">
-                                            <tr>
-                                                <th>Pax Type</th>
-                                                <th>Visa Type</th>
-                                                <th>Entry Type</th>
-                                                <th>Regular Type</th>
-                                            </tr>
-                                            <tr>
-                                                <td>`+msg.result.response.list_of_visa[i].pax_type[1]+`</td>
-                                                <td>`+msg.result.response.list_of_visa[i].visa_type[1]+`</td>
-                                                <td>`+msg.result.response.list_of_visa[i].entry_type[1]+`</td>
-                                                <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
-                                            </tr>
-                                        </table>
-                                        <div style="margin-top:10px; margin-bottom:10px;">
-                                            <label>Qty : </label>
-                                            <input class="form-control" type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
+                                    <table style="width:100%" id="list-of-passenger">
+                                        <tr>
+                                            <th>Pax Type</th>
+                                            <th>Visa Type</th>
+                                            <th>Entry Type</th>
+                                            <th>Regular Type</th>
+                                        </tr>
+                                        <tr>
+                                            <td>`+msg.result.response.list_of_visa[i].pax_type[1]+`</td>
+                                            <td>`+msg.result.response.list_of_visa[i].visa_type[1]+`</td>
+                                            <td>`+msg.result.response.list_of_visa[i].entry_type[1]+`</td>
+                                            <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
+                                        </tr>
+                                    </table>
+                                    <div style="margin-top:10px; margin-bottom:10px;">
+                                        <label>Qty : </label>
+                                        <div class="banner-right">
+                                            <div class="form-wrap" style="padding:0px;">
+                                                <input class="form-control" type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -171,6 +173,20 @@ function search_visa(){
                     node.innerHTML = text;
                     document.getElementById("visa_ticket").appendChild(node);
                 }
+            }
+            else{
+                node = document.createElement("div");
+                text= `
+                <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding: 15px 0px 15px 15px; text-align:center;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3><i class="fas fa-search"></i> VISA NOT FOUND</h3>
+                        </div>
+                    </div>
+                </div>`;
+
+                node.innerHTML = text;
+                document.getElementById("show-visa-search").appendChild(node);
             }
             visa = msg.result.response.list_of_visa;
             country = msg.result.response.country;
