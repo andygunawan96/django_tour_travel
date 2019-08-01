@@ -1049,7 +1049,7 @@ function get_price_itinerary(val){
                         price = 0;
                         //adult
                         $text+= 'Price\n';
-                        if(airline_request.direction == 'RT' && airline_pick_list.length == 2 && Object.keys(ret_price).length != 0){
+                        if(airline_pick_list.length == 1 && Object.keys(ret_price).length == 0){
                             text+=`<hr/>
                         </div>`;
                             if(airline_request.adult != '0'){
@@ -1994,7 +1994,13 @@ function airline_get_booking(data){
 
             <div class="row" style="margin-top:20px;">
                 <div class="col-lg-4" style="padding-bottom:10px;">`;
-                        if (msg.result.response.state  != 'booked'){
+                        if (msg.result.response.state == 'booked'){
+                            text+=`
+                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;" hidden>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </a>`;
+                        }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
                                 <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
@@ -2042,137 +2048,7 @@ function airline_get_booking(data){
             </div>`;
             document.getElementById('airline_booking').innerHTML = text;
 
-            //detail
-            text = '';
-            tax = 0;
-            fare = 0;
-            total_price = 0;
-            commission = 0;
-            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
-            text+=`
-                <div style="background-color:#f15a22; margin-top:20px;">
-                    <center>
-                        <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
-                    </center>
-                </div>
-                <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
-
-            //repricing
-            type_amount_repricing = ['Fare', 'Tax'];
-            //repricing
-            for(i in msg.result.response.passengers[0].sale_service_charges){
-                text+=`
-                    <div style="text-align:center">
-                        `+i+`
-                    </div>`;
-                for(j in msg.result.response.passengers){
-                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': ''};
-                    for(k in msg.result.response.passengers[j].sale_service_charges[i]){
-                        price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
-                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
-                    }
-                    console.log(price);
-                    //repricing
-                    type_amount_repricing = ['Fare', 'Tax'];
-                    check = 0;
-                    for(k in pax_type_repricing){
-                        console.log(pax_type_repricing);
-                        if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
-                            check = 1;
-                    }
-                    if(check == 0){
-                        pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                        price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price['FARE'],
-                            'Tax': price['TAX'] + price['ROC']
-                        }
-                    }else{
-                        price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
-                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC']
-                        }
-                    }
-                    text_repricing = `
-                    <div class="col-lg-12">
-                        <div style="padding:5px;" class="row">`;
-                    for(k in price_arr_repricing){
-                        length = (12 / (Object.keys(price_arr_repricing[k]).length+2));
-                        text_repricing+= `<div class="col-lg-`+length+`"></div>`;
-                        for(l in price_arr_repricing[k]){
-                            if(l!= 'currency' && l != 'total')
-                            text_repricing+= `<div class="col-lg-`+length+`">`+l+`</div>`;
-                        }
-                        text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
-                        break;
-                    }
-
-                    text_repricing+=`</div>
-                    </div>`;
-                    for(k in price_arr_repricing){
-                       length = (12 / (Object.keys(price_arr_repricing[k]).length+2));
-                       text_repricing += `
-                       <div class="col-lg-12">
-
-                            <div style="padding:5px;" class="row" id="adult">
-                                <div class="col-lg-`+length+`">`+k+`</div>`;
-
-                                for(l in price_arr_repricing[k]){
-                                    if(l != 'currency' && l != 'total')
-                                        text_repricing+= `<div class="col-lg-`+length+`" id="`+k+`_`+l+`">-</div>`;
-                                }
-                                text_repricing+= `<div class="col-lg-`+length+`" id="`+k+`_total">-</div>`;
-                            text_repricing+=`</div>
-                        </div>`;
-                    }
-                    document.getElementById('repricing_div').innerHTML = text_repricing;
-                    //repricing
-                    text+=`
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
-                        text+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
-                        text+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>
-                        </div>
-                    </div>`;
-
-                    total_price += parseInt(price.TAX + price.ROC + price.FARE);
-                    commission += parseInt(price.RAC);
-                }
-            }
-
-            text+=`
-            <div>
-                <hr/>
-            </div>
-            <div class="row" style="margin-bottom:10px;">
-                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                </div>
-                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price)+`</span>
-                </div>
-            </div>
-
-            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1)  )+`</span><br>
-                    </div>
-                </div>
-                </div>
-            </div>`;
-            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
-            document.getElementById('airline_detail').innerHTML = text;
-            loadingReviewHide();
+            booking_price_detail(msg);
 
             //
             text = `
@@ -2202,6 +2078,7 @@ function airline_get_booking(data){
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="airline_issued('`+msg.result.response.order_number+`');">Force Issued</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -2238,7 +2115,7 @@ function airline_issued(data){
        },
        success: function(msg) {
            console.log(msg);
-           if(msg.error_code == 0){
+           if(msg.result.error_code == 0){
                document.getElementById('issued-breadcrumb').classList.add("active");
                document.getElementById('success-issued').style.display = "block";
                document.getElementById('button-choose-print').value = "Print Ticket";
@@ -2249,13 +2126,14 @@ function airline_issued(data){
                document.getElementById('button-print-print').onclick = "#";
                document.getElementById('button-issued-print').onclick = "#";
                document.getElementById('seat-map-link').href="#";
+               document.getElementById('seat-map-link').hidden=false;
                document.getElementById('pnr').innerHTML="Issued";
                $('.issued-booking-train').removeClass("running");
-           }else{
+           }else if(msg.result.error_code == 1006){
                 alert(msg.result.error_msg);
                 //modal pop up
 
-
+                booking_price_detail(msg);
                 tax = 0;
                 fare = 0;
                 total_price = 0;
@@ -2315,17 +2193,86 @@ function airline_issued(data){
                     </div>
                 </div>
 
-                <div class="row" id="show_commission" style="display:none;">
+                <div class="row" id="show_commission_old" style="display:none;">
                     <div class="col-lg-12 col-xs-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
                         </div>
                     </div>
                 </div>`;
-                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
+                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div></div>`;
                 document.getElementById('old_price').innerHTML = text;
 
+                airline_get_detail = msg;
+                total_price = 0;
+                //new price
+                text=`
+                    <div style="background-color:#f15a22; margin-top:20px;">
+                        <center>
+                            <span style="color:white; font-size:16px;">New Price Detail <i class="fas fa-money-bill-wave"></i></span>
+                        </center>
+                    </div>
+                    <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
+                for(i in msg.result.response.passengers[0].sale_service_charges){
+                    text+=`
+                    <div style="text-align:center">
+                        `+i+`
+                    </div>`;
+                    for(j in msg.result.response.passengers){
+                        price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': ''};
+                        for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                            price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                            price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+                        }
+                        console.log(price);
+
+                        text+=`<div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>
+                            </div>
+                        </div>`;
+
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                        commission += parseInt(price.RAC);
+                    }
+                }
+                text+=`
+                <div>
+                    <hr/>
+                </div>
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price)+`</span>
+                    </div>
+                </div>
+
+                <div class="row" id="show_commission_new" style="display:none;">
+                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1))+`</span><br>
+                        </div>
+                    </div>
+                </div>`;
+                text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div></div>`;
+                document.getElementById('new_price').innerHTML = text;
+
                $("#myModal").modal();
+           }else{
+                alert(msg.result.error_msg);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2348,6 +2295,160 @@ function show_commission(){
     }
 }
 
+function show_commission(val){
+    var sc = '';
+    var scs = '';
+    if(val == 'new'){
+        sc = document.getElementById("show_commission_new");
+        scs = document.getElementById("show_commission_button_new");
+    }else{
+        sc = document.getElementById("show_commission_old");
+        scs = document.getElementById("show_commission_button_old");
+    }
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide Commission";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show Commission";
+    }
+}
+
 function gotoForm(){
     document.getElementById('airline_searchForm').submit();
+}
+
+function booking_price_detail(msg){
+    //detail
+    text = '';
+    tax = 0;
+    fare = 0;
+    total_price = 0;
+    commission = 0;
+    service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+    text+=`
+        <div style="background-color:#f15a22; margin-top:20px;">
+            <center>
+                <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
+            </center>
+        </div>
+        <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
+
+    //repricing
+    type_amount_repricing = ['Fare', 'Tax'];
+    //repricing
+    for(i in msg.result.response.passengers[0].sale_service_charges){
+        text+=`
+            <div style="text-align:center">
+                `+i+`
+            </div>`;
+        for(j in msg.result.response.passengers){
+            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': ''};
+            for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+            }
+            console.log(price);
+            //repricing
+            type_amount_repricing = ['Fare', 'Tax'];
+            check = 0;
+            for(k in pax_type_repricing){
+                console.log(pax_type_repricing);
+                if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                    check = 1;
+            }
+            if(check == 0){
+                pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                price_arr_repricing[msg.result.response.passengers[j].name] = {
+                    'Fare': price['FARE'],
+                    'Tax': price['TAX'] + price['ROC']
+                }
+            }else{
+                price_arr_repricing[msg.result.response.passengers[j].name] = {
+                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                    'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC']
+                }
+            }
+            text_repricing = `
+            <div class="col-lg-12">
+                <div style="padding:5px;" class="row">`;
+            for(k in price_arr_repricing){
+                length = (12 / (Object.keys(price_arr_repricing[k]).length+2));
+                text_repricing+= `<div class="col-lg-`+length+`"></div>`;
+                for(l in price_arr_repricing[k]){
+                    if(l!= 'currency' && l != 'total')
+                    text_repricing+= `<div class="col-lg-`+length+`">`+l+`</div>`;
+                }
+                text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
+                break;
+            }
+
+            text_repricing+=`</div>
+            </div>`;
+            for(k in price_arr_repricing){
+               length = (12 / (Object.keys(price_arr_repricing[k]).length+2));
+               text_repricing += `
+               <div class="col-lg-12">
+
+                    <div style="padding:5px;" class="row" id="adult">
+                        <div class="col-lg-`+length+`">`+k+`</div>`;
+
+                        for(l in price_arr_repricing[k]){
+                            if(l != 'currency' && l != 'total')
+                                text_repricing+= `<div class="col-lg-`+length+`" id="`+k+`_`+l+`">-</div>`;
+                        }
+                        text_repricing+= `<div class="col-lg-`+length+`" id="`+k+`_total">-</div>`;
+                    text_repricing+=`</div>
+                </div>`;
+            }
+            document.getElementById('repricing_div').innerHTML = text_repricing;
+            //repricing
+            text+=`
+            <div class="row" style="margin-bottom:5px;">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                text+=`</div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                </div>
+            </div>
+            <div class="row" style="margin-bottom:5px;">
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                    <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                text+=`</div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>
+                </div>
+            </div>`;
+
+            total_price += parseInt(price.TAX + price.ROC + price.FARE);
+            commission += parseInt(price.RAC);
+        }
+    }
+
+    text+=`
+    <div>
+        <hr/>
+    </div>
+    <div class="row" style="margin-bottom:10px;">
+        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+        </div>
+        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price)+`</span>
+        </div>
+    </div>
+
+    <div class="row" id="show_commission" style="display:none;">
+        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+            <div class="alert alert-success">
+                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1)  )+`</span><br>
+            </div>
+        </div>
+        </div>
+    </div>`;
+    text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
+    document.getElementById('airline_detail').innerHTML = text;
+    loadingReviewHide();
 }
