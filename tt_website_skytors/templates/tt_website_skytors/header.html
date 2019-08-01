@@ -1,0 +1,97 @@
+<header id="header">
+    <div class="main-menu-2">
+        <div class="container" style="padding-right:0px;">
+            <div class="align-items-center justify-content-between d-flex" style="justify-content: flex-end !important;">
+                <nav>
+                    <ul class="nav-menu">
+                        <li style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>
+                        <li style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; border-right:1px solid black; margin-right:3px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>
+                        <li class="menu-has-children"><a href="#" style="border-right:1px solid black;"> <i class="fas fa-globe-asia"></i> </a>
+                            <ul>
+                                <li><a href="#"> ID </a></li>
+                                <li><a href="#"> ENG</a></li>
+                                <li><a href="#"> JP </a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <nav id="nav-menu-container">
+                    <ul class="nav-menu">
+                        <li class="menu-has-children"><a href="#">Partnership</a>
+                            <ul>
+                                <li><a href="/registration">Register Agent</a></li>
+                                <li><a href="#">Registration List</a></li>
+                                <li><a href="#">Search Registration</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+
+                        {% if username != null %}
+                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        <li><a href="#">Top Up</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#" style="border-right:1px solid black; margin-right:5px;">Issued Offline</a>
+                            <ul>
+                                <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
+                                <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#">Saldo</a>
+                            <ul>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children"><a href="#" id="username">{{username.agent_name}}</a>
+                            <ul>
+                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li>
+                                    <a>
+                                        <form action="{% url 'tt_website_skytors:index'%}" method="POST">
+                                            {% csrf_token %}
+                                            <button type="submit" class="primary-btn-logout" style="color:white;">Logout</button>
+                                            <input type="hidden" id="logout" name="logout" value=true>
+                                        </form>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children" id="notification-pc" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
+                            <ul id="notification_detail"></ul>
+                        </li>
+                        {% else %}
+                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="border: 2px solid #f15a22;">Sign in</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                <nav id="notification-mobile" style="display:none;">
+                    <ul class="nav-menu">
+                        <li class="menu-has-children" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
+                            <ul id="notification_detail2"></ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</header>

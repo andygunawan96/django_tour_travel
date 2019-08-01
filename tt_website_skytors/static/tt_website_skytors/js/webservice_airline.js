@@ -573,14 +573,13 @@ function get_price_itinerary(val){
         }catch(err){
 
         }
-
         segment.push({
             "segment_code": airline_data_filter[val].segments[i].segment_code,
-            'journey_type': airline_data_filter[val].segments[j].journey_type,
+            'journey_type': airline_data_filter[val].segments[i].journey_type,
             'fare_code': fare_code,
             'class_of_service': class_of_service,
 //            "fare_code": fare_code,
-            "fare_pick": parseInt(airline_data_filter[val].segments[j].fare_pick),
+            "fare_pick": parseInt(airline_data_filter[val].segments[i].fare_pick),
 //            "provider": provider,
 //            "subclass": subclass,
 //            "class_of_service": class_of_service
@@ -2058,7 +2057,7 @@ function airline_get_booking(data){
                 <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
 
             //repricing
-            type_amount_repricing = ['Fare', 'Tax'];
+            type_amount_repricing = ['Repricing'];
             //repricing
             for(i in msg.result.response.passengers[0].sale_service_charges){
                 text+=`
@@ -2066,14 +2065,20 @@ function airline_get_booking(data){
                         `+i+`
                     </div>`;
                 for(j in msg.result.response.passengers){
-                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': ''};
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
                     for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                         price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                         price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                     }
+                    try{
+                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+
+                    }catch(err){
+
+                    }
                     console.log(price);
                     //repricing
-                    type_amount_repricing = ['Fare', 'Tax'];
+                    type_amount_repricing = ['Repricing'];
                     check = 0;
                     for(k in pax_type_repricing){
                         console.log(pax_type_repricing);
@@ -2084,46 +2089,38 @@ function airline_get_booking(data){
                         pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                         price_arr_repricing[msg.result.response.passengers[j].name] = {
                             'Fare': price['FARE'],
-                            'Tax': price['TAX'] + price['ROC']
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': 0
                         }
                     }else{
                         price_arr_repricing[msg.result.response.passengers[j].name] = {
                             'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
-                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC']
+                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            'Repricing': 0
                         }
                     }
                     text_repricing = `
                     <div class="col-lg-12">
-                        <div style="padding:5px;" class="row">`;
-                    for(k in price_arr_repricing){
-                        length = (12 / (Object.keys(price_arr_repricing[k]).length+2));
-                        text_repricing+= `<div class="col-lg-`+length+`"></div>`;
-                        for(l in price_arr_repricing[k]){
-                            if(l!= 'currency' && l != 'total')
-                            text_repricing+= `<div class="col-lg-`+length+`">`+l+`</div>`;
-                        }
-                        text_repricing+= `<div class="col-lg-`+length+`">Total</div>`;
-                        break;
-                    }
-
-                    text_repricing+=`</div>
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Price</div>
+                            <div class="col-lg-3">Repricing</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
                     </div>`;
+                    console.log(price_arr_repricing);
                     for(k in price_arr_repricing){
-                       length = (12 / (Object.keys(price_arr_repricing[k]).length+2));
                        text_repricing += `
                        <div class="col-lg-12">
-
                             <div style="padding:5px;" class="row" id="adult">
-                                <div class="col-lg-`+length+`">`+k+`</div>`;
-
-                                for(l in price_arr_repricing[k]){
-                                    if(l != 'currency' && l != 'total')
-                                        text_repricing+= `<div class="col-lg-`+length+`" id="`+k+`_`+l+`">-</div>`;
-                                }
-                                text_repricing+= `<div class="col-lg-`+length+`" id="`+k+`_total">-</div>`;
-                            text_repricing+=`</div>
+                                <div class="col-lg-3" id="`+k+`_`+l+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>
+                                <div class="col-lg-3" id="`+k+`_repricing">-</div>
+                                <div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>
+                            </div>
                         </div>`;
                     }
+                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
                     document.getElementById('repricing_div').innerHTML = text_repricing;
                     //repricing
                     text+=`
@@ -2140,11 +2137,11 @@ function airline_get_booking(data){
                             <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
                         text+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>
+                            <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                         </div>
                     </div>`;
 
-                    total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
                     commission += parseInt(price.RAC);
                 }
             }
@@ -2168,8 +2165,8 @@ function airline_get_booking(data){
                         <span style="font-size:13px;">Your Commission: IDR `+getrupiah(parseInt(commission*-1)  )+`</span><br>
                     </div>
                 </div>
-                </div>
             </div>`;
+            text+=`<div style="text-align:right;" onclick="show_repricing();"><img src="/static/tt_website_skytors/img/bank.png" style="width:20px; height:20px;"/></div>`;
             text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
             document.getElementById('airline_detail').innerHTML = text;
             loadingReviewHide();
@@ -2335,6 +2332,54 @@ function airline_issued(data){
 
 }
 
+function update_service_charge(data){
+    upsell = []
+    console.log(list);
+    for(i in airline_get_detail.result.response.passengers){
+        for(j in airline_get_detail.result.response.passengers[i].sale_service_charges){
+            currency = airline_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+        }
+        list_price = []
+        for(j in list){
+            if(airline_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        upsell.push({
+            'sequence': airline_get_detail.result.response.passengers[i].sequence,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    console.log(upsell);
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'update_service_charge',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+           'order_number': JSON.stringify(order_number),
+           'passengers': JSON.stringify(upsell)
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.error_code == 0){
+
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+
+}
+
 function show_commission(){
     var sc = document.getElementById("show_commission");
     var scs = document.getElementById("show_commission_button");
@@ -2350,4 +2395,8 @@ function show_commission(){
 
 function gotoForm(){
     document.getElementById('airline_searchForm').submit();
+}
+
+function show_repricing(){
+    $("#myModalRepricing").modal();
 }
