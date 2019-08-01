@@ -8,6 +8,9 @@ $(document).ready(function(){
 
     $("#myModalPopUp").modal('show');
 
+//    $(window).load(function() {
+//    });
+
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");
@@ -51,6 +54,15 @@ $(document).ready(function(){
 //            document.getElementById("sorting-search-train2").style.display = "none";
 //            document.getElementById("mybuttonfiltersort").style.display = "block";
         }
+    });
+    $('.search-home-visa').click(function() {      // When arrow is clicked
+        $('.search-home-visa').addClass("running");
+    });
+
+    $('#return-to-top').click(function() {      // When arrow is clicked
+        $('body,html').animate({
+            scrollTop : 0                       // Scroll to top of body
+        }, 500);
     });
 
     $('#return-to-top').click(function() {      // When arrow is clicked
@@ -683,9 +695,8 @@ $(document).ready(function(){
             text='';
             var node = document.createElement("div");
             text+=`
-            <span class="span-search-ticket">Departure</span>
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
             <div class="input-container-search-ticket">
-                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
             </div>
             <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
@@ -721,9 +732,8 @@ $(document).ready(function(){
             document.getElementById('checkbox_combo_price').style.display = "block";
 
             text+=`
-            <span class="span-search-ticket">Departure - Return</span>
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
-                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                 <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
             </div>
 
@@ -876,6 +886,7 @@ $(document).ready(function(){
                   $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
                     $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
                     $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
+                    $("#airline_departure_return").val(picker.startDate.format('DD MMM YYYY') +' - '+picker.endDate.format('DD MMM YYYY'));
                 });
             }
 
@@ -978,7 +989,7 @@ function showCart() {
 
 
 function show_loading(){
-    $('.next-search-train').addClass("running");
+    $('.next-loading').addClass("running");
 }
 
 

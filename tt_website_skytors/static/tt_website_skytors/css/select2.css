@@ -131,7 +131,7 @@
 .select2-container--default .select2-selection--single {
   display:grid;
   background-color: #fff;
-  border: 1px solid #EFEFEF;
+  border: 1px solid #CACACA;
   border-radius: 0px; }
   .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;

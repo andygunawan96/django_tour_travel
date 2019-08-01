@@ -2353,8 +2353,8 @@ fieldset:disabled a.btn {
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: #C04B21;
+  border-color: #C04B21;
 }
 
 .btn-primary:focus, .btn-primary.focus {
@@ -2979,6 +2979,8 @@ tbody.collapse.show {
 }
 
 .dropdown-toggle::after {
+  float:right;
+  margin-top:8px;
   display: inline-block;
   width: 0;
   height: 0;
@@ -3663,7 +3665,6 @@ tbody.collapse.show {
 }
 
 .nav-tabs {
-  border-bottom: 1px solid #1E1E1E;
 }
 
 .nav-tabs .nav-item {
@@ -3676,7 +3677,7 @@ tbody.collapse.show {
 }
 
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
-  border-color: #e9ecef #e9ecef #dee2e6;
+  background:#f15a22;
 }
 
 .nav-tabs .nav-link.disabled {
