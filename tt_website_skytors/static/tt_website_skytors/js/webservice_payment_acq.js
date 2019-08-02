@@ -188,7 +188,9 @@ console.log(payment_acq);
 
 function get_payment_acq(val){
     text=`
+    <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
     <div class="input-container-search-ticket btn-group">
+
         <div class="form-select" id="default-select">
             <select id="payment_method" onchange="set_payment('`+val+`');">`;
             for(i in payment_acq.result.response){
@@ -208,7 +210,8 @@ function get_payment_acq(val){
         </div>
     </div>`;
 
-    text+=`<div id="payment_description"></div>`
+    text+=`
+    <div id="payment_description"></div>`
     text+=`
         </div>`;
     document.getElementById('payment_acq').innerHTML += text;
@@ -222,12 +225,13 @@ function set_payment(val){
     for(i in payment_acq.result.response[payment_method]){
 //        <span style="font-size:14px;">`+payment_acq.result.response.acquirers[payment_method][i].name+`</span>
         text+=`
-                <label class="radio-button-custom">
-                    <span style="font-size:14px;">`+payment_acq.result.response[payment_method][i].name+`</span>
-                    <img width="40px" height="40px" src="`+payment_acq.result.response[payment_method][i].image+`"/>
-                    <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`');">
-                    <span class="checkmark-radio"></span>
-                </label>`;
+
+        <label class="radio-button-custom">
+            <span style="font-size:14px; font-weight:500;">`+payment_acq.result.response[payment_method][i].name+`<br>
+            <img width="50px" height="auto" src="`+payment_acq.result.response[payment_method][i].image+`"/></span>
+            <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`');">
+            <span class="checkmark-radio"></span>
+        </label><br/>`;
     }
     text += '<div id="set_price"></div>'
     document.getElementById('payment_description').innerHTML = text;
@@ -246,52 +250,44 @@ function set_price(val){
     }
     text = '';
     //name - acc number
-    if(payment_acq.result.response[payment_method][selected].account_name != '' && payment_acq.result.response[payment_method][selected].account_name != '-')
-        text += `<span style="font-size:14px;">`+payment_acq.result.response[payment_method][selected].account_name+`</span>`;
-    if(text != '' && payment_method != 'cash')
-        text += ` - `;
-    if(payment_method == 'va')
-        text += `<span style="font-size:14px;">Virtual Account Number: </span>`;
-    if(payment_acq.result.response[payment_method][selected].account_number != '' && payment_acq.result.response[payment_method][selected].account_number != '-')
-        text += `<span style="font-size:14px;">`+payment_acq.result.response[payment_method][selected].account_number+`</span>`;
-    if(text != '')
-        text += '<br/>';
+    text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`
+    //    if(text != '' && payment_method != 'cash')
+    //        text += ` - `;
+    //if(payment_method == 'va')
+    //    text += `<span style="font-size:13px;">Virtual Account Number: </span><br/>`;
+    //if(payment_acq.result.response[payment_method][selected].account_number != '' && payment_acq.result.response[payment_method][selected].account_number != '-')
+    //    text += `<span style="font-size:14px; font-weight:500;">`+payment_acq.result.response[payment_method][selected].account_number+`</span>`;
+    //if(payment_acq.result.response[payment_method][selected].account_name != '' && payment_acq.result.response[payment_method][selected].account_name != '-')
+    //    text += `<br/><span style="font-size:14px; font-weight:500;"> a.n `+payment_acq.result.response[payment_method][selected].account_name+`</span>`;
+    //if(text != '')
+    //    text += '<br/>';
     text+= `<div class='row'>`;
     //price
     text += `
-            <div class='col-sm-6'>
-                Price:
+            <div class='col-sm-6' style='text-align:left;'>
+                <span>Price:</span>
             </div>
-            <div class='col-sm-2'>
-                `+payment_acq.result.response[payment_method][selected].currency+`
-            </div>
-            <div class='col-sm-4' style='text-align:right;'>
-                `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount)+`
+            <div class='col-sm-6' style='text-align:right;'>
+                <span>`+payment_acq.result.response[payment_method][selected].currency+` `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount)+`</span>
             </div>`;
     //fee
     text += `
-            <div class='col-sm-6'>
-                Fee:
+            <div class='col-sm-6' style='text-align:left;'>
+                <span>Fee:</span>
             </div>
-            <div class='col-sm-2'>
-                `+payment_acq.result.response[payment_method][selected].currency+`
-            </div>
-            <div class='col-sm-4' style='text-align:right;'>
-                `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.fee)+`
+            <div class='col-sm-6' style='text-align:right;'>
+                <span>`+payment_acq.result.response[payment_method][selected].currency+` `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.fee)+`</span>
             </div>`;
     //grand total
     text += `
-            <div class='col-sm-6'>
-                Grand Total:
+            <div class='col-sm-6' style='text-align:left;'>
+                <span style='font-weight:500;'>Grand Total:</span>
             </div>
-            <div class='col-sm-2'>
-                `+payment_acq.result.response[payment_method][selected].currency+`
-            </div>
-            <div class='col-sm-4' style='text-align:right;'>
-                `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount + payment_acq.result.response[payment_method][selected].price_component.fee)+`
+            <div class='col-sm-6' style='text-align:right;'>
+                <span style='font-weight:500;'>`+payment_acq.result.response[payment_method][selected].currency+` `+getrupiah(payment_acq.result.response[payment_method][selected].price_component.amount + payment_acq.result.response[payment_method][selected].price_component.fee)+`</span>
             </div>`;
-    text+= `</div>`;
-    text += '<input class="primary-btn hold-seat-booking-train" type="button" value="'+val+'" onclick="check_hold_booking();" style="width:100%;"/>';
+    text+= `</div><br/>`;
+    text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
     document.getElementById('set_price').innerHTML = text;
 }
 
