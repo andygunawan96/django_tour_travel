@@ -6720,8 +6720,6 @@ th input {
   font-size: 14px;
   position: relative;
   text-align: center;
-  text-transform: uppercase;
-  color: #7d7d7d;
 }
 .progressbar li:before {
   width: 40px;
@@ -6729,7 +6727,7 @@ th input {
   content: counter(step);
   counter-increment: step;
   line-height: 32px;
-  border: 4px solid #7d7d7d;
+  border: 4px solid #B6B6B6;
   display: block;
   text-align: center;
   margin: 0 auto 10px auto;
@@ -6755,9 +6753,24 @@ th input {
   color: #f15a22;
 }
 .progressbar li.active:before {
-  border-color: #444444;
+  border-color: #303030;
   background-color:#f15a22;
-  color:white;
+  color:black;
+}
+.progressbar li.current:before {
+  width: 40px;
+  height: 40px;
+  content: counter(step);
+  counter-increment: step;
+  line-height: 32px;
+  border: 4px solid #f15a22;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  background-color: white;
+  position:relative;
+  z-index:3;
 }
 .progressbar li.active + li:after {
   background-color: #f15a22;
@@ -6860,4 +6873,29 @@ th input {
   border-radius:50%;
   border: 1px solid #cdcdcd;
   padding:4px 9px 4px 9px;
+}
+
+.image-rounded-icon {
+  background: transparent;
+  border-radius: 20px;
+  font-size: 18px;
+  text-align: center;
+  border-radius:50%;
+  border: 2px solid #cdcdcd;
+  padding:4px 6px 4px 6px;
+}
+
+.breadcrumb-header{
+    padding-right:0px;
+}
+
+@media (max-width: 375px) {
+  .breadcrumb-text{
+    display:none;
+  }
+}
+@media (min-width: 376px) {
+  .breadcrumb-text{
+    display:block !important;
+  }
 }
