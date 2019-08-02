@@ -107,7 +107,14 @@
                 <input type="hidden" id="start"/>
                 <input type="hidden" id="end"/>
                 <div class="col-lg-12">
-                    <div class="banner-right scrollmenu">
+                    <h3>
+                        Hello, {{username.agent_name}} !
+                    </h3>
+                    <h4 style="padding-top:5px; padding-bottom:15px;">
+                        Enjoy your trip with RODEXTRIP
+                    </h4>
+
+                    <div class="banner-right scrollmenu style-scrollbar">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="airline-tab" data-toggle="tab" href="#airline" role="tab" aria-controls="airline" aria-selected="true">
@@ -151,8 +158,6 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-lg-12">
                     <div class="banner-right">
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="airline" role="tabpanel" aria-labelledby="airline-tab">
@@ -161,63 +166,66 @@
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:white;">One Way</span>
+                                                <span style="font-size:13px; color:white;">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:white;">Round-trip</span>
+                                                <span style="font-size:13px; color:white;">Round-trip</span>
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:white;">Multy-City</span>
+                                                <span style="font-size:13px; color:white;">Multy-City</span>
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                                 <label class="check_box_custom">
-                                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
                                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
                                             </div>
                                         </div>
+                                        <div class="col-lg-8">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
 
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">From</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-plane-departure icon-search-ticket"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
-
-                                                    </select>
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
+                                                    </div>
                                                 </div>
-                                                <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
+                                                <div class="image-change-route-vertical">
+                                                    <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                </div>
+                                                <div class="image-change-route-horizontal">
+                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="z-index:5; padding:0px;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5; color:white !important;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
-                                            <span class="span-search-ticket">To</span>
-                                            <div class="input-container-search-ticket">
-                                                <i class="fas fa-plane-arrival icon-search-ticket"></i>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
-
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
-                                            </div>
-                                        </div>
-
                                         <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
 
                                         <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Passenger</span>
+                                            <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <i class="fas fa-users icon-search-ticket"></i>
-                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left;"></button>
+                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <div class="row" style="padding:10px;">
                                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -233,7 +241,7 @@
                                                                 <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
                                                                 <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -253,7 +261,7 @@
                                                                 <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
                                                                 <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -273,7 +281,7 @@
                                                                 <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
+                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
                                                                 <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -284,10 +292,9 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Airline</span>
+                                            <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <i class="fas fa-plane icon-search-ticket"></i>
-                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left;">Choose Airline</button>
+                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
                                                 <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
                                                 <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
 
@@ -331,8 +338,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6" style="z-index:4; padding:0px;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <h3 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h3>
+                                            <h3 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h3>
                                             <span class="span-search-ticket">To</span>
                                             <div class="input-container-search-ticket">
                                                 <img src="{{static_path}}img/icon/train-02.png" class="icon-search-ticket"/>
@@ -533,10 +540,6 @@
                                     </button>
                                 </form>
                             </div>
-
-
-
-
                             <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
                                 <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
                                     {% csrf_token %}
@@ -701,9 +704,8 @@
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination</span>
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
 
@@ -713,16 +715,14 @@
                                             <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                            <span class="span-search-ticket">Departure Date</span>
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
-                                                <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control" style="cursor:pointer;" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                            <span class="span-search-ticket">Consulate</span>
+                                            <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-city icon-search-ticket"></i>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
 
@@ -734,9 +734,10 @@
                                     </div>
                                     <br/>
 
-                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                    <button class="search-home-visa primary-btn text-uppercase ld-ext-right" type="submit" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
+                                        <div class="ld ld-ring ld-cycle"></div>
                                     </button>
                                 </form>
                             </div>
@@ -745,6 +746,13 @@
                 </div>
                 {% else %}
                 <div class="col-lg-12">
+                    <h3>
+                        Hello, Guest !
+                    </h3>
+                    <h4 style="padding-top:5px; padding-bottom:15px;">
+                        Enjoy your trip with RODEXTRIP
+                    </h4>
+
                     <h4 style="color:white;">Already a RODEXTRIP member?</h4>
                     <h5 style="color:white;">Sign in to make booking easier!</h5>
                     <br/>
@@ -856,8 +864,6 @@
     </div>
 </section>
 
-
-<!--POPULAR DESTINATION-->
 <section class="destinations-area section-gap" style="z-index:0; position:relative;">
     <div class="container">
         <div class="row">
@@ -909,8 +915,6 @@
     </div>
 </section>
 
-
-<!--Rekom Hotel-->
 <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
     <div class="container">
         <div class="row">
@@ -962,8 +966,6 @@
     </div>
 </section>
 
-
-<!--Rekom Hotel-->
 <section class="destinations-area section-gap" style="z-index:0; position:relative;">
     <div class="container">
         <div class="row">
@@ -1015,8 +1017,6 @@
     </div>
 </section>
 
-
-<!--TOUR PACKAGE-->
 <section class="popular-destination-area section-gap">
     <div class="container">
         <div class="row">
@@ -1178,7 +1178,6 @@
             </div>
         </div>
     </div>
-    </div>
 </section>
 
 <section class="apps-area" style="background-color:#f15a22;">
@@ -1236,9 +1235,8 @@
     text='';
     var node = document.createElement("div");
     text+=`
-    <span class="span-search-ticket">Departure</span>
+    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
     <div class="input-container-search-ticket">
-        <i class="fas fa-calendar-alt icon-search-ticket"></i>
         <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
     </div>
     <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
@@ -1343,9 +1341,9 @@
 
     });
 
-<!--    var check_date = moment(document.getElementById('hotel_checkin').value);-->
-<!--    check_date = check_date.add(1, 'days');-->
-<!--    document.getElementById('hotel_checkout').value = check_date._d.toString().split(' ')[2]+' '+check_date._d.toString().split(' ')[1]+' '+check_date._d.toString().split(' ')[3];-->
+    //var check_date = moment(document.getElementById('hotel_checkin').value);
+    //check_date = check_date.add(1, 'days');
+    //document.getElementById('hotel_checkout').value = check_date._d.toString().split(' ')[2]+' '+check_date._d.toString().split(' ')[1]+' '+check_date._d.toString().split(' ')[3];
 
     function change_date(type){
         if(type == 'checkin'){
@@ -1403,7 +1401,7 @@
     document.getElementById("start").value = "2019-01-01";
     document.getElementById("end").value = "2020-12-31";
     get_dept_year();
-    tour_login('');
+    //tour_login('');
 </script>
 
 {% endblock %}

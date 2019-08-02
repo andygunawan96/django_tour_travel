@@ -146,7 +146,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6"></div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <br/>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
@@ -159,7 +159,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
@@ -168,7 +168,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -183,7 +183,7 @@
                                         </div>
 
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -191,7 +191,7 @@
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
 
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
@@ -313,7 +313,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-xs-6" style="padding-bottom:15px;">
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -325,9 +325,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6"></div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6"></div>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -335,15 +334,14 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_last_name{{forloop.counter}}" id="adult_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -356,28 +354,27 @@
                                                 <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -391,14 +388,14 @@
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 col-md-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                        <div class="col-lg-6 col-md-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
@@ -491,7 +488,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-xs-6" style="padding-bottom:15px;">
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -504,8 +501,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6"></div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -513,15 +509,14 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_last_name{{forloop.counter}}" id="child_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -534,28 +529,29 @@
                                                 <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <br/>
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -640,7 +636,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-xs-6" style="padding-bottom:15px;">
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -653,8 +649,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6"></div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -662,15 +657,14 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -684,27 +678,26 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -738,9 +731,8 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="check_passenger({{passengers.adult}}, {{passengers.child}}, {{passengers.infant}});">
+                                <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}}, {{passengers.child}}, {{passengers.infant}});">
                                     Next
-                                    <i class="fas fa-angle-right"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
