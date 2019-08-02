@@ -2084,7 +2084,6 @@ function airline_get_booking(data){
                     }
                     console.log(price);
                     //repricing
-                    type_amount_repricing = ['Repricing'];
                     check = 0;
                     for(k in pax_type_repricing){
                         console.log(pax_type_repricing);

@@ -62,52 +62,6 @@ def index(request):
 
                 # airline_carriers = response['result']['response']['airline']['carriers']
 
-                airline_provider_list = [
-                    {
-                        'value': 'all',
-                        'name': 'All'
-                    }, {
-                        'value': 'amadeus',
-                        'name': 'Amadeus'
-                    }, {
-                        'value': 'sabre',
-                        'name': 'GDS (IATA)'
-                    }, {
-                        'value': 'altea',
-                        'name': 'Garuda Al'
-                    }, {
-                        'value': 'garuda',
-                        'name': 'Garuda AGS'
-                    }, {
-                        'value': 'airasia',
-                        'name': 'Air Asia'
-                    }, {
-                        'value': 'citilink',
-                        'name': 'Citilink'
-                    }, {
-                        'value': 'jetstar',
-                        'name': 'Jetstar'
-                    }, {
-                        'value': 'lionair',
-                        'name': 'Lion Air'
-                    }, {
-                        'value': 'sriwijaya',
-                        'name': 'Sriwijaya'
-                    }, {
-                        'value': 'trigana',
-                        'name': 'Trigana'
-                    }, {
-                        'value': 'transnusa',
-                        'name': 'Transnusa'
-                    }, {
-                        'value': 'scoot',
-                        'name': 'Scoot'
-                    }, {
-                        'value': 'xpress_scrap',
-                        'name': 'Xpress'
-                    }
-                ]
-
                 airline_cabin_class_list = [
                     {
                         'name': 'Economy',
@@ -123,11 +77,6 @@ def index(request):
                         'value': 'F',
                     }
                 ]
-                domestic_carriers = ['airasia', 'citilink', 'sriwijaya', 'lionair', 'trigana', 'transnusa', 'altea',
-                                     'xpress_scrap', 'garuda']
-
-                international_carriers = ['sabre', 'airasia', 'jetstar', 'trigana', 'lionair', 'scoot', 'citilink', 'sriwijaya']
-
                 # airline
 
                 # activity
@@ -194,7 +143,6 @@ def index(request):
                     # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                     'username': request.session['user_account'],
                     # 'co_uid': request.session['co_uid'],
-                    'airline_provider_list': airline_provider_list,
                     'airline_cabin_class_list': airline_cabin_class_list,
                     'airline_country': airline_country,
                     'activity_sub_categories': activity_sub_categories,

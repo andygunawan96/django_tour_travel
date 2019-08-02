@@ -39,6 +39,10 @@
     flight = `{{flight}}`;
     time = 300;
     triggered_balance();
+    airline_provider_list = [];
+    {% for airline_carrier in airline_carriers %}
+        airline_provider_list.push({'code': `{{airline_carrier}}`});
+    {% endfor %}
 </script>
 
 <section class="price-area" data-aos="fade-up" style="padding-top:5px; padding-bottom:5px; background-color: black; z-index:2; position:relative;">
@@ -187,6 +191,17 @@
                                         <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
                                         <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
                                             {% for key,value in airline_carriers.items %}
+                                                {% if value.code == 'all'%}
+                                                <li>
+                                                    <a class="small" data-value="option1" tabIndex="-1">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
+                                                            <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label><br/>
+                                                    </a>
+                                                </li>
+                                                {% else %}
                                                 <li>
                                                     <a class="small" data-value="option1" tabIndex="-1">
                                                         <label class="check_box_custom">
@@ -196,6 +211,7 @@
                                                         </label><br/>
                                                     </a>
                                                 </li>
+                                                {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </div>

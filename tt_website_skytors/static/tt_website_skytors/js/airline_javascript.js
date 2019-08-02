@@ -1287,6 +1287,7 @@ function airline_check_search(){
 }
 
 function check_provider(val){
+    console.log(val);
     if(val == 'all'){
         for(i in airline_provider_list){
             document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
