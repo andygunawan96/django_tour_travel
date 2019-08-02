@@ -1591,7 +1591,7 @@ function get_price_itinerary(val){
                             <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+                            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                             <button class="primary-btn-ticket next-search-flight ld-ext-right" style="width:100%;" onclick="document.getElementById('go_to_passenger').submit();" type="submit" value="Next">
@@ -2173,7 +2173,7 @@ function airline_get_booking(data){
                 </div>
             </div>`;
             text+=`<div style="text-align:right;" onclick="show_repricing();"><img src="/static/tt_website_skytors/img/bank.png" style="width:20px; height:20px;"/></div>`;
-            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"/></div></div>`;
+            text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/></div></div>`;
             document.getElementById('airline_detail').innerHTML = text;
             loadingReviewHide();
 
@@ -2446,8 +2446,9 @@ function update_service_charge(data){
        },
        success: function(msg) {
            console.log(msg);
-           if(msg.error_code == 0){
-
+           if(msg.result.error_code == 0){
+                airline_get_booking(order_number);
+                $('#myModalRepricing').modal('hide');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2457,25 +2458,18 @@ function update_service_charge(data){
 
 }
 
-function show_commission(){
-    var sc = document.getElementById("show_commission");
-    var scs = document.getElementById("show_commission_button");
-    if (sc.style.display === "none"){
-        sc.style.display = "block";
-        scs.value = "Hide Commission";
-    }
-    else{
-        sc.style.display = "none";
-        scs.value = "Show Commission";
-    }
-}
 
 function show_commission(val){
     var sc = '';
     var scs = '';
+    console.log(val);
     if(val == 'new'){
         sc = document.getElementById("show_commission_new");
         scs = document.getElementById("show_commission_button_new");
+    }else if(val == 'commission'){
+        console.log(val);
+        var sc = document.getElementById("show_commission");
+        var scs = document.getElementById("show_commission_button");
     }else{
         sc = document.getElementById("show_commission_old");
         scs = document.getElementById("show_commission_button_old");
