@@ -255,10 +255,13 @@ function check_hold_booking(){
             }
         }
     }
-    if(error_log == '')
+    if(error_log == ''){
         visa_hold_booking(1);
-    else
-        alert(error_log)
+    }
+    else{
+        alert(error_log);
+        $('.next-loading').removeClass("running");
+    }
 }
 
 function visa_hold_booking(val){

@@ -58,7 +58,7 @@
     </div>
 </header>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:30px;">
     <div class="container">
         <form method="POST" id="visa_booking" action="{% url 'tt_website_skytors:visa_booking'%}">
             {% csrf_token %}
@@ -68,7 +68,7 @@
                     <h4>Prices may changes at any time</h4>
                     <br/>
                 </div>
-                <div class="col-lg-8" style="padding-bottom:20px;">
+                <div class="col-lg-8" style="padding-bottom:10px;">
                     <div class="row">
                         <div class="col-lg-12" id="visa_review">
                             <div class="row">
@@ -76,22 +76,24 @@
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                                         <h4>List of Contact(s)</h4>
                                         <hr/>
-                                        <table style="width:100%;" id="list-of-passenger">
-                                            <tr>
-                                                <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                                <th style="width:28%;">Name</th>
-                                                <th style="width:7%;">Email</th>
-                                                <th style="width:18%;">Phone Number</th>
-                                            </tr>
-                                            {% for cp in passengers.contact %}
-                                            <tr>
-                                                <td class="list-of-passenger-left">{{forloop.counter}}</td>
-                                                <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
-                                                <td>{{cp.email}}</td>
-                                                <td>{{cp.calling_code}} - {{cp.mobile}}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </table>
+                                        <div style="overflow:auto;">
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:7%;">Email</th>
+                                                    <th style="width:18%;">Phone Number</th>
+                                                </tr>
+                                                {% for cp in passengers.contact %}
+                                                <tr>
+                                                    <td class="list-of-passenger-left">{{forloop.counter}}</td>
+                                                    <td>{{cp.title}} {{cp.first_name}} {{cp.last_name}}</td>
+                                                    <td>{{cp.email}}</td>
+                                                    <td>{{cp.calling_code}} - {{cp.mobile}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,9 +108,17 @@
                                         {% for person in passengers.adult %}
                                         {% with forloop.counter as counter%}
                                         <div class="row">
-                                            <div class="col-lg-12" style="margin-bottom:10px;">
-                                                <h6 id="adult_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
-                                                <span>Adult - Birth Date: {{person.birth_date}}</span>
+                                            <div class="col-xs-6" style="margin-bottom:10px;">
+                                                <h5 id="adult_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h5>
+                                                <span style="font-size:14px;">Adult - Birth Date: {{person.birth_date}}</span sty>
+                                            </div>
+                                            <div class="col-xs-6" style="text-align:right;">
+                                                <h5>Price</h5>
+                                                <div>
+                                                    <h6 id="adult_price{{counter}}">
+
+                                                    </h6>
+                                                </div>
                                             </div>
                                             <div class="col-lg-4">
                                                 <h6>Visa Type</h6>
@@ -148,16 +158,11 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3" style="text-align:right;">
-                                                <h6>Price</h6>
-                                                <div id="adult_price{{counter}}">
-
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <h6>Reset</h6>
+                                        </div>
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <h6 style="cursor:pointer;" onclick="set_value_radio_first('adult',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="adult_check{{counter}}" value="false"/>
-                                                <span style="cursor:pointer;" onclick="set_value_radio_first('adult',{{counter}})"><i class="fas fa-sync-alt"></i> </span>
                                             </div>
                                         </div>
                                         <hr/>
@@ -294,55 +299,57 @@
                     </div>
                 </div>
                 <div class="col-lg-4">
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd; position:sticky; top:173px;" id="detail">
                         <h4>Price detail</h4><hr/>
                         <h6 id="select_visa_first">Select visa first!</h6>
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
+                </div>
+                <div class="col-lg-8" style="padding-bottom:15px;">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="payment_acq" hidden>
                         <h4>Payment Method</h4><hr/>
 
                     </div>
                 </div>
                 <!--<div class="col-lg-8">-->
-                    <!--<div id="pricing">-->
-                        <!--<div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">-->
-                            <!--<div class="row">-->
-                                <!--<div class="col-lg-12">-->
-                                    <!--<h4 style="padding-top:10px;">Pricing</h4>-->
-                                    <!--<hr/>-->
-                                <!--</div>-->
-                                <!--<div class="col-lg-12" style="text-align:right;">-->
-                                    <!--<button class="primary-btn-ticket" type="button" onclick="check_before_add_repricing();"><i class="fas fa-plus-circle"></i></button>-->
-                                    <!--<button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>-->
-                                    <!--<br/>-->
-                                <!--</div>-->
-                                <!--<div class="col-lg-12">-->
-                                    <!--<div style="padding:10px;" id="table_of_equation">-->
+                <!--<div id="pricing">-->
+                <!--<div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">-->
+                <!--<div class="row">-->
+                <!--<div class="col-lg-12">-->
+                <!--<h4 style="padding-top:10px;">Pricing</h4>-->
+                <!--<hr/>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12" style="text-align:right;">-->
+                <!--<button class="primary-btn-ticket" type="button" onclick="check_before_add_repricing();"><i class="fas fa-plus-circle"></i></button>-->
+                <!--<button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>-->
+                <!--<br/>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12">-->
+                <!--<div style="padding:10px;" id="table_of_equation">-->
 
-                                    <!--</div>-->
-                                <!--</div>-->
-                                <!--<div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">-->
-                                    <!--<hr/>-->
-                                    <!--<center>-->
-                                        <!--<input class="primary-btn-ticket" type="button" onclick="check_before_calculate();" value="Calculate">-->
-                                    <!--</center>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">-->
+                <!--<hr/>-->
+                <!--<center>-->
+                <!--<input class="primary-btn-ticket" type="button" onclick="check_before_calculate();" value="Calculate">-->
+                <!--</center>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
                 <!--</div>-->
                 <!--<div class="col-lg-4">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">-->
-                            <!--<h4>Result Pricing</h4>-->
-                            <!--<hr/>-->
-                            <!--<div class="row" id="repricing_div">-->
+                <!--<div class="row">-->
+                <!--<div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">-->
+                <!--<h4>Result Pricing</h4>-->
+                <!--<hr/>-->
+                <!--<div class="row" id="repricing_div">-->
 
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
                 <!--</div>-->
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:15px;">

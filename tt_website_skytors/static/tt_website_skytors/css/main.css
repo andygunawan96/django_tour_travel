@@ -2695,6 +2695,12 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #C04B21;
 }
 
+.primary-btn:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
 .primary-btn-logout {
   background: #f15a22;
   line-height: 30px;
@@ -6753,9 +6759,14 @@ th input {
   color: #f15a22;
 }
 .progressbar li.active:before {
-  border-color: #303030;
+  border-color: #C04B21;
   background-color:#f15a22;
-  color:black;
+  color:white;
+}
+
+.progressbar li.active:hover:before {
+  border-color: #f15a22;
+  background-color:#C04B21;
 }
 .progressbar li.current:before {
   width: 40px;
