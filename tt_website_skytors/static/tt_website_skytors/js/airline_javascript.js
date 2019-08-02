@@ -1875,7 +1875,7 @@ function airline_detail(){
     </div>
     <div style="padding-bottom:10px;">
         <center>
-            <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission();" id="show_commission_button" value="Show Commission"/><br/>
+            <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
         </center>
     </div>`;
     }else{
