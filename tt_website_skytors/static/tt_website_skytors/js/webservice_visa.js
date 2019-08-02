@@ -418,7 +418,7 @@ function visa_get_data(data){
             'order_number': data
        },
        success: function(msg) {
-            console.log(msg);
+            console.log(JSON.stringify(msg));
             if(msg.result.error_code == 0){
                 visa = msg.result.response;
                 text= '';
@@ -453,62 +453,115 @@ function visa_get_data(data){
                         <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
                             <h4>List of Passenger(s)</h4>
                             <hr/>`;
+                            type_amount_repricing = ['Repricing'];
+                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
                             for(i in msg.result.response.passengers){
-                            text+=`<div class="row">
-                                <div class="col-lg-12" style="margin-bottom:10px;">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</h6>`;
-                                            if(parseInt(msg.result.response.passengers[i].age) > 12)
-                                     text+=`<span>Adult - `;
-                                            else if(parseInt(msg.result.response.passengers[i].age) > 3)
-                                     text+=`<span>Child - `;
-                                            else
-                                     text+=`<span>Infant - `;
-                                            text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
-                                 text+=`</div>
-                                        <div class="col-lg-6" style="text-align:right;">
-                                            <span>`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
+                                for(j in msg.result.response.passengers[i].visa.price){
+                                    price[j] += msg.result.response.passengers[i].visa.price[j].amount;
+                                    price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                }
+                                //repricing
+
+                                check = 0;
+                                for(j in pax_type_repricing){
+                                    console.log(pax_type_repricing);
+                                    if(pax_type_repricing[j][0] == msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name)
+                                        check = 1;
+                                }
+                                if(check == 0){
+                                    pax_type_repricing.push([msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name, msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]);
+                                    price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
+                                        'Fare': price['FARE'],
+                                        'Tax': price['TAX'] + price['ROC'],
+                                        'Repricing': 0
+                                    }
+                                }else{
+                                    price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
+                                        'Fare': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Fare'] + price['FARE'],
+                                        'Tax': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Tax'] + price['TAX'] + price['ROC'],
+                                        'Repricing': 0
+                                    }
+                                }
+                                text_repricing = `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Price</div>
+                                        <div class="col-lg-3">Repricing</div>
+                                        <div class="col-lg-3">Total</div>
+                                    </div>
+                                </div>`;
+                                console.log(price_arr_repricing);
+                                for(j in price_arr_repricing){
+                                   text_repricing += `
+                                   <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row">
+                                            <div class="col-lg-3" id="`+j+`">`+j+`</div>
+                                            <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
+                                            <div class="col-lg-3" id="`+j+`_repricing">-</div>
+                                            <div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
+                                        </div>
+                                    </div>`;
+                                }
+                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                document.getElementById('repricing_div').innerHTML = text_repricing;
+                                //repricing
+
+                                text+=`<div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:10px;">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</h6>`;
+                                                if(parseInt(msg.result.response.passengers[i].age) > 12)
+                                         text+=`<span>Adult - `;
+                                                else if(parseInt(msg.result.response.passengers[i].age) > 3)
+                                         text+=`<span>Child - `;
+                                                else
+                                         text+=`<span>Infant - `;
+                                                text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
+                                     text+=`</div>
+                                            <div class="col-lg-6" style="text-align:right;">
+                                                <span>`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h6>Visa Type</h6>
-                                    <label class="radio-button-custom">
-                                        <span>`+msg.result.response.passengers[i].visa.visa_type+`</span>
-                                    </label><br/>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h6>Entry Type</h6>
-                                    <label class="radio-button-custom">
-                                        <span>`+msg.result.response.passengers[i].visa.entry_type+`</span>
-                                    </label><br/>
-                                </div>
-                                <div class="col-lg-4">
-                                    <h6>Process Type</h6>
-                                    <label class="radio-button-custom">
-                                        <span>`+msg.result.response.passengers[i].visa.process+`</span>
-                                    </label><br/>
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top:10px;">
-                                <div class="col-lg-6">
-                                    <h6>Required</h6>
-                                    <div id="adult_required{{counter}}">
-                                        `;
-                                    for(j in msg.result.response.passengers[i].visa.requirement){
-                                        text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
-                                    }
-                                    text+=`
+                                    <div class="col-lg-4">
+                                        <h6>Visa Type</h6>
+                                        <label class="radio-button-custom">
+                                            <span>`+msg.result.response.passengers[i].visa.visa_type+`</span>
+                                        </label><br/>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Entry Type</h6>
+                                        <label class="radio-button-custom">
+                                            <span>`+msg.result.response.passengers[i].visa.entry_type+`</span>
+                                        </label><br/>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <h6>Process Type</h6>
+                                        <label class="radio-button-custom">
+                                            <span>`+msg.result.response.passengers[i].visa.process+`</span>
+                                        </label><br/>
                                     </div>
                                 </div>
-                                <div class="col-lg-3" style="text-align:right;">
-                                    <h6>Price</h6>
-                                    <div id="adult_price{{counter}}">
-                                        <label>`+msg.result.response.passengers[i].visa.price.FARE.currency+` `+msg.result.response.passengers[i].visa.price.FARE.amount+`</label>
+                                <div class="row" style="margin-top:10px;">
+                                    <div class="col-lg-6">
+                                        <h6>Required</h6>
+                                        <div id="adult_required{{counter}}">
+                                            `;
+                                        for(j in msg.result.response.passengers[i].visa.requirement){
+                                            text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
+                                        }
+                                        text+=`
+                                        </div>
                                     </div>
-                                </div>
-                            </div>`;
+                                    <div class="col-lg-3" style="text-align:right;">
+                                        <h6>Price</h6>
+                                        <div id="adult_price{{counter}}">
+                                            <label>`+msg.result.response.passengers[i].visa.price.FARE.currency+` `+msg.result.response.passengers[i].visa.price.FARE.amount+`</label>
+                                        </div>
+                                    </div>
+                                </div>`;
                             }
                             text+=`
                         </div>

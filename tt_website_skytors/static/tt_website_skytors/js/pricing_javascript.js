@@ -9,7 +9,7 @@ bisa liat contoh di airline
 */
 
 counter = 0;
-type_amount_repricing = []; // --> list of string ['Fare', 'Commission']
+type_amount_repricing = []; // --> list of string ['Fare', 'Tax', 'Repricing']
 pax_type_repricing = []; // --> list of list ex : [['nama pax key','nama pax tampil'],['CHD','Child']]
 price_arr_repricing = {}; // --> dict of dict ex : {'nama pax tampil':{'total_price':50,'commission':20}} -- di tambah total
 currency = '';
