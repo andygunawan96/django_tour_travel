@@ -96,6 +96,7 @@
     }
 </style>
 
+{% include 'tt_website_skytors/header.html' %}
 <!-- Search Ticket -->
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
     <div class="animated fadeInDown delay-1s">
@@ -1224,6 +1225,10 @@
     </div>
 </div>
 
+<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
+    <span><i class="fas fa-chevron-up"></i></span>
+</button>
+{% include 'tt_website_skytors/footer.html' %}
 <script>
 
     document.getElementById("airline_date_search").innerHTML = '';

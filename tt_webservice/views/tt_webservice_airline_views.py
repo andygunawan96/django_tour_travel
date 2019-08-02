@@ -90,6 +90,8 @@ def api_models(request):
             res = set_ssr_ff(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'issued':
@@ -808,6 +810,23 @@ def get_booking(request):
 
     return res
 
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+
+    data = {
+        'order_number': json.loads(request.POST['order_number']),
+        'passengers': json.loads(request.POST['passengers'])
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "pricing_booking",
+        "signature": request.session['airline_signature'],
+    }
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+
+    return res
 
 def issued(request):
     # nanti ganti ke get_ssr_availability

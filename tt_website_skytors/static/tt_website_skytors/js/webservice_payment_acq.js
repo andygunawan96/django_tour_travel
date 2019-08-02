@@ -187,35 +187,32 @@ payment_acq = {
 console.log(payment_acq);
 
 function get_payment_acq(val){
-    text = `
-        <div class="col-lg-12">
-            <div class="input-container-search-ticket btn-group">
-                <div class="form-select">
-                    <select id="payment_method" onchange="set_payment(`+val+`);">`;
+    text=`
+    <div class="input-container-search-ticket btn-group">
+        <div class="form-select" id="default-select">
+            <select id="payment_method" onchange="set_payment('`+val+`');">`;
+            for(i in payment_acq.result.response){
 
-    print = '';
-    for(i in payment_acq.result.response){
+                if(i == 'transfer')
+                    print = 'Transfer';
+                else if(i == 'va')
+                    print = 'Virtual Account';
+                else if(i == 'cash')
+                    print = 'Cash';
+                else if(i == 'installment')
+                    print = 'Installment';
 
-        if(i == 'transfer')
-            print = 'Transfer';
-        else if(i == 'va')
-            print = 'Virtual Account';
-        else if(i == 'cash')
-            print = 'Cash';
-        else if(i == 'installment')
-            print = 'Installment';
+                text+=`<option value="`+i+`">`+print+`</option>`;
+            }
+    text+=`</select>
+        </div>
+    </div>`;
 
-        text+=`<option value="`+i+`">`+print+`</option>`;
-    }
-    text+=` </select>
-            </div>
-        </div>`;
     text+=`<div id="payment_description"></div>`
     text+=`
         </div>`;
     document.getElementById('payment_acq').innerHTML += text;
     set_payment(val);
-//    $('select').niceSelect();
     document.getElementById('payment_acq').hidden = false;
 }
 
