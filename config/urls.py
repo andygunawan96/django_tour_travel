@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from django.conf.urls import url, include
+from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
+import django.views.static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,9 +29,11 @@ urlpatterns = [
 
 ]
 
+
 urlpatterns += i18n_patterns(
 
     # url(_(r'^admin/'), admin.site.urls),
+    url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
     path('webservice', include('tt_webservice.urls')),
     path('', include('tt_website_skytors.urls')), #django frontend aja
     # path('tt_base', include('tt_base.urls')),
@@ -43,3 +47,6 @@ urlpatterns += i18n_patterns(
 
 urlpatterns += staticfiles_urlpatterns()
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
