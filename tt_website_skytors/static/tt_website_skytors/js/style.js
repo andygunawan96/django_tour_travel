@@ -55,8 +55,8 @@ $(document).ready(function(){
 //            document.getElementById("mybuttonfiltersort").style.display = "block";
         }
     });
-    $('.search-home-visa').click(function() {      // When arrow is clicked
-        $('.search-home-visa').addClass("running");
+    $('.button-search').click(function() {      // When arrow is clicked
+        $('.button-search').addClass("running");
     });
 
     $('#return-to-top').click(function() {      // When arrow is clicked
@@ -777,9 +777,8 @@ $(document).ready(function(){
             text='';
             var node = document.createElement("div");
             text+=`
-            <span class="span-search-ticket">Departure</span>
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
             <div class="input-container-search-ticket">
-                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
             </div>
             <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
@@ -812,9 +811,8 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('checkbox_combo_price').style.display = "block";
             text+=`
-            <span class="span-search-ticket">Departure - Return</span>
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
-                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                 <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
             </div>
             <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -991,6 +989,8 @@ function showCart() {
 function show_loading(){
     $('.next-loading').addClass("running");
     $('.next-loading').prop('disabled', true);
+    $('.payment_method').prop('disabled', true).niceSelect('update');
+    $(".payment_acq *").prop('disabled',true);
 }
 
 

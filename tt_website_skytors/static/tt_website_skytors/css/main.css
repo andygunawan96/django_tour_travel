@@ -2701,6 +2701,10 @@ body.mobile-nav-active #mobile-nav-toggle {
   cursor: not-allowed;
 }
 
+.payment_method:disabled{
+  cursor: not-allowed;
+}
+
 .primary-btn-logout {
   background: #f15a22;
   line-height: 30px;
@@ -6877,23 +6881,13 @@ th input {
 }
 
 .image-rounded-icon {
-  background: gray;
-  border-radius: 20px;
-  font-size: 18px;
-  text-align: center;
-  border-radius:50%;
-  border: 1px solid #cdcdcd;
-  padding:4px 9px 4px 9px;
-}
-
-.image-rounded-icon {
   background: transparent;
   border-radius: 20px;
   font-size: 18px;
   text-align: center;
   border-radius:50%;
   border: 2px solid #cdcdcd;
-  padding:4px 6px 4px 6px;
+  padding:4px;
 }
 
 .breadcrumb-header{

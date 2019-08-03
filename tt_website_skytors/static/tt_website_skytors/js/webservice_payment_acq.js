@@ -192,7 +192,7 @@ function get_payment_acq(val){
     <div class="input-container-search-ticket btn-group">
 
         <div class="form-select" id="default-select">
-            <select id="payment_method" onchange="set_payment('`+val+`');">`;
+            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`');">`;
             for(i in payment_acq.result.response){
 
                 if(i == 'transfer')
