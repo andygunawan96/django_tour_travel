@@ -991,6 +991,8 @@ function showCart() {
 function show_loading(){
     $('.next-loading').addClass("running");
     $('.next-loading').prop('disabled', true);
+    $('.payment_method').prop('disabled', true).niceSelect('update');
+    $(".payment_acq *").prop('disabled',true);
 }
 
 

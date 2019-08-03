@@ -297,6 +297,7 @@ function update_table(type){
         }catch(err){
             display = 'none';
         }
+        text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_skytors/img/bank.png" style="width:30px; height:30px;"/></i></div>`;
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">
             <div class="col-lg-12" style="text-align:center;">
@@ -305,7 +306,6 @@ function update_table(type){
                 </div>
             </div>
         </div>`;
-        text+=`<div style="text-align:right;" onclick="show_repricing();"><img src="/static/tt_website_skytors/img/bank.png" style="width:20px; height:20px;"/></div>`;
         text+=`
         <div class="row">
             <div class="col-lg-12" style="padding-bottom:10px;">

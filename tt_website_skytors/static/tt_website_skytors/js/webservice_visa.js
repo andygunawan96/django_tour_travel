@@ -261,6 +261,10 @@ function check_hold_booking(){
     else{
         alert(error_log);
         $('.next-loading').removeClass("running");
+        $('.next-loading').prop('disabled', false);
+        $('.payment_method').prop('disabled', false).niceSelect('update');
+        $('.option').removeClass("disabled");
+        $(".payment_acq *").prop('disabled',false);
     }
 }
 
@@ -524,7 +528,10 @@ function visa_get_data(data){
                                                 text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
                                      text+=`</div>
                                             <div class="col-lg-6" style="text-align:right;">
-                                                <span>`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
+                                                <span style="font-weight:500; font-size:14px;">`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
+                                                <div id="adult_price{{counter}}">
+                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.FARE.currency+` `+msg.result.response.passengers[i].visa.price.FARE.amount+`</span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -548,7 +555,7 @@ function visa_get_data(data){
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <h6>Required</h6>
                                         <div id="adult_required{{counter}}">
                                             `;
@@ -556,12 +563,6 @@ function visa_get_data(data){
                                             text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
                                         }
                                         text+=`
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3" style="text-align:right;">
-                                        <h6>Price</h6>
-                                        <div id="adult_price{{counter}}">
-                                            <label>`+msg.result.response.passengers[i].visa.price.FARE.currency+` `+msg.result.response.passengers[i].visa.price.FARE.amount+`</label>
                                         </div>
                                     </div>
                                 </div>`;
