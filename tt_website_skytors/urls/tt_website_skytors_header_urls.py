@@ -1,5 +1,4 @@
 from django.urls import path, re_path
-
 """django_training URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:

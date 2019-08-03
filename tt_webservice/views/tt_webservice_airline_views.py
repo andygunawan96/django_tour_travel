@@ -221,8 +221,8 @@ def search2(request):
         "child": int(request.session['airline_request']['child']),
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
-        # "provider": request.POST['provider'],
-        "provider": 'amadeus',
+        "provider": request.POST['provider'],
+        # "provider": 'amadeus',
         "carrier_codes": json.loads(request.POST['carrier_codes']),
         "is_combo_price": is_combo_price
     }
