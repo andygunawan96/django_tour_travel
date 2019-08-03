@@ -149,7 +149,7 @@ def get_provider_list(request):
         "provider_type": 'airline'
     }
     date_time = datetime.now() - a.get_time_provider_airline
-    if date_time.seconds >= 300:
+    if date_time.seconds >= 1:
         a.set_new_time_out()
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         res = json.dumps(res['result']['response'])
@@ -221,8 +221,8 @@ def search2(request):
         "child": int(request.session['airline_request']['child']),
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
-        # "provider": request.POST['provider'],
-        "provider": 'amadeus',
+        "provider": request.POST['provider'],
+        # "provider": 'amadeus',
         "carrier_codes": json.loads(request.POST['carrier_codes']),
         "is_combo_price": is_combo_price
     }
