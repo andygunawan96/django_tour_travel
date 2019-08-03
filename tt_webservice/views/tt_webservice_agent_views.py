@@ -44,9 +44,9 @@ def api_models(request):
         elif req_data['action'] == 'url':
             res = get_url()
         elif req_data['action'] == 'get_agent_booker':
-            res = get_agent_booker(request)
-        elif req_data['action'] == 'get_agent_passenger':
             res = get_agent_passenger(request)
+        elif req_data['action'] == 'get_customer_list':
+            res = get_customer_list(request)
         elif req_data['action'] == 'get_agent_booking':
             res = get_agent_booking(request)
         elif req_data['action'] == 'get_top_up_history':
@@ -131,16 +131,6 @@ def signin(request):
             headers = {
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
-                "action": "get_carriers",
-                "signature": request.session['signature'],
-            }
-
-            res_carrier_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-
-            data = {'provider_type': 'airline'}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
                 "action": "get_destinations",
                 "signature": request.session['signature'],
             }
@@ -218,7 +208,6 @@ def signin(request):
                 # 'activity': res_config_activity['result'],
                 'airline': {
                     'country': res_country_airline['result']['response'],
-                    'carriers': res_carrier_airline['result']['response'],
                     'destination': res_destination_airline['result']['response'],
                 },
             })
@@ -236,36 +225,34 @@ def signin(request):
 def get_url():
     return url_web
 
-def get_agent_booker(request):
+def get_customer_list(request):
+    data = {
+        'name': 'lio'
+    }
+    try:
+        signature = request.session['signature']
+    except:
+        pass
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_agent_booker",
-        "signature": request.session['signature'],
+        "action": "get_customer_list",
+        "signature": signature,
     }
 
-    data = {
-        "agent_id": request.session['agent']['id'],
-        "co_uid": request.session['co_uid'],
-        "search_param": 'by_string',
-        "search_value": request.POST['search_value']
-    }
-    res = util.send_request(url=url+'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    if res['error_code'] == 0:
-        res.update({
-            'response': json.loads(res['response'])
-        })
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
+    if res['result']['error_code'] == 0:
         counter = 0
-        for response in res['response']['result']:
-            response.update({
+        for pax in res['result']['response']:
+            pax.update({
                 'sequence': counter
             })
-            if response['birth_date']:
-                response.update({
+            if pax['birth_date']:
+                pax.update({
                     'birth_date': '%s %s %s' % (
-                        response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
-                        response['birth_date'].split('-')[0]),
+                        pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                        pax['birth_date'].split('-')[0]),
                 })
             counter += 1
 

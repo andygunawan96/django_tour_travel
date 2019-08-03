@@ -707,6 +707,9 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').disabled = true;
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
+            //mc
+            document.getElementById('add_mc_value').style.display = "none";
+            document.getElementById('ori_airline').style.display = "";
 
             $("#airline_departure").val(moment().format('DD MMM YYYY'));
             $("#airline_return").val($("#airline_departure").val());
@@ -730,7 +733,9 @@ $(document).ready(function(){
             var node = document.createElement("div");
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('checkbox_combo_price').style.display = "block";
-
+            //mc
+            document.getElementById('add_mc_value').style.display = "none";
+            document.getElementById('ori_airline').style.display = "";
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
@@ -767,6 +772,41 @@ $(document).ready(function(){
                 $("#airline_departure").val(picker.startDate.format('DD MMM YYYY'));
                 $("#airline_return").val(picker.endDate.format('DD MMM YYYY'));
             });
+        }if (selected_value == "multicity"){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+            </div>
+            <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+            document.getElementById('is_combo_price').disabled = true;
+            document.getElementById('is_combo_price').checked = false;
+            document.getElementById('checkbox_combo_price').style.display = "none";
+            //mc
+            document.getElementById('add_mc_value').style.display = "";
+            document.getElementById('ori_airline').style.display = "none";
+            $("#airline_departure").val(moment().format('DD MMM YYYY'));
+            $("#airline_return").val($("#airline_departure").val());
+
+            $('input[name="airline_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
         }
     });
 
@@ -789,6 +829,10 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').disabled = true;
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
+            //mc
+            document.getElementById('add_mc_value').style.display = "none";
+            document.getElementById('ori_airline').style.display = "";
+
             document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
             document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
             $('input[name="airline_departure"]').daterangepicker({
@@ -810,6 +854,10 @@ $(document).ready(function(){
             var node = document.createElement("div");
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('checkbox_combo_price').style.display = "block";
+            //mc
+            document.getElementById('add_mc_value').style.display = "none";
+            document.getElementById('ori_airline').style.display = "";
+
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
@@ -889,6 +937,41 @@ $(document).ready(function(){
             }
 
 
+        }else if (selected_value == "multicity"){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+            <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+            </div>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+            document.getElementById('is_combo_price').disabled = true;
+            document.getElementById('is_combo_price').checked = false;
+            document.getElementById('checkbox_combo_price').style.display = "none";
+            //mc
+            document.getElementById('add_mc_value').style.display = "";
+            document.getElementById('ori_airline').style.display = "none";
+
+            document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
+            document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
+            $('input[name="airline_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: $("#airline_departure").val(),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
         }
     });
 

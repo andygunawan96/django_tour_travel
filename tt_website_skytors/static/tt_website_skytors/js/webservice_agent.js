@@ -47,6 +47,30 @@ function check_string_length(value){
     return value.length;
 }
 
+function get_customer_list(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'get_customer_list',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+        console.log(msg);
+        if(msg.error_code==0){
+
+        }
+
+        $('#loading-booker-train').hide();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
 function search_passenger(passenger, number, product){
     var check = 0;
     $('#loading-booker-train').show();
