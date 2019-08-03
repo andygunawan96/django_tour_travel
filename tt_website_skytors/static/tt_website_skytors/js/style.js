@@ -993,6 +993,22 @@ function show_loading(){
     $(".payment_acq *").prop('disabled',true);
 }
 
+function show_loading_booking(){
+    $('.next-loading-booking').addClass("running");
+    $('.next-loading-booking').prop('disabled', true);
+    $('.next-loading-issued').prop('disabled', true);
+    $('.payment_method').prop('disabled', true).niceSelect('update');
+    $(".payment_acq *").prop('disabled',true);
+}
+
+function show_loading_issued(){
+    $('.next-loading-booking').prop('disabled', true);
+    $('.next-loading-issued').addClass("running");
+    $('.next-loading-issued').prop('disabled', true);
+    $('.payment_method').prop('disabled', true).niceSelect('update');
+    $(".payment_acq *").prop('disabled',true);
+}
+
 
 function show_paxs(pax_type, key){
     var paxs = document.getElementById(pax_type+'_paxs'+key);

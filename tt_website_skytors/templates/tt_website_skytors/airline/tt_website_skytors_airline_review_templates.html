@@ -49,21 +49,31 @@
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <ul class="progressbar">
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
-                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                </ul>
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
+                    <center>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                    </center>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="progressbar">
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
+                        <li class="current"><span>Book <i class="fas fa-book-open"></i></span></li>
+                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <br/>
+    </div>
+</header>
 
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
         <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
             <div class="row">
@@ -89,18 +99,24 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="airline_detail">
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
                 </div>
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:15px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;"/>
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="show_loading_booking();airline_hold_booking(0);" style="width:100%;">
+                                Hold Booking
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                         </div>
-                        <div class="col-lg-4" style="padding-bottom:15px;"></div>
+                        <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;"/>
+                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="show_loading_issued();airline_hold_booking(1);" style="width:100%;">
+                                Issued Booking
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                         </div>
                     </div>
                 </div>

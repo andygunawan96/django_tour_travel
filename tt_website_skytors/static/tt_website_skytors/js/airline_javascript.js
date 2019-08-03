@@ -2098,11 +2098,14 @@ function check_passenger(adult, child, infant){
        }
 
    }
-   if(error_log=='')
+   if(error_log==''){
        document.getElementById('airline_review').submit();
-   else
+   }
+   else{
        alert(error_log);
-
+       $('.next-loading').removeClass("running");
+       $('.next-loading').prop('disabled', false);
+   }
 }
 
 function on_change_ssr(idhidden, id){
@@ -2126,7 +2129,7 @@ function on_change_ssr(idhidden, id){
 function get_airline_review(){
     text = '';
     console.log(airline_pick);
-    text = `<div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;">
+    text = `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
             <h4>Flight Detail</h4>
             <hr/>`;
     for(i in airline_pick){
@@ -2194,8 +2197,8 @@ function get_airline_review(){
     text+=`
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
-            <div style="border:1px solid #f15a22; background-color:white;">
-                <h4 style="padding:10px 10px 0px 10px;"> List of Contact(s) Person</h4><br/>
+            <div style="border:1px solid #cdcdcd; background-color:white;padding:10px;">
+                <h4> List of Contact(s) Person</h4><hr/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
@@ -2221,8 +2224,8 @@ function get_airline_review(){
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
 
-            <div style="border:1px solid #f15a22; background-color:white;">
-                <h4 style="padding:10px 10px 0px 10px;">List of Passenger(s)</h4><br/>
+            <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+                <h4>List of Passenger(s)</h4><hr/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
                         <th style="width:7%;" class="list-of-passenger-left">No</th>
