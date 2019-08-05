@@ -5,6 +5,7 @@ from tools import util, ERR
 import datetime
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
+from dateutil.relativedelta import *
 import json
 
 month = {
@@ -85,6 +86,7 @@ def signin(request):
         "co_password": password_default, #request.POST['password'],
         "co_uid": ""
     }
+
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:
@@ -227,7 +229,7 @@ def get_url():
 
 def get_customer_list(request):
     data = {
-        'name': 'lio'
+        'name': request.POST['name']
     }
     try:
         signature = request.session['signature']
@@ -245,10 +247,20 @@ def get_customer_list(request):
     if res['result']['error_code'] == 0:
         counter = 0
         for pax in res['result']['response']:
+            age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
+            if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                title = 'MRS'
+            elif pax['gender'] == 'female':
+                title = 'MS'
+            else:
+                title = 'MR'
             pax.update({
-                'sequence': counter
+                'sequence': counter,
+                'age': age.years,
+                'title': title
             })
-            if pax['birth_date']:
+            if pax['birth_date'] != '':
+
                 pax.update({
                     'birth_date': '%s %s %s' % (
                         pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],

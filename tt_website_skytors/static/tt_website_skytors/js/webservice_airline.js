@@ -220,7 +220,7 @@ function carrier_to_provider(){
     }
 }
 
-function get_airline_config(type){
+function get_airline_config(type, val){
     getToken();
     $.ajax({
        type: "POST",
@@ -231,11 +231,16 @@ function get_airline_config(type){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-
             airline_destination = msg
-            console.log(msg);
-            var origin = document.getElementById("origin_id_flight");
-            var destination = document.getElementById("destination_id_flight");
+            var origin = ''
+            var destination = ''
+            if(val == undefined){
+                origin = document.getElementById("origin_id_flight");
+                destination = document.getElementById("destination_id_flight");
+            }else{
+                origin = document.getElementById("origin_id_flight"+val);
+                destination = document.getElementById("destination_id_flight"+val);
+            }
             for(i in msg){
                 var node = document.createElement("option");
                 node.text = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
@@ -1594,7 +1599,7 @@ function get_price_itinerary(val){
                             <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                            <button class="primary-btn-ticket next-search-flight ld-ext-right" style="width:100%;" onclick="document.getElementById('go_to_passenger').submit();" type="submit" value="Next">
+                            <button class="primary-btn-ticket next-search-flight ld-ext-right" style="width:100%;" onclick="airline_sell_journeys();" type="submit" value="Next">
                                 Next
                                 <i class="fas fa-angle-right"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -1680,6 +1685,7 @@ function airline_sell_journeys(){
        data: {},
        success: function(msg) {
            console.log(msg);
+           document.getElementById('go_to_passenger').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

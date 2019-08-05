@@ -710,6 +710,7 @@ $(document).ready(function(){
             //mc
             document.getElementById('add_mc_value').style.display = "none";
             document.getElementById('ori_airline').style.display = "";
+            document.getElementById('mc_airline').innerHTML = "";
 
             $("#airline_departure").val(moment().format('DD MMM YYYY'));
             $("#airline_return").val($("#airline_departure").val());
@@ -736,6 +737,7 @@ $(document).ready(function(){
             //mc
             document.getElementById('add_mc_value').style.display = "none";
             document.getElementById('ori_airline').style.display = "";
+            document.getElementById('mc_airline').innerHTML = "";
 
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
@@ -793,6 +795,8 @@ $(document).ready(function(){
             //mc
             document.getElementById('add_mc_value').style.display = "";
             document.getElementById('ori_airline').style.display = "none";
+            counter = 0;
+            add_multi_city();
             $("#airline_departure").val(moment().format('DD MMM YYYY'));
             $("#airline_return").val($("#airline_departure").val());
 
@@ -834,6 +838,7 @@ $(document).ready(function(){
             //mc
             document.getElementById('add_mc_value').style.display = "none";
             document.getElementById('ori_airline').style.display = "";
+            document.getElementById('mc_airline').innerHTML = "";
             document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
             document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
             $('input[name="airline_departure"]').daterangepicker({
@@ -858,6 +863,7 @@ $(document).ready(function(){
             //mc
             document.getElementById('add_mc_value').style.display = "none";
             document.getElementById('ori_airline').style.display = "";
+            document.getElementById('mc_airline').innerHTML = "";
             text+=`
             <span class="span-search-ticket">Departure - Return</span>
             <div class="input-container-search-ticket">
@@ -959,6 +965,9 @@ $(document).ready(function(){
             //mc
             document.getElementById('add_mc_value').style.display = "";
             document.getElementById('ori_airline').style.display = "none";
+            counter = 0;
+            add_multi_city();
+//            add_multi_city();
             document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
             document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
             $('input[name="airline_departure"]').daterangepicker({

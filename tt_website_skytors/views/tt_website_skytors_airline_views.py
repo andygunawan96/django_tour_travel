@@ -46,13 +46,18 @@ def search(request):
                 })
                 airline_destinations.append(des)
 
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
-        for i in response['result']['response']['airline']['carriers']:
+        for i in response:
             airline_carriers[i] = {
-                'name': response['result']['response']['airline']['carriers'][i]['name'],
-                'code': response['result']['response']['airline']['carriers'][i]['code'],
-                'icao': response['result']['response']['airline']['carriers'][i]['icao'],
-                'call_sign': response['result']['response']['airline']['carriers'][i]['call_sign']
+                'name': response[i]['name'],
+                'code': response[i]['code'],
+                'icao': response[i]['icao'],
+                'call_sign': response[i]['call_sign']
             }
 
         airline_cabin_class_list = [
@@ -74,19 +79,6 @@ def search(request):
         providers = []
         try:
             try:
-                if request.POST['radio_airline_type'] == 'roundtrip':
-                    direction = 'RT'
-                    return_date = request.POST['airline_return']
-                else:
-                    direction = 'OW'
-                    return_date = request.POST['airline_departure']
-                    print('no return')
-            except:
-                direction = 'OW'
-                return_date = request.POST['airline_departure']
-                print('no return')
-
-            try:
                 if request.POST['is_combo_price'] == '':
                     is_combo_price = 'true'
             except:
@@ -102,13 +94,38 @@ def search(request):
                 except:
                     airline_carriers[provider]['bool'] = False
                     print('%s %s' % ('no ', provider))
-
+            #check MC OW RT
+            try:
+                if request.POST['radio_airline_type'] == 'multicity':
+                    direction = 'MC'
+                    return_date = request.POST['airline_departure']
+                    origin = []
+                    destination = []
+                    departure = []
+                    for i in range(request.POST['counter']):
+                        origin.append(request.POST['origin_id_flight'+str(i+1)])
+                        destination.append(request.POST['destination_id_flight'+str(i+1)])
+                        departure.append(request.POST['airline_departure'+str(i+1)])
+                else:
+                    origin = request.POST['origin_id_flight']
+                    destination = request.POST['destination_id_flight']
+                    departure = request.POST['airline_departure']
+                    if request.POST['radio_airline_type'] == 'roundtrip':
+                        direction = 'RT'
+                        return_date = request.POST['airline_return']
+                    elif request.POST['radio_airline_type'] == 'oneway':
+                        direction = 'OW'
+                        return_date = request.POST['airline_departure']
+            except:
+                direction = 'OW'
+                return_date = request.POST['airline_departure']
+                print('no return')
 
 
             airline_request = {
-                'origin': request.POST['origin_id_flight'],
-                'destination': request.POST['destination_id_flight'],
-                'departure': request.POST['airline_departure'],
+                'origin': origin,
+                'destination': destination,
+                'departure': departure,
                 'return': return_date,
                 'direction': direction,
                 'adult': int(request.POST['adult_flight']),
@@ -176,6 +193,11 @@ def passenger(request):
             response = json.loads(line)
         file.close()
 
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            carrier = json.loads(line)
+        file.close()
+
         # agent
         adult_title = ['MR', 'MRS', 'MS']
 
@@ -215,7 +237,7 @@ def passenger(request):
             'countries': response['result']['response']['airline']['country'],
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
-            'airline_carriers': response['result']['response']['airline']['carriers'],
+            'airline_carriers': carrier,
             'airline_pick': request.session['airline_pick'],
             'adults': adult,
             'childs': child,
@@ -458,7 +480,7 @@ def review(request):
                 'calling_code': request.POST['booker_phone_code'],
                 'mobile': request.POST['booker_phone'],
                 'nationality_code': request.POST['booker_nationality'],
-                'booker_id': request.POST['booker_id']
+                'booker_seq_id': request.POST['booker_id']
             }
             for i in range(int(request.session['airline_request']['adult'])):
                 adult.append({
@@ -471,7 +493,7 @@ def review(request):
                     "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
                     "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
                     "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                    "passenger_id": request.POST['adult_id' + str(i + 1)]
+                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
                 })
 
                 if i == 0:
@@ -488,7 +510,7 @@ def review(request):
                         'is_also_booker': False
                     })
                 try:
-                    if request.POST['passenger_cp' + str(i)] == 'true':
+                    if request.POST['adult_cp' + str(i+1)] == 'on':
                         adult[len(adult) - 1].update({
                             'is_also_contact': True
                         })
@@ -507,10 +529,10 @@ def review(request):
                             "last_name": request.POST['adult_last_name' + str(i + 1)],
                             "title": request.POST['adult_title' + str(i + 1)],
                             "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_code": request.POST['adult_calling_code' + str(i + 1)],
-                            "mobile": request.POST['adult_mobile' + str(i + 1)],
+                            "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                            "mobile": request.POST['adult_phone' + str(i + 1)],
                             "nationality_code": request.POST['adult_nationality' + str(i + 1)],
-                            "contact_id": request.POST['adult_id' + str(i + 1)]
+                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                         })
                     if i == 0:
                         if request.POST['myRadios'] == 'yes':
@@ -580,7 +602,10 @@ def review(request):
         except:
             additional_price = 0
 
-        airline_carriers = response['result']['response']['airline']['carriers']
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            airline_carriers = json.loads(line)
+        file.close()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -606,14 +631,9 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        file = open("version_cache.txt", "r")
+        file = open("get_airline_active_carriers.txt", "r")
         for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
+            airline_carriers = json.loads(line)
         file.close()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -621,9 +641,9 @@ def booking(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'airline_carriers': response['result']['response']['airline']['carriers'],
-            # 'order_number': request.POST['order_number'],
-            'order_number': 'AL.19080109111',
+            'airline_carriers': airline_carriers,
+            'order_number': request.POST['order_number'],
+            # 'order_number': 'AL.19080531117',
             # 'order_number': 'AL.19072446048',
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)

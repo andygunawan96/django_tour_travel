@@ -136,7 +136,7 @@ function airline_check_search_values(){
 function add_multi_city(){
     counter++;
     text = `
-    <div class="row" id='airline_div_1'>
+    <div id="mc_airline`+counter+`" class="col-lg-12 row">
         <div class="col-lg-8">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
@@ -151,16 +151,16 @@ function add_multi_city(){
                     </div>
                 </div>
                 <div class="image-change-route-vertical">
-                    <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                    <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch`+counter+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                 </div>
                 <div class="image-change-route-horizontal">
-                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch`+counter+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                     <div class="input-container-search-ticket">
                         <div class="form-select">
-                            <select class="form-control js-example-basic-single" style="width:100%;" id="destination_id_flight`+counter+`" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight`+counter+`" name="destination_id_flight`+counter+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
 
                             </select>
                         </div>
@@ -169,7 +169,7 @@ function add_multi_city(){
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
+        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search`+counter+`" style="padding:0px;"></div>
 
         <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
             <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
@@ -243,7 +243,7 @@ function add_multi_city(){
         <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
             <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
             <div class="input-container-search-ticket btn-group">
-                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                <button id="show_provider_airline`+counter+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
                 <ul id="provider_flight_content`+counter+`" class="dropdown-menu" style="padding:10px; z-index:5;">
 
                 </ul>
@@ -252,22 +252,43 @@ function add_multi_city(){
         <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
             <span class="span-search-ticket">Class</span>
             <div class="input-container-search-ticket btn-group">
-                <div class="form-select" id="default-select">
+                <div class="form-select" id="default-select`+counter+`">
                     <select id="cabin_class_flight`+counter+`" name="cabin_class_flight`+counter+`" data-live-search="true" size="4">
-
+                        <option value="{{cabin_class.value}}" >{{cabin_class.name}}</option>
                     </select>
                 </div>
             </div>
         </div>
     </div>`;
-    document.getElementById('airline_div').innerHTML += text;
-    $('#origin_id_flight'+counter).niceSelect('update');
-    $('#destination_id_flight'+counter).niceSelect('update');
-    $('#show_provider_airline').select2();
+    document.getElementById('mc_airline').innerHTML += text;
+    $('input[name="airline_departure'+counter+'"]').daterangepicker({
+      singleDatePicker: true,
+      autoUpdateInput: true,
+      opens: 'center',
+      startDate: $("#airline_departure").val(),
+      minDate: moment(),
+      maxDate: moment().subtract(-365, 'days'),
+      showDropdowns: true,
+      locale: {
+          format: 'DD MMM YYYY',
+      }
+    });
+    $('#origin_id_flight'+counter).select2();
+    $('#destination_id_flight'+counter).select2();
+    $('#show_total_pax_flight'+counter).niceSelect('update');
+    $('#show_provider_airline'+counter).niceSelect('update');
+    $('#default-select'+counter).niceSelect('update');
+    $('#airline_date_search'+counter).niceSelect('update');
+    get_airline_config('home',counter);
+
+
 }
 
-function delete_multi_city(){
-
+function del_multi_city(){
+    if(counter>2){
+        document.getElementById("mc_airline"+counter).remove();
+        counter--;
+    }
 }
 
 function triggered(){

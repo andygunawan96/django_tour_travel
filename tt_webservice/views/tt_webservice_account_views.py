@@ -99,3 +99,22 @@ def get_transactions(request):
         pass
     return res
 
+def get_payment_acquirer(request):
+    data = {
+        'agent_id': request.POST['agent_id'],
+        'booker_id': request.POST['booker_id'],
+        'order_number': request.POST['order_number'],
+        'transaction_type': 'billing'
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_transactions",
+        "signature": request.session['signature'],
+    }
+
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
+    if res['result']['error_code'] == 0:
+        pass
+    return res
