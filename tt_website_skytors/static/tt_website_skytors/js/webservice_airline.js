@@ -1594,9 +1594,8 @@ function get_price_itinerary(val){
                             <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                            <button class="primary-btn-ticket next-search-flight ld-ext-right" style="width:100%;" onclick="document.getElementById('go_to_passenger').submit();" type="submit" value="Next">
+                            <button class="next-loading primary-btn-ticket next-search-flight ld-ext-right" style="width:100%;" onclick="show_loading();document.getElementById('go_to_passenger').submit();" type="submit" value="Next">
                                 Next
-                                <i class="fas fa-angle-right"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
