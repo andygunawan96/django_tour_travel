@@ -5,6 +5,7 @@ from tools import util, ERR
 import datetime
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
+from dateutil.relativedelta import *
 import json
 
 month = {
@@ -44,9 +45,9 @@ def api_models(request):
         elif req_data['action'] == 'url':
             res = get_url()
         elif req_data['action'] == 'get_agent_booker':
-            res = get_agent_booker(request)
-        elif req_data['action'] == 'get_agent_passenger':
             res = get_agent_passenger(request)
+        elif req_data['action'] == 'get_customer_list':
+            res = get_customer_list(request)
         elif req_data['action'] == 'get_agent_booking':
             res = get_agent_booking(request)
         elif req_data['action'] == 'get_top_up_history':
@@ -85,6 +86,7 @@ def signin(request):
         "co_password": password_default, #request.POST['password'],
         "co_uid": ""
     }
+
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:
@@ -127,16 +129,6 @@ def signin(request):
                 })
         except:
             # airline
-            data = {'provider_type': 'airline'}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_carriers",
-                "signature": request.session['signature'],
-            }
-
-            res_carrier_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-
             data = {'provider_type': 'airline'}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -218,7 +210,6 @@ def signin(request):
                 # 'activity': res_config_activity['result'],
                 'airline': {
                     'country': res_country_airline['result']['response'],
-                    'carriers': res_carrier_airline['result']['response'],
                     'destination': res_destination_airline['result']['response'],
                 },
             })
@@ -236,36 +227,44 @@ def signin(request):
 def get_url():
     return url_web
 
-def get_agent_booker(request):
+def get_customer_list(request):
+    data = {
+        'name': request.POST['name']
+    }
+    try:
+        signature = request.session['signature']
+    except:
+        pass
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_agent_booker",
-        "signature": request.session['signature'],
+        "action": "get_customer_list",
+        "signature": signature,
     }
 
-    data = {
-        "agent_id": request.session['agent']['id'],
-        "co_uid": request.session['co_uid'],
-        "search_param": 'by_string',
-        "search_value": request.POST['search_value']
-    }
-    res = util.send_request(url=url+'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    if res['error_code'] == 0:
-        res.update({
-            'response': json.loads(res['response'])
-        })
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
+    if res['result']['error_code'] == 0:
         counter = 0
-        for response in res['response']['result']:
-            response.update({
-                'sequence': counter
+        for pax in res['result']['response']:
+            age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
+            if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                title = 'MRS'
+            elif pax['gender'] == 'female':
+                title = 'MS'
+            else:
+                title = 'MR'
+            pax.update({
+                'sequence': counter,
+                'age': age.years,
+                'title': title
             })
-            if response['birth_date']:
-                response.update({
+            if pax['birth_date'] != '':
+
+                pax.update({
                     'birth_date': '%s %s %s' % (
-                        response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
-                        response['birth_date'].split('-')[0]),
+                        pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                        pax['birth_date'].split('-')[0]),
                 })
             counter += 1
 

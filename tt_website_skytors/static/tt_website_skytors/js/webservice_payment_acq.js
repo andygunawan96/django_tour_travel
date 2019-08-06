@@ -187,6 +187,24 @@ payment_acq = {
 console.log(payment_acq);
 
 function get_payment_acq(val){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/payment",
+       headers:{
+            'action': 'get_payment_acquirer',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'order_number': order_number
+       },
+       success: function(msg) {
+            console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
     text=`
     <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
     <div class="input-container-search-ticket btn-group">

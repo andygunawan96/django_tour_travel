@@ -14,8 +14,10 @@
 <script src="{{ static_path }}js/moment.js"></script>
 
 <script>
-    airline_sell_journeys();
     function check_years_old(sequence, type){
+        console.log(sequence);
+        console.log(type);
+
         var birth_date = '';
         console.log(document.getElementById('adult_birth_date'+sequence).value);
         if(type =='adult')
@@ -126,7 +128,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="search_passenger('Booker','1','train')">Search <i class="fas fa-search"></i></button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
                                                         <div class="row" id="loading-booker-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -430,7 +432,7 @@
                                                         <div class="form-select">
                                                             <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')">
                                                                 {% for key, country in countries.items %}
-                                                                <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                                 {% endfor %}
                                                             </select>
                                                         </div>

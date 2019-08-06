@@ -8,7 +8,6 @@ from tools.parser import *
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
-
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -53,8 +52,12 @@ cabin_class_list = {
 class provider_airline:
     def __init__(self, name):
         self.get_time_provider_airline = name
-    def set_new_time_out(self):
-        self.get_time_provider_airline = datetime.now()
+        self.get_time_carrier_airline = name
+    def set_new_time_out(self, val):
+        if val == 'provider':
+            self.get_time_provider_airline = datetime.now()
+        elif val == 'carrier':
+            self.get_time_carrier_airline = datetime.now()
 
 a = provider_airline(datetime.now())
 
@@ -118,24 +121,44 @@ def login(request):
         "co_password": password_default,  # request.POST['password'],
         "co_uid": ""
     }
+
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
 
     request.session['airline_signature'] = res['result']['response']['signature']
 
     return res
 
+
+
 def get_carrier_code_list(request):
-    file = open("version_cache.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
+    data = {'provider_type': 'airline'}
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_carriers",
+        "signature": request.session['signature'],
+    }
+    date_time = datetime.now() - a.get_time_carrier_airline
+    if date_time.seconds >= 300:
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            a.set_new_time_out('carrier')
+            res = res['result']['response']
+            file = open("get_airline_active_carriers" + ".txt", "w+")
+            file.write(json.dumps(res))
+            file.close()
+        else:
+            file = open("get_airline_active_carriers.txt", "r")
+            for line in file:
+                res = json.loads(line)
+            file.close()
+    else:
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            res = json.loads(line)
+        file.close()
 
-    file = open(str(file_cache_name) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
-
-    return response['result']['response']['airline']['carriers']
+    return res
 
 def get_provider_list(request):
     headers = {
@@ -149,13 +172,19 @@ def get_provider_list(request):
         "provider_type": 'airline'
     }
     date_time = datetime.now() - a.get_time_provider_airline
-    if date_time.seconds >= 1:
-        a.set_new_time_out()
+    if date_time.seconds >= 300:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-        res = json.dumps(res['result']['response'])
-        file = open("get_list_provider.txt", "w+")
-        file.write(res)
-        file.close()
+        if res['result']['error_code'] == 0:
+            a.set_new_time_out('provider')
+            res = json.dumps(res['result']['response'])
+            file = open("get_list_provider.txt", "w+")
+            file.write(res)
+            file.close()
+        else:
+            file = open("get_list_provider.txt", "r")
+            for line in file:
+                res = line
+            file.close()
     else:
         file = open("get_list_provider.txt", "r")
         for line in file:
@@ -221,8 +250,8 @@ def search2(request):
         "child": int(request.session['airline_request']['child']),
         "infant": int(request.session['airline_request']['infant']),
         "cabin_class": request.session['airline_request']['cabin_class'],
-        "provider": request.POST['provider'],
-        # "provider": 'amadeus',
+        # "provider": request.POST['provider'],
+        "provider": 'amadeus',
         "carrier_codes": json.loads(request.POST['carrier_codes']),
         "is_combo_price": is_combo_price
     }
@@ -719,7 +748,7 @@ def get_booking(request):
         "signature": request.session['airline_signature'],
     }
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=5)
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
 
     file = open("version_cache.txt", "r")
     for line in file:

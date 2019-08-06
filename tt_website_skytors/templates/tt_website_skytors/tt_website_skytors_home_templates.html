@@ -163,157 +163,178 @@
                             <div class="tab-pane fade show active" id="airline" role="tabpanel" aria-labelledby="airline-tab">
                                 <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                     {% csrf_token %}
-                                    <div class="row">
-                                        <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:white;">One Way</span>
-                                                <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:white;">Round-trip</span>
-                                                <input type="radio" name="radio_airline_type" value="roundtrip">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:13px; color:white;">Multy-City</span>
-                                                <input type="radio" name="radio_airline_type" value="roundtrip">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                                <label class="check_box_custom">
-                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
-                                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                    <span class="check_box_span_custom"></span>
+                                    <div id="airline_div">
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:white;">One Way</span>
+                                                    <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
+                                                    <span class="checkmark-radio"></span>
                                                 </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-8">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:white;">Round-trip</span>
+                                                    <input type="radio" name="radio_airline_type" value="roundtrip">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <label class="radio-button-custom">
+                                                    <span style="font-size:13px; color:white;">Multy-City</span>
+                                                    <input type="radio" name="radio_airline_type" value="multicity">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <div class="checkbox" style="display:none;" id="checkbox_combo_price">
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </div>
+                                                <div id="add_mc_value" style="display:none" class="row">
+                                                    <div onclick="add_multi_city();">
 
+                                                        <label class="check_box_custom">
+                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Add</span>
+                                                        </label>
+                                                    </div>
+                                                    <div onclick="del_multi_city();">
+
+                                                        <label class="check_box_custom">
+                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Delete</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 row" id="ori_airline">
+                                                <div class="col-lg-8">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                                            <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+
+                                                                    </select>
+                                                                </div>
+                                                                <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="image-change-route-vertical">
+                                                            <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                        </div>
+                                                        <div class="image-change-route-horizontal">
+                                                            <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <div class="form-select">
+                                                                    <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+
+                                                                    </select>
+                                                                </div>
+                                                                <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
+
+                                                <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <div class="row" style="padding:10px;">
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                    <div style="float:left;">
+                                                                        <label>
+                                                                            <span style="color:black; font-size:13px;">Adult</span><br/>
+                                                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
+                                                                        <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                    <div style="float:left;">
+                                                                        <label>
+                                                                            <span style="color:black; font-size:13px;">Child<br/></span>
+                                                                            <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                        <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
+                                                                        <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                                    <div style="float:left;">
+                                                                        <label>
+                                                                            <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                            <span style="color:gray; font-size:11px;">(Age < 2)</span>
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                                        <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
+                                                                            <i class="fas fa-minus"></i>
+                                                                        </button>
+                                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
+                                                                        <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
+                                                                            <i class="fas fa-plus"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                                                        <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
+                                                        <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                                    <span class="span-search-ticket">Class</span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <div class="form-select" id="default-select">
+                                                            <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
+                                                                {% for cabin_class in airline_cabin_class_list %}
+                                                                <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
+                                                                {% endfor %}
+                                                                <!--                                                        {% for cabin_class in airline_cabin_class_list %}-->
+                                                                <!--                                                        <option value="{{cabin_class.value}}">{{cabin_class.name}}</option>-->
+                                                                <!--                                                        {% endfor %}-->
                                                             </select>
                                                         </div>
-                                                        <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
-                                                    </div>
-                                                </div>
-                                                <div class="image-change-route-vertical">
-                                                    <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-                                                <div class="image-change-route-horizontal">
-                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
-
-                                                            </select>
-                                                        </div>
-                                                        <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
+                                            <div id="mc_airline" class="col-lg-12">
 
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <div class="row" style="padding:10px;">
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Adult</span><br/>
-                                                                    <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Child<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
-                                                                <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age < 2)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
-                                                <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
-                                                <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
-
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Class</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <div class="form-select" id="default-select">
-                                                    <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
-                                                        {% for cabin_class in airline_cabin_class_list %}
-                                                        <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
-                                                        {% endfor %}
-                                                        <!--                                                        {% for cabin_class in airline_cabin_class_list %}-->
-                                                        <!--                                                        <option value="{{cabin_class.value}}">{{cabin_class.name}}</option>-->
-                                                        <!--                                                        {% endfor %}-->
-                                                    </select>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1231,7 +1252,7 @@
 </button>
 
 <script>
-
+    //testing getbooker
     document.getElementById("airline_date_search").innerHTML = '';
     text='';
     var node = document.createElement("div");
