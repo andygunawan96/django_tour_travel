@@ -663,7 +663,7 @@ function tour_get_booking(order_number)
            }
            else
            {
-                breadcrumb_txt += `<li><span>Issued <i class="fas fa-check-circle"></i></span></li>`;
+                breadcrumb_txt += `<li class="current"><span>Issued <i class="fas fa-check-circle"></i></span></li>`;
                 cur_state = 'Booked';
                 order_detail_txt += `Booked`;
                 document.getElementById('issued_btn_place').innerHTML += '<input class="primary-btn hold-seat-booking-train" type="button" value="Issued" data-toggle="modal" data-target="#issuedModal" style="width:100%;"/>';
