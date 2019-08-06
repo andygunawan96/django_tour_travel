@@ -642,8 +642,8 @@ def booking(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'airline_carriers': airline_carriers,
-            'order_number': request.POST['order_number'],
-            # 'order_number': 'AL.19080531117',
+            # 'order_number': request.POST['order_number'],
+            'order_number': 'AL.19080509118',
             # 'order_number': 'AL.19072446048',
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)

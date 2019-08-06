@@ -7,7 +7,7 @@ from tools.parser import *
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
-
+import copy
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -59,22 +59,25 @@ def api_models(request):
     return Response(res)
 
 def login(request):
-    data = {
-        "user": user,
-        "password": password,
-        "api_key": api_key_hotel,
-        'co_uid': int(request.session['co_uid'])
-    }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "signin",
         "signature": ''
     }
-    res = util.send_request(url=url + "hotel/session", data=data, headers=headers, method='POST')
 
-    request.session['hotel_sid'] = res['result']['sid']
-    request.session['hotel_cookie'] = res['result']['cookies']
+    data = {
+        "user": user_global,
+        "password": password_global,
+        "api_key": api_key,
+        "co_user": user_default,  # request.POST['username'],
+        "co_password": password_default,  # request.POST['password'],
+        "co_uid": ""
+    }
+
+    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+
+    request.session['hotel_signature'] = res['result']['response']['signature']
 
     return res
 
@@ -112,27 +115,32 @@ def search(request):
                 id = int(hotel['id'])
             break
     data = {
-        'check_in': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
-        'check_out': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
         'child': int(request.POST['child']),
-        'child_ages': child_age,
-        'search_name': request.POST['destination'],
-        'country_id': country_id,
-        'destination_id': destination_id,
         'hotel_id': hotel_id,
-        'id': id,
-        'landmark_id': landmark_id,
-        'person': int(request.POST['adult']),
-        'room': int(request.POST['room'])
+        'search_name': request.POST['destination'],
+        'room': int(request.POST['room']),
+        'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
+        'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
+        'adult': int(request.POST['adult']),
+        'destination_id': destination_id,
+        'child_ages': child_age,
+
+        # 'country_id': country_id,
+        #
+        #
+        # 'id': id,
+        # 'landmark_id': landmark_id,
+
+
     }
-    request.session['hotel_request'] = data
+    request.session['hotel_request_data'] = data
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "search",
         "signature": request.session['hotel_signature']
     }
-    res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
 
     counter = 0
     sequence = 0
@@ -178,20 +186,20 @@ def search(request):
     return res
 
 def detail(request):
-    data = request.session['hotel_request']
+    data = request.session['hotel_request_data']
     data.update({
-        'hotel_id': json.loads(request.POST['external_code'].replace('&#39;', '"')),
-        'check_in': str(datetime.strptime(request.POST['check_in'], '%d %b %Y'))[:10],
-        'check_out': str(datetime.strptime(request.POST['check_out'], '%d %b %Y'))[:10],
+        'hotel_id': request.session['hotel_detail']['id'],
+        'checkin_date': str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10],
+        'checkout_date': str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10],
         'pax_country': False
     })
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "hotel_search_detail",
-        "signature": request.session['train_signature'],
+        "action": "get_details",
+        "signature": request.session['hotel_signature'],
     }
-    res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     request.session['hotel_detail'] = res
     return res
 
@@ -207,7 +215,7 @@ def get_cancellation_policy(request):
         "action": "get_cancellation_policy",
         "signature": request.session['train_signature'],
     }
-    res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
 
     request.session['hotel_cancellation_policy'] = res
 
@@ -222,9 +230,9 @@ def provision(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "provision",
-        "signature": request.session['train_signature'],
+        "signature": request.session['hotel_signature'],
     }
-    res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
 
     request.session['hotel_provision'] = res
 
@@ -272,9 +280,9 @@ def create_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "create_booking",
-        "signature": request.session['train_signature'],
+        "signature": request.session['hotel_signature'],
     }
-    res = util.send_request(url=url + "hotel/booking", data=data, cookies=request.session['hotel_cookie'], headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
 
 
     request.session['hotel_booking'] = res['result']['response']
