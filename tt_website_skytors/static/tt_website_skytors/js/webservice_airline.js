@@ -1601,7 +1601,6 @@ function get_price_itinerary(val){
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                             <button class="primary-btn-ticket next-search-flight ld-ext-right" style="width:100%;" onclick="airline_sell_journeys();" type="submit" value="Next">
                                 Next
-                                <i class="fas fa-angle-right"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
