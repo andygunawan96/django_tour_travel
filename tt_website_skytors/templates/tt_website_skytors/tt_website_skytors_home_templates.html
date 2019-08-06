@@ -163,47 +163,47 @@
                             <div class="tab-pane fade show active" id="airline" role="tabpanel" aria-labelledby="airline-tab">
                                 <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
                                     {% csrf_token %}
-                                    <div id="airline_div">
-                                        <div class="row">
-                                            <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                                <label class="radio-button-custom">
-                                                    <span style="font-size:13px; color:white;">One Way</span>
-                                                    <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
-                                                    <span class="checkmark-radio"></span>
+                                    <div class="row">
+                                        <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:13px; color:white;">One Way</span>
+                                                <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:13px; color:white;">Round-trip</span>
+                                                <input type="radio" name="radio_airline_type" value="roundtrip">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom">
+                                                <span style="font-size:13px; color:white;">Multy-City</span>
+                                                <input type="radio" name="radio_airline_type" value="multicity">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <div class="checkbox" style="display:none;" id="checkbox_combo_price">
+                                                <label class="check_box_custom">
+                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
+                                                    <span class="check_box_span_custom"></span>
                                                 </label>
-                                                <label class="radio-button-custom">
-                                                    <span style="font-size:13px; color:white;">Round-trip</span>
-                                                    <input type="radio" name="radio_airline_type" value="roundtrip">
-                                                    <span class="checkmark-radio"></span>
-                                                </label>
-                                                <label class="radio-button-custom">
-                                                    <span style="font-size:13px; color:white;">Multy-City</span>
-                                                    <input type="radio" name="radio_airline_type" value="multicity">
-                                                    <span class="checkmark-radio"></span>
-                                                </label>
-                                                <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                                    <label class="check_box_custom">
-                                                        <span style="font-size:13px; color:white;">Is Combo Price</span>
-                                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label>
-                                                </div>
-                                                <div id="add_mc_value" style="display:none" class="row">
-                                                    <div onclick="add_multi_city();">
-
-                                                        <label class="check_box_custom">
-                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Add</span>
-                                                        </label>
-                                                    </div>
-                                                    <div onclick="del_multi_city();">
-
-                                                        <label class="check_box_custom">
-                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Delete</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
                                             </div>
-                                            <div class="col-lg-12 row" id="ori_airline">
+                                            <!--                                                <div id="add_mc_value" style="display:none" class="row">-->
+                                            <!--                                                    <div onclick="add_multi_city();">-->
+
+                                            <!--                                                        <label class="check_box_custom">-->
+                                            <!--                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Add</span>-->
+                                            <!--                                                        </label>-->
+                                            <!--                                                    </div>-->
+                                            <!--                                                    <div onclick="del_multi_city();">-->
+
+                                            <!--                                                        <label class="check_box_custom">-->
+                                            <!--                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Delete</span>-->
+                                            <!--                                                        </label>-->
+                                            <!--                                                    </div>-->
+                                            <!--                                                </div>-->
+                                        </div>
+                                        <div class="col-lg-12" id="ori_airline">
+                                            <div class="row">
                                                 <div class="col-lg-8">
                                                     <div class="row">
                                                         <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
@@ -237,7 +237,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
-
                                                 <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                                                     <div class="input-container-search-ticket btn-group">
@@ -325,17 +324,14 @@
                                                                 {% for cabin_class in airline_cabin_class_list %}
                                                                 <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
                                                                 {% endfor %}
-                                                                <!--                                                        {% for cabin_class in airline_cabin_class_list %}-->
-                                                                <!--                                                        <option value="{{cabin_class.value}}">{{cabin_class.name}}</option>-->
-                                                                <!--                                                        {% endfor %}-->
                                                             </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="mc_airline" class="col-lg-12">
+                                        </div>
+                                        <div class="col-lg-12" id="mc_airline_default">
 
-                                            </div>
                                         </div>
                                     </div>
                                     <br/>
