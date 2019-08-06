@@ -161,7 +161,7 @@ function business_trip_check(){
         document.getElementById("business_trip").value = 'false';
 }
 
-function hotel_search(){
+function hotel_search_validation(){
     text= '';
     if(document.getElementById("hotel_id_destination").value == '')
         text+= 'Please fill destination\n';

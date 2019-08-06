@@ -29,8 +29,6 @@ def search(request):
             response = json.loads(line)
         file.close()
 
-        get_balance(request)
-
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -42,8 +40,8 @@ def search(request):
                 'destination': request.POST['hotel_id_destination'],
                 'guest_nationality': request.POST['hotel_id_nationality'],
                 'business_trip': request.POST['business_trip'],
-                'check_in': request.POST['hotel_checkin'],
-                'check_out': request.POST['hotel_checkout'],
+                'checkin_date': request.POST['hotel_checkin'],
+                'checkout_date': request.POST['hotel_checkout'],
                 'room': int(request.POST['hotel_room']),
                 'adult': int(request.POST['hotel_adult']),
                 'child': int(request.POST['hotel_child']),
@@ -54,13 +52,11 @@ def search(request):
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'airline_country': response['result']['response']['airline']['country'],
+            'countries': response['result']['response']['airline']['country'],
             'hotel_config': response['result']['response']['hotel_config'],
             'hotel_search': request.session['hotel_request'],
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_search_templates.html', values)
@@ -69,23 +65,22 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        get_balance(request)
+        try:
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-        if translation.LANGUAGE_SESSION_KEY in request.session:
-            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-        request.session['hotel_detail'] = json.loads(request.POST['hotel_detail'])
+            request.session['hotel_detail'] = json.loads(request.POST['hotel_detail'])
+        except:
+            pass
         data = request.session['hotel_request']
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'hotel_search': data,
-            'check_in': convert_string_to_date_to_string_front_end(data['check_in']),
-            'check_out': convert_string_to_date_to_string_front_end(data['check_out']),
+            'check_in': convert_string_to_date_to_string_front_end(data['checkin_date']),
+            'check_out': convert_string_to_date_to_string_front_end(data['checkout_date']),
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
 
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_templates.html', values)
@@ -94,7 +89,6 @@ def detail(request):
 
 def passengers(request):
     if 'user_account' in request.session._session:
-        get_balance(request)
 
         file = open("version_cache.txt", "r")
         for line in file:
@@ -135,7 +129,7 @@ def passengers(request):
             'hotel_search': request.session['hotel_request'],
             'response': request.session['hotel_detail'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
-            'username': request.session['user_account'],
+            'username': request.session['username'],
             'childs': child,
             'adults': adult,
             'adult_count': int(request.session['hotel_request']['person']),
@@ -143,7 +137,6 @@ def passengers(request):
             'adult_title': adult_title,
             'infant_title': infant_title,
             'co_uid': request.session['co_uid'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
     else:
@@ -151,7 +144,6 @@ def passengers(request):
 
 def review(request):
     if 'user_account' in request.session._session:
-        get_balance(request)
 
         file = open("version_cache.txt", "r")
         for line in file:
@@ -175,8 +167,7 @@ def review(request):
             'country_code': request.POST['booker_nationality'],
             'work_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
             "mobile": "0" + request.POST['booker_phone'],
-            'contact_id': int(request.session['agent']['id'])
-
+            'contact_id': request.POST.get('booker_id') and int(request.POST.get('booker_id')) or ''
         }
         # "city": this.state.city_agent,
         # "province_state": this.state.state_agent,
@@ -191,7 +182,7 @@ def review(request):
                 "room_number": "1",
                 "pax_type": "ADT",
                 "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                "passenger_id": request.POST['adult_id' + str(i + 1)]
+                "passenger_id": request.POST.get('adult_id') and int(request.POST['adult_id' + str(i + 1)]) or ''
             })
         for i in range(int(request.session['hotel_request']['child'])):
             child.append({
@@ -202,7 +193,7 @@ def review(request):
                 "pax_type": "CHD",
                 "birth_date": request.POST['child_birth_date' + str(i + 1)],
                 "room_number": "1",
-                "passenger_id": request.POST['child_id' + str(i + 1)]
+                "passenger_id": request.POST.get('child_id') and int(request.POST['child_id' + str(i + 1)]) or ''
             })
 
         request.session['hotel_review_pax'] = {
@@ -221,10 +212,9 @@ def review(request):
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
             'adult_count': int(request.session['hotel_request']['person']),
             'infant_count': int(request.session['hotel_request']['child']),
-            'username': request.session['user_account'],
+            'username': request.session['username'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_review_templates.html', values)

@@ -54,9 +54,8 @@ def get_payment_acquirer(request):
         # 'booker_id': request.POST['booker_id'],
         'booker_seq_id': "CU.010101",
         # 'order_number': request.session['order_number'],
-        # 'order_number': 'AL.19080509118',
+        'order_number': 'AL.19080509118',
         'transaction_type': 'billing',
-        'amount': 1000
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",

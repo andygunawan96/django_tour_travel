@@ -3,26 +3,32 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}js/daterangepicker.js"></script>
+<script src="{{ static_path }}js/moment.min.js"></script>
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
 <script src="{{ static_path }}js/webservice_token.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
 <script src="{{ static_path }}js/hotel_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_hotel.js"></script>
+<script src="{{ static_path }}js/agent_javascript.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 
 <script>
     function check_years_old(sequence, type){
-        var birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD-MMM-YYYY');
-        var departure_date = moment({{hotel_search.check_in}},'YYYY-MM-DD');
-        var years_old = parseInt(Math.abs(departure_date - birth_date)/31536000000);
+        if(type == 'adult'){
+            var birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD-MMM-YYYY');
+            var departure_date = moment({{hotel_search.check_in}},'YYYY-MM-DD');
+            var years_old = parseInt(Math.abs(departure_date - birth_date)/31536000000);
 
-        document.getElementById('adult_years_old'+sequence).value = years_old;
+            document.getElementById('adult_years_old'+sequence).value = years_old;
+        }
     }
     adult = {{adult_count}};
     child = {{child_count}};
     infant = 0;
     time = 300;
     triggered_balance();
+    document.getElementById('username').innerHTML = '{{username}}';
     document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
@@ -201,6 +207,7 @@
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -397,7 +404,7 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-adult" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -515,7 +522,7 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-child" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -621,5 +628,39 @@
 
 <script>
     hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
+
+    $(function() {
+      for (var i = 1; i <= adult; i++){
+          $('input[name="adult_birth_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment().subtract(17, 'years'),
+              minDate: moment().subtract(100, 'years'),
+              maxDate: moment().subtract(13, 'years'),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="adult_birth_date'+i+'"]').val("");
+      }
+
+      for (var i = 1; i <= child; i++){
+          $('input[name="child_birth_date'+i+'"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment().subtract(5, 'years'),
+              minDate: moment().subtract(12, 'years').subtract(365, 'days'),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+          });
+          $('input[name="child_birth_date'+i+'"]').val("");
+      }
+    });
 </script>
 {% endblock %}

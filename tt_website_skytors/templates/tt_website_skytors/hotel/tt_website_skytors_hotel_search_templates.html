@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/hotel_javascript.js"></script>
 <script src="{{ static_path }}js/webservice_hotel.js"></script>
 <script src="{{ static_path }}js/webservice_agent.js"></script>
+<script src="{{ static_path }}js/agent_javascript.js"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 <script>
     sorting_value = '';
@@ -15,11 +16,10 @@
     triggered_balance();
     get_hotel_config();
     airline_country = [];
-    {% for country in airline_country %}
+    {% for key,value in countries.items %}
         airline_country.push({
-            'id': {{country.id}},
-            'code': `{{country.code}}`,
-            'name': `{{country.name}}`,
+            'code': `{{value.code}}`,
+            'name': `{{value.name}}`,
         });
     {% endfor %}
 
@@ -64,7 +64,6 @@
        }
        document.getElementById("guest_child_age").innerHTML = text;
     }
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}})
 </script>
 
 
@@ -81,6 +80,7 @@
                                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                     <span class="span-search-ticket">Destination or Hotel Name</span>
                                     <div class="input-container-search-ticket">
+                                        <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                         <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" value="{{hotel_search.destination}}" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
                                         <datalist id="hotel_destination_name"/>
                                     </div>
@@ -89,23 +89,21 @@
                                 <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                     <span class="span-search-ticket">Guest Nationality</span>
                                     <div class="input-container-search-ticket">
+                                        <i class="fas fa-globe-asia icon-search-ticket"></i>
                                         <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
                                         <datalist id="hotel_country_nationality"/>
                                     </div>
                                 </div>
 
-                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
+                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" style="padding:0px;">
                                     <span class="span-search-ticket">Check-in</span>
                                     <div class="input-container-search-ticket">
-                                        <input class="form-control date-picker" type="text" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.check_in}}" onchange="change_date_hotel('checkin');"/>
+                                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                                        <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.check_in}} - {{hotel_search.check_out}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                        <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
                                     </div>
-                                </div>
-
-                                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-3" style="padding:0px;">
-                                    <span class="span-search-ticket">Check-out</span>
-                                    <div class="input-container-search-ticket">
-                                        <input type="text" id="hotel_checkout" class="form-control date-picker" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.check_out}}" onchange="change_date_hotel('checkout');" />
-                                    </div>
+                                    <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
+                                    <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
                                 </div>
 
                                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
@@ -116,72 +114,61 @@
                                             <div class="container">
                                                 <div class="row">
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <label>
-                                                            <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
-                                                            <span style="color:black; font-size:13px;">Room<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                        </label>
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Room<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; padding:5px 0px 5px 5px;">
-                                                            <span class="input-group-btn" style="text-align:left;">
-                                                                <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                                    <span><i class="fas fa-minus"></i></span>
-                                                                </button>
-                                                            </span>
-                                                            <input type="hidden" id="hotel_room" name="hotel_room" value="{{hotel_search.room}}" min="1">
-                                                            <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_room_hotel" name="show_room_hotel"></span>
-                                                            <span class="input-group-btn" style="text-align:right;">
-                                                                <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                                    <span><i class="fas fa-plus"></i></span>
-                                                                </button>
-                                                            </span>
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{hotel_search.room}}" min="1">
+                                                            <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
-                                                        </label>
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; padding:5px 0px 5px 5px;">
-                                                            <span class="input-group-btn" style="text-align:left;">
-                                                                <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                                    <span><i class="fas fa-minus"></i></span>
-                                                                </button>
-                                                            </span>
-                                                            <input type="hidden" id="hotel_adult" name="hotel_adult" value="{{hotel_search.adult}}" min="1">
-                                                            <span style="color:black; font-size:14px;padding:5px; text-align:center;" id="show_adult_hotel" id="show_adult_hotel"></span>
-                                                            <span class="input-group-btn" style="text-align:right;">
-                                                                <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                                    <span><i class="fas fa-plus"></i></span>
-                                                                </button>
-                                                            </span>
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{hotel_search.adult}}" min="1">
+                                                            <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <label>
-                                                            <!--<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>-->
-                                                            <span style="color:black; font-size:13px;">Child<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
-                                                        </label>
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Child<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; padding:5px 0px 5px 5px;">
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                                    <span><i class="fas fa-minus"></i></span>
-                                                                </button>
-                                                            </span>
-                                                            <input type="hidden" id="hotel_child" name="hotel_child" value="{{hotel_search.child}}">
-                                                            <span style="color:black; font-size:14px;padding:5px;" id="show_child_hotel" id="show_child_hotel"></span>
-                                                            <span class="input-group-btn">
-                                                                <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                                    <span><i class="fas fa-plus"></i></span>
-                                                                </button>
-                                                            </span>
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{hotel_search.child}}">
+                                                            <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-12">
@@ -221,7 +208,7 @@
         <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" style="margin-top:10px;">
                 <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
+                    <a href="{% url 'tt_website_skytors:index'%}" class="active"> Home <i class="fas fa-home"></i></a>
                     <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
                     <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
                     <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
@@ -389,6 +376,43 @@
     guest_child_age2();
     hotel_search('');
     hotel_filter_render();
+
+    $(function() {
+      var oneDay = 24*60*60*1000;
+      var firstDate = new Date($("#hotel_checkin").val());
+      var secondDate = new Date($("#hotel_checkout").val());
+
+      var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+      $("#total_night_search").text(diffDays);
+
+      $('input[name="hotel_checkin_checkout"]').daterangepicker({
+          singleDatePicker: false,
+          autoUpdateInput: true,
+          opens: 'center',
+          startDate: $("#hotel_checkin").val(),
+          endDate: $("#hotel_checkout").val(),
+          minDate: moment().subtract(-1, 'days'),
+          maxDate: moment().subtract(-366, 'days'),
+          showDropdowns: true,
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
+      $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+          $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+            $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
+            $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
+
+            var oneDay = 24*60*60*1000;
+            var firstDate = new Date($("#hotel_checkin").val());
+            var secondDate = new Date($("#hotel_checkout").val());
+
+            var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+            $("#total_night_search").text(diffDays);
+      });
+
+    });
 
     function goto_detail(type, counter){
        document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
