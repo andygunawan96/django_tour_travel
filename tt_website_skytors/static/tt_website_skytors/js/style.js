@@ -779,12 +779,12 @@ $(document).ready(function(){
             text_mc='';
             text_mc += `
             <div class="row">
-                <div class="col-lg-12" style="text-align:right; padding:0px">
+                <div class="col-lg-12" style="text-align:right; padding:0px 0px 15px 0px;">
                     <button type="button" class="primary-btn" onclick="add_multi_city();"><i class="fas fa-plus"></i> Add Flight</button>
                     <button type="button" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete Flight</button>
                 </div>
                 <div class="col-lg-12">
-                    <div class="row" id="mc_airline_add">
+                    <div class="row style-scrollbar" id="mc_airline_add" style="padding-right:15px; overflow:auto; max-height:700px;">
                     </div>
                 </div>
             </div>`;
@@ -1230,4 +1230,8 @@ function show_qna(type, val){
         qna_down.style.display = "none";
         qna_show.style.display = "none";
     }
+}
+
+function delete_expired_date(type, id){
+    document.getElementById(type+'_passport_expired_date'+id).value = "";
 }

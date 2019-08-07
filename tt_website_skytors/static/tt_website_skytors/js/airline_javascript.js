@@ -139,51 +139,9 @@ function add_multi_city(){
         var node = document.createElement("div");
         text = `
         <div class="col-lg-12" id="mc_airline`+counter+`">
-            <div class="row">
-                <div class="col-lg-12" style="padding:0px 0px 15px 0px; text-align:left;">
-                    <h6 style="color:white;">Flight - `+counter+`</h6>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                            <div class="input-container-search-ticket">
-                                <div class="form-select">
-                                    <select class="form-control" style="width:100%;" id="origin_id_flight`+counter+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
-
-                                    </select>
-                                </div>
-                                <input type="hidden" name="origin_id_flight`+counter+`" id="airline_origin_flight`+counter+`" />
-                            </div>
-                        </div>
-                        <div class="image-change-route-vertical">
-                            <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch`+counter+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                        </div>
-                        <div class="image-change-route-horizontal">
-                            <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch`+counter+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                            <div class="input-container-search-ticket">
-                                <div class="form-select">
-                                    <select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter+`" name="destination_id_flight`+counter+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
-
-                                    </select>
-                                </div>
-                                <input type="hidden" name="destination_id_flight`+counter+`" id="airline_destination_flight`+counter+`" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="airline_departure`+counter+`" id="airline_departure`+counter+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                    </div>
-
-                </div>`;
+            <div class="row">`;
                 if(counter == 1)
-                text+=`<div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                text+=`<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;">
                     <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                     <div class="input-container-search-ticket btn-group">
                         <button id="show_total_pax_flight`+counter+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
@@ -252,20 +210,61 @@ function add_multi_city(){
                         </ul>
                     </div>
                 </div>`;
-                else
-         text+=`<div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;"></div>`;
 
                 text+=`
+                <div class="col-lg-12" style="padding:5px 0px 15px 0px; text-align:left;">
+                    <h6 style="color:#f15a22;">Flight - `+counter+`</h6>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                            <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class="form-control" style="width:100%;" id="origin_id_flight`+counter+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+
+                                    </select>
+                                </div>
+                                <input type="hidden" name="origin_id_flight`+counter+`" id="airline_origin_flight`+counter+`" />
+                            </div>
+                        </div>
+                        <div class="image-change-route-vertical">
+                            <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch`+counter+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                        </div>
+                        <div class="image-change-route-horizontal">
+                            <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch`+counter+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter+`" name="destination_id_flight`+counter+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+
+                                    </select>
+                                </div>
+                                <input type="hidden" name="destination_id_flight`+counter+`" id="airline_destination_flight`+counter+`" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="airline_departure`+counter+`" id="airline_departure`+counter+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                    </div>
+                </div>`;
+
+                text+=`
+                <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                     <div class="input-container-search-ticket btn-group">
                         <button id="show_provider_airline`+counter+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
-                        <ul id="provider_flight_content`+counter+`" class="dropdown-menu" style="padding:10px; z-index:5;">
+                        <ul id="provider_flight_content`+counter+`" class="dropdown-menu" style="padding:10px; z-index:11;">
 
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
                     <span class="span-search-ticket">Class</span>
                     <div class="input-container-search-ticket btn-group">
                         <div class="form-select" id="default-select`+counter+`">
@@ -299,7 +298,7 @@ function add_multi_city(){
         get_airline_config('home',counter);
         $('#cabin_class_flight'+counter).niceSelect();
         get_carrier_code_list(counter);
-
+        airline_provider_list_mc.push(airline_provider_list);
         $('#origin_id_flight'+counter).select2();
         $('#destination_id_flight'+counter).select2();
 
@@ -316,6 +315,7 @@ function add_multi_city(){
 function del_multi_city(){
     if(counter!=1){
         document.getElementById("mc_airline"+counter).remove();
+        airline_provider_list_mc.pop(airline_provider_list_mc.length - 1);
         counter--;
     }
 }
@@ -552,11 +552,18 @@ function airline_filter_render(){
     document.getElementById("sorting-flight2").appendChild(node2);
 }
 
-function airline_autocomplete(type){
-    if(type == 'origin')
-        document.getElementById('airline_origin_flight').value = document.getElementById('select2-origin_id_flight-container').innerHTML;
-    else if(type == 'destination')
-        document.getElementById('airline_destination_flight').value = document.getElementById('select2-destination_id_flight-container').innerHTML;
+function airline_autocomplete(type,val){
+    if(val == undefined){
+        if(type == 'origin')
+            document.getElementById('airline_origin_flight').value = document.getElementById('select2-origin_id_flight-container').innerHTML;
+        else if(type == 'destination')
+            document.getElementById('airline_destination_flight').value = document.getElementById('select2-destination_id_flight-container').innerHTML;
+    }else{
+        if(type == 'origin')
+            document.getElementById('airline_origin_flight'+val).value = document.getElementById('select2-origin_id_flight`+val+`-container').innerHTML;
+        else if(type == 'destination')
+            document.getElementById('airline_destination_flight'+val).value = document.getElementById('select2-destination_id_flight`+val+`-container').innerHTML;
+        }
 }
 
 function airline_switch(){
@@ -1475,16 +1482,30 @@ function airline_check_search(){
         alert(error_log);
 }
 
-function check_provider(val){
+function check_provider(carrier_code,val){
+    console.log(carrier_code);
     console.log(val);
-    if(val == 'all'){
-        for(i in airline_provider_list){
-            document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
+    if(val == undefined){
+        if(carrier_code == 'all'){
+            for(i in airline_provider_list){
+                document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
+            }
+            document.getElementById('provider_box_All').checked = true;
         }
-        document.getElementById('provider_box_All').checked = true;
+        else
+            document.getElementById('provider_box_All').checked = false;
+    }else{
+        console.log('here');
+        if(carrier_code == 'all'){
+            for(i in airline_provider_list_mc[val]){
+                document.getElementById('provider_box_'+airline_provider_list_mc[val][i].code+'_'+val).checked = false;
+            }
+            document.getElementById('provider_box_All_'+val).checked = true;
+        }
+        else
+            document.getElementById('provider_box_All_'+val).checked = false;
+        console.log(airline_provider_list_mc);
     }
-    else
-        document.getElementById('provider_box_All').checked = false;
 
 }
 

@@ -78,27 +78,22 @@ def search(request):
 
         providers = []
         try:
-            try:
-                if request.POST['is_combo_price'] == '':
-                    is_combo_price = 'true'
-            except:
-                is_combo_price = 'false'
 
-
-            for provider in airline_carriers:
-                try:
-                    if(request.POST['provider_box_'+provider]):
-                        airline_carriers[provider]['bool'] = True
-                    else:
-                        airline_carriers[provider]['bool'] = False
-                except:
-                    airline_carriers[provider]['bool'] = False
-                    print('%s %s' % ('no ', provider))
             #check MC OW RT
             try:
                 if request.POST['radio_airline_type'] == 'multicity':
                     direction = 'MC'
+                    is_combo_price = 'false'
                     return_date = request.POST['airline_departure']
+                    for provider in airline_carriers:
+                        try:
+                            if (request.POST['provider_box_' + provider]):
+                                airline_carriers[provider]['bool'] = True
+                            else:
+                                airline_carriers[provider]['bool'] = False
+                        except:
+                            airline_carriers[provider]['bool'] = False
+                            print('%s %s' % ('no ', provider))
                     origin = []
                     destination = []
                     departure = []
@@ -107,6 +102,21 @@ def search(request):
                         destination.append(request.POST['destination_id_flight'+str(i+1)])
                         departure.append(request.POST['airline_departure'+str(i+1)])
                 else:
+                    try:
+                        if request.POST['is_combo_price'] == '':
+                            is_combo_price = 'true'
+                    except:
+                        is_combo_price = 'false'
+
+                    for provider in airline_carriers:
+                        try:
+                            if (request.POST['provider_box_' + provider]):
+                                airline_carriers[provider]['bool'] = True
+                            else:
+                                airline_carriers[provider]['bool'] = False
+                        except:
+                            airline_carriers[provider]['bool'] = False
+                            print('%s %s' % ('no ', provider))
                     origin = request.POST['origin_id_flight']
                     destination = request.POST['destination_id_flight']
                     departure = request.POST['airline_departure']
@@ -642,8 +652,8 @@ def booking(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'airline_carriers': airline_carriers,
-            # 'order_number': request.POST['order_number'],
-            'order_number': 'AL.19080509118',
+            'order_number': request.POST['order_number'],
+            # 'order_number': 'AL.19080509118',
             # 'order_number': 'AL.19072446048',
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)

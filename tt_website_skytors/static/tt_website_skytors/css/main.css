@@ -5507,7 +5507,7 @@ div.scrollmenu li {
   top: -10px;
   right: -25px;
   padding: 10px 16px;
-  border-radius: 50%;
+  border-radius: 21px;
   background-color: white;
   color: black;
   border: 1px solid red;
@@ -6887,7 +6887,7 @@ th input {
   text-align: center;
   border-radius:50%;
   border: 2px solid #cdcdcd;
-  padding:4px;
+  padding:4px 9px 4px 9px;
 }
 
 .breadcrumb-header{
