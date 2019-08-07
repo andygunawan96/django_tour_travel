@@ -2,6 +2,7 @@ var airline_data = [];
 var airline_data_show = [];
 var airline_data_filter = [];
 var airline_pick_list = [];
+var airline_provider_list_mc = [];
 var airline_cookie = '';
 var airline_sid = '';
 var dep_price = [];
@@ -123,8 +124,14 @@ function get_carrier_code_list(val){
                 <li>
                     <a class="small" data-value="option1" tabIndex="-1">
                         <label class="check_box_custom">
-                            <span class="span-search-ticket" style="color:black;">All</span>
-                            <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>
+                            <span class="span-search-ticket" style="color:black;">All</span>`;
+                            if(val == undefined)
+                            text+=`
+                                <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>`;
+                            else
+                            text+=`
+                                <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
+                            text+=`
                             <span class="check_box_span_custom"></span>
                         </label>
                     </a>
@@ -136,8 +143,14 @@ function get_carrier_code_list(val){
                     <li>
                         <a class="small" data-value="option1" tabIndex="-1">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">`+msg[i].name+`</span>
-                                <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>
+                                <span class="span-search-ticket" style="color:black;">`+msg[i].name+`</span>`;
+                                if(val == undefined)
+                                text+=`
+                                    <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
+                                else
+                                text+=`
+                                    <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                text+=`
                                 <span class="check_box_span_custom"></span>
                             </label>
                         </a>
@@ -254,7 +267,10 @@ function get_airline_config(type, val){
                     try{
                         if(airline_request['origin'] == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }catch(err){
 
@@ -263,15 +279,24 @@ function get_airline_config(type, val){
                     try{
                         if(cache['airline']['origin'] == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }else if('Juanda International Airport - Surabaya (SUB)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }catch(err){
                         if('Juanda International Airport - Surabaya (SUB)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }
                 }
@@ -283,7 +308,10 @@ function get_airline_config(type, val){
                     try{
                         if(airline_request['destination'] == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }catch(err){
 
@@ -292,15 +320,24 @@ function get_airline_config(type, val){
                     try{
                         if(cache['airline']['destination'] == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }else if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }catch(err){
                         if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            if(val == undefined)
+                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                            else
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }
                 }
@@ -986,7 +1023,22 @@ function get_price_itinerary(val){
                                     <span style="font-size:13px;">`+airline_pick_list[0].arrival_date.split(' - ')[1]+` `+airline_pick_list[0].arrival_date.split(' - ')[0]+`</span></br>
                                 </div>
                                 <div class="col-lg-12" id="rules`+j+`">
-
+                                    <br/><span style="font-weight:bold;"> Term and Condition: </span><br/>
+                                    <div class="sk-circle">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                    <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                 </div>
                             </div>`;
                         if(airline_pick_list[0].is_combo_price == true){
@@ -1048,7 +1100,22 @@ function get_price_itinerary(val){
                                         <span style="font-size:13px;">`+date_return[1].split(' - ')[1]+` `+date_return[1].split(' - ')[0]+`</span></br>
                                     </div>
                                     <div class="col-lg-12" id="rules`+j+`">
-
+                                        <br/><span style="font-weight:bold;"> Term and Condition: </span><br/>
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                     </div>
                                 </div>
                                 <hr/>
@@ -1205,7 +1272,22 @@ function get_price_itinerary(val){
                                         <span>`+airline_pick_list[1].arrival_date.split(' - ')[0]+` `+airline_pick_list[1].arrival_date.split(' - ')[1]+`</span></br>
                                     </div>
                                     <div class="col-lg-12" id="rules0">
-
+                                        <br/><span style="font-weight:bold;"> Term and Condition: </span><br/>
+                                        <div class="sk-circle">
+                                            <div class="sk-circle1 sk-child"></div>
+                                            <div class="sk-circle2 sk-child"></div>
+                                            <div class="sk-circle3 sk-child"></div>
+                                            <div class="sk-circle4 sk-child"></div>
+                                            <div class="sk-circle5 sk-child"></div>
+                                            <div class="sk-circle6 sk-child"></div>
+                                            <div class="sk-circle7 sk-child"></div>
+                                            <div class="sk-circle8 sk-child"></div>
+                                            <div class="sk-circle9 sk-child"></div>
+                                            <div class="sk-circle10 sk-child"></div>
+                                            <div class="sk-circle11 sk-child"></div>
+                                            <div class="sk-circle12 sk-child"></div>
+                                        </div>
+                                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                     </div>
                                 </div>
                                 <hr/>

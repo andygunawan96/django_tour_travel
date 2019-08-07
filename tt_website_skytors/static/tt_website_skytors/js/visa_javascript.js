@@ -1013,10 +1013,6 @@ function check_before_add_repricing(){
         alert('Please fill all visa type, entry type, and process type!');
 }
 
-function delete_expired_date(type, id){
-    document.getElementById(type+'_passport_expired_date'+id).value = "";
-}
-
 function show_repricing(){
     $("#myModalRepricing").modal();
 }
