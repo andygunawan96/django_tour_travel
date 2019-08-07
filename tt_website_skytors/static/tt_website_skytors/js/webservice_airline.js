@@ -107,7 +107,7 @@ function airline_signin(data){
 
 }
 
-function get_carrier_code_list(){
+function get_carrier_code_list(val){
     getToken();
     $.ajax({
        type: "POST",
@@ -145,7 +145,10 @@ function get_carrier_code_list(){
                     </li>
                 `;
            }
-           document.getElementById('provider_flight_content').innerHTML = text;
+           if(val == undefined)
+               document.getElementById('provider_flight_content').innerHTML = text;
+           else
+               document.getElementById('provider_flight_content'+val).innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -221,6 +224,7 @@ function carrier_to_provider(){
 }
 
 function get_airline_config(type, val){
+    console.log('here');
     getToken();
     $.ajax({
        type: "POST",
@@ -232,6 +236,7 @@ function get_airline_config(type, val){
        data: {},
        success: function(msg) {
             airline_destination = msg
+            console.log(val)
             var origin = ''
             var destination = ''
             if(val == undefined){

@@ -709,6 +709,8 @@ $(document).ready(function(){
             document.getElementById('checkbox_combo_price').style.display = "none";
             document.getElementById('ori_airline').style.display = "block";
             document.getElementById('mc_airline_default').innerHTML = "none";
+            airline_counter_config = 0;
+            counter = 0;
 
             $("#airline_departure").val(moment().format('DD MMM YYYY'));
             $("#airline_return").val($("#airline_departure").val());
@@ -734,6 +736,8 @@ $(document).ready(function(){
             document.getElementById('checkbox_combo_price').style.display = "block";
             document.getElementById('ori_airline').style.display = "block";
             document.getElementById('mc_airline_default').innerHTML = "none";
+            airline_counter_config = 0;
+            counter = 0;
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
@@ -792,6 +796,7 @@ $(document).ready(function(){
 
             add_multi_city();
             add_multi_city();
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
     });
 
@@ -818,6 +823,8 @@ $(document).ready(function(){
             //document.getElementById('add_mc_value').style.display = "none";
             document.getElementById('ori_airline').style.display = "";
             document.getElementById('mc_airline_default').innerHTML = "";
+            airline_counter_config = 0;
+            counter = 0;
 
             document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
             document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
@@ -844,6 +851,8 @@ $(document).ready(function(){
             //document.getElementById('add_mc_value').style.display = "none";
             document.getElementById('ori_airline').style.display = "";
             document.getElementById('mc_airline_default').innerHTML = "";
+            airline_counter_config = 0;
+            counter = 0;
 
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
