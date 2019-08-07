@@ -47,6 +47,74 @@ function check_string_length(value){
     return value.length;
 }
 
+function get_customer_list(passenger, number, product){
+    getToken();
+    if(passenger == 'booker'){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'get_customer_list',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name': document.getElementById('train_booker_search').value,
+                'product': product,
+                'passenger_type': passenger
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code==0){
+                var response = '';
+                if(msg.result.response.length != 0){
+                    response+=`
+                    <table style="width:100%" id="list-of-passenger">
+                        <tr>
+                            <th style="width:5%;">No</th>
+                            <th style="width:30%;">Name</th>
+                            <th style="width:20%"></th>
+                        </tr>`;
+
+                    for(i in msg.result.response){
+                        response+=`
+                        <tr>
+                            <td>`+(parseInt(i)+1)+`</td>
+                            <td>
+                                <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
+                                if(msg.result.response[i].email != '')
+                                    response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                if(msg.result.response[i].birth_date != '')
+                                    response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                if(msg.result.response[i].phones.length != 0)
+                                    response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
+                                if(msg.result.response[i].nationality_code != '')
+                                    response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                response+=`
+                            </td>`;
+//                            <td>`+msg.response.result[i].booker_type+`</td>
+//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                            response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                        </tr>`;
+                    }
+                    response+=`</table>`;
+                    document.getElementById('search_result').innerHTML = response;
+                    passenger_data = msg.result.response;
+                }else{
+                    response = '';
+                    response+=`<center><h5>USER NOT FOUND</h5></center>`;
+                    document.getElementById('search_result').innerHTML = response;
+                }
+            }
+
+            $('#loading-booker-train').hide();
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
+    }
+}
+
 function search_passenger(passenger, number, product){
     var check = 0;
     $('#loading-booker-train').show();
@@ -424,10 +492,12 @@ function pick_passenger(type, sequence, product){
         document.getElementById('booker_first_name').readOnly = true;
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
         document.getElementById('booker_last_name').readOnly = true;
-        document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_code;
         document.getElementById('booker_email').value = passenger_data[sequence].email;
-        document.getElementById('booker_phone_code').value = passenger_data[sequence].nationality_id.phone_code;
-        document.getElementById('booker_phone').value = passenger_data[sequence].mobile;
+        if(passenger_data[sequence].phones.length != 0){
+            document.getElementById('booker_phone_code').value = passenger_data[sequence].phones[passenger_data[sequence].phones.length -1].calling_code;
+            document.getElementById('booker_phone').value = passenger_data[sequence].phones[passenger_data[sequence].phones.length -1].calling_number;
+        }
         document.getElementById('booker_birth_date').value = passenger_data[sequence].birth_date;
         document.getElementById('booker_birth_date').readOnly = true;
         if(product == 'train'){
@@ -444,7 +514,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_id_number').readOnly = true;
         }
 
-        document.getElementById('booker_id').value = passenger_data[sequence].id;
+        document.getElementById('booker_id').value = passenger_data[sequence].seq_id;
         $('#myModal').modal('hide');
     }else if(type == 'Adult'){
 
@@ -489,7 +559,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('adult_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('adult_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
-        document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].id;
+        document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
         $('#myModal_adult'+passenger_number).modal('hide');
     }else if(type == 'Child'){
         document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
@@ -516,7 +586,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('child_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
 
-        document.getElementById('child_id'+passenger_number).value = passenger_data[sequence].id;
+        document.getElementById('child_id'+passenger_number).value = passenger_data[sequence].seq_id;
         $('#myModal_child'+passenger_number).modal('hide');
     }else if(type == 'Infant'){
         document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
@@ -542,7 +612,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('infant_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('infant_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
-        document.getElementById('infant_id'+passenger_number).value = passenger_data[sequence].id;
+        document.getElementById('infant_id'+passenger_number).value = passenger_data[sequence].seq_id;
         $('#myModal_infant'+passenger_number).modal('hide');
     }else if(type == 'Senior'){
         document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
@@ -572,7 +642,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('senior_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('senior_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
-        document.getElementById('senior_id'+passenger_number).value = passenger_data[sequence].id;
+        document.getElementById('senior_id'+passenger_number).value = passenger_data[sequence].seq_id;
         $('#myModal_senior'+passenger_number).modal('hide');
     }
 }
@@ -598,7 +668,7 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
         document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
         if(document.getElementById('adult_birth_date1').value != '' && check_date(document.getElementById('adult_birth_date1').value) == true){
-            check_years_old(passenger_number,'adult');
+            check_years_old(1,'adult');
             document.getElementById('adult_birth_date1').readOnly = true;
         }
         if(type == 'train'){
@@ -629,6 +699,9 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_phone1').value = '';
         document.getElementById('adult_phone1').readOnly = false;
         document.getElementById('adult_id1').value = '';
+        document.getElementById('adult_email1').value = '';
+        document.getElementById('adult_phone1').value = '62';
+        document.getElementById('adult_phone_code1').value = '';
     }
 }
 

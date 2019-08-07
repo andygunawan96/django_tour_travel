@@ -40,6 +40,13 @@
         });
         city = [];
     {% endfor %}
+    cabin_class = [];
+    {% for airline_cabin_class in airline_cabin_class_list %}
+        cabin_class.push({
+            'name': `{{airline_cabin_class.name}}`,
+            'value': `{{airline_cabin_class.value}}`
+        })
+    {% endfor %}
 
     try{
         cache = `{{cache}}`;
@@ -1419,7 +1426,7 @@
     document.getElementById("start").value = "2019-01-01";
     document.getElementById("end").value = "2020-12-31";
     get_dept_year();
-    tour_login('');
+    //tour_login('');
 </script>
 
 {% endblock %}

@@ -83,6 +83,28 @@ function hotel_search(data){
                            try{
                                 if(msg.result.error_code==0){
                                     hotel_data = msg.result.response;
+                                    vendor = [];
+                                    console.log('asd');
+                                    for(i in msg.result.response.hotel_ids){
+                                        check = 0;
+                                        if(vendor.length != 0)
+                                            for(j in msg.result.response.hotel_ids[i].external_code){
+                                                if(vendor.indexOf(j) == -1){
+                                                    vendor.push(j);
+                                                }else{
+                                                    check = 1;
+                                                }
+                                            }
+                                        if(check == 0){
+                                            console.log('here');
+                                            for(j in msg.result.response.hotel_ids[i].external_code){
+                                                if(vendor.indexOf(j) == -1){
+                                                    vendor.push(j);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    console.log(vendor);
                                     filtering('sort');
                                 }else{
                                     //kalau error belum
@@ -143,8 +165,8 @@ function hotel_detail(id){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'external_code':id,
-            'check_in': document.getElementById('hotel_checkin').value,
-            'check_out': document.getElementById('hotel_checkout').value
+            'checkin_date': document.getElementById('checkin_date').value,
+            'checkout_date': document.getElementById('checkout_date').value
        },
        success: function(msg) {
         console.log(msg);

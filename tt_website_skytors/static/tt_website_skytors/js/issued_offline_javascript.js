@@ -482,9 +482,9 @@ function add_table_of_line(type){
               locale: {
                   format: 'DD MMM YYYY hh:mm:ss',
               }
-          });
+        });
 
-          $('input[type="text"].arrival_date').daterangepicker({
+        $('input[type="text"].arrival_date').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -498,8 +498,8 @@ function add_table_of_line(type){
               locale: {
                   format: 'DD MMM YYYY hh:mm:ss',
               }
-          });
-          $('.js-example-basic-single').select2();
+        });
+        $('.js-example-basic-single').select2();
         set_data(0,'origin');
         set_data(0,'destination');
         set_data(0,'provider');
