@@ -53,6 +53,11 @@ def search(request):
             file_cache_name = line
         file.close()
 
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         file = open(str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
@@ -101,6 +106,7 @@ def search(request):
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME + '/tour/tt_website_skytors_tour_search_templates.html', values)
     else:
@@ -109,6 +115,10 @@ def search(request):
 def detail(request):
     if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
@@ -120,6 +130,7 @@ def detail(request):
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
             'username': request.session['user_account'],
+            'javascript_version': javascript_version
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_detail_templates.html', values)
@@ -132,6 +143,11 @@ def passenger(request):
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
+        file.close()
+
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
         file.close()
 
         file = open(str(file_cache_name) + ".txt", "r")
@@ -266,6 +282,7 @@ def passenger(request):
             'infants': int(request.POST['infant_amount'].replace(',', '')),
             'price_itinerary': values['price_itinerary'],
             'tour_data': request.session['tour_pick'],
+            'javascript_version': javascript_version
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_passenger_templates.html', values)
@@ -275,6 +292,10 @@ def passenger(request):
 
 def review(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -429,6 +450,7 @@ def review(request):
             'all_pax': all_pax,
             'contact_person': contact,
             'total_pax_all': temp_idx,
+            'javascript_version': javascript_version
         })
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_review_templates.html', values)
@@ -439,12 +461,17 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_booking_templates.html', values)
     else:

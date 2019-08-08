@@ -3,14 +3,14 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js"></script>
-<script src="{{ static_path }}js/webservice_token.js"></script>
-<script src="{{ static_path }}js/webservice_agent.js"></script>
-<script src="{{ static_path }}js/pricing_javascript.js"></script>
-<script src="{{ static_path }}js/tour_javascript.js"></script>
-<script src="{{ static_path }}js/webservice_tour.js"></script>
-<script src="{{ static_path }}js/moment.js"></script>
-<script src="{{ static_path }}js/webservice_account.js"></script>
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
     time = 300;
     triggered_balance();

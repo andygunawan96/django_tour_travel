@@ -39,7 +39,10 @@ def can_book(now, dep):
 
 def search(request):
     if 'user_account' in request.session._session:
-
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -52,7 +55,6 @@ def search(request):
 
         request.session['train_adult'] = request.POST['train_adult']
         request.session['train_infant'] = request.POST['train_infant']
-        get_balance(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -67,9 +69,8 @@ def search(request):
                 'destination': request.POST['train_destination']
             },
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
+            'javascript_version': javascript_version
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_search_templates.html', values)
@@ -78,6 +79,10 @@ def search(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -101,7 +106,6 @@ def passenger(request):
 
 
         request.session['train_pick'] = json.loads(request.POST['response'])
-        get_balance(request)
 
         #pax
         adult = []
@@ -124,9 +128,8 @@ def passenger(request):
             'id_types': id_type,
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'javascript_version': javascript_version
 
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_passenger_templates.html', values)
@@ -135,6 +138,10 @@ def passenger(request):
 
 def review(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         #adult
         adult = []
         infant = []
@@ -233,9 +240,8 @@ def review(request):
             'journeys_booking': journeys_booking,
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
+            'javascript_version': javascript_version
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_review_templates.html', values)
@@ -244,7 +250,10 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        get_balance(request)
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
@@ -253,8 +262,7 @@ def booking(request):
             'username': request.session['user_account'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_booking_templates.html', values)
     else:
@@ -262,7 +270,10 @@ def booking(request):
 
 def seat_map(request):
     if 'user_account' in request.session._session:
-        get_balance(request)
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         passenger = []
         for pax in request.session['train_pax']:
             if pax['passenger']['pax_type'] == 'ADT':
@@ -273,8 +284,7 @@ def seat_map(request):
             'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_seat_map_templates.html', values)
     else:

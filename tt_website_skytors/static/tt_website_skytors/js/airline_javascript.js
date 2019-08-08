@@ -114,6 +114,12 @@ var sorting_list2 = [
         status: false
     }
 ]
+
+function airline_goto_search(){
+    document.getElementById('counter').value = counter;
+    document.getElementById('airline_searchForm').submit();
+}
+
 function return_airline(){
     if(document.getElementById('directionflight').checked != true)
         $('#airline_return').prop('disabled', true);
@@ -136,85 +142,103 @@ function airline_check_search_values(){
 function add_multi_city(){
     if(counter != 3){
         counter++;
-        var node = document.createElement("div");
-        text = `
-        <div class="col-lg-12" id="mc_airline`+counter+`">
-            <div class="row">`;
-                if(counter == 1)
-                text+=`<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;">
-                    <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <button id="show_total_pax_flight`+counter+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
-                        <ul class="dropdown-menu" role="menu">
-                            <div class="row" style="padding:10px;">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                    <div style="float:left;">
-                                        <label>
-                                            <span style="color:black; font-size:13px;">Adult</span><br/>
-                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter+`" data-type="minus" data-field="" disabled>
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter+`" name="adult_flight`+counter+`" value="1" min="1" readonly>
-                                        <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter+`" data-type="plus" data-field="">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                    <div style="float:left;">
-                                        <label>
-                                            <span style="color:black; font-size:13px;">Child<br/></span>
-                                            <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                        <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter+`" data-type="minus" data-field="" disabled>
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter+`" name="child_flight`+counter+`" value="0" min="0" readonly>
-                                        <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter+`" data-type="plus" data-field="">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                    <div style="float:left;">
-                                        <label>
-                                            <span style="color:black; font-size:13px;">Infant<br/></span>
-                                            <span style="color:gray; font-size:11px;">(Age < 2)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                        <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter+`" data-type="minus" data-field="" disabled>
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter+`" name="infant_flight`+counter+`" value="0" readonly>
-                                        <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter+`" data-type="plus" data-field="">
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
+        if(counter == 1){
+            var node_paxs = document.createElement("div");
+            text_paxs = `
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;">
+                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                <div class="input-container-search-ticket btn-group">
+                    <button id="show_total_pax_flight`+counter+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
+                    <ul class="dropdown-menu" role="menu">
+                        <div class="row" style="padding:10px;">
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                <div style="float:left;">
+                                    <label>
+                                        <span style="color:black; font-size:13px;">Adult</span><br/>
+                                        <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                    </label>
                                 </div>
                             </div>
-                        </ul>
-                    </div>
-                </div>`;
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter+`" data-type="minus" data-field="" disabled>
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter+`" name="adult_flight`+counter+`" value="1" min="1" readonly>
+                                    <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter+`" data-type="plus" data-field="">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
 
-                text+=`
-                <div class="col-lg-12" style="padding:5px 0px 15px 0px; text-align:left;">
-                    <h6 style="color:#f15a22;">Flight - `+counter+`</h6>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                <div style="float:left;">
+                                    <label>
+                                        <span style="color:black; font-size:13px;">Child<br/></span>
+                                        <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                    <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter+`" data-type="minus" data-field="" disabled>
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter+`" name="child_flight`+counter+`" value="0" min="0" readonly>
+                                    <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter+`" data-type="plus" data-field="">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                <div style="float:left;">
+                                    <label>
+                                        <span style="color:black; font-size:13px;">Infant<br/></span>
+                                        <span style="color:gray; font-size:11px;">(Age < 2)</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                    <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter+`" data-type="minus" data-field="" disabled>
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter+`" name="infant_flight`+counter+`" value="0" readonly>
+                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter+`" data-type="plus" data-field="">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </ul>
                 </div>
+            </div>`;
+            node_paxs.innerHTML = text_paxs;
+            document.getElementById("mc_airline_paxs").appendChild(node_paxs);
+        }
+
+        var node_tabs = document.createElement("li");
+        if(counter == 1)
+        text_tabs = `
+        <a class="nav-link active" id="mc_airline`+counter+`" data-toggle="tab" href="#mc_airline_add`+counter+`" role="tab" aria-controls="mc_airline_tab`+counter+`" aria-selected="true">
+            <span><i class="fas fa-plane"></i> Flight `+counter+` </span>
+        </a>`;
+        else
+        text_tabs = `
+        <a class="nav-link" id="mc_airline`+counter+`" data-toggle="tab" href="#mc_airline_add`+counter+`" role="tab" aria-controls="mc_airline_tab`+counter+`" aria-selected="true">
+            <span><i class="fas fa-plane"></i> Flight `+counter+` </span>
+        </a>`;
+        node_tabs.className = 'nav-item';
+        node_tabs.innerHTML = text_tabs;
+        node_tabs.setAttribute('id', 'mc_airline_add_tabs'+counter);
+        document.getElementById("mc_airline_add_tabs").appendChild(node_tabs);
+
+        var node = document.createElement("div");
+        text = `
+        <div class="col-lg-12">
+            <div class="row">`;
+                text+=`
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
@@ -279,6 +303,12 @@ function add_multi_city(){
             </div>
         </div>`;
 
+        if(counter == 1){
+            node.className = 'tab-pane fade show active';
+        }
+        else{
+            node.className = 'tab-pane fade';
+        }
         node.innerHTML = text;
         node.setAttribute('id', 'mc_airline_add'+counter);
         document.getElementById("mc_airline_add").appendChild(node);
@@ -301,6 +331,9 @@ function add_multi_city(){
         airline_provider_list_mc.push(airline_provider_list);
         $('#origin_id_flight'+counter).select2();
         $('#destination_id_flight'+counter).select2();
+        $('.dropdown-menu').on('click', function(e) {
+          e.stopPropagation();
+        });
 
 
 //        for(i=0;i<counter;i++){
@@ -315,8 +348,17 @@ function add_multi_city(){
 function del_multi_city(){
     if(counter!=1){
         document.getElementById("mc_airline"+counter).remove();
+        document.getElementById("mc_airline_add"+counter).remove();
         airline_provider_list_mc.pop(airline_provider_list_mc.length - 1);
         counter--;
+        document.getElementById("mc_airline1").classList.add("active");
+        document.getElementById("mc_airline_add1").classList.add("show");
+        document.getElementById("mc_airline_add1").classList.add("active");
+        if(counter != 1){
+            document.getElementById("mc_airline"+counter).classList.remove("active");
+            document.getElementById("mc_airline_add"+counter).classList.remove("show");
+            document.getElementById("mc_airline_add"+counter).classList.remove("active");
+        }
     }
 }
 
@@ -1559,9 +1601,12 @@ function airline_detail(){
                             if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP' || price_itinerary.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
                                 dep_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
-                                ret_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+                                if(Object.keys(dep_price).length != 0)
+                                    ret_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
+                                else
+                                    dep_price[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                             }
-                                price_type = [];
+                            price_type = [];
                         }
                     }
                 }

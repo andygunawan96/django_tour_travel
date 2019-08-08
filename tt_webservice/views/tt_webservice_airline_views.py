@@ -216,40 +216,47 @@ def search2(request):
             airline_destinations.append(des)
 
     # get_data_awal
-
+    direction = request.session['airline_request']['direction']
     if request.session['airline_request']['direction'] == 'OW':
         departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'].split(' ')[2], month[request.session['airline_request']['departure'].split(' ')[1]], request.session['airline_request']['departure'].split(' ')[0])
         return_date = '%s-%s-%s' % (request.session['airline_request']['departure'].split(' ')[2], month[request.session['airline_request']['departure'].split(' ')[1]], request.session['airline_request']['departure'].split(' ')[0])
-    else:
+        origin = request.session['airline_request']['origin'][-4:][:3]
+        destination = request.session['airline_request']['destination'][-4:][:3]
+        cabin_class = request.session['airline_request']['cabin_class']
+
+    elif request.session['airline_request']['direction'] == 'RT':
         departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'].split(' ')[2], month[request.session['airline_request']['departure'].split(' ')[1]], request.session['airline_request']['departure'].split(' ')[0])
         return_date = '%s-%s-%s' % (request.session['airline_request']['return'].split(' ')[2], month[request.session['airline_request']['return'].split(' ')[1]], request.session['airline_request']['return'].split(' ')[0])
-
+        origin = request.session['airline_request']['origin'][-4:][:3]
+        destination = request.session['airline_request']['destination'][-4:][:3]
+        cabin_class = request.session['airline_request']['cabin_class']
+    else:
+        departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[2],
+                                       month[request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[1]],
+                                       request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[0])
+        return_date = '%s-%s-%s' % (request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[2],
+                                    month[request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[1]],
+                                    request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[0])
+        origin = request.session['airline_request']['origin'][request.session['airline_mc_counter']][-4:][:3]
+        destination = request.session['airline_request']['destination'][request.session['airline_mc_counter']][-4:][:3]
+        cabin_class = request.session['airline_request']['cabin_class'][request.session['airline_mc_counter']]
+        direction = 'OW'
     if request.session['airline_request']['is_combo_price'] == 'true':
         is_combo_price = True
     else:
         is_combo_price = False
 
     data = {
-        # "origin": "SUB",
-        # "destination": "SIN",
-        # "departure_date": "2019-04-13 00:00:00",
-        # "return_date": "2019-04-13 23:59:59",
-        # "direction": "RT",
-        # "adult": 1,
-        # "child": 0,
-        # "infant": 1,
-        # "cabin_class": "Y",
-        # "provider": "scoot"
 
-        "origin": request.session['airline_request']['origin'][-4:][:3],
-        "destination": request.session['airline_request']['destination'][-4:][:3],
+        "origin": origin,
+        "destination": destination,
         "departure_date": departure_date,
-        "direction": request.session['airline_request']['direction'],
+        "direction": direction,
         "return_date": return_date,
         "adult": int(request.session['airline_request']['adult']),
         "child": int(request.session['airline_request']['child']),
         "infant": int(request.session['airline_request']['infant']),
-        "cabin_class": request.session['airline_request']['cabin_class'],
+        "cabin_class": cabin_class,
         # "provider": request.POST['provider'],
         "provider": 'amadeus',
         "carrier_codes": json.loads(request.POST['carrier_codes']),
@@ -263,7 +270,7 @@ def search2(request):
     }
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
-
+    request.session['airline_mc_counter'] = request.session['airline_mc_counter'] + 1
     if res['result']['error_code'] == 0:
         for journey in res['result']['response']['journeys']:
             journey.update({

@@ -149,7 +149,7 @@ function get_carrier_code_list(val){
                                     <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
                                 else
                                 text+=`
-                                    <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                    <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
                                 text+=`
                                 <span class="check_box_span_custom"></span>
                             </label>
@@ -192,48 +192,110 @@ function get_provider_list(){
 }
 
 function carrier_to_provider(){
-    airline = {};
     console.log(airline_carriers);
     console.log(provider_list);
-    for(i in airline_carriers){
-        if(airline_carriers[i].code == 'all' && airline_carriers[i].bool == true){
-            for(i in provider_list){
-                airline[i] = provider_list[i];
-            }
-            break;
-        }else if(airline_carriers[i].bool == true){
-            try{
-                airline[airline_carriers[i].code] = provider_list[airline_carriers[i].code];
-            }catch(err){
-
-            }
-        }
-    }
-    console.log(airline);
-    provider = {}
-    for(i in airline){
-        for(j in airline[i]){
-            check = 0;
-            for(k in provider)
-                if(provider[k] == airline[i][j])
-                    check = 1;
-            if(check == 0)
-                provider[airline[i][j]] = [];
-        }
-    }
-    console.log(provider);
-    for(i in airline){
-        for(j in airline[i]){
-            for(k in provider){
-                if(k == airline[i][j])
-                    provider[k].push(i);
+    if(airline_request.direction != 'MC'){
+        airline = {};
+        for(i in airline_carriers){
+            console.log(airline_carriers[i]);
+            if(airline_carriers[i].code == 'all' && airline_carriers[i].bool == true){
+                console.log('here');
+                for(i in provider_list){
+                    airline[i] = provider_list[i];
                 }
+                break;
+            }else if(airline_carriers[i].bool == true){
+                try{
+                    console.log(airline_carriers[i].code);
+                    console.log(provider_list[airline_carriers[i].code]);
+                    airline[airline_carriers[i].code] = provider_list[airline_carriers[i].code];
+                }catch(err){
+
+                }
+            }
         }
+        console.log(airline);
+        provider = {}
+        for(i in airline){
+            for(j in airline[i]){
+                check = 0;
+                for(k in provider)
+                    if(provider[k] == airline[i][j])
+                        check = 1;
+                if(check == 0)
+                    provider[airline[i][j]] = [];
+            }
+        }
+        console.log(provider);
+        for(i in airline){
+            for(j in airline[i]){
+                for(k in provider){
+                    if(k == airline[i][j])
+                        provider[k].push(i);
+                    }
+            }
+        }
+        console.log(provider);
+        for(i in provider){
+            airline_search(i,provider[i]);
+        }
+    }else{
+        //MC
+        airline = [];
+        for(i in airline_carriers){
+            airline.push({});
+            for(j in airline_carriers[i]){
+                if(airline_carriers[i][j].code == 'all' && airline_carriers[i][j].bool == true){
+                    console.log('here')
+                    for(i in provider_list){
+                        airline[i] = provider_list[i];
+                    }
+                    break;
+                }else if(airline_carriers[i][j].bool == true){
+                    console.log('inhere');
+                    try{
+                        airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
+                    }catch(err){
+
+                    }
+                }
+            }
+        }
+        console.log(airline);
+        provider = []
+        for(i in airline){
+            provider.push({});
+            for(j in airline[i]){
+                for(k in airline[i][j]){
+                    check = 0;
+                    for(l in provider)
+                        if(provider[l] == airline[i][j][k])
+                            check = 1;
+                    if(check == 0)
+                        provider[i][airline[i][j][k]] = [];
+                }
+            }
+        }
+        console.log(provider);
+        for(i in airline){
+            for(j in airline[i]){
+                for(k in airline[i][j]){
+                    for(l in provider[i]){
+                        if(l == airline[i][j][k])
+                            provider[i][l].push(j);
+                        }
+                }
+            }
+        }
+        console.log(provider);
+        send_search_to_api();
     }
-    console.log(provider);
-    for(i in provider){
-        airline_search(i,provider[i]);
-    }
+}
+
+function send_search_to_api(){
+    for(j in provider[counter])
+        airline_search(j,provider[counter][j]);
+    counter++;
 }
 
 function get_airline_config(type, val){
@@ -926,35 +988,23 @@ function get_price_itinerary(val){
                dep_price = {};
                ret_price = {};
                if(resJson.result.error_code == 0 && resJson.result.response.price_itinerary_provider.length!=0){
-                    console.log('price provider');
                     for(i in resJson.result.response.price_itinerary_provider){
                         for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
-                            console.log(i);
-                            console.log('price');
                             for(k in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments){
-                                console.log('segments');
                                 for(l in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
-                                    console.log('fares');
                                     for(m in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
-                                        console.log('service charge summary');
                                         for(n in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges){
-                                            console.log('total price');
-                                            console.log(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n])
                                             price_type[resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                         }
                                         if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP' || resJson.result.response.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
-                                            console.log('dep');
                                             dep_price[resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                                         }else if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
-                                            console.log('ret');
-                                            console.log(dep_price);
-                                            console.log(dep_price.length);
                                             if(Object.keys(dep_price).length != 0)
                                                 ret_price[resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                                             else
                                                 dep_price[resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                                         }
-                                            price_type = [];
+                                        price_type = [];
                                     }
                                 }
                             }
@@ -973,9 +1023,10 @@ function get_price_itinerary(val){
                         <div class="col-lg-12" style="margin-bottom:5px;">
                             <h6>Departure</h6>`;
                                $text ='Departure\n';
+                               console.log(airline_carriers);
                                for(i in airline_pick_list[0].segments){
                                    if(airline_pick_list[0].segments[i].journey_type == 'DEP'){
-                                       $text += airline_carriers[airline_pick_list[0].segments[i].carrier_code] + ' ' + airline_pick_list[0].segments[i].carrier_code + airline_pick_list[0].segments[i].carrier_number + '\n';
+                                       $text += airline_carriers[airline_pick_list[0].segments[i].carrier_code].name + ' ' + airline_pick_list[0].segments[i].carrier_code + airline_pick_list[0].segments[i].carrier_number + '\n';
                                        $text += airline_pick_list[0].segments[i].departure_date + ' → ' + airline_pick_list[0].segments[i].arrival_date + '\n';
                                        $text += airline_pick_list[0].segments[i].origin_name + ' (' + airline_pick_list[0].segments[i].origin_city + ') - ';
                                        $text += airline_pick_list[0].segments[i].destination_name + ' (' + airline_pick_list[0].segments[i].destination_city + ')\n\n';
@@ -1054,7 +1105,7 @@ function get_price_itinerary(val){
                                                date_return.push(airline_pick_list[0].segments[i].departure_date);
                                                check_return++;
                                            }
-                                           $text += airline_carriers[airline_pick_list[0].segments[i].carrier_code] + ' ' + airline_pick_list[0].segments[i].carrier_code + airline_pick_list[0].segments[i].carrier_number + '\n';
+                                           $text += airline_carriers[airline_pick_list[0].segments[i].carrier_code].name + ' ' + airline_pick_list[0].segments[i].carrier_code + airline_pick_list[0].segments[i].carrier_number + '\n';
                                            $text += airline_pick_list[0].segments[i].departure_date + ' → ' + airline_pick_list[0].segments[i].arrival_date + '\n';
                                            $text += airline_pick_list[0].segments[i].origin_name + ' (' + airline_pick_list[0].segments[i].origin_city + ') - ';
                                            $text += airline_pick_list[0].segments[i].destination_name + ' (' + airline_pick_list[0].segments[i].destination_city + ')\n\n';
@@ -1221,7 +1272,6 @@ function get_price_itinerary(val){
                         }
                         //return
                         if(airline_request.direction == 'RT' && airline_pick_list.length == 2){
-                            console.log(value_pick);
                             text+=`
                             <div class="col-lg-12" style="margin-bottom:5px; margin-top:5px;">
                                 <hr/>

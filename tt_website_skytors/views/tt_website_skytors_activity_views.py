@@ -36,6 +36,11 @@ def search(request):
             response = json.loads(line)
         file.close()
 
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         # activity
         activity_sub_categories = response['result']['response']['activity']['sub_categories']
         activity_categories = response['result']['response']['activity']['categories']
@@ -76,6 +81,7 @@ def search(request):
             'parsed_country': request.POST['themespark_countries'] and int(request.POST['themespark_countries']) or '',
             'parsed_city': request.POST['themespark_cities'],
             'parsed_country_name': parsed_country_name,
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_search_templates.html', values)
     else:
@@ -84,7 +90,11 @@ def search(request):
 def detail(request):
     if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
-        get_balance(request)
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
@@ -93,7 +103,7 @@ def detail(request):
             'response': request.session['activity_search'][int(request.POST['sequence'])],
             'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_detail_templates.html', values)
     else:
@@ -105,6 +115,11 @@ def passenger(request):
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
+        file.close()
+
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
         file.close()
 
         file = open(str(file_cache_name) + ".txt", "r")
@@ -293,8 +308,7 @@ def passenger(request):
             'price': request.session['activity_price']['result']['response'][int(request.POST['event_pick'])][int(request.POST['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.POST['activity_type_pick'])],
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_passenger_templates.html', values)
     else:
@@ -308,6 +322,11 @@ def review(request):
         infant = []
         senior = []
         upload = []
+
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
 
         for file in request.session['activity_upload']:
             upload.append(file)
@@ -1010,7 +1029,7 @@ def review(request):
             'price': request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.session['activity_request']['activity_type_pick'])],
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'javascript_version': javascript_version
             # 'booker': booker,
             # 'adults': adult,
             # 'infants': infant,
@@ -1033,6 +1052,10 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -1041,7 +1064,7 @@ def booking(request):
             'username': request.session['user_account'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit']
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME + '/activity/tt_website_skytors_activity_booking_templates.html', values)
     else:
