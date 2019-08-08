@@ -29,6 +29,11 @@ def open_page(request):
             file_cache_name = line
         file.close()
 
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         file = open(str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
@@ -46,6 +51,7 @@ def open_page(request):
     except:
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'javascript_version': javascript_version
         }
     return render(request, MODEL_NAME + '/agent_registration/tt_website_skytors_registration_form_template.html', values)
 
@@ -55,6 +61,10 @@ def register_agent(request):
     pic = []
     check = True
     counter = 1
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     #pic
     while(check):
         try:
@@ -110,6 +120,7 @@ def register_agent(request):
     values = {
         'username': request.session['user_account'],
         'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME + '/agent_registration/tt_website_skytors_registration_finish_template.html', values)
 

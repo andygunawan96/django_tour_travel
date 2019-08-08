@@ -17,11 +17,16 @@ MODEL_NAME = 'tt_website_skytors'
 
 # Create your views here.
 def index(request):
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     try:
         if request.POST['logout']:
             request.session.delete()
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version
             }
     except:
         print('no logout')
@@ -154,15 +159,18 @@ def index(request):
                     'issued_offline_sector_type': issued_offline_sector_type,
                     'issued_offline_carrier_id': issued_offline_carrier_id,
                     'issued_offline_social_media_id': issued_offline_social_media_id,
+                    'javascript_version': javascript_version
                 }
             except:
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
+                    'javascript_version': javascript_version
                 }
                 return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
         else:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version
             }
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -170,10 +178,15 @@ def index(request):
     return render(request, MODEL_NAME+'/tt_website_skytors_home_templates.html', values)
 
 def login(request):
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
-        'static_path': path_util.get_static_path(MODEL_NAME)
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME+'/tt_website_skytors_login_templates.html', values)
 
@@ -182,6 +195,11 @@ def reservation(request):
     file = open("version_cache.txt", "r")
     for line in file:
         file_cache_name = line
+    file.close()
+
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
     file.close()
 
     file = open(str(file_cache_name) + ".txt", "r")
@@ -201,23 +219,32 @@ def reservation(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'airline_carriers': new_airline_carriers,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account']
+        'username': request.session['user_account'],
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_reservation_templates.html', values)
 
 def top_up(request):
-
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account']
+        'username': request.session['user_account'],
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
 
 def top_up_payment(request):
     try:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -230,6 +257,7 @@ def top_up_payment(request):
                 'payment_method': request.POST['payment_method'],
             },
             'agent': request.session['agent'],
+            'javascript_version': javascript_version,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account']
         }
@@ -237,17 +265,22 @@ def top_up_payment(request):
     except:
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME + '/backend/tt_website_skytors_top_up_templates.html', values)
 
 def top_up_history(request):
-
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account']
+        'username': request.session['user_account'],
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_history_templates.html', values)
 

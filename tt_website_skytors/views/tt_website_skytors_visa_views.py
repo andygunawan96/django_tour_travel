@@ -19,7 +19,10 @@ MODEL_NAME = 'tt_website_skytors'
 # Create your views here.
 
 def search(request):
-
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     try:
         visa_request = {
             'destination': request.POST['visa_destination_id'],
@@ -36,12 +39,16 @@ def search(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'visa_request': visa_request,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account']
+        'username': request.session['user_account'],
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_search_templates.html', values)
 
 def passenger(request):
-
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     list_visa = request.session['visa_search']
     count = 0
     pax_count = 0
@@ -134,11 +141,16 @@ def passenger(request):
         'visa_request': request.session['visa_request'],
         # 'visa_request': visa_request,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account']
+        'username': request.session['user_account'],
+        'javascript_version': javascript_version
     }
     return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_passenger_templates.html', values)
 
 def review(request):
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
     if 'user_account' in request.session._session:
         file = open("version_cache.txt", "r")
         for line in file:
@@ -309,6 +321,7 @@ def review(request):
             'visa_request': request.session['visa_request'],
             'passengers': pax,
             'username': request.session['user_account'],
+            'javascript_version': javascript_version
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -319,13 +332,17 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
+            'javascript_version': javascript_version
             # 'order_number': 'VS.19072500003',
             # 'cookies': json.dumps(res['result']['cookies']),
         }

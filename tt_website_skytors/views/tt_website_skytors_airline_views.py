@@ -27,6 +27,10 @@ def can_book(now, dep):
 
 def search(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -85,28 +89,52 @@ def search(request):
                     direction = 'MC'
                     is_combo_price = 'false'
                     return_date = request.POST['airline_departure']
-                    for provider in airline_carriers:
-                        try:
-                            if (request.POST['provider_box_' + provider]):
-                                airline_carriers[provider]['bool'] = True
-                            else:
-                                airline_carriers[provider]['bool'] = False
-                        except:
-                            airline_carriers[provider]['bool'] = False
-                            print('%s %s' % ('no ', provider))
+                    airline_carriers = []
+                    for i in range(int(request.POST['counter'])):
+                        airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
+                        for j in response:
+                            airline_carrier[j] = {
+                                'name': response[j]['name'],
+                                'code': response[j]['code'],
+                                'icao': response[j]['icao'],
+                                'call_sign': response[j]['call_sign']
+                            }
+                        airline_carriers.append(airline_carrier)
+                        airline_carrier = []
+
+                    for idx, arr in enumerate(airline_carriers):
+                        for provider in arr:
+                            try:
+                                if (request.POST['provider_box_' + provider + '_'+str(idx+1)]):
+                                    airline_carriers[idx][provider]['bool'] = True
+                                else:
+                                    airline_carriers[idx][provider]['bool'] = False
+                            except:
+                                airline_carriers[idx][provider]['bool'] = False
+                                print('%s %s' % ('no ', provider))
                     origin = []
                     destination = []
                     departure = []
-                    for i in range(request.POST['counter']):
+                    cabin_class = []
+                    for i in range(int(request.POST['counter'])):
                         origin.append(request.POST['origin_id_flight'+str(i+1)])
                         destination.append(request.POST['destination_id_flight'+str(i+1)])
                         departure.append(request.POST['airline_departure'+str(i+1)])
+                        cabin_class.append(request.POST['cabin_class_flight'+str(i+1)])
                 else:
                     try:
                         if request.POST['is_combo_price'] == '':
                             is_combo_price = 'true'
                     except:
                         is_combo_price = 'false'
+
+                    for i in response:
+                        airline_carriers[i] = {
+                            'name': response[i]['name'],
+                            'code': response[i]['code'],
+                            'icao': response[i]['icao'],
+                            'call_sign': response[i]['call_sign']
+                        }
 
                     for provider in airline_carriers:
                         try:
@@ -120,6 +148,7 @@ def search(request):
                     origin = request.POST['origin_id_flight']
                     destination = request.POST['destination_id_flight']
                     departure = request.POST['airline_departure']
+                    cabin_class = request.POST['cabin_class_flight']
                     if request.POST['radio_airline_type'] == 'roundtrip':
                         direction = 'RT'
                         return_date = request.POST['airline_return']
@@ -141,28 +170,55 @@ def search(request):
                 'adult': int(request.POST['adult_flight']),
                 'child': int(request.POST['child_flight']),
                 'infant': int(request.POST['infant_flight']),
-                'cabin_class': request.POST['cabin_class_flight'],
+                'cabin_class': cabin_class,
                 'is_combo_price': is_combo_price,
-                'carrier_codes': []
+                'carrier_codes': [],
+                'counter': request.POST['counter']
             }
         except:
             airline_request = request.session['airline_request']
 
-        check = 2
         flight = ''
-        for list_airline in airline_destinations:
-            if list_airline['name'] == airline_request['origin'].split(' - ')[0] or list_airline['name'] == airline_request['destination'].split(' - ')[0] or list_airline['code'] == airline_request['origin'].split(' - ')[0] or list_airline['code'] == airline_request['destination'].split(' - ')[0] or list_airline['city'] == airline_request['origin'].split(' - ')[0] or list_airline['city'] == airline_request['destination'].split(' - ')[0]:
-                if list_airline['country'] == 'Indonesia':
-                    if flight == 'domestic' or flight == '':
-                        flight = 'domestic'
-                else:
-                    flight = 'international'
-                check -= 1
-            if check == 0:
-                break
+
+        if airline_request['direction'] == 'MC':
+            check = 2
+            for idx, airline_request_search in enumerate(airline_request['origin']):
+                for list_airline in airline_destinations:
+                    if list_airline['name'] == airline_request['origin'][idx].split(' - ')[0] or list_airline['name'] == \
+                            airline_request['destination'][idx].split(' - ')[0] or list_airline['code'] == \
+                            airline_request['origin'][idx].split(' - ')[0] or list_airline['code'] == \
+                            airline_request['destination'][idx].split(' - ')[0] or list_airline['city'] == \
+                            airline_request['origin'][idx].split(' - ')[0] or list_airline['city'] == \
+                            airline_request['destination'][idx].split(' - ')[0]:
+                        if list_airline['country'] == 'Indonesia':
+                            if flight == 'domestic' or flight == '':
+                                flight = 'domestic'
+                        else:
+                            flight = 'international'
+                        check -= 1
+                    if check == 0:
+                        break
+        else:
+            check = 2
+            for list_airline in airline_destinations:
+                if list_airline['name'] == airline_request['origin'].split(' - ')[0] or list_airline['name'] == \
+                        airline_request['destination'].split(' - ')[0] or list_airline['code'] == \
+                        airline_request['origin'].split(' - ')[0] or list_airline['code'] == \
+                        airline_request['destination'].split(' - ')[0] or list_airline['city'] == \
+                        airline_request['origin'].split(' - ')[0] or list_airline['city'] == \
+                        airline_request['destination'].split(' - ')[0]:
+                    if list_airline['country'] == 'Indonesia':
+                        if flight == 'domestic' or flight == '':
+                            flight = 'domestic'
+                    else:
+                        flight = 'international'
+                    check -= 1
+                if check == 0:
+                    break
 
         airline_request['flight'] = flight
         request.session['airline_request'] = airline_request
+        request.session['airline_mc_counter'] = 0
         # get_balance(request)
 
 
@@ -182,6 +238,7 @@ def search(request):
             'airline_cabin_class_list': airline_cabin_class_list,
             'airline_carriers': airline_carriers,
             'username': request.session['user_account'],
+            'javascript_version': javascript_version
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -193,6 +250,10 @@ def search(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -256,6 +317,7 @@ def passenger(request):
             'infant_title': infant_title,
             'id_types': id_type,
             'username': request.session['user_account'],
+            'javascript_version': javascript_version
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -267,6 +329,10 @@ def passenger(request):
 
 def ssr(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open(str(datetime.now().date()) + ".txt", "r")
         for line in file:
             response = json.loads(line)
@@ -396,9 +462,8 @@ def ssr(request):
             'airline_ssrs': request.session['airline_ssr'],
             'passengers': passenger,
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
+            'javascript_version': javascript_version
             # 'cookies': json.dumps(res['result']['cookies']),
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_ssr_templates.html', values)
@@ -407,6 +472,10 @@ def ssr(request):
 
 def review(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -630,7 +699,8 @@ def review(request):
             'airline_carriers': airline_carriers,
             'additional_price': additional_price,
             'username': request.session['user_account'],
-            'passengers': request.session['airline_create_passengers']
+            'passengers': request.session['airline_create_passengers'],
+            'javascript_version': javascript_version
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -641,6 +711,11 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
@@ -653,6 +728,7 @@ def booking(request):
             'username': request.session['user_account'],
             'airline_carriers': airline_carriers,
             'order_number': request.POST['order_number'],
+            'javascript_version': javascript_version
             # 'order_number': 'AL.19080509118',
             # 'order_number': 'AL.19072446048',
         }

@@ -19,6 +19,11 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         file = open("version_cache.txt", "r")
         for line in file:
             file_cache_name = line
@@ -56,6 +61,7 @@ def search(request):
             'hotel_config': response['result']['response']['hotel_config'],
             'hotel_search': request.session['hotel_request'],
             'username': request.session['user_account'],
+            'javascript_version': javascript_version
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -65,6 +71,10 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -80,7 +90,7 @@ def detail(request):
             'check_out': convert_string_to_date_to_string_front_end(data['checkout_date']),
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
-            # 'cookies': json.dumps(res['result']['cookies']),
+            'javascript_version': javascript_version
         }
 
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_templates.html', values)
@@ -89,6 +99,10 @@ def detail(request):
 
 def passengers(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
 
         file = open("version_cache.txt", "r")
         for line in file:
@@ -136,7 +150,7 @@ def passengers(request):
             'child_count': int(request.session['hotel_request']['child']),
             'adult_title': adult_title,
             'infant_title': infant_title,
-            'co_uid': request.session['co_uid'],
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
     else:
@@ -144,6 +158,10 @@ def passengers(request):
 
 def review(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
 
         file = open("version_cache.txt", "r")
         for line in file:
@@ -213,7 +231,7 @@ def review(request):
             'adult_count': int(request.session['hotel_request']['person']),
             'infant_count': int(request.session['hotel_request']['child']),
             'username': request.session['username'],
-            'co_uid': request.session['co_uid'],
+            'javascript_version': javascript_version
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }

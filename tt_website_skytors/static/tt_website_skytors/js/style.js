@@ -783,8 +783,18 @@ $(document).ready(function(){
                     <button type="button" class="primary-btn" onclick="add_multi_city();"><i class="fas fa-plus"></i> Add Flight</button>
                     <button type="button" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete Flight</button>
                 </div>
-                <div class="col-lg-12">
-                    <div class="row style-scrollbar" id="mc_airline_add" style="padding-right:15px; overflow:auto; max-height:700px;">
+                <div class="col-lg-12" style="padding:0px;">
+                    <div id="mc_airline_paxs">
+
+                    </div>
+                    <div class="banner-right">
+                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist">
+
+                        </ul>
+                    </div>
+                    <div class="banner-right">
+                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
+                        </div>
                     </div>
                 </div>
             </div>`;
@@ -953,20 +963,6 @@ $(document).ready(function(){
             document.getElementById('checkbox_combo_price').style.display = "none";
             document.getElementById('ori_airline').style.display = "none";
 
-            document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
-            document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
-            $('input[name="airline_departure"]').daterangepicker({
-              singleDatePicker: true,
-              autoUpdateInput: true,
-              opens: 'center',
-              startDate: $("#airline_departure").val(),
-              minDate: moment(),
-              maxDate: moment().subtract(-365, 'days'),
-              showDropdowns: true,
-              locale: {
-                  format: 'DD MMM YYYY',
-              }
-            });
         }
     });
 

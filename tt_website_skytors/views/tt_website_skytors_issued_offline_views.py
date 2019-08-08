@@ -25,6 +25,11 @@ def issued_offline(request):
             file_cache_name = line
         file.close()
 
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         file = open(str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
@@ -55,6 +60,7 @@ def issued_offline(request):
             'airline_destinations': airline_destinations,
             'train_destination': train_destination,
             'username': request.session['user_account'],
+            'javascript_version': javascript_version
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -71,6 +77,11 @@ def issued_offline_history(request):
             file_cache_name = line
         file.close()
 
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
         file = open(str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
@@ -81,7 +92,7 @@ def issued_offline_history(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'javascript_version': javascript_version
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_history_templates.html', values)
     else:

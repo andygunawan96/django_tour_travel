@@ -2,23 +2,23 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-<script src="{{ static_path }}js/webservice_agent.js"></script>
-<script src="{{ static_path }}js/webservice_token.js"></script>
-<script src="{{ static_path }}js/webservice_activity.js"></script>
-<script src="{{ static_path }}js/webservice_train.js"></script>
-<script src="{{ static_path }}js/webservice_tour.js"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_train.js?version=1"></script>
+<script src="{{ static_path }}js/webservice_tour.js?version=1"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version=1"></script>
-<script src="{{ static_path }}js/webservice_hotel.js"></script>
-<script src="{{ static_path }}js/webservice_visa.js"></script>
-<script src="{{ static_path }}js/webservice_account.js"></script>
-<script src="{{ static_path }}js/train_javascript.js"></script>
-<script src="{{ static_path }}js/visa_javascript.js"></script>
-<script src="{{ static_path }}js/activity_javascript.js"></script>
-<script src="{{ static_path }}js/airline_javascript.js"></script>
-<script src="{{ static_path }}js/hotel_javascript.js"></script>
-<script src="{{ static_path }}js/tour_javascript.js"></script>
-<script src="{{ static_path }}js/moment.js"></script>
-<script src="{{ static_path }}js/daterangepicker.js"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version=1"></script>
+<script src="{{ static_path }}js/webservice_visa.js?version=1"></script>
+<script src="{{ static_path }}js/webservice_account.js?version=1"></script>
+<script src="{{ static_path }}js/train_javascript.js?version=1"></script>
+<script src="{{ static_path }}js/visa_javascript.js?version=1"></script>
+<script src="{{ static_path }}js/activity_javascript.js?version=1"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version=1"></script>
+<script src="{{ static_path }}js/hotel_javascript.js?version=1"></script>
+<script src="{{ static_path }}js/tour_javascript.js?version=1"></script>
+<script src="{{ static_path }}js/moment.js?version=1"></script>
+<script src="{{ static_path }}js/daterangepicker.js?version=1"></script>
 <script>
     time = 300;
     triggered_balance();
@@ -194,20 +194,6 @@
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
                                             </div>
-                                            <!--                                                <div id="add_mc_value" style="display:none" class="row">-->
-                                            <!--                                                    <div onclick="add_multi_city();">-->
-
-                                            <!--                                                        <label class="check_box_custom">-->
-                                            <!--                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Add</span>-->
-                                            <!--                                                        </label>-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                    <div onclick="del_multi_city();">-->
-
-                                            <!--                                                        <label class="check_box_custom">-->
-                                            <!--                                                            <span style="background-color:#f15a22;padding:5px;font-size:13px; color:white;">Delete</span>-->
-                                            <!--                                                        </label>-->
-                                            <!--                                                    </div>-->
-                                            <!--                                                </div>-->
                                         </div>
                                         <div class="col-lg-12" id="ori_airline">
                                             <div class="row">
@@ -340,9 +326,11 @@
                                         <div class="col-lg-12" id="mc_airline_default">
 
                                         </div>
+                                        <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
+
                                     </div>
                                     <br/>
-                                    <button class="button-search primary-btn text-uppercase ld-ext-right" type="submit" value="Submit">
+                                    <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
@@ -1277,23 +1265,31 @@
       var now = moment().format('DD MMM YYYY');
         try{
             airline_date = cache.airline.departure;
+            if(airline_date == '')
+                airline_date = now;
         }catch(err){
             airline_date = now;
         }
 
         try{
             train_date = cache.train.departure;
+            if(train_date == '')
+                train_date = now;
         }catch(err){
             train_date = now;
         }
 
         try{
             hotel_checkin = cache.hotel.checkin;
+            if(hotel_checkin == '')
+                hotel_checkin = now;
         }catch(err){
             hotel_checkin = now;
         }
         try{
             visa_date = cache.visa.date;
+            if(visa_date == '')
+                visa_date = now;
         }catch(err){
             visa_date = now;
         }
