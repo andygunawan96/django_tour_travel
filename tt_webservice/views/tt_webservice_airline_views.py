@@ -217,15 +217,15 @@ def search2(request):
 
     # get_data_awal
     direction = request.session['airline_request']['direction']
-    departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[2],
-                                   month[request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[1]],
-                                   request.session['airline_request']['departure'][request.session['airline_mc_counter']].split(' ')[0])
-    return_date = '%s-%s-%s' % (request.session['airline_request']['return'][request.session['airline_mc_counter']].split(' ')[2],
-                                month[request.session['airline_request']['return'][request.session['airline_mc_counter']].split(' ')[1]],
-                                request.session['airline_request']['return'][request.session['airline_mc_counter']].split(' ')[0])
-    origin = request.session['airline_request']['origin'][request.session['airline_mc_counter']][-4:][:3]
-    destination = request.session['airline_request']['destination'][request.session['airline_mc_counter']][-4:][:3]
-    cabin_class = request.session['airline_request']['cabin_class'][request.session['airline_mc_counter']]
+    departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
+                                   month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
+                                   request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
+    return_date = '%s-%s-%s' % (request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[2],
+                                month[request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[1]],
+                                request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[0])
+    origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
+    destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
+    cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
     if request.session['airline_request']['direction'] == 'MC':
         direction = 'OW'
     if request.session['airline_request']['is_combo_price'] == 'true':

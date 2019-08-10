@@ -26,24 +26,34 @@
     city_id = {{response.location.city_id}};
 </script>
 
+{% include 'tt_website_skytors/header.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
-        <div class="row" style="padding-bottom:10px;">
+        <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="{% url 'tt_website_skytors:index'%}" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="{% url 'tt_website_skytors:hotel_search'%}" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row" style="position:sticky; top:98px; z-index:1000;">
+            <div class="col-lg-12">
+                <div class="box-sticky-hotel">
+                    <button class="primary-btn-sticky-hotel" type="button" id="information-hotel">Hotel Description</button>
+                    <button class="primary-btn-sticky-hotel" type="button" id="facility-hotel">Facility</button>
+                    <button class="primary-btn-sticky-hotel" type="button" id="select-room-hotel">Room</button>
                 </div>
             </div>
         </div>
-        <form action="{% url 'tt_website_skytors:hotel_passenger' %}" id="goto_passenger" method="POST">
+        <form action="{% url 'tt_website_skytors:hotel_passenger' %}" id="goto_passenger" method="POST" style="background:white; padding: 15px; border:1px solid #cdcdcd;">
             {% csrf_token %}
-            <div class="row" style="padding-top:20px;">
-                <div class="col-lg-12 div-information-hotel">
+            <div class="row">
+                <div class="col-lg-12 div-information-hotel" style="background:white; padding-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <span style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
@@ -77,22 +87,14 @@
                             </span>
                             <hr/>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="box-sticky-hotel">
-                                <button class="primary-btn-sticky-hotel" type="button" id="information-hotel">Information</button>
-                                <button class="primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
-                            </div>
-                            <hr/>
-                        </div>
 
                         <div class="col-lg-7" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
-
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         {% for i in response.images %}
                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{i.url}}" style="margin: auto; width:auto; max-height:325px;" alt="">
+                                            <img class="img-fluid zoom-img" src="{{i.url}}" style="margin: auto; width:auto; max-height:400px;" alt="">
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -109,68 +111,72 @@
                             </div>
                         </div>
                         <div class="col-lg-5" style="margin-bottom:10px;">
-                            <div style="background-color:#f15a22;">
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">
-                                            <span style="color:white;"> Facilities </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">
-                                            <span style="color:white;"> Description </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="tab-content" id="myTabContent">
-                                <div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">
-                                    <span>
-                                        {% for facility in response.facilities %}
-                                        {{facility.facility_name.facility_name}}<br/>
-                                        {% endfor %}
-                                    </span>
-                                </div>
-                                <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">
-                                    <p style="text-align: justify;">
-                                        {% if response.description != '' %}
-                                        {{response.description}}
-                                        {% else %}
-                                        No Description
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
+                            <h4>Description</h4>
+                            <hr/>
+                            <p style="text-align: justify;">
+                                {% if response.description != '' %}
+                                {{response.description}}
+                                {% else %}
+                                No Description
+                                {% endif %}
+                            </p>
                         </div>
                     </div>
-                    <hr/>
                 </div>
 
-                <div class="col-lg-12 div-select-room-hotel">
+                <div class="col-lg-12 div-facility-hotel" style="background:#F5F5F5; padding-top:40px; padding-bottom:40px;">
+                    <h4>Facility</h4>
+                    <hr/>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Wi-Fi in designated areas</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport shuttle</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport pickup service</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Restaurant</td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Café</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Bar</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Non-smoking floor</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Currency exchange</td>
+                        </tr>
+                    </table>
+
+                    <!--                    <span>-->
+                    <!--                        {% for facility in response.facilities %}-->
+                    <!--                        {{facility.facility_name.facility_name}}<br/>-->
+                    <!--                        {% endfor %}-->
+                    <!--                    </span>-->
+                </div>
+
+                <div class="col-lg-12 div-select-room-hotel" style="padding-top:40px; padding-bottom:40px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="banner-right box-date-hotel">
-                                <div class="row form-wrap">
+                            <h4>Room</h4>
+                            <hr/>
+
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="banner-right">
+                                <div class="row form-wrap" style="padding:0px !important;">
                                     <div class="col-lg-12" style="text-align:left;margin-bottom:5px;">
-                                        <h4 style="color:white;">Change Schedule</h4>
+                                        <h4>Change Schedule</h4>
                                     </div>
                                     <div class="col-lg-12">
-                                        <span class="span-search-ticket">Check-in - Check-out</span>
+                                        <span style="float:left;"><i class="fas fa-calendar-alt"></i> Check-in - Check-out</span>
                                         <div class="input-container-search-ticket">
-                                            <i class="fas fa-calendar-alt icon-search-ticket"></i>
+
                                             <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                             <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
 
-                                            <input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>
-                                            <input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>
+                                            <input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{checkin_date}}"  onchange="change_date('checkin');"/>
+                                            <input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{checkout_date}}" onchange="change_date('checkout');"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="col-lg-8">
                             <div class="row" id="loading-detail-hotel">
                                 <div class="col-lg-12">
                                     <div class="sk-circle">
@@ -196,19 +202,20 @@
                         </div>
 
                         <div class="col-lg-4">
-                            <div id="ticket_price" style="background-color:white;">
+                            <div id="ticket_price">
                                 <div class="row" style="padding:15px;">
                                     <div class="col-lg-12" style="background-color:#f15a22; padding:5px;">
                                         <center>
-                                            <span style="color:white; font-size:16px;">Detail Price</span>
-                                            <h6 id="product_title">{{response.name}}</h6>
+                                            <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
                                         </center>
                                     </div>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" style="border:1px solid #cdcdcd">
+                                        <h5 id="product_title" style="padding-top:10px;">{{response.name}}</h5>
+                                        <hr/>
                                         <div style="padding-top:10px;" id="hotel_detail_table">
 
                                         </div>
-                                        <div style="padding-top:10px;" id="not_room_select">
+                                        <div style="padding-bottom:10px;" id="not_room_select">
                                             <h6>Please select room first</h6>
                                         </div>
                                     </div>
@@ -227,74 +234,7 @@
         </form>
     </div>
 </section>
-
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        Dapatkan Penawaran Langsung di Inbox Email Anda!
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fas fa-facebook-square"></i></a>
-                <a href="#"><i class="fas fa-twitter-square"></i></a>
-                <a href="#"><i class="fas fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
+{% include 'tt_website_skytors/footer.html' %}
 
 <script>
     hotel_detail(`{{response.external_code}}`);
@@ -374,3 +314,38 @@
 </script>
 
 {% endblock %}
+
+
+<!--<div style="background-color:#f15a22;">-->
+<!--    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">-->
+<!--                <span style="color:white;"> Facilities </span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">-->
+<!--                <span style="color:white;"> Description </span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+<!--<div class="tab-content" id="myTabContent">-->
+<!--    <div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">-->
+<!--        <span>-->
+<!--            {% for facility in response.facilities %}-->
+<!--            {{facility.facility_name.facility_name}}<br/>-->
+<!--            {% endfor %}-->
+<!--        </span>-->
+<!--    </div>-->
+<!--    <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">-->
+<!--        <p style="text-align: justify;">-->
+<!--            {% if response.description != '' %}-->
+<!--            {{response.description}}-->
+<!--            {% else %}-->
+<!--            No Description-->
+<!--            {% endif %}-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->

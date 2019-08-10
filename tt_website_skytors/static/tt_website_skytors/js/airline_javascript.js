@@ -1449,7 +1449,7 @@ function sort(airline){
                                         }
                                     }
                                     text+=`</span>
-                                    <input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>
+                                    <input type='button' style="margin:10px;" id="deletejourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`)" sequence_id="0"/>
                                 </div>
                             </div>
                         </div>`;
@@ -1584,21 +1584,157 @@ function sort(airline){
    }
 }
 
-function change_departure(){
-    journey = [];
-    value_pick = [];
-    airline_pick_list = [];
+function change_departure(val){
+    if(airline_request.direction != 'MC'){
+        journey = [];
+        value_pick = [];
+        airline_pick_list = [];
+        check_airline_pick = 0;
+        document.getElementById("airline_ticket_pick").innerHTML = '';
+        document.getElementById("airline_detail").innerHTML = '';
+        airline_departure = 'departure';
+        choose_airline = null;
+        filtering('filter');
+    }else{
+        //MC
+        //location.reload();
+        check_airline_pick = 0;
+        console.log(val);
+        journey.splice(val-1,1);
+        value_pick.splice(val-1,1);
+        airline_pick_list.splice(val-1,1);
+        counter_search = val-1;
+        text = '';
+        airline_pick_mc('delete');
+        document.getElementById("airline_detail").innerHTML = '';
+        send_search_to_api(counter_search)
+    }
+
     document.getElementById("badge-flight-notif").innerHTML = "0";
     document.getElementById("badge-flight-notif2").innerHTML = "0";
     $("#badge-flight-notif").removeClass("infinite");
     $("#badge-flight-notif2").removeClass("infinite");
     $('#choose-ticket-flight').show();
-    document.getElementById("airline_ticket_pick").innerHTML = '';
-    document.getElementById("airline_detail").innerHTML = '';
-    airline_departure = 'departure';
-    choose_airline = null;
-    filtering('filter');
 
+
+}
+
+function delete_mc_journey(val){
+    journey.splice(val-1,1);
+    value_pick.splice(val-1,1);
+    airline_pick_list.splice(val-1,1);
+    temp = parseInt(airline_request.counter) - 1;
+    airline_request.counter = temp.toString();
+    console.log(airline_request);
+    airline_pick_mc('all');
+    if(airline_request.counter == journey.length)
+        get_price_itinerary_request();
+}
+
+function airline_pick_mc(type){
+    text = '';
+    for(i in airline_pick_list){
+        text+=`
+        <div style="background-color:white; border:1px solid #f15a22; margin-bottom:15px;" id="journey2`+i+`">
+            <div class="row">
+                <div class="col-lg-12" id="airline-info">
+                    <div class="row" style="padding:10px;">
+                        <div class="col-lg-12">`;
+                            for(j in airline_pick_list[i].carrier_code_list)
+                            text+=`
+                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick_list[i].carrier_code_list[j]+`.png">`;
+                            text+=`
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="row" style="padding:0px 10px 10px 10px;">
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <table style="width:100%">
+                                <tr>
+                                    <td class="airport-code"><h5>`+airline_pick_list[i].origin+`</h5></td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span>`+airline_pick_list[i].origin_name+` - `+airline_pick_list[i].origin_city+`</span></br>
+                            <span>`+airline_pick_list[i].departure_date.split(' - ')[0]+` `+airline_pick_list[i].departure_date.split(' - ')[1]+`</span></br>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <table style="width:100%; margin-bottom:6px;">
+                                <tr>
+                                    <td><h5>`+airline_pick_list[i].destination+`</h5></td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                            </table>
+                            <span>`+airline_pick_list[i].destination_name+` - `+airline_pick_list[i].destination_city+`</span><br/>
+                            <span>`+airline_pick_list[i].arrival_date.split(' - ')[0]+` `+airline_pick_list[i].arrival_date.split(' - ')[1]+`</span></br>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
+                            <span>Transit: `+airline_pick_list[i].transit_count;
+                            if(airline_pick_list[i].transit_count==0)
+                                text+=`</br> Direct`;
+                            text+=`
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="row">
+                        <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
+                            <span id="fare_detail_pick`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`;
+                            for(j in airline_pick_list[i].segments){
+                                for(k in airline_pick_list[i].segments[j].fares){
+                                    if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==fare){
+                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charges)
+                                            price+= airline_pick_list[i].segments[j].fares[k].service_charges[l].amount;
+                                        break;
+                                    }
+                                }
+                            }
+                            text+=`</span>`;
+                            if(type == 'all')
+                            text+=`
+                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" sequence_id="0"/>
+                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" sequence_id="0"/>`;
+                            else if(type == 'change')
+                            text+=`
+                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" sequence_id="0"/>
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" disabled sequence_id="0"/>`;
+                            else if(type == 'delete')
+                            text+=`
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" disabled sequence_id="0"/>
+                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" sequence_id="0"/>`;
+                            else if(type=='no_button')
+                            text+=`
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" disabled sequence_id="0"/>
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" disabled sequence_id="0"/>`;
+                            text+=`
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
+                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details2(`+airline_pick_list[i].sequence+`);" href="##detail_departjourney`+airline_pick_list[i].sequence+`" style="color: #f15a22;" aria-expanded="true">
+                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:none;" id="flight_details_up2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:block;" id="flight_details_down2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                    </a>
+                </div>
+            </div>
+        </div>`;
+    }
+    document.getElementById('airline_ticket_pick').innerHTML = text;
 }
 
 function airline_check_search(){

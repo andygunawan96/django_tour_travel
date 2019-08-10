@@ -36,6 +36,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/all.min.css">
     <!--cart-->
     <link rel="stylesheet" href="{{ static_path }}css/cart.css">
+    <link rel="stylesheet" href="{{ static_path }}css/simplePagination.css">
     <!--daterangepicker-->
     <link rel="stylesheet" href="{{ static_path }}css/daterangepicker.css">
     <!--loadingbar-->
@@ -68,6 +69,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
 {% endblock %}
 
+<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
+    <span><i class="fas fa-chevron-up"></i></span>
+</button>
+
 </body>
 <!-- JAVASCRIPTS -->
 
@@ -96,6 +101,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
 <!--cart-->
 <script src="{{ static_path }}js/cart.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>
 <!--other-->
 <script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
 

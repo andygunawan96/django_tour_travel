@@ -340,8 +340,9 @@ function sort(response){
         var node = document.createElement("div");
         var city_ids_length = parseInt(response.city_ids.length);
         text+=`
-        <div style="background-color:#f15a22; margin-bottom:15px; padding:10px;">
-            <h6 style="color:white;"> Suggestions by City - `+city_ids_length+` results</h6>
+        <div onclick="show_hide_city_hotel();" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px; cursor:pointer;">
+            <h6 id="city_hotel_down"> Suggestions by City - `+city_ids_length+` results <i class="fas fa-chevron-down" style="color:#f15a22; float:right;"></i></h6>
+            <h6 id="city_hotel_up" style="display:none;"> Suggestions by City - `+city_ids_length+` results <i class="fas fa-chevron-up" style="color:#f15a22; float:right;"></i></h6>
         </div>`;
         node.innerHTML = text;
         document.getElementById("hotel_result_city").appendChild(node);
@@ -351,19 +352,18 @@ function sort(response){
         text='';
         var node = document.createElement("div");
         for(i in response.city_ids){
-            text = '<form id="hotel_city'+i+'" action="/hotel/detail" method="POST">';
+            text = '<form id="hotel_city'+i+'" action="/hotel/detail" method="POST" class="c-pointer">';
                 if(response.city_ids[i].image != false)
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.city_ids[i].image+`');border:1px solid #f15a22;"></div>`;
+                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.city_ids[i].image+`');border:1px solid #cdcdcd;"></div>`;
                 else
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #f15a22;"></div>`;
-
+                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
                 text+=`
                 <div class="text-block-custom">
-                    <span style="font-size:12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.city_ids[i].name+` `+response.city_ids[i].country_name+`</span><br/>
-                    <span style="font-size:12px;">`+response.city_ids[i].hotel_qty+` Found</span>
+                    <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.city_ids[i].name+` `+response.city_ids[i].country_name+`</span><br/>
+                    <span style="font-size:13px;">`+response.city_ids[i].hotel_qty+` Found</span>
                 </div>
             </form>`;
-            node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-4';
+            node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-6';
             node.innerHTML = text;
             document.getElementById("hotel_city").appendChild(node);
             node = document.createElement("div");
@@ -374,8 +374,9 @@ function sort(response){
         var node = document.createElement("div");
         var landmark_ids_length = parseInt(response.landmark_ids.length);
         text+=`
-        <div style="background-color:#f15a22; margin-bottom:15px; padding:10px;">
-            <h6 style="color:white;"> Suggestions by Landmark - `+landmark_ids_length+` results</h6>
+        <div onclick="show_hide_landmark_hotel();" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px; cursor:pointer;">
+            <h6 id="landmark_hotel_down"> Suggestions by Landmark - `+landmark_ids_length+` results <i class="fas fa-chevron-down" style="color:#f15a22; float:right;"></i></h6>
+            <h6 id="landmark_hotel_up" style="display:none;"> Suggestions by Landmark - `+landmark_ids_length+` results <i class="fas fa-chevron-up" style="color:#f15a22; float:right;"></i></h6>
         </div>`;
         node.innerHTML = text;
         document.getElementById("hotel_result_landmark").appendChild(node);
@@ -385,20 +386,20 @@ function sort(response){
         text='';
         var node = document.createElement("div");
         for(i in response.landmark_ids){
-            text = '<form id="hotel_landmark'+i+'" action="/hotel/detail" method="POST">';
+            text = '<form id="hotel_landmark'+i+'" action="/hotel/detail" method="POST" class="c-pointer">';
                 if(response.landmark_ids[i].images.length != 0)
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.landmark_ids[i].images[0].url+`');border:1px solid #f15a22;"></div>`;
+                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.landmark_ids[i].images[0].url+`');border:1px solid #cdcdcd;"></div>`;
                 else
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #f15a22;"></div>`;
+                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
 
                 text+=`
                 <div class="text-block-custom">
                     <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">`+response.landmark_ids[i].name+`</span><br/>
-                    <span style="font-size:12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.landmark_ids[i].city+`</span><br/>
-                    <span style="font-size:12px;">`+response.landmark_ids[i].near_by_hotel+` Found</span>
+                    <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.landmark_ids[i].city+`</span><br/>
+                    <span style="font-size:13px;">`+response.landmark_ids[i].near_by_hotel+` Found</span>
                 </div>
             </form>`;
-            node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-4';
+            node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-6';
             node.innerHTML = text;
             document.getElementById("hotel_landmark").appendChild(node);
             node = document.createElement("div");
@@ -410,8 +411,8 @@ function sort(response){
         var node = document.createElement("div");
         var hotel_ids_length = parseInt(response.hotel_ids.length);
         text+=`
-        <div style="background-color:#f15a22; margin-bottom:15px; padding:10px;">
-            <h6 style="color:white;"> Suggestions by Hotel - `+hotel_ids_length+` results</h6>
+        <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
+            <h6> Hotel - `+hotel_ids_length+` results</h6>
         </div>`;
         node.innerHTML = text;
         document.getElementById("hotel_result").appendChild(node);
@@ -553,7 +554,7 @@ function sort(response){
                 <div class="col-lg-4 col-md-4">
                     <div class="row">
                         <div class="col-lg-12" style="margin-bottom:5px;">
-                            <span style="border: 2px solid #f15a22; font-weight: bold; padding-left:10px; padding-right:10px; margin-right:5px;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
+                            <span style="font-size:14px; font-weight: bold; border-bottom:2px solid #f15a22;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">Vendor A</span>
@@ -575,11 +576,12 @@ function sort(response){
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                             <span style="font-size:12px; text-align:right;">2.350.000 IDR</span>
                         </div>
-                    </div>
-                    <div style="bottom:0px; right:10px; position:absolute;">
-                        <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
-                        <br/>
-                        <span style="color:#f15a22; font-size:13px; margin-top:10px;"> For 1 Night(s) </span>
+
+                        <div class="col-lg-12" style="text-align:right; padding-top:15px;">
+                            <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
+                            <br/>
+                            <span style="color:#f15a22; font-size:13px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -590,6 +592,36 @@ function sort(response){
             document.getElementById("hotel_ticket").appendChild(node);
             node = document.createElement("div");
             $('#loading-search-hotel').hide();
+
+            var items = $(".sorting-box-b");
+            var numItems = items.length;
+            var perPage = 20;
+            items.slice(perPage).hide();
+
+            $('#pagination-container').pagination({
+                items: numItems,
+                itemsOnPage: perPage,
+                prevText: "<i class='fas fa-angle-left'/>",
+                nextText: "<i class='fas fa-angle-right'/>",
+                onPageClick: function (pageNumber) {
+                    var showFrom = perPage * (pageNumber - 1);
+                    var showTo = showFrom + perPage;
+                    items.hide().slice(showFrom, showTo).show();
+                }
+            });
+
+            $('#pagination-container2').pagination({
+                items: numItems,
+                itemsOnPage: perPage,
+                prevText: "<i class='fas fa-angle-left'/>",
+                nextText: "<i class='fas fa-angle-right'/>",
+                onPageClick: function (pageNumber) {
+                    var showFrom = perPage * (pageNumber - 1);
+                    var showTo = showFrom + perPage;
+                    items.hide().slice(showFrom, showTo).show();
+                }
+            });
+
         }
         /*for(i in response.landmark_ids){
             text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
