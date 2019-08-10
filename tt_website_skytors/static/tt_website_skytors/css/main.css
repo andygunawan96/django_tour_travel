@@ -2876,10 +2876,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 .primary-btn-sticky-hotel {
   background: transparent;
   line-height: 17px;
-  padding: 15px;
-  margin-left:10px;
+  padding: 15px 20px 15px 20px;
   border: none;
-  color: white;
+  color: black;
   display: inline-block;
   font-size: 14px;
   font-weight: 500;
@@ -2890,6 +2889,14 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: all 0.3s ease 0s;
   cursor: pointer;
   position: relative;
+}
+
+.primary-btn-sticky-hotel:hover {
+  background: #f15a22;
+}
+
+.primary-btn-sticky-hotel:focus {
+  background: #f15a22;
 }
 
 .sorting-box{
@@ -2903,7 +2910,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     background-color:white;
     padding:10px;
     margin-bottom:15px;
-    border:1px solid #f15a22;
+    border:1px solid #cdcdcd;
 }
 
 .detail-hotel-box{
@@ -2913,7 +2920,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .box-sticky-hotel{
-    background-color:#f15a22;
+    background-color:white;
+    border: 1px solid #cdcdcd;
     padding-right:20px;
     margin-bottom:15px;
 }
@@ -4058,7 +4066,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .blog-pagination {
   padding-top: 60px;
-  padding-bottom: 120px;
+  padding-bottom: 60px;
 }
 
 .blog-pagination .page-link {
@@ -6903,4 +6911,8 @@ th input {
   .breadcrumb-text{
     display:block !important;
   }
+}
+
+.c-pointer{
+    cursor:pointer;
 }

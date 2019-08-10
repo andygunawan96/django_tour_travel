@@ -432,36 +432,32 @@
                                 <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination or Hotel</span>
+                                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
                                                 <datalist id="hotel_destination_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-2 col-md-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Guest Nationality</span>
+                                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-globe-asia icon-search-ticket"></i>
                                                 <input list="hotel_country_nationality" value="ID - Indonesia" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
                                                 <datalist id="hotel_country_nationality"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Check-in - Check-out</span>
+                                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in - Check-out</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                 <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                                 <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
                                             </div>
                                             <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
                                             <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
                                         </div>
-                                        <div class="col-lg-3 col-md-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Guest</span>
+                                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <i class="fas fa-users icon-search-ticket"></i>
                                                 <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                                 <ul class="dropdown-menu" role="menu" style="z-index:5;">
                                                     <div class="row" style="padding:10px;">
@@ -545,9 +541,9 @@
                                     </div>
                                     <br/>
 
-                                    <button class="primary-btn text-uppercase ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="submit" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                        Search
+                                    <button class="button-search primary-btn text-uppercase ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
+                                        <img src="{{static_path}}images/icon/hotel.png" style="width:25px; height:25px;"/>
+                                        Search Hotel
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
                                 </form>
@@ -1238,10 +1234,6 @@
 </div>
 {% include 'tt_website_skytors/footer.html' %}
 
-<button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span><i class="fas fa-chevron-up"></i></span>
-</button>
-
 <script>
     //testing getbooker
     document.getElementById("airline_date_search").innerHTML = '';
@@ -1270,7 +1262,7 @@
         }catch(err){
             airline_date = now;
         }
-        console.log(airline_date);
+
         try{
             train_date = cache.train.departure;
             if(train_date == '')

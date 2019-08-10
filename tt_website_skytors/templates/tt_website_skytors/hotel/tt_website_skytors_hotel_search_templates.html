@@ -65,137 +65,153 @@
     }
 </script>
 
+{% include 'tt_website_skytors/header.html' %}
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="text-transform: capitalize;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
+                <span style="text-transform: capitalize;"><i class="fas fa-globe-asia"></i> Guest: {{hotel_search.guest_nationality}}</span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="text-transform: capitalize;"><i class="fas fa-calendar-alt"></i> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}</span><br/>
+                <span style="text-transform: capitalize;"><i class="fas fa-users"></i> {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span>
+            </div>
 
-<section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black; z-index:2; position:relative;">
-    <div class="animated fadeInDown delay-1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="padding:0;">
-                    <div class="banner-right">
-                        <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
-                            {% csrf_token %}
-                            <div class="row">
-                                <input type="hidden" id="response" name="response">
-                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                    <span class="span-search-ticket">Destination or Hotel Name</span>
-                                    <div class="input-container-search-ticket">
-                                        <i class="fas fa-map-marker-alt icon-search-ticket"></i>
-                                        <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" value="{{hotel_search.destination}}" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
-                                        <datalist id="hotel_destination_name"/>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                    <span class="span-search-ticket">Guest Nationality</span>
-                                    <div class="input-container-search-ticket">
-                                        <i class="fas fa-globe-asia icon-search-ticket"></i>
-                                        <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
-                                        <datalist id="hotel_country_nationality"/>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12" style="padding:0px;">
-                                    <span class="span-search-ticket">Check-in</span>
-                                    <div class="input-container-search-ticket">
-                                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
-                                        <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.check_in}} - {{hotel_search.check_out}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                        <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
-                                    </div>
-                                    <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
-                                    <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
-                                </div>
-
-                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                    <span class="span-search-ticket">Guest</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <button id="show_total_pax_hotel" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                        <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">Room<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{hotel_search.room}}" min="1">
-                                                            <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Age 12+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{hotel_search.adult}}" min="1">
-                                                            <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">Child<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Age <12)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{hotel_search.child}}">
-                                                            <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="row" id="guest_child_age">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
-                                        <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn text-uppercase" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    Change Search
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="padding:0;">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <input type="hidden" id="response" name="response">
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                <div class="input-container-search-ticket">
+                                    <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" value="{{hotel_search.destination}}" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
+                                    <datalist id="hotel_destination_name"/>
                                 </div>
                             </div>
 
-                            <button class="primary-btn text-uppercase" onclick="hotel_search_check();" type="submit" value="Submit">
-                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                Change Search
-                            </button>
-                        </form>
-                    </div>
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                                <div class="input-container-search-ticket">
+                                    <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
+                                    <datalist id="hotel_country_nationality"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                <div class="input-container-search-ticket">
+                                    <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                    <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
+                                </div>
+                                <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
+                                <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                    <ul class="dropdown-menu" role="menu" style="z-index:5;">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Room<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{hotel_search.room}}" min="1">
+                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{hotel_search.adult}}" min="1">
+                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Child<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{hotel_search.child}}">
+                                                        <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="row" id="guest_child_age">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                    <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <button class="primary-btn text-uppercase" onclick="hotel_search_check();" type="submit" value="Submit">
+                            <img src="{{static_path}}images/icon/hotel.png" style="width:25px; height:25px;"/>
+                            Search Hotel
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -206,14 +222,13 @@
     <div class="container">
         <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="{% url 'tt_website_skytors:index'%}" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <div class="row">
@@ -245,7 +260,7 @@
                 </div>
 
                 <div class="filter-search-flight" id="filter-search-flight">
-                    <div style="background-color:white; padding:10px; margin-top:20px;" id="filter">
+                    <div style="background-color:white; border:1px solid #cdcdcd; padding:10px; margin-top:20px;" id="filter">
 
                     </div>
                 </div>
@@ -280,96 +295,49 @@
                     </div>
                 </div>
 
+
                 <div class="row">
+                    <div class="col-lg-12">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="hotel_result"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="pagination-container" style="margin-bottom:10px;"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12" id="hotel_ticket"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="pagination-container2"></div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px;">
                     <div class="col-lg-12" id="hotel_result_city"></div>
                 </div>
-                <div class="row" id="hotel_city" style="margin-bottom:10px; max-height:200px; overflow-y:auto;">
+                <div class="row style-scrollbar" id="hotel_city" style="margin-bottom:10px; max-height:202px; overflow-y:auto; display:none;">
                 </div>
 
                 <div class="row">
                     <div class="col-lg-12" id="hotel_result_landmark"></div>
                 </div>
-                <div class="row" id="hotel_landmark" style="margin-bottom:10px; max-height:200px; overflow-y:auto;">
-                </div>
-
-                <div class="row">
-                    <div class="col-lg-12" id="hotel_result"></div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-12" id="hotel_ticket"></div>
+                <div class="row style-scrollbar" id="hotel_landmark" style="margin-bottom:10px; max-height:215px; overflow-y:auto; display:none;">
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        Dapatkan Penawaran Langsung di Inbox Email Anda!
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fas fa-facebook-square"></i></a>
-                <a href="#"><i class="fas fa-twitter-square"></i></a>
-                <a href="#"><i class="fas fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
+{% include 'tt_website_skytors/footer.html' %}
 
 <script>
     guest_child_age2();

@@ -648,13 +648,19 @@ $(document).ready(function(){
 
     $('#information-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 100
+            scrollTop: $("div.div-information-hotel").offset().top - 155
+        }, 500)
+    });
+
+    $('#facility-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-facility-hotel").offset().top - 140
         }, 500)
     });
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 100
+            scrollTop: $("div.div-select-room-hotel").offset().top - 140
         }, 500)
     });
 
@@ -1245,4 +1251,49 @@ function show_qna(type, val){
 
 function delete_expired_date(type, id){
     document.getElementById(type+'_passport_expired_date'+id).value = "";
+}
+
+function show_hide_change_search(){
+    var change_search_box = document.getElementById("change_search_box");
+
+    if (change_search_box.style.display === "none") {
+        change_search_box.style.display = "block";
+    }
+    else {
+        change_search_box.style.display = "none";
+    }
+}
+
+function show_hide_city_hotel(){
+    var hotel_city = document.getElementById("hotel_city");
+    var city_hotel_down = document.getElementById("city_hotel_down");
+    var city_hotel_up = document.getElementById("city_hotel_up");
+
+    if (city_hotel_down.style.display === "none") {
+        city_hotel_up.style.display = "none";
+        hotel_city.style.display = "none";
+        city_hotel_down.style.display = "block";
+    }
+    else {
+        city_hotel_up.style.display = "block";
+        hotel_city.style.display = "";
+        city_hotel_down.style.display = "none";
+    }
+}
+
+function show_hide_landmark_hotel(){
+    var hotel_landmark = document.getElementById("hotel_landmark");
+    var landmark_hotel_down = document.getElementById("landmark_hotel_down");
+    var landmark_hotel_up = document.getElementById("landmark_hotel_up");
+
+    if (landmark_hotel_down.style.display === "none") {
+        landmark_hotel_up.style.display = "none";
+        hotel_landmark.style.display = "none";
+        landmark_hotel_down.style.display = "block";
+    }
+    else {
+        landmark_hotel_up.style.display = "block";
+        hotel_landmark.style.display = "";
+        landmark_hotel_down.style.display = "none";
+    }
 }

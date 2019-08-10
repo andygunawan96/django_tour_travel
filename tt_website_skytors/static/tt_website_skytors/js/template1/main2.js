@@ -195,7 +195,7 @@ $(document).ready(function() {
         autoplay: false,
         autoplayTimeout:8000,
         autoplayHoverPause:false,
-        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        //navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
         responsive:{
             0:{
                 items:1,
