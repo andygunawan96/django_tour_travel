@@ -162,11 +162,11 @@ function add_multi_city(type){
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled>
+                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="">
+                                    <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -182,11 +182,11 @@ function add_multi_city(type){
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled>
+                                    <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="0" min="0" readonly>
-                                    <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="">
+                                    <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -202,11 +202,11 @@ function add_multi_city(type){
                             </div>
                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled>
+                                    <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="0" readonly>
-                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="">
+                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -254,10 +254,10 @@ function add_multi_city(type){
                             </div>
                         </div>
                         <div class="image-change-route-vertical">
-                            <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                         </div>
                         <div class="image-change-route-horizontal">
-                            <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                            <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -635,13 +635,86 @@ function airline_autocomplete(type,val){
     }
 }
 
-function airline_switch(){
-    var temp = document.getElementById("airline_origin_flight").value;
-    document.getElementById("select2-origin_id_flight-container").innerHTML = document.getElementById("airline_destination_flight").value;
-    document.getElementById("airline_origin_flight").value = document.getElementById("airline_destination_flight").value;
+function airline_set_passenger_plus(type, val){
+    pax = '';
+    if(type == 'adult'){
+        pax = parseInt(document.getElementById('adult_flight'+val).value);
+        if(pax + parseInt(document.getElementById('child_flight'+val).value) != 9){
+            document.getElementById('adult_flight'+val).value = pax + 1;
+            document.getElementById('left-minus-adult-flight'+val).disabled = false;
+        }else{
+            alert("Maximum 9 passenger of adult and child in flight "+val+"!");
+        }
+    }else if(type == 'child'){
+        pax = parseInt(document.getElementById('child_flight'+val).value);
+        if(pax + parseInt(document.getElementById('adult_flight'+val).value) != 9){
+            document.getElementById('child_flight'+val).value = pax + 1;
+            document.getElementById('left-minus-child-flight'+val).disabled = false;
+        }else{
+            alert("Maximum 9 passenger of adult and child in flight "+val+"!");
+        }
+    }else if(type == 'infant'){
+        pax = parseInt(document.getElementById('infant_flight'+val).value);
+        if(pax < parseInt(document.getElementById('adult_flight'+val).value)){
+            document.getElementById('infant_flight'+val).value = pax + 1;
+            document.getElementById('left-minus-infant-flight'+val).disabled = false;
+        }else{
+            alert("Maximum passenger for infant below than adult passenger in flight "+val+"!");
+        }
+    }
+    for(i=1;i<=counter_airline_search;i++)
+        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+}
 
-    document.getElementById("select2-destination_id_flight-container").innerHTML = temp;
-    document.getElementById("airline_destination_flight").value = temp;
+function airline_set_passenger_minus(type, val){
+    error_log = '';
+    if(type == 'adult'){
+        if(parseInt(document.getElementById('adult_flight'+val).value) != 1)
+            document.getElementById('adult_flight'+val).value = parseInt(document.getElementById('adult_flight'+val).value) - 1;
+        else{
+            alert("Minimum 1 adult in flight "+val+"!");
+        }
+        if(parseInt(document.getElementById('infant_flight'+val).value) > document.getElementById('adult_flight'+val).value)
+            document.getElementById('infant_flight'+val).value = document.getElementById('adult_flight'+val).value;
+    }else if(type == 'child'){
+        if(parseInt(document.getElementById('child_flight'+val).value) != 0){
+            document.getElementById('child_flight'+val).value = parseInt(document.getElementById('child_flight'+val).value) - 1;
+        }
+        if(parseInt(document.getElementById('child_flight'+val).value) == 0){
+            document.getElementById('left-minus-child-flight'+val).disabled = true;
+        }
+
+    }else if(type == 'infant'){
+        if(parseInt(document.getElementById('infant_flight'+val).value) != 0){
+            document.getElementById('infant_flight'+val).value = parseInt(document.getElementById('infant_flight'+val).value) - 1;
+        }
+        if(parseInt(document.getElementById('infant_flight'+val).value) == 0){
+            document.getElementById('left-minus-infant-flight'+val).disabled = true;
+        }
+    }
+
+    for(i=1;i<=counter_airline_search;i++)
+        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+}
+
+function airline_switch(val){
+    if(val == undefined){
+        var temp = document.getElementById("airline_origin_flight").value;
+        document.getElementById("select2-origin_id_flight-container").innerHTML = document.getElementById("airline_destination_flight").value;
+        document.getElementById("airline_origin_flight").value = document.getElementById("airline_destination_flight").value;
+
+        document.getElementById("select2-destination_id_flight-container").innerHTML = temp;
+        document.getElementById("airline_destination_flight").value = temp;
+    }else{
+        console.log(val);
+
+        var temp = document.getElementById("airline_origin_flight"+val).value;
+        document.getElementById("select2-origin_id_flight"+val+"-container").innerHTML = document.getElementById("airline_destination_flight"+val).value;
+        document.getElementById("airline_origin_flight"+val).value = document.getElementById("airline_destination_flight"+val).value;
+
+        document.getElementById("select2-destination_id_flight"+val+"-container").innerHTML = temp;
+        document.getElementById("airline_destination_flight"+val).value = temp;
+    }
 
 }
 
