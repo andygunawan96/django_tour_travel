@@ -27,6 +27,14 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
 
+    cabin_class = [];
+    {% for airline_cabin_class in airline_cabin_class_list %}
+        cabin_class.push({
+            'name': `{{airline_cabin_class.name}}`,
+            'value': `{{airline_cabin_class.value}}`
+        })
+    {% endfor %}
+
     airline_destination = [];
     {% for destination in airline_destinations %}
         airline_destination.push({
@@ -67,11 +75,11 @@
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <label class="radio-button-custom">
-                                        <span style="font-size:14px; color:white;">Multy-City</span>
-                                        <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} name="radio_airline_type" value="multicity">
+                                        <span style="font-size:14px; color:white;">Multi-City</span>
+                                        <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
                                         <span class="checkmark-radio"></span>
                                     </label>
-                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' %}display:none; {% endif %}" id="checkbox_combo_price">
+                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                         <label class="check_box_custom">
                                             <span style="font-size:14px; color:white;">Is Combo Price</span>
                                             <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
@@ -115,8 +123,8 @@
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
                                             <div id="airline_date_search"></div>
-                                            <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                            <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
+                                            <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                                         </div>
                                         <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
@@ -192,7 +200,7 @@
                                             <div class="input-container-search-ticket btn-group">
                                                 <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
                                                 <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
-                                                    {% for key,value in airline_carriers.items %}
+                                                    {% for key,value in airline_carriers.0.items %}
                                                     {% if value.code == 'all'%}
                                                     <li>
                                                         <a class="small" data-value="option1" tabIndex="-1">
@@ -224,7 +232,7 @@
                                                 <div class="form-select" id="default-select">
                                                     <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
                                                         {% for cabin_class in airline_cabin_class_list %}
-                                                        <option value="{{cabin_class.value}}" {% if airline_request.cabin_class == cabin_class.value%} selected {% endif %}>{{cabin_class.name}}</option>
+                                                        <option value="{{cabin_class.value}}" {% if airline_request.cabin_class.0 == cabin_class.value%} selected {% endif %}>{{cabin_class.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -395,10 +403,14 @@
 <script>
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
-        get_airline_config('search');
+        if(document.getElementById('radio_airline_mc').checked == false){
+            get_airline_config('search');
+        }
+        counter_search = 0;
+        airline_filter_render();
+        airline_signin('');
     });
-    airline_filter_render();
-    airline_signin('');
+
 
     $(function() {
       if(document.getElementById('radio_airline_ow').checked) {
@@ -476,6 +488,43 @@
               format: 'DD MMM YYYY',
           }
         });
+      }else if(document.getElementById('radio_airline_mc').checked) {
+        document.getElementById('ori_airline').style.display = "none";
+        text_mc='';
+        text_mc += `
+        <div class="row">
+            <div class="col-lg-12" style="text-align:right; padding:0px 0px 15px 0px;">
+                <button type="button" class="primary-btn" onclick="add_multi_city('search');"><i class="fas fa-plus"></i> Add Flight</button>
+                <button type="button" class="primary-btn" onclick="del_multi_city('search');"><i class="fas fa-trash-alt"></i> Delete Flight</button>
+            </div>
+            <div class="col-lg-12" style="padding:0px;">
+                <div id="mc_airline_paxs">
+
+                </div>
+                <div class="banner-right">
+                    <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist">
+
+                    </ul>
+                </div>
+                <div class="banner-right">
+                    <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        document.getElementById('mc_airline_default').innerHTML = text_mc;
+        document.getElementById('ori_airline').style.display = "none";
+        document.getElementById('is_combo_price').disabled = true;
+        document.getElementById('is_combo_price').checked = false;
+        document.getElementById('checkbox_combo_price').style.display = "none";
+        counter_mc = {{airline_request.counter}};
+        count = 0;
+        while(count<counter_mc){
+            add_multi_city('search');
+            count++;
+        }
+        $('#show_total_pax_flight1').text({{airline_request.adult}} + " Adult, " + {{airline_request.child}} + " Child, " +{{airline_request.infant}} + " Infant");
+
       }
     });
 

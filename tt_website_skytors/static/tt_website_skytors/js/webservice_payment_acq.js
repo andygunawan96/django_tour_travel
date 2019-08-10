@@ -237,7 +237,7 @@ payment_acq2 = {
 
 console.log(payment_acq);
 
-function get_payment_acq(val){
+function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature){
     getToken();
     $.ajax({
        type: "POST",
@@ -247,16 +247,16 @@ function get_payment_acq(val){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'order_number': order_number
+            'order_number': order_number,
+            'booker_seq_id': booker_seq_id,
+            'order_number': order_number,
+            'transaction_type': transaction_type,
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-    text=`
+            payment_acq2 = msg;
+            text=`
     <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
     <div class="input-container-search-ticket btn-group">
 
@@ -277,17 +277,23 @@ function get_payment_acq(val){
 
                 text+=`<option value="`+i+`">`+print+`</option>`;
             }
-    text+=`</select>
-        </div>
-    </div>`;
+            text+=`</select>
+                </div>
+            </div>`;
 
-    text+=`
-    <div id="payment_description"></div>`
-    text+=`
-        </div>`;
-    document.getElementById('payment_acq').innerHTML += text;
-    set_payment(val);
-    document.getElementById('payment_acq').hidden = false;
+            text+=`
+            <div id="payment_description"></div>`
+            text+=`
+                </div>`;
+            document.getElementById('payment_acq').innerHTML += text;
+            set_payment(val);
+            document.getElementById('payment_acq').hidden = false;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+
 }
 
 function set_payment(val){

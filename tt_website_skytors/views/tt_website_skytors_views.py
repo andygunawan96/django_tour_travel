@@ -105,7 +105,7 @@ def index(request):
                     cache['airline'] = {
                             'origin': request.session['airline_request']['origin'],
                             'destination': request.session['airline_request']['destination'],
-                            'departure': request.session['airline_request']['departure'],
+                            'departure': request.session['airline_request']['departure'][0],
                         }
                 except:
                     pass

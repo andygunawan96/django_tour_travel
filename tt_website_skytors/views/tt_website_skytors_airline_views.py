@@ -116,10 +116,12 @@ def search(request):
                     destination = []
                     departure = []
                     cabin_class = []
+                    return_date = []
                     for i in range(int(request.POST['counter'])):
                         origin.append(request.POST['origin_id_flight'+str(i+1)])
                         destination.append(request.POST['destination_id_flight'+str(i+1)])
                         departure.append(request.POST['airline_departure'+str(i+1)])
+                        return_date.append(request.POST['airline_departure'+str(i+1)])
                         cabin_class.append(request.POST['cabin_class_flight'+str(i+1)])
                 else:
                     try:
@@ -128,33 +130,47 @@ def search(request):
                     except:
                         is_combo_price = 'false'
 
-                    for i in response:
-                        airline_carriers[i] = {
-                            'name': response[i]['name'],
-                            'code': response[i]['code'],
-                            'icao': response[i]['icao'],
-                            'call_sign': response[i]['call_sign']
+                    airline_carriers = []
+                    airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
+                    for j in response:
+                        airline_carrier[j] = {
+                            'name': response[j]['name'],
+                            'code': response[j]['code'],
+                            'icao': response[j]['icao'],
+                            'call_sign': response[j]['call_sign']
                         }
+                    airline_carriers.append(airline_carrier)
+                    airline_carrier = []
 
-                    for provider in airline_carriers:
-                        try:
-                            if (request.POST['provider_box_' + provider]):
-                                airline_carriers[provider]['bool'] = True
-                            else:
-                                airline_carriers[provider]['bool'] = False
-                        except:
-                            airline_carriers[provider]['bool'] = False
-                            print('%s %s' % ('no ', provider))
-                    origin = request.POST['origin_id_flight']
-                    destination = request.POST['destination_id_flight']
-                    departure = request.POST['airline_departure']
-                    cabin_class = request.POST['cabin_class_flight']
+                    for idx, arr in enumerate(airline_carriers):
+                        for provider in arr:
+                            try:
+                                if (request.POST['provider_box_' + provider]):
+                                    airline_carriers[idx][provider]['bool'] = True
+                                else:
+                                    airline_carriers[idx][provider]['bool'] = False
+                            except:
+                                airline_carriers[idx][provider]['bool'] = False
+                                print('%s %s' % ('no ', provider))
+                    origin = []
+                    destination = []
+                    departure = []
+                    cabin_class = []
+                    return_date = []
+
+                    origin.append(request.POST['origin_id_flight'])
+                    destination.append(request.POST['destination_id_flight'])
+                    departure.append(request.POST['airline_departure'])
+                    cabin_class.append(request.POST['cabin_class_flight'])
+
                     if request.POST['radio_airline_type'] == 'roundtrip':
                         direction = 'RT'
-                        return_date = request.POST['airline_return']
+                        return_date.append(request.POST['airline_return'])
+                        origin.append(request.POST['destination_id_flight'])
+                        destination.append(request.POST['origin_id_flight'])
                     elif request.POST['radio_airline_type'] == 'oneway':
                         direction = 'OW'
-                        return_date = request.POST['airline_departure']
+                        return_date.append(request.POST['airline_departure'])
             except:
                 direction = 'OW'
                 return_date = request.POST['airline_departure']
@@ -180,33 +196,15 @@ def search(request):
 
         flight = ''
 
-        if airline_request['direction'] == 'MC':
-            check = 2
-            for idx, airline_request_search in enumerate(airline_request['origin']):
-                for list_airline in airline_destinations:
-                    if list_airline['name'] == airline_request['origin'][idx].split(' - ')[0] or list_airline['name'] == \
-                            airline_request['destination'][idx].split(' - ')[0] or list_airline['code'] == \
-                            airline_request['origin'][idx].split(' - ')[0] or list_airline['code'] == \
-                            airline_request['destination'][idx].split(' - ')[0] or list_airline['city'] == \
-                            airline_request['origin'][idx].split(' - ')[0] or list_airline['city'] == \
-                            airline_request['destination'][idx].split(' - ')[0]:
-                        if list_airline['country'] == 'Indonesia':
-                            if flight == 'domestic' or flight == '':
-                                flight = 'domestic'
-                        else:
-                            flight = 'international'
-                        check -= 1
-                    if check == 0:
-                        break
-        else:
-            check = 2
+        check = 2
+        for idx, airline_request_search in enumerate(airline_request['origin']):
             for list_airline in airline_destinations:
-                if list_airline['name'] == airline_request['origin'].split(' - ')[0] or list_airline['name'] == \
-                        airline_request['destination'].split(' - ')[0] or list_airline['code'] == \
-                        airline_request['origin'].split(' - ')[0] or list_airline['code'] == \
-                        airline_request['destination'].split(' - ')[0] or list_airline['city'] == \
-                        airline_request['origin'].split(' - ')[0] or list_airline['city'] == \
-                        airline_request['destination'].split(' - ')[0]:
+                if list_airline['name'] == airline_request['origin'][idx].split(' - ')[0] or list_airline['name'] == \
+                        airline_request['destination'][idx].split(' - ')[0] or list_airline['code'] == \
+                        airline_request['origin'][idx].split(' - ')[0] or list_airline['code'] == \
+                        airline_request['destination'][idx].split(' - ')[0] or list_airline['city'] == \
+                        airline_request['origin'][idx].split(' - ')[0] or list_airline['city'] == \
+                        airline_request['destination'][idx].split(' - ')[0]:
                     if list_airline['country'] == 'Indonesia':
                         if flight == 'domestic' or flight == '':
                             flight = 'domestic'

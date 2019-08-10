@@ -17,8 +17,8 @@
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
     order_number = '{{order_number}}';
-    time = 300;
-    triggered_balance();
+    //time = 300;
+    //triggered_balance();
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -133,7 +133,7 @@
 {% include 'tt_website_skytors/footer.html' %}
 <script>
     airline_signin('{{order_number}}');
-    get_payment_acq('Issued');
+
     //testing_bca();
 </script>
 

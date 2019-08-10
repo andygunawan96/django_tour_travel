@@ -9,7 +9,7 @@ bisa liat contoh di airline
 */
 
 counter = 0;
-type_amount_repricing = []; // --> list of string ['Fare', 'Tax', 'Repricing']
+type_amount_repricing = []; // --> list of string ['Fare', 'Commission']
 pax_type_repricing = []; // --> list of list ex : [['nama pax key','nama pax tampil'],['CHD','Child']]
 price_arr_repricing = {}; // --> dict of dict ex : {'nama pax tampil':{'total_price':50,'commission':20}} -- di tambah total
 currency = '';
@@ -105,6 +105,9 @@ function add_repricing(){
 function calculate(type){
     price_duplication = JSON.parse(JSON.stringify(price_arr_repricing));
     list = [];
+    for(i in price_duplication){
+        price_duplication[i].Repricing = 0;
+    }
     console.log(price_duplication);
     for(i=0;i<counter;i++){
         var selection_calculation = document.getElementById('calculation'+i).value;
