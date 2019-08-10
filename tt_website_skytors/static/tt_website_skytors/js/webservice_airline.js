@@ -593,6 +593,22 @@ function get_price_itinerary(val){
         journey.pop();
         value_pick.pop();
         airline_pick_list.pop();
+    }else if(check == 1 && airline_request.direction == 'MC'){
+        if(value_pick.length != 0){
+            try{
+                console.log(value_pick);
+                console.log(val);
+                document.getElementById('departjourney'+value_pick[value_pick.length-1]).value = 'Choose';
+                document.getElementById('departjourney'+value_pick[value_pick.length-1]).disabled = false;
+                document.getElementById('departjourney'+value_pick[value_pick.length-1]).classList.remove("primary-btn-custom-un");
+                document.getElementById('departjourney'+value_pick[value_pick.length-1]).classList.add("primary-btn-custom");
+            }catch(err){
+
+            }
+        }
+        journey.pop();
+        value_pick.pop();
+        airline_pick_list.pop();
     }
 
     if(choose_airline != null){
