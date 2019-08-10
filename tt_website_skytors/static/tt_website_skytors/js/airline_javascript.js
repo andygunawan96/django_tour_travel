@@ -1669,14 +1669,14 @@ function airline_detail(){
                 $text += airline_pick[i].segments[j].origin_name + ' (' + airline_pick[i].segments[j].origin_city + ') - ';
                 $text += airline_pick[i].segments[j].destination_name + ' (' + airline_pick[i].segments[j].destination_city + ')\n\n';
             }
-            if(airline_pick[i].is_combo_price == true && j != 0){
+            if(airline_pick[i].is_combo_price == true){
                 if(airline_type != airline_pick[i].segments[j].journey_type){
                     text+=`<hr/><h6>Return</h6>`;
                     airline_type = 'RET';
                 }
-                text += `<div class="row">`;
-
             }
+            if(j != 0 )
+                text += `<div class="row">`;
             text+=`
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <table style="width:100%">
@@ -1709,7 +1709,7 @@ function airline_detail(){
                     <span style="font-size:12px;">`+airline_pick[i].segments[j].arrival_date.split(' - ')[0]+` `+airline_pick[i].segments[j].arrival_date.split(' - ')[1]+`</span></br>
                 </div>
             </div>`;
-            if(airline_pick[i].is_combo_price == true && j != 0)
+            if(j != 0)
                 text += `</div>`;
         }
         text += `</div><hr/>`;
