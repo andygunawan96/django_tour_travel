@@ -24,13 +24,12 @@
     {% endfor %}
 
     hotel_search_data_request = {
-        'checkin': `{{hotel_search.check_in}}`,
-        'checkout': `{{hotel_search.check_out}}`,
+        'checkin': `{{hotel_search.checkin_date}}`,
+        'checkout': `{{hotel_search.checkout_date}}`,
         'room': {{hotel_search.room}},
         'adult': {{hotel_search.adult}},
         'child': {{hotel_search.child}},
     }
-
     function guest_child_age2(){
         text= '';
         if(parseInt(document.getElementById("hotel_child").value) == 0){

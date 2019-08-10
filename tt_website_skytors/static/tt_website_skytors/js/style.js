@@ -710,7 +710,7 @@ $(document).ready(function(){
             document.getElementById('ori_airline').style.display = "block";
             document.getElementById('mc_airline_default').innerHTML = "none";
             airline_counter_config = 0;
-            counter = 0;
+            counter_airline_search = 0;
 
             $("#airline_departure").val(moment().format('DD MMM YYYY'));
             $("#airline_return").val($("#airline_departure").val());
@@ -737,7 +737,7 @@ $(document).ready(function(){
             document.getElementById('ori_airline').style.display = "block";
             document.getElementById('mc_airline_default').innerHTML = "none";
             airline_counter_config = 0;
-            counter = 0;
+            counter_airline_search = 0;
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
@@ -776,6 +776,8 @@ $(document).ready(function(){
             });
         }
         else if (selected_value == "multicity"){
+            airline_counter_config = 0;
+            counter_airline_search = 0;
             text_mc='';
             text_mc += `
             <div class="row">
@@ -804,8 +806,8 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
 
-            add_multi_city();
-            add_multi_city();
+            add_multi_city('home');
+            add_multi_city('home');
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
         }
     });
@@ -826,15 +828,12 @@ $(document).ready(function(){
             node.innerHTML = text;
             document.getElementById("airline_date_search").appendChild(node);
             node = document.createElement("div");
-            document.getElementById('is_combo_price').disabled = true;
-            document.getElementById('is_combo_price').checked = false;
+           document.getElementById('is_combo_price').disabled = true;
             document.getElementById('checkbox_combo_price').style.display = "none";
-            //mc
-            //document.getElementById('add_mc_value').style.display = "none";
-            document.getElementById('ori_airline').style.display = "";
-            document.getElementById('mc_airline_default').innerHTML = "";
+            document.getElementById('ori_airline').style.display = "block";
+            document.getElementById('mc_airline_default').innerHTML = "none";
             airline_counter_config = 0;
-            counter = 0;
+            counter_airline_search = 0;
 
             document.getElementById("airline_departure").value = document.getElementById("airline_departure_temp").value;
             document.getElementById("airline_return").value = document.getElementById("airline_departure").value;
@@ -855,14 +854,14 @@ $(document).ready(function(){
             document.getElementById("airline_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");
+
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('checkbox_combo_price').style.display = "block";
-            //mc
-            //document.getElementById('add_mc_value').style.display = "none";
-            document.getElementById('ori_airline').style.display = "";
-            document.getElementById('mc_airline_default').innerHTML = "";
+            document.getElementById('ori_airline').style.display = "block";
+            document.getElementById('mc_airline_default').innerHTML = "none";
+
             airline_counter_config = 0;
-            counter = 0;
+            counter_airline_search = 0;
 
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
@@ -945,23 +944,39 @@ $(document).ready(function(){
 
         }
         else if (selected_value == "multicity"){
-            document.getElementById("airline_date_search").innerHTML = '';
-            text='';
-            var node = document.createElement("div");
-            text+=`
-            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-            <div class="input-container-search-ticket">
-                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-            </div>
-            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            airline_counter_config = 0;
+            counter_airline_search = 0;
+            text_mc='';
+            text_mc += `
+            <div class="row">
+                <div class="col-lg-12" style="text-align:right; padding:0px 0px 15px 0px;">
+                    <button type="button" class="primary-btn" onclick="add_multi_city();"><i class="fas fa-plus"></i> Add Flight</button>
+                    <button type="button" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete Flight</button>
+                </div>
+                <div class="col-lg-12" style="padding:0px;">
+                    <div id="mc_airline_paxs">
 
-            node.innerHTML = text;
-            document.getElementById("airline_date_search").appendChild(node);
-            node = document.createElement("div");
+                    </div>
+                    <div class="banner-right">
+                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist">
+
+                        </ul>
+                    </div>
+                    <div class="banner-right">
+                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            document.getElementById('mc_airline_default').innerHTML = text_mc;
+            document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').disabled = true;
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
-            document.getElementById('ori_airline').style.display = "none";
+
+            add_multi_city('search');
+            add_multi_city('search');
+            $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
         }
     });

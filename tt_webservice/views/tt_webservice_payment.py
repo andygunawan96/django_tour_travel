@@ -50,18 +50,15 @@ def api_models(request):
 
 def get_payment_acquirer(request):
     data = {
-        # 'agent_id': request.POST['agent_id'],
-        # 'booker_id': request.POST['booker_id'],
-        'booker_seq_id': "CU.010101",
-        # 'order_number': request.session['order_number'],
-        'order_number': 'AL.19080509118',
-        'transaction_type': 'billing',
+        'booker_seq_id': request.POST['booker_seq_id'],
+        'order_number': request.POST['order_number'],
+        'transaction_type': request.POST['transaction_type'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_payment_acquirer",
-        "signature": request.session['signature'],
+        "signature": request.POST['signature'],
     }
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')

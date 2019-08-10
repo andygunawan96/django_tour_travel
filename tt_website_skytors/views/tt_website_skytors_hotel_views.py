@@ -86,8 +86,8 @@ def detail(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'hotel_search': data,
-            'check_in': convert_string_to_date_to_string_front_end(data['checkin_date']),
-            'check_out': convert_string_to_date_to_string_front_end(data['checkout_date']),
+            'check_in': data['checkin_date'],
+            'check_out': data['checkout_date'],
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version
