@@ -237,7 +237,7 @@ payment_acq2 = {
 
 console.log(payment_acq);
 
-function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature){
+function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type){
     getToken();
     $.ajax({
        type: "POST",
@@ -251,7 +251,8 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             'booker_seq_id': booker_seq_id,
             'order_number': order_number,
             'transaction_type': transaction_type,
-            'signature': signature
+            'signature': signature,
+            'type': type
        },
        success: function(msg) {
             console.log(msg);

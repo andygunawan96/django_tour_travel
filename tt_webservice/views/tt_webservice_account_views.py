@@ -7,6 +7,11 @@ from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
 
+import logging
+import traceback
+_logger = logging.getLogger(__name__)
+
+
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -62,9 +67,12 @@ def get_account(request):
     }
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-    request.session['user_account'] = res['result']['response']
-    if res['result']['error_code'] == 0:
-        pass
+    try:
+        request.session['user_account'] = res['result']['response']
+        if res['result']['error_code'] == 0:
+            pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_balance(request):
@@ -78,14 +86,20 @@ def get_balance(request):
     }
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-
-    if res['result']['error_code'] == 0:
-        pass
+    try:
+        if res['result']['error_code'] == 0:
+            pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_transactions(request):
 
-    data = {}
+    data = {
+        'minimum': int(request.POST['offset']) * int(request.POST['limit']),
+        'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
+        'provider_type': json.loads(request.POST['provider_type'])
+    }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -94,9 +108,11 @@ def get_transactions(request):
     }
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-
-    if res['result']['error_code'] == 0:
-        pass
+    try:
+        if res['result']['error_code'] == 0:
+            pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_payment_acquirer(request):
@@ -114,7 +130,9 @@ def get_payment_acquirer(request):
     }
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-
-    if res['result']['error_code'] == 0:
-        pass
+    try:
+        if res['result']['error_code'] == 0:
+            pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

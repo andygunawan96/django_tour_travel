@@ -8,6 +8,10 @@ from tools.parser import *
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
+import logging
+import traceback
+_logger = logging.getLogger(__name__)
+
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -117,15 +121,16 @@ def login(request):
         "user": user_global,
         "password": password_global,
         "api_key": api_key,
-        "co_user": user_default,  # request.POST['username'],
-        "co_password": password_default,  # request.POST['password'],
+        "co_user": request.session['username'],
+        "co_password": request.session['password'],
         "co_uid": ""
     }
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
-
-    request.session['airline_signature'] = res['result']['response']['signature']
-
+    try:
+        request.session['airline_signature'] = res['result']['response']['signature']
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -141,22 +146,28 @@ def get_carrier_code_list(request):
     date_time = datetime.now() - a.get_time_carrier_airline
     if date_time.seconds >= 300:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-        if res['result']['error_code'] == 0:
-            a.set_new_time_out('carrier')
-            res = res['result']['response']
-            file = open("get_airline_active_carriers" + ".txt", "w+")
-            file.write(json.dumps(res))
-            file.close()
-        else:
+        try:
+            if res['result']['error_code'] == 0:
+                a.set_new_time_out('carrier')
+                res = res['result']['response']
+                file = open("get_airline_active_carriers" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+            else:
+                file = open("get_airline_active_carriers.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
             file = open("get_airline_active_carriers.txt", "r")
             for line in file:
                 res = json.loads(line)
             file.close()
-    else:
-        file = open("get_airline_active_carriers.txt", "r")
-        for line in file:
-            res = json.loads(line)
-        file.close()
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -174,204 +185,209 @@ def get_provider_list(request):
     date_time = datetime.now() - a.get_time_provider_airline
     if date_time.seconds >= 300:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-        if res['result']['error_code'] == 0:
-            a.set_new_time_out('provider')
-            res = json.dumps(res['result']['response'])
-            file = open("get_list_provider.txt", "w+")
-            file.write(res)
-            file.close()
-        else:
+        try:
+            if res['result']['error_code'] == 0:
+                a.set_new_time_out('provider')
+                res = json.dumps(res['result']['response'])
+                file = open("get_list_provider.txt", "w+")
+                file.write(res)
+                file.close()
+            else:
+                file = open("get_list_provider.txt", "r")
+                for line in file:
+                    res = line
+                file.close()
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
             file = open("get_list_provider.txt", "r")
             for line in file:
                 res = line
             file.close()
-    else:
-        file = open("get_list_provider.txt", "r")
-        for line in file:
-            res = line
-        file.close()
-
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
 
 def search2(request):
     # get_data_awal
-    file = open("version_cache.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
+    try:
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
 
-    file = open(str(file_cache_name) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
 
-    # airline
-    airline_destinations = []
-    for country in response['result']['response']['airline']['destination']:
-        for des in response['result']['response']['airline']['destination'][country]:
-            des.update({
-                'country': country
-            })
-            airline_destinations.append(des)
+        # airline
+        airline_destinations = []
+        for country in response['result']['response']['airline']['destination']:
+            for des in response['result']['response']['airline']['destination'][country]:
+                des.update({
+                    'country': country
+                })
+                airline_destinations.append(des)
 
-    # get_data_awal
-    direction = request.session['airline_request']['direction']
-    departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
-                                   month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
-                                   request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
-    return_date = '%s-%s-%s' % (request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[2],
-                                month[request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[1]],
-                                request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[0])
-    origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
-    destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
-    cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
-    if request.session['airline_request']['direction'] == 'MC':
-        direction = 'OW'
-    if request.session['airline_request']['is_combo_price'] == 'true':
-        is_combo_price = True
-    else:
-        is_combo_price = False
+        # get_data_awal
+        direction = request.session['airline_request']['direction']
+        departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
+                                       month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
+                                       request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
+        return_date = '%s-%s-%s' % (request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[2],
+                                    month[request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[1]],
+                                    request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[0])
+        origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
+        destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
+        cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
+        if request.session['airline_request']['direction'] == 'MC':
+            direction = 'OW'
+        if request.session['airline_request']['is_combo_price'] == 'true':
+            is_combo_price = True
+        else:
+            is_combo_price = False
 
-    data = {
+        data = {
 
-        "origin": origin,
-        "destination": destination,
-        "departure_date": departure_date,
-        "direction": direction,
-        "return_date": return_date,
-        "adult": int(request.session['airline_request']['adult']),
-        "child": int(request.session['airline_request']['child']),
-        "infant": int(request.session['airline_request']['infant']),
-        "cabin_class": cabin_class,
-        # "provider": request.POST['provider'],
-        "provider": 'amadeus',
-        "carrier_codes": json.loads(request.POST['carrier_codes']),
-        "is_combo_price": is_combo_price
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "search",
-        "signature": request.session['airline_signature'],
-    }
+            "origin": origin,
+            "destination": destination,
+            "departure_date": departure_date,
+            "direction": direction,
+            "return_date": return_date,
+            "adult": int(request.session['airline_request']['adult']),
+            "child": int(request.session['airline_request']['child']),
+            "infant": int(request.session['airline_request']['infant']),
+            "cabin_class": cabin_class,
+            # "provider": request.POST['provider'],
+            "provider": 'amadeus',
+            "carrier_codes": json.loads(request.POST['carrier_codes']),
+            "is_combo_price": is_combo_price
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search",
+            "signature": request.session['airline_signature'],
+        }
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
-    request.session['airline_mc_counter'] = request.session['airline_mc_counter'] + 1
-    if res['result']['error_code'] == 0:
-        for journey in res['result']['response']['journeys']:
-            journey.update({
-                'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
-                'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
-            })
-            if journey.get('arrival_date_return'):
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    try:
+        if res['result']['error_code'] == 0:
+            for journey in res['result']['response']['journeys']:
                 journey.update({
-                    'departure_date_return': parse_date_time_front_end(string_to_datetime(journey['departure_date_return'])),
-                    'arrival_date_return': parse_date_time_front_end(string_to_datetime(journey['arrival_date_return']))
+                    'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
+                    'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
                 })
-            if journey.get('return_date'):
-                journey.update({
-                    'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
-                })
-            for destination in airline_destinations:
-                if destination['code'] == journey['origin']:
+                if journey.get('arrival_date_return'):
                     journey.update({
-                        'origin_city': destination['city'],
-                        'origin_name': destination['name'],
+                        'departure_date_return': parse_date_time_front_end(string_to_datetime(journey['departure_date_return'])),
+                        'arrival_date_return': parse_date_time_front_end(string_to_datetime(journey['arrival_date_return']))
                     })
-                    break
-            for destination in airline_destinations:
-                if destination['code'] == journey['destination']:
+                if journey.get('return_date'):
                     journey.update({
-                        'destination_city': destination['city'],
-                        'destination_name': destination['name'],
+                        'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
                     })
-                    break
-            for segment in journey['segments']:
-                segment.update({
-                    'departure_date': parse_date_time_front_end(string_to_datetime(segment['departure_date'])),
-                    'arrival_date': parse_date_time_front_end(string_to_datetime(segment['arrival_date']))
-                })
                 for destination in airline_destinations:
-                    if destination['code'] == segment['origin']:
-                        segment.update({
+                    if destination['code'] == journey['origin']:
+                        journey.update({
                             'origin_city': destination['city'],
                             'origin_name': destination['name'],
                         })
                         break
-
                 for destination in airline_destinations:
-                    if destination['code'] == segment['destination']:
-                        segment.update({
+                    if destination['code'] == journey['destination']:
+                        journey.update({
                             'destination_city': destination['city'],
-                            'destination_name': destination['name']
+                            'destination_name': destination['name'],
                         })
                         break
-
-                for leg in segment['legs']:
-                    leg.update({
-                        'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
-                        'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                for segment in journey['segments']:
+                    segment.update({
+                        'departure_date': parse_date_time_front_end(string_to_datetime(segment['departure_date'])),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(segment['arrival_date']))
                     })
-
                     for destination in airline_destinations:
-                        if destination['code'] == leg['origin']:
-                            leg.update({
+                        if destination['code'] == segment['origin']:
+                            segment.update({
                                 'origin_city': destination['city'],
                                 'origin_name': destination['name'],
                             })
                             break
 
                     for destination in airline_destinations:
-                        if destination['code'] == leg['destination']:
-                            leg.update({
+                        if destination['code'] == segment['destination']:
+                            segment.update({
                                 'destination_city': destination['city'],
                                 'destination_name': destination['name']
                             })
                             break
 
+                    for leg in segment['legs']:
+                        leg.update({
+                            'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
+                            'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                        })
+
+                        for destination in airline_destinations:
+                            if destination['code'] == leg['origin']:
+                                leg.update({
+                                    'origin_city': destination['city'],
+                                    'origin_name': destination['name'],
+                                })
+                                break
+
+                        for destination in airline_destinations:
+                            if destination['code'] == leg['destination']:
+                                leg.update({
+                                    'destination_city': destination['city'],
+                                    'destination_name': destination['name']
+                                })
+                                break
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res['result']
 
 def get_data(request):
-    file = open("version_cache.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
+    try:
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
 
-    file = open(str(file_cache_name) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
 
-    airline_destinations = []
-    for country in response['result']['response']['airline']['destination']:
-        for des in response['result']['response']['airline']['destination'][country]:
-            des.update({
-                'country': country
-            })
-            airline_destinations.append(des)
-    # res = search2(request)
+        airline_destinations = []
+        for country in response['result']['response']['airline']['destination']:
+            for des in response['result']['response']['airline']['destination'][country]:
+                des.update({
+                    'country': country
+                })
+                airline_destinations.append(des)
+        # res = search2(request)
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return airline_destinations
 
 def get_price_itinerary(request):
-    journey_booking = json.loads(request.POST['journeys_booking'])
-    for idx, journey in enumerate(journey_booking):
-        if idx == 1:
-            journey.update({
-                "separate_journey": True
-            })
+    try:
+        journey_booking = json.loads(request.POST['journeys_booking'])
+        for idx, journey in enumerate(journey_booking):
+            if idx == 1:
+                journey.update({
+                    "separate_journey": True
+                })
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     data = {
-        # "origin": "SUB",
-        # "destination": "SIN",
-        # "departure_date": "2019-04-13 00:00:00",
-        # "return_date": "2019-04-13 23:59:59",
-        # "direction": "RT",
-        # "adult": 1,
-        # "child": 0,
-        # "infant": 1,
-        # "cabin_class": "Y",
-        # "provider": "scoot"
         "promotion_code": [],
         "adult": int(request.session['airline_request']['adult']),
         "child": int(request.session['airline_request']['child']),
@@ -393,28 +409,21 @@ def get_price_itinerary(request):
     try:
         if res['result']['error_code'] == 0:
             request.session['airline_price_itinerary'] = res['result']['response']
-    except:
-        print('error')
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_fare_rules(request):
-    data = {
-        # "origin": "SUB",
-        # "destination": "SIN",
-        # "departure_date": "2019-04-13 00:00:00",
-        # "return_date": "2019-04-13 23:59:59",
-        # "direction": "RT",
-        # "adult": 1,
-        # "child": 0,
-        # "infant": 1,
-        # "cabin_class": "Y",
-        # "provider": "scoot"
-        "promotion_code": [],
-        "adult": int(request.session['airline_request']['adult']),
-        "child": int(request.session['airline_request']['child']),
-        "infant": int(request.session['airline_request']['infant']),
-        "journeys_booking": json.loads(request.POST['journeys_booking'])
-    }
+    try:
+        data = {
+            "promotion_code": [],
+            "adult": int(request.session['airline_request']['adult']),
+            "child": int(request.session['airline_request']['child']),
+            "infant": int(request.session['airline_request']['infant']),
+            "journeys_booking": json.loads(request.POST['journeys_booking'])
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     request.session['airline_get_price_request'] = data
     headers = {
@@ -429,19 +438,22 @@ def get_fare_rules(request):
     try:
         if res['result']['error_code'] == 0:
             request.session['get_fare_rules'] = res['result']['response']
-    except:
-        print('error')
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def sell_journeys(request):
     #nanti ganti ke select journey
-    journeys_booking = request.session['airline_get_price_request']['journeys_booking']
-    for journey in journeys_booking:
-        for segment in journey['segments']:
-            try:
-                segment.pop('fare_pick')
-            except:
-                continue
+    try:
+        journeys_booking = request.session['airline_get_price_request']['journeys_booking']
+        for journey in journeys_booking:
+            for segment in journey['segments']:
+                try:
+                    segment.pop('fare_pick')
+                except:
+                    continue
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     data = {
         "promotion_code": [],
         "adult": request.session['airline_get_price_request']['adult'],
@@ -457,54 +469,38 @@ def sell_journeys(request):
     }
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_contacts(request):
-    data = {
-        'booker': request.session['airline_create_passengers']['booker'],
-        'contacts': request.session['airline_create_passengers']['contact']
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "update_contacts",
-        "signature": request.session['airline_signature'],
-    }
+    try:
+        data = {
+            'booker': request.session['airline_create_passengers']['booker'],
+            'contacts': request.session['airline_create_passengers']['contact']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_contacts",
+            "signature": request.session['airline_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_passengers(request):
-    passenger = []
-    for pax in request.session['airline_create_passengers']['adult']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            pax.update({
-                'passport_expdate': '%s-%s-%s' % (
-                    pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                    pax['passport_expdate'].split(' ')[0])
-            })
-        passenger.append(pax)
-    for pax in request.session['airline_create_passengers']['child']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            pax.update({
-                'passport_expdate': '%s-%s-%s' % (
-                    pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                    pax['passport_expdate'].split(' ')[0])
-            })
-        passenger.append(pax)
-        for pax in request.session['airline_create_passengers']['infant']:
+    try:
+        passenger = []
+        for pax in request.session['airline_create_passengers']['adult']:
             pax.update({
                 'birth_date': '%s-%s-%s' % (
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
@@ -517,6 +513,34 @@ def update_passengers(request):
                         pax['passport_expdate'].split(' ')[0])
                 })
             passenger.append(pax)
+        for pax in request.session['airline_create_passengers']['child']:
+            pax.update({
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0])
+            })
+            if pax['passport_expdate'] != '':
+                pax.update({
+                    'passport_expdate': '%s-%s-%s' % (
+                        pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
+                        pax['passport_expdate'].split(' ')[0])
+                })
+            passenger.append(pax)
+            for pax in request.session['airline_create_passengers']['infant']:
+                pax.update({
+                    'birth_date': '%s-%s-%s' % (
+                        pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                        pax['birth_date'].split(' ')[0])
+                })
+                if pax['passport_expdate'] != '':
+                    pax.update({
+                        'passport_expdate': '%s-%s-%s' % (
+                            pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
+                            pax['passport_expdate'].split(' ')[0])
+                    })
+                passenger.append(pax)
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     data = {
         'passengers': passenger
     }
@@ -528,7 +552,10 @@ def update_passengers(request):
     }
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def commit_booking(request):
@@ -545,151 +572,164 @@ def commit_booking(request):
     }
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
-
-    # if res['result']['error_code'] == 0:
-    #     request.session['airline_order_number'] = res['result']['response']['order_number']
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
 
 def get_booking(request):
     # nanti ganti ke get_ssr_availability
-
-    data = {
-        # 'order_number': 'TB.190329533467'
-        'order_number': request.POST['order_number']
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_booking",
-        "signature": request.session['airline_signature'],
-    }
+    try:
+        data = {
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_booking",
+            "signature": request.session['airline_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
 
-    file = open("version_cache.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
 
-    file = open(str(file_cache_name) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
+        # airline
+        airline_destinations = []
+        for country in response['result']['response']['airline']['destination']:
+            for des in response['result']['response']['airline']['destination'][country]:
+                des.update({
+                    'country': country
+                })
+                airline_destinations.append(des)
 
-    # airline
-    airline_destinations = []
-    for country in response['result']['response']['airline']['destination']:
-        for des in response['result']['response']['airline']['destination'][country]:
-            des.update({
-                'country': country
+        #pax
+        for pax in res['result']['response']['passengers']:
+            pax.update({
+                'birth_date': '%s %s %s' % (
+                    pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                    pax['birth_date'].split(' ')[0].split('-')[0])
             })
-            airline_destinations.append(des)
-
-    #pax
-    for pax in res['result']['response']['passengers']:
-        pax.update({
-            'birth_date': '%s %s %s' % (
-                pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
-                pax['birth_date'].split(' ')[0].split('-')[0])
-        })
-        pass
-    for provider in res['result']['response']['provider_bookings']:
-        for journey in provider['journeys']:
-            journey.update({
-                'departure_date': convert_string_to_date_to_string_front_end_with_time(journey['departure_date']),
-            })
-            for destination in airline_destinations:
-                if destination['code'] == journey['origin']:
-                    journey.update({
-                        'origin_city': destination['city'],
-                        'origin_name': destination['name'],
-                    })
-                    break
-            for destination in airline_destinations:
-                if destination['code'] == journey['destination']:
-                    journey.update({
-                        'destination_city': destination['city'],
-                        'destination_name': destination['name'],
-                    })
-                    break
-            for segment in journey['segments']:
-                segment.update({
-                    'departure_date': convert_string_to_date_to_string_front_end_with_time(segment['departure_date']),
-                    'arrival_date': convert_string_to_date_to_string_front_end_with_time(segment['arrival_date']),
+            pass
+        for provider in res['result']['response']['provider_bookings']:
+            for journey in provider['journeys']:
+                journey.update({
+                    'departure_date': convert_string_to_date_to_string_front_end_with_time(journey['departure_date']),
                 })
                 for destination in airline_destinations:
-                    if destination['code'] == segment['origin']:
-                        segment.update({
+                    if destination['code'] == journey['origin']:
+                        journey.update({
                             'origin_city': destination['city'],
                             'origin_name': destination['name'],
                         })
                         break
                 for destination in airline_destinations:
-                    if destination['code'] == segment['destination']:
-                        segment.update({
+                    if destination['code'] == journey['destination']:
+                        journey.update({
                             'destination_city': destination['city'],
                             'destination_name': destination['name'],
                         })
                         break
-                for leg in segment['legs']:
-                    leg.update({
-                        'departure_date': convert_string_to_date_to_string_front_end_with_time(
-                            leg['departure_date']),
-                        'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
+                for segment in journey['segments']:
+                    segment.update({
+                        'departure_date': convert_string_to_date_to_string_front_end_with_time(segment['departure_date']),
+                        'arrival_date': convert_string_to_date_to_string_front_end_with_time(segment['arrival_date']),
                     })
                     for destination in airline_destinations:
-                        if destination['code'] == leg['origin']:
-                            leg.update({
+                        if destination['code'] == segment['origin']:
+                            segment.update({
                                 'origin_city': destination['city'],
                                 'origin_name': destination['name'],
                             })
                             break
                     for destination in airline_destinations:
-                        if destination['code'] == leg['destination']:
-                            leg.update({
+                        if destination['code'] == segment['destination']:
+                            segment.update({
                                 'destination_city': destination['city'],
                                 'destination_name': destination['name'],
                             })
                             break
-
-
+                    for leg in segment['legs']:
+                        leg.update({
+                            'departure_date': convert_string_to_date_to_string_front_end_with_time(
+                                leg['departure_date']),
+                            'arrival_date': convert_string_to_date_to_string_front_end_with_time(leg['arrival_date']),
+                        })
+                        for destination in airline_destinations:
+                            if destination['code'] == leg['origin']:
+                                leg.update({
+                                    'origin_city': destination['city'],
+                                    'origin_name': destination['name'],
+                                })
+                                break
+                        for destination in airline_destinations:
+                            if destination['code'] == leg['destination']:
+                                leg.update({
+                                    'destination_city': destination['city'],
+                                    'destination_name': destination['name'],
+                                })
+                                break
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_service_charge(request):
     # nanti ganti ke get_ssr_availability
-
-    data = {
-        'order_number': json.loads(request.POST['order_number']),
-        'passengers': json.loads(request.POST['passengers'])
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "pricing_booking",
-        "signature": request.session['airline_signature'],
-    }
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.session['airline_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def issued(request):
     # nanti ganti ke get_ssr_availability
-
-    data = {
-        # 'order_number': 'TB.190329533467'
-        'order_number': request.POST['order_number']
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "issued",
-        "signature": request.session['airline_signature'],
-    }
+    try:
+        data = {
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "issued",
+            "signature": request.session['airline_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 #GAK PAKE

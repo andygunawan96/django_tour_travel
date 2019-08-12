@@ -9,6 +9,7 @@ from rest_framework import authentication, permissions
 from tools import path_util
 from django.utils import translation
 import json
+
 from datetime import *
 
 MODEL_NAME = 'tt_website_skytors'
@@ -29,7 +30,6 @@ def index(request):
                 'javascript_version': javascript_version
             }
     except:
-        print('no logout')
         if bool(request.session._session):
             request.session.create()
 

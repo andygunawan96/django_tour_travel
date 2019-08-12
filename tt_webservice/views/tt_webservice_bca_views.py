@@ -9,6 +9,10 @@ from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
 import base64
+import logging
+import traceback
+_logger = logging.getLogger(__name__)
+
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -81,5 +85,8 @@ def login(request):
     # https://sandbox.bca.co.id
     res = util.send_request(url='https://devapi.klikbca.com/api/oauth/token', data=data, headers=headers, method='POST')
 
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
