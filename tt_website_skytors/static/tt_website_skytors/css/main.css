@@ -3259,7 +3259,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*-------- start price Area ------------*/
 .price-area {
   /*background: url(../img/price-bg.png) no-repeat center center;*/
-  background: url(../images/bg_8.jpg) no-repeat center center;
+  background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url(../images/bg_8.jpg);
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .price-area .single-price {
@@ -3335,7 +3339,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*-------- end other-issue Area ------------*/
 /*--------- start testimonial area  -------------*/
 .testimonial-area {
-    background: url("../images/bg_7.jpg") no-repeat center center;
+    background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_7.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .apps-area {
@@ -5482,7 +5490,7 @@ div.scrollmenu li {
 
 .myticket {
   position: fixed;
-  top: 130px;
+  top: 114px;
   right: 55px;
   z-index: 99;
   background-color: #f15a22;

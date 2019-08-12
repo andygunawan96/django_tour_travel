@@ -140,16 +140,17 @@ function table_top_up_history(data){
 }
 
 function total_price_top_up(){
-    var sel = document.getElementById("amount");
-    var text= sel.options[sel.selectedIndex].text;
-    var amount = text.split('.');
-    var price = '';
-    for(i in amount){
-        if(i != 0)
-            price +=amount[i];
-    }
-    document.getElementById('total_amount').value = (parseInt(price) * parseInt(document.getElementById('qty').value)) + parseInt(document.getElementById('unique_amount').value);
-    $('#amount').niceSelect('update');
+    console.log(parseInt(document.getElementById('amount').value));
+    if(document.getElementById('amount').value != '')
+        if(Number.isNaN(parseInt(document.getElementById('amount').value)) == true){
+            alert("Please don't fill any alpha characters!");
+            document.getElementById('amount').value = '';
+            document.getElementById('total_amount').value = parseInt(document.getElementById('unique_amount').value);
+        }else{
+            document.getElementById('amount').value = parseInt(document.getElementById('amount').value);
+            document.getElementById('total_amount').value = parseInt(document.getElementById("amount").value) + parseInt(document.getElementById('unique_amount').value);
+            $('#amount').niceSelect('update');
+        }
 }
 
 function payment_top_up(){

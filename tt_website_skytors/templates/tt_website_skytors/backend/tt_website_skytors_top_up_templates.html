@@ -8,9 +8,9 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script>
-    time = 300;
-    triggered_balance();
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    //time = 300;
+    //triggered_balance();
+    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
 
@@ -28,20 +28,10 @@
                             <div class="col-lg-12">
                                 <div class="row" style="text-align:left;">
 
-                                    <div class="col-lg-6">
-                                        <span>Select Amount</span><br/>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <div class="form-select" id="default-select">
-                                                <select id="amount" data-size="7" data-live-search="true" name="amount" required="required" tabindex="-98" onchange="total_price_top_up();">
-
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <span>Qty</span><br/>
+                                    <div class="col-lg-12">
+                                        <span>Amount</span><br/>
                                         <div class="input-container-search-ticket">
-                                            <input type="number" name="qty" id="qty" class="form-control" tabindex="1" value="1" min="1" required="required" onchange="total_price_top_up();">
+                                            <input type="text" name="amount" id="amount" class="form-control" placeholder="Amount in IDR" required="required" onchange="total_price_top_up();">
                                         </div>
                                     </div>
 
@@ -167,7 +157,7 @@
 </footer>
 
 <script>
-    get_top_up_amount();
+    //get_top_up_amount();
     document.getElementById('unique_amount').value =parseInt(Math.random() * 1000);
 </script>
 
