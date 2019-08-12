@@ -1282,7 +1282,7 @@ function sort(airline){
                                         <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`;
 
                                         text+=`</span>`;
-                                        if(choose_airline != null && choose_airline == airline[i].sequence)
+                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
                                             text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
                                         else
                                             text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
@@ -1498,7 +1498,7 @@ function sort(airline){
                                         }
                                     }
                                     text+=`</span>
-                                    <input type='button' style="margin:10px;" id="deletejourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`)" sequence_id="0"/>
+                                    <input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>
                                 </div>
                             </div>
                         </div>`;
@@ -1649,12 +1649,14 @@ function change_departure(val){
         //location.reload();
         check_airline_pick = 0;
         console.log(val);
-        journey.splice(val-1,1);
-        value_pick.splice(val-1,1);
-        airline_pick_list.splice(val-1,1);
-        counter_search = val-1;
+        journey.splice(val,1);
+        value_pick.splice(val,1);
+        airline_pick_list.splice(val,1);
+        counter_search = val;
+        console.log(journey);
+        console.log(airline_pick_list);
         text = '';
-        airline_pick_mc('delete');
+        airline_pick_mc('no_button');
         document.getElementById("airline_detail").innerHTML = '';
         send_search_to_api(counter_search)
     }
@@ -1669,21 +1671,41 @@ function change_departure(val){
 }
 
 function delete_mc_journey(val){
-    journey.splice(val-1,1);
-    value_pick.splice(val-1,1);
-    airline_pick_list.splice(val-1,1);
+    console.log(val);
+    journey.splice(val,1);
+    value_pick.splice(val,1);
+    airline_pick_list.splice(val,1);
     temp = parseInt(airline_request.counter) - 1;
     airline_request.counter = temp.toString();
-    console.log(airline_request);
+    console.log(temp);
     airline_pick_mc('all');
-    if(airline_request.counter == journey.length)
+    console.log(parseInt(airline_request.counter));
+    console.log(journey.length);
+    if(parseInt(airline_request.counter) == journey.length)
+        console.log('asdasd');
+    if(parseInt(airline_request.counter) == journey.length){
+        document.getElementById('airline_detail').innerHTML = '';
+        filtering('filter');
+        check_airline_pick = 1;
+        document.getElementById("badge-flight-notif").innerHTML = "1";
+        document.getElementById("badge-flight-notif2").innerHTML = "1";
+        $("#badge-flight-notif").addClass("infinite");
+        $("#badge-flight-notif2").addClass("infinite");
+        $("#myModalTicketFlight").modal('show');
+        $('#loading-search-flight').show();
+        $('#choose-ticket-flight').hide();
         get_price_itinerary_request();
+    }
+
 }
 
 function airline_pick_mc(type){
     text = '';
     for(i in airline_pick_list){
         text+=`
+        <div style="background-color:#f15a22; padding:10px;">
+            <h6 style="color:white;">Flight - `+(parseInt(i)+1)+`</h6>
+        </div>
         <div style="background-color:white; border:1px solid #f15a22; margin-bottom:15px;" id="journey2`+i+`">
             <div class="row">
                 <div class="col-lg-12" id="airline-info">
@@ -1755,20 +1777,20 @@ function airline_pick_mc(type){
                             text+=`</span>`;
                             if(type == 'all')
                             text+=`
-                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" sequence_id="0"/>
-                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>
+                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>`;
                             else if(type == 'change')
                             text+=`
-                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" sequence_id="0"/>
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" disabled sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>`;
                             else if(type == 'delete')
                             text+=`
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" disabled sequence_id="0"/>
-                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>
+                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>`;
                             else if(type=='no_button')
                             text+=`
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+counter_search+`);" disabled sequence_id="0"/>
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+counter_search+`);" disabled sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>`;
                             text+=`
                         </div>
                     </div>

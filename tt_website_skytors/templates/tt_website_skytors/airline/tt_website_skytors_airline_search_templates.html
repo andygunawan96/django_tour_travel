@@ -54,206 +54,226 @@
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
-<section class="price-area" data-aos="fade-up" style="padding-top:5px; padding-bottom:5px; background-color: black; z-index:2; position:relative;">
-    <div class="animated fadeInDown delay-1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="padding:0;">
-                    <div class="banner-right">
-                        <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-lg-12" id="radio_airline_change_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                    <label class="radio-button-custom">
-                                        <span style="font-size:14px; color:white;">One Way</span>
-                                        <input type="radio" {%if airline_request.direction == 'OW' %} checked="checked" {% endif %} name="radio_airline_type" id="radio_airline_ow" value="oneway">
-                                        <span class="checkmark-radio"></span>
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="text-transform: capitalize;"><i class="fas fa-map-marker-alt"></i> {% if airline_request.direction == 'OW' %} ONE WAY {% elif airline_request.direction == 'RT' %} ROUND TRIP {% elif airline_request.direction == 'MC' %} MULTI CITY {% endif %}</span><br/>
+                <span style="text-transform: capitalize;" id="show_origin_destination"><i class="fas fa-globe-asia"></i> {{airline_request.origin.0}} > {{airline_request.destination.0}} </span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="text-transform: capitalize;" id="show_date"><i class="fas fa-calendar-alt"></i> {{airline_request.departure.0}} {% if airline_request.departure.0 != airline_request.arrival.0 %} {{airline_request.arrival.0}} {% endif %}</span><br/>
+                <span style="text-transform: capitalize;"><i class="fas fa-users"></i> {{airline_request.adult}} Adult, {{airline_request.child}} Child, {{airline_request.infant}} Infant</span>
+            </div>
+
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn text-uppercase" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    Change Search
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:5px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="padding:0;">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" class="form-wrap" id="airline_searchForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12" id="radio_airline_change_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px; color:white;">One Way</span>
+                                    <input type="radio" {%if airline_request.direction == 'OW' %} checked="checked" {% endif %} name="radio_airline_type" id="radio_airline_ow" value="oneway">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px; color:white;">Round-trip</span>
+                                    <input type="radio" name="radio_airline_type" {%if airline_request.direction == 'RT' %} checked="checked" {% endif %} id="radio_airline_rt" value="roundtrip">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom">
+                                    <span style="font-size:14px; color:white;">Multi-City</span>
+                                    <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
+                                    <label class="check_box_custom">
+                                        <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                        <span class="check_box_span_custom"></span>
                                     </label>
-                                    <label class="radio-button-custom">
-                                        <span style="font-size:14px; color:white;">Round-trip</span>
-                                        <input type="radio" name="radio_airline_type" {%if airline_request.direction == 'RT' %} checked="checked" {% endif %} id="radio_airline_rt" value="roundtrip">
-                                        <span class="checkmark-radio"></span>
-                                    </label>
-                                    <label class="radio-button-custom">
-                                        <span style="font-size:14px; color:white;">Multi-City</span>
-                                        <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
-                                        <span class="checkmark-radio"></span>
-                                    </label>
-                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                        <label class="check_box_custom">
-                                            <span style="font-size:14px; color:white;">Is Combo Price</span>
-                                            <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                            <span class="check_box_span_custom"></span>
-                                        </label>
-                                    </div>
                                 </div>
-                                <div class="col-lg-12" id="ori_airline">
-                                    <div class="row">
-                                        <div class="col-lg-8">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+                            </div>
+                            <div class="col-lg-12" id="ori_airline">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
 
-                                                            </select>
-                                                        </div>
-                                                        <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
+                                                        </select>
                                                     </div>
+                                                    <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
                                                 </div>
-                                                <div class="image-change-route-vertical">
-                                                    <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                                </div>
-                                                <div class="image-change-route-horizontal">
-                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
-                                                    <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+                                            </div>
+                                            <div class="image-change-route-vertical">
+                                                <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal">
+                                                <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
 
-                                                            </select>
-                                                        </div>
-                                                        <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
+                                                        </select>
                                                     </div>
+                                                    <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
-                                            <div id="airline_date_search"></div>
-                                            <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                            <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
-                                                <ul class="dropdown-menu" role="menu">
-                                                    <div class="row" style="padding:10px;">
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Adult</span><br/>
-                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.adult}}" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
-                                                                <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Child<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age 3+)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.child}}" id="child_flight" name="child_flight" value="0" min="0" readonly>
-                                                                <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                            <div style="float:left;">
-                                                                <label>
-                                                                    <span style="color:black; font-size:13px;">Infant<br/></span>
-                                                                    <span style="color:gray; font-size:11px;">(Age <3)</span>
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                            <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                                <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
-                                                                    <i class="fas fa-minus"></i>
-                                                                </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" value="0" readonly>
-                                                                <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
-                                                                    <i class="fas fa-plus"></i>
-                                                                </button>
-                                                            </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                        <div id="airline_date_search"></div>
+                                        <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <div class="row" style="padding:10px;">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Adult</span><br/>
+                                                                <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                            </label>
                                                         </div>
                                                     </div>
-                                                </ul>
-                                            </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.adult}}" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
+                                                            <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Child<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.child}}" id="child_flight" name="child_flight" value="0" min="0" readonly>
+                                                            <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Age <3)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" value="{{airline_request.infant}}" id="infant_flight" name="infant_flight" value="0" readonly>
+                                                            <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ul>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
-                                                <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
-                                                    {% for key,value in airline_carriers.0.items %}
-                                                    {% if value.code == 'all'%}
-                                                    <li>
-                                                        <a class="small" data-value="option1" tabIndex="-1">
-                                                            <label class="check_box_custom">
-                                                                <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label><br/>
-                                                        </a>
-                                                    </li>
-                                                    {% else %}
-                                                    <li>
-                                                        <a class="small" data-value="option1" tabIndex="-1">
-                                                            <label class="check_box_custom">
-                                                                <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                                <input type="checkbox" id="provider_box_{{value.code}}" name="provider_box_{{value.code}}" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label><br/>
-                                                        </a>
-                                                    </li>
-                                                    {% endif %}
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
+                                            <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
+                                                {% for key,value in airline_carriers.0.items %}
+                                                {% if value.code == 'all'%}
+                                                <li>
+                                                    <a class="small" data-value="option1" tabIndex="-1">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
+                                                            <input type="checkbox" id="provider_box_All" name="provider_box_All" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label><br/>
+                                                    </a>
+                                                </li>
+                                                {% else %}
+                                                <li>
+                                                    <a class="small" data-value="option1" tabIndex="-1">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
+                                                            <input type="checkbox" id="provider_box_{{value.code}}" name="provider_box_{{value.code}}" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label><br/>
+                                                    </a>
+                                                </li>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                        <span class="span-search-ticket">Class</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <div class="form-select" id="default-select">
+                                                <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
+                                                    {% for cabin_class in airline_cabin_class_list %}
+                                                    <option value="{{cabin_class.value}}" {% if airline_request.cabin_class.0 == cabin_class.value%} selected {% endif %}>{{cabin_class.name}}</option>
                                                     {% endfor %}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Class</span>
-                                            <div class="input-container-search-ticket btn-group">
-                                                <div class="form-select" id="default-select">
-                                                    <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
-                                                        {% for cabin_class in airline_cabin_class_list %}
-                                                        <option value="{{cabin_class.value}}" {% if airline_request.cabin_class.0 == cabin_class.value%} selected {% endif %}>{{cabin_class.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" id="mc_airline_default">
-
-                                </div>
-                                <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
+                            </div>
+                            <div class="col-lg-12" id="mc_airline_default">
 
                             </div>
-                            <br/>
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
-                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                Search
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </form>
-                    </div>
+                            <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
+
+                        </div>
+                        <br/>
+                        <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                            Search
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -274,7 +294,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:95px; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:98px; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:2px;">
                         <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
@@ -347,7 +367,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> My Order <i class="fas fa-shopping-basket"></i></i></h4>
+                                <h4 class="modal-title" style="color:white;"> My Order <i class="fas fa-shopping-cart"></i></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -392,7 +412,7 @@
 {% include 'tt_website_skytors/footer.html' %}
 
 <button class="myticket" data-toggle="modal" data-target="#myModalTicketFlight">
-    <span style="color:white; font-size:16px;"><i class="fas fa-shopping-basket"></i></span>
+    <span style="color:white; font-size:16px;"><i class="fas fa-shopping-cart"></i></span>
     <span class="badge-notif animated bounceIn" id="badge-flight-notif">0</span>
 </button>
 
@@ -490,6 +510,9 @@
         text_mc += `
         <div class="row">
             <div class="col-lg-12" style="padding:0px;">
+                <div id="mc_airline_paxs">
+
+                </div>
                 <div class="banner-right" style="text-align:left;">
                     <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
 
@@ -501,9 +524,7 @@
                     <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
                     </div>
                 </div>
-                <div id="mc_airline_paxs">
 
-                </div>
             </div>
         </div>`;
         document.getElementById('mc_airline_default').innerHTML = text_mc;
