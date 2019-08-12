@@ -8,6 +8,9 @@ from tools.parser import *
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
+import logging
+import traceback
+_logger = logging.getLogger(__name__)
 
 month = {
     'Jan': '01',
@@ -49,19 +52,23 @@ def api_models(request):
     return Response(res)
 
 def get_payment_acquirer(request):
-    data = {
-        'booker_seq_id': request.POST['booker_seq_id'],
-        'order_number': request.POST['order_number'],
-        'transaction_type': request.POST['transaction_type'],
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_payment_acquirer",
-        "signature": request.POST['signature'],
-    }
-
-    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        data = {
+            'booker_seq_id': request.POST['booker_seq_id'],
+            'order_number': request.POST['order_number'],
+            'transaction_type': request.POST['transaction_type'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_payment_acquirer",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    if request.POST['type'] == 'airline':
+        url_post = 'booking/airline'
+    res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:
         pass

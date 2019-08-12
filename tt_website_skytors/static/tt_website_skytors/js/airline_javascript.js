@@ -117,8 +117,32 @@ var sorting_list2 = [
 ]
 
 function airline_goto_search(){
-    document.getElementById('counter').value = counter_airline_search;
-    document.getElementById('airline_searchForm').submit();
+    type = '';
+    var radios = document.getElementsByName('radio_airline_type');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            type = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    console.log(type);
+    if(type != 'multicity'){
+        document.getElementById('counter').value = counter_airline_search;
+        document.getElementById('airline_searchForm').submit();
+    }else{
+        error_log = '';
+        for(i=1;i<=counter_airline_search;i++){
+            if(document.getElementById('cabin_class_flight'+i).value == '')
+                error_log += 'Please fill class for flight '+i+'!\n';
+        }
+        if(error_log == ''){
+            document.getElementById('counter').value = counter_airline_search;
+            document.getElementById('airline_searchForm').submit();
+        }else
+            alert(error_log)
+    }
 }
 
 function return_airline(){
@@ -295,13 +319,25 @@ function add_multi_city(type){
                         <div class="form-select" id="default-select`+counter_airline_search+`">
                             <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
                             for(i in cabin_class){
-                                if(i == 0){
-                                    if(type == 'home')
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
+                                            text+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
                                         text+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                     else
                                         text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }else
-                                    text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
                             }
                      text+=`</select>
                         </div>
@@ -350,13 +386,20 @@ function add_multi_city(type){
         console.log(counter_airline_search);
         get_airline_config(type,counter_airline_search);
         $('#cabin_class_flight'+counter_airline_search).niceSelect();
-        get_carrier_code_list(counter_airline_search);
+        get_carrier_code_list(type, counter_airline_search);
         airline_provider_list_mc.push(airline_provider_list);
         $('#origin_id_flight'+counter_airline_search).select2();
         $('#destination_id_flight'+counter_airline_search).select2();
         $('.dropdown-menu').on('click', function(e) {
           e.stopPropagation();
         });
+
+        if(counter_airline_search == 3){
+            document.getElementById('add_mc_btn').hidden = true;
+        }
+        else{
+            document.getElementById('del_mc_btn').hidden = false;
+        }
 
 
 //        for(i=0;i<counter;i++){
@@ -381,6 +424,12 @@ function del_multi_city(){
             document.getElementById("mc_airline"+counter_airline_search).classList.remove("active");
             document.getElementById("mc_airline_add"+counter_airline_search).classList.remove("show");
             document.getElementById("mc_airline_add"+counter_airline_search).classList.remove("active");
+            document.getElementById('add_mc_btn').hidden = false;
+            document.getElementById('del_mc_btn').hidden = false;
+        }
+        else{
+            document.getElementById('add_mc_btn').hidden = false;
+            document.getElementById('del_mc_btn').hidden = true;
         }
     }
 }
@@ -663,7 +712,7 @@ function airline_set_passenger_plus(type, val){
         }
     }
     for(i=1;i<=counter_airline_search;i++)
-        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+        document.getElementById('show_total_pax_flight'+i).value = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant"
 }
 
 function airline_set_passenger_minus(type, val){
@@ -694,7 +743,7 @@ function airline_set_passenger_minus(type, val){
     }
 
     for(i=1;i<=counter_airline_search;i++)
-        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+        document.getElementById('show_total_pax_flight'+i).value = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant"
 }
 
 function airline_switch(val){

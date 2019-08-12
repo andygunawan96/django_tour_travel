@@ -7,7 +7,9 @@ from tools.parser import *
 from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
-
+import logging
+import traceback
+_logger = logging.getLogger(__name__)
 
 @api_view(['GET', 'POST'])
 def api_models(request):
@@ -24,55 +26,70 @@ def api_models(request):
     return Response(res)
 
 def login(request,func):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "signin",
-        "signature": '',
-    }
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "signin",
+            "signature": '',
+        }
 
-    data = {
-        "user": user_global,
-        "password": password_global,
-        "api_key": api_key,
-        "co_user": user_default,  # request.POST['username'],
-        "co_password": password_default,  # request.POST['password'],
-        "co_uid": ""
-    }
+        data = {
+            "user": user_global,
+            "password": password_global,
+            "api_key": api_key,
+            "co_user": user_default,  # request.POST['username'],
+            "co_password": password_default,  # request.POST['password'],
+            "co_uid": ""
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
-
-    request.session['signature'] = res['result']['response']['signature']
-    if func == 'get_config':
-        get_config(request)
-    elif func == 'register':
-        register(request)
+    try:
+        request.session['signature'] = res['result']['response']['signature']
+        if func == 'get_config':
+            get_config(request)
+        elif func == 'register':
+            register(request)
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_config(request):
-    data = {
-        'provider': 'skytors_agent_registration'
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_config",
-        'signature': request.session['signature']
-    }
+    try:
+        data = {
+            'provider': 'skytors_agent_registration'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_config",
+            'signature': request.session['signature']
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+
     if res['result']['error_code'] != 0:
         login(request, 'get_config')
     return res
 
 def register(request):
-    data = request.session['registration_request']
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "create_agent",
-        "signature": request.session['signature'],
-    }
+    try:
+        data = request.session['registration_request']
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "create_agent",
+            "signature": request.session['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
-    if res['result']['error_code'] != 0:
-        login(request, 'register')
+    try:
+        if res['result']['error_code'] != 0:
+            login(request, 'register')
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res

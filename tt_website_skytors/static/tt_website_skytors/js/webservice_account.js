@@ -1,3 +1,4 @@
+offset_transaction = 0;
 
 
 function get_balance(){
@@ -38,6 +39,7 @@ function get_balance(){
 }
 
 function get_account(){
+    limit_transaction = 20;
     getToken();
     $.ajax({
        type: "POST",
@@ -62,7 +64,8 @@ function get_account(){
     });
 }
 
-function get_transactions(){
+function get_transactions_notification(){
+    limit_transaction = 5;
     getToken();
     $.ajax({
        type: "POST",
@@ -71,7 +74,53 @@ function get_transactions(){
             'action': 'get_transactions',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'offset': offset_transaction,
+            'limit': limit_transaction,
+            'provider_type': JSON.stringify([])
+       },
+       success: function(msg) {
+       console.log(msg);
+        if(msg.result.error_code == 0){
+            text = '';
+            for(i in msg.result.response){
+                number = parseInt(i)+1;
+                if(msg.result.response[i].provider_type == 'airline')
+                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`
+                text+=`<li> `+number+` `+msg.result.response[i].order_number+` </li>`;
+                text+=`<li>   `+msg.result.response[i].pnr+` </li>`;
+                text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
+                text+=`<hr/></form>`;
+            }
+            document.getElementById('notification_detail').innerHTML = text;
+            document.getElementById('notification_detail2').innerHTML = text;
+
+            console.log('success');
+        }else{
+            console.log('error');
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function get_transactions(){
+    limit_transaction = 20;
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_transactions',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'offset': offset_transaction,
+            'limit': limit_transaction,
+            'provider_type': JSON.stringify([])
+       },
        success: function(msg) {
        console.log(msg);
         if(msg.result.error_code == 0){

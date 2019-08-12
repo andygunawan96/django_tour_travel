@@ -8,6 +8,10 @@ from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
 import json
 
+import logging
+import traceback
+_logger = logging.getLogger(__name__)
+
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -91,139 +95,142 @@ def signin(request):
     }
 
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            request.session['signature'] = res['result']['response']['signature']
+            request.session['username'] = request.POST['username']
+            request.session['password'] = request.POST['password']
+            data = {}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_account",
+                "signature": request.session['signature'],
+            }
 
-    if res['result']['error_code'] == 0:
-        request.session['signature'] = res['result']['response']['signature']
+            res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            request.session['user_account'] = res_user['result']['response']
 
-        data = {}
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_account",
-            "signature": request.session['signature'],
-        }
+            try:
+                if res['result']['error_code'] == 0:
 
-        res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-        request.session['user_account'] = res_user['result']['response']
+                    file = open("version_cache.txt", "r")
+                    for line in file:
+                        file_cache_name = line
+                    file.close()
 
-        try:
-            if res['result']['error_code'] == 0:
+                    file = open(str(file_cache_name) + ".txt", "r")
+                    for line in file:
+                        res_data = json.loads(line)
+                    file.close()
 
-                file = open("version_cache.txt", "r")
-                for line in file:
-                    file_cache_name = line
-                file.close()
+                    res['result']['response'].update({
+                        # 'balance': {
+                        #     'balance': res_balance['result']['response']['balance'],
+                        #     'credit_limit': res_balance['result']['response']['credit_limit']
+                        # },
+                        'issued_offline': res_data['result']['response']['issued_offline'],
+                        'train': res_data['result']['response']['train'],
+                        'activity': res_data['result']['response']['activity'],
+                        'airline': res_data['result']['response']['airline'],
+                        'hotel_config': res_data['result']['response']['hotel_config'],
+                    })
+            except:
+                # airline
+                data = {'provider_type': 'airline'}
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_destinations",
+                    "signature": request.session['signature'],
+                }
 
-                file = open(str(file_cache_name) + ".txt", "r")
-                for line in file:
-                    res_data = json.loads(line)
-                file.close()
+                res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+                data = {}
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_countries",
+                    "signature": request.session['signature'],
+                }
+
+                res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
+                #visa odoo12
+                data = {
+                    'provider': 'skytors_visa'
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "signature": request.session['signature'],
+                }
+
+                res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+                #
+
+                #issuedoffline
+                data = {
+                    'provider': 'skytors_issued_offline'
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "provider": 'skytors_issued_offline',
+                    "signature": request.session['signature'],
+                }
+
+                res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
+
+                # return res
+
+                #train
+                data = {}
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_origins",
+                    "signature": request.session['signature'],
+                }
+
+                res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, cookies=res_train['result']['cookies'], method='POST')
+
+                #activity
+                # data = {}
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_config2",
+                #     "signature": request.session['signature'],
+                # }
+                #
+                # res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
+                #                                      cookies=res_activity['result']['cookies'], method='POST')
+
+
 
                 res['result']['response'].update({
-                    # 'balance': {
-                    #     'balance': res_balance['result']['response']['balance'],
-                    #     'credit_limit': res_balance['result']['response']['credit_limit']
-                    # },
-                    'issued_offline': res_data['result']['response']['issued_offline'],
-                    'train': res_data['result']['response']['train'],
-                    'activity': res_data['result']['response']['activity'],
-                    'airline': res_data['result']['response']['airline'],
-                    'hotel_config': res_data['result']['response']['hotel_config'],
+                    'visa': res_config_visa,
+                    'issued_offline': res_config_issued_offline['result']['response'],
+                    'train': res_origin_train['result']['response'],
+                    # 'activity': res_config_activity['result'],
+                    'airline': {
+                        'country': res_country_airline['result']['response'],
+                        'destination': res_destination_airline['result']['response'],
+                    },
                 })
-        except:
-            # airline
-            data = {'provider_type': 'airline'}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_destinations",
-                "signature": request.session['signature'],
-            }
 
-            res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_countries",
-                "signature": request.session['signature'],
-            }
+                file = open("version1.0"+".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
 
-            res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-
-            #visa odoo12
-            data = {
-                'provider': 'skytors_visa'
-            }
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_config",
-                "signature": request.session['signature'],
-            }
-
-            res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
-            #
-
-            #issuedoffline
-            data = {
-                'provider': 'skytors_issued_offline'
-            }
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_config",
-                "provider": 'skytors_issued_offline',
-                "signature": request.session['signature'],
-            }
-
-            res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
-
-            # return res
-
-            #train
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_origins",
-                "signature": request.session['signature'],
-            }
-
-            res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, cookies=res_train['result']['cookies'], method='POST')
-
-            #activity
-            # data = {}
-            # headers = {
-            #     "Accept": "application/json,text/html,application/xml",
-            #     "Content-Type": "application/json",
-            #     "action": "get_config2",
-            #     "signature": request.session['signature'],
-            # }
-            #
-            # res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
-            #                                      cookies=res_activity['result']['cookies'], method='POST')
-
-
-
-            res['result']['response'].update({
-                'visa': res_config_visa,
-                'issued_offline': res_config_issued_offline['result']['response'],
-                'train': res_origin_train['result']['response'],
-                # 'activity': res_config_activity['result'],
-                'airline': {
-                    'country': res_country_airline['result']['response'],
-                    'destination': res_destination_airline['result']['response'],
-                },
-            })
-
-            file = open("version1.0"+".txt", "w+")
-            file.write(json.dumps(res))
-            file.close()
-
-            file = open("version_cache" + ".txt", "w+")
-            file.write("version1.0")
-            file.close()
+                file = open("version_cache" + ".txt", "w+")
+                file.write("version1.0")
+                file.close()
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res['result']['error_code']
 
@@ -246,31 +253,32 @@ def get_customer_list(request):
     }
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-
-    if res['result']['error_code'] == 0:
-        counter = 0
-        for pax in res['result']['response']:
-            age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
-            if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                title = 'MRS'
-            elif pax['gender'] == 'female':
-                title = 'MS'
-            else:
-                title = 'MR'
-            pax.update({
-                'sequence': counter,
-                'age': age.years,
-                'title': title
-            })
-            if pax['birth_date'] != '':
-
+    try:
+        if res['result']['error_code'] == 0:
+            counter = 0
+            for pax in res['result']['response']:
+                age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
+                if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                    title = 'MRS'
+                elif pax['gender'] == 'female':
+                    title = 'MS'
+                else:
+                    title = 'MR'
                 pax.update({
-                    'birth_date': '%s %s %s' % (
-                        pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
-                        pax['birth_date'].split('-')[0]),
+                    'sequence': counter,
+                    'age': age.years,
+                    'title': title
                 })
-            counter += 1
+                if pax['birth_date'] != '':
 
+                    pax.update({
+                        'birth_date': '%s %s %s' % (
+                            pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                            pax['birth_date'].split('-')[0]),
+                    })
+                counter += 1
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_agent_passenger(request):
@@ -289,28 +297,30 @@ def get_agent_passenger(request):
     }
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    if res['error_code'] == 0:
-        res.update({
-            'response': json.loads(res['response'])
-        })
-        counter = 0
-        for response in res['response']['result']:
-            if request.POST['pax_type'] == '':
-                response.update({
-                    'sequence': counter
-                })
-            elif response['pax_type'] == request.POST['pax_type']:
-                response.update({
-                    'sequence': counter
-                })
-                if response['birth_date']:
+    try:
+        if res['error_code'] == 0:
+            res.update({
+                'response': json.loads(res['response'])
+            })
+            counter = 0
+            for response in res['response']['result']:
+                if request.POST['pax_type'] == '':
                     response.update({
-                        'birth_date': '%s %s %s' % (
-                        response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
-                        response['birth_date'].split('-')[0]),
+                        'sequence': counter
                     })
-                counter += 1
-
+                elif response['pax_type'] == request.POST['pax_type']:
+                    response.update({
+                        'sequence': counter
+                    })
+                    if response['birth_date']:
+                        response.update({
+                            'birth_date': '%s %s %s' % (
+                            response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
+                            response['birth_date'].split('-')[0]),
+                        })
+                    counter += 1
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 #BACKEND
@@ -331,7 +341,10 @@ def get_agent_booking(request):
     }
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_top_up(request):
@@ -348,7 +361,10 @@ def get_top_up(request):
     }
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_top_up_amount(request):
@@ -361,7 +377,10 @@ def get_top_up_amount(request):
     data = {}
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def create_top_up(request):
@@ -380,7 +399,10 @@ def create_top_up(request):
     }
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def top_up_payment(request):
@@ -397,7 +419,10 @@ def top_up_payment(request):
     }
     res = util.send_request(url=url + 'agent/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_merchant_info(request):
@@ -411,7 +436,10 @@ def get_merchant_info(request):
     data = {}
     res = util.send_request(url=url + 'payment/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def request_va(request):
@@ -425,7 +453,10 @@ def request_va(request):
     data = {}
     res = util.send_request(url=url + 'payment/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def request_inv_va(request):
@@ -445,5 +476,8 @@ def request_inv_va(request):
     }
     res = util.send_request(url=url + 'payment/session', data=data,
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
-
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
