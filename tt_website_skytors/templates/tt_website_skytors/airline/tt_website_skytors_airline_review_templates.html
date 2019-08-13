@@ -29,6 +29,7 @@
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
+    console.log(airline_carriers);
     airline_get_price_request = `{{airline_get_price_request}}`;
     airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
     airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');

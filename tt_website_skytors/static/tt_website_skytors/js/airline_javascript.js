@@ -1919,14 +1919,20 @@ function airline_detail(){
     for(i in airline_pick){
         if(airline_pick[i].journey_type == 'DEP'){
             text += `<div class="row"><div class="col-lg-12"><h6>Departure</h6>`;
-            $text +='Departure\n';
+            if(airline_request.direction != 'MC')
+                $text +='Departure\n';
+            else
+                $text +='Flight'+parseInt(i+1)+'\n';
         }else if(airline_pick[i].is_combo_price == true){
             text += `<div class="row"><div class="col-lg-12"><h6>Combo Price</h6><h6>Departure</h6>`;
             airline_type = 'DEP';
             $text +='Combo Price\n';
         }else{
             text += `<div class="row"><div class="col-lg-12"><h6>Return</h6>`;
-            $text +='Return\n';
+            if(airline_request.direction != 'MC')
+                $text +='Return\n';
+            else
+                $text +='Flight'+parseInt(i+1)+'\n';
         }
         for(j in airline_pick[i].carrier_code_list) //print gambar airline
             try{
@@ -2382,11 +2388,11 @@ function get_airline_review(){
                 text += '<h6>Return</h6>';
             text+= `<div class="row">`;
             text+= `<div class="col-lg-12">
-            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick[i].segments[j].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
+            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
             </div>`;
 
             text+= `<div class="col-lg-12">
-                        <h5>`+airline_carriers[0][airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
+                        <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
             if(airline_get_price_request.journeys_booking[i].segments[j].fare_pick != ''){
                  text+=`<h6>Class: `+airline_pick[i].segments[j].fares[airline_get_price_request.journeys_booking[i].segments[j].fare_pick].subclass+`</h6>`;
             }

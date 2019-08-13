@@ -202,16 +202,14 @@ def reservation(request):
         javascript_version = json.loads(line)
     file.close()
 
-    file = open(str(file_cache_name) + ".txt", "r")
+    file = open("get_airline_active_carriers.txt", "r")
     for line in file:
-        response = json.loads(line)
+        airline_carriers = json.loads(line)
     file.close()
 
-    airline_carriers = response['result']['response']['airline']['carriers']
-
     new_airline_carriers = {}
-    for key, value  in airline_carriers.items():
-        new_airline_carriers[value] = key
+    for key, value in airline_carriers.items():
+        new_airline_carriers[key] = value
 
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -251,12 +249,10 @@ def top_up_payment(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'top_up_request': {
                 'amount': request.POST['amount'],
-                'qty': request.POST['qty'],
                 'unique_amount': request.POST['unique_amount'],
                 'total_amount': request.POST['total_amount'],
                 'payment_method': request.POST['payment_method'],
             },
-            'agent': request.session['agent'],
             'javascript_version': javascript_version,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account']

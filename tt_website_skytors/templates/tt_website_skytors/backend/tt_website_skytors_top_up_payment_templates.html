@@ -8,10 +8,9 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script>
-    time = 300;
-    triggered_balance();
+    //time = 300;
+    //triggered_balance();
     unique_amount = parseInt('{{top_up_request.unique_amount}}');
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
 
@@ -178,7 +177,7 @@
 </footer>
 
 <script>
-    create_top_up({{top_up_request.amount}},{{top_up_request.qty}},{{top_up_request.unique_amount}});
+    create_top_up({{top_up_request.amount}},{{top_up_request.unique_amount}});
 </script>
 
 {% endblock %}

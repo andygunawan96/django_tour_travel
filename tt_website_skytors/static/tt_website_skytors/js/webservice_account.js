@@ -106,7 +106,28 @@ function get_transactions_notification(){
     });
 }
 
-function get_transactions(){
+function get_transactions(type){
+    load_more = false;
+    getToken();
+    console.log(type);
+    if(type == 'reset'){
+        console.log('here');
+        offset_transaction = 0;
+        data_search = [];
+        document.getElementById("table_reservation").innerHTML = `
+                    <tr>
+                        <th style="width:2%;">No.</th>
+                        <th style="width:10%;">Name</th>
+                        <th style="width:7%;">Provider</th>
+                        <th style="width:8%;">State</th>
+                        <th style="width:5%;">PNR</th>
+                        <th style="width:12%;">Book Date</th>
+                        <th style="width:12%;">Hold Date</th>
+                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Issued By</th>
+                        <th style="width:7%;">Action</th>
+                    </tr>`;
+    }
     limit_transaction = 20;
     getToken();
     $.ajax({
@@ -122,11 +143,22 @@ function get_transactions(){
             'provider_type': JSON.stringify([])
        },
        success: function(msg) {
-       console.log(msg);
+        console.log(msg);
         if(msg.result.error_code == 0){
-            console.log('success');
+            try{
+                if(msg.result.response.length >= 20){
+                    offset_transaction++;
+                    table_reservation(msg.result.response);
+                    load_more = true;
+                }else{
+                    table_reservation(msg.result.response);
+                }
+            }catch(err){
+                console.log('dari home');
+                //set_notification(msg.result.response.transport_booking);
+            }
         }else{
-            console.log('error');
+            alert('Oops, something when wrong please contact HO !');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

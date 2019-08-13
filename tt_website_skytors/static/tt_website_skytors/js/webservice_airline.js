@@ -504,17 +504,28 @@ function airline_search(provider,carrier_codes){
        success: function(msg) {
        console.log(msg);
            if(msg.error_code == 0){
-              if(msg.response.journeys[0].origin == airline_request.origin[counter_search-1].substring(airline_request.origin[counter_search-1].length-4,airline_request.origin[counter_search-1].length-1) &&
-                 msg.response.journeys[0].destination == airline_request.destination[counter_search-1].substring(airline_request.destination[counter_search-1].length-4,airline_request.destination[counter_search-1].length-1) &&
-                 msg.response.journeys[0].departure_date.split(' - ')[0] == airline_request.departure[counter_search-1]){
-                  datasearch2(msg.response);
-                  airline_choose++;
-                  var bar1 = new ldBar("#barFlightSearch");
-                  var bar2 = document.getElementById('barFlightSearch').ldBar;
-                  bar1.set((airline_choose/count_progress_bar_airline)*100);
-                  if ((airline_choose/count_progress_bar_airline)*100 == 100){
-                    $("#barFlightSearch").hide();
+              try{
+                  if(msg.response.journeys[0].origin == airline_request.origin[counter_search-1].substring(airline_request.origin[counter_search-1].length-4,airline_request.origin[counter_search-1].length-1) &&
+                     msg.response.journeys[0].destination == airline_request.destination[counter_search-1].substring(airline_request.destination[counter_search-1].length-4,airline_request.destination[counter_search-1].length-1) &&
+                     msg.response.journeys[0].departure_date.split(' - ')[0] == airline_request.departure[counter_search-1]){
+                      datasearch2(msg.response);
+                      airline_choose++;
+                      var bar1 = new ldBar("#barFlightSearch");
+                      var bar2 = document.getElementById('barFlightSearch').ldBar;
+                      bar1.set((airline_choose/count_progress_bar_airline)*100);
+                      if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                        $("#barFlightSearch").hide();
+                      }
                   }
+              }catch(err){
+                  datasearch2(msg.response);
+                      airline_choose++;
+                      var bar1 = new ldBar("#barFlightSearch");
+                      var bar2 = document.getElementById('barFlightSearch').ldBar;
+                      bar1.set((airline_choose/count_progress_bar_airline)*100);
+                      if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                        $("#barFlightSearch").hide();
+                      }
               }
            }
            else{
@@ -543,16 +554,17 @@ function airline_search(provider,carrier_codes){
                 node.innerHTML = text;
                 document.getElementById("airlines_ticket").appendChild(node);
                 node = document.createElement("div");
-            }
-
+           }
            airline_data.forEach((obj)=> {
+               console.log(obj);
                check = 0;
                carrier_code.forEach((obj1)=> {
                    if(obj1.code == obj.segments[0].carrier_code)
                        check=1;
-                   else if(airline_carriers[obj.segments[0].carrier_code] == undefined)
+                   else if(airline_carriers[0][obj.segments[0].carrier_code] == undefined)
                        check=1;
                });
+               console.log(check);
                if(check == 0){
                    var node = document.createElement("div");
                    node.innerHTML = `<div class="checkbox-inline1">
@@ -1166,10 +1178,16 @@ function get_price_itinerary_request(){
                         $text +='Departure\n';
                     }else if(airline_pick_list[i].journey_type == 'DEP'){
                         text += `<h6>Departure</h6>`;
-                        $text +='Departure\n';
+                        if(airline_request.direction != 'MC')
+                            $text +='Departure\n';
+                        else
+                            $text +='Flight'+parseInt(i+1)+'\n';
                     }else{
                         text += `<h6>Return</h6>`;
-                        $text +='Return\n';
+                        if(airline_request.direction != 'MC')
+                            $text +='Return\n';
+                        else
+                            $text +='Flight'+parseInt(i+1)+'\n';
                     }
                     for(j in airline_pick_list[i].carrier_code_list) //print gambar airline
                         try{
@@ -2115,7 +2133,9 @@ function airline_issued(data){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-           'order_number': data
+           'order_number': data,
+           'seq_id': payment_acq2[payment_method][selected].seq_id,
+           'member': payment_acq2[payment_method][selected].method
        },
        success: function(msg) {
            console.log(msg);
