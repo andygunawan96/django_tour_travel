@@ -236,7 +236,8 @@ def search(request):
             'airline_cabin_class_list': airline_cabin_class_list,
             'airline_carriers': airline_carriers,
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'signature': request.session['signature']
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -315,7 +316,8 @@ def passenger(request):
             'infant_title': infant_title,
             'id_types': id_type,
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'signature': request.session['airline_signature']
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -698,7 +700,8 @@ def review(request):
             'additional_price': additional_price,
             'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'signature': request.session['airline_signature']
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 

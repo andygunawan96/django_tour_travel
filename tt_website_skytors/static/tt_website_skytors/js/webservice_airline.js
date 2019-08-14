@@ -95,11 +95,11 @@ function airline_signin(data){
        data: {},
        success: function(msg) {
            console.log(msg);
+           signature = msg.result.response.signature;
            if(data == ''){
                temp = get_provider_list();
 
            }else if(data != ''){
-               signature = msg.result.response.signature;
                airline_get_booking(data);
            }
 //            document.getElementById('train_searchForm').submit();
@@ -119,7 +119,9 @@ function get_carrier_code_list(type, val){
        headers:{
             'action': 'get_carrier_code_list',
        },
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
            airline_provider_list = msg;
@@ -267,7 +269,9 @@ function get_provider_list(){
        headers:{
             'action': 'get_provider_list',
        },
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
            provider_list = JSON.parse(msg);
@@ -363,7 +367,9 @@ function get_airline_config(type, val){
        headers:{
             'action': 'get_data',
        },
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
             airline_destination = msg
             var origin = ''
@@ -490,7 +496,8 @@ function airline_search(provider,carrier_codes){
        data: {
            'provider': provider,
            'carrier_codes': JSON.stringify(carrier_codes),
-           'counter_search': counter_search
+           'counter_search': counter_search,
+           'signature': signature
        },
        success: function(msg) {
        console.log(msg);
@@ -823,7 +830,7 @@ function get_price_itinerary(val){
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <table style="width:100%">
                                     <tr>
-                                        <td class="airport-code"><h5>`+airline_pick_list[i].origin+`</h5></td>
+                                        <td class="airport-code"><h5>`+airline_pick_list[i].departure_date.split(' - ')[1]+`</h5></td>
                                         <td style="padding-left:15px;">
                                             <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                         </td>
@@ -836,19 +843,19 @@ function get_price_itinerary(val){
                                         </td>
                                     </tr>
                                 </table>
-                                <span>`+airline_pick_list[i].origin_name+` - `+airline_pick_list[i].origin_city+`</span></br>
-                                <span>`+airline_pick_list[i].departure_date.split(' - ')[0]+` `+airline_pick_list[i].departure_date.split(' - ')[1]+`</span></br>
+                                <span>`+airline_pick_list[i].departure_date.split(' - ')[0]+` </span></br>
+                                <span style="font-weight:500;">`+airline_pick_list[i].origin_name+` - `+airline_pick_list[i].origin_city+` (`+airline_pick_list[i].origin+`)</span>
                             </div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                 <table style="width:100%; margin-bottom:6px;">
                                     <tr>
-                                        <td><h5>`+airline_pick_list[i].destination+`</h5></td>
+                                        <td><h5>`+airline_pick_list[i].arrival_date.split(' - ')[1]+`</h5></td>
                                         <td></td>
                                         <td style="height:30px;padding:0 15px;width:100%"></td>
                                     </tr>
                                 </table>
-                                <span>`+airline_pick_list[i].destination_name+` - `+airline_pick_list[i].destination_city+`</span><br/>
-                                <span>`+airline_pick_list[i].arrival_date.split(' - ')[0]+` `+airline_pick_list[i].arrival_date.split(' - ')[1]+`</span></br>
+                                <span>`+airline_pick_list[i].arrival_date.split(' - ')[0]+` </span></br>
+                                <span style="font-weight:500;">`+airline_pick_list[i].destination_name+` - `+airline_pick_list[i].destination_city+` (`+airline_pick_list[i].destination+`)</span>
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                                 <span>Transit: `+airline_pick_list[i].transit_count;
@@ -913,7 +920,7 @@ function get_price_itinerary(val){
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <table style="width:100%">
                                             <tr>
-                                                <td class="airport-code"><h5>`+airline_pick_list[i].segments[j].origin+`</h5></td>
+                                                <td class="airport-code"><h5>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                                                 <td style="padding-left:15px;">
                                                     <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                 </td>
@@ -926,23 +933,21 @@ function get_price_itinerary(val){
                                                 </td>
                                             </tr>
                                         </table>
-                                        <span>`+airline_pick_list[i].segments[j].origin_city+`</span> - <span>`+airline_pick_list[i].segments[j].origin_name+`</span></br>
-                                        <span>Schedule depature</span></br>
-                                        <span>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+` `+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</span></br>
-                                        <span>Terminal</span></br>
+                                        <span>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
+                                        <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+`</span> - <span>`+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>
+                                        <span>Terminal: </span>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tr>
-                                            <td><h5>`+airline_pick_list[i].segments[j].destination+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </table>
-                                    <span>`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+`</span><br/>
-                                    <span>Schedule arrival</span></br>
-                                    <span>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+` `+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`</span></br>
-                                    <span>Terminal</span></br>
+                                        <table style="width:100%; margin-bottom:6px;">
+                                            <tr>
+                                                <td><h5>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
+                                                <td></td>
+                                                <td style="height:30px;padding:0 15px;width:100%"></td>
+                                            </tr>
+                                        </table>
+                                        <span>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+`</span></br>
+                                        <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>
+                                        <span>Terminal: </span>
                                     </div>
                                 </div>
                             </div>
@@ -1099,7 +1104,9 @@ function get_price_itinerary_request(){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           "promotion_code": [],
-          "journeys_booking": JSON.stringify(journey)
+          "journeys_booking": JSON.stringify(journey),
+          'signature': signature,
+          'separate_journey': false
        },
        success: function(resJson) {
            console.log(resJson);
@@ -1186,7 +1193,7 @@ function get_price_itinerary_request(){
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <table style="width:100%">
                                         <tr>
-                                            <td class="airport-code"><h6>`+airline_pick_list[i].segments[j].origin+`</h6></td>
+                                            <td class="airport-code"><h5>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
                                                 <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                             </td>
@@ -1199,19 +1206,19 @@ function get_price_itinerary_request(){
                                             </td>
                                         </tr>
                                     </table>
-                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].origin_city+`</span></br>
-                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+` `+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
+                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` (`+airline_pick_list[i].segments[j].origin+`)</span>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <table style="width:100%; margin-bottom:6px;">
                                         <tr>
-                                            <td><h5>`+airline_pick_list[i].segments[j].destination+`</h5></td>
+                                            <td><h5>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
                                             <td></td>
                                             <td style="height:30px;padding:0 15px;width:100%"></td>
                                         </tr>
                                     </table>
-                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].destination_city+`</span></br>
-                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+` `+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+`</span></br>
+                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+`</span><br/>
+                                    <span style="font-size:13px; font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+` (`+airline_pick_list[i].segments[j].destination+`)</span>
                                 </div>
                             `;
                     }
@@ -1295,20 +1302,20 @@ function get_price_itinerary_request(){
                             commission_price += airline_request.child * commission;
                             total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
                             text+=`
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.CHD))+`</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
-                                    </div>
-                                </div>`;
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.CHD))+`</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                </div>
+                            </div>`;
                             $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
                             $text += airline_request.child + ' Child Tax @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
                             price = 0;
@@ -1357,6 +1364,7 @@ function get_price_itinerary_request(){
                     text+= `<hr/>`;
                 }
                 //total price
+                share_data();
                 text+=`
                 <div class="row">
                     <div class="col-lg-12">
@@ -1368,6 +1376,15 @@ function get_price_itinerary_request(){
                                 <span style="font-size:14px; font-weight: bold;"><b>IDR `+getrupiah(Math.ceil(total_price))+`</b></span>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <hr/>
+                        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
+                        <a href="whatsapp://send?text=Share\n%20`+ $text +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                        <a href="line://msg/text/Share\n%20`+ $text +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=Share\n%20`+ $text +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
                     </div>
 
                     <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
@@ -1429,7 +1446,8 @@ function get_fare_rules(){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             "promotion_code": [],
-            "journeys_booking": JSON.stringify(journey)
+            "journeys_booking": JSON.stringify(journey),
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -1439,11 +1457,13 @@ function get_fare_rules(){
                 for(i in msg.result.response.fare_rule_provider){
                     for(j in msg.result.response.fare_rule_provider[i].journeys){
                         text_fare+=`<br/>
-                        <span id="span-tac-up`+count_fare+`" style="font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(count_fare-1);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                        <span id="span-tac-down`+count_fare+`" style="font-weight:bold; color:#f15a22; cursor:pointer;" onclick="show_hide_tac(count_fare-1);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                        <span id="span-tac-up`+count_fare+`" style="font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                        <span id="span-tac-down`+count_fare+`" style="font-weight:bold; color:#f15a22; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
                         <div id="div-tac`+count_fare+`" style="display:block;">`;
                         for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
-                            text_fare += `<label>`+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</label>`;
+                            if(msg.result.response.fare_rule_provider[i].journeys[j].rules[k] != ""){
+                                text_fare += `<label>`+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</label><br/>`;
+                            }
                         }
                         text_fare+=`</div><br/>`;
                         try{
@@ -1473,7 +1493,9 @@ function airline_sell_journeys(){
             'action': 'sell_journeys',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            document.getElementById('go_to_passenger').submit();
        },
@@ -1493,7 +1515,9 @@ function airline_create_passengers(){
             'action': 'create_passengers',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
        },
@@ -1513,7 +1537,9 @@ function airline_ssr(){
             'action': 'ssr',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
        },
@@ -1533,7 +1559,9 @@ function airline_create_passengers_with_ssr(){
             'action': 'create_passengers',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
            $.ajax({
@@ -1543,7 +1571,9 @@ function airline_create_passengers_with_ssr(){
                     'action': 'ssr',
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-               data: {},
+               data: {
+                    'signature': signature
+               },
                success: function(msg) {
                    console.log(msg);
                },
@@ -1569,7 +1599,8 @@ function airline_commit_booking(val){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-        'value': val
+            'value': val,
+            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -1600,7 +1631,9 @@ function airline_update_passenger(val){
             'action': 'update_contacts',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
@@ -1624,7 +1657,9 @@ function airline_update_contact_booker(val){
             'action': 'update_passengers',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
@@ -1649,7 +1684,8 @@ function airline_get_booking(data){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'order_number': data
+            'order_number': data,
+            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -1658,7 +1694,8 @@ function airline_get_booking(data){
            airline_get_detail = msg;
            //get booking view edit here
            if(msg.result.error_code == 0){
-            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+            if(msg.result.response.state != 'issued')
+                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
             var text = `
             <div class="col-lg-12" style="border:1px solid #f15a22; padding:10px; background-color:white; margin-top:20px; margin-bottom:20px;">
                 <label><b>Order Number : `+msg.result.response.order_number+`</b></label><br/>
@@ -1874,8 +1911,8 @@ function airline_get_booking(data){
                 <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if (msg.result.response.state  == 'booked'){
                             text+=`
-                            <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick="airline_issued('`+msg.result.response.order_number+`');"/>
+                            <a class="issued-booking-train ld-ext-right" id="print_invoice" style="color:white;" hidden>
+                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2095,7 +2132,8 @@ function airline_issued(data){
        data: {
            'order_number': data,
            'seq_id': payment_acq2[payment_method][selected].seq_id,
-           'member': payment_acq2[payment_method][selected].method
+           'member': payment_acq2[payment_method][selected].method,
+           'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -2122,8 +2160,11 @@ function airline_issued(data){
                document.getElementById('button-issued-print').onclick = "#";
                document.getElementById('seat-map-link').href="#";
                document.getElementById('seat-map-link').hidden=false;
+               document.getElementById('print_invoice').href="#";
+               document.getElementById('print_invoice').hidden=false;
                document.getElementById('pnr').innerHTML="Issued";
                $('.issued-booking-train').removeClass("running");
+               document.getElementById('payment_acq').innerHTML = '';
            }else if(msg.result.error_code == 1006){
                 alert(msg.result.error_msg);
                 //modal pop up
@@ -2306,7 +2347,8 @@ function update_service_charge(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            'order_number': JSON.stringify(order_number),
-           'passengers': JSON.stringify(upsell)
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
        },
        success: function(msg) {
            console.log(msg);

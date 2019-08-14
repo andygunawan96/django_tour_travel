@@ -10,7 +10,9 @@ function get_balance(){
             'action': 'get_balance',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
@@ -46,7 +48,9 @@ function get_account(){
             'action': 'get_account',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
        console.log(msg);
         if(msg.result.error_code == 0){
@@ -73,7 +77,8 @@ function get_transactions_notification(){
        data: {
             'offset': offset_transaction,
             'limit': limit_transaction,
-            'provider_type': JSON.stringify([])
+            'provider_type': JSON.stringify([]),
+            'signature': signature
        },
        success: function(msg) {
        console.log(msg);
@@ -132,7 +137,8 @@ function get_transactions(type){
        data: {
             'offset': offset_transaction,
             'limit': limit_transaction,
-            'provider_type': JSON.stringify([])
+            'provider_type': JSON.stringify([]),
+            'signature': signature
        },
        success: function(msg) {
         console.log(msg);

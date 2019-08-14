@@ -60,7 +60,8 @@ function get_customer_list(passenger, number, product){
            data: {
                 'name': document.getElementById('train_booker_search').value,
                 'product': product,
-                'passenger_type': passenger
+                'passenger_type': passenger,
+                'signature': signature
            },
            success: function(msg) {
             console.log(msg);
@@ -133,6 +134,7 @@ function search_passenger(passenger, number, product){
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
                     "search_value": $('#train_booker_search').val(),
+                    'signature': signature
                },
                success: function(msg) {
                 console.log(msg);
@@ -223,7 +225,8 @@ function search_passenger(passenger, number, product){
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
                     "search_value": passenger_search[0],
-                    "pax_type": passenger_search[1]
+                    "pax_type": passenger_search[1],
+                    'signature': signature
                },
                success: function(msg) {
                 if(msg.error_code==0){

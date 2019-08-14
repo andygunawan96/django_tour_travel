@@ -25,7 +25,7 @@
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
-
+    signature = `{{signature}}`;
     cabin_class = [];
     {% for airline_cabin_class in airline_cabin_class_list %}
         cabin_class.push({
