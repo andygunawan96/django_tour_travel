@@ -110,10 +110,9 @@ def signin(request):
 
             res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
             request.session['user_account'] = res_user['result']['response']
-
             try:
                 if res['result']['error_code'] == 0:
-
+                    logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     file = open("version_cache.txt", "r")
                     for line in file:
                         file_cache_name = line
@@ -135,7 +134,9 @@ def signin(request):
                         'airline': res_data['result']['response']['airline'],
                         'hotel_config': res_data['result']['response']['hotel_config'],
                     })
+                    logging.getLogger("info_logger").error("USE CACHE IN TXT!")
             except:
+                logging.getLogger("info_logger").error("GET NEW CACHE!")
                 # airline
                 data = {'provider_type': 'airline'}
                 headers = {
@@ -195,7 +196,7 @@ def signin(request):
                     "signature": request.session['signature'],
                 }
 
-                res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, cookies=res_train['result']['cookies'], method='POST')
+                res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
 
                 #activity
                 # data = {}
@@ -229,6 +230,8 @@ def signin(request):
                 file = open("version_cache" + ".txt", "w+")
                 file.write("version1.0")
                 file.close()
+        else:
+            logging.getLogger("info_logger").info("WRONG USERNAME OR PASSWORD MAYBE HACKER!! ")
 
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -242,26 +245,30 @@ def get_url():
     return url_web
 
 def get_customer_list(request):
-    data = {
-        'name': request.POST['name']
-    }
     try:
-        signature = request.session['signature']
-    except:
-        pass
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_customer_list",
-        "signature": signature,
-    }
+        data = {
+            'name': request.POST['name']
+        }
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_customer_list",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
             counter = 0
             for pax in res['result']['response']:
-                age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
+                if pax['birth_date'] != '':
+                    age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
+                    age = age.years
+                else:
+                    age = ''
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
                     title = 'MRS'
                 elif pax['gender'] == 'female':
@@ -270,7 +277,7 @@ def get_customer_list(request):
                     title = 'MR'
                 pax.update({
                     'sequence': counter,
-                    'age': age.years,
+                    'age': age,
                     'title': title
                 })
                 if pax['birth_date'] != '':
@@ -281,53 +288,16 @@ def get_customer_list(request):
                             pax['birth_date'].split('-')[0]),
                     })
                 counter += 1
+            logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error(str(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_agent_passenger(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_agent_passenger",
-        "signature": request.session['signature'],
-    }
 
-    data = {
-        "agent_id": request.session['agent']['id'],
-        "co_uid": request.session['co_uid'],
-        "search_param": 'by_string',
-        "search_value": request.POST['search_value']
-    }
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        if res['error_code'] == 0:
-            res.update({
-                'response': json.loads(res['response'])
-            })
-            counter = 0
-            for response in res['response']['result']:
-                if request.POST['pax_type'] == '':
-                    response.update({
-                        'sequence': counter
-                    })
-                elif response['pax_type'] == request.POST['pax_type']:
-                    response.update({
-                        'sequence': counter
-                    })
-                    if response['birth_date']:
-                        response.update({
-                            'birth_date': '%s %s %s' % (
-                            response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
-                            response['birth_date'].split('-')[0]),
-                        })
-                    counter += 1
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
 
-#BACKEND
+#BACKEND GA PAKE
 
 def get_agent_booking(request):
     headers = {
@@ -482,6 +452,48 @@ def request_inv_va(request):
                             cookies=request.session['agent_cookie'], headers=headers, method='POST')
     try:
         pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_agent_passenger(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_agent_passenger",
+        "signature": request.session['signature'],
+    }
+
+    data = {
+        "agent_id": request.session['agent']['id'],
+        "co_uid": request.session['co_uid'],
+        "search_param": 'by_string',
+        "search_value": request.POST['search_value']
+    }
+    res = util.send_request(url=url + 'agent/session', data=data,
+                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
+    try:
+        if res['error_code'] == 0:
+            res.update({
+                'response': json.loads(res['response'])
+            })
+            counter = 0
+            for response in res['response']['result']:
+                if request.POST['pax_type'] == '':
+                    response.update({
+                        'sequence': counter
+                    })
+                elif response['pax_type'] == request.POST['pax_type']:
+                    response.update({
+                        'sequence': counter
+                    })
+                    if response['birth_date']:
+                        response.update({
+                            'birth_date': '%s %s %s' % (
+                            response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
+                            response['birth_date'].split('-')[0]),
+                        })
+                    counter += 1
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

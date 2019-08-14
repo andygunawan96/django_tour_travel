@@ -45,14 +45,13 @@
     price_itinerary = price_itinerary.replace(/True/g, '"true"');
     price_itinerary = price_itinerary.replace(/False/g, '"false"');
     price_itinerary = JSON.parse(price_itinerary);
-    airline_carriers = `{{airline
-    _carriers}}`;
+    airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-
+    signature = `{{signature}}`;
     adult = airline_request.adult;
     child = airline_request.child;
     infant = airline_request.infant;

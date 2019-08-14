@@ -80,7 +80,7 @@ def api_models(request):
         elif req_data['action'] == 'search':
             res = search2(request)
         elif req_data['action'] == 'get_price_itinerary':
-            res = get_price_itinerary(request)
+            res = get_price_itinerary(request, False)
         elif req_data['action'] == 'get_fare_rules':
             res = get_fare_rules(request)
         elif req_data['action'] == 'sell_journeys':
@@ -110,40 +110,48 @@ def api_models(request):
     return Response(res)
 
 def login(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "signin",
-        "signature": ''
-    }
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "signin",
+            "signature": ''
+        }
 
-    data = {
-        "user": user_global,
-        "password": password_global,
-        "api_key": api_key,
-        "co_user": request.session['username'],
-        "co_password": request.session['password'],
-        "co_uid": ""
-    }
+        data = {
+            "user": user_global,
+            "password": password_global,
+            "api_key": api_key,
+            "co_user": request.session['username'],
+            "co_password": request.session['password'],
+            "co_uid": ""
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['airline_signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-
-
 def get_carrier_code_list(request):
-    data = {'provider_type': 'airline'}
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_carriers",
-        "signature": request.session['signature'],
-    }
-    date_time = datetime.now() - a.get_time_carrier_airline
+    try:
+        data = {
+            'provider_type': 'airline'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carriers",
+            "signature": request.POST['signature'],
+        }
+        date_time = datetime.now() - a.get_time_carrier_airline
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
     if date_time.seconds >= 300:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
@@ -153,13 +161,15 @@ def get_carrier_code_list(request):
                 file = open("get_airline_active_carriers" + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
+                logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 file = open("get_airline_active_carriers.txt", "r")
                 for line in file:
                     res = json.loads(line)
                 file.close()
+                logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
         except Exception as e:
-            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
             file = open("get_airline_active_carriers.txt", "r")
@@ -172,16 +182,18 @@ def get_carrier_code_list(request):
     return res
 
 def get_provider_list(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_carrier_providers",
-        "signature": request.session['airline_signature']
-    }
-
-    data = {
-        "provider_type": 'airline'
-    }
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carrier_providers",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'airline'
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     date_time = datetime.now() - a.get_time_provider_airline
     if date_time.seconds >= 300:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -192,13 +204,15 @@ def get_provider_list(request):
                 file = open("get_list_provider.txt", "w+")
                 file.write(res)
                 file.close()
+                logging.getLogger("info_logger").info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 file = open("get_list_provider.txt", "r")
                 for line in file:
                     res = line
                 file.close()
+                logging.getLogger("info_logger").info("get_carrier_providers ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
         except Exception as e:
-            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
             file = open("get_list_provider.txt", "r")
@@ -206,7 +220,7 @@ def get_provider_list(request):
                 res = line
             file.close()
         except Exception as e:
-            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -251,7 +265,6 @@ def search2(request):
             is_combo_price = False
 
         data = {
-
             "origin": origin,
             "destination": destination,
             "departure_date": departure_date,
@@ -270,12 +283,11 @@ def search2(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.session['airline_signature'],
+            "signature": request.POST['signature']
         }
-
-        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
             for journey in res['result']['response']['journeys']:
@@ -348,8 +360,11 @@ def search2(request):
                                     'destination_name': destination['name']
                                 })
                                 break
+            logging.getLogger("error_info").error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res['result']
 
 def get_data(request):
@@ -372,45 +387,50 @@ def get_data(request):
                 })
                 airline_destinations.append(des)
         # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_data AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return airline_destinations
 
-def get_price_itinerary(request):
+def get_price_itinerary(request ,boolean):
     try:
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
             if idx != 0:
                 journey.update({
-                    "separate_journey": True
+                    "separate_journey": boolean
                 })
+        data = {
+            "promotion_code": [],
+            "adult": int(request.session['airline_request']['adult']),
+            "child": int(request.session['airline_request']['child']),
+            "infant": int(request.session['airline_request']['infant']),
+            "journeys_booking": journey_booking,
+
+        }
+        request.session['airline_get_price_request'] = data
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_price_itinerary",
+            "signature": request.POST['signature'],
+        }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    data = {
-        "promotion_code": [],
-        "adult": int(request.session['airline_request']['adult']),
-        "child": int(request.session['airline_request']['child']),
-        "infant": int(request.session['airline_request']['infant']),
-        "journeys_booking": journey_booking,
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    }
-
-    request.session['airline_get_price_request'] = data
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_price_itinerary",
-        "signature": request.session['airline_signature'],
-    }
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     try:
         if res['result']['error_code'] == 0:
             request.session['airline_price_itinerary'] = res['result']['response']
+            logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            get_price_itinerary(request, True)
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        get_price_itinerary(request, True)
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_fare_rules(request):
@@ -422,24 +442,23 @@ def get_fare_rules(request):
             "infant": int(request.session['airline_request']['infant']),
             "journeys_booking": json.loads(request.POST['journeys_booking'])
         }
+        request.session['airline_get_price_request'] = data
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_fare_rules",
+            "signature": request.POST['signature'],
+        }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    request.session['airline_get_price_request'] = data
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_fare_rules",
-        "signature": request.session['airline_signature'],
-    }
-
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
 
     try:
         if res['result']['error_code'] == 0:
             request.session['get_fare_rules'] = res['result']['response']
+            logging.getLogger("info_logger").info("SUCCESS get_fare_rules AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def sell_journeys(request):
@@ -452,27 +471,30 @@ def sell_journeys(request):
                     segment.pop('fare_pick')
                 except:
                     continue
+        data = {
+            "promotion_code": [],
+            "adult": request.session['airline_get_price_request']['adult'],
+            "child": request.session['airline_get_price_request']['child'],
+            "infant": request.session['airline_get_price_request']['infant'],
+            "journeys_booking": journeys_booking
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_journeys",
+            "signature": request.POST['signature'],
+        }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    data = {
-        "promotion_code": [],
-        "adult": request.session['airline_get_price_request']['adult'],
-        "child": request.session['airline_get_price_request']['child'],
-        "infant": request.session['airline_get_price_request']['infant'],
-        "journeys_booking": journeys_booking
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "sell_journeys",
-        "signature": request.session['airline_signature'],
-    }
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS sell_journeys AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR sell_journeys AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_contacts(request):
@@ -485,16 +507,19 @@ def update_contacts(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "update_contacts",
-            "signature": request.session['airline_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_passengers(request):
@@ -539,43 +564,51 @@ def update_passengers(request):
                             pax['passport_expdate'].split(' ')[0])
                     })
                 passenger.append(pax)
+        data = {
+            'passengers': passenger
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_passengers",
+            "signature": request.POST['signature'],
+        }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    data = {
-        'passengers': passenger
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "update_passengers",
-        "signature": request.session['airline_signature'],
-    }
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def commit_booking(request):
     #nanti ganti ke get_ssr_availability
-
-    data = {
-        'force_issued': bool(int(request.POST['value']))
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "commit_booking",
-        "signature": request.session['airline_signature'],
-    }
-
+    try:
+        data = {
+            'force_issued': bool(int(request.POST['value']))
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "commit_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS commit_booking AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR commit_booking AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -590,10 +623,10 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": request.session['airline_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
@@ -682,8 +715,9 @@ def get_booking(request):
                                     'destination_name': destination['name'],
                                 })
                                 break
+        logging.getLogger("info_logger").info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_service_charge(request):
@@ -697,16 +731,19 @@ def update_service_charge(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "pricing_booking",
-            "signature": request.session['airline_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def issued(request):
@@ -726,16 +763,19 @@ def issued(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
-            "signature": request.session['airline_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 #GAK PAKE

@@ -1180,7 +1180,7 @@ function sort(airline){
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                         <table style="width:100%">
                                             <tr>
-                                                <td class="airport-code"><h5>`+airline[i].origin+`</h5></td>
+                                                <td class="airport-code"><h5>`+airline[i].departure_date.split(' - ')[1]+`</h5></td>
                                                 <td style="padding-left:15px;">
                                                     <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                 </td>
@@ -1193,19 +1193,19 @@ function sort(airline){
                                                 </td>
                                             </tr>
                                         </table>
-                                        <span>`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+`</span></br>
-                                        <span>`+airline[i].departure_date.split(' - ')[0]+` `+airline[i].departure_date.split(' - ')[1]+`</span></br>
+                                        <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
+                                        <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
                                     </div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                         <table style="width:100%; margin-bottom:6px;">
                                             <tr>
-                                                <td><h5>`+airline[i].destination+`</h5></td>
+                                                <td><h5>`+airline[i].arrival_date.split(' - ')[1]+`</h5></td>
                                                 <td></td>
                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                             </tr>
                                         </table>
-                                        <span>`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+`</span><br/>
-                                        <span>`+airline[i].arrival_date.split(' - ')[0]+` `+airline[i].arrival_date.split(' - ')[1]+`</span></br>
+                                        <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
+                                        <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].destination+`)</span>
                                     </div>
                                     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                                         <span>Transit: `+airline[i].transit_count+``;
@@ -1237,7 +1237,7 @@ function sort(airline){
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <table style="width:100%">
                                                         <tr>
-                                                            <td class="airport-code"><h5>`+airline[i].segments[j].origin+`</h5></td>
+                                                            <td class="airport-code"><h5>`+return_date[0].split(' - ')[1]+`</h5></td>
                                                             <td style="padding-left:15px;">
                                                                 <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                             </td>
@@ -1250,20 +1250,20 @@ function sort(airline){
                                                             </td>
                                                         </tr>
                                                     </table>
-                                                    <span>`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+`</span></br>
-                                                    <span>`+return_date[0].split(' - ')[0]+` `+return_date[0].split(' - ')[1]+`</span></br>
+                                                    <span>`+return_date[0].split(' - ')[0]+` </span></br>
+                                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].segments[j].origin+`)</span>
                                                 </div>
 
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <table style="width:100%; margin-bottom:6px;">
                                                         <tr>
-                                                            <td><h5>`+airline[i].origin+`</h5></td>
+                                                            <td><h5>`+return_date[1].split(' - ')[1]+`</h5></td>
                                                             <td></td>
                                                             <td style="height:30px;padding:0 15px;width:100%"></td>
                                                         </tr>
                                                     </table>
-                                                    <span>`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+`</span><br/>
-                                                    <span>`+return_date[1].split(' - ')[0]+` `+return_date[1].split(' - ')[1]+`</span></br>
+                                                    <span>`+return_date[1].split(' - ')[0]+` </span></br>
+                                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
                                                 </div>
 
                                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
@@ -1305,18 +1305,18 @@ function sort(airline){
                                 depart = 1;
                             if(depart == 0 && j == 0)
                                 text+=`
-                                <div style="text-align:right; border: 2px solid white; background-color:white; padding:10px 10px 0px 10px;">
+                                <div style="text-align:right; background-color:white; padding:5px 10px 5px 10px;">
                                 <span style="font-weight: bold; font-size: 14px;">Departure</span>
                                 </div>`;
                             else if(depart == 1){
                                 text+=`
-                                <div style="text-align:right; border: 2px solid white; background-color:white; padding:0px 10px 0px 10px;">
+                                <div style="text-align:right; background-color:white; padding:5px 10px 5px 10px;">
                                 <span style="font-weight: bold; font-size: 14px;">Return</span>
                                 </div>`;
                                 depart = 2;
                             }
                             text+=`
-                            <div id="journey0segment0" style="padding:0px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="journey0segment0" style="padding:10px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">
                                 <span style="font-weight: bold;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+` - </span>
                                 <span style="color:#f15a22; font-weight: bold;">`+airline[i].segments[j].carrier_name+`</span><hr/>`;
                                 for(k in airline[i].segments[j].legs)
@@ -1327,7 +1327,7 @@ function sort(airline){
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                 <table style="width:100%">
                                                     <tr>
-                                                        <td class="airport-code"><h5>`+airline[i].segments[j].legs[k].origin+`</h5></td>
+                                                        <td class="airport-code"><h5>`+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</h5></td>
                                                         <td style="padding-left:15px;">
                                                             <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                         </td>
@@ -1340,23 +1340,21 @@ function sort(airline){
                                                         </td>
                                                     </tr>
                                                 </table>
-                                                <span>`+airline[i].segments[j].legs[k].origin_city+`</span> - <span>`+airline[i].segments[j].legs[k].origin_name+`</span></br>
-                                                <span>Schedule depature</span></br>
-                                                <span>`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+` `+airline[i].segments[j].legs[k].departure_date.split(' - ')[1]+`</span></br>
-                                                <span>Terminal</span></br>
+                                                <span>`+airline[i].segments[j].legs[k].departure_date.split(' - ')[0]+` </span></br>
+                                                <span style="font-weight:500;">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span></br>
+                                                <span>Terminal: </span>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                            <table style="width:100%; margin-bottom:6px;">
-                                                <tr>
-                                                    <td><h5>`+airline[i].segments[j].legs[k].destination+`</h5></td>
-                                                    <td></td>
-                                                    <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                </tr>
-                                            </table>
-                                            <span>`+airline[i].segments[j].legs[k].destination_city+`</span> - <span>`+airline[i].segments[j].legs[k].destination_name+`</span><br/>
-                                            <span>Schedule arrival</span></br>
-                                            <span>`+airline[i].segments[j].legs[k].arrival_date.split(' - ')[0]+` `+airline[i].segments[j].legs[k].arrival_date.split(' - ')[1]+`</span></br>
-                                            <span>Terminal</span></br>
+                                                <table style="width:100%; margin-bottom:6px;">
+                                                    <tr>
+                                                        <td><h5>`+airline[i].segments[j].legs[k].arrival_date.split(' - ')[1]+`</h5></td>
+                                                        <td></td>
+                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                    </tr>
+                                                </table>
+                                                <span>`+airline[i].segments[j].legs[k].arrival_date.split(' - ')[0]+`</span></br>
+                                                <span style="font-weight:500;">`+airline[i].segments[j].legs[k].destination_city+` - `+airline[i].segments[j].legs[k].destination_name+` (`+airline[i].segments[j].legs[k].destination+`)</span><br/>
+                                                <span>Terminal: </span>
                                             </div>
                                         </div>
                                     </div>
@@ -1445,7 +1443,7 @@ function sort(airline){
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                     <table style="width:100%">
                                         <tr>
-                                            <td class="airport-code"><h5>`+airline[i].origin+`</h5></td>
+                                            <td class="airport-code"><h5>`+airline[i].departure_date.split(' - ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
                                                 <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                             </td>
@@ -1458,19 +1456,19 @@ function sort(airline){
                                             </td>
                                         </tr>
                                     </table>
-                                    <span>`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+`</span></br>
-                                    <span>`+airline[i].departure_date.split(' - ')[0]+` `+airline[i].departure_date.split(' - ')[1]+`</span></br>
+                                    <span>`+airline[i].departure_date.split(' - ')[0]+` </span></br>
+                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                     <table style="width:100%; margin-bottom:6px;">
                                         <tr>
-                                            <td><h5>`+airline[i].destination+`</h5></td>
+                                            <td><h5>`+airline[i].arrival_date.split(' - ')[1]+`</h5></td>
                                             <td></td>
                                             <td style="height:30px;padding:0 15px;width:100%"></td>
                                         </tr>
                                     </table>
-                                    <span>`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+`</span><br/>
-                                    <span>`+airline[i].arrival_date.split(' - ')[0]+` `+airline[i].arrival_date.split(' - ')[1]+`</span></br>
+                                    <span>`+airline[i].arrival_date.split(' - ')[0]+` </span></br>
+                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].destination+`)</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                                     <span>Transit: `+airline[i].transit_count+``;
@@ -1539,7 +1537,7 @@ function sort(airline){
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <table style="width:100%">
                                                 <tr>
-                                                    <td class="airport-code"><h5>`+airline[i].segments[j].origin+`</h5></td>
+                                                    <td class="airport-code"><h5>`+airline[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                                                     <td style="padding-left:15px;">
                                                         <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                                     </td>
@@ -1552,25 +1550,21 @@ function sort(airline){
                                                     </td>
                                                 </tr>
                                             </table>
-                                            <span>`+airline[i].segments[j].origin_city+`</span> - <span>`+airline[i].segments[j].origin_name+`</span></br>
-                                            <span>Schedule depature</span></br>
-                                            <span>`+airline[i].segments[j].departure_date.split(' - ')[1]+`</span></br>
                                             <span>`+airline[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
-                                            <span>Terminal</span></br>
+                                            <span style="font-weight:500;">`+airline[i].segments[j].origin_city+` - `+airline[i].segments[j].origin_name+` (`+airline[i].segments[j].origin+`)</span></br>
+                                            <span>Terminal: </span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <table style="width:100%; margin-bottom:6px;">
                                             <tr>
-                                                <td><h5>`+airline[i].segments[j].destination+`</h5></td>
+                                                <td><h5>`+airline[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
                                                 <td></td>
                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                             </tr>
                                         </table>
-                                        <span>`+airline[i].segments[j].destination_city+`</span> - <span>`+airline[i].segments[j].destination_name+`</span><br/>
-                                        <span>Schedule arrival</span></br>
-                                        <span>`+airline[i].segments[j].arrival_date.split(' - ')[1]+`</span></br>
                                         <span>`+airline[i].segments[j].arrival_date.split(' - ')[0]+`</span></br>
-                                        <span>Terminal</span></br>
+                                        <span style="font-weight:500;">`+airline[i].segments[j].destination_city+`</span> - <span>`+airline[i].segments[j].destination_name+` (`+airline[i].segments[j].destination+`)</span><br/>
+                                        <span>Terminal: </span>
                                         </div>
                                     </div>
                                 </div>
@@ -1716,7 +1710,7 @@ function airline_pick_mc(type){
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <table style="width:100%">
                                 <tr>
-                                    <td class="airport-code"><h5>`+airline_pick_list[i].origin+`</h5></td>
+                                    <td class="airport-code"><h5>`+airline_pick_list[i].departure_date.split(' - ')[1]+`</h5></td>
                                     <td style="padding-left:15px;">
                                         <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                     </td>
@@ -1729,19 +1723,19 @@ function airline_pick_mc(type){
                                     </td>
                                 </tr>
                             </table>
-                            <span>`+airline_pick_list[i].origin_name+` - `+airline_pick_list[i].origin_city+`</span></br>
-                            <span>`+airline_pick_list[i].departure_date.split(' - ')[0]+` `+airline_pick_list[i].departure_date.split(' - ')[1]+`</span></br>
+                            <span>`+airline_pick_list[i].departure_date.split(' - ')[0]+` </span></br>
+                            <span style="font-weight:500;">`+airline_pick_list[i].origin_name+` - `+airline_pick_list[i].origin_city+` (`+airline_pick_list[i].origin+`)</span>
                         </div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                             <table style="width:100%; margin-bottom:6px;">
                                 <tr>
-                                    <td><h5>`+airline_pick_list[i].destination+`</h5></td>
+                                    <td><h5>`+airline_pick_list[i].arrival_date.split(' - ')[1]+`</h5></td>
                                     <td></td>
                                     <td style="height:30px;padding:0 15px;width:100%"></td>
                                 </tr>
                             </table>
-                            <span>`+airline_pick_list[i].destination_name+` - `+airline_pick_list[i].destination_city+`</span><br/>
-                            <span>`+airline_pick_list[i].arrival_date.split(' - ')[0]+` `+airline_pick_list[i].arrival_date.split(' - ')[1]+`</span></br>
+                            <span>`+airline_pick_list[i].arrival_date.split(' - ')[0]+` </span></br>
+                            <span style="font-weight:500;">`+airline_pick_list[i].destination_name+` - `+airline_pick_list[i].destination_city+` (`+airline_pick_list[i].destination+`)</span>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                             <span>Transit: `+airline_pick_list[i].transit_count;
@@ -1879,6 +1873,16 @@ function copy_data(){
     document.body.removeChild(el);
 }
 
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text = window.encodeURIComponent($text);
+}
+
 function airline_detail(){
     airline_price = [];
     for(i in price_itinerary.price_itinerary_provider){
@@ -1958,7 +1962,7 @@ function airline_detail(){
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <table style="width:100%">
                         <tr>
-                            <td class="airport-code"><h6>`+airline_pick[i].segments[j].origin+`</h6></td>
+                            <td class="airport-code"><h5>`+airline_pick[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                             <td style="padding-left:15px;">
                                 <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                             </td>
@@ -1971,19 +1975,19 @@ function airline_detail(){
                             </td>
                         </tr>
                     </table>
-                    <span style="font-size:12px;">`+airline_pick[i].segments[j].origin_city+`</span></br>
-                    <span style="font-size:12px;">`+airline_pick[i].segments[j].departure_date.split(' - ')[0]+` `+airline_pick[i].segments[j].departure_date.split(' - ')[1]+`</span></br>
+                    <span style="font-size:13px;">`+airline_pick[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
+                    <span style="font-size:13px; font-weight:500;">`+airline_pick[i].segments[j].origin_city+` (`+airline_pick[i].segments[j].origin+`)</span>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <table style="width:100%; margin-bottom:6px;">
                         <tr>
-                            <td><h6>`+airline_pick[i].segments[j].destination+`</h6></td>
+                            <td><h5>`+airline_pick[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
                             <td></td>
                             <td style="height:30px;padding:0 15px;width:100%"></td>
                         </tr>
                     </table>
-                    <span style="font-size:12px;">`+airline_pick[i].segments[j].destination_city+`</span><br/>
-                    <span style="font-size:12px;">`+airline_pick[i].segments[j].arrival_date.split(' - ')[0]+` `+airline_pick[i].segments[j].arrival_date.split(' - ')[1]+`</span></br>
+                    <span style="font-size:13px;">`+airline_pick[i].segments[j].arrival_date.split(' - ')[0]+`</span></br>
+                    <span style="font-size:13px; font-weight:500;">`+airline_pick[i].segments[j].destination_city+` (`+airline_pick[i].segments[j].destination+`)</span>
                 </div>
             </div>`;
             if(j != 0)
@@ -2010,16 +2014,16 @@ function airline_detail(){
             total_price += airline_request.adult * (airline_price[i].ADT['fare'] + price);
             text+=`
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                    <span style="font-size:12px;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
+                    <span style="font-size:13px;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                    <span style="font-size:12px;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span><br/>
+                    <span style="font-size:13px;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span><br/>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                    <span style="font-size:12px;">`+airline_request.adult+`x Service Charge</span><br/>
+                    <span style="font-size:13px;">`+airline_request.adult+`x Service Charge</span><br/>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                    <span style="font-size:12px;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span><br/>
+                    <span style="font-size:13px;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span><br/>
                 </div>`;
             $text += airline_request.adult + ' Adult Fare @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+'\n';
             $text += airline_request.adult + ' Adult Tax @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
@@ -2039,16 +2043,16 @@ function airline_detail(){
             total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
             text+=`
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                    <span style="font-size:12px;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
+                    <span style="font-size:13px;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                    <span style="font-size:12px;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.child))+`</span><br/>
+                    <span style="font-size:13px;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.child))+`</span><br/>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                    <span style="font-size:12px;">`+airline_request.child+`x Service Charge</span><br/>
+                    <span style="font-size:13px;">`+airline_request.child+`x Service Charge</span><br/>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                    <span style="font-size:12px;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span><br/>
+                    <span style="font-size:13px;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span><br/>
                 </div>`;
             $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
             $text += airline_request.child + ' Child Tax @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
@@ -2069,16 +2073,16 @@ function airline_detail(){
             total_price += airline_request.infant * (airline_price[i].INF['fare'] + price);
             text+=`
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                    <span style="font-size:12px;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
+                    <span style="font-size:13px;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                    <span style="font-size:12px;">`+getrupiah(Math.ceil(airline_price[i].INF.fare * airline_request.infant))+`</span><br/>
+                    <span style="font-size:13px;">`+getrupiah(Math.ceil(airline_price[i].INF.fare * airline_request.infant))+`</span><br/>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                    <span style="font-size:12px;">`+airline_request.infant+`x Service Charge</span><br/>
+                    <span style="font-size:13px;">`+airline_request.infant+`x Service Charge</span><br/>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                    <span style="font-size:12px;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span><br/>
+                    <span style="font-size:13px;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span><br/>
                 </div>`;
             $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+'\n';
             $text += airline_request.infant + ' Infant Tax @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
@@ -2092,17 +2096,27 @@ function airline_detail(){
 
     <div class="row">
         <div class="col-lg-7" style="text-align:left;">
-            <span style="font-size:12px;">Additional Price</span><br/>
+            <span style="font-size:13px;">Additional Price</span><br/>
         </div>
         <div class="col-lg-5" style="text-align:right;">
-            <span style="font-size:12px;" id="additional_price">`+getrupiah(Math.ceil(additional_price))+`</span><br/>
+            <span style="font-size:13px;" id="additional_price">`+getrupiah(Math.ceil(additional_price))+`</span><br/>
             <input type="hidden" name="additional_price" id="additional_price_hidden"/>
         </div>
         <div class="col-lg-7" style="text-align:left;">
-            <span style="font-size:13px;"><b>Total</b></span><br/>
+            <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
         </div>
         <div class="col-lg-5" style="text-align:right;">
-            <span style="font-size:13px;" id="total_price"><b>`+getrupiah(Math.ceil(total_price+additional_price))+`</b></span><br/>
+            <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(Math.ceil(total_price+additional_price))+`</b></span><br/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="padding-bottom:10px;">
+            <hr/>
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
+            <a href="whatsapp://send?text=Share\n%20`+ $text +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+            <a href="line://msg/text/Share\n%20`+ $text +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
         </div>
     </div>
 
@@ -2343,8 +2357,8 @@ function check_passenger(adult, child, infant){
    }
    else{
        alert(error_log);
-       $('.next-loading').removeClass("running");
-       $('.next-loading').prop('disabled', false);
+       $('.btn-next').removeClass("running");
+       $('.btn-next').prop('disabled', false);
    }
 }
 
@@ -2394,7 +2408,7 @@ function get_airline_review(){
                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                         <table style="width:100%">
                             <tr>
-                                <td class="airport-code"><h5>`+airline_pick[i].segments[j].origin+`</h5></td>
+                                <td class="airport-code"><h5>`+airline_pick[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
                                 <td style="padding-left:15px;">
                                     <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                 </td>
@@ -2407,19 +2421,19 @@ function get_airline_review(){
                                 </td>
                             </tr>
                         </table>
-                        <span>`+airline_pick[i].segments[j].origin_city+` - `+airline_pick[i].segments[j].origin_name+`</span></br>
-                        <span>`+airline_pick[i].segments[j].departure_date.split(' - ')[0]+` `+airline_pick[i].segments[j].departure_date.split(' - ')[1]+`</span></br>
+                        <span>`+airline_pick[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
+                        <span style="font-weight:500;">`+airline_pick[i].segments[j].origin_city+` - `+airline_pick[i].segments[j].origin_name+` (`+airline_pick[i].segments[j].origin+`)</span>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                         <table style="width:100%; margin-bottom:6px;">
                             <tr>
-                                <td><h5>`+airline_pick[i].segments[j].destination+`</h5></td>
+                                <td><h5>`+airline_pick[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
                                 <td></td>
                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                             </tr>
                         </table>
-                        <span>`+airline_pick[i].segments[j].destination_city+` - `+airline_pick[i].segments[j].destination_name+`</span><br/>
-                        <span>`+airline_pick[i].segments[j].arrival_date.split(' - ')[0]+` `+airline_pick[i].segments[j].arrival_date.split(' - ')[1]+`</span></br>
+                        <span>`+airline_pick[i].segments[j].arrival_date.split(' - ')[0]+`</span></br>
+                        <span style="font-weight:500;">`+airline_pick[i].segments[j].destination_city+` - `+airline_pick[i].segments[j].destination_name+` (`+airline_pick[i].segments[j].destination+`)</span>
                     </div>
                 </div>`;
         }

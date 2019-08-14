@@ -1106,6 +1106,7 @@ function showCart() {
 
 function next_disabled(){
     $('.btn-next').prop('disabled', true);
+    $('.btn-next').addClass("running");
 }
 
 function show_loading(){

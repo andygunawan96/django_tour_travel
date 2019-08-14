@@ -159,7 +159,8 @@ def index(request):
                     'issued_offline_sector_type': issued_offline_sector_type,
                     'issued_offline_carrier_id': issued_offline_carrier_id,
                     'issued_offline_social_media_id': issued_offline_social_media_id,
-                    'javascript_version': javascript_version
+                    'javascript_version': javascript_version,
+                    'signature': request.session['signature']
                 }
             except:
                 values = {
@@ -218,7 +219,8 @@ def reservation(request):
         'airline_carriers': new_airline_carriers,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
-        'javascript_version': javascript_version
+        'javascript_version': javascript_version,
+        'signature': request.session['signature']
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_reservation_templates.html', values)
 
@@ -233,7 +235,8 @@ def top_up(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
-        'javascript_version': javascript_version
+        'javascript_version': javascript_version,
+        'signature': request.session['signature']
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
 
@@ -255,7 +258,8 @@ def top_up_payment(request):
             },
             'javascript_version': javascript_version,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-            'username': request.session['user_account']
+            'username': request.session['user_account'],
+            'signature': request.session['signature']
         }
         return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_payment_templates.html', values)
     except:
@@ -276,7 +280,8 @@ def top_up_history(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
-        'javascript_version': javascript_version
+        'javascript_version': javascript_version,
+        'signature': request.session['signature']
     }
     return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_history_templates.html', values)
 
