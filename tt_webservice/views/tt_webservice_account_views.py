@@ -90,7 +90,9 @@ def get_balance(request):
         if res['result']['error_code'] == 0:
             pass
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(repr(e))
+        pass
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_transactions(request):

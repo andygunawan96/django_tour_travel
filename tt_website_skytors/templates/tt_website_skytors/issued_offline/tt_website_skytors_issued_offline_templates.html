@@ -38,8 +38,6 @@
         });
     {% endfor %}
 
-    console.log(train_destination);
-    console.log(airline_destination);
 
     titles = `{{titles}}`;
     titles = JSON.parse(titles.replace(/&#39;/g, '"'));
@@ -50,14 +48,11 @@
     countries = countries.replace(/False/g, 'false');
     countries = countries.replace(/True/g, 'true');
     countries = JSON.parse(countries);
-    console.log(countries)
-    console.log(titles);
 
     get_balance();
 
     function check_years_old(sequence){
         var birth_date = '';
-        console.log(document.getElementById('adult_birth_date'+sequence).value);
         birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }

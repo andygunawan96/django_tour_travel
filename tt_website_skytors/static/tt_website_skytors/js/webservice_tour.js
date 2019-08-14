@@ -15,8 +15,6 @@ function tour_login(data){
 
        },
        success: function(msg) {
-           console.log(msg);
-           console.log(data);
            if(data == ''){
                 tour_get_countries();
            }
@@ -72,7 +70,6 @@ function tour_get_countries(){
                    }
 
                }
-               console.log(text);
                if (text != '') {
                     document.getElementById('tour_destination').innerHTML = text;
                     $('#tour_destination').niceSelect('update');
@@ -460,7 +457,6 @@ function tour_get_details(package_id){
 function tour_update_passenger(val, pay_method, pax_list_res)
 {
     getToken();
-    console.log(pax_list_res);
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -815,7 +811,6 @@ function tour_get_booking(order_number)
            document.getElementById("discount_total").value = getrupiah(price_itinerary.discount_total_itinerary_price);
            document.getElementById("grand_total").value = getrupiah(price_itinerary.total_itinerary_price);
 
-           console.log(price_itinerary);
 
            get_payment_rules(tour_package.id);
        },

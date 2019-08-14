@@ -18,7 +18,6 @@ function search_carrier(){
         find = document.getElementById('carrier_name').value.toLowerCase();
         document.getElementById("list_carrier_name").innerHTML = '';
         if(find.length>1){
-            console.log(find);
             text = '';
             issued_offline_data.carrier_id.forEach((obj)=> {
               if(obj.name.toString().toLowerCase().search(find) !== -1 || obj.code.toString().toLowerCase().search(find) !== -1){
@@ -48,8 +47,6 @@ function search_origin_departure(val,sequence){
     clearTimeout(myVarOriginDestination);
     myVarOriginDestination = setTimeout(function() {
         find = '';
-        console.log(val);
-        console.log(sequence);
         if(val == 'origin'){
             find = document.getElementById(val+sequence).value.toLowerCase();
             document.getElementById("airline_origin_name"+sequence).innerHTML = '';
@@ -705,7 +702,6 @@ function table_issued_offline_history(data){
 }
 
 function radio_button(type,val){
-    console.log(val);
     var radios = ''
     if(type == 'booker')
         radios = document.getElementsByName('radio_booker');
@@ -721,7 +717,6 @@ function radio_button(type,val){
             break;
         }
     }
-    console.log(value);
     if(value == 'search' && type == 'booker'){
         document.getElementById('booker_search').hidden = false;
         document.getElementById('booker_input').hidden = true;
@@ -745,7 +740,6 @@ function update_contact(type,val){
         if(document.getElementById('adult_title'+val).value != '' && document.getElementById('adult_first_name'+val).value != '' && document.getElementById('adult_last_name'+val).value != '')
             document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('adult_title'+val).value + ' ' + document.getElementById('adult_first_name'+val).value + ' ' + document.getElementById('adult_last_name'+val).value;
         if(document.getElementById('adult_birth_date'+val).value != ''){
-            console.log('inside here');
             document.getElementById('birth_date'+parseInt(val-1)).innerHTML = document.getElementById('adult_birth_date'+val).value;
         }
     }
@@ -754,7 +748,6 @@ function update_contact(type,val){
 function update_contact_cp(val){
     temp = 1;
     while(temp != counter_passenger+1){
-        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
         if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
             document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
             document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
@@ -773,8 +766,6 @@ function update_contact_cp(val){
 }
 
 function set_provider_data(val,type){
-    console.log(val);
-    console.log(type);
     var carrier = document.getElementById("provider_data"+val);
     if(type == 'airline'){
         for(i in issued_offline_data.carrier_id){
@@ -796,7 +787,6 @@ function set_provider_data(val,type){
 }
 
 function set_destination_data(val,type){
-    console.log(val);
     var carrier = document.getElementById("destination_data"+val);
     if(type == 'airline'){
         for(i in airline_destination){
@@ -824,7 +814,6 @@ function set_destination_data(val,type){
 }
 
 function set_origin_data(val,type){
-    console.log(val);
     var carrier = document.getElementById("origin_data"+val);
     if(type == 'airline'){
         for(i in airline_destination){
@@ -852,7 +841,6 @@ function set_origin_data(val,type){
 }
 
 function set_data(val,type){
-    console.log(document.getElementById('select2-origin_data'+val+'-container').title);
     if(type == 'provider')
         document.getElementById('provider'+val).value = document.getElementById('select2-provider_data'+val+'-container').innerHTML;
     else if(type == 'origin')

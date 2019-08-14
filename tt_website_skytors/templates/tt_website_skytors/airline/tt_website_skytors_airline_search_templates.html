@@ -19,7 +19,6 @@
     sorting_value = '';
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-    console.log(airline_request);
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
@@ -58,11 +57,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                <span style="text-transform: capitalize;"><i class="fas fa-map-marker-alt"></i> {% if airline_request.direction == 'OW' %} ONE WAY {% elif airline_request.direction == 'RT' %} ROUND TRIP {% elif airline_request.direction == 'MC' %} MULTI CITY {% endif %}</span><br/>
-                <span style="text-transform: capitalize;" id="show_origin_destination"><i class="fas fa-globe-asia"></i> {{airline_request.origin.0}} > {{airline_request.destination.0}} </span>
+                <span style="text-transform: capitalize; font-weight:500;"><i class="fas fa-plane"></i> {% if airline_request.direction == 'OW' %} One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} </span><br/>
+                <span style="text-transform: capitalize; font-weight:500;" id="show_origin_destination"><i class="fas fa-map-marker-alt"></i> <span title="{{airline_request.origin.0}} > {{airline_request.destination.0}}"> </span></span>
             </div>
             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                <span style="text-transform: capitalize;" id="show_date"><i class="fas fa-calendar-alt"></i> {{airline_request.departure.0}} {% if airline_request.departure.0 != airline_request.arrival.0 %} {{airline_request.arrival.0}} {% endif %}</span><br/>
+                <span style="text-transform: capitalize;" id="show_date"><i class="fas fa-calendar-alt"></i> {{airline_request.departure.0}} {% if airline_request.departure.0 != airline_request.return.0 %} - {{airline_request.return.0}} {% endif %}</span><br/>
                 <span style="text-transform: capitalize;"><i class="fas fa-users"></i> {{airline_request.adult}} Adult, {{airline_request.child}} Child, {{airline_request.infant}} Infant</span>
             </div>
 
@@ -419,9 +418,8 @@
 <script>
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
-        if(document.getElementById('radio_airline_mc').checked == false){
-            get_airline_config('search');
-        }
+        get_airline_config('search');
+
         counter_search = 0;
         airline_filter_render();
         airline_signin('');
@@ -507,24 +505,36 @@
       }else if(document.getElementById('radio_airline_mc').checked) {
         document.getElementById('ori_airline').style.display = "none";
         text_mc='';
+        //text_mc += `
+        //<div class="row">
+        //    <div class="col-lg-12" style="padding:0px;">
+        //        <div id="mc_airline_paxs">
+
+        //        </div>
+        //        <div class="banner-right" style="text-align:left;">
+        //            <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
+
+        //            </ul>
+        //            <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('search');"><i class="fas fa-plus"></i> Add</button>
+        //            <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city('search');"><i class="fas fa-trash-alt"></i> Delete</button>
+        //        </div>
+        //        <div class="banner-right">
+        //            <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
+        //            </div>
+        //        </div>
+
+        //    </div>
+        //</div>`;
+
         text_mc += `
         <div class="row">
             <div class="col-lg-12" style="padding:0px;">
-                <div id="mc_airline_paxs">
-
-                </div>
-                <div class="banner-right" style="text-align:left;">
-                    <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
-
-                    </ul>
+                <div id="mc_airline_paxs"></div>
+                <div id="mc_airline_add" style="background:none !important;"></div>
+                <div style="text-align:left;">
                     <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('search');"><i class="fas fa-plus"></i> Add</button>
                     <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city('search');"><i class="fas fa-trash-alt"></i> Delete</button>
                 </div>
-                <div class="banner-right">
-                    <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
-                    </div>
-                </div>
-
             </div>
         </div>`;
         document.getElementById('mc_airline_default').innerHTML = text_mc;

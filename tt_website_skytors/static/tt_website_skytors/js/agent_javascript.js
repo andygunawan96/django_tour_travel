@@ -1,6 +1,7 @@
 data_counter = 0;
 data_search = [];
 function table_reservation(data){
+    //check here
     text= '';
     var node = document.createElement("tr");
     for(i in data){
@@ -9,41 +10,25 @@ function table_reservation(data){
         <form action="" class="form-wrap" method="POST" id="gotobooking`+data_counter+`" />
         <tr>
             <td>`+(data_counter+1)+`</td>
-            <td name="order_number">`+data[i].name+`</td>`;
+            <td name="order_number">`+data[i].order_number+`</td>`;
         try{
-            if(data[i].transport_type == 'airline'){
-                provider = data[i].provider.split(',');
+            if(data[i].provider.provider_type == 'airline'){
                 text+=`<td>`;
-                for(i in provider)
-                    text+=`<img data-toggle="tooltip" title="" class="airline-logo" src="http://static.skytors.id/`+airline_carriers[provider[i]]+`.png" style="width:60px; height:60px;"><span> </span>`;
+                for(j in data[i].provider.airline_carrier_codes){
+                    text+=`<img data-toggle="tooltip" title="" class="airline-logo" src="http://static.skytors.id/`+data[i].provider.airline_carrier_codes[j]+`.png" style="width:60px; height:60px;"><span> </span>`;
+                }
                 text+=`</td>`;
-            }else if(data[i].transport_type == 'train')
+            }else if(data[i].provider.provider_type == 'train')
                 text+=`<td><img src="/static/tt_website_skytors/img/icon/kai.png" style="width:60px; height:40px;" alt="PT. KAI" title="PT. KAI"/></td>`;
-            else if(data[i].transport_type == 'activity')
+            else if(data[i].provider.provider_type == 'activity')
                 text+=`<td>ACTIVITY</td>`
         }catch(err){
 
         }
+        text+= `<td>`+data[i].state_description+`</td>`;
 
-        if(data[i].state == 'cancel2'){
-            text+= `<td>Expired</td>`;
-        }
-        else if(data[i].state == 'fail_booking'){
-            text+= `<td>Failed Book</td>`;
-        }
-        else if(data[i].state == 'cancel'){
-            text+= `<td>Cancelled</td>`;
-        }
-        else if(data[i].state == 'issued'){
-            text+= `<td>Issued</td>`;
-        }
-        else if(data[i].state == 'booked'){
-            text+= `<td>Booked</td>`;
-        }
         text+= `<td>`+data[i].pnr+`</td>`;
-        text+= `<td>`+data[i].agent_id+`</td>`;
-        text+= `<td>`+data[i].book_date+`</td>`;
-        text+= `<td>`+data[i].contact_id+`</td>`;
+        text+= `<td>`+data[i].booked_date+`</td>`;
 
         if(data[i].hold_date == false){
             text+= `<td>-</td>`;
@@ -140,7 +125,6 @@ function table_top_up_history(data){
 }
 
 function total_price_top_up(){
-    console.log(parseInt(document.getElementById('amount').value));
     if(document.getElementById('amount').value != '')
         if(Number.isNaN(parseInt(document.getElementById('amount').value)) == true){
             alert("Please don't fill any alpha characters!");
@@ -148,23 +132,22 @@ function total_price_top_up(){
             document.getElementById('total_amount').value = parseInt(document.getElementById('unique_amount').value);
         }else{
             document.getElementById('amount').value = parseInt(document.getElementById('amount').value);
-            document.getElementById('total_amount').value = parseInt(document.getElementById("amount").value) + parseInt(document.getElementById('unique_amount').value);
+            document.getElementById('total_amount').value = getrupiah(parseInt(document.getElementById("amount").value) + parseInt(document.getElementById('unique_amount').value));
             $('#amount').niceSelect('update');
         }
 }
 
 function payment_top_up(){
     text = '';
-    console.log(document.getElementById('payment_selection').value);
-    for(i in response.acquirers){
+    for(i in response.non_member){
         if(i == document.getElementById('payment_selection').value){
-            for(j in response.acquirers[i]){
+            for(j in response.non_member[i]){
                 if(j == 0){
                     text += `
                     <div>
                         <label class="radio-button-custom">
-                            <span title="`+response.acquirers[i][j].name+`"> <img class="img img-responsive" src="data:image/jpeg;base64, `+response.acquirers[i][j].image+`" style="max-width: 60px; display: inline-block"> `+response.acquirers[i][j].name+`</span>
-                            <input type="radio" checked="checked" name="acquirer" value="`+response.acquirers[i][j].id+`" checked="checked" onclick="set_radio_payment('`+i+`');">
+                            <span title="`+response.non_member[i][j].name+`"> <img class="img img-responsive" src="" style="max-width: 60px; display: inline-block"> `+response.non_member[i][j].name+`</span>
+                            <input type="radio" checked="checked" name="acquirer" value="`+response.non_member[i][j].seq_id+`" checked="checked" onclick="set_radio_payment('`+i+`');">
                             <span class="checkmark-radio"></span>
                         </label>
                     </div><hr/>`;
@@ -172,8 +155,8 @@ function payment_top_up(){
                     text += `
                     <div>
                         <label class="radio-button-custom">
-                            <span title="`+response.acquirers[i][j].name+`"> <img class="img img-responsive" src="data:image/jpeg;base64, `+response.acquirers[i][j].image+`" style="max-width: 60px; display: inline-block"> `+response.acquirers[i][j].name+`</span>
-                            <input type="radio" name="acquirer" value="`+response.acquirers[i][j].id+`" onclick="set_radio_payment('`+i+`');">
+                            <span title="`+response.non_member[i][j].name+`"> <img class="img img-responsive" src="" style="max-width: 60px; display: inline-block"> `+response.non_member[i][j].name+`</span>
+                            <input type="radio" name="acquirer" value="`+response.non_member[i][j].seq_id+`" onclick="set_radio_payment('`+i+`');">
                             <span class="checkmark-radio"></span>
                         </label>
                     </div><hr/>`;
@@ -181,14 +164,14 @@ function payment_top_up(){
             }
             document.getElementById('payment').innerHTML = text;
 
-            if(i == 'tt_transfer'){
-                set_radio_payment('tt_transfer');
-                document.getElementById('total_amount').innerHTML = `<span>Total IDR `+getrupiah(response.acquirers[i][0].amount+unique_amount)+`</span>`;
+            if(i == 'transfer'){
+                set_radio_payment('transfer');
+                document.getElementById('total_amount').innerHTML = `<span>Total IDR `+getrupiah(response.non_member[i][0].total_amount)+`</span>`;
             }else if('sgo_va'){
                 set_radio_payment('sgo_va');
-                document.getElementById('total_amount').innerHTML = `<span>Total IDR `+getrupiah(response.acquirers[i][0].amount)+`</span>`;
+                document.getElementById('total_amount').innerHTML = `<span>Total IDR `+getrupiah(response.non_member[i][0].amount)+`</span>`;
             }else{
-                document.getElementById('total_amount').innerHTML = `<span>Total IDR `+getrupiah(response.acquirers[i][0].amount)+`</span>`;
+                document.getElementById('total_amount').innerHTML = `<span>Total IDR `+getrupiah(response.non_member[i][0].amount)+`</span>`;
             }
 
 
@@ -207,26 +190,23 @@ function set_radio_payment(type){
             break;
         }
     }
-    console.log(id);
-    console.log(type);
-    for(i in response.acquirers){
+    for(i in response.non_member){
         if(i == document.getElementById('payment_selection').value){
-            for(j in response.acquirers[i]){
+            for(j in response.non_member[i]){
                 if(j == id){
-                    console.log(j);
-                    console.log(response.acquirers[i][j]);
-                    if(type == 'tt_transfer'){
+                    if(type == 'transfer'){
                         document.getElementById('desc').innerHTML = `
-                        <h4>Bank `+response.acquirers[i][j].name+`</h4>
+                        <h4>Bank `+response.non_member[i][j].name+`</h4>
                         <br/>
-                        <span style="font-size:16px; font-weight:bold;">No Rekening: `+response.acquirers[i][j].number+`</span>`;
-                        console.log('inhere');
+                        <span style="font-size:16px; font-weight:bold;">Account Name: `+response.non_member[i][j].account_name+`</span>
+                        <br/>
+                        <span style="font-size:16px; font-weight:bold;">No Rekening: `+response.non_member[i][j].account_number+`</span>`;
                     }
                     else if(type == 'sgo_va')
                         document.getElementById('desc').innerHTML = `
                         <h4>`+response.acquirers[i][j].name+`</h4>
                         <br/>
-                        <span style="font-size:16px; font-weight:bold;">No Virtual Account: `+response.acquirers[i][j].number+`</span>`;
+                        <span style="font-size:16px; font-weight:bold;">No Virtual Account: `+response.non_member[i][j].number+`</span>`;
                 }
             }
         }

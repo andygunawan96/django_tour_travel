@@ -422,7 +422,6 @@ function sorting_button(value){
 function search_train(val){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        console.log(val);
         find = '';
         if(val == 'origin'){
             find = document.getElementById('train_origin').value.toLowerCase();
@@ -432,7 +431,6 @@ function search_train(val){
             document.getElementById("train_destination_name").innerHTML = '';
         }
         if(find.length>1){
-            console.log('here');
             text = '';
             train_destination.forEach((obj)=> {
               if(obj[0].toString().toLowerCase().search(find) !== -1 || obj[1].toString().toLowerCase().search(find) !== -1){
@@ -872,7 +870,6 @@ function select_passenger(val){
     document.getElementById('passenger'+pax_click).style.background = 'white';
     temp = document.getElementById('passenger'+pax_click).value.split(' ')[document.getElementById('passenger'+pax_click).value.split(' ').length-1].split('/');
     temp = temp[0]+'-'+temp[1];
-    console.log(temp);
     document.getElementById(temp).style.background = '#f15a22';
     document.getElementById(temp).setAttribute("onclick", "javascript: alert('Already booked');");
     pax_click = val;
@@ -910,7 +907,6 @@ function time_check(data){
                     time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
                 data_time = obj1.departure[1].split(':');
                 data_time = parseInt(data_time[0])*3600 + parseInt(data_time[1])*60;
-                console.log(data_time);
                 if(time[0]<=data_time && time[1]>=data_time){
                     check = 1;
                 }
@@ -953,7 +949,6 @@ function filtering(type){
                 check_cabin = 1;
 
         data = time_check(data);
-        console.log(data);
         if(check_cabin == 1){
             data.forEach((obj)=> {
                 check = 0;
@@ -978,8 +973,6 @@ function filtering(type){
 function sort(value){
     var data_filter = value;
     var temp = '';
-    console.log(value);
-    console.log(sorting_value);
     if(sorting_value == 'Lowest Price'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j < data_filter.length; j++) {
@@ -1042,7 +1035,6 @@ function sort(value){
         }
     }
 
-    console.log(data_filter);
     //set
     var response = '';
     for(i in data_filter){

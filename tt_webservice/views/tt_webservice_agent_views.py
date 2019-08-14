@@ -229,8 +229,12 @@ def signin(request):
                 file = open("version_cache" + ".txt", "w+")
                 file.write("version1.0")
                 file.close()
+
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res['result']['error_code']
 

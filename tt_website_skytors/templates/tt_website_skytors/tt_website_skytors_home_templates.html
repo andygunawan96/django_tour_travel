@@ -5,23 +5,21 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_train.js?version=1"></script>
-<script src="{{ static_path }}js/webservice_tour.js?version=1"></script>
-<script src="{{ static_path }}js/webservice_airline.js?version=1"></script>
-<script src="{{ static_path }}js/webservice_hotel.js?version=1"></script>
-<script src="{{ static_path }}js/webservice_visa.js?version=1"></script>
-<script src="{{ static_path }}js/webservice_account.js?version=1"></script>
-<script src="{{ static_path }}js/train_javascript.js?version=1"></script>
-<script src="{{ static_path }}js/visa_javascript.js?version=1"></script>
-<script src="{{ static_path }}js/activity_javascript.js?version=1"></script>
-<script src="{{ static_path }}js/airline_javascript.js?version=1"></script>
-<script src="{{ static_path }}js/hotel_javascript.js?version=1"></script>
-<script src="{{ static_path }}js/tour_javascript.js?version=1"></script>
-<script src="{{ static_path }}js/moment.js?version=1"></script>
-<script src="{{ static_path }}js/daterangepicker.js?version=1"></script>
+<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
-    time = 300;
-    triggered_balance();
+
     activity_country = [];
     city = [];
     sub_category = {};
@@ -52,7 +50,6 @@
         cache = `{{cache}}`;
         cache = cache.replace(/&quot;/g, '"');
         cache = JSON.parse(cache);
-        console.log(cache)
     }catch(err){
 
     }
@@ -80,8 +77,8 @@
         get_airline_config('home');
         //get_train_config('home');
         get_visa_config('home');
-        get_balance();
-        get_transactions_notification();
+
+
         //get_agent_booking();
     {% endif %}
 
@@ -114,10 +111,10 @@
                 <input type="hidden" id="start"/>
                 <input type="hidden" id="end"/>
                 <div class="col-lg-12">
-                    <h3>
+                    <h3 style="color:white;">
                         Hello, {{username.agent_name}} !
                     </h3>
-                    <h4 style="padding-top:5px; padding-bottom:15px;">
+                    <h4 style="padding-top:5px; padding-bottom:15px; color:white;">
                         Enjoy your trip with RODEXTRIP
                     </h4>
 
@@ -1379,47 +1376,12 @@
             }
         }
     }
-    function set_notification(data){
-        var now = moment().format('YYYY-MM-DD hh:mm:ss');
-        data_counter = 0;
-        var text_notification = '';
-        for(i in data){
-            if(data_counter == 5)
-                break;
-            else if(data[i].state == 'booked'){
-                var date_time = moment(data[i].hold_date).format('YYYY-MM-DD hh:mm:ss');
-                if(date_time > now){
-                    text_notification += `<li>`+(data_counter+1)+`. `+data[i].name+` `+data[i].provider+` `+data[i].hold_date+`</li>`;
-                    text_notification += `<li>`+data[i].provider+` will be expired on `+data[i].hold_date+`</li>`;
-                    data_counter++;
-                }
-            }
-        }
-        if(text_notification == ''){
-            text_notification += `<li> No Notification </li>`;
-            document.getElementById('red_notification').innerHTML = data_counter;
-            document.getElementById('red_notification').style.color = "black";
-        }
-        else{
-            document.getElementById('red_notification').innerHTML = data_counter;
-            document.getElementById('red_notification').style.color = "#f15a22";
-            text_notification += `<li><hr/></li>`;
-            text_notification += `<li><a href="#">See more notification ... </a></li>`;
-        }
-        document.getElementById('notification_detail').innerHTML = text_notification;
-        document.getElementById('notification_detail2').innerHTML = text_notification;
-    }
 
     document.getElementById("country_id").value = 101;
     document.getElementById("start").value = "2019-01-01";
     document.getElementById("end").value = "2020-12-31";
     get_dept_year();
     //tour_login('');
-
-    function set_csrf_notification(number){
-        document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
-        document.getElementById('notification_'+number).submit();
-    }
 </script>
 
 {% endblock %}

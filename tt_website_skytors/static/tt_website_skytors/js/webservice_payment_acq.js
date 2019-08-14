@@ -235,7 +235,6 @@ payment_acq2 = {
   }
 }
 
-console.log(payment_acq);
 
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type){
     getToken();
@@ -265,13 +264,12 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            console.log(payment_acq2);
             text=`
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
             <div class="input-container-search-ticket btn-group">
 
         <div class="form-select" id="default-select">
-            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`');">`;
+            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`','`+transaction_type+`');">`;
             for(i in payment_acq2){
 
                 if(i == 'transfer')
@@ -296,7 +294,8 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             text+=`
                 </div>`;
             document.getElementById('payment_acq').innerHTML += text;
-            set_payment(val);
+            $('#payment_method').niceSelect();
+            set_payment(val,type);
             document.getElementById('payment_acq').hidden = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -306,7 +305,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
 
 }
 
-function set_payment(val){
+function set_payment(val, type){
     payment_method = document.getElementById('payment_method').value;
     text= '';
     for(i in payment_acq2[payment_method]){
@@ -317,7 +316,7 @@ function set_payment(val){
         <label class="radio-button-custom">
             <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>
             <img width="50px" height="auto" src="`+payment_acq2[payment_method][i].image+`"/></span>
-            <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`');">
+            <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
             <span class="checkmark-radio"></span>
         </label><br/>`;
         else
@@ -326,16 +325,12 @@ function set_payment(val){
         <label class="radio-button-custom">
             <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>
             <img width="50px" height="auto" src="`+payment_acq2[payment_method][i].image+`"/></span>
-            <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`');">
+            <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
             <span class="checkmark-radio"></span>
         </label>
         <label class="radio-button-custom">
             <span style="font-size:14px; font-weight:500;"> Account: `+payment_acq2[payment_method][i].account_name+`<br>
             <span style="font-size:14px; font-weight:500;"> Account Name: `+payment_acq2[payment_method][i].account_number+`<br>
-            <span style="font-size:14px; font-weight:500;"> Price: `+payment_acq2[payment_method][i].price_component.amount+`<br>
-            <span style="font-size:14px; font-weight:500;"> Fee: `+payment_acq2[payment_method][i].price_component.fee+`<br>
-            <span style="font-size:14px; font-weight:500;"> Unique Amount: `+payment_acq2[payment_method][i].price_component.unique_amount+`<br>
-            <span style="font-size:14px; font-weight:500;"> Grand Total: `+payment_acq2[payment_method][i].total_amount+`<br>
         </label>
         <br/>`;
     }
@@ -343,8 +338,8 @@ function set_payment(val){
     document.getElementById('payment_description').innerHTML = text;
 }
 
-function set_price(val){
-    var selected = '';
+function set_price(val, type){
+    selected = '';
     var radios = document.getElementsByName('radio_payment_type');
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
@@ -357,9 +352,6 @@ function set_price(val){
     text = '';
     text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`;
     text+= `<div class='row'>`;
-    console.log(payment_acq);
-    console.log(payment_method);
-    console.log(selected);
     if(payment_method == 'cash'){
         //price
         text += `
@@ -392,11 +384,11 @@ function set_price(val){
                     <span style='font-weight:500;'>Grand Total:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;'>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.fee)+`</span>
+                    <span style='font-weight:500;'>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].total_amount)+`</span>
                 </div>`;
         text+= `</div><br/>`;
-        text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
-    }else if(payment_method == 'credit_limit'){
+    }
+    else if(payment_method == 'credit_limit'){
         usage = payment_acq2[payment_method][selected].credit_limit - payment_acq2[payment_method][selected].actual_balance;
         text+= `<div class='col-sm-6' style='text-align:left;'>
                     <span>Usage:</span>
@@ -417,8 +409,8 @@ function set_price(val){
                     <span>`+getrupiah(payment_acq2[payment_method][selected].credit_limit)+`</span>
                 </div>`;
         text+= `</div><br/>`;
-        text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
-    }else if(payment_method == 'transfer'){
+    }
+    else if(payment_method == 'transfer'){
         //price
         text += `
                 <div class='col-sm-6' style='text-align:left;'>
@@ -450,11 +442,15 @@ function set_price(val){
                     <span style='font-weight:500;'>Grand Total:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;'>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.fee)+`</span>
+                    <span style='font-weight:500;'>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].total_amount)+`</span>
                 </div>`;
         text+= `</div><br/>`;
-        text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
+
     }
+    if(type == 'visa')
+        text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
+    else if(type == 'airline')
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;
 }
 

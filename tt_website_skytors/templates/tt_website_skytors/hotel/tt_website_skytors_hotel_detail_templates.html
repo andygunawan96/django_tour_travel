@@ -263,7 +263,6 @@
 
       $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
           $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-            console.log(picker.startDate.format('DD MMM YYYY'));
             $("#hotel_checkin").val(picker.startDate.format('DD MMM YYYY'));
             $("#hotel_checkout").val(picker.endDate.format('DD MMM YYYY'));
 

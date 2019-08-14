@@ -726,8 +726,9 @@ def booking(request):
             'username': request.session['user_account'],
             'airline_carriers': airline_carriers,
             'order_number': request.POST['order_number'],
+            # 'order_number': 'AL.19081332140',
             'javascript_version': javascript_version
-            # 'order_number': 'AL.19080509118',
+
             # 'order_number': 'AL.19072446048',
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)

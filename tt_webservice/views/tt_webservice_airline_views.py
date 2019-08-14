@@ -381,7 +381,7 @@ def get_price_itinerary(request):
     try:
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
-            if idx == 1:
+            if idx != 0:
                 journey.update({
                     "separate_journey": True
                 })
@@ -712,9 +712,15 @@ def update_service_charge(request):
 def issued(request):
     # nanti ganti ke get_ssr_availability
     try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
         data = {
             # 'order_number': 'TB.190329533467'
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

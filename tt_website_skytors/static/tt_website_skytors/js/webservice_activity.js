@@ -244,7 +244,6 @@ function activity_get_detail(val){
 }
 
 function activity_get_price(val){
-    console.log('inhere');
     document.getElementById('activity_detail_table').innerHTML = '';
     if(parseInt(activity_type_pick) != val){
         activity_type_pick = val;

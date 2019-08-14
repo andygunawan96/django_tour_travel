@@ -127,7 +127,6 @@ function airline_goto_search(){
             break;
         }
     }
-    console.log(type);
     if(type != 'multicity'){
         document.getElementById('counter').value = counter_airline_search;
         document.getElementById('airline_searchForm').submit();
@@ -243,27 +242,30 @@ function add_multi_city(type){
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
         }
 
-        var node_tabs = document.createElement("li");
-        if(counter_airline_search == 1)
-        text_tabs = `
-        <a class="nav-link active" id="mc_airline`+counter_airline_search+`" data-toggle="tab" href="#mc_airline_add`+counter_airline_search+`" role="tab" aria-controls="mc_airline_tab`+counter_airline_search+`" aria-selected="true">
-            <span><i class="fas fa-plane"></i> Flight `+counter_airline_search+` </span>
-        </a>`;
-        else
-        text_tabs = `
-        <a class="nav-link" id="mc_airline`+counter_airline_search+`" data-toggle="tab" href="#mc_airline_add`+counter_airline_search+`" role="tab" aria-controls="mc_airline_tab`+counter_airline_search+`" aria-selected="true">
-            <span><i class="fas fa-plane"></i> Flight `+counter_airline_search+` </span>
-        </a>`;
-        node_tabs.className = 'nav-item';
-        node_tabs.innerHTML = text_tabs;
-        node_tabs.setAttribute('id', 'mc_airline_add_tabs'+counter_airline_search);
-        document.getElementById("mc_airline_add_tabs").appendChild(node_tabs);
+//        var node_tabs = document.createElement("li");
+//        if(counter_airline_search == 1)
+//        text_tabs = `
+//        <a class="nav-link active" id="mc_airline`+counter_airline_search+`" data-toggle="tab" href="#mc_airline_add`+counter_airline_search+`" role="tab" aria-controls="mc_airline_tab`+counter_airline_search+`" aria-selected="true">
+//            <span><i class="fas fa-plane"></i> Flight `+counter_airline_search+` </span>
+//        </a>`;
+//        else
+//        text_tabs = `
+//        <a class="nav-link" id="mc_airline`+counter_airline_search+`" data-toggle="tab" href="#mc_airline_add`+counter_airline_search+`" role="tab" aria-controls="mc_airline_tab`+counter_airline_search+`" aria-selected="true">
+//            <span><i class="fas fa-plane"></i> Flight `+counter_airline_search+` </span>
+//        </a>`;
+//        node_tabs.className = 'nav-item';
+//        node_tabs.innerHTML = text_tabs;
+//        node_tabs.setAttribute('id', 'mc_airline_add_tabs'+counter_airline_search);
+//        document.getElementById("mc_airline_add_tabs").appendChild(node_tabs);
 
         var node = document.createElement("div");
         text = `
         <div class="col-lg-12">
             <div class="row">`;
                 text+=`
+                <div class="col-lg-12" style="text-align:left; padding:0px; margin-top:10px; margin-bottom:10px;">
+                    <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                </div>
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
@@ -346,12 +348,12 @@ function add_multi_city(type){
             </div>
         </div>`;
 
-        if(counter_airline_search == 1){
-            node.className = 'tab-pane fade show active';
-        }
-        else{
-            node.className = 'tab-pane fade';
-        }
+//        if(counter_airline_search == 1){
+//            node.className = 'tab-pane fade show active';
+//        }
+//        else{
+//            node.className = 'tab-pane fade';
+//        }
         node.innerHTML = text;
         node.setAttribute('id', 'mc_airline_add'+counter_airline_search);
         document.getElementById("mc_airline_add").appendChild(node);
@@ -383,7 +385,6 @@ function add_multi_city(type){
                   format: 'DD MMM YYYY',
               }
             });
-        console.log(counter_airline_search);
         get_airline_config(type,counter_airline_search);
         $('#cabin_class_flight'+counter_airline_search).niceSelect();
         get_carrier_code_list(type, counter_airline_search);
@@ -413,17 +414,17 @@ function add_multi_city(type){
 
 function del_multi_city(){
     if(counter_airline_search!=1){
-        document.getElementById("mc_airline"+counter_airline_search).remove();
+        //document.getElementById("mc_airline"+counter_airline_search).remove();
         document.getElementById("mc_airline_add"+counter_airline_search).remove();
         airline_provider_list_mc.pop(airline_provider_list_mc.length - 1);
         counter_airline_search--;
-        document.getElementById("mc_airline1").classList.add("active");
-        document.getElementById("mc_airline_add1").classList.add("show");
-        document.getElementById("mc_airline_add1").classList.add("active");
+        //document.getElementById("mc_airline1").classList.add("active");
+        //document.getElementById("mc_airline_add1").classList.add("show");
+        //document.getElementById("mc_airline_add1").classList.add("active");
         if(counter_airline_search != 1){
-            document.getElementById("mc_airline"+counter_airline_search).classList.remove("active");
-            document.getElementById("mc_airline_add"+counter_airline_search).classList.remove("show");
-            document.getElementById("mc_airline_add"+counter_airline_search).classList.remove("active");
+            //document.getElementById("mc_airline"+counter_airline_search).classList.remove("active");
+            //document.getElementById("mc_airline_add"+counter_airline_search).classList.remove("show");
+            //document.getElementById("mc_airline_add"+counter_airline_search).classList.remove("active");
             document.getElementById('add_mc_btn').hidden = false;
             document.getElementById('del_mc_btn').hidden = false;
         }
@@ -755,7 +756,6 @@ function airline_switch(val){
         document.getElementById("select2-destination_id_flight-container").innerHTML = temp;
         document.getElementById("airline_destination_flight").value = temp;
     }else{
-        console.log(val);
 
         var temp = document.getElementById("airline_origin_flight"+val).value;
         document.getElementById("select2-origin_id_flight"+val+"-container").innerHTML = document.getElementById("airline_destination_flight"+val).value;
@@ -1142,7 +1142,6 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         for(i in airline){
-            console.log(counter_search);
            if(airline[i].origin == airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'departure'){
                var price = 0;
                text += `
@@ -1648,13 +1647,10 @@ function change_departure(val){
         //MC
         //location.reload();
         check_airline_pick = 0;
-        console.log(val);
         journey.splice(val,1);
         value_pick.splice(val,1);
         airline_pick_list.splice(val,1);
         counter_search = val;
-        console.log(journey);
-        console.log(airline_pick_list);
         text = '';
         airline_pick_mc('no_button');
         document.getElementById("airline_detail").innerHTML = '';
@@ -1671,18 +1667,14 @@ function change_departure(val){
 }
 
 function delete_mc_journey(val){
-    console.log(val);
     journey.splice(val,1);
     value_pick.splice(val,1);
     airline_pick_list.splice(val,1);
     temp = parseInt(airline_request.counter) - 1;
     airline_request.counter = temp.toString();
-    console.log(temp);
     airline_pick_mc('all');
-    console.log(parseInt(airline_request.counter));
-    console.log(journey.length);
     if(parseInt(airline_request.counter) == journey.length)
-        console.log('asdasd');
+
     if(parseInt(airline_request.counter) == journey.length){
         document.getElementById('airline_detail').innerHTML = '';
         filtering('filter');
@@ -1919,14 +1911,20 @@ function airline_detail(){
     for(i in airline_pick){
         if(airline_pick[i].journey_type == 'DEP'){
             text += `<div class="row"><div class="col-lg-12"><h6>Departure</h6>`;
-            $text +='Departure\n';
+            if(airline_request.direction != 'MC')
+                $text +='Departure\n';
+            else
+                $text +='Flight'+parseInt(i+1)+'\n';
         }else if(airline_pick[i].is_combo_price == true){
             text += `<div class="row"><div class="col-lg-12"><h6>Combo Price</h6><h6>Departure</h6>`;
             airline_type = 'DEP';
             $text +='Combo Price\n';
         }else{
             text += `<div class="row"><div class="col-lg-12"><h6>Return</h6>`;
-            $text +='Return\n';
+            if(airline_request.direction != 'MC')
+                $text +='Return\n';
+            else
+                $text +='Flight'+parseInt(i+1)+'\n';
         }
         for(j in airline_pick[i].carrier_code_list) //print gambar airline
             try{
@@ -1938,7 +1936,6 @@ function airline_detail(){
         for(j in airline_pick[i].segments){
             //isi ini
             if(airline_pick[i].segments[j].journey_type == 'DEP'){
-                console.log(airline_pick[i].segments[j].carrier_code);
                 $text += airline_carriers[airline_pick[i].segments[j].carrier_code].name + ' ' + airline_pick[i].segments[j].carrier_code + airline_pick[i].segments[j].carrier_number + '\n';
                 $text += airline_pick[i].segments[j].departure_date + ' → ' + airline_pick[i].segments[j].arrival_date + '\n';
                 $text += airline_pick[i].segments[j].origin_name + ' (' + airline_pick[i].segments[j].origin_city + ') - ';
@@ -2382,11 +2379,11 @@ function get_airline_review(){
                 text += '<h6>Return</h6>';
             text+= `<div class="row">`;
             text+= `<div class="col-lg-12">
-            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick[i].segments[j].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
+            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
             </div>`;
 
             text+= `<div class="col-lg-12">
-                        <h5>`+airline_carriers[0][airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
+                        <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
             if(airline_get_price_request.journeys_booking[i].segments[j].fare_pick != ''){
                  text+=`<h6>Class: `+airline_pick[i].segments[j].fares[airline_get_price_request.journeys_booking[i].segments[j].fare_pick].subclass+`</h6>`;
             }

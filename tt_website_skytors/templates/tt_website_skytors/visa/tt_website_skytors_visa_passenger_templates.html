@@ -15,7 +15,6 @@
 <script>
     function check_years_old(sequence, type){
         var birth_date = '';
-        console.log(document.getElementById('adult_birth_date'+sequence).value);
         if(type =='adult')
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='infant')
@@ -41,7 +40,6 @@
     visa = visa.replace(/True/g, 'true');
     visa = visa.replace(/False/g, 'false');
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
-    console.log(visa);
     visa_request = `{{visa_request}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     sell_visa();

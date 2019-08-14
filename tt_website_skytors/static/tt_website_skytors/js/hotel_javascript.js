@@ -60,7 +60,6 @@ var sorting_list2 = [
 function search_hotel(val){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        console.log(val);
         find = '';
         if(val == 'nationality'){
             find = document.getElementById('hotel_id_nationality').value.toLowerCase();
@@ -76,7 +75,6 @@ function search_hotel(val){
                     find[i] = '';
             }
             text = '';
-            console.log('asdad');
             if(document.getElementById('hotel_id_destination').value.length >1 ){
                 hotel_config.forEach((obj)=> {
                     check = 0;
@@ -199,7 +197,6 @@ function triggered(){
 
 function filtering(type){
     var data = JSON.parse(JSON.stringify(hotel_data));
-    console.log(hotel_data);
     if(type == 'filter'){
         check_rating = 0;
         for(i in rating_list)
@@ -223,7 +220,6 @@ function filtering(type){
             });
             data.hotel_ids = temp_data;
             hotel_filter = data;
-            console.log(hotel_filter);
             temp_data = [];
         }
     }
@@ -269,8 +265,6 @@ function sorting_button(value){
 
 function sort(response){
         //no filter
-        console.log(response);
-        console.log(hotel_data);
         sorting = sorting_value;
 
         for(var i = 0; i < response.hotel_ids.length-1; i++) {

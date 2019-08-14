@@ -99,7 +99,6 @@ function set_company_type(){
             break;
         }
     }
-    console.log(company);
     if(company == 'individual'){
         document.getElementById('company_details').hidden = true;
         document.getElementById('company_details').innerHTML = '';
@@ -345,8 +344,6 @@ function delete_table_of_passenger(){
 }
 
 function update_contact(type,val){
-    console.log(type);
-    console.log(val);
     if(type == 'pic'){
         if(document.getElementById('first_name'+val).value != '' && document.getElementById('last_name'+val).value != ''){
             document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('first_name'+val).value + ' ' + document.getElementById('last_name'+val).value;
@@ -388,10 +385,8 @@ function add_table_of_doc(){
 
 function delete_table_of_doc(){
     if(counter_regis_doc != 0){
-        console.log('here')
         counter_regis_doc--;
         var element = document.getElementById('table_of_doc'+counter_regis_doc);
         element.parentNode.removeChild(element);
     }
-    console.log(counter_regis_doc);
 }

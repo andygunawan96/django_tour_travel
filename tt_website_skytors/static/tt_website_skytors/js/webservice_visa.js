@@ -18,14 +18,11 @@ function get_visa_config(type){
         visa_config = msg;
         destination = document.getElementById('visa_destination_id');
         for(i in msg){
-            console.log(i)
             var node = document.createElement("option");
             node.text = i;
             node.value = i;
             if(type == 'search'){
                 try{
-                    console.log(i);
-                    console.log(visa_request['destination']);
                     if(visa_request['destination'] == i){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('visa_destination_id_hidden').value = i;
@@ -283,8 +280,6 @@ function update_passenger(){
     for(i in passenger){ //pax type
         for(k in passenger[i]){ //pax
             if(i != 'booker' && i != 'contact'){
-                console.log(passenger[i][k]);
-                console.log(k);
                 if(i != passenger_type){
                     pax_count = 0;
                     passenger_type = i;
@@ -297,7 +292,6 @@ function update_passenger(){
                         visa_type = radios[j].value;
                     }
                 }
-                console.log(visa_type);
                 radios = document.getElementsByName(i+'_entry_type'+pax_count);
                 entry_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
@@ -305,7 +299,6 @@ function update_passenger(){
                         entry_type = radios[j].value;
                     }
                 }
-                console.log(entry_type);
                 radios = document.getElementsByName(i+'_process_type'+pax_count);
                 process_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
@@ -313,7 +306,6 @@ function update_passenger(){
                         process_type = radios[j].value;
                     }
                 }
-                console.log(process_type);
                 for(j in visa.list_of_visa){ //list of visa
                     if(visa.list_of_visa[j].pax_type[0] == passenger[i][k].pax_type &&
                     visa.list_of_visa[j].visa_type[0] == visa_type &&
@@ -329,7 +321,6 @@ function update_passenger(){
                                 });
                             }
                         }
-                        console.log(visa.list_of_visa[j]);
                         data_pax.push({
                             'id':visa.list_of_visa[j].id.toString(),
                             'required': required
@@ -339,7 +330,6 @@ function update_passenger(){
             }
         }
     }
-    console.log(data_pax);
     getToken();
     $.ajax({
        type: "POST",
@@ -386,7 +376,6 @@ function update_contact(){
 }
 
 function commit_booking(){
-    console.log('here');
     getToken();
     $.ajax({
        type: "POST",
@@ -412,7 +401,6 @@ function commit_booking(){
 }
 
 function visa_get_data(data){
-    console.log('here');
     getToken();
     $.ajax({
        type: "POST",
@@ -425,7 +413,6 @@ function visa_get_data(data){
             'order_number': data
        },
        success: function(msg) {
-            console.log(JSON.stringify(msg));
             if(msg.result.error_code == 0){
                 visa = msg.result.response;
                 text= '';
@@ -471,7 +458,6 @@ function visa_get_data(data){
 
                                 check = 0;
                                 for(j in pax_type_repricing){
-                                    console.log(pax_type_repricing);
                                     if(pax_type_repricing[j][0] == msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name)
                                         check = 1;
                                 }
@@ -498,7 +484,6 @@ function visa_get_data(data){
                                         <div class="col-lg-3">Total</div>
                                     </div>
                                 </div>`;
-                                console.log(price_arr_repricing);
                                 for(j in price_arr_repricing){
                                    text_repricing += `
                                    <div class="col-lg-12">

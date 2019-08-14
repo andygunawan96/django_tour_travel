@@ -33,7 +33,6 @@ FORMAT DASAR
     price berisi list of pax --> pax berisi list of price yang di pakai sesuai yang dipakai
 */
 function add_table_of_equation(){
-    console.log(counter);
     text= '';
     var node = document.createElement("div");
     text += `
@@ -78,7 +77,6 @@ function add_table_of_equation(){
     node.setAttribute('id', 'div'+counter);
     document.getElementById("table_of_equation").appendChild(node);
     $('select').niceSelect();
-    console.log('asdas');
     counter++;
 }
 
@@ -94,10 +92,8 @@ function add_repricing(){
     for(j in price_arr_repricing){
        total = 0
        for(k in price_arr_repricing[j]){
-           console.log(price_arr_repricing[j][k]);
            total += price_arr_repricing[j][k];
        }
-       console.log(total);
        price_arr_repricing[j]['total'] = total;
     }
 }
@@ -108,7 +104,6 @@ function calculate(type){
     for(i in price_duplication){
         price_duplication[i].Repricing = 0;
     }
-    console.log(price_duplication);
     for(i=0;i<counter;i++){
         var selection_calculation = document.getElementById('calculation'+i).value;
         var selection_pax = document.getElementById('selection_pax'+i).value;
@@ -168,14 +163,12 @@ function calculate(type){
         }
     }
     if(type == 'visa'){
-        console.log(price_duplication);
         for(i in price_duplication)
             for(j in price_duplication[i]){
                 if(j != 'currency')
                     document.getElementById(i+'_'+j).innerHTML = price_duplication[i][j];
             }
     }else if(type == 'airline'){
-        console.log(price_duplication);
         for(i in price_duplication){
             document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
             document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
@@ -184,5 +177,4 @@ function calculate(type){
         text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
         document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
     }
-    console.log(price_duplication);
 }

@@ -27,9 +27,7 @@ function get_balance(){
                     </div>`;
             document.getElementById("credit_limit").innerHTML = text;
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-            console.log('success');
         }else{
-            console.log('error');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -53,9 +51,7 @@ function get_account(){
        console.log(msg);
         if(msg.result.error_code == 0){
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-            console.log('success');
         }else{
-            console.log('error');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -65,7 +61,7 @@ function get_account(){
 }
 
 function get_transactions_notification(){
-    limit_transaction = 5;
+    limit_transaction = 10;
     getToken();
     $.ajax({
        type: "POST",
@@ -86,18 +82,16 @@ function get_transactions_notification(){
             for(i in msg.result.response){
                 number = parseInt(i)+1;
                 if(msg.result.response[i].provider_type == 'airline')
-                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`
-                text+=`<li> `+number+` `+msg.result.response[i].order_number+` </li>`;
-                text+=`<li>   `+msg.result.response[i].pnr+` </li>`;
+                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`
+                text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
                 text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                text+=`<hr/></form>`;
+                text+=`<hr/></form></div>`;
             }
             document.getElementById('notification_detail').innerHTML = text;
-            document.getElementById('notification_detail2').innerHTML = text;
+//            document.getElementById('notification_detail2').innerHTML = text;
 
-            console.log('success');
         }else{
-            console.log('error');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -106,7 +100,26 @@ function get_transactions_notification(){
     });
 }
 
-function get_transactions(){
+function get_transactions(type){
+    load_more = false;
+    getToken();
+    if(type == 'reset'){
+        offset_transaction = 0;
+        data_search = [];
+        document.getElementById("table_reservation").innerHTML = `
+                    <tr>
+                        <th style="width:2%;">No.</th>
+                        <th style="width:10%;">Name</th>
+                        <th style="width:7%;">Provider</th>
+                        <th style="width:8%;">State</th>
+                        <th style="width:5%;">PNR</th>
+                        <th style="width:12%;">Book Date</th>
+                        <th style="width:12%;">Hold Date</th>
+                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Issued By</th>
+                        <th style="width:7%;">Action</th>
+                    </tr>`;
+    }
     limit_transaction = 20;
     getToken();
     $.ajax({
@@ -122,11 +135,21 @@ function get_transactions(){
             'provider_type': JSON.stringify([])
        },
        success: function(msg) {
-       console.log(msg);
+        console.log(msg);
         if(msg.result.error_code == 0){
-            console.log('success');
+            try{
+                if(msg.result.response.length >= 20){
+                    offset_transaction++;
+                    table_reservation(msg.result.response);
+                    load_more = true;
+                }else{
+                    table_reservation(msg.result.response);
+                }
+            }catch(err){
+                //set_notification(msg.result.response.transport_booking);
+            }
         }else{
-            console.log('error');
+            alert('Oops, something when wrong please contact HO !');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

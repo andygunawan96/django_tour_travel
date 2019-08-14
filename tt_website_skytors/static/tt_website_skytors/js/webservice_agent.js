@@ -885,7 +885,6 @@ function check_regex(value,regex){
 function get_agent_booking(type){
     load_more = false;
     getToken();
-    console.log(type);
     if(type == 'reset'){
         agent_offset = 0;
         data_counter = 0;
@@ -899,7 +898,6 @@ function get_agent_booking(type){
                         <th style="width:5%;">PNR</th>
                         <th style="width:8%;">Agent</th>
                         <th style="width:12%;">Book Date</th>
-                        <th style="width:8%;">Contact</th>
                         <th style="width:12%;">Hold Date</th>
                         <th style="width:12%;">Issued Date</th>
                         <th style="width:9%;">Issued By</th>
@@ -947,7 +945,6 @@ function get_agent_booking(type){
                     table_reservation(msg.result.response.transport_booking);
                 }
             }catch(err){
-                console.log('dari home');
                 set_notification(msg.result.response.transport_booking);
             }
         }else{
@@ -1027,8 +1024,16 @@ function check_top_up(){
     if(document.getElementById('tac_checkbox').checked == false){
         error_text += 'Please check Term and Conditions\n';
     }
-    if(parseInt(document.getElementById('qty').value) <= 0){
-        error_text += 'Please Input Qty\n';
+
+    if(document.getElementById('amount').value == ''){
+        error_text += 'Please Input Amount\n';
+    }
+    try{
+        if(parseInt(document.getElementById('amount').value) <= 50000){
+            error_text += 'Minimum top up Amount IDR 50,000\n';
+        }
+    }catch(err){
+
     }
     if(error_text == ''){
         document.getElementById('top_up_form').submit();
@@ -1037,7 +1042,7 @@ function check_top_up(){
     }
 }
 
-function create_top_up(amount, qty, unique_amount){
+function create_top_up(amount, unique_amount){
     getToken();
     $.ajax({
        type: "POST",
@@ -1048,33 +1053,81 @@ function create_top_up(amount, qty, unique_amount){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            "amount_id": amount,
-           "qty": qty,
            "unique_amount": unique_amount
        },
        success: function(msg) {
         console.log(msg);
-        if(msg.result.error_code == 0){
-            response = msg.result.response;
-            document.getElementById('top_up_name').innerHTML = `<span>`+response.top_up_name+`</span>`;
-            document.getElementById('total_amount').innerHTML = `<span>`+response.acquirers.cash[0].amount+`</span>`;
-            text = '';
+        response = {
+            "top_up_name": "TU.12345",
+            "non_member": {
+                "transfer": [
+                  {
+                    "seq_id": "PQR.1055001",
+                    "name": "BCA",
+                    "account_name": "Jepro B BCA",
+                    "account_number": "5151551",
+                    "bank": {
+                      "name": "BANK BCA",
+                      "code": "014"
+                    },
+                    "type": "transfer",
+                    "provider_id": "",
+                    "currency": "IDR",
+                    "price_component": {
+                      "amount": 289289300,
+                      "fee": 0,
+                      "unique_amount": 571
+                    },
+                    "total_amount": 289289871,
+                    "image": "",
+                    "return_url": "/payment/transfer/feedback?acq_id=22"
+                  }
+                ],
+                "cash": [
+                  {
+                    "seq_id": false,
+                    "name": "Cash",
+                    "account_name": "-",
+                    "account_number": "",
+                    "bank": {
+                      "name": "",
+                      "code": ""
+                    },
+                    "type": "cash",
+                    "provider_id": "",
+                    "currency": "IDR",
+                    "price_component": {
+                      "amount": 289289300,
+                      "fee": 0,
+                      "unique_amount": 0
+                    },
+                    "total_amount": 289289300,
+                    "image": "",
+                    "return_url": "/payment/cash/feedback?acq_id=11"
+                  }
+                ]
+              },
+              "member": {
+                "credit_limit": []
+              }
+        };
+        document.getElementById('top_up_name').innerHTML = `<span>`+response.top_up_name+`</span>`;
+        document.getElementById('total_amount').innerHTML = `<span>`+response.non_member.transfer[0].total_amount+`</span>`;
+        text = '';
 //            payment_selection
-            counter = 0;
-            for(i in response.acquirers){
-                if(i == 'cash'){
-                    text += `<option id="payment`+counter+`" value="`+i+`">Cash</option>`;
-                }else if(i == 'tt_transfer'){
-                    text += `<option id="payment`+counter+`" value="`+i+`">Transfer Manual</option>`;
-                }else if(i == 'sgo_va'){
-                    text += `<option id="payment`+counter+`" value="`+i+`">Virtual Account</option>`;
-                }
+        counter = 0;
+        for(i in response.non_member){
+            if(i == 'cash'){
+                text += `<option id="payment`+counter+`" value="`+i+`">Cash</option>`;
+            }else if(i == 'transfer'){
+                text += `<option id="payment`+counter+`" value="`+i+`">Transfer Manual</option>`;
+            }else if(i == 'sgo_va'){
+                text += `<option id="payment`+counter+`" value="`+i+`">Virtual Account</option>`;
             }
-            document.getElementById('payment_selection').innerHTML = text;
-            payment_top_up();
-            $('#payment_selection').niceSelect('update');
-        }else{
-
         }
+        document.getElementById('payment_selection').innerHTML = text;
+        payment_top_up();
+//        $('#payment_selection').niceSelect('update');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -1093,7 +1146,6 @@ function top_up_payment(){
             break;
         }
     }
-    console.log(id);
     getToken();
     $.ajax({
        type: "POST",

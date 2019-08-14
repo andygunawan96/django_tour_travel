@@ -14,7 +14,6 @@
 <script>
     function check_years_old(sequence, type){
         var birth_date = '';
-        console.log(document.getElementById('adult_birth_date'+sequence).value);
         if(type =='adult')
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='infant')

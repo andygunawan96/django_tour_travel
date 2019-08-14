@@ -1,0 +1,78 @@
+
+2019-08-14 02:20:45,121  ERROR  2294  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  235  UnboundLocalError("local variable 'e' referenced before assignment")  
+2019-08-14 02:25:49,182  ERROR  2456  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'error_codes'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_codes'] == 0:
+KeyError: 'error_codes'
+  
+2019-08-14 02:25:54,816  ERROR  2456  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'error_codes'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_codes'] == 0:
+KeyError: 'error_codes'
+  
+2019-08-14 02:28:13,118  ERROR  2487  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:28:26,204  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:28:35,395  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:28:55,869  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:30:02,103  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:32:20,684  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:33:00,353  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:33:09,456  ERROR  2497  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:43:49,491  ERROR  2805  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py  get_balance  93  KeyError('result')  
+2019-08-14 02:44:10,587  ERROR  2805  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py  get_balance  93  KeyError('result')  
+2019-08-14 02:50:22,527  ERROR  2805  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py  get_balance  93  KeyError('result')  
+2019-08-14 02:50:34,625  ERROR  2805  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py  get_balance  93  KeyError('result')  
+2019-08-14 02:50:52,867  ERROR  2805  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-14 02:51:05,462  ERROR  2805  /Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py  signin  234  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  

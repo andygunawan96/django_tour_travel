@@ -71,7 +71,6 @@ function check_issued_offline(){
                 request['passenger_last_name'+i] = document.getElementById('adult_last_name' + (i + 1)).value;
                 document.getElementById('adult_last_name' + (i + 1)).style['border-color'] = '#EFEFEF';
             }
-            console.log(document.getElementById('adult_title' + (i + 1)).value);
             if(document.getElementById('adult_title' + (i + 1)).value == ''){
                 error_log += 'Please fill title name for passenger '+ (i + 1) + ' !\n';
                 document.getElementById('adult_title' + (i + 1)).style['border-color'] = 'red';

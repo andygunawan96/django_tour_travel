@@ -1,1 +1,1 @@
-{"SQ": ["sabre", "amadeus"], "CX": ["sabre", "amadeus"], "GA": ["sabre", "amadeus"], "TR": ["scoot"]}
+{"SQ": ["amadeus", "sabre", "sia"], "CX": ["amadeus", "sabre"], "GA": ["amadeus", "sabre"], "CI": ["amadeus"], "MI": ["sia"]}
