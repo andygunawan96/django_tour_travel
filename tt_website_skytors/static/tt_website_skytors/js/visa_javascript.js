@@ -196,7 +196,6 @@ function update_table(type){
         commission = 0;
         currency = '';
         price_pax = 0;
-        console.log(list_passenger.length);
         if(list_passenger.length > 0){
             text+=`<table style="width:100%; margin-bottom:10px;">`;
             for(i in list_passenger){
@@ -258,11 +257,8 @@ function update_table(type){
         price_pax = 0;
         commission = 0;
         currency = '';
-        console.log(visa);
         for(i in visa.passengers){
-            console.log(visa.passengers[i].visa.price);
             for(j in visa.passengers[i].visa.price){
-                console.log(j);
                 if(visa.passengers[i].visa.price[j].charge_code == 'fare'){
                     price += visa.passengers[i].visa.price[j].amount;
                     price_pax = visa.passengers[i].visa.price[j].amount;
@@ -369,7 +365,6 @@ function copy_data(type){
             }
         }
     }
-    console.log($text);
     const el = document.createElement('textarea');
     el.value = $text;
     document.body.appendChild(el);
@@ -381,7 +376,6 @@ function copy_data(type){
 function visa_check_search(){
     error_log = '';
     for(i in visa){
-        console.log(check_number(document.getElementById('qty_pax_'+i).value));
         if(check_number(document.getElementById('qty_pax_'+i).value) == false){
             error_log = 'Please input number in pax type '+ visa[i].pax_type[1]+'\n';
 
@@ -622,9 +616,6 @@ function check_on_off_radio(pax_type,number,value){
     pax_price = '';
     name = '';
     list_of_name = []
-    console.log(number);
-    console.log(pax_type);
-    console.log(value);
     if(pax_type == 'adult'){
         pax_required = document.getElementById('adult_required'+number);
         pax_check = document.getElementById('adult_check'+number);
@@ -650,7 +641,6 @@ function check_on_off_radio(pax_type,number,value){
         pax_price = document.getElementById('infant_price'+number);
         name = document.getElementById('infant_name'+number).innerHTML;
     }
-    console.log(value);
     if(value == 'visa'){
         console.log(number);
         if(pax_check.value != 'false'){

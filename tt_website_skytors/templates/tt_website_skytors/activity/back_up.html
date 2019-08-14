@@ -370,7 +370,6 @@
     activity_login(0);
 
     function go_to_detail(sequence){
-        console.log(sequence);
         document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
         document.getElementById('myForm'+sequence).submit();
     }
@@ -378,9 +377,6 @@
 
     $(document).ready(function () {
     $(window).scroll(function() {
-        console.log($(window).scrollTop());
-        console.log($(document).height() - ($(window).height() + 300));
-        console.log(get_new);
         if($(window).scrollTop() >= $(document).height() - ($(window).height() + 300)) {
             if(get_new == true){
                 get_new = false;

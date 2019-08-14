@@ -235,7 +235,6 @@ payment_acq2 = {
   }
 }
 
-console.log(payment_acq);
 
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type){
     getToken();
@@ -265,7 +264,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            console.log(payment_acq2);
             text=`
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
             <div class="input-container-search-ticket btn-group">
@@ -449,7 +447,6 @@ function set_price(val, type){
         text+= `</div><br/>`;
 
     }
-    console.log(type);
     if(type == 'visa')
         text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
     else if(type == 'airline')

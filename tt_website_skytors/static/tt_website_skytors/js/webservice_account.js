@@ -27,9 +27,7 @@ function get_balance(){
                     </div>`;
             document.getElementById("credit_limit").innerHTML = text;
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-            console.log('success');
         }else{
-            console.log('error');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -53,9 +51,7 @@ function get_account(){
        console.log(msg);
         if(msg.result.error_code == 0){
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-            console.log('success');
         }else{
-            console.log('error');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -65,7 +61,7 @@ function get_account(){
 }
 
 function get_transactions_notification(){
-    limit_transaction = 5;
+    limit_transaction = 10;
     getToken();
     $.ajax({
        type: "POST",
@@ -86,18 +82,16 @@ function get_transactions_notification(){
             for(i in msg.result.response){
                 number = parseInt(i)+1;
                 if(msg.result.response[i].provider_type == 'airline')
-                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`
-                text+=`<li> `+number+` `+msg.result.response[i].order_number+` </li>`;
-                text+=`<li>   `+msg.result.response[i].pnr+` </li>`;
+                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`
+                text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
                 text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                text+=`<hr/></form>`;
+                text+=`<hr/></form></div>`;
             }
             document.getElementById('notification_detail').innerHTML = text;
-            document.getElementById('notification_detail2').innerHTML = text;
+//            document.getElementById('notification_detail2').innerHTML = text;
 
-            console.log('success');
         }else{
-            console.log('error');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -109,9 +103,7 @@ function get_transactions_notification(){
 function get_transactions(type){
     load_more = false;
     getToken();
-    console.log(type);
     if(type == 'reset'){
-        console.log('here');
         offset_transaction = 0;
         data_search = [];
         document.getElementById("table_reservation").innerHTML = `
@@ -154,7 +146,6 @@ function get_transactions(type){
                     table_reservation(msg.result.response);
                 }
             }catch(err){
-                console.log('dari home');
                 //set_notification(msg.result.response.transport_booking);
             }
         }else{

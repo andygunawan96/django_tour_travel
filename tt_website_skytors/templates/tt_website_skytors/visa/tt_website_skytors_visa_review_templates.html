@@ -24,7 +24,6 @@
     passenger = JSON.parse(passenger);
     visa_request = `{{visa_request}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
-    console.log(passenger);
     adult = passenger.adult;
     infant = passenger.infant;
     elder = passenger.elder;
@@ -33,7 +32,6 @@
     visa = visa.replace(/True/g, 'true');
     visa = visa.replace(/False/g, 'false');
     visa = JSON.parse(visa.replace(/&#39;/g, '"'));
-    console.log(visa);
 </script>
 <header id="header">
     <div class="main-menu">

@@ -97,19 +97,17 @@
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
-                                        <fo rm action="" method="POST">
+                                        <form action="" method="POST">
                                             {% csrf_token %}
                                             <button type="submit" class="primary-btn-logout" style="color:white;">Logout</button>
                                             <input type="hidden" id="logout" name="logout" value=true>
-                                            </form>
+                                        </form>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-pc pt5" style="color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:18px;"> 0 </i>
-                            <ul id="notification_detail">
-                                <li> No Notification (INI HARDCODE) </li>
-                            </ul>
+                        <li title="Click to show your notification" class="notification-pc pt5" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell" style="font-size:18px;"></i>
+
                         </li>
                         {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="border: 2px solid #f15a22;">Sign in</a></li>
@@ -118,10 +116,8 @@
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
                     <ul class="nav-menu">
-                        <li class="menu-has-children" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
-                            <ul id="notification_detail2">
-                                <li> No Notification (INI HARDCODE) </li>
-                            </ul>
+                        <li title="Click to show your notification" style="font-size:16px;color:#f15a22; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell" style="font-size:18px;"></i>
+
                         </li>
                     </ul>
                 </nav>
@@ -129,6 +125,23 @@
         </div>
     </div>
 </header>
+
+<div class="modal fade" id="myModalNotification" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:white;"> Notification <i class="fas fa-bell"></i></i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="notification_detail">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     {% if username != null %}

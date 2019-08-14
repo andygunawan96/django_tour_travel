@@ -15,7 +15,6 @@ function table_reservation(data){
             if(data[i].provider.provider_type == 'airline'){
                 text+=`<td>`;
                 for(j in data[i].provider.airline_carrier_codes){
-                    console.log(j);
                     text+=`<img data-toggle="tooltip" title="" class="airline-logo" src="http://static.skytors.id/`+data[i].provider.airline_carrier_codes[j]+`.png" style="width:60px; height:60px;"><span> </span>`;
                 }
                 text+=`</td>`;
@@ -126,7 +125,6 @@ function table_top_up_history(data){
 }
 
 function total_price_top_up(){
-    console.log(parseInt(document.getElementById('amount').value));
     if(document.getElementById('amount').value != '')
         if(Number.isNaN(parseInt(document.getElementById('amount').value)) == true){
             alert("Please don't fill any alpha characters!");
@@ -141,7 +139,6 @@ function total_price_top_up(){
 
 function payment_top_up(){
     text = '';
-    console.log(document.getElementById('payment_selection').value);
     for(i in response.non_member){
         if(i == document.getElementById('payment_selection').value){
             for(j in response.non_member[i]){
@@ -193,8 +190,6 @@ function set_radio_payment(type){
             break;
         }
     }
-    console.log(id);
-    console.log(type);
     for(i in response.non_member){
         if(i == document.getElementById('payment_selection').value){
             for(j in response.non_member[i]){

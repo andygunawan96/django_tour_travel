@@ -18,7 +18,6 @@
     //airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
     airline_pick = JSON.parse(airline_pick);
-    console.log(airline_pick);
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
     price_itinerary = price_itinerary.replace(/None/g, '"None"');
@@ -29,22 +28,17 @@
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
-    console.log(airline_carriers);
     airline_get_price_request = `{{airline_get_price_request}}`;
     airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
     airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');
     airline_get_price_request = airline_get_price_request.replace(/False/g, 'false');
-    console.log(airline_get_price_request.replace(/&#39;/g, '"'));
 
     airline_get_price_request = JSON.parse(airline_get_price_request);
-    console.log(airline_get_price_request);
     passengers = `{{passengers}}`;
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, true);
     passengers = passengers.replace(/False/g, false);
-    console.log(passengers);
     passengers = JSON.parse(passengers);
-    console.log(passengers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});

@@ -885,7 +885,6 @@ function check_regex(value,regex){
 function get_agent_booking(type){
     load_more = false;
     getToken();
-    console.log(type);
     if(type == 'reset'){
         agent_offset = 0;
         data_counter = 0;
@@ -946,7 +945,6 @@ function get_agent_booking(type){
                     table_reservation(msg.result.response.transport_booking);
                 }
             }catch(err){
-                console.log('dari home');
                 set_notification(msg.result.response.transport_booking);
             }
         }else{
@@ -1031,7 +1029,6 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        console.log(parseInt(document.getElementById('amount').value));
         if(parseInt(document.getElementById('amount').value) <= 50000){
             error_text += 'Minimum top up Amount IDR 50,000\n';
         }
@@ -1149,7 +1146,6 @@ function top_up_payment(){
             break;
         }
     }
-    console.log(id);
     getToken();
     $.ajax({
        type: "POST",

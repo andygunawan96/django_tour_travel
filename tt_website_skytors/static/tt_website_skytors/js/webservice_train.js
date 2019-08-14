@@ -202,7 +202,6 @@ function train_search(co_uid){
                                     }
                                 }
                             }
-                            console.log(train);
                             var response = '';
                             for(i in train){
                                 if(train[i].available_count > 0)
@@ -309,7 +308,6 @@ function train_search(co_uid){
 
 
 function train_create_booking(){
-    console.log('create booking');
     getToken();
     $.ajax({
        type: "POST",
@@ -677,7 +675,6 @@ function train_issued_booking(){
 }
 
 function train_get_seat_map(){
-    console.log('asdasdasd');
     getToken();
     $.ajax({
        type: "POST",
@@ -750,7 +747,6 @@ function train_get_seat_map(){
 }
 
 function train_manual_seat(){
-    console.log('asdd');
     getToken();
     $.ajax({
        type: "POST",

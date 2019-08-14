@@ -60,7 +60,6 @@ function hotel_search(data){
                    if(i != parseInt($('#hotel_child').val())-1)
                        child_age+=',';
                }
-               console.log(child_age);
                if(msg.result.error_code == 0){
                    $.ajax({
                        type: "POST",
@@ -84,7 +83,6 @@ function hotel_search(data){
                                 if(msg.result.error_code==0){
                                     hotel_data = msg.result.response;
                                     vendor = [];
-                                    console.log('asd');
                                     for(i in msg.result.response.hotel_ids){
                                         check = 0;
                                         if(vendor.length != 0)
@@ -96,7 +94,6 @@ function hotel_search(data){
                                                 }
                                             }
                                         if(check == 0){
-                                            console.log('here');
                                             for(j in msg.result.response.hotel_ids[i].external_code){
                                                 if(vendor.indexOf(j) == -1){
                                                     vendor.push(j);
@@ -104,7 +101,6 @@ function hotel_search(data){
                                             }
                                         }
                                     }
-                                    console.log(vendor);
                                     filtering('sort');
                                 }else{
                                     //kalau error belum

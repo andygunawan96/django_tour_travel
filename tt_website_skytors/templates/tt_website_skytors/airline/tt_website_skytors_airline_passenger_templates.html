@@ -15,11 +15,8 @@
 
 <script>
     function check_years_old(sequence, type){
-        console.log(sequence);
-        console.log(type);
 
         var birth_date = '';
-        console.log(document.getElementById('adult_birth_date'+sequence).value);
         if(type =='adult')
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='infant')
@@ -48,12 +45,11 @@
     price_itinerary = price_itinerary.replace(/True/g, '"true"');
     price_itinerary = price_itinerary.replace(/False/g, '"false"');
     price_itinerary = JSON.parse(price_itinerary);
-    console.log(price_itinerary);
-    airline_carriers = `{{airline_carriers}}`;
+    airline_carriers = `{{airline
+    _carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = JSON.parse(airline_carriers);
-    console.log(airline_carriers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
 

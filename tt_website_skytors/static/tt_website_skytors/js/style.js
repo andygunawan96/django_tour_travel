@@ -785,26 +785,40 @@ $(document).ready(function(){
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
+
+//            text_mc += `
+//            <div class="row">
+//                <div class="col-lg-12" style="padding:0px;">
+//                    <div id="mc_airline_paxs">
+//
+//                    </div>
+//                    <div class="banner-right" style="text-align:left;">
+//                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
+//
+//                        </ul>
+//                        <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+//                        <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+//                    </div>
+//
+//                    <div class="banner-right">
+//                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
+//                        </div>
+//                    </div>
+//                </div>
+//            </div>`;
+
             text_mc += `
             <div class="row">
                 <div class="col-lg-12" style="padding:0px;">
-                    <div id="mc_airline_paxs">
-
-                    </div>
-                    <div class="banner-right" style="text-align:left;">
-                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
-
-                        </ul>
+                    <div id="mc_airline_paxs"></div>
+                    <div id="mc_airline_add" style="background:none !important;"></div>
+                    <div style="text-align:left;">
                         <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
                         <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
                     </div>
-
-                    <div class="banner-right">
-                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
-                        </div>
-                    </div>
                 </div>
             </div>`;
+
             document.getElementById('mc_airline_default').innerHTML = text_mc;
             document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').disabled = true;
@@ -952,33 +966,46 @@ $(document).ready(function(){
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
+//            text_mc += `
+//            <div class="row">
+//                <div class="col-lg-12" style="padding:0px;">
+//                    <div id="mc_airline_paxs">
+//
+//                    </div>
+//                    <div class="banner-right" style="text-align:left;">
+//                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
+//
+//                        </ul>
+//                        <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+//                        <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+//                    </div>
+//                    <div class="banner-right">
+//                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
+//                        </div>
+//                    </div>
+//                </div>
+//            </div>`;
+
             text_mc += `
             <div class="row">
                 <div class="col-lg-12" style="padding:0px;">
-                    <div id="mc_airline_paxs">
-
-                    </div>
-                    <div class="banner-right" style="text-align:left;">
-                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
-
-                        </ul>
+                    <div id="mc_airline_paxs"></div>
+                    <div id="mc_airline_add" style="background:none !important;"></div>
+                    <div style="text-align:left;">
                         <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
                         <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
                     </div>
-                    <div class="banner-right">
-                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
-                        </div>
-                    </div>
                 </div>
             </div>`;
+
             document.getElementById('mc_airline_default').innerHTML = text_mc;
             document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').disabled = true;
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
-
-            add_multi_city('search');
-            add_multi_city('search');
+            for(var airline_counter=0;airline_counter<parseInt(airline_request.counter);airline_counter++){
+                add_multi_city('search');
+            }
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
         }
@@ -1077,6 +1104,9 @@ function showCart() {
 //  }
 //}
 
+function next_disabled(){
+    $('.btn-next').prop('disabled', true);
+}
 
 function show_loading(){
     $('.next-loading').addClass("running");
@@ -1292,5 +1322,22 @@ function show_hide_landmark_hotel(){
         landmark_hotel_up.style.display = "block";
         hotel_landmark.style.display = "";
         landmark_hotel_down.style.display = "none";
+    }
+}
+
+function show_hide_tac(id){
+    var span_tac_up = document.getElementById("span-tac-up"+id);
+    var span_tac_down = document.getElementById("span-tac-down"+id);
+    var div_tac = document.getElementById("div-tac"+id);
+
+    if (span_tac_up.style.display === "none") {
+        span_tac_down.style.display = "none";
+        div_tac.style.display = "none";
+        span_tac_up.style.display = "block";
+    }
+    else {
+        span_tac_down.style.display = "block";
+        div_tac.style.display = "block";
+        span_tac_up.style.display = "none";
     }
 }

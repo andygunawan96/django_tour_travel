@@ -6954,3 +6954,7 @@ th input {
 .c-pointer{
     cursor:pointer;
 }
+
+.notification-hover:hover{
+    color:#f15a22;
+}
