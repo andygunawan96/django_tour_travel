@@ -237,7 +237,8 @@ def search(request):
             'airline_carriers': airline_carriers,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'signature': request.session['signature']
+            'signature': request.session['signature'],
+            'time_limit': 600
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -312,7 +313,8 @@ def passenger(request):
             'id_types': id_type,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'signature': request.session['airline_signature']
+            'signature': request.session['airline_signature'],
+            'time_limit': int(request.POST['time_limit_input'])
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -696,7 +698,8 @@ def review(request):
             'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers'],
             'javascript_version': javascript_version,
-            'signature': request.session['airline_signature']
+            'signature': request.session['airline_signature'],
+            'time_limit': int(request.POST['time_limit_input'])
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 

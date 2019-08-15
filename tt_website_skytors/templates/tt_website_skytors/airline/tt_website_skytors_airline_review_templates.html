@@ -32,8 +32,8 @@
     airline_get_price_request = airline_get_price_request.replace(/&#39;/g, '"');
     airline_get_price_request = airline_get_price_request.replace(/True/g, 'true');
     airline_get_price_request = airline_get_price_request.replace(/False/g, 'false');
-
     airline_get_price_request = JSON.parse(airline_get_price_request);
+
     passengers = `{{passengers}}`;
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, true);
@@ -42,6 +42,8 @@
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
+    time_limit = {{time_limit}};
+    session_time_limit();
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
@@ -70,6 +72,13 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
+        <div class="row" style="padding-top:20px; padding-bottom:10px;">
+            <div class="col-lg-12">
+               <span style="font-size:16px; font-weight:500;">Your current session time: </span><span style="font-size:16px; font-weight:700;" id="session_time"> </span>
+               <br/>
+               <span style="font-size:16px; font-weight:500;">Elapsed Time: </span><span style="font-size:16px; font-weight:700;" id="elapse_time"> </span>
+           </div>
+        </div>
         <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
             <div class="row">

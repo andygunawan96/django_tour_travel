@@ -80,7 +80,7 @@ def api_models(request):
         elif req_data['action'] == 'search':
             res = search2(request)
         elif req_data['action'] == 'get_price_itinerary':
-            res = get_price_itinerary(request, False)
+            res = get_price_itinerary(request)
         elif req_data['action'] == 'get_fare_rules':
             res = get_fare_rules(request)
         elif req_data['action'] == 'sell_journeys':
@@ -393,7 +393,7 @@ def get_data(request):
 
     return airline_destinations
 
-def get_price_itinerary(request ,boolean):
+def get_price_itinerary(request):
     try:
         #baru
         file = open("version_cache.txt", "r")
@@ -415,10 +415,17 @@ def get_price_itinerary(request ,boolean):
                 })
                 airline_destinations.append(des)
         #baru
-
+        boolean = False
+        if request.POST['separate_journey'] == 'true':
+            boolean = True
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
             if idx != 0:
+                if request.session['airline_request']['direction'] == 'MC':
+                    for idx1, segment in enumerate(journey['segments']):
+                        segment.update({
+                            'journey_type': 'RET'
+                        })
                 journey.update({
                     "separate_journey": boolean
                 })
@@ -521,7 +528,8 @@ def get_price_itinerary(request ,boolean):
             request.session['airline_price_itinerary'] = res['result']['response']
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            get_price_itinerary(request, True)
+            if(request.session['airline_request']['direction'] == 'RT'):
+                get_price_itinerary(request, True)
     except Exception as e:
         get_price_itinerary(request, True)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

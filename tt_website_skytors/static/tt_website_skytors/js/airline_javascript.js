@@ -1880,7 +1880,7 @@ function share_data(){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
-    $textshare = window.encodeURIComponent($text);
+    $text_share = window.encodeURIComponent($text);
 }
 
 function airline_detail(){
@@ -1932,7 +1932,7 @@ function airline_detail(){
                     flight_count++;
                 }
             }else{
-                text += `<h6>Return</h6>`;
+                text += `<div class="row"><div class="col-lg-12" style="margin-bottom:5px;margin-top:2px;"><h6>Return</h6>`;
                 if(airline_request.direction != 'MC')
                     $text +='Return\n';
                 else{
@@ -2033,10 +2033,10 @@ function airline_detail(){
                                     total_price += airline_request.adult * (airline_price[i].ADT['fare'] + price);
                                     text+=`
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
+                                            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                <span style="font-size:11px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -2072,10 +2072,10 @@ function airline_detail(){
                                     total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
                                     text+=`
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
+                                        <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:11px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <div class="col-lg-5 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.CHD))+`</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -2132,8 +2132,9 @@ function airline_detail(){
                             }
                         }
                     }
+                    text+=`<hr/>`;
                 }
-                text+=`<hr/>
+                text+=`
                 </div>`;
             }
         }
@@ -2161,10 +2162,10 @@ function airline_detail(){
         <div class="col-lg-12" style="padding-bottom:10px;">
             <hr/>
             <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
-            <a href="whatsapp://send?text=Share\n%20`+ $text +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-            <a href="line://msg/text/Share\n%20`+ $text +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
+            <a href="whatsapp://send?text=Share\n%20`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+            <a href="line://msg/text/Share\n%20`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text_share +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text_share +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
         </div>
     </div>
 
@@ -2402,6 +2403,7 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log==''){
+       document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('airline_review').submit();
    }
    else{
