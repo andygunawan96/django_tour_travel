@@ -291,17 +291,12 @@ def passenger(request):
             infant.append('')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        #CHECK INI
         try:
             request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
         except:
             request.session['airline_pick'] = json.loads(request.POST['airline_pick'])
-        for idx, journey in enumerate(request.session['airline_pick']):
-            journey['sequence'] = idx + 1
-        for journey in request.session['airline_pick']:
-            for segment in journey['segments']:
-                segment['fare_pick'] = \
-                request.session['airline_get_price_request']['journeys_booking'][journey['sequence'] - 1]['segments'][
-                    segment['sequence'] - 1]['fare_pick']
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': response['result']['response']['airline']['country'],

@@ -395,6 +395,27 @@ def get_data(request):
 
 def get_price_itinerary(request ,boolean):
     try:
+        #baru
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        # airline
+        airline_destinations = []
+        for country in response['result']['response']['airline']['destination']:
+            for des in response['result']['response']['airline']['destination'][country]:
+                des.update({
+                    'country': country
+                })
+                airline_destinations.append(des)
+        #baru
+
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
             if idx != 0:
@@ -424,6 +445,79 @@ def get_price_itinerary(request ,boolean):
 
     try:
         if res['result']['error_code'] == 0:
+            for price_itinerary_provider in res['result']['response']['price_itinerary_provider']:
+                for journey in price_itinerary_provider['price_itinerary']:
+                    journey.update({
+                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
+                    })
+                    if journey.get('arrival_date_return'):
+                        journey.update({
+                            'departure_date_return': parse_date_time_front_end(
+                                string_to_datetime(journey['departure_date_return'])),
+                            'arrival_date_return': parse_date_time_front_end(
+                                string_to_datetime(journey['arrival_date_return']))
+                        })
+                    if journey.get('return_date'):
+                        journey.update({
+                            'return_date': parse_date_time_front_end(string_to_datetime(journey['return_date'])),
+                        })
+                    for destination in airline_destinations:
+                        if destination['code'] == journey['origin']:
+                            journey.update({
+                                'origin_city': destination['city'],
+                                'origin_name': destination['name'],
+                            })
+                            break
+                    for destination in airline_destinations:
+                        if destination['code'] == journey['destination']:
+                            journey.update({
+                                'destination_city': destination['city'],
+                                'destination_name': destination['name'],
+                            })
+                            break
+                    for segment in journey['segments']:
+                        segment.update({
+                            'departure_date': parse_date_time_front_end(string_to_datetime(segment['departure_date'])),
+                            'arrival_date': parse_date_time_front_end(string_to_datetime(segment['arrival_date']))
+                        })
+                        for destination in airline_destinations:
+                            if destination['code'] == segment['origin']:
+                                segment.update({
+                                    'origin_city': destination['city'],
+                                    'origin_name': destination['name'],
+                                })
+                                break
+
+                        for destination in airline_destinations:
+                            if destination['code'] == segment['destination']:
+                                segment.update({
+                                    'destination_city': destination['city'],
+                                    'destination_name': destination['name']
+                                })
+                                break
+
+                        for leg in segment['legs']:
+                            leg.update({
+                                'departure_date': parse_date_time_front_end(string_to_datetime(leg['departure_date'])),
+                                'arrival_date': parse_date_time_front_end(string_to_datetime(leg['arrival_date']))
+                            })
+
+                            for destination in airline_destinations:
+                                if destination['code'] == leg['origin']:
+                                    leg.update({
+                                        'origin_city': destination['city'],
+                                        'origin_name': destination['name'],
+                                    })
+                                    break
+
+                            for destination in airline_destinations:
+                                if destination['code'] == leg['destination']:
+                                    leg.update({
+                                        'destination_city': destination['city'],
+                                        'destination_name': destination['name']
+                                    })
+                                    break
             request.session['airline_price_itinerary'] = res['result']['response']
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
         else:
