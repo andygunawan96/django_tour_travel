@@ -41,6 +41,20 @@ function triggered_balance(){
             time=300;
         }
     }, 1000);
+
+}
+
+function session_time_limit(){
+    var timeLimitInterval = setInterval(function() {
+        if(time_limit!=0){
+            time_limit--;
+            document.getElementById('session_time').innerHTML = ` <i class="fas fa-stopwatch"></i> `+ parseInt(time_limit/60) % 24 +`m:`+ (time_limit%60) +`s`;
+            document.getElementById('elapse_time').innerHTML = ` <i class="fas fa-clock"></i> `+ parseInt((600 - time_limit)/60) % 24 +`m:`+ ((600 - time_limit)%60) +`s`;
+        }else{
+            window.location.href = url_home;
+            clearInterval(timeLimitInterval);
+        }
+    }, 1000);
 }
 
 function check_string_length(value){
