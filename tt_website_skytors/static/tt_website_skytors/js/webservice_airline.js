@@ -346,8 +346,13 @@ function send_search_to_api(val){
     }
     document.getElementById('barFlightSearch').style.display = "block";
     count_progress_bar_airline = 0;
-    document.getElementById('show_origin_destination').innerHTML = `<span title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
-    document.getElementById('show_date').innerHTML = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
+    document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
+    date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
+    if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
+        date_show += ` - `+airline_request['return'][counter_search];
+    }
+    document.getElementById('show_date').innerHTML = date_show;
+
     if(val == undefined)
         for(j in provider_airline[counter_search]){
             airline_search(j,provider_airline[counter_search][j]);
@@ -1144,269 +1149,298 @@ function get_price_itinerary_request(){
                                 </div>
                             </div>
                             <div class="col-lg-12" style="margin-bottom:5px;">`;
-                for(i in airline_pick_list){
-                    if(airline_pick_list[i].is_combo_price == true){
-                        text += `<h6>Combo Price</h6>`;
-                        $text +='Departure\n';
-                    }else if(airline_pick_list[i].journey_type == 'DEP'){
-                        text += `<h6>Departure</h6>`;
-                        if(airline_request.direction != 'MC')
-                            $text +='Departure\n';
-                        else
-                            $text +='Flight'+parseInt(i+1)+'\n';
-                    }else{
-                        text += `<h6>Return</h6>`;
-                        if(airline_request.direction != 'MC')
-                            $text +='Return\n';
-                        else
-                            $text +='Flight'+parseInt(i+1)+'\n';
-                    }
-                    for(j in airline_pick_list[i].carrier_code_list) //print gambar airline
-                        try{
-                            text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick_list[i].carrier_code_list[j]+`.png"><span> </span>`;
-                        }catch(err){
-                            text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick_list[i].carrier_code_list[j]+`.png"><span> </span>`;
-                        }
-                    text+=`</div>`;
-                    for(j in airline_pick_list[i].segments){
-                        //datacopy
-                        if(airline_pick_list[i].segments[j].journey_type == 'DEP'){
-                            $text += airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name + ' ' + airline_pick_list[i].segments[j].carrier_code + airline_pick_list[i].segments[j].carrier_number + '\n';
-                            $text += airline_pick_list[i].segments[j].departure_date + ' → ' + airline_pick_list[i].segments[j].arrival_date + '\n';
-                            $text += airline_pick_list[i].segments[j].origin_name + ' (' + airline_pick_list[i].segments[j].origin_city + ') - ';
-                            $text += airline_pick_list[i].segments[j].destination_name + ' (' + airline_pick_list[i].segments[j].destination_city + ')\n\n';
-                            if(airline_pick_list[i].is_combo_price == true){
-                                text += `<div class="col-lg-12" style="margin-bottom:5px;"><h6>Departure</h6></div>`;
+                flight_count = 0;
+                for(i in resJson.result.response.price_itinerary_provider){
+                    for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
+                        if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
+                            text += `<h6>Combo Price</h6>`;
+                            $text +='Combo Price\n';
+                        }else if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].journey_type == 'DEP'){
+                            text += `<h6>Departure</h6>`;
+                            if(airline_request.direction != 'MC')
+                                $text +='Departure\n';
+                            else{
+                                $text +='Flight'+parseInt(flight_count+1)+'\n';
+                                flight_count++;
                             }
-                        }else if(airline_pick_list[i].segments[j].journey_type == 'RET'){
-                            $text += airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name + ' ' + airline_pick_list[i].segments[j].carrier_code + airline_pick_list[i].segments[j].carrier_number + '\n';
-                            $text += airline_pick_list[i].segments[j].departure_date + ' → ' + airline_pick_list[i].segments[j].arrival_date + '\n';
-                            $text += airline_pick_list[i].segments[j].origin_name + ' (' + airline_pick_list[i].segments[j].origin_city + ') - ';
-                            $text += airline_pick_list[i].segments[j].destination_name + ' (' + airline_pick_list[i].segments[j].destination_city + ')\n\n';
-                            if(airline_pick_list[i].is_combo_price == true){
-                                text += `<div class="col-lg-12" style="margin-bottom:5px;"><h6>Return</h6></div>`;
+                        }else{
+                            text += `<h6>Return</h6>`;
+                            if(airline_request.direction != 'MC')
+                                $text +='Return\n';
+                            else{
+                                $text +='Flight'+parseInt(flight_count+1)+'\n';
+                                flight_count++;
                             }
                         }
-                        text+=`
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td class="airport-code"><h5>`+airline_pick_list[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
-                                            <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                            </td>
-                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                <div style="display:inline-block;position:relative;width:100%">
-                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                        //logo
+                        for(k in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
+                            try{
+                                text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                            }catch(err){
+                                text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                            }
+                        text+=`</div>`;
+
+                        for(k in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments){
+                            if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
+                                text += `<div class="col-lg-12" style="margin-bottom:5px;"><h6>Flight `+parseInt(flight_count+1)+`</h6></div>`;
+                                $text +='Flight'+parseInt(flight_count+1)+'\n';
+                                flight_count++;
+                            }
+                            //datacopy
+                            if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP'){
+                                $text += airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                                $text += resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
+                                $text += resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
+                                $text += resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
+
+                            }else if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
+                                $text += airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                                $text += resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
+                                $text += resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
+                                $text += resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
+                            }
+                            for(l in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs){
+                                text+=`
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td class="airport-code"><h5>`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h5></td>
+                                                        <td style="padding-left:15px;">
+                                                            <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                        </td>
+                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                            <div style="display:inline-block;position:relative;width:100%">
+                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
+                                                <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].origin_city+` (`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].origin+`)</span>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <table style="width:100%; margin-bottom:6px;">
+                                                    <tr>
+                                                        <td><h5>`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[1]+`</h5></td>
+                                                        <td></td>
+                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                    </tr>
+                                                </table>
+                                                <span style="font-size:13px;">`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
+                                                <span style="font-size:13px; font-weight:500;">`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].destination_city+` (`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].legs[l].destination+`)</span>
+                                            </div>
+                                        </div>`;
+                            }
+                            if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares.length > 0 ){
+                                for(l in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
+                                    if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary.length > 0){
+                                    //term n condition
+                                    text+= `</div><div class="col-lg-12" id="rules`+rules+`">
+                                                <br/><span style="font-weight:bold; color:#f15a22;"> Term and Condition </span><br/>
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
-                                    <span style="font-size:13px; font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` (`+airline_pick_list[i].segments[j].origin+`)</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tr>
-                                            <td><h5>`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </table>
-                                    <span style="font-size:13px;">`+airline_pick_list[i].segments[j].arrival_date.split(' - ')[0]+`</span><br/>
-                                    <span style="font-size:13px; font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+` (`+airline_pick_list[i].segments[j].destination+`)</span>
-                                </div>
-                            `;
-                    }
-                    //rules
-                    text+= `<div class="col-lg-12" id="rules`+rules+`">
-                                <br/><span style="font-weight:bold; color:#f15a22;"> Term and Condition </span><br/>
-                                <div class="sk-circle">
-                                    <div class="sk-circle1 sk-child"></div>
-                                    <div class="sk-circle2 sk-child"></div>
-                                    <div class="sk-circle3 sk-child"></div>
-                                    <div class="sk-circle4 sk-child"></div>
-                                    <div class="sk-circle5 sk-child"></div>
-                                    <div class="sk-circle6 sk-child"></div>
-                                    <div class="sk-circle7 sk-child"></div>
-                                    <div class="sk-circle8 sk-child"></div>
-                                    <div class="sk-circle9 sk-child"></div>
-                                    <div class="sk-circle10 sk-child"></div>
-                                    <div class="sk-circle11 sk-child"></div>
-                                    <div class="sk-circle12 sk-child"></div>
-                                </div>
-                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>`;
+                                    rules++;
+                                    //price
+                                    price = 0;
+                                    //adult
+                                    $text+= 'Price\n';
+                                    text+=`<hr/>
+                                    </div>`;
+                                        try{//adult
+                                            if(airline_request.adult != '0'){
+                                                try{
+                                                if(airline_price[i].ADT['roc'] != null)
+                                                    price = airline_price[i].ADT['roc'];
+                                                if(airline_price[i].ADT.tax != null)
+                                                    price += airline_price[i].ADT.tax;
+                                                }catch(err){
+
+                                                }
+                                                commission = 0;
+                                                if(airline_price[i].ADT['rac'] != null)
+                                                    commission = airline_price[i].ADT['rac']
+                                                commission_price += airline_request.adult * commission;
+                                                total_price += airline_request.adult * (airline_price[i].ADT['fare'] + price);
+                                                text+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span>
+                                                        </div>
+                                                    </div>`;
+                                                $text += airline_request.adult + ' Adult Fare @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+'\n';
+                                                $text += airline_request.adult + ' Adult Tax @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                price = 0;
+                                            }
+                                        }catch(err){
+                                            continue
+                                        }
+
+                                        try{//child
+                                            if(airline_request.child != '0'){
+                                                try{
+                                                if(airline_price[i].CHD['roc'] != null)
+                                                    price = airline_price[i].CHD['roc'];
+                                                if(airline_price[i].CHD.tax != null)
+                                                    price += airline_price[i].CHD.tax;
+                                                }catch(err){
+
+                                                }
+                                                commission = 0;
+                                                if(airline_price[i].CHD['rac'] != null)
+                                                    commission = airline_price[i].CHD['rac']
+                                                commission_price += airline_request.child * commission;
+                                                total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
+                                                text+=`
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                        <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.CHD))+`</span>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                        <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                                    </div>
+                                                </div>`;
+                                                $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
+                                                $text += airline_request.child + ' Child Tax @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                price = 0;
+                                            }
+                                        }catch(err){
+                                            continue
+                                        }
+
+                                        try{//infant
+                                            if(airline_request.infant != '0'){
+                                                try{
+                                                if(airline_price[i].INF['roc'] != null)
+                                                    price = airline_price[i].INF['roc'];
+                                                if(airline_price[i].INF.tax != null)
+                                                    price += airline_price[i].INF.tax;
+                                                }catch(err){
+
+                                                }
+                                                commission = 0;
+                                                if(airline_price[i].INF['rac'] != null)
+                                                    commission = airline_price[i].INF['rac']
+                                                commission_price += airline_request.infant * commission;
+                                                total_price += airline_request.infant * (airline_price.INF['fare'] + price);
+                                                text+=`
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].INF.fare * airline_request.infant))+`</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Service Charge</span>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
+                                                        </div>
+                                                    </div>`;
+                                                $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+'\n';
+                                                $text += airline_request.infant + ' Infant Tax @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                price = 0;
+                                            }
+                                        }catch(err){
+                                            continue
+                                        }
+                                    }
+                                }
+                            }
+                            text+=`<hr/>
                             </div>`;
-                    rules++;
-                    //price
-                    price = 0;
-                    //adult
-                    $text+= 'Price\n';
-                    text+=`<hr/>
-                    </div>`;
-                    try{//adult
-                        if(airline_request.adult != '0'){
-                            try{
-                            if(airline_price[i].ADT['roc'] != null)
-                                price = airline_price[i].ADT['roc'];
-                            if(airline_price[i].ADT.tax != null)
-                                price += airline_price[i].ADT.tax;
-                            }catch(err){
-
-                            }
-                            commission = 0;
-                            if(airline_price[i].ADT['rac'] != null)
-                                commission = airline_price[i].ADT['rac']
-                            commission_price += airline_request.adult * commission;
-                            total_price += airline_request.adult * (airline_price[i].ADT['fare'] + price);
-                            text+=`
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span>
-                                    </div>
-                                </div>`;
-                            $text += airline_request.adult + ' Adult Fare @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+'\n';
-                            $text += airline_request.adult + ' Adult Tax @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
-                            price = 0;
                         }
-                    }catch(err){
-                        continue
                     }
-
-                    try{//child
-                        if(airline_request.child != '0'){
-                            try{
-                            if(airline_price[i].CHD['roc'] != null)
-                                price = airline_price[i].CHD['roc'];
-                            if(airline_price[i].CHD.tax != null)
-                                price += airline_price[i].CHD.tax;
-                            }catch(err){
-
-                            }
-                            commission = 0;
-                            if(airline_price[i].CHD['rac'] != null)
-                                commission = airline_price[i].CHD['rac']
-                            commission_price += airline_request.child * commission;
-                            total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
-                            text+=`
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.CHD))+`</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
-                                </div>
-                            </div>`;
-                            $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
-                            $text += airline_request.child + ' Child Tax @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
-                            price = 0;
-                        }
-                    }catch(err){
-                        continue
-                    }
-
-                    try{//infant
-                        if(airline_request.infant != '0'){
-                            try{
-                            if(airline_price[i].INF['roc'] != null)
-                                price = airline_price[i].INF['roc'];
-                            if(airline_price[i].INF.tax != null)
-                                price += airline_price[i].INF.tax;
-                            }catch(err){
-
-                            }
-                            commission = 0;
-                            if(airline_price[i].INF['rac'] != null)
-                                commission = airline_price[i].INF['rac']
-                            commission_price += airline_request.infant * commission;
-                            total_price += airline_request.infant * (airline_price.INF['fare'] + price);
-                            text+=`
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].INF.fare * airline_request.infant))+`</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Service Charge</span>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
-                                    </div>
-                                </div>`;
-                            $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+'\n';
-                            $text += airline_request.infant + ' Infant Tax @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
-                            price = 0;
-                        }
-                    }catch(err){
-                        continue
-                    }
-                    text+= `<hr/>`;
                 }
-                //total price
                 share_data();
                 text+=`
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:14px; font-weight: bold;"><b>IDR `+getrupiah(Math.ceil(total_price))+`</b></span>
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:14px; font-weight: bold;"><b>IDR `+getrupiah(Math.ceil(total_price))+`</b></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <hr/>
-                        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
-                        <a href="whatsapp://send?text=Share\n%20`+ $text +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                        <a href="line://msg/text/Share\n%20`+ $text +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=Share\n%20`+ $text +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
-                    </div>
-
-                    <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price)+`</span><br>
+                        <div class="col-lg-12" style="padding-bottom:10px;">
+                            <hr/>
+                            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
+                            <a href="whatsapp://send?text=Share\n%20`+ $text +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/Share\n%20`+ $text +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
-                            Next
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </div>
-                </div>`;
-                $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
+                        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
+                            <div class="alert alert-success">
+                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price)+`</span><br>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                            <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                            <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                            <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
+                                Next
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>`;
+                    $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
+                document.getElementById('airline_detail').innerHTML = text;
+                $('#loading-search-flight').hide();
+                $('#choose-ticket-flight').hide();
+                //check here
+                text = '[';
+                for(i in resJson.result.response.price_itinerary_provider){
+                    if(i!=0)
+                        text+= '&&&';
+                    text += JSON.stringify(resJson.result.response.price_itinerary_provider[i]);
+                }
+                text+= ']'
+                document.getElementById('airline_pick').value = text;
+                get_fare_rules();
 
             }else{
                 document.getElementById("badge-flight-notif").innerHTML = "0";
@@ -1415,19 +1449,7 @@ function get_price_itinerary_request(){
                 $("#badge-flight-notif2").removeClass("infinite");
                 text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
             }
-            document.getElementById('airline_detail').innerHTML = text;
-            $('#loading-search-flight').hide();
-            $('#choose-ticket-flight').hide();
-            //check here
-            text = '[';
-            for(i in airline_pick_list){
-                if(i!=0)
-                    text+= '&&&';
-                text += JSON.stringify(airline_pick_list[i]);
-            }
-            text+= ']'
-            document.getElementById('airline_pick').value = text;
-            get_fare_rules();
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);

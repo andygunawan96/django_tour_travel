@@ -1,282 +1,3504 @@
-2019-08-14 05:24:30,206  SUCCESS get_fare_rules AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:25:31,672  SUCCESS get_fare_rules AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:25:43,624  get_balance SUCCESS SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:27:13,139  SUCCESS get_fare_rules AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:27:52,389  SUCCESS get_price_itinerary AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:28:12,347  SUCCESS get_fare_rules AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:28:14,624  get_balance SUCCESS SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:29:28,588  SUCCESS sell_journeys AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:30:01,853  SUCCESS update_passengers AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:30:02,087  SUCCESS update_contacts AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:30:26,272  SUCCESS commit_booking AIRLINE SIGNATURE aa252398732d4427ae69bd8a82382035  
-2019-08-14 05:30:28,005  SIGNIN AIRLINE SUCCESS SIGNATURE 79ee0f2f691f4e2cbf29240b2d32c60e  
-2019-08-14 05:30:28,141  'signature'
+2019-08-15 01:05:08,138  SIGNIN SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:05:08,211  USE CACHE IN TXT!  
+2019-08-15 01:05:09,227  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:05:09,326  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:05:48,728  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:05:48,933  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:05:50,535  SIGNIN AIRLINE SUCCESS SIGNATURE 7db5432f4a5d4eb190d3a69437a2e36d  
+2019-08-15 01:06:06,572  SUCCESS get_price_itinerary AIRLINE SIGNATURE 7db5432f4a5d4eb190d3a69437a2e36d  
+2019-08-15 01:06:12,572  SUCCESS get_fare_rules AIRLINE SIGNATURE 7db5432f4a5d4eb190d3a69437a2e36d  
+2019-08-15 01:06:13,127  SUCCESS sell_journeys AIRLINE SIGNATURE 7db5432f4a5d4eb190d3a69437a2e36d  
+2019-08-15 01:06:27,492  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:06:27,561  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:06:28,397  SIGNIN AIRLINE SUCCESS SIGNATURE 64ee40a68cd74b9588c5942c7aa3ef85  
+2019-08-15 01:07:05,143  SUCCESS get_price_itinerary AIRLINE SIGNATURE 64ee40a68cd74b9588c5942c7aa3ef85  
+2019-08-15 01:07:11,721  SUCCESS get_fare_rules AIRLINE SIGNATURE 64ee40a68cd74b9588c5942c7aa3ef85  
+2019-08-15 01:08:34,876  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:08:34,946  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:08:35,624  SIGNIN AIRLINE SUCCESS SIGNATURE 22f04adfd576476b97b6bd7101b6a466  
+2019-08-15 01:08:50,523  SUCCESS get_price_itinerary AIRLINE SIGNATURE 22f04adfd576476b97b6bd7101b6a466  
+2019-08-15 01:08:59,265  SUCCESS sell_journeys AIRLINE SIGNATURE 22f04adfd576476b97b6bd7101b6a466  
+2019-08-15 01:09:01,928  SUCCESS get_fare_rules AIRLINE SIGNATURE 22f04adfd576476b97b6bd7101b6a466  
+2019-08-15 01:10:34,315  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:10:34,539  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:10:35,093  SIGNIN AIRLINE SUCCESS SIGNATURE 7eb7f12977ad46bb9c7a42958eb88b7b  
+2019-08-15 01:10:52,144  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:10:52,436  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:10:52,953  SIGNIN AIRLINE SUCCESS SIGNATURE 793381fc69d4430383d96ff13395195b  
+2019-08-15 01:12:13,662  get_balance SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:12:13,892  get_transactions SUCCESS SIGNATURE ec62f39910144c9aab4120ce68425d05  
+2019-08-15 01:12:14,373  SIGNIN AIRLINE SUCCESS SIGNATURE 46b3f3bbe85c4f5a949dff45d2fb86fd  
+2019-08-15 01:14:22,721  SIGNIN SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:22,769  USE CACHE IN TXT!  
+2019-08-15 01:14:26,022  get_balance SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:26,313  get_transactions SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:41,186  get_balance SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:41,387  get_transactions SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:41,613  SIGNIN AIRLINE SUCCESS SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:42,389  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:42,406  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:42,546  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:42,563  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:42,675  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:42,913  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:43,008  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:43,056  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:43,063  ERROR SEARCH AIRLINE SIGNATURE f76336d9fddd49e9aa3a5e93ced73674  
+2019-08-15 01:14:49,909  get_balance SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:50,068  get_transactions SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:14:51,131  SIGNIN AIRLINE SUCCESS SIGNATURE 35a80896dadf4a17bffbbebb5f330032  
+2019-08-15 01:15:06,725  SUCCESS get_price_itinerary AIRLINE SIGNATURE 35a80896dadf4a17bffbbebb5f330032  
+2019-08-15 01:15:14,195  SUCCESS sell_journeys AIRLINE SIGNATURE 35a80896dadf4a17bffbbebb5f330032  
+2019-08-15 01:15:21,170  SUCCESS get_fare_rules AIRLINE SIGNATURE 35a80896dadf4a17bffbbebb5f330032  
+2019-08-15 01:15:53,214  SIGNIN AIRLINE SUCCESS SIGNATURE 27bf33517437483d93eff1aad19f15ae  
+2019-08-15 01:15:53,215  get_transactions SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:15:53,337  get_balance SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:15:55,580  get_balance SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:15:55,639  get_transactions SUCCESS SIGNATURE bd9507381f96498cb824c6fe080003d8  
+2019-08-15 01:15:55,736  SIGNIN AIRLINE SUCCESS SIGNATURE 9c37ca0badda4e00a95756ac6909e1c2  
+2019-08-15 01:16:23,494  SUCCESS get_price_itinerary AIRLINE SIGNATURE 9c37ca0badda4e00a95756ac6909e1c2  
+2019-08-15 01:16:23,521  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/django/env/lib/python3.7/site-packages/django/utils/datastructures.py", line 77, in __getitem__
-    list_ = super().__getitem__(key)
-KeyError: 'signature'
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
 
 During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 623, in get_booking
-    "signature": request.POST['signature'],
-  File "/Users/GSCAdi/Documents/django/env/lib/python3.7/site-packages/django/utils/datastructures.py", line 79, in __getitem__
-    raise MultiValueDictKeyError(key)
-django.utils.datastructures.MultiValueDictKeyError: 'signature'
-  
-2019-08-14 06:02:41,376  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 93, in get_balance
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
-  
-2019-08-14 06:05:32,700  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 93, in get_balance
-    if res['result']['error_code'] == 0:
-KeyError: 'result'
-  
-2019-08-14 06:05:32,729  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 134, in login
-    request.session['airline_signature'] = res['result']['response']['signature']
-KeyError: 'result'
-  
-2019-08-14 06:05:32,741  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 117, in get_transactions
-    if res['result']['error_code'] == 0:
-KeyError: 'result'
-  
-2019-08-14 06:05:52,397  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 93, in get_balance
-    if res['result']['error_code'] == 0:
-KeyError: 'result'
-  
-2019-08-14 06:05:52,434  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 117, in get_transactions
-    if res['result']['error_code'] == 0:
-KeyError: 'result'
-  
-2019-08-14 06:05:52,603  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 134, in login
-    request.session['airline_signature'] = res['result']['response']['signature']
-KeyError: 'result'
-  
-2019-08-14 06:06:06,166  SIGNIN AIRLINE SUCCESS SIGNATURE 813c5a4511544d31ae3a15e705cb38e6  
-2019-08-14 06:06:06,299  'signature'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/django/env/lib/python3.7/site-packages/django/utils/datastructures.py", line 77, in __getitem__
-    list_ = super().__getitem__(key)
-KeyError: 'signature'
 
 During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 623, in get_booking
-    "signature": request.POST['signature'],
-  File "/Users/GSCAdi/Documents/django/env/lib/python3.7/site-packages/django/utils/datastructures.py", line 79, in __getitem__
-    raise MultiValueDictKeyError(key)
-django.utils.datastructures.MultiValueDictKeyError: 'signature'
-  
-2019-08-14 06:06:33,605  SIGNIN AIRLINE SUCCESS SIGNATURE c228b5a33d1b4bf5b62b2ca3e772b72d  
-2019-08-14 06:06:33,695  'signature'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/django/env/lib/python3.7/site-packages/django/utils/datastructures.py", line 77, in __getitem__
-    list_ = super().__getitem__(key)
-KeyError: 'signature'
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
 
 During handling of the above exception, another exception occurred:
 
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 623, in get_booking
-    "signature": request.POST['signature'],
-  File "/Users/GSCAdi/Documents/django/env/lib/python3.7/site-packages/django/utils/datastructures.py", line 79, in __getitem__
-    raise MultiValueDictKeyError(key)
-django.utils.datastructures.MultiValueDictKeyError: 'signature'
-  
-2019-08-14 06:08:40,543  SIGNIN AIRLINE SUCCESS SIGNATURE 63c9935d23704802b4a1ce227c5502c6  
-2019-08-14 06:08:52,713  SUCCESS get_booking AIRLINE SIGNATURE 63c9935d23704802b4a1ce227c5502c6  
-2019-08-14 06:09:34,021  SUCCESS update_service_charge AIRLINE SIGNATURE 63c9935d23704802b4a1ce227c5502c6  
-2019-08-14 06:09:43,213  SUCCESS get_booking AIRLINE SIGNATURE 63c9935d23704802b4a1ce227c5502c6  
-2019-08-14 06:09:57,301  SIGNIN AIRLINE SUCCESS SIGNATURE 7c067bdf824b45b69b24e244b061bdfc  
-2019-08-14 06:10:06,141  SUCCESS get_booking AIRLINE SIGNATURE 7c067bdf824b45b69b24e244b061bdfc  
-2019-08-14 06:11:02,211  SIGNIN AIRLINE SUCCESS SIGNATURE aa2e389cc5164cd3a37aecc78b528b4d  
-2019-08-14 06:11:27,662  SUCCESS get_booking AIRLINE SIGNATURE aa2e389cc5164cd3a37aecc78b528b4d  
-2019-08-14 06:12:08,340  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:12:08,598  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:12:08,715  get_carriers AIRLINE RENEW SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:17:09,021  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:21:35,361  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:21:35,545  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:21:36,008  SIGNIN AIRLINE SUCCESS SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:36,202  get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:36,856  ERROR SEARCH AIRLINE SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:36,887  ERROR SEARCH AIRLINE SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:37,175  ERROR SEARCH AIRLINE SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:37,201  ERROR SEARCH AIRLINE SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:37,310  ERROR SEARCH AIRLINE SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:37,512  ERROR SEARCH AIRLINE SIGNATURE 4991721360574c48a5d3e0adb6fafb02  
-2019-08-14 06:21:59,563  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:21:59,700  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:22:00,139  get_carriers AIRLINE RENEW SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:26:49,737  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:26:51,406  SIGNIN AIRLINE SUCCESS SIGNATURE f157b9e9dbf64f5bbeaece82c76448ba  
-2019-08-14 06:26:56,006  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:26:57,611  ERROR SEARCH AIRLINE SIGNATURE f157b9e9dbf64f5bbeaece82c76448ba  
-2019-08-14 06:26:58,050  ERROR SEARCH AIRLINE SIGNATURE f157b9e9dbf64f5bbeaece82c76448ba  
-2019-08-14 06:27:35,599  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:27:35,615  SIGNIN AIRLINE SUCCESS SIGNATURE a93bfa46a6d54ca6981b52ad24f05114  
-2019-08-14 06:27:36,289  ERROR SEARCH AIRLINE SIGNATURE a93bfa46a6d54ca6981b52ad24f05114  
-2019-08-14 06:27:36,291  ERROR SEARCH AIRLINE SIGNATURE a93bfa46a6d54ca6981b52ad24f05114  
-2019-08-14 06:28:29,577  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:28:29,585  SIGNIN AIRLINE SUCCESS SIGNATURE 249ce3d14748483e9e5f5deaf5cdb699  
-2019-08-14 06:28:30,195  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:28:30,213  ERROR SEARCH AIRLINE SIGNATURE 249ce3d14748483e9e5f5deaf5cdb699  
-2019-08-14 06:28:30,215  ERROR SEARCH AIRLINE SIGNATURE 249ce3d14748483e9e5f5deaf5cdb699  
-2019-08-14 06:29:27,032  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:29:27,217  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:29:27,383  SIGNIN AIRLINE SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:31:58,478  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:34:28,014  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:36:58,865  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:39:29,248  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:42:00,045  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:42:18,874  SUCCESS get_price_itinerary AIRLINE SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:42:30,846  SUCCESS get_fare_rules AIRLINE SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:44:29,984  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:47:00,863  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:49:30,986  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:52:01,939  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:54:33,199  get_balance SUCCESS SIGNATURE 813797d56236491e81a1a06d0f9eb2ba  
-2019-08-14 06:56:14,519  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:56:14,680  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:58:26,755  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:58:26,926  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 06:58:27,032  SIGNIN AIRLINE SUCCESS SIGNATURE 55fa696f5a834c54bfa755f76326332a  
-2019-08-14 06:58:30,690  'result'
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 292, in search2
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:58:30,691  'result'
+2019-08-15 01:16:23,545  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 292, in search2
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:58:30,692  'result'
+2019-08-15 01:16:23,566  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 292, in search2
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:19,025  'result'
+2019-08-15 01:16:23,587  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 93, in get_balance
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:19,033  'result'
+2019-08-15 01:16:23,609  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 117, in get_transactions
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:19,534  'result'
+2019-08-15 01:16:23,629  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 134, in login
-    request.session['airline_signature'] = res['result']['response']['signature']
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
 KeyError: 'result'
-  
-2019-08-14 06:59:34,615  'result'
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 93, in get_balance
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:34,667  'result'
+2019-08-15 01:16:23,647  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 117, in get_transactions
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:35,110  'result'
+2019-08-15 01:16:23,665  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 134, in login
-    request.session['airline_signature'] = res['result']['response']['signature']
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
 KeyError: 'result'
-  
-2019-08-14 06:59:51,407  'result'
+
+During handling of the above exception, another exception occurred:
+
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 93, in get_balance
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:51,433  'result'
+2019-08-15 01:16:23,683  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_account_views.py", line 117, in get_transactions
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
     if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 06:59:52,036  'result'
+2019-08-15 01:16:23,704  'result'
 Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 134, in login
-    request.session['airline_signature'] = res['result']['response']['signature']
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
 KeyError: 'result'
   
-2019-08-14 07:00:00,386  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:00:00,810  SIGNIN AIRLINE SUCCESS SIGNATURE 64be97856e5b4761acf8e4c956f3053a  
-2019-08-14 07:00:00,812  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:01:34,895  SUCCESS get_price_itinerary AIRLINE SIGNATURE 64be97856e5b4761acf8e4c956f3053a  
-2019-08-14 07:01:45,579  SUCCESS get_fare_rules AIRLINE SIGNATURE 64be97856e5b4761acf8e4c956f3053a  
-2019-08-14 07:02:27,020  get_balance SUCCESS SIGNATURE 64be97856e5b4761acf8e4c956f3053a  
-2019-08-14 07:03:54,180  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:03:54,230  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:03:55,234  SIGNIN AIRLINE SUCCESS SIGNATURE 4402dc0e0a3b4ea39f6481474a691d2b  
-2019-08-14 07:03:55,266  get_carriers AIRLINE RENEW SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:03:55,268  get_carriers AIRLINE RENEW SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:03:55,783  get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE 4402dc0e0a3b4ea39f6481474a691d2b  
-2019-08-14 07:04:14,467  SUCCESS get_price_itinerary AIRLINE SIGNATURE 4402dc0e0a3b4ea39f6481474a691d2b  
-2019-08-14 07:04:25,072  SUCCESS get_fare_rules AIRLINE SIGNATURE 4402dc0e0a3b4ea39f6481474a691d2b  
-2019-08-14 07:05:00,944  get_balance SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:05:01,122  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:05:02,093  SIGNIN AIRLINE SUCCESS SIGNATURE f99982b87f684afe86715fb4765da3ec  
-2019-08-14 07:05:22,544  SUCCESS get_price_itinerary AIRLINE SIGNATURE f99982b87f684afe86715fb4765da3ec  
-2019-08-14 07:05:33,397  SUCCESS get_fare_rules AIRLINE SIGNATURE f99982b87f684afe86715fb4765da3ec  
-2019-08-14 07:06:05,525  get_transactions SUCCESS SIGNATURE fa29d8d688e74ea48449cc3ab3fbfc6c  
-2019-08-14 07:07:33,245  SIGNIN SUCCESS SIGNATURE 0f71c1844e15495bb4477ca34dfaa042  
-2019-08-14 07:07:33,318  USE CACHE IN TXT!  
-2019-08-14 07:07:37,976  get_balance SUCCESS SIGNATURE 0f71c1844e15495bb4477ca34dfaa042  
-2019-08-14 07:07:38,397  get_transactions SUCCESS SIGNATURE 0f71c1844e15495bb4477ca34dfaa042  
-2019-08-14 07:08:55,383  get_transactions SUCCESS SIGNATURE 0f71c1844e15495bb4477ca34dfaa042  
-2019-08-14 07:09:00,774  SIGNIN AIRLINE SUCCESS SIGNATURE 74b93c86a968446cb62dd5419db8f4e9  
-2019-08-14 07:09:05,321  SUCCESS get_booking AIRLINE SIGNATURE 74b93c86a968446cb62dd5419db8f4e9  
-2019-08-14 07:10:22,847  SIGNIN AIRLINE SUCCESS SIGNATURE df59f7fa6e3d48ec895f239a442dd6c3  
-2019-08-14 07:10:23,111  SUCCESS get_booking AIRLINE SIGNATURE df59f7fa6e3d48ec895f239a442dd6c3  
-2019-08-14 07:11:45,157  ERROR issued AIRLINE SIGNATURE df59f7fa6e3d48ec895f239a442dd6c3  
-2019-08-14 07:17:31,684  get_balance SUCCESS SIGNATURE df59f7fa6e3d48ec895f239a442dd6c3  
-2019-08-14 07:19:31,168  get_transactions SUCCESS SIGNATURE 0f71c1844e15495bb4477ca34dfaa042  
-2019-08-14 07:19:34,305  SIGNIN AIRLINE SUCCESS SIGNATURE c29c3fe2231d432abd37676a1772198a  
-2019-08-14 07:19:35,375  SUCCESS get_booking AIRLINE SIGNATURE c29c3fe2231d432abd37676a1772198a  
-2019-08-14 07:19:51,593  SIGNIN AIRLINE SUCCESS SIGNATURE 3f1e9c6804e54795be63e7e54b7299ac  
-2019-08-14 07:19:52,047  SUCCESS get_booking AIRLINE SIGNATURE 3f1e9c6804e54795be63e7e54b7299ac  
-2019-08-14 07:21:07,079  SIGNIN AIRLINE SUCCESS SIGNATURE 8e088d96bc874b399c16c211ec87ffdd  
-2019-08-14 07:21:07,672  SUCCESS get_booking AIRLINE SIGNATURE 8e088d96bc874b399c16c211ec87ffdd  
-2019-08-14 07:21:49,978  SIGNIN AIRLINE SUCCESS SIGNATURE 471c450714aa44c7b0fbb187996ce475  
-2019-08-14 07:21:50,406  SUCCESS get_booking AIRLINE SIGNATURE 471c450714aa44c7b0fbb187996ce475  
-2019-08-14 07:21:57,802  SUCCESS issued AIRLINE SIGNATURE 471c450714aa44c7b0fbb187996ce475  
-2019-08-14 07:23:33,389  SIGNIN AIRLINE SUCCESS SIGNATURE ae4a763778864e00a09e60b6fde93983  
-2019-08-14 07:23:33,982  SUCCESS get_booking AIRLINE SIGNATURE ae4a763778864e00a09e60b6fde93983  
-2019-08-14 07:23:39,473  get_transactions SUCCESS SIGNATURE 0f71c1844e15495bb4477ca34dfaa042  
-2019-08-14 07:23:43,681  SIGNIN AIRLINE SUCCESS SIGNATURE 5a3c6bd4093f44e18eba06aec09ba68e  
-2019-08-14 07:23:44,013  SUCCESS get_booking AIRLINE SIGNATURE 5a3c6bd4093f44e18eba06aec09ba68e  
-2019-08-14 07:23:51,581  SUCCESS issued AIRLINE SIGNATURE 5a3c6bd4093f44e18eba06aec09ba68e  
-2019-08-14 07:30:31,995  get_balance SUCCESS SIGNATURE 5a3c6bd4093f44e18eba06aec09ba68e  
-2019-08-14 07:35:32,899  get_balance SUCCESS SIGNATURE 5a3c6bd4093f44e18eba06aec09ba68e  
-2019-08-14 07:40:33,830  get_balance SUCCESS SIGNATURE 5a3c6bd4093f44e18eba06aec09ba68e  
+2019-08-15 01:16:23,724  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,742  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,757  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,771  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,786  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,801  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,816  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,830  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,842  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,853  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,866  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,878  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,887  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,899  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,912  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,920  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,932  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,947  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,955  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,965  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:16:23,976  'result'
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 447, in get_price_itinerary
+    if res['result']['error_code'] == 0:
+KeyError: 'result'
+  
+2019-08-15 01:17:07,768  SUCCESS get_price_itinerary AIRLINE SIGNATURE 9c37ca0badda4e00a95756ac6909e1c2  
+2019-08-15 01:17:14,043  SUCCESS get_fare_rules AIRLINE SIGNATURE 9c37ca0badda4e00a95756ac6909e1c2  
+2019-08-15 01:17:51,210  SUCCESS sell_journeys AIRLINE SIGNATURE 9c37ca0badda4e00a95756ac6909e1c2  
+2019-08-15 01:18:20,847  get_balance SUCCESS SIGNATURE 9c37ca0badda4e00a95756ac6909e1c2  
