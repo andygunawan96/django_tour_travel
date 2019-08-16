@@ -821,9 +821,9 @@ $(document).ready(function(){
 
             document.getElementById('mc_airline_default').innerHTML = text_mc;
             document.getElementById('ori_airline').style.display = "none";
-            document.getElementById('is_combo_price').disabled = true;
-            document.getElementById('is_combo_price').checked = false;
-            document.getElementById('checkbox_combo_price').style.display = "none";
+            document.getElementById('is_combo_price').disabled = false;
+//            document.getElementById('is_combo_price').checked = false;
+            document.getElementById('checkbox_combo_price').style.display = "block";
 
             add_multi_city('home');
             add_multi_city('home');

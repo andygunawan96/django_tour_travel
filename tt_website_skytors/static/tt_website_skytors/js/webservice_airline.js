@@ -113,6 +113,7 @@ function airline_signin(data){
 
 function get_carrier_code_list(type, val){
     getToken();
+    console.log(val);
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -346,12 +347,21 @@ function send_search_to_api(val){
     }
     document.getElementById('barFlightSearch').style.display = "block";
     count_progress_bar_airline = 0;
-    document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
-    date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
-    if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
-        date_show += ` - `+airline_request['return'][counter_search];
+    if(airline_request.direction == 'RT' && counter_search == 0){
+        document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
+        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
+            date_show += ` - `+airline_request['return'][counter_search];
+        }
+        document.getElementById('show_date').innerHTML = date_show;
+    }else if(airline_request.direction != 'RT'){
+        document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
+        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
+            date_show += ` - `+airline_request['return'][counter_search];
+        }
+        document.getElementById('show_date').innerHTML = date_show;
     }
-    document.getElementById('show_date').innerHTML = date_show;
 
     if(val == undefined)
         for(j in provider_airline[counter_search]){
@@ -627,10 +637,13 @@ function datasearch2(airline){
            price = 0;
            airline.journey_list[i].journeys[j].operated_by = true;
            for(k in airline.journey_list[i].journeys[j].segments){
+               console.log('segment');
                for(l in airline.journey_list[i].journeys[j].segments[k].fares){
+                    console.log('fare');
                    if(airline.journey_list[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
                        airline.journey_list[i].journeys[l].segments[k].fare_pick = parseInt(k);
                        for(m in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                           console.log('service_charge')
                            for(n in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                if(airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
                                    price += airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;

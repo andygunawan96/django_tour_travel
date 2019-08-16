@@ -169,77 +169,125 @@ function add_multi_city(type){
         if(counter_airline_search == 1){
             var node_paxs = document.createElement("div");
             text_paxs = `
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;">
-                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                <div class="input-container-search-ticket btn-group">
-                    <button id="show_total_pax_flight`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
-                    <ul class="dropdown-menu" role="menu">
-                        <div class="row" style="padding:10px;">
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Adult</span><br/>
-                                        <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                    </label>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <button id="show_total_pax_flight`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
+                        <ul class="dropdown-menu" role="menu">
+                            <div class="row" style="padding:10px;">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Adult</span><br/>
+                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="1" min="1" readonly>
-                                    <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="1" min="1" readonly>
+                                        <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Child<br/></span>
-                                        <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
-                                    </label>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Child<br/></span>
+                                            <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="0" min="0" readonly>
-                                    <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                        <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="0" min="0" readonly>
+                                        <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                <div style="float:left;">
-                                    <label>
-                                        <span style="color:black; font-size:13px;">Infant<br/></span>
-                                        <span style="color:gray; font-size:11px;">(Age < 2)</span>
-                                    </label>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                    <div style="float:left;">
+                                        <label>
+                                            <span style="color:black; font-size:13px;">Infant<br/></span>
+                                            <span style="color:gray; font-size:11px;">(Age < 2)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                        <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="0" readonly>
+                                        <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                    <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">
-                                        <i class="fas fa-minus"></i>
-                                    </button>
-                                    <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="0" readonly>
-                                    <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
+                        </ul>
+                    </div>
+                </div>`;
+                text_paxs+=`
+                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                        <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                    <span class="span-search-ticket">Class</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select`+counter_airline_search+`">
+                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                            for(i in cabin_class){
+                                console.log(cabin_class[i]);
+                                console.log(type);
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class[0] == cabin_class[i].value)
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                     text_paxs+=`</select>
                         </div>
-                    </ul>
+                    </div>
                 </div>
             </div>`;
             node_paxs.innerHTML = text_paxs;
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
+            get_carrier_code_list(type, counter_airline_search);
+            airline_provider_list_mc.push(airline_provider_list);
+            $('#cabin_class_flight'+counter_airline_search).niceSelect();
+
         }
 
 //        var node_tabs = document.createElement("li");
@@ -303,47 +351,6 @@ function add_multi_city(type){
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                     </div>
-                </div>`;
-
-                text+=`
-                <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
-                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
-                        <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
-
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px;">
-                    <span class="span-search-ticket">Class</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select`+counter_airline_search+`">
-                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
-                            for(i in cabin_class){
-                                try{
-                                    if(type == 'search'){
-                                        if(airline_request.cabin_class[counter_airline_search-1] == cabin_class[i].value)
-                                            text+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                        else
-                                            text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                    }else if(i == 0){
-                                        if(type == 'home')
-                                            text+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                        else
-                                            text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                    }else
-                                        text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }catch(err){
-                                    if(i == 0)
-                                        text+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                    else
-                                        text+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }
-                            }
-                     text+=`</select>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>`;
@@ -386,9 +393,6 @@ function add_multi_city(type){
               }
             });
         get_airline_config(type,counter_airline_search);
-        $('#cabin_class_flight'+counter_airline_search).niceSelect();
-        get_carrier_code_list(type, counter_airline_search);
-        airline_provider_list_mc.push(airline_provider_list);
         $('#origin_id_flight'+counter_airline_search).select2();
         $('#destination_id_flight'+counter_airline_search).select2();
         $('.dropdown-menu').on('click', function(e) {
@@ -1172,6 +1176,8 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         for(i in airline){
+            console.log(airline[i].origin);
+            console.log(airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3));
            if(airline[i].origin == airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'departure'){
                var price = 0;
                text += `
@@ -1190,7 +1196,7 @@ function sort(airline){
                                     text+=`
                                     <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
                                     }
-                                    if(airline[i].is_combo_price == true){
+                                    if(airline[i].journey_type == "COM"){
                                         text+=`<span style="float:right; font-weight: bold; padding:5px; border:2px solid #f15a22;">Combo Price</span>`;
                                     }
                                     text+=`
@@ -1199,107 +1205,95 @@ function sort(airline){
                             </div>
                             <div class="col-lg-9">
                                 <div class="row" style="padding:0px 10px 10px 10px;">`;
-                                    if(airline[i].is_combo_price == true){
+                                    if(airline[i].journey_type != "COM"){
                                         text+=`
-                                        <div class="col-lg-12">
-                                            <span style="font-weight: bold;">Departure</span>
-                                        </div>`;
-                                    }
-
-                                    text+=`
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                        <table style="width:100%">
-                                            <tr>
-                                                <td class="airport-code"><h5>`+airline[i].departure_date.split(' - ')[1]+`</h5></td>
-                                                <td style="padding-left:15px;">
-                                                    <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                                </td>
-                                                <td style="height:30px;padding:0 15px;width:100%">
-                                                    <div style="display:inline-block;position:relative;width:100%">
-                                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
-                                        <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
-                                    </div>
-                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                        <table style="width:100%; margin-bottom:6px;">
-                                            <tr>
-                                                <td><h5>`+airline[i].arrival_date.split(' - ')[1]+`</h5></td>
-                                                <td></td>
-                                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                                            </tr>
-                                        </table>
-                                        <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
-                                        <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].destination+`)</span>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
-                                        <span>Transit: `+airline[i].transit_count+``;
-                                        if(airline[i].transit_count==0)
-                                            text+=`
-                                            </br>
-                                            Direct`;
-                                        text+=`
-                                        </span>
-                                    </div>`;
-
-                                    if(airline[i].is_combo_price == true){
-                                        transit = 0;
-                                        check_transit = false;
-                                        for(j in airline[i].segments){
-                                            if(check_transit == true)
-                                                transit++;
-                                            if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].substr(airline_request.destination[counter_search-1].length-4,3)){
-                                                check_transit = true;
-                                            }
-                                        }
-                                        return_date = [airline[i].segments[airline[i].segments.length-1].departure_date, airline[i].segments[airline[i].segments.length-1].arrival_date];
-                                        for(j in airline[i].segments){
-                                            if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].substr(airline_request.destination[counter_search-1].length-4,3)){
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td class="airport-code"><h5>`+airline[i].departure_date.split(' - ')[1]+`</h5></td>
+                                                    <td style="padding-left:15px;">
+                                                        <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                    </td>
+                                                    <td style="height:30px;padding:0 15px;width:100%">
+                                                        <div style="display:inline-block;position:relative;width:100%">
+                                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
+                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <table style="width:100%; margin-bottom:6px;">
+                                                <tr>
+                                                    <td><h5>`+airline[i].arrival_date.split(' - ')[1]+`</h5></td>
+                                                    <td></td>
+                                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                </tr>
+                                            </table>
+                                            <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
+                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].destination+`)</span>
+                                        </div>
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
+                                            <span>Transit: `+airline[i].transit_count+``;
+                                            if(airline[i].transit_count==0)
                                                 text+=`
-                                                <div class="col-lg-12" style="margin-top:5px;">
-                                                    <span style="font-weight: bold;">Return</span>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <table style="width:100%">
-                                                        <tr>
-                                                            <td class="airport-code"><h5>`+return_date[0].split(' - ')[1]+`</h5></td>
-                                                            <td style="padding-left:15px;">
-                                                                <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                                            </td>
-                                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                                <div style="display:inline-block;position:relative;width:100%">
-                                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <span>`+return_date[0].split(' - ')[0]+` </span></br>
-                                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].segments[j].origin+`)</span>
-                                                </div>
+                                                </br>
+                                                Direct`;
+                                            text+=`
+                                            </span>
+                                        </div>`;
+                                    }else if(airline[i].journey_type == "COM"){
+                                        for(j in airline[i].segments){
+                                            //ganti sini
+                                            flight_number = parseInt(j) + 1;
+                                            text+=`
+                                            <div class="col-lg-12" style="margin-top:5px;">
+                                                <span style="font-weight: bold;">Flight `+flight_number+` </span>
+                                            </div>`;
 
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <table style="width:100%; margin-bottom:6px;">
-                                                        <tr>
-                                                            <td><h5>`+return_date[1].split(' - ')[1]+`</h5></td>
-                                                            <td></td>
-                                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                        </tr>
-                                                    </table>
-                                                    <span>`+return_date[1].split(' - ')[0]+` </span></br>
-                                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
-                                                </div>
+                                            text+=`
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td class="airport-code"><h5>`+airline[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
+                                                        <td style="padding-left:15px;">
+                                                            <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                        </td>
+                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                            <div style="display:inline-block;position:relative;width:100%">
+                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <span>`+airline[i].segments[j].departure_date.split(' - ')[0]+` </span></br>
+                                                <span style="font-weight:500;">`+airline[i].segments[j].origin_name+`</span>
+                                                <span style="font-weight:500;">`+airline[i].segments[j].origin_city+` (`+airline[i].segments[j].origin+`)</span>
+                                            </div>
 
-                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
-                                                    <span>Transit: `+transit+`</span>
-                                                </div>`;
-                                            }
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                <table style="width:100%; margin-bottom:6px;">
+                                                    <tr>
+                                                        <td><h5>`+airline[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
+                                                        <td></td>
+                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                    </tr>
+                                                </table>
+                                                <span>`+airline[i].segments[j].arrival_date.split(' - ')[0]+` </span></br>
+                                                <span style="font-weight:500;">`+airline[i].segments[j].destination_name+`</span>
+                                                <span style="font-weight:500;">`+airline[i].segments[j].destination_city+` (`+airline[i].segments[j].destination+`)</span>
+                                            </div>
+
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
+                                                <span>Transit: `+airline[i].segments[j].transit_count+`</span>
+                                            </div>`;
+
                                         }
                                     }
                             text+=`
@@ -2466,7 +2460,7 @@ function get_airline_review(){
     flight_count = 0;
     for(i in airline_pick){
         for(j in airline_pick[i].price_itinerary){
-            if(airline_pick[i].price_itinerary[j].is_combo_price == true){
+            if(airline_pick[i].price_itinerary[j].journey_type == "COM"){
                 text += `<h6>Combo Price</h6>`;
             }else if(airline_pick[i].price_itinerary[j].journey_type == 'DEP'){
                 text += `<h6>Departure</h6>`;

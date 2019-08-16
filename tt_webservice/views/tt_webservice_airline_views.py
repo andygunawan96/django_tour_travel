@@ -80,7 +80,7 @@ def api_models(request):
         elif req_data['action'] == 'search':
             res = search2(request)
         elif req_data['action'] == 'get_price_itinerary':
-            res = get_price_itinerary(request)
+            res = get_price_itinerary(request, False)
         elif req_data['action'] == 'get_fare_rules':
             res = get_fare_rules(request)
         elif req_data['action'] == 'sell_journeys':
@@ -247,29 +247,88 @@ def search2(request):
                 airline_destinations.append(des)
 
         # get_data_awal
-        direction = request.session['airline_request']['direction']
-        departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
-                                       month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
-                                       request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
-        return_date = '%s-%s-%s' % (request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[2],
-                                    month[request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[1]],
-                                    request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[0])
-        origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
-        destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
-        cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
-        if request.session['airline_request']['direction'] == 'MC':
-            direction = 'OW'
-        if request.session['airline_request']['is_combo_price'] == 'true':
-            is_combo_price = True
+        # direction = request.session['airline_request']['direction']
+        # departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
+        #                                month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
+        #                                request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
+        # return_date = '%s-%s-%s' % (request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[2],
+        #                             month[request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[1]],
+        #                             request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[0])
+
+        # origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
+        # destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
+        provider = ['amadeus', 'sabre', 'sia']
+        direction = 'MC'
+        journey_list = []
+        if request.session['airline_request']['is_combo_price'] == 'false':
+            is_combo_price = False
         else:
+            is_combo_price = True
+        if request.session['airline_request']['direction'] == 'MC' and request.POST['provider'] in provider:
+            for idx, i in enumerate(request.session['airline_request']['origin']):
+                departure_date = '%s-%s-%s' % (
+                    request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
+                    month[request.session['airline_request']['departure'][idx].split(' ')[1]],
+                    request.session['airline_request']['departure'][idx].split(' ')[0])
+                journey_list.append({
+                    'origin': request.session['airline_request']['origin'][idx][-4:][:3],
+                    'destination': request.session['airline_request']['destination'][idx][-4:][:3],
+                    'departure_date': departure_date
+                })
+            cabin_class = request.session['airline_request']['cabin_class'][0]
+        elif request.session['airline_request']['direction'] == 'RT' and request.POST['provider'] in provider:
+            for idx, i in enumerate(request.session['airline_request']['origin']):
+                departure_date = '%s-%s-%s' % (
+                    request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
+                    month[request.session['airline_request']['departure'][idx].split(' ')[1]],
+                    request.session['airline_request']['departure'][idx].split(' ')[0])
+                journey_list.append({
+                    'origin': request.session['airline_request']['origin'][idx][-4:][:3],
+                    'destination': request.session['airline_request']['destination'][idx][-4:][:3],
+                    'departure_date': departure_date
+                })
+            cabin_class = request.session['airline_request']['cabin_class'][0]
+
+        elif request.session['airline_request']['direction'] == 'RT' and int(request.POST['counter_search']) != 0:
+            #RT
+            departure_date = '%s-%s-%s' % (
+                request.session['airline_request']['return'][0].split(' ')[2],
+                month[request.session['airline_request']['return'][0].split(' ')[1]],
+                request.session['airline_request']['return'][0].split(' ')[0])
+            journey_list.append({
+                'origin': request.session['airline_request']['destination'][0][-4:][:3],
+                'destination': request.session['airline_request']['origin'][0][-4:][:3],
+                'departure_date': departure_date
+            })
+            cabin_class = request.session['airline_request']['cabin_class'][0]
+            is_combo_price = False
+        else:
+            #default
+            departure_date = '%s-%s-%s' % (
+                request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
+                month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
+                request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
+            journey_list.append({
+                'origin': request.session['airline_request']['origin'][0][-4:][:3],
+                'destination': request.session['airline_request']['destination'][0][-4:][:3],
+                'departure_date': departure_date
+            })
+            cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
             is_combo_price = False
 
+        # if request.session['airline_request']['is_combo_price'] == 'true':
+        #     is_combo_price = True
+        # else:
+        #     is_combo_price = False
+
         data = {
-            "origin": origin,
-            "destination": destination,
-            "departure_date": departure_date,
+            "journey_list": journey_list,
             "direction": direction,
-            "return_date": return_date,
+            # "origin": origin,
+            # "destination": destination,
+            # "departure_date": departure_date,
+            # "return_date": return_date,
+            "is_combo_price": is_combo_price,
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
@@ -277,7 +336,7 @@ def search2(request):
             # "provider": request.POST['provider'],
             "provider": 'amadeus',
             "carrier_codes": json.loads(request.POST['carrier_codes']),
-            "is_combo_price": is_combo_price
+
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -394,7 +453,7 @@ def get_data(request):
 
     return airline_destinations
 
-def get_price_itinerary(request):
+def get_price_itinerary(request, boolean):
     try:
         #baru
         file = open("version_cache.txt", "r")
@@ -416,9 +475,6 @@ def get_price_itinerary(request):
                 })
                 airline_destinations.append(des)
         #baru
-        boolean = False
-        if request.POST['separate_journey'] == 'true':
-            boolean = True
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
             if idx != 0:
@@ -529,8 +585,9 @@ def get_price_itinerary(request):
             request.session['airline_price_itinerary'] = res['result']['response']
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            if(request.session['airline_request']['direction'] == 'RT'):
-                get_price_itinerary(request, True)
+            # if(request.session['airline_request']['direction'] == 'RT'):
+            #MC atau RT SEPARATE
+            get_price_itinerary(request, True)
     except Exception as e:
         get_price_itinerary(request, True)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

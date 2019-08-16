@@ -165,6 +165,7 @@ def search(request):
 
                     if request.POST['radio_airline_type'] == 'roundtrip':
                         direction = 'RT'
+                        departure.append(request.POST['airline_return'])
                         return_date.append(request.POST['airline_return'])
                         origin.append(request.POST['destination_id_flight'])
                         destination.append(request.POST['origin_id_flight'])
