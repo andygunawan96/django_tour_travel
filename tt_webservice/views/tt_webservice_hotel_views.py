@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from tools import util, ERR
 from datetime import *
 from tools.parser import *
-from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 import json
 import copy
