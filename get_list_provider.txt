@@ -1,1 +1,1 @@
-{"SQ": ["amadeus"]}
+{"SQ": ["amadeus", "sabre", "sia"], "CX": ["amadeus", "sabre"], "GA": ["amadeus", "sabre"], "CI": ["amadeus"], "MI": ["amadeus", "sia"]}

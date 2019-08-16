@@ -48,6 +48,9 @@
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = airline_carriers.replace(/False/g, 'false');
+    airline_carriers = airline_carriers.replace(/True/g, 'true');
+    console.log(airline_carriers);
     airline_carriers = JSON.parse(airline_carriers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
@@ -83,15 +86,8 @@
     </div>
 </header>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
-        <div class="row" style="padding-top:20px; padding-bottom:10px;">
-            <div class="col-lg-12">
-               <span style="font-size:16px; font-weight:500;">Your current session time: </span><span style="font-size:16px; font-weight:700;" id="session_time"> </span>
-               <br/>
-               <span style="font-size:16px; font-weight:500;">Elapsed Time: </span><span style="font-size:16px; font-weight:700;" id="elapse_time"> </span>
-           </div>
-        </div>
         <div class="banner-right">
             <form id="airline_review" class="form-wrap" action="{% url 'tt_website_skytors:airline_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
@@ -762,7 +758,16 @@
 
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
+                        <div class="row" style="padding-bottom:15px;">
+                            <div class="col-lg-12">
+                                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                                    <hr/>
+                                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="airline_detail">
 
                         </div>
                     </div>
@@ -772,7 +777,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
+                                <button class="btn-next primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{airline_request.adult}}, {{airline_request.child}}, {{airline_request.infant}});">
                                     Next
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>

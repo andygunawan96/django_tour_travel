@@ -2378,7 +2378,7 @@ var $range = $(".js-range-slider"),
     $inputTo = $(".js-input-to"),
     instance,
     min = 0,
-    max = 10000000,
+    max = parseInt($("#price-to").val()),
     from = 0,
     to = 0;
 
@@ -2387,15 +2387,15 @@ $range.ionRangeSlider({
     min: min,
     max: max,
     from: 0,
-    to: 10000000,
-  prefix: 'Rp. ',
+    to: parseInt($("#price-to").val()),
+    prefix: 'Rp. ',
     onStart: updateInputs,
     onChange: updateInputs,
     step: 50000,
     prettify_enabled: true,
     prettify_separator: ".",
-  values_separator: " - ",
-  force_edges: true
+    values_separator: " - ",
+    force_edges: true
 
 
 });
@@ -2440,4 +2440,4 @@ $inputTo.on("input", function () {
     });
 });
 
-    });
+});

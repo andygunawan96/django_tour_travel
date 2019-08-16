@@ -293,3 +293,18 @@ KeyError: 'journeys'
 2019-08-16 03:14:57,558  SUCCESS sell_journeys AIRLINE SIGNATURE 77d9f660bd8d48fb9a1a0b33e5ab1b9e  
 2019-08-16 03:15:05,071  get_balance SUCCESS SIGNATURE 27688045da77450498048e8e5dd6a2b9  
 2019-08-16 03:15:05,107  get_transactions SUCCESS SIGNATURE 27688045da77450498048e8e5dd6a2b9  
+2019-08-16 03:56:03,643  SIGNIN AIRLINE SUCCESS SIGNATURE 90a152cfd2884a019f7ba90ef2bca660  
+2019-08-16 03:58:34,168  get_balance SUCCESS SIGNATURE 90a152cfd2884a019f7ba90ef2bca660  
+2019-08-16 04:01:24,519  get_balance SUCCESS SIGNATURE 90a152cfd2884a019f7ba90ef2bca660  
+2019-08-16 04:12:45,010  SIGNIN AIRLINE SUCCESS SIGNATURE 7895bee0a55e48ed991d3d6dfabdf742  
+2019-08-16 04:12:45,202  local variable 'cabin_class' referenced before assignment
+Traceback (most recent call last):
+  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_airline_views.py", line 316, in search2
+    "cabin_class": cabin_class,
+UnboundLocalError: local variable 'cabin_class' referenced before assignment
+  
+2019-08-16 04:13:02,474  SIGNIN AIRLINE SUCCESS SIGNATURE 010fb5440b8c4db08d5aa46509842aaa  
+2019-08-16 04:13:49,734  SIGNIN AIRLINE SUCCESS SIGNATURE a1b89d222e5940e4b67e5cc3463da3ce  
+2019-08-16 04:16:01,394  SIGNIN AIRLINE SUCCESS SIGNATURE f1d9f0868afa43f4ac02f712b1756556  
+2019-08-16 04:18:31,908  get_balance SUCCESS SIGNATURE f1d9f0868afa43f4ac02f712b1756556  
+2019-08-16 04:21:01,982  get_balance SUCCESS SIGNATURE f1d9f0868afa43f4ac02f712b1756556  

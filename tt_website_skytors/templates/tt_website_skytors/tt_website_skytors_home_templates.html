@@ -338,35 +338,40 @@
                                 <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">From</span>
-                                            <div class="input-container-search-ticket">
-                                                <img src="{{static_path}}img/icon/train-01.png" class="icon-search-ticket"/>
-                                                <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
-                                                <datalist id="train_origin_name"/>
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                                    <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-01.png" style="width:20px; height: 20px;"/> From</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
+                                                        <datalist id="train_origin_name"/>
+                                                    </div>
+                                                </div>
+                                                <div class="image-change-route-vertical2">
+                                                    <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                </div>
+                                                <div class="image-change-route-horizontal2">
+                                                    <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                </div>
+
+                                                <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                                    <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-02.png" style="width:20px; height: 20px;"/> To</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
+                                                        <datalist id="train_destination_name"/>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-md-6 col-sm-6" style="z-index:4; padding:0px;">
-                                            <h3 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h3>
-                                            <h3 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h3>
-                                            <span class="span-search-ticket">To</span>
-                                            <div class="input-container-search-ticket">
-                                                <img src="{{static_path}}img/icon/train-02.png" class="icon-search-ticket"/>
-                                                <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
-                                                <datalist id="train_destination_name"/>
-                                            </div>
-                                        </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Departure</span>
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                 <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Passenger</span>
+                                            <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                                             <div class="input-container-search-ticket btn-group">
-                                                <i class="fas fa-users icon-search-ticket"></i>
                                                 <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <div class="row" style="padding:10px;">

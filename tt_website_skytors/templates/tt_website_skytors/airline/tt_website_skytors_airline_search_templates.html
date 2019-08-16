@@ -19,6 +19,7 @@
     sorting_value = '';
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+    console.log(airline_request);
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
@@ -81,7 +82,7 @@
                 </label>
             </div>
             {%endif%}
-            <div class="col-lg-3" style="text-align:right;">
+            <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right;">
                 <button class="primary-btn text-uppercase" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                     Change Search
@@ -308,21 +309,9 @@
                 </ul>
             </div>
         </div>
-        <div class="row" style="padding-top:20px; padding-bottom:10px;">
-            <div class="col-lg-12">
-                <div class="row" style="padding-top:15px; padding-bottom:15px;">
-                    <div class="col-lg-12">
-                        <div style="background:white; padding:15px; border:1px solid #cdcdcd;">
-                            <span style="font-size:16px; font-weight:500;">Your current session time: </span><span style="font-size:16px; font-weight:700;" id="session_time"> </span>
-                            <hr/>
-                            <span style="font-size:16px; font-weight:500;">Elapsed Time: </span><span style="font-size:16px; font-weight:700;" id="elapse_time"> </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:98px; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:98px; z-index:997; display:none;" id="mybuttonsticky">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:2px;">
                         <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
@@ -339,6 +328,15 @@
             </div>
 
             <div class="col-lg-3">
+                <div class="row" style="padding-top:15px; padding-bottom:10px;">
+                    <div class="col-lg-12">
+                        <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                            <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                            <hr/>
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="myModalFilterSort" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
@@ -371,7 +369,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-9" style="margin-top:10px;">
+            <div class="col-lg-9" style="margin-top:15px;">
                 <div class="row sorting-search-flight" id="sorting-search-flight">
                     <div class="col-lg-12">
                         <div id="sorting-flight" style="margin-bottom:15px;">
@@ -568,9 +566,9 @@
             </div>
         </div>`;
         document.getElementById('mc_airline_default').innerHTML = text_mc;
-        document.getElementById('ori_airline').style.display = "none";
-        document.getElementById('is_combo_price').disabled = true;
-        document.getElementById('is_combo_price').checked = false;
+        document.getElementById('ori_airline').style.display = "block";
+        document.getElementById('is_combo_price').disabled = false;
+        document.getElementById('is_combo_price').checked = {{airline_request.is_combo_price}};
         document.getElementById('checkbox_combo_price').style.display = "none";
         counter_mc = {{airline_request.counter}};
         count = 0;
