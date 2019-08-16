@@ -698,7 +698,6 @@ def review(request):
             'airline_pick': request.session['airline_pick'],
             'back_page': request.META.get('HTTP_REFERER'),
             'json_airline_pick': request.session['airline_pick'],
-            'airline_get_price_request': request.session['airline_get_price_request'],
             'airline_carriers': airline_carriers,
             'additional_price': additional_price,
             'username': request.session['user_account'],
