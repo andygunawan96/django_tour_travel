@@ -508,18 +508,16 @@ function airline_search(provider,carrier_codes){
        console.log(msg);
            if(msg.error_code == 0){
               try{
-                  if(msg.response.journeys[0].origin == airline_request.origin[counter_search-1].substring(airline_request.origin[counter_search-1].length-4,airline_request.origin[counter_search-1].length-1) &&
-                     msg.response.journeys[0].destination == airline_request.destination[counter_search-1].substring(airline_request.destination[counter_search-1].length-4,airline_request.destination[counter_search-1].length-1) &&
-                     msg.response.journeys[0].departure_date.split(' - ')[0] == airline_request.departure[counter_search-1]){
-                      datasearch2(msg.response);
-                      airline_choose++;
-                      var bar1 = new ldBar("#barFlightSearch");
-                      var bar2 = document.getElementById('barFlightSearch').ldBar;
-                      bar1.set((airline_choose/count_progress_bar_airline)*100);
-                      if ((airline_choose/count_progress_bar_airline)*100 == 100){
-                        $("#barFlightSearch").hide();
-                      }
+                console.log('here');
+                  datasearch2(msg.response);
+                  airline_choose++;
+                  var bar1 = new ldBar("#barFlightSearch");
+                  var bar2 = document.getElementById('barFlightSearch').ldBar;
+                  bar1.set((airline_choose/count_progress_bar_airline)*100);
+                  if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                    $("#barFlightSearch").hide();
                   }
+
               }catch(err){
                   datasearch2(msg.response);
                       airline_choose++;
@@ -612,6 +610,7 @@ function datasearch2(airline){
    data = [];
    data_show = [];
    text = '';
+   console.log(airline);
    var counter = 0;
    for(i in airline_data){
        data.push(airline_data[i]);
@@ -621,36 +620,40 @@ function datasearch2(airline){
            data_show.push(airline_data[i]);
        counter++;
    }
-   for(i in airline.journeys){
-       airline.journeys[i].sequence = counter;
-       price = 0;
-       airline.journeys[i].operated_by = true;
-       for(j in airline.journeys[i].segments){
-           for(k in airline.journeys[i].segments[j].fares){
-               if(airline.journeys[i].segments[j].fares[k].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
-                   airline.journeys[i].segments[j].fare_pick = parseInt(k);
-                   for(l in airline.journeys[i].segments[j].fares[k].service_charge_summary){
-                       for(m in airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges){
-                           if(airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac' && airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac1' && airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code && 'rac2'){
-                               price += airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+   for(i in airline.journey_list){
+        for(j in airline.journey_list[i].journeys){
+            console.log(airline.journey_list[i].journeys);
+           airline.journey_list[i].journeys[j].sequence = counter;
+           price = 0;
+           airline.journey_list[i].journeys[j].operated_by = true;
+           for(k in airline.journey_list[i].journeys[j].segments){
+               for(l in airline.journey_list[i].journeys[j].segments[k].fares){
+                   if(airline.journey_list[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
+                       airline.journey_list[i].journeys[l].segments[k].fare_pick = parseInt(k);
+                       for(m in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                           for(n in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
+                               if(airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
+                                   price += airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                               }
                            }
                        }
+                       break;
                    }
-                   break;
+               }
+
+               if(airline.journey_list[i].journeys[j].segments[k].carrier_code == airline.journey_list[i].journeys[j].segments[k].operating_airline_code && airline.journey_list[i].journeys[j].operated_by != false){
+                   airline.journey_list[i].journeys[j].operated_by_carrier_code = airline.journey_list[i].journeys[j].segments[k].operating_airline_code;
+               }else if(airline.journey_list[i].journeys[j].segments[k].carrier_code != airline.journey_list[i].journeys[j].segments[k].operating_airline_code){
+                   airline.journey_list[i].journeys[j].operated_by_carrier_code = airline.journey_list[i].journeys[j].segments[k].operating_airline_code;
+                   airline.journey_list[i].journeys[j].operated_by = false;
                }
            }
-
-           if(airline.journeys[i].segments[j].carrier_code == airline.journeys[i].segments[j].operating_airline_code && airline.journeys[i].operated_by != false){
-               airline.journeys[i].operated_by_carrier_code = airline.journeys[i].segments[j].operating_airline_code;
-           }else if(airline.journeys[i].segments[j].carrier_code != airline.journeys[i].segments[j].operating_airline_code){
-               airline.journeys[i].operated_by_carrier_code = airline.journeys[i].segments[j].operating_airline_code;
-               airline.journeys[i].operated_by = false;
-           }
-       }
-       airline.journeys[i].total_price = price;
-       data.push(airline.journeys[i]);
-       counter++;
+           airline.journey_list[i].journeys[j].total_price = price;
+           data.push(airline.journey_list[i].journeys[j]);
+           counter++;
+        }
    }
+
    airline_data = data;
    sort_button('');
 //   filtering('filter');

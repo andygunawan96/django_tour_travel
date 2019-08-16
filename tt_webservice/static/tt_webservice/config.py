@@ -1,10 +1,10 @@
 from datetime import *
 # new API
-user_global = "mob.it@rodextravel.tours";
-password_global = '123';
-api_key = '208413e7-3dee-4bed-9e16-5cfb9ce555a5';
-user_default = 'mob.it@rodextravel.tours';
-password_default = '123';
+user_global = "gateway.user";
+password_global = '3l1i3n0';
+api_key = '90d6557a-180d-453b-9520-fbe86e474721';
+user_default = 'gateway.user';
+password_default = '3l1i3n0';
 
 # user_global = 'sam.api'
 # password_global = '54321'
