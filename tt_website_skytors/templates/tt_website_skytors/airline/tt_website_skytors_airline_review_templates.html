@@ -72,30 +72,15 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <div class="row" style="padding-top:20px; padding-bottom:10px;">
-            <div class="col-lg-12">
-               <span style="font-size:16px; font-weight:500;">Your current session time: </span><span style="font-size:16px; font-weight:700;" id="session_time"> </span>
-               <br/>
-               <span style="font-size:16px; font-weight:500;">Elapsed Time: </span><span style="font-size:16px; font-weight:700;" id="elapse_time"> </span>
-           </div>
-        </div>
         <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="padding-bottom:15px;">
                     <h3>Please Review Your Booking</h3>
                     <h4>Prices may changes at any time</h4>
-                    <br/>
                 </div>
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
-                        <!--                        <div class="col-lg-12">-->
-                        <!--                            <div style="background-color:#f15a22;">-->
-                        <!--                                <center>-->
-                        <!--                                    <span style="color:white; font-size:16px;"> Flight Detail <img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></span>-->
-                        <!--                                </center>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
                         <div class="col-lg-12">
                             <div id="airline_review" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
 
@@ -104,12 +89,21 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div class="row" style="padding-bottom:15px;">
+                    <div class="col-lg-12">
+                        <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                            <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                            <hr/>
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                        </div>
+                    </div>
+                </div>
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    <div class="row" style="padding-top:15px;">
+                    <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
                             <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="show_loading_booking();airline_hold_booking(0);" style="width:100%;">
                                 Hold Booking

@@ -15,7 +15,7 @@ LOGGING = {
 		    'class': 'logging.handlers.TimedRotatingFileHandler',
 			'when': 'midnight',
 			'interval': 1,
-			'filename': 'logs/rodextrip.log',
+			'filename': '/var/log/rodextrip_logger.log',
 			'formatter': 'tiny',
 		},
 		'info_file': {
@@ -23,7 +23,7 @@ LOGGING = {
 		    'class': 'logging.handlers.TimedRotatingFileHandler',
 			'when': 'midnight',
 			'interval': 1,
-			'filename': 'logs/rodextrip.log',
+			'filename': '/var/log/rodextrip_logger.log',
 			'formatter': 'tiny',
 		},
 	},

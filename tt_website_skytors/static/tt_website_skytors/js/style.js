@@ -821,9 +821,9 @@ $(document).ready(function(){
 
             document.getElementById('mc_airline_default').innerHTML = text_mc;
             document.getElementById('ori_airline').style.display = "none";
-            document.getElementById('is_combo_price').disabled = true;
-            document.getElementById('is_combo_price').checked = false;
-            document.getElementById('checkbox_combo_price').style.display = "none";
+            document.getElementById('is_combo_price').disabled = false;
+//            document.getElementById('is_combo_price').checked = false;
+            document.getElementById('checkbox_combo_price').style.display = "block";
 
             add_multi_city('home');
             add_multi_city('home');
@@ -963,6 +963,7 @@ $(document).ready(function(){
 
         }
         else if (selected_value == "multicity"){
+            console.log('here');
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
@@ -1003,7 +1004,10 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').disabled = true;
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
-            for(var airline_counter=0;airline_counter<parseInt(airline_request.counter);airline_counter++){
+            airline_request_counter = airline_request.counter;
+            if(airline_request_counter == 0)
+                airline_request_counter = 2
+            for(var airline_counter=0;airline_counter<parseInt(airline_request_counter);airline_counter++){
                 add_multi_city('search');
             }
             $('#show_total_pax_flight1').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
