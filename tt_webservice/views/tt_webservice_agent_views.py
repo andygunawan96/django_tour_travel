@@ -3,7 +3,6 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from tools import util, ERR
 import datetime
-from ..static.tt_webservice.config import *
 from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
 import json
