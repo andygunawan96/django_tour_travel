@@ -1,6 +1,0 @@
-2019-08-15 01:04:00,523  'result'
-Traceback (most recent call last):
-  File "/Users/GSCAdi/Documents/rodextrip/tt_webservice/views/tt_webservice_agent_views.py", line 99, in signin
-    if res['result']['error_code'] == 0:
-KeyError: 'result'
-  

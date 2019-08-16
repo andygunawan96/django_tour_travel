@@ -18,7 +18,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
 
     <link rel="icon" href="{{ static_path }}images/icon/skytors.png" sizes="16x16" type="image/png">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">
+    <!--    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
     <!--template1-->
     <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css">
@@ -30,6 +30,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/main.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/nice-select.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.carousel.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template1/font.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.default.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.green.min.css">
     <!--font-->
@@ -61,7 +62,23 @@ Licence URI: http://www.os-templates.com/template-terms
             background-size: 60% auto !important;
         }
     </style>
+
+    <script type="text/javascript" >
+    {% if order_number %}
+        window.onbeforeunload = function () {
+            return "Do you want to leave?"
+        }
+
+        // A jQuery event (I think), which is triggered after "onbeforeunload"
+        $(window).unload(function () {
+            alert("Do Reset..");
+            //I will call my method
+            window.location.href = '/';
+        });
+    {% endif %}
+   </script>
 </head>
+
 <body>
 
 <!--FF8C00-->
@@ -109,11 +126,13 @@ Licence URI: http://www.os-templates.com/template-terms
 <script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>
 <!--other-->
 <script src="{{ static_path }}js/style.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/maps.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/aos.js?version={{javascript_version}}"></script>
 
 <script src="{{ static_path }}js/vendor/bootstrap.min.js?version={{javascript_version}}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>-->
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>
+<!--<script src="https://unpkg.com/aos@2.3.1/dist/aos.js?version={{javascript_version}}"></script>-->
 <script data-skip-moving="true">
     (function(w,d,u){
     var s=d.createElement('script');s.async=1;s.src=u+'?'+(Date.now()/60000|0);
