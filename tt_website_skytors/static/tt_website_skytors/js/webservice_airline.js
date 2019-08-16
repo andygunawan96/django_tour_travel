@@ -518,7 +518,6 @@ function airline_search(provider,carrier_codes){
        console.log(msg);
            if(msg.error_code == 0){
               try{
-                console.log('here');
                   datasearch2(msg.response);
                   airline_choose++;
                   var bar1 = new ldBar("#barFlightSearch");
@@ -620,7 +619,6 @@ function datasearch2(airline){
    data = [];
    data_show = [];
    text = '';
-   console.log(airline);
    var counter = 0;
    for(i in airline_data){
        data.push(airline_data[i]);
@@ -632,18 +630,14 @@ function datasearch2(airline){
    }
    for(i in airline.journey_list){
         for(j in airline.journey_list[i].journeys){
-            console.log(airline.journey_list[i].journeys);
            airline.journey_list[i].journeys[j].sequence = counter;
            price = 0;
            airline.journey_list[i].journeys[j].operated_by = true;
            for(k in airline.journey_list[i].journeys[j].segments){
-               console.log('segment');
                for(l in airline.journey_list[i].journeys[j].segments[k].fares){
-                    console.log('fare');
                    if(airline.journey_list[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
                        airline.journey_list[i].journeys[l].segments[k].fare_pick = parseInt(k);
                        for(m in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
-                           console.log('service_charge')
                            for(n in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                if(airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
                                    price += airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;

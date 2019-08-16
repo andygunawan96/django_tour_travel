@@ -568,9 +568,9 @@
             </div>
         </div>`;
         document.getElementById('mc_airline_default').innerHTML = text_mc;
-        document.getElementById('ori_airline').style.display = "none";
-        document.getElementById('is_combo_price').disabled = true;
-        document.getElementById('is_combo_price').checked = false;
+        document.getElementById('ori_airline').style.display = "block";
+        document.getElementById('is_combo_price').disabled = false;
+        document.getElementById('is_combo_price').checked = {{airline_request.is_combo_price}};
         document.getElementById('checkbox_combo_price').style.display = "none";
         counter_mc = {{airline_request.counter}};
         count = 0;

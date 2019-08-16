@@ -132,10 +132,6 @@ function airline_goto_search(){
         document.getElementById('airline_searchForm').submit();
     }else{
         error_log = '';
-        for(i=1;i<=counter_airline_search;i++){
-            if(document.getElementById('cabin_class_flight'+i).value == '')
-                error_log += 'Please fill class for flight '+i+'!\n';
-        }
         if(error_log == ''){
             document.getElementById('counter').value = counter_airline_search;
             document.getElementById('airline_searchForm').submit();
@@ -255,8 +251,6 @@ function add_multi_city(type){
                         <div class="form-select" id="default-select`+counter_airline_search+`">
                             <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
                             for(i in cabin_class){
-                                console.log(cabin_class[i]);
-                                console.log(type);
                                 try{
                                     if(type == 'search'){
                                         if(airline_request.cabin_class[0] == cabin_class[i].value)
@@ -1176,8 +1170,6 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         for(i in airline){
-            console.log(airline[i].origin);
-            console.log(airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3));
            if(airline[i].origin == airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'departure'){
                var price = 0;
                text += `
@@ -1849,8 +1841,8 @@ function check_provider(carrier_code,val){
             document.getElementById('provider_box_All').checked = false;
     }else{
         if(carrier_code == 'all'){
-            for(i in airline_provider_list_mc[val]){
-                document.getElementById('provider_box_'+airline_provider_list_mc[val][i].code+'_'+val).checked = false;
+            for(i in airline_provider_list_mc[val-1]){
+                document.getElementById('provider_box_'+airline_provider_list_mc[val-1][i].code+'_'+val).checked = false;
             }
             document.getElementById('provider_box_All_'+val).checked = true;
         }
@@ -2456,7 +2448,6 @@ function get_airline_review(){
     text = `<div>
             <h4>Flight Detail</h4>
             <hr/>`;
-    console.log(airline_pick);
     flight_count = 0;
     for(i in airline_pick){
         for(j in airline_pick[i].price_itinerary){
