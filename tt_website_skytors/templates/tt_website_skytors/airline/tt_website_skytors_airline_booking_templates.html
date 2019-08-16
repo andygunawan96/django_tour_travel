@@ -17,6 +17,7 @@
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
+
     airline_carriers = JSON.parse(airline_carriers);
     order_number = '{{order_number}}';
     signature = `{{signature}}`;
