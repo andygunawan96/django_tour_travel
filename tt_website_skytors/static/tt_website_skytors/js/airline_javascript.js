@@ -166,7 +166,7 @@ function add_multi_city(type){
             var node_paxs = document.createElement("div");
             text_paxs = `
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px; text-align:left;">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:left;">
                     <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                     <div class="input-container-search-ticket btn-group">
                         <button id="show_total_pax_flight`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
@@ -236,7 +236,7 @@ function add_multi_city(type){
                     </div>
                 </div>`;
                 text_paxs+=`
-                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="">
                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                     <div class="input-container-search-ticket btn-group">
                         <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
@@ -245,7 +245,7 @@ function add_multi_city(type){
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                <div class="col-lg-4 col-md-4 col-sm-4" style="">
                     <span class="span-search-ticket">Class</span>
                     <div class="input-container-search-ticket btn-group">
                         <div class="form-select" id="default-select`+counter_airline_search+`">
@@ -460,11 +460,13 @@ function airline_filter_render(){
             <input type="text" class="js-range-slider" value=""/>
         </div>
         <div class="row">
-            <div class="col-lg-6">
-                <input type="text" class="js-input-from form-control-custom" value="0" />
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Min</span><br/>
+                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" />
             </div>
-            <div class="col-lg-6">
-                <input type="text" class="js-input-to form-control-custom" value="0" />
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Max</span><br/>
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="80900500" />
             </div>
         </div>
     </div>
@@ -581,11 +583,13 @@ function airline_filter_render(){
             <input type="text" class="js-range-slider" value=""/>
         </div>
         <div class="row">
-            <div class="col-lg-6">
-                <input type="text" class="js-input-from form-control-custom" value="0" />
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Min</span><br/>
+                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" />
             </div>
-            <div class="col-lg-6">
-                <input type="text" class="js-input-to form-control-custom" value="0" />
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Max</span><br/>
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="80900500" />
             </div>
         </div>
     </div>
@@ -2583,9 +2587,9 @@ function get_airline_review(){
 
     //contact
     text+=`
-    <div class="row" style="padding-top:20px;">
+    <div class="row">
         <div class="col-lg-12">
-            <div style="border:1px solid #cdcdcd; background-color:white;padding:10px;">
+            <div>
                 <h4> List of Contact(s) Person</h4><hr/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>
@@ -2611,8 +2615,7 @@ function get_airline_review(){
     text+=`
     <div class="row" style="padding-top:20px;">
         <div class="col-lg-12">
-
-            <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+            <div>
                 <h4>List of Passenger(s)</h4><hr/>
                 <table style="width:100%;" id="list-of-passenger">
                     <tr>

@@ -812,7 +812,7 @@ function get_price_itinerary(val){
     price = 0;
     if(airline_request.direction == 'OW')
         journey.push({'segments':segment, 'provider': provider});
-    else if(airline_request.direction == 'RT' && airline_data_filter[val].is_combo_price == true)
+    else if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM")
         journey.push({'segments':segment, 'provider': provider});
     else if(airline_request.direction == 'RT' && journey.length == 0){
         journey.push({'segments':segment, 'provider': provider});
@@ -1029,6 +1029,8 @@ function get_price_itinerary(val){
     else if(airline_request.direction == 'RT' && journey.length == 1){
         journey.push({'segments':segment, 'provider': provider});
     }
+    else if(airline_request.direction == 'MC' && airline_data_filter[val].journey_type == "COM")
+        journey.push({'segments':segment, 'provider': provider});
     else if(airline_request.direction == 'MC' && journey.length != airline_request.counter){
         journey.push({'segments':segment, 'provider': provider,'sequence': counter_search-1});
     }
@@ -1041,7 +1043,7 @@ function get_price_itinerary(val){
 
     check = 0;
     //change view
-    if(airline_request.direction == 'RT' && airline_data_filter[val].is_combo_price == true){
+    if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM"){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -1062,6 +1064,16 @@ function get_price_itinerary(val){
         $('#choose-ticket-flight').hide();
     }
     else if(airline_request.direction == 'RT' && journey.length == 2){
+        check_airline_pick = 1;
+        document.getElementById("badge-flight-notif").innerHTML = "1";
+        document.getElementById("badge-flight-notif2").innerHTML = "1";
+        $("#badge-flight-notif").addClass("infinite");
+        $("#badge-flight-notif2").addClass("infinite");
+        $("#myModalTicketFlight").modal('show');
+        $('#loading-search-flight').show();
+        $('#choose-ticket-flight').hide();
+    }
+    else if(airline_request.direction == 'MC' && airline_data_filter[val].journey_type == "COM"){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -1171,7 +1183,7 @@ function get_price_itinerary_request(){
                 flight_count = 0;
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
-                        if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
+                        if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
                             text += `<h6>Combo Price</h6>`;
                             $text +='Combo Price\n';
                         }else if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].journey_type == 'DEP'){

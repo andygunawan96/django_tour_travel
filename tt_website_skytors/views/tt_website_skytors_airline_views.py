@@ -87,7 +87,11 @@ def search(request):
             try:
                 if request.POST['radio_airline_type'] == 'multicity':
                     direction = 'MC'
-                    is_combo_price = 'false'
+                    try:
+                        if request.POST['is_combo_price'] == '':
+                            is_combo_price = 'true'
+                    except:
+                        is_combo_price = 'false'
                     return_date = request.POST['airline_departure']
                     airline_carriers = []
                     for i in range(int(request.POST['counter'])):
@@ -105,7 +109,7 @@ def search(request):
                     for idx, arr in enumerate(airline_carriers):
                         for provider in arr:
                             try:
-                                if (request.POST['provider_box_' + provider + '_'+str(idx+1)]):
+                                if (request.POST['provider_box_' + provider + '_1']):
                                     airline_carriers[idx][provider]['bool'] = True
                                 else:
                                     airline_carriers[idx][provider]['bool'] = False
@@ -117,12 +121,13 @@ def search(request):
                     departure = []
                     cabin_class = []
                     return_date = []
+                    cabin_class.append(request.POST['cabin_class_flight1'])
                     for i in range(int(request.POST['counter'])):
                         origin.append(request.POST['origin_id_flight'+str(i+1)])
                         destination.append(request.POST['destination_id_flight'+str(i+1)])
                         departure.append(request.POST['airline_departure'+str(i+1)])
                         return_date.append(request.POST['airline_departure'+str(i+1)])
-                        cabin_class.append(request.POST['cabin_class_flight'+str(i+1)])
+
                 else:
                     try:
                         if request.POST['is_combo_price'] == '':
