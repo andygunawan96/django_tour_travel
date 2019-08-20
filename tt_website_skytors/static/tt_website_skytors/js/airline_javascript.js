@@ -1835,7 +1835,6 @@ function airline_check_search(){
 
 function check_provider(carrier_code,val){
     if(val == undefined){
-        console.log(airline_provider_list);
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
                 document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
@@ -1844,15 +1843,33 @@ function check_provider(carrier_code,val){
         }
         else
             document.getElementById('provider_box_All').checked = false;
+        check = 0;
+        for(i in airline_provider_list){
+            if(document.getElementById('provider_box_'+airline_provider_list[i].code).checked == true){
+                check = 1;
+                break;
+            }
+        }
+        if(check == 0)
+            document.getElementById('provider_box_All').checked = true
     }else{
         if(carrier_code == 'all'){
-            for(i in airline_provider_list_mc[val-1]){
-                document.getElementById('provider_box_'+airline_provider_list_mc[val-1][i].code+'_'+val).checked = false;
+            for(i in airline_provider_list){
+                document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked = false;
             }
             document.getElementById('provider_box_All_'+val).checked = true;
         }
         else
             document.getElementById('provider_box_All_'+val).checked = false;
+        check = 0;
+        for(i in airline_provider_list){
+            if(document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked == true){
+                check = 1;
+                break;
+            }
+        }
+        if(check == 0)
+            document.getElementById('provider_box_All_'+val).checked = true
     }
 
 }
@@ -2182,11 +2199,23 @@ function airline_detail(){
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
             <hr/>
-            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
-            <a href="whatsapp://send?text=Share\n%20`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-            <a href="line://msg/text/Share\n%20`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text_share +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text_share +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+            }
+
+        text+=`
         </div>
     </div>
 

@@ -16,7 +16,7 @@ LOGGING = {
 			'when': 'midnight',
 			'interval': 1,
 			'filename': '/var/log/django/rodextrip.log',
-			'formatter': 'tiny',
+			'formatter': 'large',
 		},
 		'info_file': {
 			'level': 'INFO',
@@ -24,7 +24,7 @@ LOGGING = {
 			'when': 'midnight',
 			'interval': 1,
 			'filename': '/var/log/django/rodextrip.log',
-			'formatter': 'tiny',
+			'formatter': 'large',
 		},
 	},
 	'loggers': {

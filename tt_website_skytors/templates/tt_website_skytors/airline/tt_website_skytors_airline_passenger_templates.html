@@ -310,7 +310,7 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                            <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                            <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                             <div class="row" id="loading-pax-train" style="display:none;">
                                                                 <div class="col-lg-12">
                                                                     <div class="sk-circle">
@@ -489,7 +489,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Child',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-paxc-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -639,7 +639,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-paxi-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">

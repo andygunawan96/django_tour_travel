@@ -13,21 +13,20 @@
     //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
-
+{% include 'tt_website_skytors/header.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <div class="banner-right" style="margin-bottom:25px;">
-            <div class="row">
-                <form action="{% url 'tt_website_skytors:top_up_payment'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap">
+        <div class="row">
+            <div class="banner-right" style="margin-bottom:25px;">
+                <form action="{% url 'tt_website_skytors:top_up_payment'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
-                    <div class="col-lg-12">
-                        <div class="row" style="border:2px solid #f15a22;">
-                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white;">
+                        <div class="row" >
+                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:20px;">
                                 <h3>TOP UP SALDO</h3>
                             </div>
                             <div class="col-lg-12">
                                 <div class="row" style="text-align:left;">
-
                                     <div class="col-lg-12">
                                         <span>Amount</span><br/>
                                         <div class="input-container-search-ticket">
@@ -38,14 +37,14 @@
                                     <div class="col-lg-12">
                                         <span>Unique Amount</span><br/>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" id="unique_amount" name="unique_amount" readonly="readonly" value=""/>
+                                            <input type="text" style="background-color:#eee;" class="form-control" id="unique_amount" name="unique_amount" readonly="readonly" value=""/>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-12">
                                         <span>Total</span><br/>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" id="total_amount" name="total_amount" value="{{agent.type}}" tabindex="1" readonly="readonly"/>
+                                            <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" value="{{agent.type}}" tabindex="1" readonly="readonly"/>
                                         </div>
                                     </div>
 
