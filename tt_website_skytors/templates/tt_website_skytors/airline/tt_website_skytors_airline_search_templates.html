@@ -50,8 +50,17 @@
     triggered_balance();
     airline_provider_list = [];
     {% for airline_carrier in airline_carriers %}
-        airline_provider_list.push({'code': `{{airline_carrier}}`});
+        tes = `{{airline_carrier}}`;
+        tes = tes.replace(/&#39;/g, '"');
+        tes = tes.replace(/False/g, 'false');
+        tes = tes.replace(/True/g, 'true');
+        tes = JSON.parse(tes);
     {% endfor %}
+    for(i in tes){
+        airline_provider_list.push({
+            'code': i
+        });
+    }
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
