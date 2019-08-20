@@ -63,6 +63,8 @@ function check_string_length(value){
 
 function get_customer_list(passenger, number, product){
     getToken();
+    passenger_number = number;
+
     if(passenger == 'booker'){
         $.ajax({
            type: "POST",
@@ -113,6 +115,70 @@ function get_customer_list(passenger, number, product){
                     }
                     response+=`</table>`;
                     document.getElementById('search_result').innerHTML = response;
+                    passenger_data = msg.result.response;
+                }else{
+                    response = '';
+                    response+=`<center><h5>USER NOT FOUND</h5></center>`;
+                    document.getElementById('search_result').innerHTML = response;
+                }
+            }
+
+            $('#loading-booker-train').hide();
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
+    }else{
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'get_customer_list',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name': document.getElementById('train_adult'+number+'_search').value,
+                'product': product,
+                'passenger_type': passenger,
+                'signature': signature
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code==0){
+                var response = '';
+                if(msg.result.response.length != 0){
+                    response+=`
+                    <table style="width:100%" id="list-of-passenger">
+                        <tr>
+                            <th style="width:5%;">No</th>
+                            <th style="width:30%;">Name</th>
+                            <th style="width:20%"></th>
+                        </tr>`;
+
+                    for(i in msg.result.response){
+                        response+=`
+                        <tr>
+                            <td>`+(parseInt(i)+1)+`</td>
+                            <td>
+                                <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
+                                if(msg.result.response[i].email != '')
+                                    response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                if(msg.result.response[i].birth_date != '')
+                                    response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                if(msg.result.response[i].phones.length != 0)
+                                    response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
+                                if(msg.result.response[i].nationality_code != '')
+                                    response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                response+=`
+                            </td>`;
+//                            <td>`+msg.response.result[i].booker_type+`</td>
+//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                            response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                        </tr>`;
+                    }
+                    response+=`</table>`;
+                    document.getElementById('search_result_'+passenger+number).innerHTML = response;
                     passenger_data = msg.result.response;
                 }else{
                     response = '';
@@ -234,15 +300,15 @@ function search_passenger(passenger, number, product){
                type: "POST",
                url: "/webservice/agent",
                headers:{
-                    'action': 'get_agent_passenger',
+                    'action': 'get_customer_list',
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
-                    "search_value": passenger_search[0],
-                    "pax_type": passenger_search[1],
+                    "name": $('#train_adult'+number+'_search').val(),
                     'signature': signature
                },
                success: function(msg) {
+               console.log(msg);
                 if(msg.error_code==0){
                     var response = '';
                     var count_user = 0;
@@ -530,17 +596,17 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_country_of_issued').value = passenger_data[sequence].country_of_issued_id;
             document.getElementById('booker_id_number').readOnly = true;
         }
-
+        auto_complete('booker_nationality');
         document.getElementById('booker_id').value = passenger_data[sequence].seq_id;
         $('#myModal').modal('hide');
-    }else if(type == 'Adult'){
-
+    }else if(type == 'adult'){
+        console.log(passenger_number);
         document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('adult_first_name'+passenger_number).readOnly = true;
         document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
         document.getElementById('adult_last_name'+passenger_number).readOnly = true;
-        document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         check_years_old(passenger_number,'adult');
 
@@ -552,7 +618,7 @@ function pick_passenger(type, sequence, product){
             if(product=='airline'){
                 document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
                 document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].passport_expdate;
-                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+                //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
             }
 
             if (document.getElementById("default-select")) {
@@ -571,14 +637,15 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('adult_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+            //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('adult_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('adult_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        auto_complete('adult_nationality'+passenger_number);
         $('#myModal_adult'+passenger_number).modal('hide');
-    }else if(type == 'Child'){
+    }else if(type == 'child'){
         document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('child_first_name'+passenger_number).readOnly = true;
@@ -597,15 +664,16 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('child_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+//            document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('child_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('child_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
 
         document.getElementById('child_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        auto_complete('child_nationality'+passenger_number);
         $('#myModal_child'+passenger_number).modal('hide');
-    }else if(type == 'Infant'){
+    }else if(type == 'infant'){
         document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
         document.getElementById('infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('infant_first_name'+passenger_number).readOnly = true;
@@ -624,12 +692,13 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('infant_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+//            document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('infant_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('infant_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('infant_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        auto_complete('infant_nationality'+passenger_number);
         $('#myModal_infant'+passenger_number).modal('hide');
     }else if(type == 'Senior'){
         document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
@@ -651,7 +720,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('senior_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('senior_passport_expired_date'+passenger_number).value = passport_date;
             try{
-                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+//                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
             }catch(err){
 
             }
@@ -660,6 +729,7 @@ function pick_passenger(type, sequence, product){
             document.getElementById('senior_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('senior_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        auto_complete('senior_nationality'+passenger_number);
         $('#myModal_senior'+passenger_number).modal('hide');
     }
 }

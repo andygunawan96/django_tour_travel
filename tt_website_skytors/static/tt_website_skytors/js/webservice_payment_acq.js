@@ -256,6 +256,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
        success: function(msg) {
             console.log(msg);
             payment_acq2 = {};
+
             for(i in msg.result.response){
                 for(j in msg.result.response[i]){
                     for(k in msg.result.response[i][j]){
@@ -269,7 +270,8 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             <div class="input-container-search-ticket btn-group">
 
         <div class="form-select" id="default-select">
-            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`','`+transaction_type+`');">`;
+            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`','`+type+`');">`;
+            console.log(type);
             for(i in payment_acq2){
 
                 if(i == 'transfer')
@@ -306,6 +308,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
 }
 
 function set_payment(val, type){
+    console.log(type);
     payment_method = document.getElementById('payment_method').value;
     text= '';
     for(i in payment_acq2[payment_method]){
@@ -338,7 +341,7 @@ function set_payment(val, type){
     document.getElementById('payment_description').innerHTML = text;
 }
 
-function set_price(val, type){
+function set_price(val, type, product_type){
     selected = '';
     var radios = document.getElementsByName('radio_payment_type');
     for (var j = 0, length = radios.length; j < length; j++) {
@@ -447,8 +450,9 @@ function set_price(val, type){
         text+= `</div><br/>`;
 
     }
+    console.log(type);
     if(type == 'visa')
-        text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;

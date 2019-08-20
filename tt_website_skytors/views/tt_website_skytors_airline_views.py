@@ -93,29 +93,30 @@ def search(request):
                     except:
                         is_combo_price = 'false'
                     return_date = request.POST['airline_departure']
+
                     airline_carriers = []
-                    for i in range(int(request.POST['counter'])):
-                        airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
-                        for j in response:
-                            airline_carrier[j] = {
-                                'name': response[j]['name'],
-                                'code': response[j]['code'],
-                                'icao': response[j]['icao'],
-                                'call_sign': response[j]['call_sign']
-                            }
-                        airline_carriers.append(airline_carrier)
-                        airline_carrier = []
+                    airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
+                    for j in response:
+                        airline_carrier[j] = {
+                            'name': response[j]['name'],
+                            'code': response[j]['code'],
+                            'icao': response[j]['icao'],
+                            'call_sign': response[j]['call_sign']
+                        }
+                    airline_carriers.append(airline_carrier)
+                    airline_carrier = []
 
                     for idx, arr in enumerate(airline_carriers):
                         for provider in arr:
                             try:
-                                if (request.POST['provider_box_' + provider + '_1']):
+                                if (request.POST['provider_box_' + provider+'_1']):
                                     airline_carriers[idx][provider]['bool'] = True
                                 else:
                                     airline_carriers[idx][provider]['bool'] = False
                             except:
                                 airline_carriers[idx][provider]['bool'] = False
                                 print('%s %s' % ('no ', provider))
+
                     origin = []
                     destination = []
                     departure = []
@@ -197,8 +198,10 @@ def search(request):
                 'carrier_codes': [],
                 'counter': request.POST['counter']
             }
+            request.session['airline_carriers_request'] = airline_carriers
         except:
             airline_request = request.session['airline_request']
+            airline_carriers = request.session['airline_carriers_request']
 
         flight = ''
 
@@ -256,53 +259,56 @@ def search(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("version_cache.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        file = open("get_airline_active_carriers.txt", "r")
-        for line in file:
-            carrier = json.loads(line)
-        file.close()
-
-        # agent
-        adult_title = ['MR', 'MRS', 'MS']
-
-        infant_title = ['MSTR', 'MISS']
-
-        id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
-
-        # agent
-
-        # get_balance(request)
-
-        #pax
-        adult = []
-        infant = []
-        child = []
-        for i in range(int(request.session['airline_request']['adult'])):
-            adult.append('')
-        for i in range(int(request.session['airline_request']['child'])):
-            child.append('')
-        for i in range(int(request.session['airline_request']['infant'])):
-            infant.append('')
-        if translation.LANGUAGE_SESSION_KEY in request.session:
-            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        #CHECK INI
         try:
-            request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
+            file = open("javascript_version.txt", "r")
+            for line in file:
+                javascript_version = json.loads(line)
+            file.close()
+            file = open("version_cache.txt", "r")
+            for line in file:
+                file_cache_name = line
+            file.close()
+
+            file = open(str(file_cache_name) + ".txt", "r")
+            for line in file:
+                response = json.loads(line)
+            file.close()
+
+            file = open("get_airline_active_carriers.txt", "r")
+            for line in file:
+                carrier = json.loads(line)
+            file.close()
+
+            # agent
+            adult_title = ['MR', 'MRS', 'MS']
+
+            infant_title = ['MSTR', 'MISS']
+
+            id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
+
+            # agent
+
+            # get_balance(request)
+
+            #pax
+            adult = []
+            infant = []
+            child = []
+            for i in range(int(request.session['airline_request']['adult'])):
+                adult.append('')
+            for i in range(int(request.session['airline_request']['child'])):
+                child.append('')
+            for i in range(int(request.session['airline_request']['infant'])):
+                infant.append('')
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            #CHECK INI
+            try:
+                request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
+            except:
+                request.session['airline_pick'] = json.loads(request.POST['airline_pick'])
         except:
-            request.session['airline_pick'] = json.loads(request.POST['airline_pick'])
+            request.session['airline_pick'] = request.session['airline_pick']
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),

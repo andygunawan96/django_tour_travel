@@ -306,6 +306,7 @@ function carrier_to_provider(){
             }
         }
     }
+    console.log(airline);
     provider_airline = []
     for(i in airline){
         provider_airline.push({});
@@ -331,7 +332,6 @@ function carrier_to_provider(){
             }
         }
     }
-    console.log(provider_airline);
     send_search_to_api();
 }
 
@@ -362,11 +362,11 @@ function send_search_to_api(val){
         }
         document.getElementById('show_date').innerHTML = date_show;
     }
-    if(val == undefined)
+    if(val == undefined){
         for(j in provider_airline[counter_search]){
             airline_search(j,provider_airline[counter_search][j]);
         }
-    else
+    }else
         for(j in provider_airline[val]){
             airline_search(j,provider_airline[val][j]);
         }
@@ -871,7 +871,7 @@ function get_price_itinerary(val){
                                 <span>`+airline_pick_list[i].arrival_date.split(' - ')[0]+` </span></br>
                                 <span style="font-weight:500;">`+airline_pick_list[i].destination_name+` - `+airline_pick_list[i].destination_city+` (`+airline_pick_list[i].destination+`)</span>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12" style="padding:0px;">
                                 <span>Transit: `+airline_pick_list[i].transit_count;
                                 if(airline_pick_list[i].transit_count==0)
                                     text+=`</br> Direct`;
@@ -1435,11 +1435,24 @@ function get_price_itinerary_request(){
 
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>
-                            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
-                            <a href="whatsapp://send?text=Share\n%20`+ $text +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                            <a href="line://msg/text/Share\n%20`+ $text +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
+                            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+
+                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                                text+=`
+                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                            } else {
+                                text+=`
+                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                            }
+
+                    text+=`
                         </div>
 
                         <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
@@ -1488,6 +1501,11 @@ function get_price_itinerary_request(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
+           document.getElementById("badge-flight-notif").innerHTML = "0";
+           document.getElementById("badge-flight-notif2").innerHTML = "0";
+           $("#badge-flight-notif").removeClass("infinite");
+           $("#badge-flight-notif2").removeClass("infinite");
+           text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
        }
     });
 }
@@ -2162,6 +2180,7 @@ function airline_get_booking(data){
             </div>`;
             //
             document.getElementById('airline_booking').innerHTML += text;
+            document.getElementById('show_loading_booking_airline').hidden = true;
             add_repricing();
             if (msg.result.response.state != 'booked'){
 //                document.getElementById('issued-breadcrumb').classList.add("active");
