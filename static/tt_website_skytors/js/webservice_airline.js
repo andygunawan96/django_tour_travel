@@ -113,6 +113,7 @@ function airline_signin(data){
 
 function get_carrier_code_list(type, val){
     getToken();
+    console.log(val);
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -346,12 +347,21 @@ function send_search_to_api(val){
     }
     document.getElementById('barFlightSearch').style.display = "block";
     count_progress_bar_airline = 0;
-    document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
-    date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
-    if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
-        date_show += ` - `+airline_request['return'][counter_search];
+    if(airline_request.direction == 'RT' && counter_search == 0){
+        document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
+        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
+            date_show += ` - `+airline_request['return'][counter_search];
+        }
+        document.getElementById('show_date').innerHTML = date_show;
+    }else if(airline_request.direction != 'RT'){
+        document.getElementById('show_origin_destination').innerHTML = `<i class="fas fa-map-marker-alt"></i> <span style="padding-left:5px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].slice(airline_request.origin[counter_search].length-4,airline_request.origin[counter_search].length-1)+` - `+airline_request.destination[counter_search].slice(airline_request.destination[counter_search].length-4,airline_request.destination[counter_search].length-1)+`</span>`;
+        date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
+        if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
+            date_show += ` - `+airline_request['return'][counter_search];
+        }
+        document.getElementById('show_date').innerHTML = date_show;
     }
-    document.getElementById('show_date').innerHTML = date_show;
 
     if(val == undefined)
         for(j in provider_airline[counter_search]){
@@ -508,18 +518,15 @@ function airline_search(provider,carrier_codes){
        console.log(msg);
            if(msg.error_code == 0){
               try{
-                  if(msg.response.journeys[0].origin == airline_request.origin[counter_search-1].substring(airline_request.origin[counter_search-1].length-4,airline_request.origin[counter_search-1].length-1) &&
-                     msg.response.journeys[0].destination == airline_request.destination[counter_search-1].substring(airline_request.destination[counter_search-1].length-4,airline_request.destination[counter_search-1].length-1) &&
-                     msg.response.journeys[0].departure_date.split(' - ')[0] == airline_request.departure[counter_search-1]){
-                      datasearch2(msg.response);
-                      airline_choose++;
-                      var bar1 = new ldBar("#barFlightSearch");
-                      var bar2 = document.getElementById('barFlightSearch').ldBar;
-                      bar1.set((airline_choose/count_progress_bar_airline)*100);
-                      if ((airline_choose/count_progress_bar_airline)*100 == 100){
-                        $("#barFlightSearch").hide();
-                      }
+                  datasearch2(msg.response);
+                  airline_choose++;
+                  var bar1 = new ldBar("#barFlightSearch");
+                  var bar2 = document.getElementById('barFlightSearch').ldBar;
+                  bar1.set((airline_choose/count_progress_bar_airline)*100);
+                  if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                    $("#barFlightSearch").hide();
                   }
+
               }catch(err){
                   datasearch2(msg.response);
                       airline_choose++;
@@ -621,36 +628,39 @@ function datasearch2(airline){
            data_show.push(airline_data[i]);
        counter++;
    }
-   for(i in airline.journeys){
-       airline.journeys[i].sequence = counter;
-       price = 0;
-       airline.journeys[i].operated_by = true;
-       for(j in airline.journeys[i].segments){
-           for(k in airline.journeys[i].segments[j].fares){
-               if(airline.journeys[i].segments[j].fares[k].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
-                   airline.journeys[i].segments[j].fare_pick = parseInt(k);
-                   for(l in airline.journeys[i].segments[j].fares[k].service_charge_summary){
-                       for(m in airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges){
-                           if(airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac' && airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code != 'rac1' && airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code && 'rac2'){
-                               price += airline.journeys[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+   for(i in airline.journey_list){
+        for(j in airline.journey_list[i].journeys){
+           airline.journey_list[i].journeys[j].sequence = counter;
+           price = 0;
+           airline.journey_list[i].journeys[j].operated_by = true;
+           for(k in airline.journey_list[i].journeys[j].segments){
+               for(l in airline.journey_list[i].journeys[j].segments[k].fares){
+                   if(airline.journey_list[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
+                       airline.journey_list[i].journeys[l].segments[k].fare_pick = parseInt(k);
+                       for(m in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
+                           for(n in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
+                               if(airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
+                                   price += airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                               }
                            }
                        }
+                       break;
                    }
-                   break;
+               }
+
+               if(airline.journey_list[i].journeys[j].segments[k].carrier_code == airline.journey_list[i].journeys[j].segments[k].operating_airline_code && airline.journey_list[i].journeys[j].operated_by != false){
+                   airline.journey_list[i].journeys[j].operated_by_carrier_code = airline.journey_list[i].journeys[j].segments[k].operating_airline_code;
+               }else if(airline.journey_list[i].journeys[j].segments[k].carrier_code != airline.journey_list[i].journeys[j].segments[k].operating_airline_code){
+                   airline.journey_list[i].journeys[j].operated_by_carrier_code = airline.journey_list[i].journeys[j].segments[k].operating_airline_code;
+                   airline.journey_list[i].journeys[j].operated_by = false;
                }
            }
-
-           if(airline.journeys[i].segments[j].carrier_code == airline.journeys[i].segments[j].operating_airline_code && airline.journeys[i].operated_by != false){
-               airline.journeys[i].operated_by_carrier_code = airline.journeys[i].segments[j].operating_airline_code;
-           }else if(airline.journeys[i].segments[j].carrier_code != airline.journeys[i].segments[j].operating_airline_code){
-               airline.journeys[i].operated_by_carrier_code = airline.journeys[i].segments[j].operating_airline_code;
-               airline.journeys[i].operated_by = false;
-           }
-       }
-       airline.journeys[i].total_price = price;
-       data.push(airline.journeys[i]);
-       counter++;
+           airline.journey_list[i].journeys[j].total_price = price;
+           data.push(airline.journey_list[i].journeys[j]);
+           counter++;
+        }
    }
+
    airline_data = data;
    sort_button('');
 //   filtering('filter');
@@ -802,7 +812,7 @@ function get_price_itinerary(val){
     price = 0;
     if(airline_request.direction == 'OW')
         journey.push({'segments':segment, 'provider': provider});
-    else if(airline_request.direction == 'RT' && airline_data_filter[val].is_combo_price == true)
+    else if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM")
         journey.push({'segments':segment, 'provider': provider});
     else if(airline_request.direction == 'RT' && journey.length == 0){
         journey.push({'segments':segment, 'provider': provider});
@@ -1019,6 +1029,8 @@ function get_price_itinerary(val){
     else if(airline_request.direction == 'RT' && journey.length == 1){
         journey.push({'segments':segment, 'provider': provider});
     }
+    else if(airline_request.direction == 'MC' && airline_data_filter[val].journey_type == "COM")
+        journey.push({'segments':segment, 'provider': provider});
     else if(airline_request.direction == 'MC' && journey.length != airline_request.counter){
         journey.push({'segments':segment, 'provider': provider,'sequence': counter_search-1});
     }
@@ -1031,7 +1043,7 @@ function get_price_itinerary(val){
 
     check = 0;
     //change view
-    if(airline_request.direction == 'RT' && airline_data_filter[val].is_combo_price == true){
+    if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM"){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -1052,6 +1064,16 @@ function get_price_itinerary(val){
         $('#choose-ticket-flight').hide();
     }
     else if(airline_request.direction == 'RT' && journey.length == 2){
+        check_airline_pick = 1;
+        document.getElementById("badge-flight-notif").innerHTML = "1";
+        document.getElementById("badge-flight-notif2").innerHTML = "1";
+        $("#badge-flight-notif").addClass("infinite");
+        $("#badge-flight-notif2").addClass("infinite");
+        $("#myModalTicketFlight").modal('show');
+        $('#loading-search-flight').show();
+        $('#choose-ticket-flight').hide();
+    }
+    else if(airline_request.direction == 'MC' && airline_data_filter[val].journey_type == "COM"){
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -1161,7 +1183,7 @@ function get_price_itinerary_request(){
                 flight_count = 0;
                 for(i in resJson.result.response.price_itinerary_provider){
                     for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
-                        if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].is_combo_price == true){
+                        if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
                             text += `<h6>Combo Price</h6>`;
                             $text +='Combo Price\n';
                         }else if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].journey_type == 'DEP'){

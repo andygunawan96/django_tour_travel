@@ -5292,6 +5292,35 @@ div.scrollmenu li {
     width: 40px;
 }
 
+.image-change-route-vertical2 {
+  z-index: 10;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 45.9%;
+  top: 26px;
+}
+
+.image-change-route-horizontal2 {
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: left top;
+    -moz-transform: rotate(90deg);
+    -moz-transform-origin: left top;
+    -ms-transform: rotate(90deg);
+    -ms-transform-origin: left top;
+    -o-transform: rotate(90deg);
+    -o-transform-origin: left top;
+    transform: rotate(90deg);
+    transform-origin: left top;
+
+    position: absolute;
+    top: 66px;
+    left: 52%;
+    z-index: 10;
+    height: 40px;
+    width: 40px;
+}
+
 .horizontal-arrow:hover{
     color:#f15a22 !important;
 }
@@ -5309,10 +5338,22 @@ div.scrollmenu li {
     .image-change-route-horizontal{
       display:block;
     }
+    .image-change-route-vertical2{
+      display:none;
+    }
+    .image-change-route-horizontal2{
+      display:block;
+    }
     .airline-to{
       padding-left:0px;
     }
     .airline-from{
+      padding-right:0px;
+    }
+    .train-to{
+      padding-left:0px;
+    }
+    .train-from{
       padding-right:0px;
     }
 }
@@ -5322,6 +5363,12 @@ div.scrollmenu li {
       display:block;
     }
     .image-change-route-horizontal{
+      display:none;
+    }
+    .image-change-route-vertical2{
+      display:block;
+    }
+    .image-change-route-horizontal2{
       display:none;
     }
 }
