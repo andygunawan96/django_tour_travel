@@ -585,9 +585,10 @@ def review(request):
                 })
 
                 if i == 0:
-                    if request.POST['myRadios'] == 'true':
+                    if request.POST['myRadios'] == 'yes':
                         adult[len(adult) - 1].update({
-                            'is_also_booker': True
+                            'is_also_booker': True,
+                            'is_also_contact': True
                         })
                     else:
                         adult[len(adult) - 1].update({
@@ -607,9 +608,12 @@ def review(request):
                             'is_also_contact': False
                         })
                 except:
-                    adult[len(adult) - 1].update({
-                        'is_also_contact': False
-                    })
+                    if i == 0 and request.POST['myRadios'] == 'yes':
+                        continue
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_contact': False
+                        })
                 try:
                     if request.POST['adult_cp' + str(i + 1)] == 'on':
                         contact.append({
