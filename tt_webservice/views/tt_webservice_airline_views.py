@@ -55,12 +55,19 @@ cabin_class_list = {
 class provider_airline:
     def __init__(self, name):
         self.get_time_provider_airline = name
+        self.get_time_provider_airline_first_time = True
         self.get_time_carrier_airline = name
+        self.get_time_carrier_airline_first_time = True
     def set_new_time_out(self, val):
         if val == 'provider':
             self.get_time_provider_airline = datetime.now()
         elif val == 'carrier':
             self.get_time_carrier_airline = datetime.now()
+    def set_first_time(self,val):
+        if val == 'provider':
+            self.get_time_provider_airline_first_time = False
+        elif val == 'carrier':
+            self.get_time_carrier_airline_first_time = False
 
 a = provider_airline(datetime.now())
 
@@ -151,11 +158,12 @@ def get_carrier_code_list(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if date_time.seconds >= 300:
+    if date_time.seconds >= 300 or a.get_time_carrier_airline_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
                 a.set_new_time_out('carrier')
+                a.set_first_time('carrier')
                 res = res['result']['response']
                 file = open("get_airline_active_carriers" + ".txt", "w+")
                 file.write(json.dumps(res))
@@ -194,11 +202,12 @@ def get_provider_list(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     date_time = datetime.now() - a.get_time_provider_airline
-    if date_time.seconds >= 300:
+    if date_time.seconds >= 300 or a.get_time_provider_airline_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
                 a.set_new_time_out('provider')
+                a.set_first_time('provider')
                 res = json.dumps(res['result']['response'])
                 file = open("get_list_provider.txt", "w+")
                 file.write(res)
@@ -332,8 +341,8 @@ def search2(request):
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
             "cabin_class": cabin_class,
-            # "provider": request.POST['provider'],
-            "provider": 'amadeus',
+            "provider": request.POST['provider'],
+            # "provider": 'amadeus',
             "carrier_codes": json.loads(request.POST['carrier_codes']),
 
         }

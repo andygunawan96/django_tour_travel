@@ -310,15 +310,14 @@ function carrier_to_provider(){
     for(i in airline){
         provider_airline.push({});
         for(j in airline[i]){
-            for(k in airline[i][j]){
-                check = 0;
-                for(l in provider_airline){
-                    if(provider_airline[l] == airline[i][j][k])
-                        check = 1;
-                }
-                if(check == 0){
-                    provider_airline[i][airline[i][j][k]] = [];
-                }
+            check = 0;
+            for(l in provider_airline){
+                if(provider_airline[j] == airline[i][j])
+                    check = 1;
+            }
+            if(check == 0){
+                console.log(airline[i][j]);
+                provider_airline[i][airline[i][j]] = [];
             }
         }
     }
@@ -332,6 +331,7 @@ function carrier_to_provider(){
             }
         }
     }
+    console.log(provider_airline);
     send_search_to_api();
 }
 
@@ -362,7 +362,6 @@ function send_search_to_api(val){
         }
         document.getElementById('show_date').innerHTML = date_show;
     }
-
     if(val == undefined)
         for(j in provider_airline[counter_search]){
             airline_search(j,provider_airline[counter_search][j]);
@@ -636,7 +635,7 @@ function datasearch2(airline){
            for(k in airline.journey_list[i].journeys[j].segments){
                for(l in airline.journey_list[i].journeys[j].segments[k].fares){
                    if(airline.journey_list[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
-                       airline.journey_list[i].journeys[l].segments[k].fare_pick = parseInt(k);
+                       airline.journey_list[i].journeys[j].segments[k].fare_pick = parseInt(k);
                        for(m in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            for(n in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                if(airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
