@@ -1,1 +1,0 @@
-{"SQ": {"name": "Singapore Airlines", "code": "SQ", "icao": "SIA", "call_sign": "SINGAPORE"}}
