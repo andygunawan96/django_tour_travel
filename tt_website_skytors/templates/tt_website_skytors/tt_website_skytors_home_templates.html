@@ -100,6 +100,7 @@
 </style>
 
 {% include 'tt_website_skytors/header.html' %}
+{% include 'tt_website_skytors/logout.html' %}
 <!-- Search Ticket -->
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
     <div class="animated fadeInDown delay-1s">
@@ -1230,19 +1231,23 @@
 
 <script>
     //testing getbooker
-    document.getElementById("airline_date_search").innerHTML = '';
-    text='';
-    var node = document.createElement("div");
-    text+=`
-    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-    <div class="input-container-search-ticket">
-        <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-    </div>
-    <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+    try{
+        document.getElementById("airline_date_search").innerHTML = '';
+        text='';
+        var node = document.createElement("div");
+        text+=`
+        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+        <div class="input-container-search-ticket">
+            <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+        </div>
+        <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
-    node.innerHTML = text;
-    document.getElementById("airline_date_search").appendChild(node);
-    node = document.createElement("div");
+        node.innerHTML = text;
+        document.getElementById("airline_date_search").appendChild(node);
+        node = document.createElement("div");
+    }catch(err){
+
+    }
 
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
@@ -1373,11 +1378,14 @@
             }
         }
     }
+    try{
+        document.getElementById("country_id").value = 101;
+        document.getElementById("start").value = "2019-01-01";
+        document.getElementById("end").value = "2020-12-31";
+        get_dept_year();
+    }catch(err){
 
-    document.getElementById("country_id").value = 101;
-    document.getElementById("start").value = "2019-01-01";
-    document.getElementById("end").value = "2020-12-31";
-    get_dept_year();
+    }
     //tour_login('');
 </script>
 

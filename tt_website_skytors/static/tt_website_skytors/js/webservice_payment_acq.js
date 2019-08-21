@@ -273,7 +273,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
 
         <div class="form-select" id="default-select">
             <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`','`+type+`');">`;
-            console.log(type);
             for(i in payment_acq2){
 
                 if(i == 'transfer')
@@ -452,7 +451,6 @@ function set_price(val, type, product_type){
         text+= `</div><br/>`;
 
     }
-    console.log(type);
     if(type == 'visa')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
