@@ -308,6 +308,10 @@ function confirm_top_up(payment_seq_id){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById("table_top_up_history").innerHTML = '';
+        document.getElementById("payment_acq").innerHTML = '';
+        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
+        get_top_up();
 //        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -332,6 +336,10 @@ function request_top_up(val){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById("table_top_up_history").innerHTML = '';
+        document.getElementById("payment_acq").innerHTML = '';
+        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
+        get_top_up();
 //        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -353,11 +361,19 @@ function table_top_up_history(data){
 
         text+= `<td>`+data[i].due_date+`</td>`;
         text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        text+= `<td>
-        <input type='button' class="primary-btn-custom" value='Pay' onclick="get_payment_acquirer_top_up(`+data_counter+`)" />`;
-        if(data[i].state == 'confirm')
-            text+=`<input type='button' class="primary-btn-custom" value='Confirm' onclick="request_top_up(`+data_counter+`)" />`;
-        text+=`</td>`;
+        if(data[i].state != 'request')
+            text+= `<td>`+data[i].state+`</td>`;
+        else
+            text+= `<td>Please confirm to HO</td>`;
+        if(data[i].state != 'request'){
+            text+= `<td>
+            <input type='button' class="primary-btn-custom" value='Pay' onclick="get_payment_acquirer_top_up(`+data_counter+`)" />`;
+            if(data[i].state == 'confirm')
+                text+=`<input type='button' class="primary-btn-custom" value='Confirm' onclick="request_top_up(`+data_counter+`)" />`;
+            text+=`</td>`;
+        }else{
+            text+= `<td></td>`;
+        }
 
         text+= `</tr>`;
         node.innerHTML = text;
