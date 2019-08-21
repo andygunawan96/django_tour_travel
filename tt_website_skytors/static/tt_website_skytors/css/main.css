@@ -3347,7 +3347,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .apps-area {
-    background: url("../images/bg_8.jpg") no-repeat center center;
+    background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_8.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .testimonial-area .owl-dots {
@@ -6861,10 +6865,6 @@ th input {
   color:white;
 }
 
-.progressbar li.active:hover:before {
-  border-color: #f15a22;
-  background-color:#C04B21;
-}
 .progressbar li.current:before {
   width: 40px;
   height: 40px;

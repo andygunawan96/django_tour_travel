@@ -88,55 +88,6 @@ function getrupiah(price){
 
 }
 
-function table_top_up_history(data){
-    text= '';
-    var node = document.createElement("tr");
-    for(i in data){
-        data_search.push(data[i]);
-        text+=`
-        <form action="" method="POST" id="gotobooking`+data_counter+`" />
-        <tr>
-            <td>`+(parseInt(i)+1)+`</td>
-            <td name="order_number">`+data[i].name+`</td>`;
-        if(data[i].payment_methods == false){
-            text+= `<td> - </td>`;
-        }
-        else{
-            text+= `<td>`+data[i].payment_methods+`</td>`;
-        }
-
-        text+= `<td>`+data[i].due_date+`</td>`;
-        text+= `<td>`+data[i].state+`</td>`;
-        text+= `<td>`+data[i].total+`</td>`;
-        if(data[i].state != 'cancel')
-            text+= `<td><input type='button' class="primary-btn-custom" value='Search' onclick="goto_detail_reservation(`+data_counter+`)" /></td>`;
-        else{
-            text+= `<td> - </td>`;
-        }
-        text+= `</tr>`;
-        node.innerHTML = text;
-        document.getElementById("table_top_up_history").appendChild(node);
-        node = document.createElement("tr");
-        $('#loading-search-top-up').hide();
-//                   document.getElementById('airlines_ticket').innerHTML += text;
-        text = '';
-        data_counter++;
-    }
-}
-
-function total_price_top_up(){
-    if(document.getElementById('amount').value != '')
-        if(Number.isNaN(parseInt(document.getElementById('amount').value)) == true){
-            alert("Please don't fill any alpha characters!");
-            document.getElementById('amount').value = '';
-            document.getElementById('total_amount').value = parseInt(document.getElementById('unique_amount').value);
-        }else{
-            document.getElementById('amount').value = parseInt(document.getElementById('amount').value);
-            document.getElementById('total_amount').value = getrupiah(parseInt(document.getElementById("amount").value) + parseInt(document.getElementById('unique_amount').value));
-            $('#amount').niceSelect('update');
-        }
-}
-
 function payment_top_up(){
     text = '';
     for(i in response.non_member){

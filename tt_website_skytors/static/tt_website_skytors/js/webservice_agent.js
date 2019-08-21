@@ -1077,57 +1077,35 @@ function get_top_up_history(){
     });
 }
 
-function get_top_up_amount(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
-            'action': 'get_top_up_amount',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
-       success: function(msg) {
-       msg.response = JSON.parse(msg.response)
-        console.log(msg);
-        if(msg.error_code == 0){
-            text = '';
-            for(i in msg.response.result)
-                text += `<option value="`+msg.response.result[i].id+`" data-amount="`+msg.response.result[i].amount+`">`+msg.response.result[i].name+`</option>`;
-            document.getElementById('amount').innerHTML = text;
-            total_price_top_up();
-        }else{
+//function get_top_up_amount(){
+//    getToken();
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/agent",
+//       headers:{
+//            'action': 'get_top_up_amount',
+//       },
+////       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+//       data: {},
+//       success: function(msg) {
+//       msg.response = JSON.parse(msg.response)
+//        console.log(msg);
+//        if(msg.error_code == 0){
+//            text = '';
+//            for(i in msg.response.result)
+//                text += `<option value="`+msg.response.result[i].id+`" data-amount="`+msg.response.result[i].amount+`">`+msg.response.result[i].name+`</option>`;
+//            document.getElementById('amount').innerHTML = text;
+//            total_price_top_up();
+//        }else{
+//
+//        }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//           alert(errorThrown);
+//       }
+//    });
+//}
 
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
-function check_top_up(){
-    error_text = '';
-    if(document.getElementById('tac_checkbox').checked == false){
-        error_text += 'Please check Term and Conditions\n';
-    }
-
-    if(document.getElementById('amount').value == ''){
-        error_text += 'Please Input Amount\n';
-    }
-    try{
-        if(parseInt(document.getElementById('amount').value) <= 50000){
-            error_text += 'Minimum top up Amount IDR 50,000\n';
-        }
-    }catch(err){
-
-    }
-    if(error_text == ''){
-        document.getElementById('top_up_form').submit();
-    }else{
-        alert(error_text);
-    }
-}
 
 function create_top_up(amount, unique_amount){
     getToken();
@@ -1345,3 +1323,4 @@ function get_voucher(){
        }
     });
 }
+
