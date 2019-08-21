@@ -1045,7 +1045,6 @@ function filtering(type){
            temp_data = [];
        }
        sort(data);
-
    }else if(type == 'sort'){
        sort(airline_data);
    }
@@ -1954,7 +1953,7 @@ function airline_detail(){
     </div>`;
     text += `
             <div class="row">
-                <div class="col-lg-12" style="margin-bottom:5px;">`;
+                <div class="col-lg-12">`;
     flight_count = 0;
     for(i in price_itinerary.price_itinerary_provider){
         for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
@@ -2170,11 +2169,12 @@ function airline_detail(){
                             }
                         }
                     }
-                    text+=`<hr/>`;
+                    text+=`<br/>`;
                 }
                 text+=`
                 </div>`;
             }
+            text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
         }
     }
     share_data();

@@ -87,9 +87,9 @@ function get_customer_list(passenger, number, product){
                     response+=`
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
-                            <th style="width:5%;">No</th>
-                            <th style="width:30%;">Name</th>
-                            <th style="width:20%"></th>
+                            <th style="width:10%;">No</th>
+                            <th style="width:60%;">Name</th>
+                            <th style="width:30%"></th>
                         </tr>`;
 
                     for(i in msg.result.response){
@@ -118,7 +118,7 @@ function get_customer_list(passenger, number, product){
                     passenger_data = msg.result.response;
                 }else{
                     response = '';
-                    response+=`<center><h5>USER NOT FOUND</h5></center>`;
+                    response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
                     document.getElementById('search_result').innerHTML = response;
                 }
             }else if(msg.result.error_code == 4003){
@@ -134,6 +134,7 @@ function get_customer_list(passenger, number, product){
            }
         });
     }else{
+        $(".loading-pax-train").show();
         $.ajax({
            type: "POST",
            url: "/webservice/agent",
@@ -155,9 +156,9 @@ function get_customer_list(passenger, number, product){
                     response+=`
                     <table style="width:100%" id="list-of-passenger">
                         <tr>
-                            <th style="width:5%;">No</th>
-                            <th style="width:30%;">Name</th>
-                            <th style="width:20%"></th>
+                            <th style="width:10%;">No</th>
+                            <th style="width:60%;">Name</th>
+                            <th style="width:30%">Action</th>
                         </tr>`;
 
                     for(i in msg.result.response){
@@ -186,8 +187,8 @@ function get_customer_list(passenger, number, product){
                     passenger_data = msg.result.response;
                 }else{
                     response = '';
-                    response+=`<center><h5>USER NOT FOUND</h5></center>`;
-                    document.getElementById('search_result').innerHTML = response;
+                    response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
+                    document.getElementById('search_result_'+passenger+number).innerHTML = response;
                 }
             }else if(msg.result.error_code == 4003){
                 logout();
@@ -195,7 +196,7 @@ function get_customer_list(passenger, number, product){
                 alert(msg.result.error_msg);
             }
 
-            $('#loading-booker-train').hide();
+            $(".loading-pax-train").hide();
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                alert(errorThrown);
@@ -809,6 +810,7 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
     }else{
         document.getElementById('adult_title1').value = 'MR';
+        $('#adult_title1').niceSelect('update');
         document.getElementById('adult_first_name1').value = '';
         document.getElementById('adult_first_name1').readOnly = false;
         document.getElementById('adult_last_name1').value = '';

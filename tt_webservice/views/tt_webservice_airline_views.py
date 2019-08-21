@@ -513,7 +513,7 @@ def get_price_itinerary(request, boolean):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
 
     try:
         if res['result']['error_code'] == 0:
@@ -592,6 +592,8 @@ def get_price_itinerary(request, boolean):
                                     break
             request.session['airline_price_itinerary'] = res['result']['response']
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
+        elif boolean == True:
+            pass
         else:
             # if(request.session['airline_request']['direction'] == 'RT'):
             #MC atau RT SEPARATE
