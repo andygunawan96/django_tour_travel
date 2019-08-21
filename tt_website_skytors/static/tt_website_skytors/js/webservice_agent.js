@@ -596,8 +596,10 @@ function pick_passenger(type, sequence, product){
         document.getElementById('booker_first_name').readOnly = true;
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
         document.getElementById('booker_last_name').readOnly = true;
-        document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_code;
-//        document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_code;
+        if(passenger_data[sequence].nationality_code != '' && passenger_data[sequence].nationality_name != ''){
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_code;
+            document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
+        }
         document.getElementById('booker_email').value = passenger_data[sequence].email;
         if(passenger_data[sequence].phones.length != 0){
             document.getElementById('booker_phone_code').value = passenger_data[sequence].phones[passenger_data[sequence].phones.length -1].calling_code;
@@ -630,6 +632,10 @@ function pick_passenger(type, sequence, product){
         document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
         document.getElementById('adult_last_name'+passenger_number).readOnly = true;
         document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
+        if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_code != ''){
+            document.getElementById('select2-adult_nationality_id'+passenger_number+'-container').innerHTML = passenger_data[sequence].nationality_name;
+            document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
+        }
         document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         check_years_old(passenger_number,'adult');
 
@@ -664,10 +670,11 @@ function pick_passenger(type, sequence, product){
                 passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
                 document.getElementById('adult_passport_expired_date'+passenger_number).value = passport_date;
             }
-            if(passenger_data[sequence].country_of_issued != '' && passenger_data[sequence].country_of_issued != undefined){
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
 //                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
-                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued;
-                auto_complete('adult_country_of_issued'+passenger_number);
+                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
             }
             //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
@@ -697,6 +704,12 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('child_passport_expired_date'+passenger_number).value = passport_date;
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-child_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
 //            document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('child_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
@@ -726,6 +739,12 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('infant_passport_expired_date'+passenger_number).value = passport_date;
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-infant_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
 //            document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('infant_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
@@ -754,6 +773,12 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('senior_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('senior_passport_expired_date'+passenger_number).value = passport_date;
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-senior_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
             try{
 //                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
             }catch(err){
@@ -808,7 +833,8 @@ function copy_booker_to_passenger(val,type){
                 $('#adult_id_type1').niceSelect('update');
                 document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
             }
-            document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
+            if(document.getElementById('booker_country_of_issued').value != 'undefined')
+                document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
         }
         document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
     }else{

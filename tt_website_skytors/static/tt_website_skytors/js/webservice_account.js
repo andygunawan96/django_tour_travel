@@ -104,8 +104,6 @@ function get_transactions_notification(){
                 }
 
             }
-
-            console.log(text);
             document.getElementById('notification_detail').innerHTML = text;
 //            document.getElementById('notification_detail2').innerHTML = text;
 
