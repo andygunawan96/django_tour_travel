@@ -64,144 +64,147 @@ function check_string_length(value){
 function get_customer_list(passenger, number, product){
     getToken();
     passenger_number = number;
-
-    if(passenger == 'booker'){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'get_customer_list',
-           },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-           data: {
-                'name': document.getElementById('train_booker_search').value,
-                'product': product,
-                'passenger_type': passenger,
-                'signature': signature
-           },
-           success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code==0){
-                var response = '';
-                if(msg.result.response.length != 0){
-                    response+=`
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;">No</th>
-                            <th style="width:60%;">Name</th>
-                            <th style="width:30%"></th>
-                        </tr>`;
-
-                    for(i in msg.result.response){
+    if(document.getElementById('train_booker_search').value.length >= 2){
+        if(passenger == 'booker'){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'get_customer_list',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                    'name': document.getElementById('train_booker_search').value,
+                    'product': product,
+                    'passenger_type': passenger,
+                    'signature': signature
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code==0){
+                    var response = '';
+                    if(msg.result.response.length != 0){
                         response+=`
-                        <tr>
-                            <td>`+(parseInt(i)+1)+`</td>
-                            <td>
-                                <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
-                                if(msg.result.response[i].email != '')
-                                    response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
-                                if(msg.result.response[i].birth_date != '')
-                                    response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
-                                if(msg.result.response[i].phones.length != 0)
-                                    response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
-                                if(msg.result.response[i].nationality_code != '')
-                                    response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
-                                response+=`
-                            </td>`;
-//                            <td>`+msg.response.result[i].booker_type+`</td>
-//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                            response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
-                        </tr>`;
-                    }
-                    response+=`</table>`;
-                    document.getElementById('search_result').innerHTML = response;
-                    passenger_data = msg.result.response;
-                }else{
-                    response = '';
-                    response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
-                    document.getElementById('search_result').innerHTML = response;
-                }
-            }else if(msg.result.error_code == 4003){
-                logout();
-            }else{
-                alert(msg.result.error_msg);
-            }
+                        <table style="width:100%" id="list-of-passenger">
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:60%;">Name</th>
+                                <th style="width:30%"></th>
+                            </tr>`;
 
-            $('#loading-booker-train').hide();
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
-           }
-        });
+                        for(i in msg.result.response){
+                            response+=`
+                            <tr>
+                                <td>`+(parseInt(i)+1)+`</td>
+                                <td>
+                                    <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
+                                    if(msg.result.response[i].email != '')
+                                        response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                    if(msg.result.response[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                    if(msg.result.response[i].phones.length != 0)
+                                        response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
+                                    if(msg.result.response[i].nationality_code != '')
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                    response+=`
+                                </td>`;
+    //                            <td>`+msg.response.result[i].booker_type+`</td>
+    //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                                response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                            </tr>`;
+                        }
+                        response+=`</table>`;
+                        document.getElementById('search_result').innerHTML = response;
+                        passenger_data = msg.result.response;
+                    }else{
+                        response = '';
+                        response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
+                        document.getElementById('search_result').innerHTML = response;
+                    }
+                }else if(msg.result.error_code == 4003){
+                    logout();
+                }else{
+                    alert(msg.result.error_msg);
+                }
+
+                $('#loading-booker-train').hide();
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert(errorThrown);
+               }
+            });
+        }else{
+            $(".loading-pax-train").show();
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'get_customer_list',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                    'name': document.getElementById('train_adult'+number+'_search').value,
+                    'product': product,
+                    'passenger_type': passenger,
+                    'signature': signature
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code==0){
+                    var response = '';
+                    if(msg.result.response.length != 0){
+                        response+=`
+                        <table style="width:100%" id="list-of-passenger">
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:60%;">Name</th>
+                                <th style="width:30%">Action</th>
+                            </tr>`;
+
+                        for(i in msg.result.response){
+                            response+=`
+                            <tr>
+                                <td>`+(parseInt(i)+1)+`</td>
+                                <td>
+                                    <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
+                                    if(msg.result.response[i].email != '')
+                                        response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                    if(msg.result.response[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                    if(msg.result.response[i].phones.length != 0)
+                                        response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
+                                    if(msg.result.response[i].nationality_code != '')
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                    response+=`
+                                </td>`;
+    //                            <td>`+msg.response.result[i].booker_type+`</td>
+    //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                                response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                            </tr>`;
+                        }
+                        response+=`</table>`;
+                        document.getElementById('search_result_'+passenger+number).innerHTML = response;
+                        passenger_data = msg.result.response;
+                    }else{
+                        response = '';
+                        response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
+                        document.getElementById('search_result_'+passenger+number).innerHTML = response;
+                    }
+                }else if(msg.result.error_code == 4003){
+                    logout();
+                }else{
+                    alert(msg.result.error_msg);
+                }
+
+                $(".loading-pax-train").hide();
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert(errorThrown);
+               }
+            });
+        }
     }else{
-        $(".loading-pax-train").show();
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'get_customer_list',
-           },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-           data: {
-                'name': document.getElementById('train_adult'+number+'_search').value,
-                'product': product,
-                'passenger_type': passenger,
-                'signature': signature
-           },
-           success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code==0){
-                var response = '';
-                if(msg.result.response.length != 0){
-                    response+=`
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:10%;">No</th>
-                            <th style="width:60%;">Name</th>
-                            <th style="width:30%">Action</th>
-                        </tr>`;
-
-                    for(i in msg.result.response){
-                        response+=`
-                        <tr>
-                            <td>`+(parseInt(i)+1)+`</td>
-                            <td>
-                                <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
-                                if(msg.result.response[i].email != '')
-                                    response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
-                                if(msg.result.response[i].birth_date != '')
-                                    response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
-                                if(msg.result.response[i].phones.length != 0)
-                                    response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
-                                if(msg.result.response[i].nationality_code != '')
-                                    response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
-                                response+=`
-                            </td>`;
-//                            <td>`+msg.response.result[i].booker_type+`</td>
-//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                            response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
-                        </tr>`;
-                    }
-                    response+=`</table>`;
-                    document.getElementById('search_result_'+passenger+number).innerHTML = response;
-                    passenger_data = msg.result.response;
-                }else{
-                    response = '';
-                    response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
-                    document.getElementById('search_result_'+passenger+number).innerHTML = response;
-                }
-            }else if(msg.result.error_code == 4003){
-                logout();
-            }else{
-                alert(msg.result.error_msg);
-            }
-
-            $(".loading-pax-train").hide();
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
-           }
-        });
+        alert("Please input more than 1 word!");
     }
 }
 

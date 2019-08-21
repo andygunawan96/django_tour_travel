@@ -90,15 +90,22 @@ function get_transactions_notification(){
        console.log(msg);
         if(msg.result.error_code == 0){
             text = '';
+
             for(i in msg.result.response){
+
                 number = parseInt(i)+1;
-                if(msg.result.response[i].provider_type == 'airline')
-                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                if(msg.result.response[i].provider.provider_type == 'airline'){
                     text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
                     text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
                     text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                    text+=`<hr/></div></form>`;
+                    text+=`<hr/></form>`;
+                    text+=`</div>`;
+                }
+
             }
+
+            console.log(text);
             document.getElementById('notification_detail').innerHTML = text;
 //            document.getElementById('notification_detail2').innerHTML = text;
 

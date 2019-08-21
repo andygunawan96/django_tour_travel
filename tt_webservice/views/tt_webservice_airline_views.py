@@ -597,7 +597,7 @@ def get_price_itinerary(request, boolean):
         else:
             # if(request.session['airline_request']['direction'] == 'RT'):
             #MC atau RT SEPARATE
-            get_price_itinerary(request, True)
+            res = get_price_itinerary(request, True)
     except Exception as e:
         get_price_itinerary(request, True)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
