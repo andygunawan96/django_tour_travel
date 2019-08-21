@@ -27,9 +27,6 @@
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
 
-    time = 300;
-    triggered_balance();
-    get_balance();
     passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
     adult = passenger.adult;

@@ -160,21 +160,11 @@ body {
   }
 }
 
-@media (max-width: 320px) {
-  #header {
-    position: relative !important;
-  }
-}
-
 
 @media (max-height: 390px) {
 
   #myBtnBTP {
     bottom: 12px !important;
-  }
-
-  #header{
-    position: relative !important;
   }
 
   #mybuttonsticky {
@@ -5273,7 +5263,7 @@ div.scrollmenu li {
   width: 15px;
   position: absolute;
   left: 46.9%;
-  top: 26px;
+  top: 25px;
 }
 
 .image-change-route-horizontal {
@@ -6972,15 +6962,22 @@ th input {
   border: 1px solid #cdcdcd;
   padding:8px 11px 8px 11px;
 }
+.image-rounded-icon2:hover{
+    border: 1px solid #f15a22;
+}
 
 .image-rounded-icon {
-  background: transparent;
+  background: #C04B21;
   border-radius: 20px;
   font-size: 18px;
   text-align: center;
   border-radius:50%;
   border: 2px solid #cdcdcd;
   padding:4px 9px 4px 9px;
+}
+.image-rounded-icon:hover{
+    background:white;
+    border: 2px solid #f15a22;
 }
 
 .breadcrumb-header{
@@ -7004,4 +7001,8 @@ th input {
 
 .notification-hover:hover{
     color:#f15a22;
+}
+
+.notif-hover:hover{
+    color: #C04B21;
 }

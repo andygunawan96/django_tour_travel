@@ -20,12 +20,12 @@ function get_balance(){
             credit_limit = parseInt(msg.result.response.credit_limit);
             text = `<div class="row">
                         <div class="col-lg-6">Balance: </div>
-                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + getrupiah(balance)+`</div>
+                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>
                     </div>`;
             document.getElementById("balance").innerHTML = text;
             text = `<div class="row">
                         <div class="col-lg-6">Credit Limit: </div>
-                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + getrupiah(credit_limit)+`</div>
+                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>
                     </div>`;
             document.getElementById("credit_limit").innerHTML = text;
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
@@ -87,11 +87,11 @@ function get_transactions_notification(){
             for(i in msg.result.response){
                 number = parseInt(i)+1;
                 if(msg.result.response[i].provider_type == 'airline')
-                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`
-                text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
-                text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
-                text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                text+=`<hr/></form></div>`;
+                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                    text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
+                    text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
+                    text+=`<hr/></div></form>`;
             }
             document.getElementById('notification_detail').innerHTML = text;
 //            document.getElementById('notification_detail2').innerHTML = text;

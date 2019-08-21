@@ -29,8 +29,7 @@
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
 
-    time = 300;
-    triggered_balance();
+
     // &&& separator
     airline_pick = `{{airline_pick}}`;
     airline_pick = airline_pick.replace(/&#39;/g, '"');
@@ -50,7 +49,6 @@
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
-    console.log(airline_carriers);
     airline_carriers = JSON.parse(airline_carriers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
@@ -162,6 +160,7 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
@@ -176,6 +175,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -197,6 +197,7 @@
                                         </div>
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -212,6 +213,7 @@
 
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -220,6 +222,7 @@
                                         </div>
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
@@ -300,6 +303,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
                                                     <!-- Modal content-->
@@ -308,7 +312,7 @@
                                                             <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
-                                                        <div class="modal-body">
+                                                        <div class="modal-body" style="text-align:left;">
                                                             <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                             <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                             <div class="row" id="loading-pax-train" style="display:none;">
@@ -342,6 +346,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -356,6 +361,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -372,6 +378,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -385,6 +392,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -420,6 +428,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -427,6 +436,7 @@
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
@@ -487,7 +497,7 @@
                                                         <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                    <div class="modal-body" style="text-align:left;">
                                                         <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                         <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-paxc-train" style="display:none;">
@@ -520,6 +530,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -534,6 +545,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -550,6 +562,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -563,6 +576,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -570,14 +584,12 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <br/>
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
@@ -591,7 +603,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for key, country in countries.items %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -637,7 +649,7 @@
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
+                                                    <div class="modal-body" style="text-align:left;">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                         <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-paxi-train" style="display:none;">
@@ -670,6 +682,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -684,6 +697,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -700,6 +714,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -714,20 +729,19 @@
 
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <br/>
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
@@ -741,7 +755,7 @@
                                                     <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for key, country in countries.items %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>

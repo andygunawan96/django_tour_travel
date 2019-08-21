@@ -14,9 +14,6 @@
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 
 <script>
-    time = 300;
-    triggered_balance();
-    get_balance();
     passenger = `{{passengers}}`;
     passenger = passenger.replace(/&#39;/g, '"');
     passenger = passenger.replace(/True/g, true);
