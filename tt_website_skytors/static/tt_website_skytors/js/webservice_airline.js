@@ -1825,7 +1825,7 @@ function airline_get_booking(data){
                         <hr/>`;
                     check = 0;
                     for(i in msg.result.response.provider_bookings){
-                        for(j in msg.result.response.provider_bookings[i].journeys)
+                        for(j in msg.result.response.provider_bookings[i].journeys){
                             var cabin_class = '';
 
                             if(msg.result.response.provider_bookings[i].journeys[j].journey_type == 'DEP'){
@@ -1890,6 +1890,7 @@ function airline_get_booking(data){
                                     </div>`;
                                 }
                             }
+                        }
                     }
                     text+=`
                         </div>
