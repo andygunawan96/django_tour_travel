@@ -166,13 +166,16 @@ def search(request):
 
                     origin.append(request.POST['origin_id_flight'])
                     destination.append(request.POST['destination_id_flight'])
-                    departure.append(request.POST['airline_departure'])
+                    try:
+                        departure.append(request.POST['airline_departure_return'].split(' - ')[0])
+                    except:
+                        departure.append(request.POST['airline_departure'])
                     cabin_class.append(request.POST['cabin_class_flight'])
 
                     if request.POST['radio_airline_type'] == 'roundtrip':
                         direction = 'RT'
-                        departure.append(request.POST['airline_return'])
-                        return_date.append(request.POST['airline_return'])
+                        departure.append(request.POST['airline_departure_return'].split(' - ')[1])
+                        return_date.append(request.POST['airline_departure_return'].split(' - ')[1])
                         origin.append(request.POST['destination_id_flight'])
                         destination.append(request.POST['origin_id_flight'])
                     elif request.POST['radio_airline_type'] == 'oneway':

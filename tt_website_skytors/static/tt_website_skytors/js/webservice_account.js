@@ -321,7 +321,8 @@ function confirm_top_up(payment_seq_id){
 }
 
 function request_top_up(val){
-
+    console.log(val);
+    console.log(top_up_history);
     getToken();
     $.ajax({
        type: "POST",
@@ -351,6 +352,7 @@ function request_top_up(val){
 function table_top_up_history(data){
     text= '';
     var node = document.createElement("tr");
+    data_counter = 0;
     for(i in data){
         data_search.push(data[i]);
         text+=`

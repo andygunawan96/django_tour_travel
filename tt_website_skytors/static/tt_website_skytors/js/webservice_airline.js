@@ -1802,13 +1802,13 @@ function airline_get_booking(data){
                         if (msg.result.response.state == 'booked'){
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;" hidden>
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='http://www.backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.name+`'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='http://www.backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -1825,7 +1825,7 @@ function airline_get_booking(data){
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='http://www.backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.order_number+`'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
