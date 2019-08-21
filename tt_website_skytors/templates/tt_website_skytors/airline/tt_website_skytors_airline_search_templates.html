@@ -77,7 +77,7 @@
             </div>
             {%if airline_request.direction  == 'MC'%}
             <div class="col-lg-3" style="text-align:right;">
-                <label>Separate Journey?</label>
+                <span style="font-weight:500;"> Separate Journey? </span>
                 <label class="radio-button-custom">
                     Yes
                     <input type="radio" name="myRadios" onclick="" value="yes"/>
@@ -540,7 +540,6 @@
           }
         });
       }else if(document.getElementById('radio_airline_mc').checked) {
-        document.getElementById('ori_airline').style.display = "none";
         text_mc='';
         //text_mc += `
         //<div class="row">
@@ -575,7 +574,7 @@
             </div>
         </div>`;
         document.getElementById('mc_airline_default').innerHTML = text_mc;
-        document.getElementById('ori_airline').style.display = "block";
+        document.getElementById('ori_airline').style.display = "none";
         document.getElementById('is_combo_price').disabled = false;
         document.getElementById('is_combo_price').checked = {{airline_request.is_combo_price}};
         document.getElementById('checkbox_combo_price').style.display = "none";

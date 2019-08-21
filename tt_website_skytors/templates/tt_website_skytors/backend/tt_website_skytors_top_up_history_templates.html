@@ -6,27 +6,21 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
 <script>
-    time = 300;
-    triggered_balance();
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    //time = 300;
+    //triggered_balance();
+    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    signature = `{{signature}}`;
 </script>
-
+{% include 'tt_website_skytors/header.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="form-wrap" style="margin-bottom:25px;">
-                    <div class="row banner-right">
-                        <div class="col-lg-10">
-                            <input type="text" id="tb" class="form-control" placeholder="TU. Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number '" autocomplete="off"/>
-                        </div>
-                        <div class="col-lg-2">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="triggered();" id="button"/>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-lg-8">
                 <div id="loading-search-top-up" style="margin-bottom:20px;">
                     <div class="col-lg-12">
                         <div class="sk-circle">
@@ -50,14 +44,17 @@
                 <table style="width:100%;" id="table_top_up_history" class="list-of-reservation">
                     <tr>
                         <th style="width:10%;">No.</th>
-                        <th style="width:20%;">Name</th>
-                        <th style="width:20%;">Payment Method</th>
+                        <th style="width:20%;">Top Up Number</th>
                         <th style="width:15%;">Due Date</th>
-                        <th style="width:10%;">State</th>
                         <th style="width:15%;">Amount</th>
                         <th style="width:10%;">Action</th>
                     </tr>
                 </table>
+            </div>
+            <div class="col-lg-4" style="padding-bottom:20px;">
+                <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="payment_acq" hidden>
+
+                </div>
             </div>
         </div>
     </div>
@@ -132,19 +129,8 @@
 </footer>
 
 <script>
-    get_top_up_history();
+    get_top_up();
     load_more = false;
-    $(document).ready(function () {
-        $(window).scroll(function() {
-            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-                if(load_more == true){
-                    load_more = false;
-                    get_top_up_history();
-
-                }
-            }
-        });
-    });
 </script>
 
 {% endblock %}

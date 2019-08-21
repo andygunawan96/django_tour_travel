@@ -236,7 +236,7 @@ payment_acq2 = {
 }
 
 
-function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type){
+function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name){
     getToken();
     $.ajax({
        type: "POST",
@@ -251,7 +251,9 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             'order_number': order_number,
             'transaction_type': transaction_type,
             'signature': signature,
-            'type': type
+            'type': type,
+            'agent_seq_id': agent_seq_id,
+            'top_up_name': top_up_name
        },
        success: function(msg) {
             console.log(msg);
@@ -265,7 +267,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            text=`
+            text=`<h4>Payment Method</h4><hr/>
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
             <div class="input-container-search-ticket btn-group">
 
@@ -295,7 +297,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             <div id="payment_description"></div>`
             text+=`
                 </div>`;
-            document.getElementById('payment_acq').innerHTML += text;
+            document.getElementById('payment_acq').innerHTML = text;
             $('#payment_method').niceSelect();
             set_payment(val,type);
             document.getElementById('payment_acq').hidden = false;
@@ -455,6 +457,8 @@ function set_price(val, type, product_type){
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+    else if(type == 'top_up')
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();confirm_top_up('`+payment_acq2[payment_method][selected].seq_id+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;
 }
 

@@ -714,7 +714,7 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').checked = false;
             document.getElementById('checkbox_combo_price').style.display = "none";
             document.getElementById('ori_airline').style.display = "block";
-            document.getElementById('mc_airline_default').innerHTML = "none";
+            document.getElementById('mc_airline_default').innerHTML = "";
             airline_counter_config = 0;
             counter_airline_search = 0;
 
@@ -741,7 +741,7 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('checkbox_combo_price').style.display = "block";
             document.getElementById('ori_airline').style.display = "block";
-            document.getElementById('mc_airline_default').innerHTML = "none";
+            document.getElementById('mc_airline_default').innerHTML = "";
             airline_counter_config = 0;
             counter_airline_search = 0;
             text+=`
@@ -850,7 +850,7 @@ $(document).ready(function(){
            document.getElementById('is_combo_price').disabled = true;
             document.getElementById('checkbox_combo_price').style.display = "none";
             document.getElementById('ori_airline').style.display = "block";
-            document.getElementById('mc_airline_default').innerHTML = "none";
+            document.getElementById('mc_airline_default').innerHTML = "";
             airline_counter_config = 0;
             counter_airline_search = 0;
 
@@ -877,7 +877,7 @@ $(document).ready(function(){
             document.getElementById('is_combo_price').disabled = false;
             document.getElementById('checkbox_combo_price').style.display = "block";
             document.getElementById('ori_airline').style.display = "block";
-            document.getElementById('mc_airline_default').innerHTML = "none";
+            document.getElementById('mc_airline_default').innerHTML = "";
 
             airline_counter_config = 0;
             counter_airline_search = 0;
