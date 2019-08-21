@@ -1293,7 +1293,7 @@ function get_price_itinerary_request(){
                 </div>`;
                 $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
                 document.getElementById('airline_detail').innerHTML = text;
-
+                $('.btn-next').prop('disabled', true);
                 $('#loading-search-flight').hide();
                 $('#choose-ticket-flight').hide();
                 //check here
@@ -1303,7 +1303,7 @@ function get_price_itinerary_request(){
                         text+= '&&&';
                     text += JSON.stringify(resJson.result.response.price_itinerary_provider[i]);
                 }
-                text+= ']'
+                text+= ']';
                 document.getElementById('airline_pick').value = text;
                 get_fare_rules();
 
@@ -1375,6 +1375,7 @@ function get_fare_rules(){
             }else{
                 alert(msg.result.error_msg);
             }
+            $('.btn-next').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
