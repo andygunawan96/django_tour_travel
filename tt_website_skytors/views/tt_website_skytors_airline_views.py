@@ -92,7 +92,6 @@ def search(request):
                             is_combo_price = 'true'
                     except:
                         is_combo_price = 'false'
-                    return_date = request.POST['airline_departure']
 
                     airline_carriers = []
                     airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
