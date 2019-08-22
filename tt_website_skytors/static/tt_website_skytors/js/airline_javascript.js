@@ -454,23 +454,6 @@ function airline_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
     <hr/>
-    <h6 style="padding-bottom:10px;">Price Range</h6>
-    <div class="wrapper">
-        <div class="range-slider">
-            <input type="text" class="js-range-slider" value=""/>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Min</span><br/>
-                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Max</span><br/>
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="80900500" />
-            </div>
-        </div>
-    </div>
-    <hr/>
     <h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){
         if(i == 0)
@@ -575,7 +558,7 @@ function airline_filter_render(){
 
     var node2 = document.createElement("div");
     text = '';
-    text+= `<h4>Filter</h4>
+    /*
     <hr/>
     <h6 style="padding-bottom:10px;">Price Range</h6>
     <div class="wrapper">
@@ -593,6 +576,8 @@ function airline_filter_render(){
             </div>
         </div>
     </div>
+    */
+    text+= `<h4>Filter</h4>
     <hr/>
     <h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){

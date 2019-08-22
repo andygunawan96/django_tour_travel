@@ -187,15 +187,15 @@ def signin(request):
                 # return res
 
                 #train
-                data = {}
-                headers = {
-                    "Accept": "application/json,text/html,application/xml",
-                    "Content-Type": "application/json",
-                    "action": "get_origins",
-                    "signature": request.session['signature'],
-                }
-
-                res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
+                # data = {}
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_origins",
+                #     "signature": request.session['signature'],
+                # }
+                #
+                # res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
 
                 #activity
                 # data = {}
@@ -212,9 +212,9 @@ def signin(request):
 
 
                 res['result']['response'].update({
-                    'visa': res_config_visa,
-                    'issued_offline': res_config_issued_offline['result']['response'],
-                    'train': res_origin_train['result']['response'],
+                    # 'visa': res_config_visa, #belum di install
+                    # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
+                    # 'train': res_origin_train['result']['response'],
                     # 'activity': res_config_activity['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
@@ -222,12 +222,12 @@ def signin(request):
                     },
                 })
 
-                file = open("version1.0"+".txt", "w+")
+                file = open(file_cache_name+".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
 
                 file = open("version_cache" + ".txt", "w+")
-                file.write("version1.0")
+                file.write(file_cache_name)
                 file.close()
         else:
             logging.getLogger("info_logger").info("WRONG USERNAME OR PASSWORD MAYBE HACKER!! ")

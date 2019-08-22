@@ -85,17 +85,17 @@ def index(request):
                 # airline
 
                 # activity
-                activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                activity_categories = response['result']['response']['activity']['categories']
-                activity_types = response['result']['response']['activity']['types']
-                activity_countries = response['result']['response']['activity']['countries']
+                # activity_sub_categories = response['result']['response']['activity']['sub_categories']
+                # activity_categories = response['result']['response']['activity']['categories']
+                # activity_types = response['result']['response']['activity']['types']
+                # activity_countries = response['result']['response']['activity']['countries']
                 # activity
 
                 # issuedoffline
-                issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
-                issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
-                issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
-                issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
+                # issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
+                # issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
+                # issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
+                # issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
 
                 # issuedoffline
 
@@ -150,15 +150,15 @@ def index(request):
                     # 'co_uid': request.session['co_uid'],
                     'airline_cabin_class_list': airline_cabin_class_list,
                     'airline_country': airline_country,
-                    'activity_sub_categories': activity_sub_categories,
-                    'activity_categories': activity_categories,
-                    'activity_types': activity_types,
-                    'activity_countries': activity_countries,
+                    # 'activity_sub_categories': activity_sub_categories,
+                    # 'activity_categories': activity_categories,
+                    # 'activity_types': activity_types,
+                    # 'activity_countries': activity_countries,
                     #hotel
-                    'issued_offline_transaction_type': issued_offline_transaction_type,
-                    'issued_offline_sector_type': issued_offline_sector_type,
-                    'issued_offline_carrier_id': issued_offline_carrier_id,
-                    'issued_offline_social_media_id': issued_offline_social_media_id,
+                    # 'issued_offline_transaction_type': issued_offline_transaction_type,
+                    # 'issued_offline_sector_type': issued_offline_sector_type,
+                    # 'issued_offline_carrier_id': issued_offline_carrier_id,
+                    # 'issued_offline_social_media_id': issued_offline_social_media_id,
                     'javascript_version': javascript_version,
                     'signature': request.session['signature']
                 }
