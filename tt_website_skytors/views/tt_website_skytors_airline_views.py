@@ -306,12 +306,13 @@ def passenger(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
             try:
                 request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
             except:
-                request.session['airline_pick'] = json.loads(request.POST['airline_pick'])
+                pass
         except:
-            request.session['airline_pick'] = request.session['airline_pick']
+            pass
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -329,7 +330,7 @@ def passenger(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['airline_signature'],
-            'time_limit': int(request.POST['time_limit_input'])
+            'time_limit': request.session['time_limit']
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],

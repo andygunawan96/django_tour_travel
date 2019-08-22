@@ -1263,14 +1263,14 @@ function get_price_itinerary_request(){
                 if (isMobile) {
                     text+=`
                         <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2F#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                 } else {
                     text+=`
                         <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2Frodextrip.com" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=https%3A%2F%2F#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                 }
 
@@ -1842,17 +1842,17 @@ function airline_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.order_number+`'/1" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
-                        }/*
+                        }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
-                        }*/
+                        }
                         text+=`
                 </div>
                 <div class="col-lg-4" style="padding-bottom:10px;">`;

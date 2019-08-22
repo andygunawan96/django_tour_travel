@@ -833,7 +833,8 @@ function copy_booker_to_passenger(val,type){
                 $('#adult_id_type1').niceSelect('update');
                 document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
             }
-            if(document.getElementById('booker_country_of_issued').value != 'undefined')
+            console.log(document.getElementById('booker_country_of_issued').value);
+            if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != '')
                 document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
         }
         document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
