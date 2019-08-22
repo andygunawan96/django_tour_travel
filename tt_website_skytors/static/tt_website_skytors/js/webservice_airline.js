@@ -469,7 +469,7 @@ function get_airline_config(type, val){
                             document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }catch(err){
-                        if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
+                        if('Changi Intl - Singapore (SIN)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
                             document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
@@ -482,7 +482,7 @@ function get_airline_config(type, val){
                                 document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                             else
                                 document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
-                        }else if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
+                        }else if('Changi Intl - Singapore (SIN)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
                                 document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
@@ -490,7 +490,7 @@ function get_airline_config(type, val){
                                 document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
                         }
                     }catch(err){
-                        if('Soekarno Hatta Intl - Jakarta (CGK)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
+                        if('Changi Intl - Singapore (SIN)' == msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')'){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
                                 document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
