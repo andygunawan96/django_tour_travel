@@ -694,12 +694,34 @@ def update_contacts(request):
 
 def update_passengers(request):
     try:
+        file = open("version_cache.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open(str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
         passenger = []
         for pax in request.session['airline_create_passengers']['adult']:
+            nationality_code = ''
+            country_of_issued_code = ''
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == response['result']['response']['airline']['country'][country]['name']:
+                    nationality_code = country
+                    break
+            if pax['country_of_issued_code'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['country_of_issued_code'] == response['result']['response']['airline']['country'][country]['name']:
+                        country_of_issued_code = country
+                        break
             pax.update({
                 'birth_date': '%s-%s-%s' % (
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0])
+                    pax['birth_date'].split(' ')[0]),
+                'nationality_code': nationality_code,
+                'country_of_issued_code': country_of_issued_code
             })
             if pax['passport_expdate'] != '':
                 pax.update({
@@ -709,10 +731,23 @@ def update_passengers(request):
                 })
             passenger.append(pax)
         for pax in request.session['airline_create_passengers']['child']:
+            nationality_code = ''
+            country_of_issued_code = ''
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == response['result']['response']['airline']['country'][country]['name']:
+                    nationality_code = country
+                    break
+            if pax['country_of_issued_code'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['country_of_issued_code'] == response['result']['response']['airline']['country'][country]['name']:
+                        country_of_issued_code = country
+                        break
             pax.update({
                 'birth_date': '%s-%s-%s' % (
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0])
+                    pax['birth_date'].split(' ')[0]),
+                'nationality_code': nationality_code,
+                'country_of_issued_code': country_of_issued_code
             })
             if pax['passport_expdate'] != '':
                 pax.update({
@@ -722,10 +757,24 @@ def update_passengers(request):
                 })
             passenger.append(pax)
             for pax in request.session['airline_create_passengers']['infant']:
+                nationality_code = ''
+                country_of_issued_code = ''
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_code'] == response['result']['response']['airline']['country'][country]['name']:
+                        nationality_code = country
+                        break
+                if pax['country_of_issued_code'] != '':
+                    for country in response['result']['response']['airline']['country']:
+                        if pax['country_of_issued_code'] == \
+                                response['result']['response']['airline']['country'][country]['name']:
+                            country_of_issued_code = country
+                            break
                 pax.update({
                     'birth_date': '%s-%s-%s' % (
                         pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                        pax['birth_date'].split(' ')[0])
+                        pax['birth_date'].split(' ')[0]),
+                    'nationality_code': nationality_code,
+                    'country_of_issued_code': country_of_issued_code
                 })
                 if pax['passport_expdate'] != '':
                     pax.update({
