@@ -1,7 +1,6 @@
 __pycache__/
 *.pyc
 .idea/
-static/
 tt_webservice/static/tt_webservice/url.py
 tt_webservice/static/tt_webservice/config.py
 config/settings.py
