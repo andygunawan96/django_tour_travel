@@ -644,6 +644,7 @@ function datasearch2(airline){
            airline.journey_list[i].journeys[j].journey_type = airline.journey_list[i].journey_type;
            price = 0;
            airline.journey_list[i].journeys[j].operated_by = true;
+           can_book = false;
            for(k in airline.journey_list[i].journeys[j].segments){
                for(l in airline.journey_list[i].journeys[j].segments[k].fares){
                    if(airline.journey_list[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child)){
@@ -653,6 +654,7 @@ function datasearch2(airline){
                                for(n in airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                    if(airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
                                        price += airline.journey_list[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
+                                       can_book = true;
                                    }
                                }
                            }
@@ -669,6 +671,7 @@ function datasearch2(airline){
                }
            }
            airline.journey_list[i].journeys[j].total_price = price;
+           airline.journey_list[i].journeys[j].can_book = can_book;
            data.push(airline.journey_list[i].journeys[j]);
            counter++;
         }
