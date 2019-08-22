@@ -6870,6 +6870,13 @@ th input {
   position:relative;
   z-index:3;
 }
+
+.progressbar li.fail:before {
+  border-color: red;
+  background-color: red;
+  color:white;
+}
+
 .progressbar li.active + li:after {
   background-color: #f15a22;
 }

@@ -29,7 +29,7 @@ function get_balance(){
                     </div>`;
             document.getElementById("credit_limit").innerHTML = text;
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-        }else if(msg.result.error_code == 4003){
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);
@@ -58,7 +58,7 @@ function get_account(){
        console.log(msg);
         if(msg.result.error_code == 0){
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-        }else if(msg.result.error_code == 4003){
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);
@@ -107,7 +107,7 @@ function get_transactions_notification(){
             document.getElementById('notification_detail').innerHTML = text;
 //            document.getElementById('notification_detail2').innerHTML = text;
 
-        }else if(msg.result.error_code == 4003){
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);
@@ -168,7 +168,7 @@ function get_transactions(type){
             }catch(err){
                 //set_notification(msg.result.response.transport_booking);
             }
-        }else if(msg.result.error_code == 4003){
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);
@@ -202,7 +202,7 @@ function get_top_up_amount(){
                 text += `<option value="`+msg.result.response[i].seq_id+`" data-amount="`+msg.result.response[i].amount+`">`+msg.result.response[i].name+`</option>`;
             document.getElementById('amount').innerHTML = text;
             total_price_top_up();
-        }else if(msg.result.error_code == 4003){
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);
@@ -241,7 +241,7 @@ function submit_top_up(){
         console.log(msg);
         if(msg.result.error_code == 0)
             document.getElementById('top_up_form').submit();
-        else if(msg.result.error_code == 4003){
+        else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);
@@ -277,7 +277,7 @@ function get_top_up(){
         }
         if(msg.result.error_code == 0)
             table_top_up_history(msg.result.response);
-        else if(msg.result.error_code == 4003){
+        else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);

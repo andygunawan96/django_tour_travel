@@ -121,7 +121,7 @@ function get_customer_list(passenger, number, product){
                         response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
                         document.getElementById('search_result').innerHTML = response;
                     }
-                }else if(msg.result.error_code == 4003){
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                 }else{
                     alert(msg.result.error_msg);
@@ -190,7 +190,7 @@ function get_customer_list(passenger, number, product){
                         response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                     }
-                }else if(msg.result.error_code == 4003){
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                 }else{
                     alert(msg.result.error_msg);
@@ -274,7 +274,7 @@ function search_passenger(passenger, number, product){
                         response+=`<center><h5>USER NOT FOUND</h5></center>`;
                         document.getElementById('search_result').innerHTML = response;
                     }
-                }else if(msg.result.error_code == 4003){
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                 }else{
                     alert(msg.result.error_msg);
@@ -540,7 +540,7 @@ function search_passenger(passenger, number, product){
                     }
 
 
-                }else if(msg.result.error_code == 4003){
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                 }else{
                     alert(msg.result.error_msg);
@@ -1291,7 +1291,7 @@ function top_up_payment(){
         console.log(msg);
         if(msg.result.error_code == 0){
             alert(msg.result.response.message);
-        }else if(msg.result.error_code == 4003){
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             alert(msg.result.error_msg);

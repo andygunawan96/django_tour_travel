@@ -1371,7 +1371,7 @@ function get_fare_rules(){
                     count_fare++;
                 }
 
-            }else if(msg.result.error_code == 4003){
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
             }else{
                 alert(msg.result.error_msg);
@@ -1400,10 +1400,13 @@ function airline_sell_journeys(){
            if(msg.result.error_code == 0){
                document.getElementById('time_limit_input').value = time_limit
                document.getElementById('go_to_passenger').submit();
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1428,7 +1431,7 @@ function airline_create_passengers(){
        success: function(msg) {
            if(msg.result.error_code == 0)
                console.log(msg);
-           else if(msg.result.error_code == 4003){
+           else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
@@ -1521,7 +1524,7 @@ function airline_commit_booking(val){
                //send order number
                document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
                document.getElementById('airline_booking').submit();
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
@@ -1554,7 +1557,7 @@ function airline_update_passenger(val){
            console.log(msg);
            if(msg.result.error_code == 0){
                 airline_commit_booking(val);
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
@@ -1582,7 +1585,7 @@ function airline_update_contact_booker(val){
            console.log(msg);
            if(msg.result.error_code == 0){
                 airline_update_passenger(val);
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
@@ -1614,8 +1617,23 @@ function airline_get_booking(data){
            airline_get_detail = msg;
            //get booking view edit here
            if(msg.result.error_code == 0){
-            if(msg.result.response.state != 'issued')
+            if(msg.result.response.state == 'fail_booked' || msg.result.response.state == 'fail_issued'){
+               console.log('here');
+               document.getElementById('issued-breadcrumb').classList.remove("active");
+               document.getElementById('issued-breadcrumb').classList.add("fail");
+               document.getElementById('issued-breadcrumb').classList.remove("current");
+               document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+            }else if(msg.result.response.state != 'issued'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+               document.getElementById('issued-breadcrumb').classList.remove("active");
+               document.getElementById('issued-breadcrumb').classList.add("current");
+            }
+            else{
+               document.getElementById('issued-breadcrumb').classList.remove("current");
+               document.getElementById('issued-breadcrumb').classList.add("active");
+            }
+
+
             var text = `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
                 <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
@@ -2033,7 +2051,7 @@ function airline_get_booking(data){
 //                document.getElementById('issued-breadcrumb').classList.add("active");
             }
 
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                logout();
            }else{
                alert(msg.result.error_msg);
@@ -2231,7 +2249,7 @@ function airline_issued(data){
                 document.getElementById('new_price').innerHTML = text;
 
                $("#myModal").modal();
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
@@ -2285,7 +2303,7 @@ function update_service_charge(data){
            if(msg.result.error_code == 0){
                 airline_get_booking(order_number);
                 $('#myModalRepricing').modal('hide');
-           }else if(msg.result.error_code == 4003){
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
