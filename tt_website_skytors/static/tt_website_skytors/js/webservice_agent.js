@@ -4,8 +4,7 @@ booker_pick_passenger = {};
 passenger_number = 0;
 agent_offside = 0;
 load_more = true;
-function signin
-(){
+function signin(){
     if($('#username').val() != '' && $('#password').val() != ''){
         $('.button-login').addClass("running");
         $('.button-login').prop('disabled', true);
@@ -859,8 +858,10 @@ function copy_booker_to_passenger(val,type){
             }
         }
         try{
-            passenger_data_pick.push(booker_pick_passenger);
-            passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult1';
+            if(JSON.stringify(booker_pick_passenger) != '{}'){
+                passenger_data_pick.push(booker_pick_passenger);
+                passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult1';
+            }
         }catch(err){
 
         }

@@ -2254,7 +2254,7 @@ function check_passenger(adult, child, infant){
     error_log = '';
     //check booker jika teropong
     try{
-        if(booker_pick_passenger != {})
+        if(JSON.stringify(booker_pick_passenger) != '{}')
             if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
                 document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
                 document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
