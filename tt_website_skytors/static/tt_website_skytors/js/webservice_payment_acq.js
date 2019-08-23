@@ -71,7 +71,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
 }
 
 function set_payment(val, type){
-    console.log(type);
     payment_method = document.getElementById('payment_method').value;
     text= '';
     for(i in payment_acq2[payment_method]){

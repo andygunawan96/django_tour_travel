@@ -71,8 +71,6 @@ function table_reservation(data){
 }
 
 function auto_complete(type){
-    console.log(type);
-    console.log(document.getElementById('select2-'+type+'_id-container').innerHTML);
     document.getElementById(type).value = document.getElementById('select2-'+type+'_id-container').innerHTML;
 //    $('#'+type).niceSelect('update');
 //    console.log(type);

@@ -2289,16 +2289,13 @@ function check_passenger(adult, child, infant){
     for(j in airline_pick){
        for(k in airline_pick[j].carrier_code_list){
            if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
-               console.log('here24');
                if(length_name>24)
                    length_name = 24;
                is_lion_air = true;
            }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
-               console.log('here31');
                if(length_name>31)
                    length_name = 31;
            }else{
-               console.log('here28');
                if(length_name>28)
                    length_name = 28;
            }
