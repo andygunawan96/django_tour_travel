@@ -7027,8 +7027,7 @@ th input {
 .alert-area {
   max-height: 50%;
   position: fixed;
-  overflow-y:auto;
-  bottom: 5px;
+  top: 5px;
   left: 20px;
   right: 20px;
   z-index:10000000;
@@ -7108,7 +7107,7 @@ th input {
 
 @media (min-width: 768px) {
   .alert-area {
-    width: 350px;
+    width: 500px;
     left: auto;
     right: 0;
   }

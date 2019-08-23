@@ -20,12 +20,12 @@ MODEL_NAME = 'tt_website_skytors'
 def issued_offline(request):
     if 'user_account' in request.session._session:
 
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
@@ -72,12 +72,12 @@ def issued_offline(request):
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()

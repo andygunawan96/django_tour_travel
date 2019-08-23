@@ -26,12 +26,12 @@ infant_title = ['MSTR', 'MISS']
 
 def search(request):
     if 'user_account' in request.session._session:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -112,12 +112,12 @@ def detail(request):
 def passenger(request):
     if 'user_account' in request.session._session:
         # res = json.loads(request.POST['response'])
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()

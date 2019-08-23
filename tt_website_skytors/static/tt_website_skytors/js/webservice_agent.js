@@ -24,14 +24,13 @@ function signin(){
            success: function(msg) {
             console.log(msg);
             if(msg == 0){
-                alertbox2.show('Hello! This is a message.');
+                alertbox2.show('Login Success');
 
                 gotoForm();
             }else{
-                alert('Wrong Username or Password !');
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
-                alertbox.show('Please input username and password');
+                alertbox.show('Please input correct username or password');
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -41,7 +40,7 @@ function signin(){
     }else{
         $('.button-login').prop('disabled', false);
         $('.button-login').removeClass("running");
-        alertbox.show('Please input username and password');
+        alertbox.show('Please input username or password');
     }
 }
 
@@ -77,8 +76,9 @@ function check_string_length(value){
 function get_customer_list(passenger, number, product){
     getToken();
     passenger_number = number;
-    if(document.getElementById('train_booker_search').value.length >= 2){
-        if(passenger == 'booker'){
+
+    if(passenger == 'booker'){
+        if(document.getElementById('train_booker_search').value.length >= 2){
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -147,7 +147,11 @@ function get_customer_list(passenger, number, product){
                }
             });
         }else{
-            $(".loading-pax-train").show();
+            alertbox.show('Please input more than 1 letter!');
+        }
+    }else{
+        $(".loading-pax-train").show();
+        if(document.getElementById('train_adult'+number+'_search').value.length >= 2){
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -215,9 +219,9 @@ function get_customer_list(passenger, number, product){
                    alert(errorThrown);
                }
             });
+        }else{
+            alertbox.show('Please input more than 1 letter!');
         }
-    }else{
-        alert("Please input more than 1 word!");
     }
 }
 

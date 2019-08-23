@@ -24,12 +24,12 @@ infant_title = ['MSTR', 'MISS']
 
 def open_page(request):
     try:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()

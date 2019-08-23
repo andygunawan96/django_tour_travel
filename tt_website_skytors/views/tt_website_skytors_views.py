@@ -35,12 +35,12 @@ def index(request):
 
             #get_data_awal
             try:
-                file = open("version_cache.txt", "r")
+                file = open("javascript_version.txt", "r")
                 for line in file:
                     file_cache_name = line
                 file.close()
 
-                file = open(str(file_cache_name) + ".txt", "r")
+                file = open('version' + str(file_cache_name) + ".txt", "r")
                 for line in file:
                     response = json.loads(line)
                 file.close()
@@ -54,14 +54,6 @@ def index(request):
 
                 # agent
 
-                # airline
-                airline_destinations = []
-                for country in response['result']['response']['airline']['destination']:
-                    for des in response['result']['response']['airline']['destination'][country]:
-                        des.update({
-                            'country': country
-                        })
-                        airline_destinations.append(des)
 
                 airline_country = response['result']['response']['airline']['country']
 
@@ -192,11 +184,6 @@ def login(request):
     return render(request, MODEL_NAME+'/tt_website_skytors_login_templates.html', values)
 
 def reservation(request):
-
-    file = open("version_cache.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
 
     file = open("javascript_version.txt", "r")
     for line in file:

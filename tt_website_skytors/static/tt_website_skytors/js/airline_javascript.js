@@ -2258,7 +2258,7 @@ function check_passenger(adult, child, infant){
             if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
                 document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
                 document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
-                error_log += "Search booker doesn't match!\nPlease don't use inspect element!\n";
+                error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
     }catch(err){
 
     }
@@ -2266,24 +2266,24 @@ function check_passenger(adult, child, infant){
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
                     25) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!\n';
+        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
         document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_first_name').value == ''){
-        error_log+= 'Please fill booker first name!\n';
+        error_log+= 'Please fill booker first name!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
     }if(check_phone_number(document.getElementById('booker_phone').value)==false){
-        error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
+        error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
     }if(check_email(document.getElementById('booker_email').value)==false){
-        error_log+= 'Invalid Booker email!\n';
+        error_log+= 'Invalid Booker email!</br>\n';
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
@@ -2320,7 +2320,7 @@ function check_passenger(adult, child, infant){
         if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
            document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
            document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
-                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!\n';
+                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
    for(i in passenger_data_pick){
         passenger_check = {
             'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
@@ -2329,7 +2329,7 @@ function check_passenger(adult, child, infant){
         if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
            document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
            document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
-           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!\nPlease don't use inspect element!\n";
+           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
 
     }
    //adult
@@ -2339,30 +2339,30 @@ function check_passenger(adult, child, infant){
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
             length_name) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!\n';
+           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_first_name'+i).value == ''){
-           error_log+= 'Please input first name of adult passenger '+i+'!\n';
+           error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_last_name'+i).value == ''){
-           error_log+= 'Please input last name of adult passenger '+i+'!\n';
+           error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger adult '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -2370,17 +2370,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
           document.getElementById('adult_country_of_issued'+i).value != '' || is_lion_air == true){
            if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger adult '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger adult '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger adult '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -2393,29 +2393,29 @@ function check_passenger(adult, child, infant){
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
        length_name) == false){
-           error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!\n';
+           error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_first_name'+i).value == ''){
-           error_log+= 'Please input first name of child passenger '+i+'!\n';
+           error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value == ''){
-           error_log+= 'Please input last name of child passenger '+i+'!\n';
+           error_log+= 'Please input last name of child passenger '+i+'!</br>\n';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger child '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger child '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -2423,17 +2423,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('child_passport_expired_date'+i).value != '' ||
           document.getElementById('child_country_of_issued'+i).value != '' || is_lion_air == true){
            if(document.getElementById('child_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger child '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger child '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger child '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
                document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -2447,29 +2447,29 @@ function check_passenger(adult, child, infant){
        document.getElementById('infant_first_name'+i).value,
        document.getElementById('infant_last_name'+i).value,
        length_name) == false){
-           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!\n';
+           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_first_name'+i).value == ''){
-           error_log+= 'Please input first name of infant passenger '+i+'!\n';
+           error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value == ''){
-           error_log+= 'Please input last name of infant passenger '+i+'!\n';
+           error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger infant '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -2477,17 +2477,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
           document.getElementById('infant_country_of_issued'+i).value != '' || is_lion_air == true){
            if(document.getElementById('infant_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger infant '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger infant '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger infant '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -2500,7 +2500,8 @@ function check_passenger(adult, child, infant){
        document.getElementById('airline_review').submit();
    }
    else{
-       alert(error_log);
+       document.getElementById('show_error_log').innerHTML = error_log;
+       $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
    }

@@ -1378,6 +1378,7 @@ function get_fare_rules(){
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
             }else{
+                document.getElementById('rules'+count_fare).innerHTML = 'No fare rules';
                 alert(msg.result.error_msg);
             }
             $('.btn-next').prop('disabled', false);

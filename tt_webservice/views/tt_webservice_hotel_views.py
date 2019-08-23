@@ -94,12 +94,12 @@ def search(request):
         child_age = []
         if request.POST['child_age'] != '':
             request.POST['child_age'].split(',')
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
