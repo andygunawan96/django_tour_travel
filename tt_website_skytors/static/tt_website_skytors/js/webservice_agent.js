@@ -1,5 +1,6 @@
 passenger_data = [];
 passenger_data_pick = [];
+booker_pick_passenger = {};
 passenger_number = 0;
 agent_offside = 0;
 load_more = true;
