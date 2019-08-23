@@ -848,10 +848,11 @@ function copy_booker_to_passenger(val,type){
         }
         try{
             passenger_data_pick.push(booker_pick_passenger);
+            passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult1';
         }catch(err){
-        
+
         }
-        passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult1';
+
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
         $('#adult_title1').niceSelect('update');
         document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
