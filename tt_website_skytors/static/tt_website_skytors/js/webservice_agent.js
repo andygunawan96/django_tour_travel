@@ -1,4 +1,5 @@
 passenger_data = [];
+passenger_data_pick = [];
 passenger_number = 0;
 agent_offside = 0;
 load_more = true;
@@ -622,9 +623,17 @@ function pick_passenger(type, sequence, product){
         }
         auto_complete('booker_nationality');
         document.getElementById('booker_id').value = passenger_data[sequence].seq_id;
+        //untuk booker check
+        booker_pick_passenger = passenger_data[sequence];
+        booker_pick_passenger.sequence = 0;
         $('#myModal').modal('hide');
     }else if(type == 'adult'){
-        console.log(passenger_number);
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
         $('#adult_title'+passenger_number).niceSelect('update');
         document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
@@ -681,10 +690,18 @@ function pick_passenger(type, sequence, product){
             document.getElementById('adult_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('adult_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult'+passenger_number;
         document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
         auto_complete('adult_nationality'+passenger_number);
         $('#myModal_adult'+passenger_number).modal('hide');
     }else if(type == 'child'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'child'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
         $('#child_title'+passenger_number).niceSelect('update');
         document.getElementById('child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
@@ -717,9 +734,17 @@ function pick_passenger(type, sequence, product){
         }
 
         document.getElementById('child_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'child'+passenger_number;
         auto_complete('child_nationality'+passenger_number);
         $('#myModal_child'+passenger_number).modal('hide');
     }else if(type == 'infant'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'infant'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
         $('#infant_title'+passenger_number).niceSelect('update');
         document.getElementById('infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
@@ -751,9 +776,17 @@ function pick_passenger(type, sequence, product){
             document.getElementById('infant_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('infant_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'infant'+passenger_number;
         auto_complete('infant_nationality'+passenger_number);
         $('#myModal_infant'+passenger_number).modal('hide');
     }else if(type == 'Senior'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'senior'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
         $('#senior_title'+passenger_number).niceSelect('update');
         document.getElementById('senior_first_name'+passenger_number).value = passenger_data[sequence].first_name;
@@ -789,6 +822,8 @@ function pick_passenger(type, sequence, product){
             document.getElementById('senior_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('senior_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'senior'+passenger_number;
         auto_complete('senior_nationality'+passenger_number);
         $('#myModal_senior'+passenger_number).modal('hide');
     }
@@ -804,6 +839,14 @@ function copy_booker_to_passenger(val,type){
                 alert('Please add passenger first!');
             }
         }
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult1'){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
+        passenger_data_pick.push(booker_pick_passenger);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult1';
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
         $('#adult_title1').niceSelect('update');
         document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
@@ -839,6 +882,12 @@ function copy_booker_to_passenger(val,type){
         }
         document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
     }else{
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult1'){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('adult_title1').value = 'MR';
         $('#adult_title1').niceSelect('update');
         document.getElementById('adult_first_name1').value = '';
@@ -870,7 +919,14 @@ function clear_passenger(type, sequence){
         document.getElementById('booker_phone').value = '';
         document.getElementById('booker_phone').readOnly = false;
         document.getElementById('booker_id').value = '';
+        booker_pick_passenger= {};
     }else if(type == 'Adult'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('adult_title'+sequence).value = 'MR';
         document.getElementById('adult_first_name'+sequence).value = '';
         document.getElementById('adult_first_name'+sequence).readOnly = false;
@@ -885,6 +941,12 @@ function clear_passenger(type, sequence){
         document.getElementById('adult_phone'+sequence).value = '';
         document.getElementById('adult_id'+sequence).value = '';
     }else if(type == 'Infant'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'infant'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('infant_title'+sequence).value = 'MSTR';
         document.getElementById('infant_first_name'+sequence).value = '';
         document.getElementById('infant_first_name'+sequence).readOnly = false;
@@ -895,6 +957,12 @@ function clear_passenger(type, sequence){
         document.getElementById('infant_birth_date'+passenger_number).readOnly = false;
         document.getElementById('infant_id'+sequence).value = '';
     }else if(type == 'Senior'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'senior'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('senior_title'+sequence).value = 'MR';
         document.getElementById('senior_first_name'+sequence).value = '';
         document.getElementById('senior_first_name'+sequence).readOnly = false;
@@ -909,6 +977,12 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_phone'+sequence).value = '';
         document.getElementById('senior_id'+sequence).value = '';
     }else if(type == 'Child'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'child'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('child_title'+sequence).value = 'MSTR';
         document.getElementById('child_first_name'+sequence).value = '';
         document.getElementById('child_first_name'+sequence).readOnly = false;

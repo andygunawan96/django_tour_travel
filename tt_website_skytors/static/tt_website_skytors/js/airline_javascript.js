@@ -2252,6 +2252,12 @@ function airline_detail(){
 function check_passenger(adult, child, infant){
     //booker
     error_log = '';
+    //check booker jika teropong
+    if(booker_pick_passenger != {})
+        if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
+            document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
+            document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
+            error_log += "Search booker doesn't match!\nPlease don't use inspect element!\n";
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
@@ -2278,32 +2284,61 @@ function check_passenger(adult, child, infant){
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
-    length = 100;
+    length_name = 100;
     is_lion_air = false;
     for(j in airline_pick){
        for(k in airline_pick[j].carrier_code_list){
            if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
-               if(length>24)
-                   length = 24;
+               console.log('here24');
+               if(length_name>24)
+                   length_name = 24;
                is_lion_air = true;
            }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
-               if(length>31)
-                   length = 31;
+               console.log('here31');
+               if(length_name>31)
+                   length_name = 31;
            }else{
-               if(length>28)
-                   length = 28;
+               console.log('here28');
+               if(length_name>28)
+                   length_name = 28;
            }
        }
     }
 
+    var radios = document.getElementsByName('myRadios');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        console.log(radios[j]);
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            booker_copy = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    if(booker_copy == 'yes')
+        if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+           document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+           document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!\n';
+   for(i in passenger_data_pick){
+        passenger_check = {
+            'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+            'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
+        }
+        if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+           document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+           document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!\nPlease don't use inspect element!\n";
+
+    }
    //adult
    for(i=1;i<=adult;i++){
 
        if(check_name(document.getElementById('adult_title'+i).value,
-       document.getElementById('adult_first_name'+i).value,
-       document.getElementById('adult_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!\n';
+            document.getElementById('adult_first_name'+i).value,
+            document.getElementById('adult_last_name'+i).value,
+            length_name) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
@@ -2356,8 +2391,8 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('child_title'+i).value,
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of child '+i+' name maximum '+length+' characters!\n';
+       length_name) == false){
+           error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
@@ -2410,8 +2445,8 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('infant_title'+i).value,
        document.getElementById('infant_first_name'+i).value,
        document.getElementById('infant_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!\n';
+       length_name) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{

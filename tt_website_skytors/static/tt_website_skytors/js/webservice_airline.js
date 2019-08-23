@@ -1401,6 +1401,7 @@ function airline_sell_journeys(){
             'signature': signature
        },
        success: function(msg) {
+           console.log(msg);
            if(msg.result.error_code == 0){
                document.getElementById('time_limit_input').value = time_limit
                document.getElementById('go_to_passenger').submit();
@@ -1410,11 +1411,12 @@ function airline_sell_journeys(){
                 alert(msg.result.error_msg);
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
-
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
+           $('.btn-next').removeClass('running');
+           $('.btn-next').prop('disabled', false);
        }
     });
 
