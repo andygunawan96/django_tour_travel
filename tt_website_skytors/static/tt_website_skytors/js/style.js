@@ -7,7 +7,6 @@ $(document).ready(function(){
     var sort_arrival=0;
 
     $("#myModalPopUp").modal('show');
-
 //    $(window).load(function() {
 //    });
 
@@ -1343,4 +1342,106 @@ function show_hide_tac(id){
         div_tac.style.display = "block";
         span_tac_up.style.display = "none";
     }
+}
+
+try{
+    var AlertBox = function(id, option) {
+      this.show = function(msg) {
+        if (msg === ''  || typeof msg === 'undefined' || msg === null) {
+          throw '"msg parameter is empty"';
+        }
+        else {
+          var alertArea = document.querySelector(id);
+          var alertBox = document.createElement('DIV');
+          var alertContent = document.createElement('DIV');
+          var alertClose = document.createElement('A');
+          var alertClass = this;
+          alertContent.classList.add('alert-content');
+          alertContent.innerText = msg;
+          alertClose.classList.add('alert-close');
+          alertClose.setAttribute('href', '#');
+          alertBox.classList.add('alert-box');
+          alertBox.appendChild(alertContent);
+          if (!option.hideCloseButton || typeof option.hideCloseButton === 'undefined') {
+            alertBox.appendChild(alertClose);
+          }
+          alertArea.appendChild(alertBox);
+          alertClose.addEventListener('click', function(event) {
+            event.preventDefault();
+            alertClass.hide(alertBox);
+          });
+          if (!option.persistent) {
+            var alertTimeout = setTimeout(function() {
+              alertClass.hide(alertBox);
+              clearTimeout(alertTimeout);
+            }, option.closeTime);
+          }
+        }
+      };
+
+      this.hide = function(alertBox) {
+        alertBox.classList.add('hide');
+        var disperseTimeout = setTimeout(function() {
+          alertBox.parentNode.removeChild(alertBox);
+          clearTimeout(disperseTimeout);
+        }, 500);
+      };
+    };
+
+    var AlertBox2 = function(id, option) {
+      this.show = function(msg) {
+        if (msg === ''  || typeof msg === 'undefined' || msg === null) {
+          throw '"msg parameter is empty"';
+        }
+        else {
+          var alertArea = document.querySelector(id);
+          var alertBox = document.createElement('DIV');
+          var alertContent = document.createElement('DIV');
+          var alertClose = document.createElement('A');
+          var alertClass = this;
+          alertContent.classList.add('alert-content');
+          alertContent.innerText = msg;
+          alertClose.classList.add('alert-close');
+          alertClose.setAttribute('href', '#');
+          alertBox.classList.add('alert-box-success');
+          alertBox.appendChild(alertContent);
+          if (!option.hideCloseButton || typeof option.hideCloseButton === 'undefined') {
+            alertBox.appendChild(alertClose);
+          }
+          alertArea.appendChild(alertBox);
+          alertClose.addEventListener('click', function(event) {
+            event.preventDefault();
+            alertClass.hide(alertBox);
+          });
+          if (!option.persistent) {
+            var alertTimeout = setTimeout(function() {
+              alertClass.hide(alertBox);
+              clearTimeout(alertTimeout);
+            }, option.closeTime);
+          }
+        }
+      };
+
+      this.hide = function(alertBox) {
+        alertBox.classList.add('hide');
+        var disperseTimeout = setTimeout(function() {
+          alertBox.parentNode.removeChild(alertBox);
+          clearTimeout(disperseTimeout);
+        }, 500);
+      };
+    };
+
+    var alertShowMessage = document.querySelector('#login-form-home');
+    var alertbox = new AlertBox('#alert-area', {
+      closeTime: 5000,
+      persistent: false,
+      hideCloseButton: false
+    });
+    var alertbox2 = new AlertBox2('#alert-area', {
+      closeTime: 5000,
+      persistent: false,
+      hideCloseButton: false
+    });
+}catch(err){
+    console.log('err');
 }

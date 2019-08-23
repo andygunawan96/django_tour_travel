@@ -4,8 +4,12 @@ booker_pick_passenger = {};
 passenger_number = 0;
 agent_offside = 0;
 load_more = true;
-function signin(){
+function signin
+(){
     if($('#username').val() != '' && $('#password').val() != ''){
+        $('.button-login').addClass("running");
+        $('.button-login').prop('disabled', true);
+
         getToken();
         $.ajax({
            type: "POST",
@@ -19,10 +23,16 @@ function signin(){
             'password':$('#password').val()
            },
            success: function(msg) {
+            console.log(msg);
             if(msg == 0){
+                alertbox2.show('Hello! This is a message.');
+
                 gotoForm();
             }else{
                 alert('Wrong Username or Password !');
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+                alertbox.show('Please input username and password');
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -30,7 +40,9 @@ function signin(){
            }
         });
     }else{
-        alert('Oops', 'Please fill all the blank!');
+        $('.button-login').prop('disabled', false);
+        $('.button-login').removeClass("running");
+        alertbox.show('Please input username and password');
     }
 }
 

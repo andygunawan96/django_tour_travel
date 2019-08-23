@@ -19,6 +19,10 @@
 	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/daterangepicker/daterangepicker.css">
 	<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/main.css">
+	<!--loadingbar-->
+    <link rel="stylesheet" href="{{ static_path }}css/loading.css">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css">
+    <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css">
 	<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 	<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 
@@ -42,11 +46,11 @@
 					</div>
 					<input type="hidden" id="response" name="response">
 					<div class="container-login100-form-btn m-t-32">
-						<button class="login100-form-btn">
+						<button id="login-form-home" class="button-login login100-form-btn ld-ext-right">
 							Login
+							<div class="ld ld-ring ld-cycle"></div>
 						</button>
 					</div>
-
 				</form>
 			</div>
 		</div>
@@ -71,4 +75,7 @@
 	<script src="{{ static_path }}vendor/countdowntime/countdowntime.js?version={{javascript_version}}"></script>
 	<script src="{{ static_path }}js/main1.js?version={{javascript_version}}"></script>
 <!--===============================================================================================-->
+	<!--loading-bar-->
+	<script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
+
 {% endblock %}

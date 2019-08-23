@@ -2253,11 +2253,15 @@ function check_passenger(adult, child, infant){
     //booker
     error_log = '';
     //check booker jika teropong
-    if(booker_pick_passenger != {})
-        if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
-            document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
-            document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
-            error_log += "Search booker doesn't match!\nPlease don't use inspect element!\n";
+    try{
+        if(booker_pick_passenger != {})
+            if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
+                document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
+                document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
+                error_log += "Search booker doesn't match!\nPlease don't use inspect element!\n";
+    }catch(err){
+
+    }
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
