@@ -44,9 +44,10 @@ def search(request):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
 

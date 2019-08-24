@@ -248,9 +248,10 @@ def search2(request):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
 
@@ -449,9 +450,10 @@ def get_data(request):
 
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
         # res = search2(request)
@@ -477,9 +479,10 @@ def get_price_itinerary(request, boolean):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
         #baru
@@ -862,9 +865,10 @@ def get_booking(request):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
 

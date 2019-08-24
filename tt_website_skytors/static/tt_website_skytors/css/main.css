@@ -7025,7 +7025,6 @@ th input {
 /*ALERT NOTIFICATION*/
 
 .alert-area {
-  max-height: 50%;
   position: fixed;
   top: 5px;
   left: 20px;
