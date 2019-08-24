@@ -343,14 +343,14 @@ function send_search_to_api(val){
 
     count_progress_bar_airline = 0;
     if(airline_request.direction == 'RT' && counter_search == 0){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[1]+` <i class="fas fa-plane"></i> `+airline_request.destination[counter_search].split(' - ')[1]+`</span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[0]+` <i class="fas fa-plane"></i> `+airline_request.destination[counter_search].split(' - ')[0]+`</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
         if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
             date_show += ` - `+airline_request['return'][counter_search];
         }
         document.getElementById('show_date').innerHTML = date_show;
     }else if(airline_request.direction != 'RT'){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[1]+` <i class="fas fa-plane"></i> `+airline_request.destination[counter_search].split(' - ')[1]+`</span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[0]+` <i class="fas fa-plane"></i> `+airline_request.destination[counter_search].split(' - ')[0]+`</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
         if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
             date_show += ` - `+airline_request['return'][counter_search];
@@ -410,93 +410,93 @@ function get_airline_config(type, val){
             }
             for(i in msg){
                 var node = document.createElement("option");
-                node.text = msg[i].name+` - `+msg[i].city +' - '+msg[i].country+' ('+msg[i].code+')';
+                node.text = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                 node.value = msg[i].code;
                 if(type == 'search'){
                     try{
                         if(val == undefined){
-                            if(airline_request['origin'][0] == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                            if(airline_request['origin'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                                 node.setAttribute('selected', 'selected');
-                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             }
-                        }else if(airline_request['origin'][val-1] == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        }else if(airline_request['origin'][val-1] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                            document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }catch(err){
-                        if('Juanda International Airport - Surabaya - Indonesia (SUB)' == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                            document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }
                 }else{
                     try{
-                        if(cache['airline']['origin'][0] == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        if(cache['airline']['origin'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
-                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             else
-                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
-                        }else if('Juanda International Airport - Surabaya (SUB)' == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+                        }else if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
-                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             else
-                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }catch(err){
-                        if('Juanda International Airport - Surabaya - Indonesia (SUB)' == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
-                                document.getElementById('airline_origin_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             else
-                                document.getElementById('airline_origin_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }
                 }
                 origin.add(node);
                 node = document.createElement("option");
-                node.text = msg[i].name+` - `+msg[i].city +' - '+msg[i].country+' ('+msg[i].code+')';
+                node.text = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                 node.value = msg[i].code;
                 if(type == 'search'){
                     try{
                         if(val == undefined){
-                            if(airline_request['destination'][0] == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                            if(airline_request['destination'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                                 node.setAttribute('selected', 'selected');
-                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             }
-                        }else if(airline_request['destination'][val-1] == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        }else if(airline_request['destination'][val-1] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                            document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }catch(err){
-                        if('Changi Intl - Singapore - Singapore (SIN)' == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                            document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }
                 }else{
                     try{
-                        if(cache['airline']['destination'][0] == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        if(cache['airline']['destination'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
-                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             else
-                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
-                        }else if('Changi Intl - Singapore - Singapore (SIN)' == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+                        }else if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
-                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             else
-                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }catch(err){
-                        if('Changi Intl - Singapore - Singapore (SIN)' == msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')'){
+                        if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
                             node.setAttribute('selected', 'selected');
                             if(val == undefined)
-                                document.getElementById('airline_destination_flight').value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                             else
-                                document.getElementById('airline_destination_flight'+val).value = msg[i].name+` - `+msg[i].city +' - '+ msg[i].country +' ('+msg[i].code+')';
+                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
                         }
                     }
                 }

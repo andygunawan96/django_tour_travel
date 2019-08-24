@@ -280,8 +280,8 @@ def search2(request):
                     month[request.session['airline_request']['departure'][idx].split(' ')[1]],
                     request.session['airline_request']['departure'][idx].split(' ')[0])
                 journey_list.append({
-                    'origin': request.session['airline_request']['origin'][idx][-4:][:3],
-                    'destination': request.session['airline_request']['destination'][idx][-4:][:3],
+                    'origin': request.session['airline_request']['origin'][idx].split(' - ')[0],
+                    'destination': request.session['airline_request']['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
             cabin_class = request.session['airline_request']['cabin_class'][0]
@@ -292,8 +292,8 @@ def search2(request):
                     month[request.session['airline_request']['departure'][idx].split(' ')[1]],
                     request.session['airline_request']['departure'][idx].split(' ')[0])
                 journey_list.append({
-                    'origin': request.session['airline_request']['origin'][idx][-4:][:3],
-                    'destination': request.session['airline_request']['destination'][idx][-4:][:3],
+                    'origin': request.session['airline_request']['origin'][idx].split(' - ')[0],
+                    'destination': request.session['airline_request']['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
             cabin_class = request.session['airline_request']['cabin_class'][0]
@@ -305,8 +305,8 @@ def search2(request):
                 month[request.session['airline_request']['return'][0].split(' ')[1]],
                 request.session['airline_request']['return'][0].split(' ')[0])
             journey_list.append({
-                'origin': request.session['airline_request']['destination'][0][-4:][:3],
-                'destination': request.session['airline_request']['origin'][0][-4:][:3],
+                'origin': request.session['airline_request']['destination'][0].split(' - ')[0],
+                'destination': request.session['airline_request']['origin'][0].split(' - ')[0],
                 'departure_date': departure_date
             })
             cabin_class = request.session['airline_request']['cabin_class'][0]
@@ -318,8 +318,8 @@ def search2(request):
                 month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
                 request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
             journey_list.append({
-                'origin': request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3],
-                'destination': request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3],
+                'origin': request.session['airline_request']['origin'][int(request.POST['counter_search'])].split(' - ')[0],
+                'destination': request.session['airline_request']['destination'][int(request.POST['counter_search'])].split(' - ')[0],
                 'departure_date': departure_date
             })
             cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]

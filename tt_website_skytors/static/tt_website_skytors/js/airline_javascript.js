@@ -1158,7 +1158,7 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         for(i in airline){
-           if(airline[i].origin == airline_request.origin[counter_search-1].substr(airline_request.origin[counter_search-1].length-4,3) && airline_departure == 'departure'){
+           if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure'){
                var price = 0;
                text += `
                     <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px;" id="journey`+i+`">
@@ -1204,7 +1204,8 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
-                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
+                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[1]+`</span>
                                         </div>
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                             <table style="width:100%; margin-bottom:6px;">
@@ -1215,7 +1216,8 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
-                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].destination+`)</span>
+                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[1]+`</span>
                                         </div>
                                         <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                                             <span>Transit: `+airline[i].transit_count+``;
@@ -1308,7 +1310,7 @@ function sort(airline){
                     <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="margin-bottom:15px; border-top: 1px solid #f15a22; display:none;">`;
                         for(j in airline[i].segments){
                             var depart = 0;
-                            if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].substr(airline_request.destination[counter_search-1].length-4,3))
+                            if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                                 depart = 1;
                             if(depart == 0 && j == 0)
                                 text+=`
@@ -1423,7 +1425,7 @@ function sort(airline){
     //                   document.getElementById('airlines_ticket').innerHTML += text;
                text = '';
                document.getElementById('fare'+i).innerHTML = 'IDR '+ getrupiah(airline[i].total_price);
-           }else if(airline[i].origin == airline_request.destination[counter_search-1].substr(airline_request.destination[counter_search-1].length-4,3) && airline_departure == 'return'){
+           }else if(airline[i].origin == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'return'){
                var price = 0;
                text += `
                 <div style="background-color:white; margin-bottom:15px; border: 1px solid #cdcdcd;" id="journey`+i+`">
@@ -1464,7 +1466,8 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].departure_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].substr(0, airline_request.origin[counter_search-1].length - 5)+` (`+airline[i].origin+`)</span>
+                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[1]+`</span>
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                     <table style="width:100%; margin-bottom:6px;">
@@ -1475,7 +1478,8 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].arrival_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].substr(0, airline_request.destination[counter_search-1].length - 5)+` (`+airline[i].destination+`)</span>
+                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[1]`</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                                     <span>Transit: `+airline[i].transit_count+``;
@@ -1519,7 +1523,7 @@ function sort(airline){
                 <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="margin-bottom:15px; border-top: 1px solid #f15a22; display:none;">`;
                     for(j in airline[i].segments){
                     var depart = 0;
-                    if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].substr(airline_request.destination[counter_search-1].length-4,3))
+                    if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                         depart = 1;
                     if(depart == 0 && j == 0)
                         text+=`
