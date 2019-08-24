@@ -659,6 +659,27 @@ def sell_journeys(request):
 
 def update_contacts(request):
     try:
+        booker = request.session['airline_create_passengers']['booker']
+        contacts = request.session['airline_create_passengers']['contact']
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_code'] == country['name']:
+                booker['nationality_code'] = country['code']
+                break
+
+        for pax in request.session['airline_create_passengers']['contact']:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         data = {
             'booker': request.session['airline_create_passengers']['booker'],
             'contacts': request.session['airline_create_passengers']['contact']
@@ -698,13 +719,13 @@ def update_passengers(request):
             nationality_code = ''
             country_of_issued_code = ''
             for country in response['result']['response']['airline']['country']:
-                if pax['nationality_code'] == response['result']['response']['airline']['country'][country]['name']:
-                    nationality_code = country
+                if pax['nationality_code'] == country['name']:
+                    nationality_code = country['code']
                     break
             if pax['country_of_issued_code'] != '':
                 for country in response['result']['response']['airline']['country']:
-                    if pax['country_of_issued_code'] == response['result']['response']['airline']['country'][country]['name']:
-                        country_of_issued_code = country
+                    if pax['country_of_issued_code'] == country['name']:
+                        country_of_issued_code = country['code']
                         break
             pax.update({
                 'birth_date': '%s-%s-%s' % (
@@ -724,13 +745,13 @@ def update_passengers(request):
             nationality_code = ''
             country_of_issued_code = ''
             for country in response['result']['response']['airline']['country']:
-                if pax['nationality_code'] == response['result']['response']['airline']['country'][country]['name']:
-                    nationality_code = country
+                if pax['nationality_code'] == country['code']:
+                    nationality_code = country['code']
                     break
             if pax['country_of_issued_code'] != '':
                 for country in response['result']['response']['airline']['country']:
-                    if pax['country_of_issued_code'] == response['result']['response']['airline']['country'][country]['name']:
-                        country_of_issued_code = country
+                    if pax['country_of_issued_code'] == country['name']:
+                        country_of_issued_code = country['code']
                         break
             pax.update({
                 'birth_date': '%s-%s-%s' % (
@@ -750,14 +771,13 @@ def update_passengers(request):
                 nationality_code = ''
                 country_of_issued_code = ''
                 for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_code'] == response['result']['response']['airline']['country'][country]['name']:
-                        nationality_code = country
+                    if pax['nationality_code'] == country['name']:
+                        nationality_code = country['code']
                         break
                 if pax['country_of_issued_code'] != '':
                     for country in response['result']['response']['airline']['country']:
-                        if pax['country_of_issued_code'] == \
-                                response['result']['response']['airline']['country'][country]['name']:
-                            country_of_issued_code = country
+                        if pax['country_of_issued_code'] == country['name']:
+                            country_of_issued_code = country['code']
                             break
                 pax.update({
                     'birth_date': '%s-%s-%s' % (

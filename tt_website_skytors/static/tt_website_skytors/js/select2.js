@@ -921,7 +921,7 @@ S2.define('select2/results',[
 
       $options.push($option);
 
-      if($options.length > 100)
+      if($options.length > 10)
         break
     }
 
