@@ -454,23 +454,6 @@ function airline_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
     <hr/>
-    <h6 style="padding-bottom:10px;">Price Range</h6>
-    <div class="wrapper">
-        <div class="range-slider">
-            <input type="text" class="js-range-slider" value=""/>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Min</span><br/>
-                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" />
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Max</span><br/>
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="80900500" />
-            </div>
-        </div>
-    </div>
-    <hr/>
     <h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){
         if(i == 0)
@@ -575,7 +558,7 @@ function airline_filter_render(){
 
     var node2 = document.createElement("div");
     text = '';
-    text+= `<h4>Filter</h4>
+    /*
     <hr/>
     <h6 style="padding-bottom:10px;">Price Range</h6>
     <div class="wrapper">
@@ -593,6 +576,8 @@ function airline_filter_render(){
             </div>
         </div>
     </div>
+    */
+    text+= `<h4>Filter</h4>
     <hr/>
     <h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){
@@ -1045,7 +1030,6 @@ function filtering(type){
            temp_data = [];
        }
        sort(data);
-
    }else if(type == 'sort'){
        sort(airline_data);
    }
@@ -1193,7 +1177,7 @@ function sort(airline){
                                     <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
                                     }
                                     if(airline[i].journey_type == "COM"){
-                                        text+=`<span style="float:right; font-weight: bold; padding:5px; border:2px solid #f15a22;">Combo Price</span>`;
+                                        text+=`<span style="float:right; font-weight: bold; padding:5px; border-bottom:2px solid #f15a22;">Combo Price</span>`;
                                     }
                                     text+=`
                                     </div>
@@ -1301,10 +1285,13 @@ function sort(airline){
                                         <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`;
 
                                         text+=`</span>`;
-                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
-                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+//                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
+//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+//                                        else
+                                        if(airline[i].can_book == true)
+                                            text+=`<br/><input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
                                         else
-                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+                                            text+=`<br/><input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                         text+=`
                                     </div>
                                 </div>
@@ -1783,20 +1770,20 @@ function airline_pick_mc(type){
                             text+=`</span>`;
                             if(type == 'all')
                             text+=`
-                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>
-                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>
+                            <input type='button' style="margin:10px;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>`;
                             else if(type == 'change')
                             text+=`
-                            <input type='button' style="margin:10px;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>`;
                             else if(type == 'delete')
                             text+=`
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>
-                            <input type='button' style="margin:10px;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>
+                            <input type='button' style="margin:10px;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>`;
                             else if(type=='no_button')
                             text+=`
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>
-                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>`;
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>
+                            <input type='button' style="margin:10px;background:#f5f5f5 !important;" id="deletejourney_pickdepartjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>`;
                             text+=`
                         </div>
                     </div>
@@ -1843,15 +1830,33 @@ function check_provider(carrier_code,val){
         }
         else
             document.getElementById('provider_box_All').checked = false;
+        check = 0;
+        for(i in airline_provider_list){
+            if(document.getElementById('provider_box_'+airline_provider_list[i].code).checked == true){
+                check = 1;
+                break;
+            }
+        }
+        if(check == 0)
+            document.getElementById('provider_box_All').checked = true
     }else{
         if(carrier_code == 'all'){
-            for(i in airline_provider_list_mc[val-1]){
-                document.getElementById('provider_box_'+airline_provider_list_mc[val-1][i].code+'_'+val).checked = false;
+            for(i in airline_provider_list){
+                document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked = false;
             }
             document.getElementById('provider_box_All_'+val).checked = true;
         }
         else
             document.getElementById('provider_box_All_'+val).checked = false;
+        check = 0;
+        for(i in airline_provider_list){
+            if(document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked == true){
+                check = 1;
+                break;
+            }
+        }
+        if(check == 0)
+            document.getElementById('provider_box_All_'+val).checked = true
     }
 
 }
@@ -1885,12 +1890,19 @@ function getrupiah(price){
 }
 
 function copy_data(){
-    const el = document.createElement('textarea');
-    el.value = $text;
-    document.body.appendChild(el);
+    //
+    document.getElementById('data_copy').innerHTML = $text;
+    document.getElementById('data_copy').hidden = false;
+    var el = document.getElementById('data_copy');
     el.select();
     document.execCommand('copy');
-    document.body.removeChild(el);
+    document.getElementById('data_copy').hidden = true;
+//    const el = document.createElement('textarea');
+//    el.innerHTML = $text;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
 }
 
 function share_data(){
@@ -1910,11 +1922,12 @@ function airline_detail(){
             for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
                 for(l in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
                     for(m in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
+                        if(m == 0)
+                            airline_price.push({});
                         for(n in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                             price_type[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code] = price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                         }
                         price_type['currency'] = price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
-                        airline_price.push({});
                         airline_price[airline_price.length-1][price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                         price_type = [];
                     }
@@ -1936,7 +1949,7 @@ function airline_detail(){
     </div>`;
     text += `
             <div class="row">
-                <div class="col-lg-12" style="margin-bottom:5px;">`;
+                <div class="col-lg-12">`;
     flight_count = 0;
     for(i in price_itinerary.price_itinerary_provider){
         for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
@@ -2036,13 +2049,13 @@ function airline_detail(){
                         text+=`<hr/>
                         </div>`;
                             try{//adult
-                                if(airline_request.adult != '0'){
+                                if(airline_request.adult != 0){
                                     text += `<div class="col-lg-12">`;
                                     try{
-                                    if(airline_price[i].ADT['roc'] != null)
-                                        price = airline_price[i].ADT['roc'];
-                                    if(airline_price[i].ADT.tax != null)
-                                        price += airline_price[i].ADT.tax;
+                                        if(airline_price[i].ADT['roc'] != null)
+                                            price = airline_price[i].ADT['roc'];
+                                        if(airline_price[i].ADT.tax != null)
+                                            price += airline_price[i].ADT.tax;
                                     }catch(err){
 
                                     }
@@ -2053,16 +2066,16 @@ function airline_detail(){
                                     total_price += airline_request.adult * (airline_price[i].ADT['fare'] + price);
                                     text+=`
                                         <div class="row">
-                                            <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:11px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
                                             </div>
-                                            <div class="col-lg-5 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Service Charge</span>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span>
                                             </div>
                                         </div>`;
@@ -2076,33 +2089,35 @@ function airline_detail(){
                             }
 
                             try{//child
-                                if(airline_request.child != '0'){
+                                if(airline_request.child != 0){
                                     try{
-                                    if(airline_price[i].CHD['roc'] != null)
-                                        price = airline_price[i].CHD['roc'];
-                                    if(airline_price[i].CHD.tax != null)
-                                        price += airline_price[i].CHD.tax;
+                                        if(airline_price[i].CHD['roc'] != null)
+                                            price = airline_price[i].CHD['roc'];
+                                        if(airline_price[i].CHD.tax != null)
+                                            price += airline_price[i].CHD.tax;
                                     }catch(err){
 
                                     }
                                     commission = 0;
                                     if(airline_price[i].CHD['rac'] != null)
-                                        commission = airline_price[i].CHD['rac']
+                                        commission = airline_price[i].CHD['rac'];
                                     commission_price += airline_request.child * commission;
                                     total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
                                     text+=`
-                                    <div class="row">
-                                        <div class="col-lg-7 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:11px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
-                                        </div>
-                                        <div class="col-lg-5 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.CHD))+`</span>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.child))+`</span>
+                                            </div>
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Child Service Charge</span>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                                <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                            </div>
                                         </div>
                                     </div>`;
                                     $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
@@ -2114,35 +2129,42 @@ function airline_detail(){
                             }
 
                             try{//infant
-                                if(airline_request.infant != '0'){
+                                if(airline_request.infant != 0){
+                                    price = 0;
                                     try{
-                                    if(airline_price[i].INF['roc'] != null)
-                                        price = airline_price[i].INF['roc'];
-                                    if(airline_price[i].INF.tax != null)
-                                        price += airline_price[i].INF.tax;
+                                        if(airline_price[i].INF['roc'] != null)
+                                            price = airline_price[i].INF['roc'];
+                                        if(airline_price[i].INF.tax != null)
+                                            price += airline_price[i].INF.tax;
                                     }catch(err){
 
                                     }
                                     commission = 0;
-                                    if(airline_price[i].INF['rac'] != null)
-                                        commission = airline_price[i].INF['rac']
+                                    try{
+                                        if(airline_price[i].INF['rac'] != null)
+                                            commission = airline_price[i].INF['rac'];
+                                    }catch(err){
+
+                                    }
                                     commission_price += airline_request.infant * commission;
-                                    total_price += airline_request.infant * (airline_price.INF['fare'] + price);
+                                    total_price += airline_request.infant * (airline_price[i].INF['fare'] + price);
                                     text+=`
+                                    <div class="col-lg-12">
                                         <div class="row">
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                                <span style="font-size:11px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
                                             </div>
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].INF.fare * airline_request.infant))+`</span>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Service Charge</span>
+                                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
+                                                <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Service Charge</span>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                 <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
                                             </div>
-                                        </div>`;
+                                        </div>
+                                    </div>`;
                                     $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+'\n';
                                     $text += airline_request.infant + ' Infant Tax @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                     price = 0;
@@ -2152,23 +2174,24 @@ function airline_detail(){
                             }
                         }
                     }
-                    text+=`<hr/>`;
+                    text+=`<br/>`;
                 }
                 text+=`
                 </div>`;
             }
+            text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
         }
     }
-    share_data();
+
         text+=`
         </div>
     </div>
     <div class="row">
         <div class="col-lg-7" style="text-align:left;">
-            <span style="font-size:13px;">Additional Price</span><br/>
+            <span style="font-size:13px;font-weight:500;">Additional Price</span><br/>
         </div>
         <div class="col-lg-5" style="text-align:right;">
-            <span style="font-size:13px;" id="additional_price">`+getrupiah(Math.ceil(additional_price))+`</span><br/>
+            <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(Math.ceil(additional_price))+`</span><br/>
             <input type="hidden" name="additional_price" id="additional_price_hidden"/>
         </div>
         <div class="col-lg-7" style="text-align:left;">
@@ -2181,18 +2204,32 @@ function airline_detail(){
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
             <hr/>
-            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>
-            <a href="whatsapp://send?text=Share\n%20`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-            <a href="line://msg/text/Share\n%20`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-            <a href="https://telegram.me/share/url?text=Share\n%20`+ $text_share +`" title="Share by Telegram" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-            <a href="mailto:?subject=This is the airline price detail&amp;body=Share\n%20`+ $text_share +`" title="Share by Email" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+            }
+
+        text+=`
         </div>
     </div>
 
     <div class="row" id="show_commission" style="display:none;">
         <div class="col-lg-12 col-xs-12" style="text-align:center;">
             <div class="alert alert-success">
-                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price)+`</span><br>
+                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
             </div>
         </div>
     </div>
@@ -2207,7 +2244,7 @@ function airline_detail(){
             <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
         </center>
     </div>`;
-    $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
+
     document.getElementById('airline_detail').innerHTML = text;
 
 }
@@ -2215,81 +2252,137 @@ function airline_detail(){
 function check_passenger(adult, child, infant){
     //booker
     error_log = '';
+    //check booker jika teropong
+    try{
+        if(JSON.stringify(booker_pick_passenger) != '{}')
+            if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
+                document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
+                document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
+                error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+    }catch(err){
+
+    }
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
                     25) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!\n';
+        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
         document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_first_name').value == ''){
-        error_log+= 'Please fill booker first name!\n';
+        error_log+= 'Please fill booker first name!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_word(document.getElementById('booker_first_name').value) == false){
+        error_log+= 'Please use alpha characters for booker first name!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_word(document.getElementById('booker_last_name').value) == false){
+        error_log+= 'Please use alpha characters for booker last name!</br>\n';
+        document.getElementById('booker_last_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(check_phone_number(document.getElementById('booker_phone').value)==false){
-        error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
+        error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
     }if(check_email(document.getElementById('booker_email').value)==false){
-        error_log+= 'Invalid Booker email!\n';
+        error_log+= 'Invalid Booker email!</br>\n';
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
-    length = 100;
+    length_name = 100;
     is_lion_air = false;
     for(j in airline_pick){
        for(k in airline_pick[j].carrier_code_list){
            if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
-               if(length>24)
-                   length = 24;
+               if(length_name>24)
+                   length_name = 24;
                is_lion_air = true;
            }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
-               if(length>31)
-                   length = 31;
+               if(length_name>31)
+                   length_name = 31;
            }else{
-               if(length>28)
-                   length = 28;
+               if(length_name>28)
+                   length_name = 28;
            }
        }
     }
 
+    var radios = document.getElementsByName('myRadios');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        console.log(radios[j]);
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            booker_copy = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    if(booker_copy == 'yes')
+        if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+           document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+           document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
+   for(i in passenger_data_pick){
+        passenger_check = {
+            'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+            'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
+        }
+        if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+           document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+           document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+
+    }
    //adult
    for(i=1;i<=adult;i++){
 
        if(check_name(document.getElementById('adult_title'+i).value,
-       document.getElementById('adult_first_name'+i).value,
-       document.getElementById('adult_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!\n';
+            document.getElementById('adult_first_name'+i).value,
+            document.getElementById('adult_last_name'+i).value,
+            length_name) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_first_name'+i).value == ''){
-           error_log+= 'Please input first name of adult passenger '+i+'!\n';
+           error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_last_name'+i).value == ''){
-           error_log+= 'Please input last name of adult passenger '+i+'!\n';
+           error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('adult_first_name'+i).value) == false){
+           error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('adult_last_name'+i).value) == false){
+           error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger adult '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -2297,17 +2390,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
           document.getElementById('adult_country_of_issued'+i).value != '' || is_lion_air == true){
            if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger adult '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger adult '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger adult '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -2319,30 +2412,41 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('child_title'+i).value,
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of child '+i+' name maximum '+length+' characters!\n';
+       length_name) == false){
+           error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_first_name'+i).value == ''){
-           error_log+= 'Please input first name of child passenger '+i+'!\n';
+           error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value == ''){
-           error_log+= 'Please input last name of child passenger '+i+'!\n';
+           error_log+= 'Please input last name of child passenger '+i+'!</br>\n';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
-       }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger child '+i+'!\n';
+       }if(check_word(document.getElementById('child_first_name'+i).value) == false){
+           error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
+           document.getElementById('adult_child_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('child_last_name'+i).value) == false){
+           error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('child_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger child '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -2350,17 +2454,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('child_passport_expired_date'+i).value != '' ||
           document.getElementById('child_country_of_issued'+i).value != '' || is_lion_air == true){
            if(document.getElementById('child_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger child '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger child '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger child '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
                document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -2373,30 +2477,40 @@ function check_passenger(adult, child, infant){
        if(check_name(document.getElementById('infant_title'+i).value,
        document.getElementById('infant_first_name'+i).value,
        document.getElementById('infant_last_name'+i).value,
-       length) == false){
-           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!\n';
+       length_name) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_first_name'+i).value == ''){
-           error_log+= 'Please input first name of infant passenger '+i+'!\n';
+           error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value == ''){
-           error_log+= 'Please input last name of infant passenger '+i+'!\n';
+           error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('infant_first_name'+i).value) == false){
+           error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('infant_last_name'+i).value) == false){
+           error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger infant '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -2404,17 +2518,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
           document.getElementById('infant_country_of_issued'+i).value != '' || is_lion_air == true){
            if(document.getElementById('infant_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger infant '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger infant '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger infant '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -2427,7 +2541,8 @@ function check_passenger(adult, child, infant){
        document.getElementById('airline_review').submit();
    }
    else{
-       alert(error_log);
+       document.getElementById('show_error_log').innerHTML = error_log;
+       $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
    }

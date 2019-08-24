@@ -160,21 +160,11 @@ body {
   }
 }
 
-@media (max-width: 320px) {
-  #header {
-    position: relative !important;
-  }
-}
-
 
 @media (max-height: 390px) {
 
   #myBtnBTP {
     bottom: 12px !important;
-  }
-
-  #header{
-    position: relative !important;
   }
 
   #mybuttonsticky {
@@ -2671,6 +2661,11 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #C04B21;
 }
 
+.primary-btn-custom:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
 .primary-btn-custom-un {
   background: #C04B21;
   line-height: 35px;
@@ -3347,7 +3342,11 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .apps-area {
-    background: url("../images/bg_8.jpg") no-repeat center center;
+    background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_8.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .testimonial-area .owl-dots {
@@ -5269,7 +5268,7 @@ div.scrollmenu li {
   width: 15px;
   position: absolute;
   left: 46.9%;
-  top: 26px;
+  top: 25px;
 }
 
 .image-change-route-horizontal {
@@ -6861,10 +6860,6 @@ th input {
   color:white;
 }
 
-.progressbar li.active:hover:before {
-  border-color: #f15a22;
-  background-color:#C04B21;
-}
 .progressbar li.current:before {
   width: 40px;
   height: 40px;
@@ -6880,6 +6875,13 @@ th input {
   position:relative;
   z-index:3;
 }
+
+.progressbar li.fail:before {
+  border-color: red;
+  background-color: red;
+  color:white;
+}
+
 .progressbar li.active + li:after {
   background-color: #f15a22;
 }
@@ -6972,15 +6974,22 @@ th input {
   border: 1px solid #cdcdcd;
   padding:8px 11px 8px 11px;
 }
+.image-rounded-icon2:hover{
+    border: 1px solid #f15a22;
+}
 
 .image-rounded-icon {
-  background: transparent;
+  background: #C04B21;
   border-radius: 20px;
   font-size: 18px;
   text-align: center;
   border-radius:50%;
   border: 2px solid #cdcdcd;
   padding:4px 9px 4px 9px;
+}
+.image-rounded-icon:hover{
+    background:white;
+    border: 2px solid #f15a22;
 }
 
 .breadcrumb-header{
@@ -7005,3 +7014,102 @@ th input {
 .notification-hover:hover{
     color:#f15a22;
 }
+
+.notif-hover:hover{
+    color: #C04B21;
+}
+
+
+/*ALERT NOTIF*/
+
+/*ALERT NOTIFICATION*/
+
+.alert-area {
+  position: fixed;
+  top: 5px;
+  left: 20px;
+  right: 20px;
+  z-index:10000000;
+}
+
+.alert-box {
+  font-size: 16px;
+  color: white;
+  background: rgba(255, 0, 60, 0.9);
+  line-height: 1.3em;
+  padding: 10px 15px;
+  margin: 5px 10px;
+  position: relative;
+  border-radius: 5px;
+  transition: opacity 0.5s ease-in;
+}
+
+.alert-box.hide {
+  opacity: 0;
+}
+
+.alert-box-success {
+  font-size: 16px;
+  color: white;
+  background: rgba(85, 255, 0, 0.9);
+  line-height: 1.3em;
+  padding: 10px 15px;
+  margin: 5px 10px;
+  position: relative;
+  border-radius: 5px;
+  transition: opacity 0.5s ease-in;
+}
+
+.alert-box-success.hide {
+  opacity: 0;
+}
+
+.alert-close {
+  background: transparent;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+
+.alert-close:before,
+.alert-close:after {
+  content: '';
+  width: 15px;
+  border-top: solid 2px white;
+  position: absolute;
+  top: 5px;
+  right: -1px;
+  display: block;
+}
+
+.alert-close:before {
+  transform: rotate(45deg);
+}
+
+.alert-close:after {
+  transform: rotate(135deg);
+}
+
+.alert-close:hover:before,
+.alert-close:hover:after {
+  border-top: solid 2px #d8d8d8;
+}
+
+@media (max-width: 767px) and (min-width: 481px) {
+  .alert-area {
+    left: 100px;
+    right: 100px;
+  }
+}
+
+@media (min-width: 768px) {
+  .alert-area {
+    width: 500px;
+    left: auto;
+    right: 0;
+  }
+}
+
+/* ALERT RELATED CLASS (END) */
