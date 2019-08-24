@@ -2277,6 +2277,16 @@ function check_passenger(adult, child, infant){
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_word(document.getElementById('booker_first_name').value) == false){
+        error_log+= 'Please use alpha characters for booker first name!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_word(document.getElementById('booker_last_name').value) == false){
+        error_log+= 'Please use alpha characters for booker last name!</br>\n';
+        document.getElementById('booker_last_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(check_phone_number(document.getElementById('booker_phone').value)==false){
         error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
         document.getElementById('booker_phone').style['border-color'] = 'red';
@@ -2355,6 +2365,16 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('adult_first_name'+i).value) == false){
+           error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('adult_last_name'+i).value) == false){
+           error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
@@ -2409,7 +2429,18 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
-       }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
+       }if(check_word(document.getElementById('child_first_name'+i).value) == false){
+           error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
+           document.getElementById('adult_child_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('child_last_name'+i).value) == false){
+           error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('child_birth_date'+i).value)==false){
            error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
        }else{
@@ -2460,6 +2491,16 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value == ''){
            error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('infant_first_name'+i).value) == false){
+           error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(check_word(document.getElementById('infant_last_name'+i).value) == false){
+           error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';

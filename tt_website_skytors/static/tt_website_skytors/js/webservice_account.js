@@ -111,6 +111,11 @@ function get_transactions_notification(){
             logout();
         }else{
             alert(msg.result.error_msg);
+            text= '';
+            text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+            text+=`<span style="font-weight:500;"> No Notification</span>`;
+            text+=`</div>`;
+            document.getElementById('notification_detail').innerHTML = text;
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

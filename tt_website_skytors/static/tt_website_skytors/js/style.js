@@ -1344,6 +1344,8 @@ function show_hide_tac(id){
     }
 }
 
+var count_alert=0;
+var count_alert_items=[];
 try{
     var AlertBox = function(id, option) {
       this.show = function(msg) {
@@ -1356,11 +1358,26 @@ try{
           var alertContent = document.createElement('DIV');
           var alertClose = document.createElement('A');
           var alertClass = this;
+
+          count_alert_items.push(count_alert);
+          count_alert = count_alert+1;
+          console.log(count_alert_items.length)
+          if(count_alert_items.length == 3){
+
+            $(".alert-id-"+count_alert_items[0]).hide(alertBox);
+            count_alert_items.shift();
+
+          }
+          if(count_alert > 3){
+            count_alert = 0;
+          }
+
           alertContent.classList.add('alert-content');
           alertContent.innerText = msg;
           alertClose.classList.add('alert-close');
           alertClose.setAttribute('href', '#');
           alertBox.classList.add('alert-box');
+          alertBox.classList.add('alert-id-'+count_alert);
           alertBox.appendChild(alertContent);
           if (!option.hideCloseButton || typeof option.hideCloseButton === 'undefined') {
             alertBox.appendChild(alertClose);
@@ -1399,11 +1416,20 @@ try{
           var alertContent = document.createElement('DIV');
           var alertClose = document.createElement('A');
           var alertClass = this;
+
+          count_alert_items.push(count_alert);
+          count_alert = count_alert+1;
+          if(count_alert > 3){
+            count_alert_items.shift();
+            $(".alert-id-"+count_alert_items[0]).hide(alertBox);
+          }
+
           alertContent.classList.add('alert-content');
           alertContent.innerText = msg;
           alertClose.classList.add('alert-close');
           alertClose.setAttribute('href', '#');
           alertBox.classList.add('alert-box-success');
+          alertBox.classList.add('alert-id-'+count_alert);
           alertBox.appendChild(alertContent);
           if (!option.hideCloseButton || typeof option.hideCloseButton === 'undefined') {
             alertBox.appendChild(alertClose);

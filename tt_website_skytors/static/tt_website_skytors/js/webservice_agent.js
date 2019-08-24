@@ -78,6 +78,7 @@ function get_customer_list(passenger, number, product){
     passenger_number = number;
 
     if(passenger == 'booker'){
+        $(".loading-booker-train").show();
         if(document.getElementById('train_booker_search').value.length >= 2){
             $.ajax({
                type: "POST",
@@ -96,8 +97,11 @@ function get_customer_list(passenger, number, product){
                 console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
+                    var like_name_booker = document.getElementById('train_booker_search').value;
                     if(msg.result.response.length != 0){
                         response+=`
+                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
+                        <div style="overflow:auto;height:300px;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -123,15 +127,15 @@ function get_customer_list(passenger, number, product){
                                 </td>`;
     //                            <td>`+msg.response.result[i].booker_type+`</td>
     //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                                response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                                response+=`<td><button type="button" class="primary-btn-custom" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
                             </tr>`;
                         }
-                        response+=`</table>`;
+                        response+=`</table></div>`;
                         document.getElementById('search_result').innerHTML = response;
                         passenger_data = msg.result.response;
                     }else{
                         response = '';
-                        response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
+                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
                         document.getElementById('search_result').innerHTML = response;
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -139,16 +143,17 @@ function get_customer_list(passenger, number, product){
                 }else{
                     alert(msg.result.error_msg);
                 }
-
-                $('#loading-booker-train').hide();
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert(errorThrown);
                }
             });
         }else{
-            alertbox.show('Please input more than 1 letter!');
+            response = '';
+            response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
+            document.getElementById('search_result').innerHTML = response;
         }
+        $(".loading-booker-train").hide();
     }else{
         $(".loading-pax-train").show();
         if(document.getElementById('train_adult'+number+'_search').value.length >= 2){
@@ -171,6 +176,8 @@ function get_customer_list(passenger, number, product){
                     var response = '';
                     if(msg.result.response.length != 0){
                         response+=`
+                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
+                        <div style="overflow:auto;height:300px;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -199,12 +206,12 @@ function get_customer_list(passenger, number, product){
                                 response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
                             </tr>`;
                         }
-                        response+=`</table>`;
+                        response+=`</table></div>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                         passenger_data = msg.result.response;
                     }else{
                         response = '';
-                        response+=`<center><h5>OOPS! USER NOT FOUND</h5></center>`;
+                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -213,15 +220,17 @@ function get_customer_list(passenger, number, product){
                     alert(msg.result.error_msg);
                 }
 
-                $(".loading-pax-train").hide();
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert(errorThrown);
                }
             });
         }else{
-            alertbox.show('Please input more than 1 letter!');
+            response = '';
+            response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
+            document.getElementById('search_result_'+passenger+number).innerHTML = response;
         }
+        $(".loading-pax-train").hide();
     }
 }
 
