@@ -409,7 +409,7 @@ function get_airline_config(type, val){
             }
             for(i in msg){
                 var node = document.createElement("option");
-                node.text = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                node.text = msg[i].name+` - `+msg[i].city +' - '+msg[i].country+' ('+msg[i].code+')';
                 node.value = msg[i].code;
                 if(type == 'search'){
                     try{
@@ -455,7 +455,7 @@ function get_airline_config(type, val){
                 }
                 origin.add(node);
                 node = document.createElement("option");
-                node.text = msg[i].name+` - `+msg[i].city +' ('+msg[i].code+')';
+                node.text = msg[i].name+` - `+msg[i].city +' - '+msg[i].country+' ('+msg[i].code+')';
                 node.value = msg[i].code;
                 if(type == 'search'){
                     try{
@@ -1324,12 +1324,13 @@ function get_price_itinerary_request(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
            document.getElementById("badge-flight-notif").innerHTML = "0";
            document.getElementById("badge-flight-notif2").innerHTML = "0";
            $("#badge-flight-notif").removeClass("infinite");
            $("#badge-flight-notif2").removeClass("infinite");
            text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
+           alert(errorThrown);
+
        }
     });
 }

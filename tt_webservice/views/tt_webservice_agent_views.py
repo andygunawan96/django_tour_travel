@@ -218,7 +218,7 @@ def signin(request):
                     # 'activity': res_config_activity['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
-                        'destination': res_destination_airline['result']['response'],
+                        'destination': res_destination_airline['result']['response']
                     },
                 })
 
@@ -230,6 +230,44 @@ def signin(request):
                 file = open('version' + str(file_cache_name) + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
+
+                #cache airline popular
+                file = open("popular_destination_airline_cache.txt", "r")
+                for line in file:
+                    popular_airline = json.loads(line)
+                file.close()
+                popular = []
+                avarage = []
+                for country in res_destination_airline['result']['response']:
+                    for destination in country['destinations']:
+                        try:
+                            if popular_airline.get(destination['code']) == True:
+                                popular.append({
+                                    'name': destination['name'],
+                                    'code': destination['code'],
+                                    'city': destination['city'],
+                                    'country': country['name']
+                                })
+                            else:
+                                avarage.append({
+                                    'name': destination['name'],
+                                    'code': destination['code'],
+                                    'city': destination['city'],
+                                    'country': country['name']
+                                })
+                        except:
+                            avarage.append({
+                                'name': destination['name'],
+                                'code': destination['code'],
+                                'city': destination['city'],
+                                'country': country['name']
+                            })
+                popular = popular + avarage
+
+                file = open('airline_destination.txt', "w+")
+                file.write(json.dumps(popular))
+                file.close()
+                #cache airline popular
         else:
             logging.getLogger("info_logger").info("WRONG USERNAME OR PASSWORD MAYBE HACKER!! ")
 

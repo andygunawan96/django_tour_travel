@@ -42,14 +42,11 @@ def search(request):
         file.close()
 
         # airline
+        file = open("airline_destination.txt", "r")
+        for line in file:
+            airline_destinations = json.loads(line)
+        file.close()
         airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in country['destinations']:
-                des.update({
-                    'country': country['code'],
-                    'country_name': country['name']
-                })
-                airline_destinations.append(des)
 
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:

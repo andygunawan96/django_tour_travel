@@ -318,8 +318,8 @@ def search2(request):
                 month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
                 request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
             journey_list.append({
-                'origin': request.session['airline_request']['origin'][0][-4:][:3],
-                'destination': request.session['airline_request']['destination'][0][-4:][:3],
+                'origin': request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3],
+                'destination': request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3],
                 'departure_date': departure_date
             })
             cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
@@ -438,30 +438,17 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
+        file = open("airline_destination.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
 
-        airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in country['destinations']:
-                des.update({
-                    'country': country['code'],
-                    'country_name': country['name']
-                })
-                airline_destinations.append(des)
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    return airline_destinations
+    return response
 
 def get_price_itinerary(request, boolean):
     try:
