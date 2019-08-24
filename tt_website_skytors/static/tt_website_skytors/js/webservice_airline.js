@@ -2010,7 +2010,7 @@ function airline_get_booking(data){
             <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(parseInt(commission)  )+`</span><br>
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
                     </div>
                 </div>
             </div>`;
