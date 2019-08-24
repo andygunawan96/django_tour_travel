@@ -745,7 +745,7 @@ def update_passengers(request):
             nationality_code = ''
             country_of_issued_code = ''
             for country in response['result']['response']['airline']['country']:
-                if pax['nationality_code'] == country['code']:
+                if pax['nationality_code'] == country['name']:
                     nationality_code = country['code']
                     break
             if pax['country_of_issued_code'] != '':
