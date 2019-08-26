@@ -1479,7 +1479,7 @@ function sort(airline){
                                     </table>
                                     <span>`+airline[i].arrival_date.split(' - ')[0]+` </span></br>
                                     <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
-                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[1]`</span>
+                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[1]+`</span>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="padding:0px;">
                                     <span>Transit: `+airline[i].transit_count+``;
