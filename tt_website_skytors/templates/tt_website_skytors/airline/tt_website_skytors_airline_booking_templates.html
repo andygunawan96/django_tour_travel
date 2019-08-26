@@ -55,7 +55,7 @@
                 </div>
             </div>
         </div>
-
+        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
         <form method="POST" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
             <div class="row" style="padding-top:20px;">

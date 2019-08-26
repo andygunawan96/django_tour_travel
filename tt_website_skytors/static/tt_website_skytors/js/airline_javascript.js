@@ -1894,6 +1894,7 @@ function getrupiah(price){
 }
 
 function copy_data(){
+    console.log($text);
     //
     document.getElementById('data_copy').innerHTML = $text;
     document.getElementById('data_copy').hidden = false;
