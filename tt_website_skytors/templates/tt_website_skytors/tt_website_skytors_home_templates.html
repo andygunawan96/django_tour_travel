@@ -74,13 +74,13 @@
     {% if username != undefined %}
         //hotel_signin('home');
         get_airline_config('home');
+        airline_search_value = 'false';
         //get_train_config('home');
         //get_visa_config('home');
 
 
         //get_agent_booking();
     {% endif %}
-
 </script>
 
 <style>
@@ -199,11 +199,12 @@
                                                         <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">
+                                                                <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
-                                                                </select>
+                                                                <!--</select>-->
                                                             </div>
-                                                            <input type="hidden" name="origin_id_flight" id="airline_origin_flight" />
+                                                            <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                         </div>
                                                     </div>
                                                     <div class="image-change-route-vertical">
@@ -216,11 +217,12 @@
                                                         <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
-                                                                <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">
+                                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
-                                                                </select>
+                                                                <!--</select>-->
                                                             </div>
-                                                            <input type="hidden" name="destination_id_flight" id="airline_destination_flight" />
+                                                            <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1226,8 +1228,43 @@
     <!--</div>-->
 <!--</div>-->
 {% include 'tt_website_skytors/footer.html' %}
-
 <script>
+    //test
+    var origin = new autoComplete({
+        selector: '#origin_id_flight',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                    term = ''
+            if(term.length > 1)
+                suggest(airline_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#origin_id_flight").trigger("blur");
+            set_airline_search_value_to_true();
+        }
+    });
+    var destination = new autoComplete({
+        selector: '#destination_id_flight',
+        minChars: 0,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                term = ''
+            if(term.length > 1)
+                suggest(airline_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#destination_id_flight").trigger("blur");
+            set_airline_search_value_to_true();
+        }
+    });
+
+    //test
+
     //testing getbooker
     try{
         document.getElementById("airline_date_search").innerHTML = '';

@@ -21,6 +21,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
     <!--template1-->
+    <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/bootstrap.css">
     <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css">
@@ -35,6 +36,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.green.min.css">
     <!--font-->
     <link rel="stylesheet" href="{{ static_path }}css/all.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/sweetalert2.min.css">
     <!--cart-->
     <link rel="stylesheet" href="{{ static_path }}css/cart.css">
     <link rel="stylesheet" href="{{ static_path }}css/simplePagination.css">
@@ -77,6 +79,7 @@ Licence URI: http://www.os-templates.com/template-terms
         });
     {% endif %}
    </script>
+    <script src="{{ static_path }}js/auto-complete.js?version={{javascript_version}}"></script>
 </head>
 
 <body>
@@ -121,6 +124,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--datetimepicker-->
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/sweetalert2.min.js?version={{javascript_version}}"></script>
 <!--cart-->
 <script src="{{ static_path }}js/cart.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/jquery.simplePagination.js?version={{javascript_version}}"></script>

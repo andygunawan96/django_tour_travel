@@ -95,7 +95,7 @@ function airline_signin(data){
        data: {},
        success: function(msg) {
            console.log(msg);
-           signature = msg.result.response.signature;
+           airline_signature = msg.result.response.signature;
            if(data == ''){
                temp = get_provider_list();
 
@@ -250,7 +250,11 @@ function get_carrier_code_list(type, val){
                }
            }
            if(val == undefined)
-               document.getElementById('provider_flight_content').innerHTML = text;
+               try{
+                   document.getElementById('provider_flight_content').innerHTML = text;
+               }catch(err){
+
+               }
            else
                document.getElementById('provider_flight_content'+val).innerHTML = text;
        },
@@ -398,110 +402,114 @@ function get_airline_config(type, val){
        },
        success: function(msg) {
             console.log(msg);
-            airline_destination = msg
-            var origin = ''
-            var destination = ''
-            if(val == undefined){
-                origin = document.getElementById("origin_id_flight");
-                destination = document.getElementById("destination_id_flight");
-            }else{
-                origin = document.getElementById("origin_id_flight"+val);
-                destination = document.getElementById("destination_id_flight"+val);
-            }
+            new_airline_destination = [];
             for(i in msg){
-                var node = document.createElement("option");
-                node.text = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                node.value = msg[i].code;
-                if(type == 'search'){
-                    try{
-                        if(val == undefined){
-                            if(airline_request['origin'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                                node.setAttribute('selected', 'selected');
-                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            }
-                        }else if(airline_request['origin'][val-1] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }catch(err){
-                        if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }
-                }else{
-                    try{
-                        if(cache['airline']['origin'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            if(val == undefined)
-                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            else
-                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }else if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            if(val == undefined)
-                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            else
-                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }catch(err){
-                        if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            if(val == undefined)
-                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            else
-                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }
-                }
-                origin.add(node);
-                node = document.createElement("option");
-                node.text = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                node.value = msg[i].code;
-                if(type == 'search'){
-                    try{
-                        if(val == undefined){
-                            if(airline_request['destination'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                                node.setAttribute('selected', 'selected');
-                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            }
-                        }else if(airline_request['destination'][val-1] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }catch(err){
-                        if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }
-                }else{
-                    try{
-                        if(cache['airline']['destination'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            if(val == undefined)
-                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            else
-                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }else if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            if(val == undefined)
-                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            else
-                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }catch(err){
-                        if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
-                            node.setAttribute('selected', 'selected');
-                            if(val == undefined)
-                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                            else
-                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
-                        }
-                    }
-                }
-                destination.add(node);
+                new_airline_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country);
             }
+//            airline_destination = msg
+//            var origin = ''
+//            var destination = ''
+//            if(val == undefined){
+//                origin = document.getElementById("origin_id_flight");
+//                destination = document.getElementById("destination_id_flight");
+//            }else{
+//                origin = document.getElementById("origin_id_flight"+val);
+//                destination = document.getElementById("destination_id_flight"+val);
+//            }
+//            for(i in msg){
+//                var node = document.createElement("option");
+//                node.text = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                node.value = msg[i].code;
+//                if(type == 'search'){
+//                    try{
+//                        if(val == undefined){
+//                            if(airline_request['origin'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                                node.setAttribute('selected', 'selected');
+//                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            }
+//                        }else if(airline_request['origin'][val-1] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }catch(err){
+//                        if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }
+//                }else{
+//                    try{
+//                        if(cache['airline']['origin'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            if(val == undefined)
+//                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            else
+//                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }else if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            if(val == undefined)
+//                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            else
+//                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }catch(err){
+//                        if('SUB - Juanda International Airport - Surabaya - Indonesia' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            if(val == undefined)
+//                                document.getElementById('airline_origin_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            else
+//                                document.getElementById('airline_origin_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }
+//                }
+//                origin.add(node);
+//                node = document.createElement("option");
+//                node.text = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                node.value = msg[i].code;
+//                if(type == 'search'){
+//                    try{
+//                        if(val == undefined){
+//                            if(airline_request['destination'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                                node.setAttribute('selected', 'selected');
+//                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            }
+//                        }else if(airline_request['destination'][val-1] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }catch(err){
+//                        if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }
+//                }else{
+//                    try{
+//                        if(cache['airline']['destination'][0] == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            if(val == undefined)
+//                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            else
+//                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }else if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            if(val == undefined)
+//                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            else
+//                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }catch(err){
+//                        if('SIN - Changi Intl - Singapore - Singapore' == msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country){
+//                            node.setAttribute('selected', 'selected');
+//                            if(val == undefined)
+//                                document.getElementById('airline_destination_flight').value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                            else
+//                                document.getElementById('airline_destination_flight'+val).value = msg[i].code+' - '+ msg[i].name+` - `+msg[i].city +' - '+msg[i].country;
+//                        }
+//                    }
+//                }
+//                destination.add(node);
+//            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -524,7 +532,7 @@ function airline_search(provider,carrier_codes){
            'provider': provider,
            'carrier_codes': JSON.stringify(carrier_codes),
            'counter_search': counter_search,
-           'signature': signature
+           'signature': airline_signature
        },
        success: function(msg) {
        console.log(msg);
@@ -960,7 +968,7 @@ function get_price_itinerary_request(){
        data: {
           "promotion_code": [],
           "journeys_booking": JSON.stringify(journey),
-          'signature': signature,
+          'signature': airline_signature,
           'separate_journey': separate
        },
        success: function(resJson) {
@@ -1321,6 +1329,9 @@ function get_price_itinerary_request(){
                 $("#badge-flight-notif").removeClass("infinite");
                 $("#badge-flight-notif2").removeClass("infinite");
                 text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
+                document.getElementById('airline_detail').innerHTML = text;
+                $('#loading-search-flight').hide();
+                $('#choose-ticket-flight').hide();
             }
 
        },
@@ -1330,6 +1341,9 @@ function get_price_itinerary_request(){
            $("#badge-flight-notif").removeClass("infinite");
            $("#badge-flight-notif2").removeClass("infinite");
            text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
+           document.getElementById('airline_detail').innerHTML = text;
+           $('#loading-search-flight').hide();
+           $('#choose-ticket-flight').hide();
            alert(errorThrown);
 
        }
@@ -1380,7 +1394,12 @@ function get_fare_rules(){
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
             }else{
-                document.getElementById('rules'+count_fare).innerHTML = 'No fare rules';
+                try{
+                    for(var i=0;i<100;i++)//hardcode
+                        document.getElementById('rules'+i).innerHTML = 'No fare rules';
+                }catch(err){
+
+                }
                 alert(msg.result.error_msg);
             }
             $('.btn-next').prop('disabled', false);
@@ -1547,7 +1566,29 @@ function airline_commit_booking(val){
 }
 
 function airline_hold_booking(val){
-    airline_update_contact_booker(val);
+    Swal.fire({
+      title: 'Are you sure?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        if (val==0){
+            $('.next-loading-booking').addClass("running");
+            $('.next-loading-booking').prop('disabled', true);
+            $('.next-loading-issued').prop('disabled', true);
+        }
+        else{
+            $('.next-loading-booking').prop('disabled', true);
+            $('.next-loading-issued').addClass("running");
+            $('.next-loading-issued').prop('disabled', true);
+        }
+        airline_update_contact_booker(val);
+      }
+    })
+
 }
 
 function airline_update_passenger(val){
