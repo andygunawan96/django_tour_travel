@@ -2106,11 +2106,12 @@ function airline_issued(data){
                document.getElementById('success-issued').style.display = "block";
                document.getElementById('button-choose-print').value = "Print Ticket";
                document.getElementById('button-choose-print').type = "button";
+                "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+home
+               document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number;
                document.getElementById('button-print-print').value = "Print Ticket (with Price)";
+               document.getElementById('button-print-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+"/1";
                document.getElementById('button-issued-print').value = "Print Invoice";
-               document.getElementById('button-choose-print').onclick = "#";
-               document.getElementById('button-print-print').onclick = "#";
-               document.getElementById('button-issued-print').onclick = "#";
+               document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/"+msg.result.response.order_number;
                document.getElementById('seat-map-link').href="#";
                document.getElementById('seat-map-link').hidden=false;
                document.getElementById('print_invoice').href="#";
