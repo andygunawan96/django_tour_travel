@@ -53,6 +53,21 @@ def search(request):
             response = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:
             airline_carriers[i] = {
@@ -234,8 +249,6 @@ def search(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-
-
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'journeys': journeys,
@@ -247,7 +260,9 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'time_limit': 600
+            'time_limit': 600,
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -278,6 +293,21 @@ def passenger(request):
             for line in file:
                 carrier = json.loads(line)
             file.close()
+
+            try:
+                file = open("data_cache_template.txt", "r")
+                for idx, line in enumerate(file):
+                    if idx == 0:
+                        if line == '\n':
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        else:
+                            logo = line
+                    elif idx == 1:
+                        template = int(line)
+                file.close()
+            except:
+                template = 1
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -329,7 +359,9 @@ def passenger(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['airline_signature'],
-            'time_limit': request.session['time_limit']
+            'time_limit': request.session['time_limit'],
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -359,6 +391,21 @@ def ssr(request):
         for line in file:
             carrier = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         adult = []
         child = []
@@ -515,7 +562,9 @@ def ssr(request):
             'passengers': passenger,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'time_limit': int(request.POST['time_limit_input'])
+            'time_limit': int(request.POST['time_limit_input']),
+            'logo': logo,
+            'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -538,6 +587,22 @@ def review(request):
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         ssr = []
 
         try:
@@ -746,7 +811,9 @@ def review(request):
             'passengers_ssr': passenger,
             'javascript_version': javascript_version,
             'signature': request.session['airline_signature'],
-            'time_limit': int(request.POST['time_limit_input'])
+            'time_limit': int(request.POST['time_limit_input']),
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -767,6 +834,21 @@ def booking(request):
             airline_carriers = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -775,7 +857,9 @@ def booking(request):
             'airline_carriers': airline_carriers,
             'order_number': request.POST['order_number'],
             # 'order_number': 'AL.19081332140',
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
 
             # 'order_number': 'AL.19072446048',
         }

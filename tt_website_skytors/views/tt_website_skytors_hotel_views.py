@@ -34,6 +34,21 @@ def search(request):
             response = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -61,7 +76,9 @@ def search(request):
             'hotel_config': response['result']['response']['hotel_config'],
             'hotel_search': request.session['hotel_request'],
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -75,6 +92,22 @@ def detail(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -90,7 +123,9 @@ def detail(request):
             'check_out': data['checkout_date'],
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
 
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_templates.html', values)
@@ -113,6 +148,21 @@ def passengers(request):
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -150,7 +200,9 @@ def passengers(request):
             'child_count': int(request.session['hotel_request']['child']),
             'adult_title': adult_title,
             'infant_title': infant_title,
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
     else:
@@ -172,6 +224,21 @@ def review(request):
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         adult = []
         child = []
@@ -231,7 +298,9 @@ def review(request):
             'adult_count': int(request.session['hotel_request']['person']),
             'infant_count': int(request.session['hotel_request']['child']),
             'username': request.session['username'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }

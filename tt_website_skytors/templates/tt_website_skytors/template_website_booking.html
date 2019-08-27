@@ -17,11 +17,12 @@ Licence URI: http://www.os-templates.com/template-terms
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
 
-    <link rel="icon" href="{{ static_path }}images/icon/LOGO_RODEX.png" sizes="16x16" type="image/png">
+    <link rel="icon" href="{{ logo }}" sizes="16x16" type="image/png">
     <!--    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
     <!--template1-->
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
+    {%if template == 1%}
     <link rel="stylesheet" href="{{ static_path }}css/template1/animate.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/bootstrap.css">
     <link rel="stylesheet" href="{{ static_path }}css/font-awesome.min.css">
@@ -31,9 +32,67 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/main.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/nice-select.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.carousel.css">
-    <link rel="stylesheet" href="{{ static_path }}css/template1/font.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.default.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/template1/owl.theme.green.min.css">
+    <!--select2-->
+    <link rel="stylesheet" href="{{ static_path }}css/select2.css">
+
+    <!--template2-->
+    {% elif template == 2 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template2/default-assets/classy-nav.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/animate.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/jquery-ui.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/magnific-popup.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/nice-select.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.carousel.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.theme.green.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/linearicons.css">
+    <!--    <link rel="stylesheet" href="{{ static_path }}css/template2/owl.carousel.min.css">-->
+    <link rel="stylesheet" href="{{ static_path }}css/template2/style.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template2/select2.css">
+
+    {% elif template == 3 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template3/linearicons.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/bootstrap.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/magnific-popup.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/nice-select.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/animate.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.carousel.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/owl.theme.green.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/main.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template3/select2.css">
+
+    {% elif template == 4 %}
+    <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/icomoon/style.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/magnific-popup.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/jquery-ui.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/owl.theme.default.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/aos.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/rangeslider.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/style.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/select2.css">
+    {% elif template == 5 %}
+    <link rel="stylesheet" href="{{ static_path }}css/template5/linearicons.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/nice-select.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="{{ static_path }}css/template5/ion.rangeSlider.skinFlat.css" />
+    <link rel="stylesheet" href="{{ static_path }}css/template5/bootstrap.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/owl.carousel.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/main.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template5/select2.css">
+    {%endif%}
     <!--font-->
     <link rel="stylesheet" href="{{ static_path }}css/all.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/sweetalert2.min.css">

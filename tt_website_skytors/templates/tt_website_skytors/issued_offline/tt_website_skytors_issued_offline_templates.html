@@ -47,8 +47,6 @@
     countries = countries.replace(/True/g, 'true');
     countries = JSON.parse(countries);
 
-    get_balance();
-
     function check_years_old(sequence){
         var birth_date = '';
         birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
