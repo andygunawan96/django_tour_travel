@@ -2743,65 +2743,6 @@ function get_airline_review(){
         }
     }
 
-//    for(i in airline_pick){
-//        if(i == 0)
-//            text += '<h6>Departure</h6>';
-//        else
-//            text += '<hr/><h6>Return</h6>';
-//
-//        for(j in airline_pick[i].segments){
-//
-//            if(airline_pick[i].segments[j].origin == airline_request.destination)
-//                text += '<h6>Return</h6>';
-//            text+= `<div class="row">`;
-//            text+= `<div class="col-lg-12">
-//            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick[i].segments[j].carrier_code+`.png"/>
-//            </div>`;
-//
-//            text+= `<div class="col-lg-12">
-//                        <h5>`+airline_carriers[airline_pick[i].segments[j].carrier_code].name+` (`+airline_pick[i].segments[j].carrier_code+` `+airline_pick[i].segments[j].carrier_number+`)</h5>`;
-//            if(airline_get_price_request.journeys_booking[i].segments[j].fare_pick != ''){
-//                 text+=`<h6>Class: `+airline_pick[i].segments[j].fares[airline_get_price_request.journeys_booking[i].segments[j].fare_pick].subclass+`</h6>`;
-//            }
-//            text+= `</div>`;
-//            text+= `</div>
-//                    <div class="row">`;
-//            text+= `
-//                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-//                        <table style="width:100%">
-//                            <tr>
-//                                <td class="airport-code"><h5>`+airline_pick[i].segments[j].departure_date.split(' - ')[1]+`</h5></td>
-//                                <td style="padding-left:15px;">
-//                                    <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-//                                </td>
-//                                <td style="height:30px;padding:0 15px;width:100%">
-//                                    <div style="display:inline-block;position:relative;width:100%">
-//                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-//                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-//                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-//                                    </div>
-//                                </td>
-//                            </tr>
-//                        </table>
-//                        <span>`+airline_pick[i].segments[j].departure_date.split(' - ')[0]+`</span></br>
-//                        <span style="font-weight:500;">`+airline_pick[i].segments[j].origin_city+` - `+airline_pick[i].segments[j].origin_name+` (`+airline_pick[i].segments[j].origin+`)</span>
-//                    </div>
-//                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-//                        <table style="width:100%; margin-bottom:6px;">
-//                            <tr>
-//                                <td><h5>`+airline_pick[i].segments[j].arrival_date.split(' - ')[1]+`</h5></td>
-//                                <td></td>
-//                                <td style="height:30px;padding:0 15px;width:100%"></td>
-//                            </tr>
-//                        </table>
-//                        <span>`+airline_pick[i].segments[j].arrival_date.split(' - ')[0]+`</span></br>
-//                        <span style="font-weight:500;">`+airline_pick[i].segments[j].destination_city+` - `+airline_pick[i].segments[j].destination_name+` (`+airline_pick[i].segments[j].destination+`)</span>
-//                    </div>
-//                </div>`;
-//        }
-//    }
-//    text+=`</div>`;
-
     //contact
     text+=`
     <div class="row">
@@ -2840,21 +2781,18 @@ function get_airline_review(){
                         <th style="width:28%;">Name</th>
                         <th style="width:7%;">Type</th>
                         <th style="width:18%;">Birth Date</th>
+                        <th style="width:18%;">Special Service Request</th>
                     </tr>`;
-                    for(i in passengers.adult){
+                    for(i in passengers_ssr){
                         text+=`<tr>
                                 <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
-                                <td>`+passengers.adult[i].title+` `+passengers.adult[i].first_name+` `+ passengers.adult[i].last_name +`</td>
+                                <td>`+passengers.adult[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
                                 <td>Adult</td>
                                 <td>`+passengers.adult[i].birth_date+`</td>
-                               </tr>`;
-                    }
-                    for(i in passengers.child){
-                        text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
-                                <td>`+passengers.child[i].title+` `+passengers.child[i].first_name+` `+ passengers.child[i].last_name +`</td>
-                                <td>Child</td>
-                                <td>`+passengers.child[i].birth_date+`</td>
+                                <td>`;
+                                for(j in passengers_ssr[i].ssr_list)
+                                    text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
+                                text+=`</td>
                                </tr>`;
                     }
                     for(i in passengers.infant){
@@ -2892,4 +2830,9 @@ function update_contact_cp(val){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
+}
+
+function next_ssr(){
+    document.getElementById('time_limit_input').value = time_limit;
+    document.getElementById('airline_booking').submit();
 }

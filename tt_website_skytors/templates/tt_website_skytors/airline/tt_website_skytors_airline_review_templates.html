@@ -36,11 +36,19 @@
     passengers = passengers.replace(/True/g, true);
     passengers = passengers.replace(/False/g, false);
     passengers = JSON.parse(passengers);
+
+    passengers_ssr = `{{passengers_ssr}}`;
+    passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
+    passengers_ssr = passengers_ssr.replace(/True/g, true);
+    passengers_ssr = passengers_ssr.replace(/False/g, false);
+    passengers_ssr = JSON.parse(passengers_ssr);
+
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
     time_limit = {{time_limit}};
     session_time_limit();
+    ssr = {{ssr}};
 </script>
 {% include 'tt_website_skytors/logout.html' %}
 <header id="header">
