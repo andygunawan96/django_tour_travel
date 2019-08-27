@@ -87,7 +87,7 @@
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
-            <form id="airline_review" class="form-wrap" action="{% url 'tt_website_skytors:airline_review'%}" method="POST" style="padding:0; text-align:unset;">
+            <form id="airline_review" class="form-wrap" action=" {% if srr == 0 %} {% url 'tt_website_skytors:airline_ssr'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -161,7 +161,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
-                                                    <select id="booker_title" name="booker_title">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -198,7 +198,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -225,7 +225,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" placeholder="Nationality" onchange="auto_complete('booker_phone_code')">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" placeholder="Nationality" onchange="auto_complete('booker_phone_code')" class="nice-select-default">
                                                             {% for country in countries %}
                                                             <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                             {% endfor %}
@@ -344,7 +344,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
+                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -376,7 +376,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('adult_nationality{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -411,7 +411,7 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>
@@ -438,7 +438,7 @@
 
                                                     <div class="input-container-search-ticket">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')">
+                                                            <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
                                                                 {% for country in countries %}
                                                                 <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                                 {% endfor %}
@@ -525,7 +525,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
+                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -557,7 +557,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('child_nationality{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -591,7 +591,7 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>
@@ -674,7 +674,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}">
+                                                    <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -706,7 +706,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('infant_nationality{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -740,7 +740,7 @@
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')">
+                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>

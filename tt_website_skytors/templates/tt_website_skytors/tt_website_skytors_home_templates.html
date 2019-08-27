@@ -227,11 +227,18 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;"></div>
+                                            <div class="col-lg-4 col-md-6 col-sm-6" id="airline_date_search" style="padding:0px;">
+                                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                                 <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                                                 <div class="input-container-search-ticket btn-group">
-                                                    <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
+                                                    <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                        1 Adult, 0 Child, 0 Infant
+                                                    </button>
                                                     <ul class="dropdown-menu" role="menu">
                                                         <div class="row" style="padding:10px;">
                                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -311,7 +318,7 @@
                                                 <span class="span-search-ticket">Class</span>
                                                 <div class="input-container-search-ticket btn-group">
                                                     <div class="form-select" id="default-select">
-                                                        <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
+                                                        <select id="cabin_class_flight" name="cabin_class_flight" class="nice-select-default">
                                                             {% for cabin_class in airline_cabin_class_list %}
                                                             <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
                                                             {% endfor %}

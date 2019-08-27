@@ -670,6 +670,11 @@ function datasearch2(airline){
                        }
                        break;
                    }
+//                   else{
+//                       //testing sia
+//                       airline.journey_list[i].journeys[j].segments[k].fare_pick = 0;
+//                       can_book = true;
+//                   }
                }
 
                if(airline.journey_list[i].journeys[j].segments[k].carrier_code == airline.journey_list[i].journeys[j].segments[k].operating_airline_code && airline.journey_list[i].journeys[j].operated_by != false){
@@ -1425,8 +1430,9 @@ function airline_sell_journeys(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-               document.getElementById('time_limit_input').value = time_limit
-               document.getElementById('go_to_passenger').submit();
+               get_ssr_availabilty();
+//               document.getElementById('time_limit_input').value = time_limit
+//               document.getElementById('go_to_passenger').submit();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
@@ -1444,22 +1450,119 @@ function airline_sell_journeys(){
 
 }
 
-function airline_create_passengers(){
+//SSR
+function get_ssr_availabilty(){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'create_passengers',
+            'action': 'get_ssr_availabilty',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'signature': airline_signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            document.getElementById('time_limit_input').value = time_limit
+            document.getElementById('go_to_passenger').submit();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+
+}
+
+
+//function airline_create_passengers(){
+//    getToken();
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/airline",
+//       headers:{
+//            'action': 'create_passengers',
+//       },
+////       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+//       data: {
+//            'signature': signature
+//       },
+//       success: function(msg) {
+//           if(msg.result.error_code == 0)
+//               console.log(msg);
+//           else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+//                logout();
+//           }else{
+//                alert(msg.result.error_msg);
+//           }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//           alert(errorThrown);
+//       }
+//    });
+//
+//}
+
+//function airline_create_passengers_with_ssr(){
+//    getToken();
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/airline",
+//       headers:{
+//            'action': 'create_passengers',
+//       },
+////       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+//       data: {
+//            'signature': signature
+//       },
+//       success: function(msg) {
+//           console.log(msg);
+//           $.ajax({
+//               type: "POST",
+//               url: "/webservice/airline",
+//               headers:{
+//                    'action': 'ssr',
+//               },
+//        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+//               data: {
+//                    'signature': signature
+//               },
+//               success: function(msg) {
+//                   console.log(msg);
+//               },
+//               error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                   alert(errorThrown);
+//               }
+//            });
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//           alert(errorThrown);
+//       }
+//    });
+//
+//}
+
+function airline_update_passenger(val){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'update_contacts',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
        success: function(msg) {
-           if(msg.result.error_code == 0)
-               console.log(msg);
-           else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               if(ssr == 0) //set ssr
+                airline_ssr(val);
+               else
+                airline_commit_booking(val);
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
                 alert(msg.result.error_msg);
@@ -1469,16 +1572,15 @@ function airline_create_passengers(){
            alert(errorThrown);
        }
     });
-
 }
 
-function airline_ssr(){
+function airline_update_contact_booker(val){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'ssr',
+            'action': 'update_passengers',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
@@ -1486,21 +1588,27 @@ function airline_ssr(){
        },
        success: function(msg) {
            console.log(msg);
+           if(msg.result.error_code == 0){
+                airline_update_passenger(val);
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                alert(msg.result.error_msg);
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
     });
-
 }
 
-function airline_create_passengers_with_ssr(){
+function airline_ssr(val){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'create_passengers',
+            'action': 'sell_ssrs',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
@@ -1508,23 +1616,8 @@ function airline_create_passengers_with_ssr(){
        },
        success: function(msg) {
            console.log(msg);
-           $.ajax({
-               type: "POST",
-               url: "/webservice/airline",
-               headers:{
-                    'action': 'ssr',
-               },
-        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-               data: {
-                    'signature': signature
-               },
-               success: function(msg) {
-                   console.log(msg);
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                   alert(errorThrown);
-               }
-            });
+           if(msg.result.error_code == 0)
+               airline_commit_booking(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -1591,62 +1684,6 @@ function airline_hold_booking(val){
 
 }
 
-function airline_update_passenger(val){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
-            'action': 'update_contacts',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-            'signature': signature
-       },
-       success: function(msg) {
-           console.log(msg);
-           if(msg.result.error_code == 0){
-                airline_commit_booking(val);
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
-           }else{
-                alert(msg.result.error_msg);
-           }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
-function airline_update_contact_booker(val){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
-            'action': 'update_passengers',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-            'signature': signature
-       },
-       success: function(msg) {
-           console.log(msg);
-           if(msg.result.error_code == 0){
-                airline_update_passenger(val);
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
-           }else{
-                alert(msg.result.error_msg);
-           }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
 function airline_get_booking(data){
     getToken();
     $.ajax({
@@ -1658,7 +1695,7 @@ function airline_get_booking(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'order_number': data,
-            'signature': signature
+            'signature': airline_signature
        },
        success: function(msg) {
            console.log(msg);
