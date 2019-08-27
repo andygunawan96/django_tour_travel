@@ -213,13 +213,24 @@ def admin(request):
             if request.POST != {}:
                 text = ''
                 try:
-                    text += 'data:'
-                    text += request.FILES['fileToUpload'].content_type
-                    text += ';base64, '
-                    text += base64.b64encode(request.FILES['fileToUpload'].read()).decode("utf-8")
-                    text += '\n'
+                    if request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
+                        text += 'data:'
+                        text += request.FILES['fileToUpload'].content_type
+                        text += ';base64, '
+                        text += base64.b64encode(request.FILES['fileToUpload'].read()).decode("utf-8")
+                        text += '\n'
+                    else:
+                        file = open("data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 0:
+                                text = line
+                        file.close()
                 except:
-                    text = '\n'
+                    file = open("data_cache_template.txt", "r")
+                    for idx, line in enumerate(file):
+                        if idx == 0:
+                            text = line
+                    file.close()
 
                 text += request.POST['template']
                 file = open('data_cache_template.txt', "w+")
