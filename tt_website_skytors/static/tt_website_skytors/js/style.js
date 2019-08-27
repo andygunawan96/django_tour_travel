@@ -250,7 +250,7 @@ $(document).ready(function(){
     var quantity_adult_flight = parseInt($('#adult_flight').val());
     var quantity_child_flight = parseInt($('#child_flight').val());
     var quantity_infant_flight = parseInt($('#infant_flight').val());
-    //$('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+    $('#show_total_pax_flight').text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
 
     $('.right-plus-adult-flight').click(function(e){
         // Stop acting like a button
