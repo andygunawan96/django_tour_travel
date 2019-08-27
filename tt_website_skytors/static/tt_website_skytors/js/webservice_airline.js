@@ -1362,7 +1362,7 @@ function get_fare_rules(){
        data: {
             "promotion_code": [],
             "journeys_booking": JSON.stringify(journey),
-            'signature': signature
+            'signature': airline_signature
        },
        success: function(msg) {
             console.log(msg);
@@ -1420,7 +1420,7 @@ function airline_sell_journeys(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'signature': signature
+            'signature': airline_signature
        },
        success: function(msg) {
            console.log(msg);
