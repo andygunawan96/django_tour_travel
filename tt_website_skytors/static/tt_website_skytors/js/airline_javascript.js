@@ -9,6 +9,8 @@ sorting_value = '';
 counter_search = 0;
 counter_airline_search = 0;
 
+origin_multi_city = [];
+destination_multi_city = [];
 var myVar;
 
 var departure_list = [
@@ -116,8 +118,35 @@ var sorting_list2 = [
     }
 ]
 
+//autocomplete
+
+function set_airline_search_value_to_false(){
+        airline_search_value = 'false';
+}
+function set_airline_search_value_to_true(){
+    airline_search_value = 'true';
+}
+
+function airline_search_autocomplete(term){
+    term = term.toLowerCase();
+    console.log(term);
+    var choices = new_airline_destination;
+    var suggestions = [];
+    var priority = [];
+    if(term.split(' - ').length == 4)
+        term = '';
+    for (i=0;i<choices.length;i++){
+        if(choices[i].toLowerCase().split(' - ')[0].search(term) !== -1){
+            priority.push(choices[i]);
+        }else if(choices[i].toLowerCase().search(term) !== -1)
+            suggestions.push(choices[i]);
+    }
+    return priority.concat(suggestions).slice(0,100);
+}
+
 function airline_goto_search(){
     type = '';
+    error_log = '';
     var radios = document.getElementsByName('radio_airline_type');
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
@@ -128,16 +157,24 @@ function airline_goto_search(){
         }
     }
     if(type != 'multicity'){
+        if(document.getElementById('origin_id_flight').value.split(' - ').length != 4)
+            error_log+= 'Please use autocomplete for origin\n';
+        if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
+            error_log+= 'Please use autocomplete for destination\n';
+
+    }else{
+        for(var i=1;i<=counter_airline_search;i++){
+            if(document.getElementById('origin_id_flight'+i).value.split(' - ').length != 4)
+                error_log+= 'Please use autocomplete for origin '+i+'\n';
+            if(document.getElementById('destination_id_flight'+i).value.split(' - ').length != 4)
+                error_log+= 'Please use autocomplete for destination '+i+'\n';
+        }
+    }
+    if(error_log == ''){
         document.getElementById('counter').value = counter_airline_search;
         document.getElementById('airline_searchForm').submit();
-    }else{
-        error_log = '';
-        if(error_log == ''){
-            document.getElementById('counter').value = counter_airline_search;
-            document.getElementById('airline_searchForm').submit();
-        }else
-            alert(error_log)
-    }
+    }else
+        alert(error_log)
 }
 
 function return_airline(){
@@ -313,12 +350,28 @@ function add_multi_city(type){
                         <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
                             <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                             <div class="input-container-search-ticket">
-                                <div class="form-select">
-                                    <select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-
-                                    </select>
-                                </div>
-                                <input type="hidden" name="origin_id_flight`+counter_airline_search+`" id="airline_origin_flight`+counter_airline_search+`" />
+                                <div class="form-select">`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+                                }else if(counter_airline_search==1)
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                    text+=`
+                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                }
+                                    //</select>
+                                text+=`</div>
+                                <!--<input type="hidden" name="origin_id_flight`+counter_airline_search+`" id="airline_origin_flight`+counter_airline_search+`" />--!>
                             </div>
                         </div>
                         <div class="image-change-route-vertical">
@@ -330,12 +383,29 @@ function add_multi_city(type){
                         <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="input-container-search-ticket">
-                                <div class="form-select">
-                                    <select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                                <div class="form-select">`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
 
-                                    </select>
-                                </div>
-                                <input type="hidden" name="destination_id_flight`+counter_airline_search+`" id="airline_destination_flight`+counter_airline_search+`" />
+                                }else if(counter_airline_search == 1)
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                                }
+                                    //</select>
+                                text+=`</div>
+                                <!--<input type="hidden" name="destination_id_flight`+counter_airline_search+`" id="airline_destination_flight`+counter_airline_search+`" />--!>
                             </div>
                         </div>
                     </div>
@@ -386,9 +456,44 @@ function add_multi_city(type){
                   format: 'DD MMM YYYY',
               }
             });
-        get_airline_config(type,counter_airline_search);
-        $('#origin_id_flight'+counter_airline_search).select2();
-        $('#destination_id_flight'+counter_airline_search).select2();
+        var temp_origin = new autoComplete({
+            selector: '#origin_id_flight'+counter_airline_search,
+            minChars: 0,
+            cache: false,
+            delay:0,
+            source: function(term, suggest){
+                if(term.split(' - ').length == 4)
+                    term = ''
+                if(term.length > 1)
+                    suggest(airline_search_autocomplete(term));
+            },
+            onSelect: function(e, term, item){
+                $("#origin_id_flight"+counter_airline_search).trigger("blur");
+                set_airline_search_value_to_true();
+            }
+        });
+        var temp_destination = new autoComplete({
+            selector: '#destination_id_flight'+counter_airline_search,
+            minChars: 0,
+            cache: false,
+            delay:0,
+            source: function(term, suggest){
+                if(term.split(' - ').length == 4)
+                    term = ''
+                if(term.length > 1)
+                    suggest(airline_search_autocomplete(term));
+            },
+            onSelect: function(e, term, item){
+                $("#destination_id_flight"+counter_airline_search).trigger("blur");
+                set_airline_search_value_to_true();
+            }
+        });
+        destination_multi_city.push(temp_destination);
+        origin_multi_city.push(temp_origin)
+        //select2
+//        get_airline_config(type,counter_airline_search);
+//        $('#origin_id_flight'+counter_airline_search).select2();
+//        $('#destination_id_flight'+counter_airline_search).select2();
         $('.dropdown-menu').on('click', function(e) {
           e.stopPropagation();
         });
@@ -766,20 +871,14 @@ function airline_set_passenger_minus(type, val){
 
 function airline_switch(val){
     if(val == undefined){
-        var temp = document.getElementById("airline_origin_flight").value;
-        document.getElementById("select2-origin_id_flight-container").innerHTML = document.getElementById("airline_destination_flight").value;
-        document.getElementById("airline_origin_flight").value = document.getElementById("airline_destination_flight").value;
-
-        document.getElementById("select2-destination_id_flight-container").innerHTML = temp;
-        document.getElementById("airline_destination_flight").value = temp;
+        var temp = document.getElementById("origin_id_flight").value;
+        document.getElementById("origin_id_flight").value = document.getElementById("destination_id_flight").value;
+        document.getElementById("destination_id_flight").value = temp;
     }else{
+        var temp = document.getElementById("origin_id_flight"+val).value;
+        document.getElementById("origin_id_flight"+val).value = document.getElementById("destination_id_flight"+val).value;
+        document.getElementById("destination_id_flight"+val).value = temp;
 
-        var temp = document.getElementById("airline_origin_flight"+val).value;
-        document.getElementById("select2-origin_id_flight"+val+"-container").innerHTML = document.getElementById("airline_destination_flight"+val).value;
-        document.getElementById("airline_origin_flight"+val).value = document.getElementById("airline_destination_flight"+val).value;
-
-        document.getElementById("select2-destination_id_flight"+val+"-container").innerHTML = temp;
-        document.getElementById("airline_destination_flight"+val).value = temp;
     }
 
 }
@@ -1173,8 +1272,13 @@ function sort(airline){
                                             text += `<label>Operated By `+airline[i].operated_by_carrier_code+`</label><br/>`;
                                         }
                                     for(j in airline[i].carrier_code_list){
-                                    text+=`
-                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
+                                        try{
+                                        text+=`
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
+                                        }catch(err){
+                                            text+=`
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
+                                        }
                                     }
                                     if(airline[i].journey_type == "COM"){
                                         text+=`<span style="float:right; font-weight: bold; padding:5px; border-bottom:2px solid #f15a22;">Combo Price</span>`;
@@ -1325,8 +1429,15 @@ function sort(airline){
                                 depart = 2;
                             }
                             text+=`
-                            <div id="journey0segment0" style="padding:10px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">
-                                <span style="font-weight: bold;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+` - </span>
+                            <div id="journey0segment0" style="padding:10px 10px 10px 10px; background-color:white; border:1px solid #cdcdcd;">`;
+                            try{
+                            text+=`
+                                <span style="font-weight: bold;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+` - </span>`;
+                            }catch(err){
+                            text+=`
+                                <span style="font-weight: bold;">`+airline[i].segments[j].carrier_code+` - </span>`;
+                            }
+                            text+=`
                                 <span style="color:#f15a22; font-weight: bold;">`+airline[i].segments[j].carrier_name+`</span><hr/>`;
                                 for(k in airline[i].segments[j].legs)
                                 text+=`
@@ -1894,7 +2005,6 @@ function getrupiah(price){
 }
 
 function copy_data(){
-    console.log($text);
     //
     document.getElementById('data_copy').innerHTML = $text;
     document.getElementById('data_copy').hidden = false;
@@ -1902,6 +2012,14 @@ function copy_data(){
     el.select();
     document.execCommand('copy');
     document.getElementById('data_copy').hidden = true;
+
+    Swal.fire({
+      position: 'top-end',
+      type: 'success',
+      title: 'Copied',
+      showConfirmButton: false,
+      timer: 1000
+    })
 //    const el = document.createElement('textarea');
 //    el.innerHTML = $text;
 //    document.body.appendChild(el);

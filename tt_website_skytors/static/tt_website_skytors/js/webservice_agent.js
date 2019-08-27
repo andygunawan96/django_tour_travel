@@ -24,13 +24,21 @@ function signin(){
            success: function(msg) {
             console.log(msg);
             if(msg == 0){
-                alertbox2.show('Login Success');
-
+                Swal.fire(
+                  'Correct',
+                  'Login Success!',
+                  'success'
+                )
                 gotoForm();
             }else{
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
-                alertbox.show('Please input correct username or password');
+
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Please input correct username or password',
+                })
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -40,7 +48,11 @@ function signin(){
     }else{
         $('.button-login').prop('disabled', false);
         $('.button-login').removeClass("running");
-        alertbox.show('Please input username or password');
+        Swal.fire({
+          type: 'error',
+          title: 'Oops...',
+          text: 'Please input username or password',
+        })
     }
 }
 
