@@ -38,7 +38,7 @@ var month = {
 function activity_login(data){
     offset = 0;
     getToken();
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -52,54 +52,8 @@ function activity_login(data){
           'offset': offset
        },
        success: function(msg) {
-           console.log(msg);
            if(data == ''){
-               var text = '';
-               var counter = 0;
-               if(msg.result.error_code == 0){
-                   activity_data = msg.result.response;
-                   for(i in activity_data){
-                       text+=`
-                       <form action='/activity/detail' method=POST id='myForm`+activity_data[i].sequence+`'>
-                           <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" style="padding: 0px; text-align: center;">
-                                <div id='csrf`+activity_data[i].sequence+`'></div>
-                                <input id='uuid' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
-                                <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
-                                <button class="panel_themespark" type="button" data-content-1="`+activity_data[i].name+`" onclick="go_to_detail('`+activity_data[i].sequence+`')">
-                                    <div class="themespark-image-thumbnail">
-                                        <img style="width: 100%; height: 100%;" src="`+activity_data[i].images[0].url+activity_data[i].images[0].path+`">
-                                    </div>
-                                    <div class="row themespark-description-thumbnail" style="display:block;">
-                                        <span class="span-themespark-desc" style="font-weight:bold;">`+activity_data[i].name+`</span><br/>`;
-                                        for(j in activity_data[i].locations) {
-                                            text+=`
-                                                <span class="span-themespark-desc"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+` </span>
-                                                <br/>`;
-                                        }
-                                        text+=`
-                                            <span class="span-themespark-desc"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span>
-                                            <span class="span-themespark-desc" data-oe-type="monetary" data-oe-expression="rec['converted_price']" style="font-weight:bold; float:right;">Rp&nbsp;<span class="oe_currency_value">`+getrupiah(activity_data[i].converted_price)+`</span></span>
-                                    </div>
-                                </button>
-                           </div>
-                       </form>
-                       `;
-                   }
-
-                   offset++;
-                   if (text != '') {
-                        $('#activity_ticket').html(text);
-                    }
-                    else {
-                        var temp = '<div class="col-md-2 col-md-offset-5 col-sm-4 col-sm-offset-4 col-xs-6 col-xs-offset-3" style="margin-top:30px;">';
-                        temp += '<img src="{{ static_path }}images/nofound.png"/>';
-                        temp += '</div>';
-                        $('#activity_ticket').html(temp);
-                    }
-
-               }else{
-                //error
-               }
+               activity_search()
            }else if(data != ''){
                activity_get_booking(data);
            }
@@ -114,12 +68,12 @@ function activity_search(){
     offset++;
     get_new = false;
     getToken();
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
        headers:{
-            'action': 'search2',
+            'action': 'search',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
@@ -133,36 +87,73 @@ function activity_search(){
            var counter = 0;
            data=[]
            if(msg.result.error_code == 0){
-               for(i in activity_data){
-                  data.push(activity_data[i]);
+               activity_data = msg.result.response;
+               if (activity_data.length == 0)
+               {
+                    text += `
+                        <div class="col-lg-4">
+                        </div>
+                        <div class="col-lg-4">
+                            <div style="padding:5px; margin:10px;">
+                                <div style="text-align:center">
+                                    <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                                    <br/><br/>
+                                    <h6>NO ACTIVITY AVAILABLE</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                        </div>
+                    `;
                }
-               activity_data = data;
+               for(i in activity_data){
+                   if (activity_data[i].images.length > 0)
+                   {
+                       img_src = activity_data[i].images[0].url+activity_data[i].images[0].path;
+                   }
+                   else
+                   {
+                       img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+                   }
 
-               for(i in msg.result.response){
                    text+=`
-                   <form action='/activity/detail' method=POST id='myForm`+msg.result.response[i].sequence+`'>
-                       <div class="col-xs-12 col-sm-6 col-md-3 col-lg-3" style="padding: 0px; text-align: center;">
-                            <div id='csrf`+msg.result.response[i].sequence+`'></div>
-                            <input id='uuid' name='uuid' type=hidden value='`+msg.result.response[i].uuid+`'/>
-                            <input id='sequence' name='sequence' type=hidden value='`+msg.result.response[i].sequence+`'/>
-                            <button class="panel_themespark" type="button" data-content-1="`+msg.result.response[i].name+`" onclick="go_to_detail('`+msg.result.response[i].sequence+`')">
-                                <div class="themespark-image-thumbnail">
-                                    <img style="width: 100%; height: 100%;" src="`+msg.result.response[i].images[0].url+msg.result.response[i].images[0].path+`">
+                   <div class="col-lg-4 col-md-6">
+                       <form action='/activity/detail' method=POST id='myForm`+activity_data[i].sequence+`'>
+                            <div id='csrf`+activity_data[i].sequence+`'></div>
+                            <input type='hidden' value='`+JSON.stringify(activity_data[i]).replace(/[']/g, /["]/g)+`'/>
+                            <input id='uuid' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
+                            <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
+                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
+                                <div class="single-destination relative">
+                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.skytors.id/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_data[i].name+`">`+activity_data[i].name+`</h6>`;
+                                                    for(j in activity_data[i].locations) {
+                                                        text+=`
+                                                            <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+` </span>
+                                                            <br/>`;
+                                                    }
+                                                text+=`
+                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span>
+                                                <br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].converted_price)+`  </span>
+                                                    <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="row themespark-description-thumbnail" style="display:block;">
-                                    <span class="span-themespark-desc" style="font-weight:bold;">`+msg.result.response[i].name+`</span><br/>`;
-                                    for(j in msg.result.response[i].locations) {
-                                        text+=`
-                                            <span class="span-themespark-desc"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+msg.result.response[i].locations[j].city_name+`, `+msg.result.response[i].locations[j].country_name+` </span>
-                                            <br/>`;
-                                    }
-                                    text+=`
-                                        <span class="span-themespark-desc"> `+msg.result.response[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+msg.result.response[i].reviewCount+`)</span>
-                                        <span class="span-themespark-desc" data-oe-type="monetary" data-oe-expression="rec['converted_price']" style="font-weight:bold; float:right;">Rp&nbsp;<span class="oe_currency_value">`+getrupiah(msg.result.response[i].converted_price)+`</span></span>
-                                </div>
-                            </button>
-                       </div>
-                   </form>
+                            </div>
+                       </form>
+                   </div>
                    `;
                }
                offset++;
@@ -181,38 +172,39 @@ function activity_search(){
     });
 }
 
-function activity_get_detail(val){
+function activity_get_detail(uuid, provider){
     getToken();
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
        headers:{
-            'action': 'get_details2',
+            'action': 'get_details',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-          'uuid': val
+          'uuid': uuid,
+          'provider_id': provider
        },
        success: function(msg) {
            try{
-               if(msg.error_code == 0){
-                   activity_type = msg.response.result;
+               if(msg.result.error_code == 0){
+                   activity_type = msg.result.response;
                    console.log(msg);
                    var counti = 0;
                    var temp = ``;
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-themespark active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" onclick="activity_get_price(`+parseInt(i)+`);">
-                               <input type="radio" class="themespark" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
+                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`);">
+                               <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-themespark" style="z-index:1 !important; margin: 0px 5px 5px 0px;" onclick="activity_get_price(`+parseInt(i)+`);">
-                               <input type="radio" class="themespark" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
+                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`);">
+                               <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
@@ -248,50 +240,19 @@ function activity_get_price(val){
     if(parseInt(activity_type_pick) != val){
         activity_type_pick = val;
         document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
-        document.getElementById('product_type').innerHTML = activity_type[activity_type_pick].name;
         text = '';
-        if(activity_type[activity_type_pick].maxPax != 0){
+        for(i in activity_type[activity_type_pick].skus)
+        {
+            low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
             text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                        <label>Adult</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for adult is `+activity_type[activity_type_pick].minAdultAge+` - `+activity_type[activity_type_pick].maxAdultAge+` years old" style="padding-left:5px;"></i>
-                        <select class='form-control adult-icon themespark_pax' id='adult_passenger' name='adult_passenger' onchange='activity_table_detail()'>`;
-                        for(j=parseInt(activity_type[activity_type_pick].minPax); j<=parseInt(activity_type[activity_type_pick].maxPax); j++)
+                        <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
+                        <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
+                        <select class='form-control adult-icon activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                        for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
                         text+=`
                             <option>`+j+`</option>`;
                         text+=`</select>
                     </div>`;
-        }
-        if(activity_type[activity_type_pick].allowSeniors == true){
-           text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                    <label>Senior</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for senior is `+activity_type[activity_type_pick].minSeniorAge+` - `+activity_type[activity_type_pick].maxSeniorAge+` years old" style="padding-left:5px;"></i>
-                    <select class='form-control senior-icon themespark_pax' id='senior_passenger' name='senior_passenger' onchange='activity_table_detail()'>`;
-                    for(j=activity_type[activity_type_pick].minSeniors; j<=activity_type[activity_type_pick].maxSeniors; j++)
-                    text+=`
-                        <option>`+j+`</option>`;
-
-                    text+=`</select>
-                </div>`;
-        }
-        if(activity_type[activity_type_pick].allowChildren == true){
-           text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                    <label>Child</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for child is `+activity_type[activity_type_pick].minChildAge+` - `+activity_type[activity_type_pick].maxChildAge+` years old" style="padding-left:5px;"></i>
-                    <select class='form-control child-icon themespark_pax' id='children_passenger' name='children_passenger' onchange='activity_table_detail()'>`;
-                    for(j=activity_type[activity_type_pick].minChildren; j<=activity_type[activity_type_pick].maxChildren; j++)
-                    text+=`
-                        <option>`+j+`</option>`;
-
-                    text+=`</select>
-                </div>`;
-        }
-        if(activity_type[activity_type_pick].allowInfant == true){
-           text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                        <label>Infant</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for infant is `+activity_type[activity_type_pick].minInfantAge+` - `+activity_type[activity_type_pick].maxInfantAge+` years old" style="padding-left:5px;"></i>
-                        <select class='form-control infant-icon themespark_pax' id='infant_passenger' name='infant_passenger' onchange='activity_table_detail()'>`;
-                        for(j=activity_type[activity_type_pick].minInfant; j<=activity_type[activity_type_pick].maxInfant; j++)
-                        text+=`
-                            <option>`+j+`</option>`;
-
-                        text+=`</select>
-                   </div>`;
         }
 
         document.getElementById('pax').innerHTML = text;
@@ -319,24 +280,24 @@ function activity_get_price(val){
 
         document.getElementById('vouchers').innerHTML = text;
         text = '';
-        if(response.provider == 'bemyguest'){
-           if(activity_type[activity_type_pick].timeslots.length>0){
-               text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
-                        <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot" id="timeslot">`;
-               var temp_timeslotco = 0;
-               for(j in activity_type[activity_type_pick].timeslots)
-               {
-                    if (temp_timeslotco == 0)
-                    {
-                        timeslot_change(j);
-                    }
-                    text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`" onclick='timeslot_change(`+j+`);'>`+activity_type[activity_type_pick].timeslots[j].startTime.split(':')[0]+`:`+activity_type[activity_type_pick].timeslots[j].startTime.split(':')[1]+` - `+activity_type[activity_type_pick].timeslots[j].endTime.split(':')[0]+`:`+activity_type[activity_type_pick].timeslots[j].endTime.split(':')[1]+`</option>`;
-                    temp_timeslotco += 1;
-               }
 
-               text += `</select></div>`;
+       if(activity_type[activity_type_pick].timeslots.length>0){
+           text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
+                    <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot" id="timeslot">`;
+           var temp_timeslotco = 0;
+           for(j in activity_type[activity_type_pick].timeslots)
+           {
+                if (temp_timeslotco == 0)
+                {
+                    timeslot_change(j);
+                }
+                text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`" onclick='timeslot_change(`+j+`);'>`+activity_type[activity_type_pick].timeslots[j].startTime.split(':')[0]+`:`+activity_type[activity_type_pick].timeslots[j].startTime.split(':')[1]+` - `+activity_type[activity_type_pick].timeslots[j].endTime.split(':')[0]+`:`+activity_type[activity_type_pick].timeslots[j].endTime.split(':')[1]+`</option>`;
+                temp_timeslotco += 1;
            }
-        }
+
+           text += `</select></div>`;
+       }
+
         document.getElementById('timeslot').innerHTML = text;
         text = '';
         for(i in activity_type[activity_type_pick].options.perBooking){
@@ -409,17 +370,27 @@ function activity_get_price(val){
                 datepicker('perbooking'+i);
 
         }
+        if(activity_type[activity_type_pick].provider_code == 'klook')
+        {
+            pricing_days = 30;
+        }
+        else
+        {
+            pricing_days = 365;
+        }
+
         getToken();
         $.ajax({
            type: "POST",
            url: "/webservice/activity",
            headers:{
-                'action': 'get_pricing2',
+                'action': 'get_pricing',
            },
     //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: {
               'product_type_uuid': activity_type[activity_type_pick].uuid,
-              'provider': response.provider,
+              'provider': activity_type[activity_type_pick].provider_code,
+              'pricing_days': pricing_days,
            },
            success: function(msg) {
                console.log(msg);
@@ -429,8 +400,8 @@ function activity_get_price(val){
                        if(msg.result.response[0][i].available==true){
 
                            document.getElementById('date').innerHTML = `
-                                <div class="col-sm-6 form-group departure_date" style="padding:5px;">
-                                    <label id="departure_date_themespark_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
+                                <div class="col-sm-6 form-group departure_date" style="padding:15px;">
+                                    <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
                                     <input id="activity_date" name="activity_date" value="`+moment(msg.result.response[0][i].date).format('DD MMM YYYY')+`" onchange="change_date_activity();" class="form-control calendar-logo" type="text" placeholder="Choose your departure date" autocomplete="off"/>
                                     <div id="activity_date_desc"></div>
                                 </div>

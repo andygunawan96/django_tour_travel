@@ -15,7 +15,6 @@ from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_skytors_views import *
 
-
 MODEL_NAME = 'tt_website_skytors'
 
 adult_title = ['MR', 'MRS', 'MS']
@@ -23,9 +22,12 @@ adult_title = ['MR', 'MRS', 'MS']
 infant_title = ['MSTR', 'MISS']
 
 
-
 def search(request):
     if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
@@ -34,11 +36,6 @@ def search(request):
         file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
         file.close()
 
         try:
@@ -63,23 +60,22 @@ def search(request):
         activity_countries = response['result']['response']['activity']['countries']
         # activity
 
-        get_balance(request)
         request.session['activity_request'] = {
-            'query': request.POST['themespark_query'],
-            'country': request.POST['themespark_countries'],
-            'city': request.POST['themespark_cities'],
+            'query': request.POST['activity_query'],
+            'country': request.POST['activity_countries'],
+            'city': request.POST['activity_cities'],
             'sort': 'price_asc',
-            'type_id': request.POST['themespark_type'],
-            'category': request.POST['themespark_category'],
-            'sub_category': request.POST['themespark_sub_category'],
+            'type_id': request.POST['activity_type'],
+            'category': request.POST['activity_category'],
+            'sub_category': request.POST['activity_sub_category'],
             'limit': 25,
             'offset': 0,
 
         }
         parsed_country_name = ''
-        if request.POST['themespark_countries']:
+        if request.POST['activity_countries']:
             for rec in activity_countries:
-                if rec['id'] == int(request.POST['themespark_countries']):
+                if rec['id'] == int(request.POST['activity_countries']):
                     parsed_country_name = rec['name']
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -91,12 +87,12 @@ def search(request):
             'activity_types': activity_types,
             'activity_countries': activity_countries,
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-            'query': request.POST['themespark_query'],
-            'parsed_country': request.POST['themespark_countries'] and int(request.POST['themespark_countries']) or '',
-            'parsed_city': request.POST['themespark_cities'],
+            'query': request.POST['activity_query'],
+            'parsed_country': request.POST['activity_countries'] and int(request.POST['activity_countries']) or '',
+            'parsed_city': request.POST['activity_cities'],
             'parsed_country_name': parsed_country_name,
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }
@@ -104,12 +100,21 @@ def search(request):
     else:
         return index(request)
 
+
 def detail(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
         file.close()
 
         try:
@@ -134,8 +139,8 @@ def detail(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'response': request.session['activity_search'][int(request.POST['sequence'])],
             'username': request.session['user_account'],
-            'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }
@@ -143,20 +148,19 @@ def detail(request):
     else:
         return index(request)
 
+
 def passenger(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
         file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -187,7 +191,7 @@ def passenger(request):
 
         airline_country = response['result']['response']['airline']['country']
 
-        get_balance(request)
+        # get_balance(request)
 
         request.session['activity_request'] = {
             'activity_type_pick': request.POST['activity_type_pick'],
@@ -358,12 +362,14 @@ def passenger(request):
             'detail': request.session['activity_detail']['result'][int(request.POST['activity_type_pick'])],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_passenger_templates.html', values)
     else:
         return index(request)
+
 
 def review(request):
     if 'user_account' in request.session._session:
@@ -377,6 +383,15 @@ def review(request):
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
         file.close()
 
         try:
@@ -393,9 +408,6 @@ def review(request):
         except:
             template = 1
             logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
-
-        for file in request.session['activity_upload']:
-            upload.append(file)
 
         booker = {
             'title': request.POST['booker_title'],
@@ -1096,6 +1108,7 @@ def review(request):
             'detail': request.session['activity_detail']['result'][int(request.session['activity_request']['activity_type_pick'])],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
             # 'booker': booker,
@@ -1124,6 +1137,15 @@ def booking(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
 
         try:
             file = open("data_cache_template.txt", "r")
@@ -1149,6 +1171,7 @@ def booking(request):
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }

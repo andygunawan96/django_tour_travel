@@ -1,47 +1,62 @@
-jQuery(document).ready(function ($) {
-	var slideCount = $('#slider ul li').length;
-	var slideWidth = $('.themespark-detail-images').width();
-	var slideHeight = $('.themespark-detail-images').height();
-	var sliderUlWidth = slideCount * slideWidth;
+sorting_value = '';
 
-    if (slideCount > 2){
-        setInterval(function () {
-            moveRight();
-        }, 4000);
-        $('#slider ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
+var sorting_list = [
+    {
+        value:'Name A-Z',
+        status: false
+    },
+    {
+        value:'Name Z-A',
+        status: false
+    },
+    {
+        value:'Lowest Price',
+        status: false
+    },
+    {
+        value:'Highest Price',
+        status: false
+    },
+    {
+        value:'Highest Score',
+        status: false
+    },
+    {
+        value:'Lowest Score',
+        status: false
     }
+]
 
-	$('#slider').css({ width: slideWidth, height: slideHeight });
-    $('#slider ul li').css({ width: slideWidth, height: slideHeight });
-    $('#slider ul li img').css({ width: slideWidth, height: slideHeight });
-    $('#slider ul li:last-child').prependTo('#slider ul');
-
-    function moveRight() {
-        $('#slider ul').animate({
-            left: - slideWidth
-        }, 800, function () {
-            $('#slider ul li:first-child').appendTo('#slider ul');
-            $('#slider ul').css('left', '');
-        });
-    };
-});
-
+var sorting_list2 = [
+    {
+        value:'Name',
+        status: false
+    },
+    {
+        value:'Price',
+        status: false
+    },
+    {
+        value:'Score',
+        status: false
+    }
+]
 
 function set_sub_category(){
     var text = `<option value="0" selected="">Sub Categories</option>`;
-    var sub_category_list = sub_category[document.getElementById('themespark_category').value.split(' - ')[1]];
+    var sub_category_list = sub_category[document.getElementById('activity_category').value.split(' - ')[1]];
     for(i in sub_category_list){
         text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`
     }
-    document.getElementById('themespark_sub_category').innerHTML = text;
-//    themespark_sub_category
+    document.getElementById('activity_sub_category').innerHTML = text;
+//    activity_sub_category
 }
 
 function set_city(){
     var text = `<option value="" selected="">Cities</option>`;
     var country = {};
     for(i in activity_country){
-       if(activity_country[i].id == parseInt(document.getElementById('themespark_countries').value)){
+       if(activity_country[i].id == parseInt(document.getElementById('activity_countries').value)){
            country = activity_country[i];
            break;
        }
@@ -50,8 +65,8 @@ function set_city(){
         console.log(country.city);
         text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
     }
-    document.getElementById('themespark_cities').innerHTML = text;
-    $('#themespark_cities').niceSelect('update');
+    document.getElementById('activity_cities').innerHTML = text;
+    $('#activity_cities').niceSelect('update');
 }
 
 function triggered(){
@@ -98,7 +113,7 @@ function activity_table_detail(){
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
    console.log(name);
-   $test = response.name+'\n'+document.getElementById('product_type').innerHTML+
+   $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
            '\nVisit Date : '+document.getElementById('activity_date').value+
            '\n\n';
 
@@ -430,7 +445,7 @@ function check_detail(){
     console.log(date);
     //check tiket
     if(activity_date[event_pick][parseInt(activity_date_pick)].date == date && activity_date[event_pick][parseInt(activity_date_pick)].available == false)
-        text+='Visit date not available please pick other date!\n';
+        text+='Visit date not available, please pick other date!\n';
 
     //check pax
     if(activity_type[activity_type_pick].allowChildren!=0)
@@ -896,7 +911,7 @@ function change_date_activity(){
         if(activity_date[event_pick][i].date == moment(document.getElementById('activity_date').value).format('YYYY-MM-DD')){
             if(activity_date[event_pick][i].available == false){
                 document.getElementById('activity_date_desc').innerHTML = `
-                <small id="departure_date_themespark_desc" class="hidden" style="color: red;">Ticket is unavailable on this date</small>
+                <small id="departure_date_activity_desc" class="hidden" style="color: red;">Ticket is unavailable on this date</small>
                 `;
             }else{
                 document.getElementById('activity_date_desc').innerHTML = '';
@@ -1074,4 +1089,296 @@ function input_type2_change_perpax(val,val1, type, inputType){
     }
     additional_price += additional_price - detail.perPax[val].price_pick;
     activity_table_detail();
+}
+
+function activity_filter_render(){
+
+    var node = document.createElement("div");
+    text = '';
+    text+= `<h4>Filter</h4>
+    <hr/>
+    <h6 style="padding-bottom:10px;">Price Range</h6>
+    <div class="wrapper">
+        <div class="range-slider">
+            <input type="text" class="js-range-slider" value="" oninput="change_filter('price', '');"/>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Min</span><br/>
+                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" onchange="change_filter('price', '');"/>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                <span>Max</span><br/>
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="10000000" onchange="change_filter('price', '');"/>
+            </div>
+        </div>
+    </div>
+    <hr/>`;
+
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+    node = document.createElement("div");
+
+    text='';
+    text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
+
+    for(i in sorting_list2){
+        text+=`
+        <button class="primary-btn-sorting" id="radio_sorting`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list2[i].value.toLowerCase()+`');" value="`+sorting_list2[i].value+`">
+            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
+            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
+        </button>`;
+    }
+    node = document.createElement("div");
+    node.className = 'sorting-box';
+    node.innerHTML = text;
+    document.getElementById("sorting-flight").appendChild(node);
+
+
+    var node2 = document.createElement("div");
+    text = '';
+    text+= `<h4>Filter</h4>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+
+    text='';
+    text+=`<h4>Sorting</h4>
+            <hr/>`;
+
+    for(i in sorting_list){
+
+            text+=`
+            <label class="radio-button-custom">
+                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+                <span class="checkmark-radio"></span>
+            </label></br>`;
+
+    }
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("sorting-flight2").appendChild(node2);
+}
+
+function sort_button(value){
+    if(value == 'name'){
+       if(sorting_value == '' || sorting_value == 'Name A-Z'){
+           sorting_value = 'Name Z-A';
+           document.getElementById("img-sort-down-name").style.display = "none";
+           document.getElementById("img-sort-up-name").style.display = "block";
+       }else{
+           sorting_value = 'Name A-Z';
+           document.getElementById("img-sort-down-name").style.display = "block";
+           document.getElementById("img-sort-up-name").style.display = "none";
+       }
+   }else if(value == 'price'){
+       if(sorting_value == '' || sorting_value == 'Lowest Price'){
+           sorting_value = 'Highest Price';
+           document.getElementById("img-sort-down-price").style.display = "none";
+           document.getElementById("img-sort-up-price").style.display = "block";
+       }else{
+           sorting_value = 'Lowest Price';
+           document.getElementById("img-sort-down-price").style.display = "block";
+           document.getElementById("img-sort-up-price").style.display = "none";
+       }
+
+   }else if(value == 'score'){
+       if(sorting_value == '' || sorting_value == 'Lowest Score'){
+           sorting_value = 'Highest Score';
+           document.getElementById("img-sort-down-score").style.display = "none";
+           document.getElementById("img-sort-up-score").style.display = "block";
+       }else{
+           sorting_value = 'Lowest Score';
+           document.getElementById("img-sort-down-score").style.display = "block";
+           document.getElementById("img-sort-up-score").style.display = "none";
+       }
+   }else{
+       sorting_value = value;
+   }
+   filtering('filter');
+}
+
+function change_filter(type, value){
+    var check = 0;
+    if(type == 'price'){
+
+    }
+    filtering('filter');
+}
+
+function filtering(type){
+   var temp_data = [];
+   data = activity_data;
+   if(type == 'filter'){
+
+       console.log(data);
+       sort(data);
+
+   }else if(type == 'sort'){
+       sort(activity_data);
+   }
+}
+
+function sort(activity_dat){
+    console.log(activity_dat);
+    if (activity_dat.length == 0){
+        document.getElementById("activity_ticket").innerHTML = '';
+        text = '';
+        text += `
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                        <br/><br/>
+                        <h6>NO ACTIVITY AVAILABLE</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+            </div>
+            `;
+        document.getElementById("activity_ticket").innerHTML = text;
+    }
+    else{
+        //show data
+        minPrice = parseInt(document.getElementById('price-from').value);
+        maxPrice = parseInt(document.getElementById('price-to').value);
+        console.log(minPrice);
+        console.log(maxPrice);
+        sorting = '';
+        var radios = document.getElementsByName('radio_sorting');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                sorting = document.getElementById('radio_sorting2'+j).value;
+                break;
+            }
+        }
+        if(sorting_value != ''){
+            sorting = sorting_value;
+        }
+        console.log(sorting);
+        for(var i = 0; i < activity_dat.length-1; i++) {
+            for(var j = i+1; j < activity_dat.length; j++) {
+                if(sorting == '' || sorting == 'Name A-Z'){
+                    if(activity_dat[i].name > activity_dat[j].name){
+                        var temp = activity_dat[i];
+                        activity_dat[i] = activity_dat[j];
+                        activity_dat[j] = temp;
+                    }
+                }
+                if(sorting == 'Name Z-A'){
+                    if(activity_dat[i].name < activity_dat[j].name){
+                        var temp = activity_dat[i];
+                        activity_dat[i] = activity_dat[j];
+                        activity_dat[j] = temp;
+                    }
+                }else if(sorting == 'Lowest Price'){
+                    if(activity_dat[i].basePrice > activity_dat[j].basePrice){
+                        var temp = activity_dat[i];
+                        activity_dat[i] = activity_dat[j];
+                        activity_dat[j] = temp;
+                    }
+                }else if(sorting == 'Highest Price'){
+                    if(activity_dat[i].basePrice < activity_dat[j].basePrice){
+                        var temp = activity_dat[i];
+                        activity_dat[i] = activity_dat[j];
+                        activity_dat[j] = temp;
+                    }
+                }else if(sorting == 'Lowest Score'){
+                    if(activity_dat[i].reviewAverageScore > activity_dat[j].reviewAverageScore){
+                        var temp = activity_dat[i];
+                        activity_dat[i] = activity_dat[j];
+                        activity_dat[j] = temp;
+                    }
+                }else if(sorting == 'Highest Score'){
+                    if(activity_dat[i].reviewAverageScore < activity_dat[j].reviewAverageScore){
+                        var temp = activity_dat[i];
+                        activity_dat[i] = activity_dat[j];
+                        activity_dat[j] = temp;
+                    }
+                }
+
+            }
+        }
+        activity_data_filter = activity_dat;
+        console.log(activity_dat);
+        document.getElementById("activity_ticket").innerHTML = '';
+        text = '';
+        for(i in activity_dat)
+        {
+           if (activity_dat[i].converted_price >= minPrice && activity_dat[i].converted_price <= maxPrice)
+           {
+               if (activity_dat[i].images.length > 0)
+               {
+                   img_src = activity_dat[i].images[0].url+activity_dat[i].images[0].path;
+               }
+               else
+               {
+                   img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+               }
+
+               text+=`
+               <div class="col-lg-4 col-md-6">
+                   <form action='/activity/detail' method=POST id='myForm`+activity_dat[i].sequence+`'>
+                        <div id='csrf`+activity_dat[i].sequence+`'></div>
+                        <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
+                        <input id='uuid' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
+                        <input id='sequence' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>
+                        <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
+                            <div class="single-destination relative">
+                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.skytors.id/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body">
+                                        <div class="row details">
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>`;
+                                                for(j in activity_dat[i].locations) {
+                                                    text+=`
+                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_dat[i].locations[j].city_name+`, `+activity_dat[i].locations[j].country_name+` </span>
+                                                        <br/>`;
+                                                }
+                                            text+=`
+                                            <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span>
+                                            <br/><br/>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].converted_price)+`  </span>
+                                                <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   </form>
+               </div>
+               `;
+           }
+        }
+        if (text == '')
+        {
+            text += `
+            <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                        <br/><br/>
+                        <h6>NO ACTIVITY AVAILABLE</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+            </div>
+            `;
+        }
+        document.getElementById('activity_ticket').innerHTML += text;
+    }
 }

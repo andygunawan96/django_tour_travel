@@ -6047,77 +6047,77 @@ div.scrollmenu li {
 }
 
 @media only screen and (max-width: 483px) {
-  .panel_themespark {
+  .panel_activity {
      height: 370px;
      width: 370px;
   }
-  .themespark-image-thumbnail {
+  .activity-image-thumbnail {
     height: 75% !important;
   }
 
-  .themespark-description-thumbnail {
+  .activity-description-thumbnail {
     height: 25%;
   }
 }
 
 @media only screen and (min-width: 484px) and (max-width: 767px) {
-  .panel_themespark {
+  .panel_activity {
      height: 439px;
      width: 439px;
   }
-  .themespark-image-thumbnail {
+  .activity-image-thumbnail {
     height: 80% !important;
   }
 
-  .themespark-description-thumbnail {
+  .activity-description-thumbnail {
     height: 20%;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
-  .panel_themespark {
+  .panel_activity {
      height: 330px;
      width: 330px;
   }
-  .themespark-image-thumbnail {
+  .activity-image-thumbnail {
     height: 75% !important;
   }
 
-  .themespark-description-thumbnail {
+  .activity-description-thumbnail {
     height: 25%;
   }
 }
 
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
-  .panel_themespark {
+  .panel_activity {
      height: 290px;
      width: 290px;
   }
-  .themespark-image-thumbnail {
+  .activity-image-thumbnail {
     height: 70% !important;
   }
 
-  .themespark-description-thumbnail {
+  .activity-description-thumbnail {
     height: 30%;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .panel_themespark {
+  .panel_activity {
      height: 255px;
      width: 255px;
   }
 
-  .themespark-image-thumbnail {
+  .activity-image-thumbnail {
     height: 66% !important;
   }
 
-  .themespark-description-thumbnail {
+  .activity-description-thumbnail {
     height: 34%;
   }
 }
 
-.panel_themespark {
+.panel_activity {
     position:relative;
     border: none;
     background-color: #ececec;
@@ -6127,19 +6127,19 @@ div.scrollmenu li {
     overflow: hidden;
 }
 
-.panel_themespark:after, .panel_themespark:before {
+.panel_activity:after, .panel_activity:before {
     position:absolute;
     opacity:0;
     transition: all 0.5s;
     -webkit-transition: all 0.5s;
 }
-.panel_themespark:after {
+.panel_activity:after {
     content:'\A';
     width:100%; height:100%;
     top:0; left:0;
     background: rgba(241, 90, 34, 1);
 }
-.panel_themespark:before {
+.panel_activity:before {
     content: attr(data-content-1) '\A ' attr(data-content-2);
     white-space: pre-wrap;
     width: 80%;
@@ -6150,11 +6150,11 @@ div.scrollmenu li {
     text-align: center;
 }
 
-.panel_themespark:hover:after, .panel_themespark:hover:before {
+.panel_activity:hover:after, .panel_activity:hover:before {
     opacity:1;
 }
 
-.themespark-description-thumbnail {
+.activity-description-thumbnail {
     margin: 0px;
     padding: 5px 10px 15px 10px;
     color: #333;
@@ -6164,16 +6164,16 @@ div.scrollmenu li {
     box-sizing: content-box;
 }
 
-.span-themespark-desc {
+.span-activity-desc {
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.themespark-image-thumbnail {
+.activity-image-thumbnail {
     margin: 0px;
 }
 
-.tab-content-themespark {
+.tab-content-activity {
     border: none;
     border-top: 1px solid #d9d9d9;
     padding: 20px !important;
@@ -6208,14 +6208,14 @@ div.scrollmenu li {
     border: 2px solid #f15a22;
 }
 
-.themespark-price-container {
+.activity-price-container {
     background-color: #f5f5f5;
     padding:10px 10px 10px 20px;
     font-size: 12px;
     color: #444;
 }
 
-.price-itinerary-themespark {
+.price-itinerary-activity {
     font-size:12px;
     background-color: #f5f5f5;
     padding: 10px;
@@ -6224,14 +6224,14 @@ div.scrollmenu li {
     top: 10px;
 }
 
-.container-review-themespark {
+.container-review-activity {
     background-color: #f5f5f5;
     padding: 20px;
     margin-bottom:15px;
     font-size:13px;
 }
 
-.header-review-themespark {
+.header-review-activity {
     background-color: #f15a22;
     color: white;
     margin: -20px -20px 20px -20px;
@@ -6256,18 +6256,18 @@ div.scrollmenu li {
     cursor: pointer;
 }
 
-.themespark-rooms-modal {
+.activity-rooms-modal {
     margin: 0px auto;
     width:650px !important;
 }
 
-.btn-themespark {
+.btn-activity {
     background: white;
     border: 2px solid #f15a22;
     color: black;
 }
 
-.btn-themespark:hover, .btn-themespark:active, .btn-themespark.active {
+.btn-activity:hover, .btn-activity:active, .btn-activity.active {
     background-color: #f15a22;
     color: white;
 }
@@ -6276,31 +6276,31 @@ div.scrollmenu li {
     background-color: #f15a22 !important;
 }
 
-input[type="radio"].themespark, input[type="checkbox"].themespark {
+input[type="radio"].activity, input[type="checkbox"].activity {
     margin: 4px !important;
     opacity: 0;
     margin-right: -15px !important;
 }
 
-.themespark-detail-description {
+.activity-detail-description {
     background-color: #f15a22;
     color: white;
     padding: 20px;
     height: 187px;
 }
 
-.themespark-detail-images {
+.activity-detail-images {
     height: 187px;
     padding: 0px;
 }
 
 @media (max-width: 768px) {
-    .li-themespark {
+    .li-activity {
         width: 25% !important;
         background-color: #f15a22;
     }
 
-    .themespark-rooms-modal {
+    .activity-rooms-modal {
         margin: 0px auto;
         width: 100% !important;
     }
@@ -6365,22 +6365,22 @@ input[type="radio"].themespark, input[type="checkbox"].themespark {
 }
 
 
-.li-themespark {
+.li-activity {
     background-color:#f15a22;
     height: 41px;
     display: inline-block;
     vertical-align: middle;
 }
 
-.li-themespark:hover {
+.li-activity:hover {
     background-color:white;
 }
 
-.li-themespark.active {
+.li-activity.active {
     background-color:white;
 }
 
-.tab-menu-themespark {
+.tab-menu-activity {
      color: white;
      background-color:#f15a22;
      display: block;
@@ -6389,17 +6389,17 @@ input[type="radio"].themespark, input[type="checkbox"].themespark {
      padding-top: 10px;
 }
 
-.tab-menu-themespark:hover {
+.tab-menu-activity:hover {
      color: black;
      background-color:white;
 }
 
-.tab-menu-themespark.active {
+.tab-menu-activity.active {
      color: black;
      background-color:white;
 }
 
-.nav-tabs-themespark {
+.nav-tabs-activity {
     background-color: #f15a22;
     height: 41px !important;
 }

@@ -50,18 +50,18 @@ def search(request):
     if 'user_account' in request.session._session:
         file = open("javascript_version.txt", "r")
         for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
             file_cache_name = line
         file.close()
 
         file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
-        for line in file:
             response = json.loads(line)
         file.close()
+
 
         try:
             file = open("data_cache_template.txt", "r")
@@ -131,10 +131,18 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
         file.close()
 
         try:
@@ -174,18 +182,16 @@ def detail(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
         file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
         file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -347,6 +353,15 @@ def review(request):
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
         file.close()
 
         try:
@@ -529,10 +544,18 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
         file.close()
 
         try:

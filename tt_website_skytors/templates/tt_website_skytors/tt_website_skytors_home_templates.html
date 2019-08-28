@@ -561,162 +561,163 @@
                             </form>
                         </div>
                         <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
-                            <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="themespark_query" id="themespark_query" placeholder="Search for Activity" autocomplete="off"/>
+                                <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" autocomplete="off"/>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                                <div class="form-select">
-                                                    <select id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
-                                                        <option value="" selected="">All Country</option>
-                                                        {% for country in activity_countries %}
-                                                        <option value="{{country.id}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                        <!--<option id="temp_themespark_countries"/>-->
-                                                    </select>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Location </span>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="set_city();" size="5" data-live-search="true" name="activity_countries">
+                                                            <option value="" selected="">All Country</option>
+                                                            {% for country in activity_countries %}
+                                                            <option value="{{country.id}}">{{country.name}}</option>
+                                                            {% endfor %}
+                                                            <!--<option id="temp_activity_countries"/>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <div id="temp_activity_cities">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                                <option value="" selected="">Cities</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                                <div class="form-select">
-                                                    <div id="temp_themespark_cities">
-                                                        <select id="themespark_cities" name="themespark_cities" size="5">
-                                                            <option value="" selected="">Cities</option>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="row">
+                                                <div class="col-lg-12 search_type">
+                                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Category / Type </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
+                                                    <div class="form-select">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                            <option value="0" selected="">All Types</option>
+                                                            {% for type in activity_types %}
+                                                            <option value="{{type.id}}">{{type.name}}</option>
+                                                            {% endfor %}
                                                         </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="set_sub_category();" name="activity_category" size="5">
+                                                            <option value="0" selected="">All Categories</option>
+                                                            {% for category in activity_categories %}
+                                                            <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
+                                                            {% endfor %}
+                                                            <!--<option id="temp_activity_category"/>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                                    <div class="form-select">
+                                                        <div class="js-example-basic-single" style="width:100%;" id="temp_activity_sub_category">
+                                                            <select id="activity_sub_category" name="activity_sub_category" size="5">
+                                                                <option value="0" selected="">Sub Categories</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br/>
 
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <div class="col-lg-12 search_type">
-                                                <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search
+                                    </button>
+                                </form>
+                            </div>
+
+                            <!--tour-->
+
+                            <div class="tab-pane fade" id="tour" role="tabpanel" aria-labelledby="tour-tab">
+                                <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-3" style="padding:0px;">
+                                            <span class="span-search-ticket">Search for Tour</span>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-briefcase icon-search-ticket"></i>
+                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Tour Keyword" autocomplete="off"/>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
+                                        <div class="col-lg-3" style="padding:0px;">
+                                            <span class="span-search-ticket">Destination</span>
+                                            <input id="tour_hidden_destination" type="hidden" value=""/>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <div class="form-select">
-                                                    <select id="themespark_type" name="themespark_type" data-live-search="true" size="5">
-                                                        <option value="0" selected="">All Types</option>
-                                                        {% for type in activity_types %}
-                                                        <option value="{{type.id}}">{{type.name}}</option>
-                                                        {% endfor %}
+                                                    <select onchange="" name="tour_destination" id="tour_destination" size="5">
+
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        </div>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Destination Month</span>
+                                            <div class="input-container-search-ticket">
+                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                 <div class="form-select">
-                                                    <select id="themespark_category" onchange="set_sub_category();" name="themespark_category" size="5">
-                                                        <option value="0" selected="">All Categories</option>
-                                                        {% for category in activity_categories %}
-                                                        <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
-                                                        {% endfor %}
-                                                        <!--<option id="temp_themespark_category"/>-->
+                                                    <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                        <option value="00" selected="True">All Months</option>
+                                                        <option value="01">January</option>
+                                                        <option value="02">February</option>
+                                                        <option value="03">March</option>
+                                                        <option value="04">April</option>
+                                                        <option value="05">May</option>
+                                                        <option value="06">June</option>
+                                                        <option value="07">July</option>
+                                                        <option value="08">August</option>
+                                                        <option value="09">September</option>
+                                                        <option value="10">October</option>
+                                                        <option value="11">November</option>
+                                                        <option value="12">December</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                                <div class="form-select">
-                                                    <div id="temp_themespark_sub_category">
-                                                        <select id="themespark_sub_category" name="themespark_sub_category" size="5">
-                                                            <option value="0" selected="">Sub Categories</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <br/>
-
-                                <button class="primary-btn text-uppercase" type="submit" value="Submit">
-                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                    Search
-                                </button>
-                            </form>
-                        </div>
-
-                        <!--tour-->
-
-                        <div class="tab-pane fade" id="tour" role="tabpanel" aria-labelledby="tour-tab">
-                            <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-lg-3" style="padding:0px;">
-                                        <span class="span-search-ticket">Search for Tour</span>
-                                        <div class="input-container-search-ticket">
-                                            <i class="fas fa-briefcase icon-search-ticket"></i>
-                                            <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Tour Keyword" autocomplete="off"/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3" style="padding:0px;">
-                                        <span class="span-search-ticket">Destination</span>
-                                        <input id="tour_hidden_destination" type="hidden" value=""/>
-                                        <div class="input-container-search-ticket">
-                                            <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+                                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <span class="span-search-ticket">Destination Year</span>
+                                            <input id="tour_hidden_year" type="hidden" value=""/>
                                             <div class="form-select">
-                                                <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                                <select onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                        <span class="span-search-ticket">Destination Month</span>
-                                        <div class="input-container-search-ticket">
-                                            <i class="fas fa-calendar-alt icon-search-ticket"></i>
-                                            <div class="form-select">
-                                                <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                    <option value="00" selected="True">All Months</option>
-                                                    <option value="01">January</option>
-                                                    <option value="02">February</option>
-                                                    <option value="03">March</option>
-                                                    <option value="04">April</option>
-                                                    <option value="05">May</option>
-                                                    <option value="06">June</option>
-                                                    <option value="07">July</option>
-                                                    <option value="08">August</option>
-                                                    <option value="09">September</option>
-                                                    <option value="10">October</option>
-                                                    <option value="11">November</option>
-                                                    <option value="12">December</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                        <span class="span-search-ticket">Destination Year</span>
-                                        <input id="tour_hidden_year" type="hidden" value=""/>
-                                        <div class="form-select">
-                                            <select onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                    <br/>
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/>
-
-                                <button class="primary-btn text-uppercase" type="submit" value="Submit">
-                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                    Search
-                                </button>
-                            </form>
-                        </div>
+                                    <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        Search
+                                    </button>
+                                </form>
+                            </div>
 
                         <!--VISA-->
                         <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
@@ -4843,11 +4844,10 @@
         document.getElementById("start").value = "2019-01-01";
         document.getElementById("end").value = "2020-12-31";
         get_dept_year();
-        //tour_login('');
     }catch(err){
 
     }
-
+    tour_login('');
 </script>
 
 {% endblock %}
