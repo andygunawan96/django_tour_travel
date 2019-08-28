@@ -38,7 +38,7 @@ var month = {
 function activity_login(data){
     offset = 0;
     getToken();
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -65,20 +65,20 @@ function activity_login(data){
                                 <div id='csrf`+activity_data[i].sequence+`'></div>
                                 <input id='uuid' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
                                 <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
-                                <button class="panel_themespark" type="button" data-content-1="`+activity_data[i].name+`" onclick="go_to_detail('`+activity_data[i].sequence+`')">
-                                    <div class="themespark-image-thumbnail">
+                                <button class="panel_activity" type="button" data-content-1="`+activity_data[i].name+`" onclick="go_to_detail('`+activity_data[i].sequence+`')">
+                                    <div class="activity-image-thumbnail">
                                         <img style="width: 100%; height: 100%;" src="`+activity_data[i].images[0].url+activity_data[i].images[0].path+`">
                                     </div>
-                                    <div class="row themespark-description-thumbnail" style="display:block;">
-                                        <span class="span-themespark-desc" style="font-weight:bold;">`+activity_data[i].name+`</span><br/>`;
+                                    <div class="row activity-description-thumbnail" style="display:block;">
+                                        <span class="span-activity-desc" style="font-weight:bold;">`+activity_data[i].name+`</span><br/>`;
                                         for(j in activity_data[i].locations) {
                                             text+=`
-                                                <span class="span-themespark-desc"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+` </span>
+                                                <span class="span-activity-desc"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_data[i].locations[j].city_name+`, `+activity_data[i].locations[j].country_name+` </span>
                                                 <br/>`;
                                         }
                                         text+=`
-                                            <span class="span-themespark-desc"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span>
-                                            <span class="span-themespark-desc" data-oe-type="monetary" data-oe-expression="rec['converted_price']" style="font-weight:bold; float:right;">Rp&nbsp;<span class="oe_currency_value">`+getrupiah(activity_data[i].converted_price)+`</span></span>
+                                            <span class="span-activity-desc"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span>
+                                            <span class="span-activity-desc" data-oe-type="monetary" data-oe-expression="rec['converted_price']" style="font-weight:bold; float:right;">Rp&nbsp;<span class="oe_currency_value">`+getrupiah(activity_data[i].converted_price)+`</span></span>
                                     </div>
                                 </button>
                            </div>
@@ -114,7 +114,7 @@ function activity_search(){
     offset++;
     get_new = false;
     getToken();
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -145,20 +145,20 @@ function activity_search(){
                             <div id='csrf`+msg.result.response[i].sequence+`'></div>
                             <input id='uuid' name='uuid' type=hidden value='`+msg.result.response[i].uuid+`'/>
                             <input id='sequence' name='sequence' type=hidden value='`+msg.result.response[i].sequence+`'/>
-                            <button class="panel_themespark" type="button" data-content-1="`+msg.result.response[i].name+`" onclick="go_to_detail('`+msg.result.response[i].sequence+`')">
-                                <div class="themespark-image-thumbnail">
+                            <button class="panel_activity" type="button" data-content-1="`+msg.result.response[i].name+`" onclick="go_to_detail('`+msg.result.response[i].sequence+`')">
+                                <div class="activity-image-thumbnail">
                                     <img style="width: 100%; height: 100%;" src="`+msg.result.response[i].images[0].url+msg.result.response[i].images[0].path+`">
                                 </div>
-                                <div class="row themespark-description-thumbnail" style="display:block;">
-                                    <span class="span-themespark-desc" style="font-weight:bold;">`+msg.result.response[i].name+`</span><br/>`;
+                                <div class="row activity-description-thumbnail" style="display:block;">
+                                    <span class="span-activity-desc" style="font-weight:bold;">`+msg.result.response[i].name+`</span><br/>`;
                                     for(j in msg.result.response[i].locations) {
                                         text+=`
-                                            <span class="span-themespark-desc"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+msg.result.response[i].locations[j].city_name+`, `+msg.result.response[i].locations[j].country_name+` </span>
+                                            <span class="span-activity-desc"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+msg.result.response[i].locations[j].city_name+`, `+msg.result.response[i].locations[j].country_name+` </span>
                                             <br/>`;
                                     }
                                     text+=`
-                                        <span class="span-themespark-desc"> `+msg.result.response[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+msg.result.response[i].reviewCount+`)</span>
-                                        <span class="span-themespark-desc" data-oe-type="monetary" data-oe-expression="rec['converted_price']" style="font-weight:bold; float:right;">Rp&nbsp;<span class="oe_currency_value">`+getrupiah(msg.result.response[i].converted_price)+`</span></span>
+                                        <span class="span-activity-desc"> `+msg.result.response[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+msg.result.response[i].reviewCount+`)</span>
+                                        <span class="span-activity-desc" data-oe-type="monetary" data-oe-expression="rec['converted_price']" style="font-weight:bold; float:right;">Rp&nbsp;<span class="oe_currency_value">`+getrupiah(msg.result.response[i].converted_price)+`</span></span>
                                 </div>
                             </button>
                        </div>
@@ -183,7 +183,7 @@ function activity_search(){
 
 function activity_get_detail(val){
     getToken();
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -204,15 +204,15 @@ function activity_get_detail(val){
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-themespark active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" onclick="activity_get_price(`+parseInt(i)+`);">
-                               <input type="radio" class="themespark" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
+                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" onclick="activity_get_price(`+parseInt(i)+`);">
+                               <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-themespark" style="z-index:1 !important; margin: 0px 5px 5px 0px;" onclick="activity_get_price(`+parseInt(i)+`);">
-                               <input type="radio" class="themespark" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
+                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px;" onclick="activity_get_price(`+parseInt(i)+`);">
+                               <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
@@ -253,7 +253,7 @@ function activity_get_price(val){
         if(activity_type[activity_type_pick].maxPax != 0){
             text+= `<div class="col-xs-3" style="padding:0px 5px;">
                         <label>Adult</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for adult is `+activity_type[activity_type_pick].minAdultAge+` - `+activity_type[activity_type_pick].maxAdultAge+` years old" style="padding-left:5px;"></i>
-                        <select class='form-control adult-icon themespark_pax' id='adult_passenger' name='adult_passenger' onchange='activity_table_detail()'>`;
+                        <select class='form-control adult-icon activity_pax' id='adult_passenger' name='adult_passenger' onchange='activity_table_detail()'>`;
                         for(j=parseInt(activity_type[activity_type_pick].minPax); j<=parseInt(activity_type[activity_type_pick].maxPax); j++)
                         text+=`
                             <option>`+j+`</option>`;
@@ -263,7 +263,7 @@ function activity_get_price(val){
         if(activity_type[activity_type_pick].allowSeniors == true){
            text+= `<div class="col-xs-3" style="padding:0px 5px;">
                     <label>Senior</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for senior is `+activity_type[activity_type_pick].minSeniorAge+` - `+activity_type[activity_type_pick].maxSeniorAge+` years old" style="padding-left:5px;"></i>
-                    <select class='form-control senior-icon themespark_pax' id='senior_passenger' name='senior_passenger' onchange='activity_table_detail()'>`;
+                    <select class='form-control senior-icon activity_pax' id='senior_passenger' name='senior_passenger' onchange='activity_table_detail()'>`;
                     for(j=activity_type[activity_type_pick].minSeniors; j<=activity_type[activity_type_pick].maxSeniors; j++)
                     text+=`
                         <option>`+j+`</option>`;
@@ -274,7 +274,7 @@ function activity_get_price(val){
         if(activity_type[activity_type_pick].allowChildren == true){
            text+= `<div class="col-xs-3" style="padding:0px 5px;">
                     <label>Child</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for child is `+activity_type[activity_type_pick].minChildAge+` - `+activity_type[activity_type_pick].maxChildAge+` years old" style="padding-left:5px;"></i>
-                    <select class='form-control child-icon themespark_pax' id='children_passenger' name='children_passenger' onchange='activity_table_detail()'>`;
+                    <select class='form-control child-icon activity_pax' id='children_passenger' name='children_passenger' onchange='activity_table_detail()'>`;
                     for(j=activity_type[activity_type_pick].minChildren; j<=activity_type[activity_type_pick].maxChildren; j++)
                     text+=`
                         <option>`+j+`</option>`;
@@ -285,7 +285,7 @@ function activity_get_price(val){
         if(activity_type[activity_type_pick].allowInfant == true){
            text+= `<div class="col-xs-3" style="padding:0px 5px;">
                         <label>Infant</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age range for infant is `+activity_type[activity_type_pick].minInfantAge+` - `+activity_type[activity_type_pick].maxInfantAge+` years old" style="padding-left:5px;"></i>
-                        <select class='form-control infant-icon themespark_pax' id='infant_passenger' name='infant_passenger' onchange='activity_table_detail()'>`;
+                        <select class='form-control infant-icon activity_pax' id='infant_passenger' name='infant_passenger' onchange='activity_table_detail()'>`;
                         for(j=activity_type[activity_type_pick].minInfant; j<=activity_type[activity_type_pick].maxInfant; j++)
                         text+=`
                             <option>`+j+`</option>`;
@@ -430,7 +430,7 @@ function activity_get_price(val){
 
                            document.getElementById('date').innerHTML = `
                                 <div class="col-sm-6 form-group departure_date" style="padding:5px;">
-                                    <label id="departure_date_themespark_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
+                                    <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
                                     <input id="activity_date" name="activity_date" value="`+moment(msg.result.response[0][i].date).format('DD MMM YYYY')+`" onchange="change_date_activity();" class="form-control calendar-logo" type="text" placeholder="Choose your departure date" autocomplete="off"/>
                                     <div id="activity_date_desc"></div>
                                 </div>

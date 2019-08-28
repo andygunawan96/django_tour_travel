@@ -6,6 +6,8 @@ from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.url import *
 import json
+import logging
+import traceback
 
 month = {
     'Jan': '01',
@@ -35,19 +37,18 @@ month = {
 }
 
 
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'login':
             res = login(request)
-        elif req_data['action'] == 'search2':
-            res = search2(request)
-        elif req_data['action'] == 'get_details2':
-            res = get_details2(request)
-        elif req_data['action'] == 'get_pricing2':
-            res = get_pricing2(request)
+        elif req_data['action'] == 'search':
+            res = search(request)
+        elif req_data['action'] == 'get_details':
+            res = get_details(request)
+        elif req_data['action'] == 'get_pricing':
+            res = get_pricing(request)
         elif req_data['action'] == 'create_booking':
             res = create_booking(request)
         elif req_data['action'] == 'get_booking':
@@ -63,25 +64,29 @@ def api_models(request):
 
 def login(request):
     data = {
-        "user": user,
-        "password": password,
-        'api_key': api_key_activity,
-        'co_uid': int(request.session['co_uid'])
+            "user": user_global,
+            "password": password_global,
+            "api_key": api_key,
+            "co_user": request.session['username'],
+            "co_password": request.session['password'],
+            "co_uid": ""
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": 'signin'
     }
-    res = util.send_request(url=url + "themespark/session", data=data, headers=headers, method='POST')
-    request.session['activity_sid'] = res['result']['sid']
-    request.session['activity_cookie'] = res['result']['cookies']
-    res = search2(request)
-
+    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    try:
+        request.session['activity_signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(
+            "SIGNIN ACTIVITY SUCCESS SIGNATURE " + res['result']['response']['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def search2(request):
 
+def search(request):
     data = {
         'query': request.session['activity_request']['query'],
         'country': request.session['activity_request']['country'],
@@ -96,11 +101,11 @@ def search2(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "search2",
-        "sid": request.session['activity_sid'],
+        "action": "search",
+        "signature": request.session['activity_signature']
     }
 
-    res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
 
     data_activity = []
     counter = 0
@@ -124,19 +129,20 @@ def search2(request):
 
     return res
 
-def get_details2(request):
 
+def get_details(request):
     data = {
-        'uuid': request.POST['uuid']
+        'uuid': request.POST['uuid'],
+        'provider_id': request.POST['provider_id']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_details2",
-        "sid": request.session['activity_sid'],
+        "action": "get_details",
+        "signature": request.session['activity_signature']
     }
 
-    res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     try:
         if res['error_code'] == 0:
             res['response'] = json.loads(res['response'])
@@ -155,35 +161,36 @@ def get_details2(request):
         print('error')
     return res
 
-def get_pricing2(request):
 
+def get_pricing(request):
+    pricing_days = int(request.POST['pricing_days'])
     data = {
         'product_type_uuid': request.POST['product_type_uuid'],
         'date_start': to_date_now(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))[:10],
-        'date_end': to_date_now((datetime.now()+timedelta(days=365)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
+        'date_end': to_date_now((datetime.now()+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
         "provider": request.POST['provider']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_pricing2",
-        "sid": request.session['activity_sid'],
+        "action": "get_pricing_provider",
+        "signature": request.session['activity_signature']
     }
 
-    res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     request.session['activity_price'] = res
     return res
 
-def create_booking(request):
 
+def create_booking(request):
     passenger = []
 
-    file = open("javascript_version.txt", "r")
+    file = open("version_cache.txt", "r")
     for line in file:
         file_cache_name = line
     file.close()
 
-    file = open('version' + str(file_cache_name) + ".txt", "r")
+    file = open(str(file_cache_name) + ".txt", "r")
     for line in file:
         response = json.loads(line)
     file.close()
@@ -249,7 +256,7 @@ def create_booking(request):
             "perPax": perpax
         },
         "kwargs": {
-            "is_themespark": True,
+            "is_activity": True,
             'payment_amount': 1,
             "force_issued": True
         },
@@ -265,42 +272,41 @@ def create_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "create_booking",
-        "sid": request.session['activity_sid'],
+        "signature": request.session['activity_signature']
     }
 
-    res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
-                            cookies=request.session['activity_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     if res['result']['error_code'] == 0:
         request.session['activity_order_number'] = res['result']['response']['order_number']
 
     return res
 
-def get_booking(request):
 
+def get_booking(request):
     data = {
         'order_number': request.POST['order_number']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_booking2",
-        "sid": request.session['activity_sid'],
+        "action": "get_booking",
+        "signature": request.session['activity_signature']
     }
 
-    res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     return res
 
-def get_voucher(request):
 
+def get_voucher(request):
     data = {
         'order_number': request.session['activity_order_number']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_vouchers2",
-        "sid": request.session['activity_sid'],
+        "action": "get_vouchers",
+        "signature": request.session['activity_signature']
     }
 
-    res = util.send_request(url=url + 'themespark/booking', data=data, headers=headers, cookies=request.session['activity_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     return res
