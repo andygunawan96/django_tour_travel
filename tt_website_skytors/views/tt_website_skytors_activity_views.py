@@ -41,6 +41,21 @@ def search(request):
             javascript_version = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         # activity
         activity_sub_categories = response['result']['response']['activity']['sub_categories']
         activity_categories = response['result']['response']['activity']['categories']
@@ -81,7 +96,9 @@ def search(request):
             'parsed_country': request.POST['themespark_countries'] and int(request.POST['themespark_countries']) or '',
             'parsed_city': request.POST['themespark_cities'],
             'parsed_country_name': parsed_country_name,
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_search_templates.html', values)
     else:
@@ -95,6 +112,21 @@ def detail(request):
             javascript_version = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
@@ -103,7 +135,9 @@ def detail(request):
             'response': request.session['activity_search'][int(request.POST['sequence'])],
             'username': request.session['user_account'],
             'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_detail_templates.html', values)
     else:
@@ -126,6 +160,21 @@ def passenger(request):
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -308,7 +357,9 @@ def passenger(request):
             'price': request.session['activity_price']['result']['response'][int(request.POST['event_pick'])][int(request.POST['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.POST['activity_type_pick'])],
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_passenger_templates.html', values)
     else:
@@ -327,6 +378,21 @@ def review(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         for file in request.session['activity_upload']:
             upload.append(file)
@@ -1029,7 +1095,9 @@ def review(request):
             'price': request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])],
             'detail': request.session['activity_detail']['result'][int(request.session['activity_request']['activity_type_pick'])],
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
             # 'booker': booker,
             # 'adults': adult,
             # 'infants': infant,
@@ -1056,6 +1124,22 @@ def booking(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -1064,7 +1148,9 @@ def booking(request):
             'username': request.session['user_account'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME + '/activity/tt_website_skytors_activity_booking_templates.html', values)
     else:

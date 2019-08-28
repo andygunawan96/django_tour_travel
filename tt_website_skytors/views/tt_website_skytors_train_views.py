@@ -53,6 +53,21 @@ def search(request):
             response = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         request.session['train_adult'] = request.POST['train_adult']
         request.session['train_infant'] = request.POST['train_infant']
 
@@ -69,7 +84,9 @@ def search(request):
                 'destination': request.POST['train_destination']
             },
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -92,6 +109,21 @@ def passenger(request):
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -129,7 +161,9 @@ def passenger(request):
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
 
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_passenger_templates.html', values)
@@ -142,6 +176,22 @@ def review(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         #adult
         adult = []
         infant = []
@@ -240,7 +290,9 @@ def review(request):
             'journeys_booking': journeys_booking,
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -254,6 +306,22 @@ def booking(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
@@ -262,7 +330,9 @@ def booking(request):
             'username': request.session['user_account'],
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_booking_templates.html', values)
     else:
@@ -274,6 +344,22 @@ def seat_map(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         passenger = []
         for pax in request.session['train_pax']:
             if pax['passenger']['pax_type'] == 'ADT':
@@ -284,7 +370,9 @@ def seat_map(request):
             'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_seat_map_templates.html', values)
     else:

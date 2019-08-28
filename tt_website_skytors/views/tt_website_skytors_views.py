@@ -9,6 +9,7 @@ from rest_framework import authentication, permissions
 from tools import path_util
 from django.utils import translation
 import json
+import base64
 
 from datetime import *
 
@@ -23,11 +24,27 @@ def index(request):
         javascript_version = json.loads(line)
     file.close()
     try:
+        file = open("data_cache_template.txt", "r")
+        for idx, line in enumerate(file):
+            if idx == 0:
+                if line == '\n':
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                else:
+                    logo = line
+            elif idx == 1:
+                template = int(line)
+        file.close()
+    except:
+        template = 1
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+    try:
         if request.POST['logout']:
             request.session.delete()
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version
+                'javascript_version': javascript_version,
+                'logo': logo,
+                'template': template
             }
     except:
         if bool(request.session._session):
@@ -142,6 +159,8 @@ def index(request):
                     # 'co_uid': request.session['co_uid'],
                     'airline_cabin_class_list': airline_cabin_class_list,
                     'airline_country': airline_country,
+                    'logo': logo,
+                    'template': template,
                     # 'activity_sub_categories': activity_sub_categories,
                     # 'activity_categories': activity_categories,
                     # 'activity_types': activity_types,
@@ -157,13 +176,17 @@ def index(request):
             except:
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'javascript_version': javascript_version
+                    'javascript_version': javascript_version,
+                    'logo': logo,
+                    'template': template
                 }
                 return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
         else:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version
+                'javascript_version': javascript_version,
+                'logo': logo,
+                'template': template
             }
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -183,94 +206,248 @@ def login(request):
     }
     return render(request, MODEL_NAME+'/tt_website_skytors_login_templates.html', values)
 
+def admin(request):
+    if 'user_account' in request.session._session:
+        if request.session['user_account']['co_agent_type_name'] == 'HO':
+            #save
+            if request.POST != {}:
+                text = ''
+                try:
+                    if request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
+                        text += 'data:'
+                        text += request.FILES['fileToUpload'].content_type
+                        text += ';base64, '
+                        text += base64.b64encode(request.FILES['fileToUpload'].read()).decode("utf-8")
+                        text += '\n'
+                    else:
+                        file = open("data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 0:
+                                text = line
+                        file.close()
+                except:
+                    file = open("data_cache_template.txt", "r")
+                    for idx, line in enumerate(file):
+                        if idx == 0:
+                            text = line
+                    file.close()
+
+                text += request.POST['template']
+                file = open('data_cache_template.txt', "w+")
+                file.write(text)
+                file.close()
+            file = open("javascript_version.txt", "r")
+            for line in file:
+                javascript_version = json.loads(line)
+            file.close()
+
+
+            try:
+                file = open("data_cache_template.txt", "r")
+                for idx, line in enumerate(file):
+                    if idx == 0:
+                        if line == '\n':
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        else:
+                            logo = line
+                    elif idx == 1:
+                        template = int(line)
+                file.close()
+            except:
+                template = 1
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                file = open('data_cache_template.txt', "w+")
+                file.write(logo+'\n'+str(template))
+                file.close()
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'username': request.session['user_account'],
+                'logo': logo,
+                'javascript_version': javascript_version,
+                'template': template,
+                'signature': request.session['signature']
+            }
+            return render(request, MODEL_NAME+'/backend/tt_website_skytors_admin_templates.html', values)
+        else:
+            return index(request)
+    else:
+        return index(request)
+
 def reservation(request):
-
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-
-    file = open("get_airline_active_carriers.txt", "r")
-    for line in file:
-        airline_carriers = json.loads(line)
-    file.close()
-
-    new_airline_carriers = {}
-    for key, value in airline_carriers.items():
-        new_airline_carriers[key] = value
-
-    if translation.LANGUAGE_SESSION_KEY in request.session:
-        del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-    values = {
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        'airline_carriers': new_airline_carriers,
-        # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account'],
-        'javascript_version': javascript_version,
-        'signature': request.session['signature']
-    }
-    return render(request, MODEL_NAME+'/backend/tt_website_skytors_reservation_templates.html', values)
-
-def top_up(request):
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-    if translation.LANGUAGE_SESSION_KEY in request.session:
-        del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-    values = {
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account'],
-        'javascript_version': javascript_version,
-        'signature': request.session['signature']
-    }
-    return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
-
-def top_up_payment(request):
-    try:
+    if 'user_account' in request.session._session:
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            airline_carriers = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
+        new_airline_carriers = {}
+        for key, value in airline_carriers.items():
+            new_airline_carriers[key] = value
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'top_up_request': {
-                'amount': request.POST['amount'],
-                'unique_amount': request.POST['unique_amount'],
-                'total_amount': request.POST['total_amount'],
-                'payment_method': request.POST['payment_method'],
-            },
-            'javascript_version': javascript_version,
+            'airline_carriers': new_airline_carriers,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
-            'signature': request.session['signature']
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+            'logo': logo,
+            'template': template
         }
-        return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_payment_templates.html', values)
-    except:
+        return render(request, MODEL_NAME+'/backend/tt_website_skytors_reservation_templates.html', values)
+    else:
+        return index(request)
+
+def top_up(request):
+    if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'javascript_version': javascript_version
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'username': request.session['user_account'],
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+            'logo': logo,
+            'template': template
         }
-        return render(request, MODEL_NAME + '/backend/tt_website_skytors_top_up_templates.html', values)
+        return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
+    else:
+        return index(request)
+
+def top_up_payment(request):
+    if 'user_account' in request.session._session:
+        try:
+            file = open("javascript_version.txt", "r")
+            for line in file:
+                javascript_version = json.loads(line)
+            file.close()
+
+            try:
+                file = open("data_cache_template.txt", "r")
+                for idx, line in enumerate(file):
+                    if idx == 0:
+                        if line == '\n':
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        else:
+                            logo = line
+                    elif idx == 1:
+                        template = int(line)
+                file.close()
+            except:
+                template = 1
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'top_up_request': {
+                    'amount': request.POST['amount'],
+                    'unique_amount': request.POST['unique_amount'],
+                    'total_amount': request.POST['total_amount'],
+                    'payment_method': request.POST['payment_method'],
+                },
+                'javascript_version': javascript_version,
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'username': request.session['user_account'],
+                'signature': request.session['signature'],
+                'logo': logo,
+                'template': template
+            }
+            return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_payment_templates.html', values)
+        except:
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'logo': logo,
+                'template': template
+            }
+            return render(request, MODEL_NAME + '/backend/tt_website_skytors_top_up_templates.html', values)
+    else:
+        return index(request)
 
 def top_up_history(request):
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-    if translation.LANGUAGE_SESSION_KEY in request.session:
-        del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-    values = {
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-        'username': request.session['user_account'],
-        'javascript_version': javascript_version,
-        'signature': request.session['signature']
-    }
-    return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_history_templates.html', values)
+    if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'username': request.session['user_account'],
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+            'logo': logo,
+            'template': template
+        }
+        return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_history_templates.html', values)
+    else:
+        return index(request)
 
 
 
