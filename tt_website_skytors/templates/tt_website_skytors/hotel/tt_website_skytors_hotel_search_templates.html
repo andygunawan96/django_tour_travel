@@ -12,7 +12,7 @@
 <script src="{{ static_path }}js/moment.js"></script>
 <script>
     sorting_value = '';
-    get_hotel_config();
+    //get_hotel_config();
     airline_country = [];
     {% for key,value in countries.items %}
         airline_country.push({
@@ -61,6 +61,7 @@
        }
        document.getElementById("guest_child_age").innerHTML = text;
     }
+    signature = `{{signature}}`;
 </script>
 
 {% include 'tt_website_skytors/header.html' %}

@@ -73,7 +73,7 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': response['result']['response']['airline']['country'],
-            'hotel_config': response['result']['response']['hotel_config'],
+            # 'hotel_config': response['result']['response']['hotel_config'],
             'hotel_search': request.session['hotel_request'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,

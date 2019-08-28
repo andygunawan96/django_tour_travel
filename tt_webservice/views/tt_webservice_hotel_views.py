@@ -108,21 +108,25 @@ def search(request):
         destination_id = ''
         hotel_id = ''
         landmark_id = ''
-        for hotel in response['result']['response']['hotel_config']:
-            if request.POST['destination'] == hotel['name']:
-                if hotel['type'] == 'Country':
-                    country_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                elif hotel['type'] == 'City':
-                    destination_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                elif hotel['type'] == 'Hotel':
-                    hotel_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                elif hotel['type'] == 'Landmark':
-                    landmark_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                break
+        try:
+            for hotel in response['result']['response']['hotel_config']:
+                if request.POST['destination'] == hotel['name']:
+                    if hotel['type'] == 'Country':
+                        country_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'City':
+                        destination_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Hotel':
+                        hotel_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Landmark':
+                        landmark_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    break
+        except:
+            pass
+
         data = {
             'child': int(request.POST['child']),
             'hotel_id': hotel_id,
