@@ -47,147 +47,173 @@ def index(request):
                 'template': template
             }
     except:
-        if bool(request.session._session):
-            request.session.create()
-
-            #get_data_awal
-            try:
-                file = open("javascript_version.txt", "r")
-                for line in file:
-                    file_cache_name = line
-                file.close()
-
-                file = open('version' + str(file_cache_name) + ".txt", "r")
-                for line in file:
-                    response = json.loads(line)
-                file.close()
-
-                # agent
-                adult_title = ['MR', 'MRS', 'MS']
-
-                infant_title = ['MSTR', 'MISS']
-
-                id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
-
-                # agent
-
-
-                airline_country = response['result']['response']['airline']['country']
-
-                # airline_carriers = response['result']['response']['airline']['carriers']
-
-                airline_cabin_class_list = [
-                    {
-                        'name': 'Economy',
-                        'value': 'Y',
-                    }, {
-                        'name': 'Premium Economy',
-                        'value': 'W',
-                    }, {
-                        'name': 'Business',
-                        'value': 'C',
-                    }, {
-                        'name': 'First Class',
-                        'value': 'F',
-                    }
-                ]
-                # airline
-
-                # activity
-                activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                activity_categories = response['result']['response']['activity']['categories']
-                activity_types = response['result']['response']['activity']['types']
-                activity_countries = response['result']['response']['activity']['countries']
-                # activity
-
-                # issuedoffline
-                # issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
-                # issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
-                # issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
-                # issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
-
-                # issuedoffline
-
-                #get_data_awal
-                cache = {}
-                try:
-                    cache['airline'] = {
-                            'origin': request.session['airline_request']['origin'],
-                            'destination': request.session['airline_request']['destination'],
-                            'departure': request.session['airline_request']['departure'][0],
-                        }
-                except:
-                    pass
-
-                try:
-                    cache['train'] = {
-                            'origin': request.session['train_request']['origin'],
-                            'destination': request.session['train_request']['destination'],
-                            'departure': request.session['train_request']['departure'],
-                        }
-                except:
-                    pass
-
-                try:
-                    cache['hotel'] = {
-                            'checkin': request.session['hotel_request']['check_in'],
-                            'checkout': request.session['hotel_request']['check_out']
-                        }
-                except:
-                    pass
-
-                try:
-                    cache['activity'] = {
-                            'name': request.session['activity_request']['query']
-                        }
-                except:
-                    pass
-
-                try:
-                    cache['visa'] = {
-                            'destination': request.session['visa_request']['destination'],
-                            'departure_date': request.session['visa_request']['departure_date'],
-                            'consulate': request.session['visa_request']['consulate']
-                        }
-                except:
-                    pass
-                values = {
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'cache': json.dumps(cache),
-                    # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-                    'username': request.session['user_account'],
-                    # 'co_uid': request.session['co_uid'],
-                    'airline_cabin_class_list': airline_cabin_class_list,
-                    'airline_country': airline_country,
-                    'logo': logo,
-                    'template': template,
-                    'activity_sub_categories': activity_sub_categories,
-                    'activity_categories': activity_categories,
-                    'activity_types': activity_types,
-                    'activity_countries': activity_countries,
-                    #hotel
-                    # 'issued_offline_transaction_type': issued_offline_transaction_type,
-                    # 'issued_offline_sector_type': issued_offline_sector_type,
-                    # 'issued_offline_carrier_id': issued_offline_carrier_id,
-                    # 'issued_offline_social_media_id': issued_offline_social_media_id,
-                    'javascript_version': javascript_version,
-                    'signature': request.session['signature']
-                }
-            except:
+        try:
+            if 'login' not in request.session['user_account']['co_agent_frontend_security']:
+                request.session.delete()
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'template': template
                 }
-                return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
-        else:
-            values = {
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version,
-                'logo': logo,
-                'template': template
-            }
+            elif bool(request.session._session):
+                request.session.create()
+
+                #get_data_awal
+                try:
+                    file = open("javascript_version.txt", "r")
+                    for line in file:
+                        file_cache_name = line
+                    file.close()
+
+                    file = open('version' + str(file_cache_name) + ".txt", "r")
+                    for line in file:
+                        response = json.loads(line)
+                    file.close()
+
+                    # agent
+                    adult_title = ['MR', 'MRS', 'MS']
+
+                    infant_title = ['MSTR', 'MISS']
+
+                    id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
+
+                    # agent
+
+
+                    airline_country = response['result']['response']['airline']['country']
+
+                    # airline_carriers = response['result']['response']['airline']['carriers']
+
+                    airline_cabin_class_list = [
+                        {
+                            'name': 'Economy',
+                            'value': 'Y',
+                        }, {
+                            'name': 'Premium Economy',
+                            'value': 'W',
+                        }, {
+                            'name': 'Business',
+                            'value': 'C',
+                        }, {
+                            'name': 'First Class',
+                            'value': 'F',
+                        }
+                    ]
+                    # airline
+
+                    # activity
+                    # activity_sub_categories = response['result']['response']['activity']['sub_categories']
+                    # activity_categories = response['result']['response']['activity']['categories']
+                    # activity_types = response['result']['response']['activity']['types']
+                    # activity_countries = response['result']['response']['activity']['countries']
+                    # activity
+
+                    # issuedoffline
+                    # issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
+                    # issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
+                    # issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
+                    # issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
+
+                    # issuedoffline
+
+                    #get_data_awal
+                    cache = {}
+                    try:
+                        cache['airline'] = {
+                                'origin': request.session['airline_request']['origin'],
+                                'destination': request.session['airline_request']['destination'],
+                                'departure': request.session['airline_request']['departure'][0],
+                            }
+                    except:
+                        pass
+
+                    try:
+                        cache['train'] = {
+                                'origin': request.session['train_request']['origin'],
+                                'destination': request.session['train_request']['destination'],
+                                'departure': request.session['train_request']['departure'],
+                            }
+                    except:
+                        pass
+
+                    try:
+                        cache['hotel'] = {
+                                'checkin': request.session['hotel_request']['check_in'],
+                                'checkout': request.session['hotel_request']['check_out']
+                            }
+                    except:
+                        pass
+
+                    try:
+                        cache['activity'] = {
+                                'name': request.session['activity_request']['query']
+                            }
+                    except:
+                        pass
+
+                    try:
+                        cache['visa'] = {
+                                'destination': request.session['visa_request']['destination'],
+                                'departure_date': request.session['visa_request']['departure_date'],
+                                'consulate': request.session['visa_request']['consulate']
+                            }
+                    except:
+                        pass
+                    values = {
+                        'static_path': path_util.get_static_path(MODEL_NAME),
+                        'cache': json.dumps(cache),
+                        # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                        'username': request.session['user_account'],
+                        # 'co_uid': request.session['co_uid'],
+                        'airline_cabin_class_list': airline_cabin_class_list,
+                        'airline_country': airline_country,
+                        'logo': logo,
+                        'template': template,
+                        # 'activity_sub_categories': activity_sub_categories,
+                        # 'activity_categories': activity_categories,
+                        # 'activity_types': activity_types,
+                        # 'activity_countries': activity_countries,
+                        #hotel
+                        # 'issued_offline_transaction_type': issued_offline_transaction_type,
+                        # 'issued_offline_sector_type': issued_offline_sector_type,
+                        # 'issued_offline_carrier_id': issued_offline_carrier_id,
+                        # 'issued_offline_social_media_id': issued_offline_social_media_id,
+                        'javascript_version': javascript_version,
+                        'update_data': 'false',
+                        'signature': request.session['signature']
+                    }
+                except:
+                    values = {
+                        'static_path': path_util.get_static_path(MODEL_NAME),
+                        'javascript_version': javascript_version,
+                        'logo': logo,
+                        'template': template
+                    }
+                    return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
+            else:
+                values = {
+                    'static_path': path_util.get_static_path(MODEL_NAME),
+                    'javascript_version': javascript_version,
+                    'logo': logo,
+                    'template': template
+                }
+        except:
+            if request.session.get('user_account'):
+                values = {
+                    'static_path': path_util.get_static_path(MODEL_NAME),
+                    'javascript_version': javascript_version,
+                    'logo': logo,
+                    'template': template,
+                    'username': request.session.get('user_account') or '',
+                }
+            else:
+                values = {
+                    'static_path': path_util.get_static_path(MODEL_NAME),
+                    'javascript_version': javascript_version,
+                    'logo': logo,
+                    'template': template,
+                }
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -198,11 +224,29 @@ def login(request):
     for line in file:
         javascript_version = json.loads(line)
     file.close()
+
+    try:
+        file = open("data_cache_template.txt", "r")
+        for idx, line in enumerate(file):
+            if idx == 0:
+                if line == '\n':
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                else:
+                    logo = line
+            elif idx == 1:
+                template = int(line)
+        file.close()
+    except:
+        template = 1
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
-        'javascript_version': javascript_version
+        'javascript_version': javascript_version,
+        'logo': logo,
+        'template': template,
     }
     return render(request, MODEL_NAME+'/tt_website_skytors_login_templates.html', values)
 

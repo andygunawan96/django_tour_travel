@@ -371,7 +371,6 @@ function add_multi_city(type){
                                 }
                                     //</select>
                                 text+=`</div>
-                                <!--<input type="hidden" name="origin_id_flight`+counter_airline_search+`" id="airline_origin_flight`+counter_airline_search+`" />--!>
                             </div>
                         </div>
                         <div class="image-change-route-vertical">
@@ -2833,6 +2832,12 @@ function update_contact_cp(val){
 }
 
 function next_ssr(){
+    document.getElementById('time_limit_input').value = time_limit;
+    document.getElementById('airline_booking').submit();
+}
+
+function next_seat_map(){
+    document.getElementById('airline_booking').innerHTML += `<input type="hidden" id="passenger" name="passenger" value='`+JSON.stringify(passengers)+`'>`;
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('airline_booking').submit();
 }

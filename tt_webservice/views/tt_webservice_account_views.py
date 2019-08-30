@@ -88,17 +88,25 @@ def get_account(request):
     return res
 
 def get_balance(request):
-    try:
-        data = {}
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_balance",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    if request.POST['using_cache'] == 'false':
+        try:
+            data = {}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_balance",
+                "signature": request.POST['signature'],
+            }
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+        request.session['get_balance_session'] = res
+        request.session.modified = True
+    else:
+        try:
+            res = request.session['get_balance_session']
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_balance SUCCESS SIGNATURE " + request.POST['signature'])
@@ -107,23 +115,29 @@ def get_balance(request):
     return res
 
 def get_transactions(request):
-    try:
-        data = {
-            'minimum': int(request.POST['offset']) * int(request.POST['limit']),
-            'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
-            'provider_type': json.loads(request.POST['provider_type']),
-            # 'order_or_pnr': request.POST['name']
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_transactions",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    if request.POST['using_cache'] == 'false':
+        try:
+            data = {
+                'minimum': int(request.POST['offset']) * int(request.POST['limit']),
+                'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
+                'provider_type': json.loads(request.POST['provider_type']),
+                # 'order_or_pnr': request.POST['name']
+            }
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_transactions",
+                "signature": request.POST['signature'],
+            }
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+        if int(request.POST['offset']) == 0:
+            request.session['get_transactions_session'] = res
+            request.session.modified = True
+    else:
+        res = request.session['get_transactions_session']
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_transactions SUCCESS SIGNATURE " + request.POST['signature'])

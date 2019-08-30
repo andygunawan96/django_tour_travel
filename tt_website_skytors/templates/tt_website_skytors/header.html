@@ -41,17 +41,19 @@
                     <ul class="nav-menu">
                         <li class="menu-has-children pt5"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
                         {% if username != null %}
-                        {% if username.co_agent_type_name == 'HO' %}
+                        {% if "admin" in username.co_agent_frontend_security %}
                         <li class="pt5"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
                         {% endif %}
                         <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
                         <li class="pt5"><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="pt5"><a href="#">Top Up</a>
                             <ul>
                                 <li><a href="{% url 'tt_website_skytors:top_up'%}">Request</a></li>
                                 <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
                             </ul>
                         </li>
+                        {% endif%}
                         <li class="pt5"><a href="#" style="border-right:1px solid black; margin-right:5px;">Issued Offline</a>
                             <ul>
                                 <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
@@ -685,9 +687,9 @@
 <script>
     {% if username != null %}
         time = 300;
-        triggered_balance();
-        get_balance();
-        get_transactions_notification();
+        triggered_balance({{update_data}});
+        get_balance({{update_data}});
+
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
             document.getElementById('notification_'+number).submit();

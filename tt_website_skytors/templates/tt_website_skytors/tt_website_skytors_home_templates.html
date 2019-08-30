@@ -78,7 +78,7 @@
         airline_search_value = 'false';
         //get_train_config('home');
         //get_visa_config('home');
-
+        tour_login('');
 
         //get_agent_booking();
     {% endif %}
@@ -119,6 +119,7 @@
                     Enjoy your trip with RODEXTRIP
                 </h4>
 
+                {% if "ticketing" in username.co_agent_frontend_security %}
                 <div class="banner-right scrollmenu style-scrollbar">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
@@ -764,6 +765,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
             {% else %}
             <div class="col-lg-12">
@@ -4689,6 +4691,23 @@
         }
     });
 
+    var hotel_autocomplete = new autoComplete({
+        selector: '#hotel_id_destination',
+        minChars: 0,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                term = ''
+            if(term.length > 1)
+                suggest(airline_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#hotel_id_destination").trigger("blur");
+            set_airline_search_value_to_true();
+        }
+    });
+
     //test
 
     //testing getbooker
@@ -4847,7 +4866,7 @@
     }catch(err){
 
     }
-    tour_login('');
+
 </script>
 
 {% endblock %}
