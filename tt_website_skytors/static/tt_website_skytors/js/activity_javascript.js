@@ -118,68 +118,37 @@ function activity_table_detail(){
            '\n\n';
 
    try{
-       if(document.getElementById('adult_passenger').value != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Adult</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+document.getElementById('adult_passenger').value+`</div>
-                        <div class="col-xs-3"></div>
-                        <div class="col-xs-3" style="padding-right: 0; text-align: right;">`;
+       skus = activity_date[event_pick][activity_date_pick].prices;
+       for (sku in skus)
+       {
+            low_sku_id = sku.toLowerCase();
+            if(document.getElementById(low_sku_id+'_passenger'))
+            {
+                if(document.getElementById(low_sku_id+'_passenger').value != 0){
+                   text+= `<div class="row">
+                                <div class="col-xs-3">`+skus[sku].sku_title+`</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`</div>
+                                <div class="col-xs-3"></div>
+                                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`;
 
-           text+= getrupiah(activity_date[event_pick][activity_date_pick].prices.adults[document.getElementById('adult_passenger').value].sale_price) +`</div>
-               </div>`;
-
-       $test += document.getElementById('adult_passenger').value + ' Adult Price IDR ' + getrupiah(activity_date[event_pick][activity_date_pick].prices.adults[document.getElementById('adult_passenger').value].sale_price)+'\n';
-       grand_total += parseInt(document.getElementById('adult_passenger').value) * activity_date[event_pick][activity_date_pick].prices.adults[document.getElementById('adult_passenger').value].sale_price;
-       grand_commission += parseInt(document.getElementById('adult_passenger').value) * activity_date[event_pick][activity_date_pick].prices.adults[document.getElementById('adult_passenger').value].commission_price;
-       }
-   }catch(err){
-
-   }
-   try{
-       if(document.getElementById('senior_passenger').value != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Senior</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+document.getElementById('senior_passenger').value+`</div>
-                        <div class="col-xs-3"></div>
-                        <div class="col-xs-3" style="padding-right: 0; text-align: right;">`;
-           text+= getrupiah(activity_date[event_pick][activity_date_pick].prices.seniors[document.getElementById('senior_passenger').value].sale_price) +`</div>
-               </div>`;
-       $test += document.getElementById('senior_passenger').value+' Senior Price IDR '+getrupiah(activity_date[event_pick][activity_date_pick].prices.seniors[document.getElementById('senior_passenger').value].sale_price)+'\n';
-       grand_total+= parseInt(document.getElementById('senior_passenger').value) * activity_date[event_pick][activity_date_pick].prices.seniors[document.getElementById('senior_passenger').value].sale_price;
-       grand_commission += parseInt(document.getElementById('senior_passenger').value) * activity_date[event_pick][activity_date_pick].prices.seniors[document.getElementById('senior_passenger').value].commission_price;
-       }
-   }catch(err){
-
-   }
-   try{
-       if(document.getElementById('children_passenger').value != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Child</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+document.getElementById('children_passenger').value+`</div>
-                        <div class="col-xs-3"></div>
-                        <div class="col-xs-3" style="padding-right: 0; text-align: right;">`;
-           text+= getrupiah(activity_date[event_pick][activity_date_pick].prices.children[document.getElementById('children_passenger').value].sale_price) +`</div>
-               </div>`;
-       $test += document.getElementById('children_passenger').value+' Child Price IDR '+getrupiah(activity_date[event_pick][activity_date_pick].prices.children[document.getElementById('children_passenger').value].sale_price)+'\n';
-       grand_total += parseInt(document.getElementById('children_passenger').value) * activity_date[event_pick][activity_date_pick].prices.children[document.getElementById('children_passenger').value].sale_price;
-       grand_commission += parseInt(document.getElementById('children_passenger').value) * activity_date[event_pick][activity_date_pick].prices.children[document.getElementById('children_passenger').value].commission_price;
-       }
-   }catch(err){
-
-   }
-   try{
-       if(document.getElementById('infant_passenger').value != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Infant</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`</div>
-                        <div class="col-xs-3"></div>
-                        <div class="col-xs-3" style="padding-right: 0; text-align: right;">0</div>
-                   </div>`;
-       $test += document.getElementById('infant_passenger').value+' Infant Price IDR '+getrupiah(0)+'\n';
+                   if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
+                   {
+                       text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price);
+                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
+                       grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].sale_price;
+                       grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].commission_price;
+                   }
+                   else
+                   {
+                       text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price);
+                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
+                       grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
+                       grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].commission_price;
+                   }
+                   text+= `</div></div>`;
+               }
+            }
        }
    }catch(err){
 
@@ -192,10 +161,20 @@ function activity_table_detail(){
    $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
            '\nPrices and availability may change at any time';
    console.log(grand_total);
-   text+= `<div class="row">
+   if (additional_price)
+   {
+        text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
                 <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
+   }
+   else
+   {
+        text+= `<div class="row">
+                <div class="col-xs-8">Additional Charge</div>
+                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+           </div>`;
+   }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
@@ -902,25 +881,6 @@ function check_passenger(){
      }else{
         alert('Please Fill all the blank !');
      }
-}
-
-function change_date_activity(){
-
-    document.getElementById('activity_detail_table').innerHTML = '';
-    for(i in activity_date[event_pick]){
-        if(activity_date[event_pick][i].date == moment(document.getElementById('activity_date').value).format('YYYY-MM-DD')){
-            if(activity_date[event_pick][i].available == false){
-                document.getElementById('activity_date_desc').innerHTML = `
-                <small id="departure_date_activity_desc" class="hidden" style="color: red;">Ticket is unavailable on this date</small>
-                `;
-            }else{
-                document.getElementById('activity_date_desc').innerHTML = '';
-            }
-            activity_date_pick = i;
-            activity_table_detail();
-            break;
-        }
-    }
 }
 
 function change_event(val){
