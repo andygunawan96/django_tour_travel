@@ -2785,9 +2785,9 @@ function get_airline_review(){
                     for(i in passengers_ssr){
                         text+=`<tr>
                                 <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
-                                <td>`+passengers.adult[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
+                                <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
                                 <td>Adult</td>
-                                <td>`+passengers.adult[i].birth_date+`</td>
+                                <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list)
                                     text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
