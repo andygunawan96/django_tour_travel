@@ -63,7 +63,7 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_review'%}">
+        <form method="POST" id="airline_booking" action="{% if seat_map == 0 %} {% url 'tt_website_skytors:airline_seat_map'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">

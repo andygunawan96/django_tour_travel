@@ -93,12 +93,18 @@ def api_models(request):
             res = sell_journeys(request)
         elif req_data['action'] == 'get_ssr_availabilty':
             res = get_ssr_availabilty(request)
+        elif req_data['action'] == 'get_seat_availability':
+            res = get_seat_availability(request)
+        elif req_data['action'] == 'get_seat_map_response':
+            res = get_seat_map_response(request)
         elif req_data['action'] == 'update_contacts':
             res = update_contacts(request)
         elif req_data['action'] == 'update_passengers':
             res = update_passengers(request)
         elif req_data['action'] == 'sell_ssrs':
             res = sell_ssrs(request)
+        elif req_data['action'] == 'assign_seats':
+            res = assign_seats(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'update_service_charge':
@@ -693,6 +699,21 @@ def get_ssr_availabilty(request):
     request.session['airline_get_ssr'] = res
     return res
 
+def get_seat_availability(request):
+    data = {}
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_seat_availability",
+        "signature": request.POST['signature'],
+    }
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    request.session['airline_get_seat_availability'] = res
+    return res
+
+def get_seat_map_response(request):
+    return request.session['airline_get_seat_availability']['result']['response']
+
 def set_ssr_ff(request):
     #nanti ganti ke get_ssr_availability
     ff_request = []
@@ -923,6 +944,7 @@ def update_passengers(request):
 
 def sell_ssrs(request):
     try:
+
         data = {
             'sell_ssrs_request': request.session['airline_ssr_request']
         }
@@ -931,6 +953,33 @@ def sell_ssrs(request):
             "Content-Type": "application/json",
             "action": "sell_ssrs",
             "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    if request.session['airline_ssr_request'] != {}:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        if request.session['airline_ssr_request'] == {}:
+            logging.getLogger("error_logger").error("NO SSR")
+        else:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def assign_seats(request):
+    try:
+        data = {
+            'segment_seat_request': request.session['airline_seat_request']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "assign_seats",
+            "signature": request.POST['signature']
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

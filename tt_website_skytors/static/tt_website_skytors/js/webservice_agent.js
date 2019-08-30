@@ -23,7 +23,7 @@ function signin(){
            },
            success: function(msg) {
             console.log(msg);
-            if(msg == 0){
+            if(msg == true){
                 Swal.fire(
                   'Correct',
                   'Login Success!',
@@ -56,12 +56,12 @@ function signin(){
     }
 }
 
-function triggered_balance(){
+function triggered_balance(val){
     var timeInterval = setInterval(function() {
         if(time!=0){
             time--;
         }else{
-            get_balance();
+            get_balance(val);
             time=300;
         }
     }, 1000);

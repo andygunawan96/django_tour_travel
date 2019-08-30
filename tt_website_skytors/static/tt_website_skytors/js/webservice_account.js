@@ -1,7 +1,10 @@
 offset_transaction = 0;
 
 
-function get_balance(){
+function get_balance(val){
+    using_cache = '';
+    if(val != undefined)
+        using_cache = val;
     getToken();
     $.ajax({
        type: "POST",
@@ -11,7 +14,8 @@ function get_balance(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'signature': signature
+            'signature': signature,
+            'using_cache': using_cache
        },
        success: function(msg) {
         console.log(msg);
@@ -34,6 +38,7 @@ function get_balance(){
         }else{
             alert(msg.result.error_msg);
         }
+        get_transactions_notification(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -70,9 +75,12 @@ function get_account(){
     });
 }
 
-function get_transactions_notification(){
+function get_transactions_notification(val){
     limit_transaction = 10;
     getToken();
+    using_cache = '';
+    if(val != undefined)
+        using_cache = val;
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -84,7 +92,8 @@ function get_transactions_notification(){
             'offset': offset_transaction,
             'limit': limit_transaction,
             'provider_type': JSON.stringify([]),
-            'signature': signature
+            'signature': signature,
+            'using_cache': using_cache
        },
        success: function(msg) {
        console.log(msg);
