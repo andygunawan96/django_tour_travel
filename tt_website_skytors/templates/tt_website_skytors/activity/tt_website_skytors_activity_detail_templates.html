@@ -48,6 +48,7 @@
         'name': '{{response.name}}',
         'itinerary': `{{response.itinerary}}`,
     };
+    signature = `{{signature}}`;
 </script>
 
 <script src="{{ static_path }}js/webservice_agent.js"></script>
@@ -160,6 +161,25 @@
                                     <div class="row" style="padding:0px;margin-top:5px;" id="date">
 
                                     </div>
+                                    <div id="loading-detail-activity" style="margin-bottom:20px;">
+                                        <div class="col-lg-12">
+                                            <div class="sk-circle">
+                                                <div class="sk-circle1 sk-child"></div>
+                                                <div class="sk-circle2 sk-child"></div>
+                                                <div class="sk-circle3 sk-child"></div>
+                                                <div class="sk-circle4 sk-child"></div>
+                                                <div class="sk-circle5 sk-child"></div>
+                                                <div class="sk-circle6 sk-child"></div>
+                                                <div class="sk-circle7 sk-child"></div>
+                                                <div class="sk-circle8 sk-child"></div>
+                                                <div class="sk-circle9 sk-child"></div>
+                                                <div class="sk-circle10 sk-child"></div>
+                                                <div class="sk-circle11 sk-child"></div>
+                                                <div class="sk-circle12 sk-child"></div>
+                                            </div>
+                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                        </div>
+                                    </div>
                                     <div class="row" style="padding:0px;margin-top:5px;" id="event">
 
                                     </div>
@@ -169,10 +189,6 @@
                                     <div class="row" style="padding:0px;margin-top:5px;" id="timeslot">
 
                                     </div>
-
-                                    <!--<div style="padding:0 20px;margin-top:5px;" id="detail_to_passenger_page">-->
-
-                                    <!--</div>-->
 
                                     <div style="padding:0px;margin-top:5px;" id="perbooking">
 

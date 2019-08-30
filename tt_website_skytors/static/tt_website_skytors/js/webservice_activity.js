@@ -6,6 +6,7 @@ activity_date_pick = '';
 activity_timeslot = '';
 additional_price = 0;
 event_pick = 0;
+pricing_days = 3;
 offset = 0;
 
 var month = {
@@ -88,6 +89,7 @@ function activity_search(){
            data=[]
            if(msg.result.error_code == 0){
                activity_data = msg.result.response;
+               $('#loading-search-activity').hide();
                if (activity_data.length == 0)
                {
                     text += `
@@ -236,26 +238,10 @@ function activity_get_detail(uuid, provider){
 }
 
 function activity_get_price(val){
-    document.getElementById('activity_detail_table').innerHTML = '';
     if(parseInt(activity_type_pick) != val){
         activity_type_pick = val;
         document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
-        text = '';
-        for(i in activity_type[activity_type_pick].skus)
-        {
-            low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
-            text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                        <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
-                        <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
-                        <select class='form-control adult-icon activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
-                        for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
-                        text+=`
-                            <option>`+j+`</option>`;
-                        text+=`</select>
-                    </div>`;
-        }
 
-        document.getElementById('pax').innerHTML = text;
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
            text+=`<h3 style="padding:0 10px;">Validity</h3>
@@ -279,141 +265,214 @@ function activity_get_price(val){
         }
 
         document.getElementById('vouchers').innerHTML = text;
-        text = '';
 
-       if(activity_type[activity_type_pick].timeslots.length>0){
-           text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
-                    <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot" id="timeslot">`;
-           var temp_timeslotco = 0;
-           for(j in activity_type[activity_type_pick].timeslots)
-           {
-                if (temp_timeslotco == 0)
-                {
-                    timeslot_change(j);
-                }
-                text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`" onclick='timeslot_change(`+j+`);'>`+activity_type[activity_type_pick].timeslots[j].startTime.split(':')[0]+`:`+activity_type[activity_type_pick].timeslots[j].startTime.split(':')[1]+` - `+activity_type[activity_type_pick].timeslots[j].endTime.split(':')[0]+`:`+activity_type[activity_type_pick].timeslots[j].endTime.split(':')[1]+`</option>`;
-                temp_timeslotco += 1;
-           }
+        document.getElementById('date').innerHTML = `
+            <div class="col-sm-6 form-group departure_date" style="padding:15px;">
+                <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
+                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control calendar-logo" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
+                <div id="activity_date_desc"></div>
+            </div>
+       `;
 
-           text += `</select></div>`;
-       }
+       $('#activity_date').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          minDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+       });
 
-        document.getElementById('timeslot').innerHTML = text;
-        text = '';
-        for(i in activity_type[activity_type_pick].options.perBooking){
-            if(activity_type[activity_type_pick].options.perBooking[i].name != 'Guest age' &&
-               activity_type[activity_type_pick].options.perBooking[i].name != 'Full name' &&
-               activity_type[activity_type_pick].options.perBooking[i].name != 'Gender' &&
-               activity_type[activity_type_pick].options.perBooking[i].name != 'Nationality' &&
-               activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
-                text+=`<label style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</label>`;
-                if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
-                    //selection buttton
-                    text+=`<select class="form-control" id=perbooking`+i+` name=perbooking`+i+` onchange='input_type1_change_perbooking(`+i+`)'>`;
-                    for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                        text+=`<option value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</option>`;
-//                        text+=`<label style="width:20%">
-//                               <input type="radio" id=perbooking`+i+` name=perbooking`+i+` value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`" onchange='input_type1_change_perbooking(`+i+`,`+j+`)' />`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+    }else{
+
+    }
+}
+
+function activity_get_price_date(activity_type_pick, pricing_days){
+    document.getElementById('activity_detail_table').innerHTML = '';
+    document.getElementById('activity_detail_next_btn').innerHTML = '';
+    document.getElementById('pax').innerHTML = '';
+    document.getElementById('event').innerHTML = '';
+    document.getElementById('timeslot').innerHTML = '';
+    document.getElementById('perbooking').innerHTML = '';
+    $('#loading-detail-activity').show();
+    startingDate = document.getElementById('activity_date').value;
+    document.getElementById("activity_date").disabled = true;
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'get_pricing',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+          'product_type_uuid': activity_type[activity_type_pick].uuid,
+          'provider': activity_type[activity_type_pick].provider_code,
+          'pricing_days': pricing_days,
+          'startingDate': startingDate
+       },
+       success: function(msg) {
+           if(msg.result.error_code == 0){
+               activity_date = msg.result.response;
+               is_avail = 0
+               console.log(activity_date[event_pick]);
+               document.getElementById("activity_date").disabled = false;
+               for(i in activity_date[event_pick]){
+                   console.log(moment(document.getElementById('activity_date').value).format('YYYY-MM-DD'));
+                   if(activity_date[event_pick][i].date == moment(document.getElementById('activity_date').value).format('YYYY-MM-DD')){
+                       if(activity_date[event_pick][i].available){
+                           is_avail = 1;
+                           document.getElementById('activity_date_desc').innerHTML = `
+                           <small id="departure_date_activity_desc" class="hidden" style="color: green;">Ticket is available on this date!</small>
+                           `;
+                           activity_date_pick = i;
+                           break;
+                       }
+                   }
+               }
+               $('#loading-detail-activity').hide();
+               if (is_avail == 0)
+               {
+                   document.getElementById('activity_date_desc').innerHTML = `
+                           <small id="departure_date_activity_desc" class="hidden" style="color: red;">Ticket is unavailable on this date.</small>
+                           `;
+               }
+               else
+               {
+                   text = '';
+                   for(i in activity_type[activity_type_pick].skus)
+                   {
+                        low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
+                        text+= `<div class="col-xs-3" style="padding:0px 5px;">
+                                    <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
+                                    <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
+                                    <select class='form-control adult-icon activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                                    for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
+                                    text+=`
+                                        <option>`+j+`</option>`;
+                                    text+=`</select>
+                                </div>`;
+                   }
+
+                   document.getElementById('pax').innerHTML = text;
+                   text = '';
+                   for(i in activity_type[activity_type_pick].options.perBooking){
+                        if(activity_type[activity_type_pick].options.perBooking[i].name != 'Guest age' &&
+                           activity_type[activity_type_pick].options.perBooking[i].name != 'Full name' &&
+                           activity_type[activity_type_pick].options.perBooking[i].name != 'Gender' &&
+                           activity_type[activity_type_pick].options.perBooking[i].name != 'Nationality' &&
+                           activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
+                            text+=`<label style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</label>`;
+                            if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
+                                //selection buttton
+                                text+=`<select class="form-control" id=perbooking`+i+` name=perbooking`+i+` onchange='input_type1_change_perbooking(`+i+`)'>`;
+                                for(j in activity_type[activity_type_pick].options.perBooking[i].items){
+                                    text+=`<option value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</option>`;
+            //                        text+=`<label style="width:20%">
+            //                               <input type="radio" id=perbooking`+i+` name=perbooking`+i+` value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`" onchange='input_type1_change_perbooking(`+i+`,`+j+`)' />`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+                                }
+                                text+=`</select><br/>`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
+                                //checkbox
+                                for(j in activity_type[activity_type_pick].options.perBooking[i].items){
+                                    text+=`<label style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+                                }
+                                text+=`<br/>`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){
+                                //number validation
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 4){
+                                //string validation
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 5){
+                                //boolean checkbox true false
+                                text+=`<input type="checkbox" id=perbooking`+i+`  name=perbooking`+i+` onchange='input_type5_change_perbooking(`+i+`)' />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 6){
+                                //date
+                                text+=`<input type="text" class="form-control calendar-logo" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
+                                //file //pdf
+                                text+=`<input type="file" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name=perbooking`+i+` id=perbooking`+i+` />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 8){
+                                //image
+                                text+=`<input type="file" accept="image/*" required="" name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' id=perbooking`+i+` />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 9){
+                                //address no validation maybe from bemyguest
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10){
+                                //time validation
+                                text+=`<input type="time" style="width:100%;height:20px;" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
+                                //datetime validation
+                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+`0 onchange='input_type11_change_perbooking(`+i+`,0)' name=perbooking`+i+`0 />`;
+                                text+=`<input type="text" id=perbooking`+i+`1 onchange='input_type11_change_perbooking(`+i+`,1)' name=perbooking`+i+`1 />`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12){
+                                //string country
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 13){
+                                //deprecated
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14){
+                                //flight number
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                            }
+                            text+=`<label>`+activity_type[activity_type_pick].options.perBooking[i].description+`</label><br/>`;
+                        }
                     }
-                    text+=`</select><br/>`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
-                    //checkbox
-                    for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                        text+=`<label style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+                   document.getElementById('perbooking').innerHTML = text;
+                   for(i in activity_type[activity_type_pick].options.perBooking){
+                        if(activity_type[activity_type_pick].options.perBooking[i].inputType==11)
+                            $('#perbooking'+i+'0').daterangepicker({
+                                  singleDatePicker: true,
+                                  autoUpdateInput: true,
+                                  showDropdowns: true,
+                                  opens: 'center',
+                                  locale: {
+                                      format: 'YYYY-MM-DD',
+                                  }
+                             });
+                        else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6)
+                            $('#perbooking'+i).daterangepicker({
+                                  singleDatePicker: true,
+                                  autoUpdateInput: true,
+                                  showDropdowns: true,
+                                  opens: 'center',
+                                  locale: {
+                                      format: 'YYYY-MM-DD',
+                                  }
+                             });
+
                     }
-                    text+=`<br/>`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){
-                    //number validation
-                    text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 4){
-                    //string validation
-                    text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 5){
-                    //boolean checkbox true false
-                    text+=`<input type="checkbox" id=perbooking`+i+`  name=perbooking`+i+` onchange='input_type5_change_perbooking(`+i+`)' />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 6){
-                    //date
-                    text+=`<input type="date" class="form-control" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
-                    //file //pdf
-                    text+=`<input type="file" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name=perbooking`+i+` id=perbooking`+i+` />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 8){
-                    //image
-                    text+=`<input type="file" accept="image/*" required="" name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' id=perbooking`+i+` />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 9){
-                    //address no validation maybe from bemyguest
-                    text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10){
-                    //time validation
-                    text+=`<input type="time" style="width:100%;height:20px;" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
-                    //datetime validation
-                    text+=`<input class="form-control" type="text" id=perbooking`+i+`0 onchange='input_type11_change_perbooking(`+i+`,0)' name=perbooking`+i+`0 />`;
-                    text+=`<input type="time" id=perbooking`+i+`1 onchange='input_type11_change_perbooking(`+i+`,1)' name=perbooking`+i+`1 />`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12){
-                    //string country
-                    text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 13){
-                    //deprecated
-                }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14){
-                    //flight number
-                    text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
-                }
-                text+=`<label>`+activity_type[activity_type_pick].options.perBooking[i].description+`</label><br/>`;
-            }
-        }
-        document.getElementById('perbooking').innerHTML = text;
-        for(i in activity_type[activity_type_pick].options.perBooking){
-            if(activity_type[activity_type_pick].options.perBooking[i].inputType==11)
-                datepicker('perbooking'+i+'0');
-            else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6)
-                datepicker('perbooking'+i);
+                    text = '';
 
-        }
-        if(activity_type[activity_type_pick].provider_code == 'klook')
-        {
-            pricing_days = 30;
-        }
-        else
-        {
-            pricing_days = 365;
-        }
+                   if(activity_type[activity_type_pick].timeslots.length>0){
+                       text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
+                                <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot" id="timeslot">`;
+                       var temp_timeslotco = 0;
+                       for(j in activity_type[activity_type_pick].timeslots)
+                       {
+                            if (temp_timeslotco == 0)
+                            {
+                                timeslot_change(j);
+                            }
+                            text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`" onclick='timeslot_change(`+j+`);'>`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
+                            temp_timeslotco += 1;
+                       }
 
-        getToken();
-        $.ajax({
-           type: "POST",
-           url: "/webservice/activity",
-           headers:{
-                'action': 'get_pricing',
-           },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-           data: {
-              'product_type_uuid': activity_type[activity_type_pick].uuid,
-              'provider': activity_type[activity_type_pick].provider_code,
-              'pricing_days': pricing_days,
-           },
-           success: function(msg) {
-               console.log(msg);
-               if(msg.result.error_code == 0){
-                   activity_date = msg.result.response;
+                       text += `</select></div>`;
+                   }
+
+                   document.getElementById('timeslot').innerHTML = text;
+
                    for(i in msg.result.response[0]){
                        if(msg.result.response[0][i].available==true){
 
-                           document.getElementById('date').innerHTML = `
-                                <div class="col-sm-6 form-group departure_date" style="padding:15px;">
-                                    <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
-                                    <input id="activity_date" name="activity_date" value="`+moment(msg.result.response[0][i].date).format('DD MMM YYYY')+`" onchange="change_date_activity();" class="form-control calendar-logo" type="text" placeholder="Choose your departure date" autocomplete="off"/>
-                                    <div id="activity_date_desc"></div>
-                                </div>
-                           `;
-                           $('#activity_date').datepicker({
-                               dateFormat: 'dd M yy',
-                               minDate: new Date(),
-                           });
-                           event_pick = 0;
                            activity_date_pick = i;
                            event_pick = 0;
-                           if(response.provider == 'globaltix'){
+                           if(activity_type[activity_type_pick].provider_code == 'globaltix'){
                                if(msg.result.response.length > 1){
                                   document.getElementById('event').innerHTML = `
                                     <label>
@@ -432,17 +491,14 @@ function activity_get_price(val){
                    }
                    activity_table_detail();
                }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
            }
-       });
-
-    }else{
-
-    }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+           $('#loading-detail-activity').hide();
+       }
+   });
 }
-
 
 function activity_create_booking(){
     getToken();
@@ -629,7 +685,7 @@ function activity_get_booking(data){
 
            }
 
-           if(msg.result.response.price_itinerary.additional_charge_total != 0)
+           if(msg.result.response.price_itinerary.additional_charge_total)
            {
                 price_text+= `
                     <div class="row">
@@ -727,9 +783,13 @@ function activity_get_voucher(){
 }
 
 function datepicker(val){
-    $('#'+val).datepicker({
-      'format': 'dd M yyyy',
-      'todayHighlight': true,
-      'autoclose': true
-    });
+    $('#'+val).daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'YYYY-MM-DD',
+          }
+     });
 }
