@@ -166,7 +166,8 @@ function get_transactions(type){
             'offset': offset_transaction,
             'limit': limit_transaction,
             'provider_type': JSON.stringify([]),
-            'signature': signature
+            'signature': signature,
+            'using_cache': 'false'
        },
        success: function(msg) {
         console.log(msg);
