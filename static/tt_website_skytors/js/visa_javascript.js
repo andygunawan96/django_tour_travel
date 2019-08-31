@@ -642,7 +642,6 @@ function check_on_off_radio(pax_type,number,value){
         name = document.getElementById('infant_name'+number).innerHTML;
     }
     if(value == 'visa'){
-        console.log(number);
         if(pax_check.value != 'false'){
             visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
             pax_required.innerHTML = '';
@@ -753,7 +752,6 @@ function check_on_off_radio(pax_type,number,value){
                 pax_required.innerHTML = text_requirements;
                 console.log(visa.list_of_visa[i].total_pax);
                 visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
-                console.log(visa.list_of_visa[i]);
                 pax_check.value = i;
                 list_of_name = name.split(' ');
                 list_of_name.shift();
@@ -833,7 +831,6 @@ function set_value_radio_first(pax_type,number){
             list_of_name.shift();
             list_of_name.shift();
             list_of_name = list_of_name.join(' ');
-            console.log(list_of_name);
             for(i in list_passenger){
                 if(list_of_name == list_passenger[i].name){
                     list_passenger.pop(i);
@@ -978,7 +975,6 @@ function update_contact_cp(val){
 
 function check_before_calculate(){
     check = 0;
-    console.log('here')
     for(i in visa.list_of_visa)
         if(visa.list_of_visa[i].total_pax != 0){
             check = 1;

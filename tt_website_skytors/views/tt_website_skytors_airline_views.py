@@ -26,34 +26,47 @@ def can_book(now, dep):
     return dep > now
 
 def search(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version'+ str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
 
         # airline
+        file = open("airline_destination.txt", "r")
+        for line in file:
+            airline_destinations = json.loads(line)
+        file.close()
         airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
-                des.update({
-                    'country': country
-                })
-                airline_destinations.append(des)
 
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:
@@ -92,7 +105,6 @@ def search(request):
                             is_combo_price = 'true'
                     except:
                         is_combo_price = 'false'
-                    return_date = request.POST['airline_departure']
 
                     airline_carriers = []
                     airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
@@ -166,13 +178,16 @@ def search(request):
 
                     origin.append(request.POST['origin_id_flight'])
                     destination.append(request.POST['destination_id_flight'])
-                    departure.append(request.POST['airline_departure'])
+                    try:
+                        departure.append(request.POST['airline_departure_return'].split(' - ')[0])
+                    except:
+                        departure.append(request.POST['airline_departure'])
                     cabin_class.append(request.POST['cabin_class_flight'])
 
                     if request.POST['radio_airline_type'] == 'roundtrip':
                         direction = 'RT'
-                        departure.append(request.POST['airline_return'])
-                        return_date.append(request.POST['airline_return'])
+                        departure.append(request.POST['airline_departure_return'].split(' - ')[1])
+                        return_date.append(request.POST['airline_departure_return'].split(' - ')[1])
                         origin.append(request.POST['destination_id_flight'])
                         destination.append(request.POST['origin_id_flight'])
                     elif request.POST['radio_airline_type'] == 'oneway':
@@ -234,8 +249,6 @@ def search(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-
-
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'journeys': journeys,
@@ -247,7 +260,9 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'time_limit': 600
+            'time_limit': 600,
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -258,18 +273,18 @@ def search(request):
         return index(request)
 
 def passenger(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         try:
             file = open("javascript_version.txt", "r")
             for line in file:
                 javascript_version = json.loads(line)
             file.close()
-            file = open("version_cache.txt", "r")
+            file = open("javascript_version.txt", "r")
             for line in file:
                 file_cache_name = line
             file.close()
 
-            file = open(str(file_cache_name) + ".txt", "r")
+            file = open('version' + str(file_cache_name) + ".txt", "r")
             for line in file:
                 response = json.loads(line)
             file.close()
@@ -278,6 +293,21 @@ def passenger(request):
             for line in file:
                 carrier = json.loads(line)
             file.close()
+
+            try:
+                file = open("data_cache_template.txt", "r")
+                for idx, line in enumerate(file):
+                    if idx == 0:
+                        if line == '\n':
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        else:
+                            logo = line
+                    elif idx == 1:
+                        template = int(line)
+                file.close()
+            except:
+                template = 1
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -303,15 +333,18 @@ def passenger(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
             try:
                 request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
             except:
-                request.session['airline_pick'] = json.loads(request.POST['airline_pick'])
+                pass
         except:
-            request.session['airline_pick'] = request.session['airline_pick']
+            pass
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'srr': request.session['airline_get_ssr']['result']['error_code'],
+            # 'srr': 0,
             'countries': response['result']['response']['airline']['country'],
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
@@ -326,7 +359,9 @@ def passenger(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['airline_signature'],
-            'time_limit': int(request.POST['time_limit_input'])
+            'time_limit': request.session['time_limit'],
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -337,108 +372,160 @@ def passenger(request):
         return index(request)
 
 def ssr(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
-        file = open(str(datetime.now().date()) + ".txt", "r")
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
 
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            carrier = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         adult = []
         child = []
         infant = []
-        passenger = []
+        contact = []
         booker = {
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
             'last_name': request.POST['booker_last_name'],
-            'nationality_code': request.POST['booker_nationality'],
-            'country_code': request.POST['booker_nationality'],
             'email': request.POST['booker_email'],
-            'work_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            'home_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            'other_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            'postal_code': 0,
-            "city": request.session._session['company_details']['city'],
-            "province_state": request.session._session['company_details']['state'],
-            'address': request.session['company_details']['address'],
-            'mobile': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            'agent_id': int(request.session['agent']['id']),
-            'booker_id': request.POST['booker_id']
+            'calling_code': request.POST['booker_phone_code'],
+            'mobile': request.POST['booker_phone'],
+            'nationality_code': request.POST['booker_nationality'],
+            'booker_seq_id': request.POST['booker_id']
         }
-        # "city": this.state.city_agent,
-        # "province_state": this.state.state_agent,
-        # "contact_id": "",
-
         for i in range(int(request.session['airline_request']['adult'])):
-
             adult.append({
+                "pax_type": "ADT",
                 "first_name": request.POST['adult_first_name' + str(i + 1)],
                 "last_name": request.POST['adult_last_name' + str(i + 1)],
-                "name": request.POST['adult_first_name' + str(i + 1)] + " " + request.POST['adult_last_name' + str(i + 1)],
-                "nationality_code": request.POST['adult_nationality' + str(i + 1)],
                 "title": request.POST['adult_title' + str(i + 1)],
-                "pax_type": "ADT",
                 "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                "passport_expdate":request.POST['adult_passport_expired_date' + str(i + 1)],
-                "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
-                "passenger_id": request.POST['adult_id' + str(i + 1)]
-            })
-            passenger.append({
-                "first_name": request.POST['adult_first_name' + str(i + 1)],
-                "last_name": request.POST['adult_last_name' + str(i + 1)],
-                "name": request.POST['adult_first_name' + str(i + 1)] + " " + request.POST['adult_last_name' + str(i + 1)],
                 "nationality_code": request.POST['adult_nationality' + str(i + 1)],
-                "title": request.POST['adult_title' + str(i + 1)],
-                "pax_type": "ADT",
-                "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                "passport_expdate":request.POST['adult_passport_expired_date' + str(i + 1)],
                 "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
-                "passenger_id": request.POST['adult_id' + str(i + 1)]
+                "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                "passport_number": request.POST['adult_passport_number' + str(i + 1)],
+                "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
             })
+
+            if i == 0:
+                if request.POST['myRadios'] == 'yes':
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': True,
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': False
+                    })
+            else:
+                adult[len(adult) - 1].update({
+                    'is_also_booker': False
+                })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            except:
+                if i == 0 and request.POST['myRadios'] == 'yes':
+                    continue
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    contact.append({
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "email": request.POST['adult_email' + str(i + 1)],
+                        "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                        "mobile": request.POST['adult_phone' + str(i + 1)],
+                        "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                        "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                    })
+                if i == 0:
+                    if request.POST['myRadios'] == 'yes':
+                        contact[len(contact)].update({
+                            'is_also_booker': True
+                        })
+                    else:
+                        contact[len(contact)].update({
+                            'is_also_booker': False
+                        })
+            except:
+                pass
+
+        if len(contact) == 0:
+            contact.append({
+                'title': request.POST['booker_title'],
+                'first_name': request.POST['booker_first_name'],
+                'last_name': request.POST['booker_last_name'],
+                'email': request.POST['booker_email'],
+                'calling_code': request.POST['booker_phone_code'],
+                'mobile': request.POST['booker_phone'],
+                'nationality_code': request.POST['booker_nationality'],
+                'contact_id': request.POST['booker_id'],
+                'is_also_booker': True
+            })
+
         for i in range(int(request.session['airline_request']['child'])):
             child.append({
+                "pax_type": "CHD",
                 "first_name": request.POST['child_first_name' + str(i + 1)],
                 "last_name": request.POST['child_last_name' + str(i + 1)],
-                "name": request.POST['child_first_name' + str(i + 1)] + " " + request.POST['child_last_name' + str(i + 1)],
-                "nationality_code": request.POST['child_nationality' + str(i + 1)],
                 "title": request.POST['child_title' + str(i + 1)],
-                "pax_type": "CHD",
                 "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                "passport_number": request.POST['child_passport_number' + str(i + 1)],
-                "passport_expdate":request.POST['child_passport_expired_date' + str(i + 1)],
-                "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
-                "passenger_id": request.POST['child_id' + str(i + 1)]
-            })
-            passenger.append({
-                "first_name": request.POST['child_first_name' + str(i + 1)],
-                "last_name": request.POST['child_last_name' + str(i + 1)],
-                "name": request.POST['child_first_name' + str(i + 1)] + " " + request.POST['child_last_name' + str(i + 1)],
                 "nationality_code": request.POST['child_nationality' + str(i + 1)],
-                "title": request.POST['child_title' + str(i + 1)],
-                "pax_type": "CHD",
-                "birth_date": request.POST['child_birth_date' + str(i + 1)],
                 "passport_number": request.POST['child_passport_number' + str(i + 1)],
                 "passport_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
                 "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
                 "passenger_id": request.POST['child_id' + str(i + 1)]
             })
+
         for i in range(int(request.session['airline_request']['infant'])):
             infant.append({
+                "pax_type": "INF",
                 "first_name": request.POST['infant_first_name' + str(i + 1)],
                 "last_name": request.POST['infant_last_name' + str(i + 1)],
-                "name": request.POST['infant_first_name' + str(i + 1)] + " " + request.POST['infant_last_name' + str(i + 1)],
-                "nationality_code": request.POST['infant_nationality' + str(i + 1)],
                 "title": request.POST['infant_title' + str(i + 1)],
-                "pax_type": "INF",
                 "birth_date": request.POST['infant_birth_date' + str(i + 1)],
+                "nationality_code": request.POST['infant_nationality' + str(i + 1)],
                 "passport_number": request.POST['infant_passport_number' + str(i + 1)],
-                "passport_expdate":request.POST['infant_passport_expired_date' + str(i + 1)],
+                "passport_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
                 "country_of_issued_code": request.POST['infant_country_of_issued' + str(i + 1)],
                 "passenger_id": request.POST['infant_id' + str(i + 1)]
             })
@@ -448,9 +535,133 @@ def ssr(request):
             'adult': adult,
             'child': child,
             'infant': infant,
+            'contact': contact
         }
+        passenger = []
+        for pax in adult:
+            passenger.append(pax)
+        for pax in child:
+            passenger.append(pax)
+        # agent
+        adult_title = ['MR', 'MRS', 'MS']
 
-        airline_carriers = response['result']['response']['airline']['carriers']
+        infant_title = ['MSTR', 'MISS']
+
+        # agent
+
+        # get_balance(request)
+
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'seat_map': request.session['airline_get_seat_availability']['result']['error_code'],
+            'airline_request': request.session['airline_request'],
+            'price': request.session['airline_price_itinerary'],
+            'airline_carriers': carrier,
+            # 'airline_destinations': airline_destinations,
+            'airline_pick': request.session['airline_pick'],
+            'airline_ssrs': request.session['airline_get_ssr']['result']['response'],
+            'passengers': passenger,
+            'username': request.session['user_account'],
+            'javascript_version': javascript_version,
+            'time_limit': int(request.POST['time_limit_input']),
+            'logo': logo,
+            'template': template
+            # 'cookies': json.dumps(res['result']['cookies']),
+
+        }
+        return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_ssr_templates.html', values)
+    else:
+        return index(request)
+
+def seat_map(request):
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        file = open("get_airline_active_carriers.txt", "r")
+        for line in file:
+            carrier = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
+        ssr = []
+
+        try:
+            passenger = request.session['airline_create_passengers']['adult'] + \
+                        request.session['airline_create_passengers']['child']
+            sell_ssrs = []
+            sell_ssrs_request = []
+            passengers_list = []
+            for pax in passenger:
+                pax['ssr_list'] = []
+            ssr_response = request.session['airline_get_ssr']['result']['response']
+            for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
+                for ssr_package in ssr_response['ssr_availability_provider']:
+                    for ssr_key in ssr_package['ssr_availability']:
+                        for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
+                            for idx, pax in enumerate(passenger):
+                                passengers_list.append({
+                                    "passenger_number": idx,
+                                    "ssr_code": request.POST[
+                                        ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)]
+                                })
+                                for list_ssr in journey_ssr['ssrs']:
+                                    if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)] == \
+                                            list_ssr['ssr_code']:
+                                        pax['ssr_list'].append(list_ssr)
+                                        break
+                            sell_ssrs_request.append({
+                                'journey_code': journey_ssr['journey_code'],
+                                'passengers': passengers_list,
+                                'availability_type': ssr_key
+                            })
+                            passengers_list = []
+                sell_ssrs.append({
+                    'sell_ssrs': sell_ssrs_request,
+                    'provider': ssr_package['provider']
+                })
+                sell_ssrs_request = []
+            request.session['airline_ssr_request'] = sell_ssrs
+            sell_ssrs = []
+        except:
+            request.session['airline_ssr_request'] = {}
+            print('no ssr')
+
+        passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+        for pax in passenger:
+            pax['seat_list'] = []
+            for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
+                for segment in seat_provider['segments']:
+                    pax['seat_list'].append({
+                        'segment_code': segment['segment_code2'],
+                        'seat_pick': '',
+                        'seat_code': ''
+                    })
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -463,92 +674,123 @@ def ssr(request):
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'airline_carriers': carrier,
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
-            'airline_carriers': airline_carriers,
             # 'airline_destinations': airline_destinations,
-            'airline_pick': request.session['airline_pick'],
-            'airline_ssrs': request.session['airline_ssr'],
+            # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
             'passengers': passenger,
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'time_limit': int(request.POST['time_limit_input']),
+            'logo': logo,
+            'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
-        return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_ssr_templates.html', values)
+        return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_seat_map_templates.html', values)
     else:
         return index(request)
 
 def review(request):
-    if 'user_account' in request.session._session:
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
 
-        ssr_code = []
-        ssr = []
-        passenger = []
-        ssr_segment = []
-        segment_code = ''
         try:
-            for pax in range(int(request.session['airline_request']['adult']) + int(request.session['airline_request']['child']) + int(request.session['airline_request']['infant'])):
-                for counter, baggage in enumerate(request.session['airline_ssr']['ssr_codes']['baggage_per_route']):
-                    for segment_idx, temp in enumerate(baggage['segment_code_list']):
-                        try:
-                            if request.session['airline_ssr']['ssr_codes']['baggage_per_route'][counter]['segment_code_list'][segment_idx]:
-                                segment_code = request.session['airline_ssr']['ssr_codes']['baggage_per_route'][counter]['segment_code_list'][segment_idx]
-                        except:
-                            try:
-                                if request.session['airline_ssr']['ssr_codes']['equip_per_route'][counter]['segment_code_list'][segment_idx]:
-                                    segment_code = request.session['airline_ssr']['ssr_codes']['equip_per_route'][counter]['segment_code_list'][segment_idx]
-                            except:
-                                try:
-                                    if request.session['airline_ssr']['ssr_codes']['for_free_per_route'][counter]['segment_code_list'][segment_idx]:
-                                        segment_code = request.session['airline_ssr']['ssr_codes']['for_free_per_route'][counter]['segment_code_list'][segment_idx]
-                                except:
-                                    print('no segment code')
-                        for idx, baggage in enumerate(request.session['airline_ssr']['ssr_codes']['baggage_per_route']):
-                            for code in baggage['ssr_codes']:
-                                if request.POST['baggage' + str(int(idx) + 1) + '_' + str(int(pax) + 1)] == code['ssr_code']:
-                                    ssr_code.append(code)
-                                    break
-                            for code in request.session['airline_ssr']['ssr_codes']['meal_per_segment'][segment_idx]['ssr_codes']:
-                                if request.POST['meal'+str(int(segment_idx)+1)+'_'+str(int(pax)+1)] == code['ssr_code']:
-                                    ssr_code.append(code)
-                                    break
-                        for idx, equip in enumerate(request.session['airline_ssr']['ssr_codes']['equip_per_route']):
-                            for code in equip['ssr_codes']:
-                                if request.POST['equip'+str(int(idx)+1)+'_'+str(int(pax)+1)] == code['ssr_code']:
-                                    ssr_code.append(code)
-                                    break
-                        for idx, for_free in enumerate(request.session['airline_ssr']['ssr_codes']['for_free_per_route']):
-                            for code in for_free['ssr_codes']:
-                                if request.POST['for_free'+str(int(idx)+1)+'_'+str(int(pax)+1)] == code['ssr_code']:
-                                    ssr_code.append(code)
-                                    break
-                        ssr_segment.append({
-                            "segment_code": segment_code,
-                            "passengers": {
-                                "passenger_number": pax,
-                                "ssr_codes": ssr_code
-                            }
-                        })
-                        segment_code = ''
-                        ssr_code = []
-                ssr.append(ssr_segment)
-                ssr_segment = []
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
+        ssr = []
+
+        try:
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+            sell_ssrs = []
+            sell_ssrs_request = []
+            passengers_list = []
+            for pax in passenger:
+                pax['ssr_list'] = []
+            ssr_response = request.session['airline_get_ssr']['result']['response']
+            for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
+                for ssr_package in ssr_response['ssr_availability_provider']:
+                    for ssr_key in ssr_package['ssr_availability']:
+                        for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
+                            for idx, pax in enumerate(passenger):
+                                passengers_list.append({
+                                    "passenger_number": idx,
+                                    "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)]
+                                })
+                                for list_ssr in journey_ssr['ssrs']:
+                                    if request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)] == list_ssr['ssr_code']:
+                                        pax['ssr_list'].append(list_ssr)
+                                        break
+                            sell_ssrs_request.append({
+                                'journey_code': journey_ssr['journey_code'],
+                                'passengers': passengers_list,
+                                'availability_type': ssr_key
+                            })
+                            passengers_list = []
+                sell_ssrs.append({
+                    'sell_ssrs': sell_ssrs_request,
+                    'provider': ssr_package['provider']
+                })
+                sell_ssrs_request = []
+            request.session['airline_ssr_request'] = sell_ssrs
+            sell_ssrs = []
         except:
             print('no ssr')
+
+        #SEAT
+        try:
+            passengers = json.loads(request.POST['passenger'])
+            seat_map_list = request.session['airline_get_seat_availability']['result']['response']
+            segment_seat_request = []
+
+            for seat_map_provider in seat_map_list['seat_availability_provider']:
+                for seat_segment in seat_map_provider['segments']:
+                    pax_request = []
+                    for pax in passengers:
+                        for idx, pax_seat in enumerate(pax['seat_list']):
+                            if pax_seat['segment_code'] == seat_segment['segment_code2']:
+                                if pax_seat['seat_code'] != '':
+                                    pax_request.append({
+                                        'passenger_number': idx,
+                                        'seat_code': pax_seat['seat_code']
+                                    })
+                                break
+                    if len(pax_request) != 0:
+                        segment_seat_request.append({
+                            'segment_code': seat_segment['segment_code'],
+                            'provider': seat_segment['provider'],
+                            'passengers': pax_request
+                        })
+                    pax_request = []
+            request.session['airline_seat_request'] = segment_seat_request
+        except:
+            print('no seatmap')
+
         # agent
         # TODO LIST INTRO SSR sudah list perpassenger --> list per segment --> isi semua ssr tinggal dipisah
         #tampilkan ssr ke depan & pisah send api
@@ -686,6 +928,9 @@ def review(request):
                 'infant': infant,
                 'contact': contact
             }
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+            for pax in passenger:
+                pax['ssr_list'] = []
         try:
             if request.POST['additional_price'] != "":
                 additional_price = request.POST['additional_price']
@@ -703,6 +948,8 @@ def review(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'ssr': request.session['airline_get_ssr']['result']['error_code'],
+            'seat': request.session['airline_get_seat_availability']['result']['error_code'],
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
             'airline_pick': request.session['airline_pick'],
@@ -712,9 +959,12 @@ def review(request):
             'additional_price': additional_price,
             'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers'],
+            'passengers_ssr': passenger,
             'javascript_version': javascript_version,
             'signature': request.session['airline_signature'],
-            'time_limit': int(request.POST['time_limit_input'])
+            'time_limit': int(request.POST['time_limit_input']),
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -735,6 +985,21 @@ def booking(request):
             airline_carriers = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -743,7 +1008,9 @@ def booking(request):
             'airline_carriers': airline_carriers,
             'order_number': request.POST['order_number'],
             # 'order_number': 'AL.19081332140',
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
 
             # 'order_number': 'AL.19072446048',
         }

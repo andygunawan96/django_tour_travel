@@ -1,242 +1,4 @@
-payment_acq = {
-  "jsonrpc": "2.0",
-  "id": null,
-  "result": {
-    "error_code": 0,
-    "error_msg": "",
-    "response": {
-      "transfer": [
-        {
-          "id": 14,
-          "provider_id": false,
-          "account_number": "123.123.456.456",
-          "type": "transfer",
-          "total_amount": 12044,
-          "image": 'http://static.skytors.id/payment_acquirer/bca.png',
-          "currency": "IDR",
-          "bank": {
-            "code": "014",
-            "name": "BANK BCA"
-          },
-          "account_name": "Vincent HR",
-          "name": "BCA #1",
-          "return_url": "/payment/transfer/feedback?acq_id=14",
-          "price_component": {
-            "fee": 0,
-            "unique_amount": 44,
-            "amount": 12000
-          }
-        },
-        {
-          "id": 15,
-          "provider_id": false,
-          "account_number": "456.123.456.123",
-          "type": "transfer",
-          "total_amount": 12737,
-          "image": 'http://static.skytors.id/payment_acquirer/bca.png',
-          "currency": "IDR",
-          "bank": {
-            "code": "014",
-            "name": "BANK BCA"
-          },
-          "account_name": "Vincentius Hadi",
-          "name": "BCA #2",
-          "return_url": "/payment/transfer/feedback?acq_id=15",
-          "price_component": {
-            "fee": 0,
-            "unique_amount": 737,
-            "amount": 12000
-          }
-        },
-        {
-          "id": 12,
-          "provider_id": false,
-          "account_number": "123.123.123.123",
-          "type": "transfer",
-          "total_amount": 12517,
-          "image": 'http://static.skytors.id/payment_acquirer/mandiri.png',
-          "currency": "IDR",
-          "bank": {
-            "code": "008",
-            "name": "BANK MANDIRI"
-          },
-          "account_name": "Centus Hadi",
-          "name": "Mandiri #1",
-          "return_url": "/payment/transfer/feedback?acq_id=12",
-          "price_component": {
-            "fee": 0,
-            "unique_amount": 517,
-            "amount": 12000
-          }
-        }
-      ],
-      "va": [
-        {
-          "id": 16,
-          "provider_id": 359,
-          "account_number": "1239616869655",
-          "type": "va",
-          "total_amount": 17000,
-          "image": false,
-          "currency": "IDR",
-          "bank": {
-            "code": "014",
-            "name": "BANK BCA"
-          },
-          "account_name": "-",
-          "name": "Virtual Account BCA",
-          "return_url": "/payment/va/feedback?acq_id=16",
-          "price_component": {
-            "fee": 5000,
-            "unique_amount": 0,
-            "amount": 12000
-          }
-        }
-      ],
-      "cash": [
-        {
-          "id": 13,
-          "provider_id": false,
-          "account_number": "",
-          "type": "cash",
-          "total_amount": 17000,
-          "image": 'http://static.skytors.id/payment_acquirer/cash.png',
-          "currency": "IDR",
-          "bank": {
-            "code": false,
-            "name": false
-          },
-          "account_name": "Centus Hadi",
-          "name": "Cash",
-          "return_url": "/payment/cash/feedback?acq_id=13",
-          "price_component": {
-            "fee": 5000,
-            "unique_amount": 0,
-            "amount": 12000
-          }
-        }
-      ],
-      "installment": [
-        {
-          "id": 17,
-          "provider_id": 359,
-          "account_number": "",
-          "type": "installment",
-          "total_amount": 17000,
-          "image": 'http://static.skytors.id/payment_acquirer/credit_cards.png',
-          "currency": "IDR",
-          "bank": {
-            "code": false,
-            "name": false
-          },
-          "account_name": "-",
-          "name": "Credit Card (All)",
-          "return_url": "/payment/installment/feedback?acq_id=17",
-          "price_component": {
-            "fee": 5000,
-            "unique_amount": 0,
-            "amount": 12000
-          }
-        },
-        {
-          "id": 18,
-          "provider_id": 359,
-          "account_number": "",
-          "type": "installment",
-          "total_amount": 17000,
-          "image": 'http://static.skytors.id/payment_acquirer/credit_cards.png',
-          "currency": "IDR",
-          "bank": {
-            "code": "022",
-            "name": "BANK CIMB NIAGA"
-          },
-          "account_name": "-",
-          "name": "Credit Card CIMB Promo #1",
-          "return_url": "/payment/installment/feedback?acq_id=18",
-          "price_component": {
-            "fee": 5000,
-            "unique_amount": 0,
-            "amount": 12000
-          }
-        },
-        {
-          "id": 19,
-          "provider_id": 359,
-          "account_number": "",
-          "type": "installment",
-          "total_amount": 17000,
-          "image": 'http://static.skytors.id/payment_acquirer/credit_cards.png',
-          "currency": "IDR",
-          "bank": {
-            "code": "022",
-            "name": "BANK CIMB NIAGA SYARIAH"
-          },
-          "account_name": "-",
-          "name": "Credit Card CIMB Promo #2",
-          "return_url": "/payment/installment/feedback?acq_id=19",
-          "price_component": {
-            "fee": 5000,
-            "unique_amount": 0,
-            "amount": 12000
-          }
-        }
-      ]
-    }
-  }
-}
-
-payment_acq2 = {
-  "jsonrpc": "2.0",
-  "id": null,
-  "result": {
-    "error_code": 0,
-    "error_msg": "",
-    "response": {
-      "cash": [
-        {
-          "id": 11,
-          "name": "Cash",
-          "account_name": "-",
-          "account_number": "",
-          "bank": {
-            "name": "",
-            "code": ""
-          },
-          "type": "cash",
-          "provider_id": "",
-          "currency": "IDR",
-          "price_component": {
-            "amount": 1000,
-            "fee": 0,
-            "unique_amount": 0
-          },
-          "total_amount": 1000,
-          "image": "",
-          "return_url": "/payment/cash/feedback?acq_id=11"
-        }
-      ],
-      "credit_limit": [
-        {
-          "name": "Mahardika Perkasa",
-          "actual_balance": 10000000,
-          "credit_limit": 10000000
-        },
-        {
-          "name": "Bangun Karya",
-          "actual_balance": 5000000,
-          "credit_limit": 5000000
-        }
-      ]
-    },
-    "sid": "session_id=4d39718e5c6d7b898c77bb1306b460a5c4ea4e5e; Expires=Sun, 03-Nov-2019 09:13:17 GMT; Max-Age=7776000; HttpOnly; Path=/",
-    "cookies": {
-      "session_id": "4d39718e5c6d7b898c77bb1306b460a5c4ea4e5e"
-    }
-  }
-}
-
-
-function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type){
+function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name){
     getToken();
     $.ajax({
        type: "POST",
@@ -251,11 +13,14 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             'order_number': order_number,
             'transaction_type': transaction_type,
             'signature': signature,
-            'type': type
+            'type': type,
+            'agent_seq_id': agent_seq_id,
+            'top_up_name': top_up_name
        },
        success: function(msg) {
             console.log(msg);
             payment_acq2 = {};
+
             for(i in msg.result.response){
                 for(j in msg.result.response[i]){
                     for(k in msg.result.response[i][j]){
@@ -264,12 +29,12 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            text=`
+            text=`<h4>Payment Method</h4><hr/>
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
             <div class="input-container-search-ticket btn-group">
 
         <div class="form-select" id="default-select">
-            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`','`+transaction_type+`');">`;
+            <select class="payment_method" id="payment_method" onchange="set_payment('`+val+`','`+type+`');">`;
             for(i in payment_acq2){
 
                 if(i == 'transfer')
@@ -293,7 +58,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             <div id="payment_description"></div>`
             text+=`
                 </div>`;
-            document.getElementById('payment_acq').innerHTML += text;
+            document.getElementById('payment_acq').innerHTML = text;
             $('#payment_method').niceSelect();
             set_payment(val,type);
             document.getElementById('payment_acq').hidden = false;
@@ -338,7 +103,7 @@ function set_payment(val, type){
     document.getElementById('payment_description').innerHTML = text;
 }
 
-function set_price(val, type){
+function set_price(val, type, product_type){
     selected = '';
     var radios = document.getElementsByName('radio_payment_type');
     for (var j = 0, length = radios.length; j < length; j++) {
@@ -448,9 +213,11 @@ function set_price(val, type){
 
     }
     if(type == 'visa')
-        text += '<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>';
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+    else if(type == 'top_up')
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();confirm_top_up('`+payment_acq2[payment_method][selected].seq_id+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;
 }
 

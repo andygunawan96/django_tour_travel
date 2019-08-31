@@ -48,20 +48,35 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
     if 'user_account' in request.session._session:
-        file = open("version_cache.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
+
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -106,7 +121,9 @@ def search(request):
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME + '/tour/tt_website_skytors_tour_search_templates.html', values)
     else:
@@ -114,11 +131,35 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
@@ -130,7 +171,9 @@ def detail(request):
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_detail_templates.html', values)
@@ -139,21 +182,34 @@ def detail(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
-        file = open("version_cache.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -230,6 +286,8 @@ def passenger(request):
                 'commission_total': request.POST.get('commission_total') and int(request.POST['commission_total']) or 0
             },
             'total_itinerary_price': request.POST.get('grand_total_hidden') and int(request.POST['grand_total_hidden']) or 0,
+            'logo': logo,
+            'template': template
         }
         if request.POST.get('departure_date_tour2'):
             dept = request.POST['departure_date_tour2']
@@ -296,6 +354,30 @@ def review(request):
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -335,6 +417,8 @@ def review(request):
             },
             'total_itinerary_price': int(request.POST['grand_total_hidden']),
             'sameBooker': request.POST['myRadios'],
+            'logo': logo,
+            'template': template
         }
 
         adult = []
@@ -460,18 +544,44 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        # res = json.loads(request.POST['response'])
         file = open("javascript_version.txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_booking_templates.html', values)
     else:

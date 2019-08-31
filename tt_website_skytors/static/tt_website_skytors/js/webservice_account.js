@@ -1,7 +1,10 @@
 offset_transaction = 0;
 
 
-function get_balance(){
+function get_balance(val){
+    using_cache = '';
+    if(val != undefined)
+        using_cache = val;
     getToken();
     $.ajax({
        type: "POST",
@@ -11,7 +14,8 @@ function get_balance(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'signature': signature
+            'signature': signature,
+            'using_cache': using_cache
        },
        success: function(msg) {
         console.log(msg);
@@ -20,17 +24,21 @@ function get_balance(){
             credit_limit = parseInt(msg.result.response.credit_limit);
             text = `<div class="row">
                         <div class="col-lg-6">Balance: </div>
-                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + getrupiah(balance)+`</div>
+                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>
                     </div>`;
             document.getElementById("balance").innerHTML = text;
             text = `<div class="row">
                         <div class="col-lg-6">Credit Limit: </div>
-                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + getrupiah(credit_limit)+`</div>
+                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>
                     </div>`;
             document.getElementById("credit_limit").innerHTML = text;
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
         }else{
+            alert(msg.result.error_msg);
         }
+        get_transactions_notification(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -55,7 +63,10 @@ function get_account(){
        console.log(msg);
         if(msg.result.error_code == 0){
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
         }else{
+            alert(msg.result.error_msg);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -64,9 +75,12 @@ function get_account(){
     });
 }
 
-function get_transactions_notification(){
+function get_transactions_notification(val){
     limit_transaction = 10;
     getToken();
+    using_cache = '';
+    if(val != undefined)
+        using_cache = val;
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -78,25 +92,39 @@ function get_transactions_notification(){
             'offset': offset_transaction,
             'limit': limit_transaction,
             'provider_type': JSON.stringify([]),
-            'signature': signature
+            'signature': signature,
+            'using_cache': using_cache
        },
        success: function(msg) {
        console.log(msg);
         if(msg.result.error_code == 0){
             text = '';
+
             for(i in msg.result.response){
+
                 number = parseInt(i)+1;
-                if(msg.result.response[i].provider_type == 'airline')
-                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`
-                text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
-                text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
-                text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                text+=`<hr/></form></div>`;
+                if(msg.result.response[i].provider.provider_type == 'airline'){
+                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                    text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
+                    text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
+                    text+=`<hr/></form>`;
+                    text+=`</div>`;
+                }
+
             }
             document.getElementById('notification_detail').innerHTML = text;
 //            document.getElementById('notification_detail2').innerHTML = text;
 
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
         }else{
+            alert(msg.result.error_msg);
+            text= '';
+            text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+            text+=`<span style="font-weight:500;"> No Notification</span>`;
+            text+=`</div>`;
+            document.getElementById('notification_detail').innerHTML = text;
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -154,8 +182,10 @@ function get_transactions(type){
             }catch(err){
                 //set_notification(msg.result.response.transport_booking);
             }
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
         }else{
-            alert('Oops, something when wrong please contact HO !');
+            alert(msg.result.error_msg);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -186,8 +216,10 @@ function get_top_up_amount(){
                 text += `<option value="`+msg.result.response[i].seq_id+`" data-amount="`+msg.result.response[i].amount+`">`+msg.result.response[i].name+`</option>`;
             document.getElementById('amount').innerHTML = text;
             total_price_top_up();
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
         }else{
-
+            alert(msg.result.error_msg);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -221,7 +253,13 @@ function submit_top_up(){
        },
        success: function(msg) {
         console.log(msg);
-        document.getElementById('top_up_form').submit();
+        if(msg.result.error_code == 0)
+            document.getElementById('top_up_form').submit();
+        else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
+        }else{
+            alert(msg.result.error_msg);
+        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -253,8 +291,11 @@ function get_top_up(){
         }
         if(msg.result.error_code == 0)
             table_top_up_history(msg.result.response);
-        else
+        else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
+        }else{
             alert(msg.result.error_msg);
+        }
         $('#loading-search-top-up').hide();
 //        document.getElementById('top_up_form').submit();
        },
@@ -281,6 +322,10 @@ function confirm_top_up(payment_seq_id){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById("table_top_up_history").innerHTML = '';
+        document.getElementById("payment_acq").innerHTML = '';
+        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
+        get_top_up();
 //        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -290,7 +335,8 @@ function confirm_top_up(payment_seq_id){
 }
 
 function request_top_up(val){
-
+    console.log(val);
+    console.log(top_up_history);
     getToken();
     $.ajax({
        type: "POST",
@@ -305,6 +351,10 @@ function request_top_up(val){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById("table_top_up_history").innerHTML = '';
+        document.getElementById("payment_acq").innerHTML = '';
+        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
+        get_top_up();
 //        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -316,6 +366,7 @@ function request_top_up(val){
 function table_top_up_history(data){
     text= '';
     var node = document.createElement("tr");
+    data_counter = 0;
     for(i in data){
         data_search.push(data[i]);
         text+=`
@@ -326,11 +377,19 @@ function table_top_up_history(data){
 
         text+= `<td>`+data[i].due_date+`</td>`;
         text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        text+= `<td>
-        <input type='button' class="primary-btn-custom" value='Pay' onclick="get_payment_acquirer_top_up(`+data_counter+`)" />`;
-        if(data[i].state == 'confirm')
-            text+=`<input type='button' class="primary-btn-custom" value='Confirm' onclick="request_top_up(`+data_counter+`)" />`;
-        text+=`</td>`;
+        if(data[i].state != 'request')
+            text+= `<td>`+data[i].state+`</td>`;
+        else
+            text+= `<td>Please confirm to HO</td>`;
+        if(data[i].state != 'request'){
+            text+= `<td>
+            <input type='button' class="primary-btn-custom" value='Pay' onclick="get_payment_acquirer_top_up(`+data_counter+`)" />`;
+            if(data[i].state == 'confirm')
+                text+=`<input type='button' class="primary-btn-custom" value='Confirm' onclick="request_top_up(`+data_counter+`)" />`;
+            text+=`</td>`;
+        }else{
+            text+= `<td></td>`;
+        }
 
         text+= `</tr>`;
         node.innerHTML = text;

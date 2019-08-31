@@ -1,9 +1,14 @@
 passenger_data = [];
+passenger_data_pick = [];
+booker_pick_passenger = {};
 passenger_number = 0;
 agent_offside = 0;
 load_more = true;
 function signin(){
     if($('#username').val() != '' && $('#password').val() != ''){
+        $('.button-login').addClass("running");
+        $('.button-login').prop('disabled', true);
+
         getToken();
         $.ajax({
            type: "POST",
@@ -17,10 +22,15 @@ function signin(){
             'password':$('#password').val()
            },
            success: function(msg) {
+            console.log(msg);
             if(msg == 0){
+                alertbox2.show('Login Success');
+
                 gotoForm();
             }else{
-                alert('Wrong Username or Password !');
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+                alertbox.show('Please input correct username or password');
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -28,7 +38,9 @@ function signin(){
            }
         });
     }else{
-        alert('Oops', 'Please fill all the blank!');
+        $('.button-login').prop('disabled', false);
+        $('.button-login').removeClass("running");
+        alertbox.show('Please input username or password');
     }
 }
 
@@ -63,70 +75,162 @@ function check_string_length(value){
 
 function get_customer_list(passenger, number, product){
     getToken();
+    passenger_number = number;
+
     if(passenger == 'booker'){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'get_customer_list',
-           },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-           data: {
-                'name': document.getElementById('train_booker_search').value,
-                'product': product,
-                'passenger_type': passenger,
-                'signature': signature
-           },
-           success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code==0){
-                var response = '';
-                if(msg.result.response.length != 0){
-                    response+=`
-                    <table style="width:100%" id="list-of-passenger">
-                        <tr>
-                            <th style="width:5%;">No</th>
-                            <th style="width:30%;">Name</th>
-                            <th style="width:20%"></th>
-                        </tr>`;
-
-                    for(i in msg.result.response){
+        $(".loading-booker-train").show();
+        if(document.getElementById('train_booker_search').value.length >= 2){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'get_customer_list',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                    'name': document.getElementById('train_booker_search').value,
+                    'product': product,
+                    'passenger_type': passenger,
+                    'signature': signature
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code==0){
+                    var response = '';
+                    var like_name_booker = document.getElementById('train_booker_search').value;
+                    if(msg.result.response.length != 0){
                         response+=`
-                        <tr>
-                            <td>`+(parseInt(i)+1)+`</td>
-                            <td>
-                                <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
-                                if(msg.result.response[i].email != '')
-                                    response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
-                                if(msg.result.response[i].birth_date != '')
-                                    response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
-                                if(msg.result.response[i].phones.length != 0)
-                                    response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
-                                if(msg.result.response[i].nationality_code != '')
-                                    response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
-                                response+=`
-                            </td>`;
-//                            <td>`+msg.response.result[i].booker_type+`</td>
-//                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
-                            response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
-                        </tr>`;
-                    }
-                    response+=`</table>`;
-                    document.getElementById('search_result').innerHTML = response;
-                    passenger_data = msg.result.response;
-                }else{
-                    response = '';
-                    response+=`<center><h5>USER NOT FOUND</h5></center>`;
-                    document.getElementById('search_result').innerHTML = response;
-                }
-            }
+                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
+                        <div style="overflow:auto;height:300px;margin-top:10px;">
+                        <table style="width:100%" id="list-of-passenger">
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:60%;">Name</th>
+                                <th style="width:30%"></th>
+                            </tr>`;
 
-            $('#loading-booker-train').hide();
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
-           }
-        });
+                        for(i in msg.result.response){
+                            response+=`
+                            <tr>
+                                <td>`+(parseInt(i)+1)+`</td>
+                                <td>
+                                    <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
+                                    if(msg.result.response[i].email != '')
+                                        response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                    if(msg.result.response[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                    if(msg.result.response[i].phones.length != 0)
+                                        response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
+                                    if(msg.result.response[i].nationality_code != '')
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                    response+=`
+                                </td>`;
+    //                            <td>`+msg.response.result[i].booker_type+`</td>
+    //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                                response+=`<td><button type="button" class="primary-btn-custom" onclick="pick_passenger('Booker',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                            </tr>`;
+                        }
+                        response+=`</table></div>`;
+                        document.getElementById('search_result').innerHTML = response;
+                        passenger_data = msg.result.response;
+                    }else{
+                        response = '';
+                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
+                        document.getElementById('search_result').innerHTML = response;
+                    }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    logout();
+                }else{
+                    alert(msg.result.error_msg);
+                }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert(errorThrown);
+               }
+            });
+        }else{
+            response = '';
+            response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
+            document.getElementById('search_result').innerHTML = response;
+        }
+        $(".loading-booker-train").hide();
+    }else{
+        $(".loading-pax-train").show();
+        if(document.getElementById('train_adult'+number+'_search').value.length >= 2){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'get_customer_list',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                    'name': document.getElementById('train_adult'+number+'_search').value,
+                    'product': product,
+                    'passenger_type': passenger,
+                    'signature': signature
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code==0){
+                    var response = '';
+                    if(msg.result.response.length != 0){
+                        response+=`
+                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
+                        <div style="overflow:auto;height:300px;margin-top:10px;">
+                        <table style="width:100%" id="list-of-passenger">
+                            <tr>
+                                <th style="width:10%;">No</th>
+                                <th style="width:60%;">Name</th>
+                                <th style="width:30%">Action</th>
+                            </tr>`;
+
+                        for(i in msg.result.response){
+                            response+=`
+                            <tr>
+                                <td>`+(parseInt(i)+1)+`</td>
+                                <td>
+                                    <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name;
+                                    if(msg.result.response[i].email != '')
+                                        response+=`<br/> <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
+                                    if(msg.result.response[i].birth_date != '')
+                                        response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
+                                    if(msg.result.response[i].phones.length != 0)
+                                        response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
+                                    if(msg.result.response[i].nationality_code != '')
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                    response+=`
+                                </td>`;
+    //                            <td>`+msg.response.result[i].booker_type+`</td>
+    //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
+                                response+=`<td><button type="button" class="primary-btn-custom" style="line-height:25px;" onclick="pick_passenger('`+passenger+`',`+msg.result.response[i].sequence+`,'`+product+`');">Choose</button></td>
+                            </tr>`;
+                        }
+                        response+=`</table></div>`;
+                        document.getElementById('search_result_'+passenger+number).innerHTML = response;
+                        passenger_data = msg.result.response;
+                    }else{
+                        response = '';
+                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
+                        document.getElementById('search_result_'+passenger+number).innerHTML = response;
+                    }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    logout();
+                }else{
+                    alert(msg.result.error_msg);
+                }
+
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                   alert(errorThrown);
+               }
+            });
+        }else{
+            response = '';
+            response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
+            document.getElementById('search_result_'+passenger+number).innerHTML = response;
+        }
+        $(".loading-pax-train").hide();
     }
 }
 
@@ -196,6 +300,10 @@ function search_passenger(passenger, number, product){
                         response+=`<center><h5>USER NOT FOUND</h5></center>`;
                         document.getElementById('search_result').innerHTML = response;
                     }
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    logout();
+                }else{
+                    alert(msg.result.error_msg);
                 }
 
                 $('#loading-booker-train').hide();
@@ -234,15 +342,15 @@ function search_passenger(passenger, number, product){
                type: "POST",
                url: "/webservice/agent",
                headers:{
-                    'action': 'get_agent_passenger',
+                    'action': 'get_customer_list',
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
-                    "search_value": passenger_search[0],
-                    "pax_type": passenger_search[1],
+                    "name": $('#train_adult'+number+'_search').val(),
                     'signature': signature
                },
                success: function(msg) {
+               console.log(msg);
                 if(msg.error_code==0){
                     var response = '';
                     var count_user = 0;
@@ -458,6 +566,10 @@ function search_passenger(passenger, number, product){
                     }
 
 
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    logout();
+                }else{
+                    alert(msg.result.error_msg);
                 }
                 $('#loading-pax-train').hide();
                 $('#loading-paxi-train').hide();
@@ -505,11 +617,15 @@ function pick_passenger(type, sequence, product){
     else if(type == 'Booker'){
         //change booker
         document.getElementById('booker_title').value = passenger_data[sequence].title;
+        $('#booker_title').niceSelect('update');
         document.getElementById('booker_first_name').value = passenger_data[sequence].first_name;
         document.getElementById('booker_first_name').readOnly = true;
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
         document.getElementById('booker_last_name').readOnly = true;
-        document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_code;
+        if(passenger_data[sequence].nationality_code != '' && passenger_data[sequence].nationality_name != ''){
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_code;
+            document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
+        }
         document.getElementById('booker_email').value = passenger_data[sequence].email;
         if(passenger_data[sequence].phones.length != 0){
             document.getElementById('booker_phone_code').value = passenger_data[sequence].phones[passenger_data[sequence].phones.length -1].calling_code;
@@ -530,17 +646,30 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_country_of_issued').value = passenger_data[sequence].country_of_issued_id;
             document.getElementById('booker_id_number').readOnly = true;
         }
-
+        auto_complete('booker_nationality');
         document.getElementById('booker_id').value = passenger_data[sequence].seq_id;
+        //untuk booker check
+        booker_pick_passenger = passenger_data[sequence];
+        booker_pick_passenger.sequence = 0;
         $('#myModal').modal('hide');
-    }else if(type == 'Adult'){
-
+    }else if(type == 'adult'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
+        $('#adult_title'+passenger_number).niceSelect('update');
         document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('adult_first_name'+passenger_number).readOnly = true;
         document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
         document.getElementById('adult_last_name'+passenger_number).readOnly = true;
-        document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
+        if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_code != ''){
+            document.getElementById('select2-adult_nationality_id'+passenger_number+'-container').innerHTML = passenger_data[sequence].nationality_name;
+            document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
+        }
         document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         check_years_old(passenger_number,'adult');
 
@@ -552,7 +681,7 @@ function pick_passenger(type, sequence, product){
             if(product=='airline'){
                 document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
                 document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].passport_expdate;
-                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+                //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
             }
 
             if (document.getElementById("default-select")) {
@@ -567,19 +696,39 @@ function pick_passenger(type, sequence, product){
             }
         }
         if(product=='airline'){
-            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
-            document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
-            document.getElementById('adult_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+
+            if(passenger_data[sequence].passport_number != '' && passenger_data[sequence].passport_number != undefined)
+                document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
+            if(passenger_data[sequence].passport_expdate != '' && passenger_data[sequence].passport_expdate != undefined){
+                passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+                passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+                document.getElementById('adult_passport_expired_date'+passenger_number).value = passport_date;
+            }
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-adult_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
+            //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('adult_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('adult_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult'+passenger_number;
         document.getElementById('adult_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        auto_complete('adult_nationality'+passenger_number);
         $('#myModal_adult'+passenger_number).modal('hide');
-    }else if(type == 'Child'){
+    }else if(type == 'child'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'child'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
+        $('#child_title'+passenger_number).niceSelect('update');
         document.getElementById('child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('child_first_name'+passenger_number).readOnly = true;
         document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -597,16 +746,32 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('child_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-child_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
+//            document.getElementById('child_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('child_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('child_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
 
         document.getElementById('child_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'child'+passenger_number;
+        auto_complete('child_nationality'+passenger_number);
         $('#myModal_child'+passenger_number).modal('hide');
-    }else if(type == 'Infant'){
+    }else if(type == 'infant'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'infant'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
+        $('#infant_title'+passenger_number).niceSelect('update');
         document.getElementById('infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('infant_first_name'+passenger_number).readOnly = true;
         document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -624,15 +789,31 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('infant_passport_expired_date'+passenger_number).value = passport_date;
-            document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-infant_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
+//            document.getElementById('infant_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
         }else{
             document.getElementById('infant_phone_code'+passenger_number).value = passenger_data[sequence].nationality_id.phone_code;
             document.getElementById('infant_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('infant_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'infant'+passenger_number;
+        auto_complete('infant_nationality'+passenger_number);
         $('#myModal_infant'+passenger_number).modal('hide');
     }else if(type == 'Senior'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'senior'+passenger_number){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
+        $('#senior_title'+passenger_number).niceSelect('update');
         document.getElementById('senior_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('senior_first_name'+passenger_number).readOnly = true;
         document.getElementById('senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -650,8 +831,14 @@ function pick_passenger(type, sequence, product){
             passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
             document.getElementById('senior_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
             document.getElementById('senior_passport_expired_date'+passenger_number).value = passport_date;
+            if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
+//                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
+                document.getElementById('select2-senior_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
+                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
+//                auto_complete('adult_country_of_issued'+passenger_number);
+            }
             try{
-                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
+//                document.getElementById('senior_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
             }catch(err){
 
             }
@@ -660,6 +847,9 @@ function pick_passenger(type, sequence, product){
             document.getElementById('senior_phone'+passenger_number).value = passenger_data[sequence].mobile;
         }
         document.getElementById('senior_id'+passenger_number).value = passenger_data[sequence].seq_id;
+        passenger_data_pick.push(passenger_data[sequence]);
+        passenger_data_pick[passenger_data_pick.length-1].sequence = 'senior'+passenger_number;
+        auto_complete('senior_nationality'+passenger_number);
         $('#myModal_senior'+passenger_number).modal('hide');
     }
 }
@@ -674,7 +864,23 @@ function copy_booker_to_passenger(val,type){
                 alert('Please add passenger first!');
             }
         }
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult1'){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
+        try{
+            if(JSON.stringify(booker_pick_passenger) != '{}'){
+                passenger_data_pick.push(booker_pick_passenger);
+                passenger_data_pick[passenger_data_pick.length-1].sequence = 'adult1';
+            }
+        }catch(err){
+
+        }
+
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+        $('#adult_title1').niceSelect('update');
         document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
         document.getElementById('adult_first_name1').readOnly = true;
         document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
@@ -702,11 +908,19 @@ function copy_booker_to_passenger(val,type){
                 $('#adult_id_type1').niceSelect('update');
                 document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
             }
-            document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
+            if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != '')
+                document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
         }
         document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
     }else{
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult1'){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('adult_title1').value = 'MR';
+        $('#adult_title1').niceSelect('update');
         document.getElementById('adult_first_name1').value = '';
         document.getElementById('adult_first_name1').readOnly = false;
         document.getElementById('adult_last_name1').value = '';
@@ -736,7 +950,14 @@ function clear_passenger(type, sequence){
         document.getElementById('booker_phone').value = '';
         document.getElementById('booker_phone').readOnly = false;
         document.getElementById('booker_id').value = '';
+        booker_pick_passenger= {};
     }else if(type == 'Adult'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'adult'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('adult_title'+sequence).value = 'MR';
         document.getElementById('adult_first_name'+sequence).value = '';
         document.getElementById('adult_first_name'+sequence).readOnly = false;
@@ -751,6 +972,12 @@ function clear_passenger(type, sequence){
         document.getElementById('adult_phone'+sequence).value = '';
         document.getElementById('adult_id'+sequence).value = '';
     }else if(type == 'Infant'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'infant'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('infant_title'+sequence).value = 'MSTR';
         document.getElementById('infant_first_name'+sequence).value = '';
         document.getElementById('infant_first_name'+sequence).readOnly = false;
@@ -761,6 +988,12 @@ function clear_passenger(type, sequence){
         document.getElementById('infant_birth_date'+passenger_number).readOnly = false;
         document.getElementById('infant_id'+sequence).value = '';
     }else if(type == 'Senior'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'senior'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('senior_title'+sequence).value = 'MR';
         document.getElementById('senior_first_name'+sequence).value = '';
         document.getElementById('senior_first_name'+sequence).readOnly = false;
@@ -775,6 +1008,12 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_phone'+sequence).value = '';
         document.getElementById('senior_id'+sequence).value = '';
     }else if(type == 'Child'){
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'child'+sequence){
+                passenger_data_pick.splice(i,1);
+                break;
+            }
+        }
         document.getElementById('child_title'+sequence).value = 'MSTR';
         document.getElementById('child_first_name'+sequence).value = '';
         document.getElementById('child_first_name'+sequence).readOnly = false;
@@ -1007,57 +1246,35 @@ function get_top_up_history(){
     });
 }
 
-function get_top_up_amount(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
-            'action': 'get_top_up_amount',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
-       success: function(msg) {
-       msg.response = JSON.parse(msg.response)
-        console.log(msg);
-        if(msg.error_code == 0){
-            text = '';
-            for(i in msg.response.result)
-                text += `<option value="`+msg.response.result[i].id+`" data-amount="`+msg.response.result[i].amount+`">`+msg.response.result[i].name+`</option>`;
-            document.getElementById('amount').innerHTML = text;
-            total_price_top_up();
-        }else{
+//function get_top_up_amount(){
+//    getToken();
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/agent",
+//       headers:{
+//            'action': 'get_top_up_amount',
+//       },
+////       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+//       data: {},
+//       success: function(msg) {
+//       msg.response = JSON.parse(msg.response)
+//        console.log(msg);
+//        if(msg.error_code == 0){
+//            text = '';
+//            for(i in msg.response.result)
+//                text += `<option value="`+msg.response.result[i].id+`" data-amount="`+msg.response.result[i].amount+`">`+msg.response.result[i].name+`</option>`;
+//            document.getElementById('amount').innerHTML = text;
+//            total_price_top_up();
+//        }else{
+//
+//        }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//           alert(errorThrown);
+//       }
+//    });
+//}
 
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
-function check_top_up(){
-    error_text = '';
-    if(document.getElementById('tac_checkbox').checked == false){
-        error_text += 'Please check Term and Conditions\n';
-    }
-
-    if(document.getElementById('amount').value == ''){
-        error_text += 'Please Input Amount\n';
-    }
-    try{
-        if(parseInt(document.getElementById('amount').value) <= 50000){
-            error_text += 'Minimum top up Amount IDR 50,000\n';
-        }
-    }catch(err){
-
-    }
-    if(error_text == ''){
-        document.getElementById('top_up_form').submit();
-    }else{
-        alert(error_text);
-    }
-}
 
 function create_top_up(amount, unique_amount){
     getToken();
@@ -1180,8 +1397,10 @@ function top_up_payment(){
         console.log(msg);
         if(msg.result.error_code == 0){
             alert(msg.result.response.message);
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            logout();
         }else{
-
+            alert(msg.result.error_msg);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1274,4 +1493,9 @@ function get_voucher(){
            alert(errorThrown);
        }
     });
+}
+
+function logout(){
+    document.getElementById('form_logout').submit();
+    //logout here
 }

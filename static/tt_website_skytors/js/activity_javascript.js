@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
 	var slideCount = $('#slider ul li').length;
-	var slideWidth = $('.themespark-detail-images').width();
-	var slideHeight = $('.themespark-detail-images').height();
+	var slideWidth = $('.activity-detail-images').width();
+	var slideHeight = $('.activity-detail-images').height();
 	var sliderUlWidth = slideCount * slideWidth;
 
     if (slideCount > 2){
@@ -29,19 +29,19 @@ jQuery(document).ready(function ($) {
 
 function set_sub_category(){
     var text = `<option value="0" selected="">Sub Categories</option>`;
-    var sub_category_list = sub_category[document.getElementById('themespark_category').value.split(' - ')[1]];
+    var sub_category_list = sub_category[document.getElementById('activity_category').value.split(' - ')[1]];
     for(i in sub_category_list){
         text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`
     }
-    document.getElementById('themespark_sub_category').innerHTML = text;
-//    themespark_sub_category
+    document.getElementById('activity_sub_category').innerHTML = text;
+//    activity_sub_category
 }
 
 function set_city(){
     var text = `<option value="" selected="">Cities</option>`;
     var country = {};
     for(i in activity_country){
-       if(activity_country[i].id == parseInt(document.getElementById('themespark_countries').value)){
+       if(activity_country[i].id == parseInt(document.getElementById('activity_countries').value)){
            country = activity_country[i];
            break;
        }
@@ -50,8 +50,8 @@ function set_city(){
         console.log(country.city);
         text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
     }
-    document.getElementById('themespark_cities').innerHTML = text;
-    $('#themespark_cities').niceSelect('update');
+    document.getElementById('activity_cities').innerHTML = text;
+    $('#activity_cities').niceSelect('update');
 }
 
 function triggered(){
@@ -896,7 +896,7 @@ function change_date_activity(){
         if(activity_date[event_pick][i].date == moment(document.getElementById('activity_date').value).format('YYYY-MM-DD')){
             if(activity_date[event_pick][i].available == false){
                 document.getElementById('activity_date_desc').innerHTML = `
-                <small id="departure_date_themespark_desc" class="hidden" style="color: red;">Ticket is unavailable on this date</small>
+                <small id="departure_date_activity_desc" class="hidden" style="color: red;">Ticket is unavailable on this date</small>
                 `;
             }else{
                 document.getElementById('activity_date_desc').innerHTML = '';

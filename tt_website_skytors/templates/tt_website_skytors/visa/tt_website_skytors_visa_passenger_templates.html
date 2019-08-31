@@ -27,9 +27,6 @@
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
 
-    time = 300;
-    triggered_balance();
-    get_balance();
     passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
     adult = passenger.adult;
@@ -51,7 +48,7 @@
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
                     <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                     </center>
                 </div>
                 <div class="col-lg-12">

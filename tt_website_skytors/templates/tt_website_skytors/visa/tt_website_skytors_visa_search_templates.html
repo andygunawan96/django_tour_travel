@@ -10,9 +10,6 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script>
-    time = 300;
-    triggered_balance();
-    get_balance();
     visa_request = `{{visa_request}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
 </script>

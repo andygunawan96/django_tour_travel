@@ -112,26 +112,23 @@ def signin(request):
             try:
                 if res['result']['error_code'] == 0:
                     logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                    file = open("version_cache.txt", "r")
+                    file = open("javascript_version.txt", "r")
                     for line in file:
                         file_cache_name = line
                     file.close()
 
-                    file = open(str(file_cache_name) + ".txt", "r")
+                    file = open('version' + str(file_cache_name) + ".txt", "r")
                     for line in file:
                         res_data = json.loads(line)
                     file.close()
 
                     res['result']['response'].update({
-                        # 'balance': {
-                        #     'balance': res_balance['result']['response']['balance'],
-                        #     'credit_limit': res_balance['result']['response']['credit_limit']
-                        # },
-                        'issued_offline': res_data['result']['response']['issued_offline'],
-                        'train': res_data['result']['response']['train'],
-                        'activity': res_data['result']['response']['activity'],
+                        # 'visa': res_data['result']['response']['visa'],
+                        # 'issued_offline': res_data['result']['response']['issued_offline'],
+                        # 'train': res_data['result']['response']['train'],
+                        # 'activity': res_data['result']['response']['activity'],
                         'airline': res_data['result']['response']['airline'],
-                        'hotel_config': res_data['result']['response']['hotel_config'],
+                        # 'hotel_config': res_data['result']['response']['hotel_config'],
                     })
                     logging.getLogger("info_logger").error("USE CACHE IN TXT!")
             except:
@@ -157,45 +154,45 @@ def signin(request):
                 res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
 
                 #visa odoo12
-                data = {
-                    'provider': 'skytors_visa'
-                }
-                headers = {
-                    "Accept": "application/json,text/html,application/xml",
-                    "Content-Type": "application/json",
-                    "action": "get_config",
-                    "signature": request.session['signature'],
-                }
-
-                res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+                # data = {
+                #     'provider': 'skytors_visa'
+                # }
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_config",
+                #     "signature": request.session['signature'],
+                # }
+                #
+                # res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
                 #
 
                 #issuedoffline
-                data = {
-                    'provider': 'skytors_issued_offline'
-                }
-                headers = {
-                    "Accept": "application/json,text/html,application/xml",
-                    "Content-Type": "application/json",
-                    "action": "get_config",
-                    "provider": 'skytors_issued_offline',
-                    "signature": request.session['signature'],
-                }
-
-                res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
+                # data = {
+                #     'provider': 'skytors_issued_offline'
+                # }
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_config",
+                #     "provider": 'skytors_issued_offline',
+                #     "signature": request.session['signature'],
+                # }
+                #
+                # res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
 
                 # return res
 
                 #train
-                data = {}
-                headers = {
-                    "Accept": "application/json,text/html,application/xml",
-                    "Content-Type": "application/json",
-                    "action": "get_origins",
-                    "signature": request.session['signature'],
-                }
-
-                res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
+                # data = {}
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_origins",
+                #     "signature": request.session['signature'],
+                # }
+                #
+                # res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
 
                 #activity
                 # data = {}
@@ -212,23 +209,62 @@ def signin(request):
 
 
                 res['result']['response'].update({
-                    'visa': res_config_visa,
-                    'issued_offline': res_config_issued_offline['result']['response'],
-                    'train': res_origin_train['result']['response'],
+                    # 'visa': res_config_visa['result']['response'], #belum di install
+                    # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
+                    # 'train': res_origin_train['result']['response'],
                     # 'activity': res_config_activity['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
-                        'destination': res_destination_airline['result']['response'],
+                        'destination': res_destination_airline['result']['response']
                     },
                 })
 
-                file = open("version1.0"+".txt", "w+")
+                file = open("javascript_version.txt", "r")
+                for line in file:
+                    file_cache_name = line
+                file.close()
+
+                file = open('version' + str(file_cache_name) + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
 
-                file = open("version_cache" + ".txt", "w+")
-                file.write("version1.0")
+                #cache airline popular
+                file = open("popular_destination_airline_cache.txt", "r")
+                for line in file:
+                    popular_airline = json.loads(line)
                 file.close()
+                popular = []
+                avarage = []
+                for country in res_destination_airline['result']['response']:
+                    for destination in country['destinations']:
+                        try:
+                            if popular_airline.get(destination['code']) == True:
+                                popular.append({
+                                    'name': destination['name'],
+                                    'code': destination['code'],
+                                    'city': destination['city'],
+                                    'country': country['name']
+                                })
+                            else:
+                                avarage.append({
+                                    'name': destination['name'],
+                                    'code': destination['code'],
+                                    'city': destination['city'],
+                                    'country': country['name']
+                                })
+                        except:
+                            avarage.append({
+                                'name': destination['name'],
+                                'code': destination['code'],
+                                'city': destination['city'],
+                                'country': country['name']
+                            })
+                popular = popular + avarage
+
+                file = open('airline_destination.txt', "w+")
+                file.write(json.dumps(popular))
+                file.close()
+                #cache airline popular
         else:
             logging.getLogger("info_logger").info("WRONG USERNAME OR PASSWORD MAYBE HACKER!! ")
 
@@ -238,7 +274,7 @@ def signin(request):
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    return res['result']['error_code']
+    return 'login' in res_user['result']['response']['co_agent_frontend_security']
 
 def get_url():
     return url_web

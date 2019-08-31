@@ -13,8 +13,6 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
-    time = 300;
-    triggered_balance();
 
     airline_destination = [];
     train_destination = [];
@@ -48,8 +46,6 @@
     countries = countries.replace(/False/g, 'false');
     countries = countries.replace(/True/g, 'true');
     countries = JSON.parse(countries);
-
-    get_balance();
 
     function check_years_old(sequence){
         var birth_date = '';

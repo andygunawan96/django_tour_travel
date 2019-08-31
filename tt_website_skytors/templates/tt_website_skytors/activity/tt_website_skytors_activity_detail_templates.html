@@ -37,7 +37,7 @@
         'safety': `{{response.safety}}`,
         'longitude': {{response.longitude}},
         'latitude': {{response.latitude}},
-        'provider': '{{response.provider}}',
+        'provider_id': '{{response.provider_id}}',
         'description': `{{response.description}}`,
         'warnings': `{{response.warnings}}`,
         'priceExcludes': `{{response.priceExcludes}}`,
@@ -48,7 +48,7 @@
         'name': '{{response.name}}',
         'itinerary': `{{response.itinerary}}`,
     };
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    signature = `{{signature}}`;
 </script>
 
 <script src="{{ static_path }}js/webservice_agent.js"></script>
@@ -76,184 +76,227 @@
 
 </script>
 
-
+{% include 'tt_website_skytors/header.html' %}
 <div class="destinations-area" style="margin-bottom:25px;">
     <div class="container">
-        <div class="row" style="padding-bottom:10px; padding-top:20px; margin-left: -30px !important;">
+        <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
-        <div class="row full_activity_details">
+        <div class="row full_activity_details" style="margin-top:20px;">
             <div class="col-lg-12">
                 <form method='POST' action="{% url 'tt_website_skytors:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <!--train-->
-                    <h2 style="margin-left: -15px !important; margin-bottom:10px;">Select Product Type</h2>
                     <div class="row">
-                        <div class="input-group-btn" id="ticket_type" data-toggle="buttons" style="width: 100%; white-space: normal;">
+                        <div class="col-lg-12">
+                            <span style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
+                            <span style="font-size:18px;">
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                {{response.reviewAverageScore}} ({{response.reviewCount}})
+                            </span>
+                            <br/>
+                            <span style="font-size:18px;">
+                                <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                                {% for i in response.locations %}
+                                {{i.city_name}}, {{i.country_name}};
+                                {% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
+                            <div id="activity_video_carousel">
+                                <div class="owl-carousel-activity-vid owl-theme">
+                                    {% for i in response.videos %}
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <video width="100%" height="360px" controls autoplay loop>
+                                                    <source src="{{i.url}}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
+                            <div id="activity_carousel" style="object-fit: cover;">
+                                <div class="owl-carousel-activity-img owl-theme">
+                                    {% for i in response.images %}
+                                    <div class="item">
+                                        <div class="single-destination relative">
+                                            <div class="thumb relative">
+                                                <img class="img-fluid zoom-img" src="{{i.url}}{{i.path}}" alt="" style="display: block; width: 700px; height:360px; object-fit: contain;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row" style="padding:15px;">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color:white; border:1px solid #cdcdcd; padding: 0px;">
+                            <div class="col-lg-12" style="background-color: #f15a22; width:100%; height: 37px; padding-top:7px;"><i class="fa fa-shopping-cart" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Buy Now</span></div>
+                            <div class="row" style="padding: 15px;">
+                                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="ticket_detail">
+                                    <div class="row" style="padding-left:15px;">
+                                        <span style="font-weight:bold; font-size:13px;">Choose Product Type: </span>
+                                        <div class="input-group-btn" id="ticket_type" data-toggle="buttons" style="width: 100%; white-space: normal;">
 
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding:0px;margin-top:5px;" id="date">
+
+                                    </div>
+                                    <div id="loading-detail-activity" style="margin-bottom:20px;">
+                                        <div class="col-lg-12">
+                                            <div class="sk-circle">
+                                                <div class="sk-circle1 sk-child"></div>
+                                                <div class="sk-circle2 sk-child"></div>
+                                                <div class="sk-circle3 sk-child"></div>
+                                                <div class="sk-circle4 sk-child"></div>
+                                                <div class="sk-circle5 sk-child"></div>
+                                                <div class="sk-circle6 sk-child"></div>
+                                                <div class="sk-circle7 sk-child"></div>
+                                                <div class="sk-circle8 sk-child"></div>
+                                                <div class="sk-circle9 sk-child"></div>
+                                                <div class="sk-circle10 sk-child"></div>
+                                                <div class="sk-circle11 sk-child"></div>
+                                                <div class="sk-circle12 sk-child"></div>
+                                            </div>
+                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="padding:0px;margin-top:5px;" id="event">
+
+                                    </div>
+                                    <div class="row" style="padding:0px;margin-top:5px; margin-left: -5px; margin-right: -5px;" id="pax">
+
+                                    </div>
+                                    <div class="row" style="padding:0px;margin-top:5px;" id="timeslot">
+
+                                    </div>
+
+                                    <div style="padding:0px;margin-top:5px;" id="perbooking">
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" id="ticket_price">
+                                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
+                                        <h4> Price Detail </h4>
+                                        <hr/>
+                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <br/><span id="product_type_title"></span>
+                                        <br/><br/>
+                                        <div id="activity_detail_table">
+
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div id="activity_detail_next_btn">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding:15px;">
+                        <div class="col-lg-12" style="background-color:white; border:1px solid #cdcdcd; margin-top:5px; padding:0;">
+                            <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity active" data-toggle="tab" href="#detail"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></a>
+                                </li>
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#rules"><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></a>
+                                </li>
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#prices"><i class="fa fa-usd" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Prices</span></a>
+                                </li>
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#vouchers"><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></a>
+                                </li>
+                                {% if response.itinerary != ''%}
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#price_itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <div class="tab-content">
+                                <div id="detail" class="tab-pane fade in active show">
+                                    {% if response.description != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Description</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.description}}</p>
+                                    {% endif %}
+                                    {% if response.highlights != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Highlights</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.highlights}}</p>
+                                    {% endif %}
+                                    {% if response.additionalInfo != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Additional Info</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.additionalInfo}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="rules" class="tab-pane fade">
+                                    {% if response.warnings != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Warnings</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.warnings}}</p>
+                                    {% endif %}
+                                    {% if response.safety != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Safety</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.safety}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="prices" class="tab-pane fade">
+                                    {% if response.priceIncludes != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Price Includes</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.priceIncludes}}</p>
+                                    {% endif %}
+                                    {% if response.priceExcludes != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Price Excludes</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.priceExcludes}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="vouchers" class="tab-pane fade" id="vouchers">
+                                    {% if response.voucher_validity != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Validity</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.voucher_validity}}</p>
+                                    {% endif %}
+                                    {% if response.voucherUse != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Use</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.voucherUse}}</p>
+                                    {% endif %}
+                                    {% if response.voucherRedemptionAddress != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Address</h3>
+                                    <p style="padding:0 20pxtext-align:justify;">{{response.voucherRedemptionAddress}}</p>
+                                    {% endif %}
+                                    {% if response.voucherRequiresPrinting != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Print</h3>
+                                    <p style="padding:0 20px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="price_itinerary" class="tab-pane fade">
+                                    {% if response.itinerary != '' %}
+                                    <h3 style="padding:0 20px; margin-bottom:10px;">Itinerary</h3>
+                                    <p style="padding:0 20px; text-align:justify">{{response.itinerary}}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br/>
-                    <div class="row">
-                        <div class="col-sm-8" id="ticket_detail">
-                            <div class="row" style="border:1px solid #f15a22;">
-                                <div class="col-sm-4 themespark-detail-images">
-                                    <div id="slider">
-                                        <ul>
-                                            <!--<div class="w3-content w3-section">-->
-                                            {% for i in response.images %}
-                                            <li><img src="{{i.url}}{{i.path}}"></li>
-                                            {% endfor %}
-                                            <!--</div>-->
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="col-sm-8 themespark-detail-description">
-                                    <h3 style="margin:0px 0px 5px 0px; font-size:20px; color:white;">{{response.name}}</h3>
-                                    <h4 style="margin:0px 0px 5px 0px; font-size:18px; color:white;" id="product_type"></h4>
-                                    {% for i in response.locations %}
-                                    <h4 style="margin:0px 0px 5px 0px; font-size:15px; display: inline-block; color:white;">{{i.city_name}},</h4>
-                                    <h4 style="margin:0px 0px 5px 0px; font-size:15px; display: inline-block; color:white;"> {{i.country_name}}</h4><br/>
-                                    {% endfor %}
-                                    <div class="row" style="margin-left: -5px;">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12" style="background-color:white; border:1px solid #f15a22; padding: 10px 0px 10px 0px;">
-                                    <div class="row" style="margin-left: 15px !important" id="date">
-
-                                    </div>
-                                    <div class="row" style="padding:0 20px;margin-top:5px;" id="event">
-
-                                    </div>
-                                    <div class="row" style="padding:0 20px;margin-top:5px; margin-left: -5px; margin-right: -5px;" id="pax">
-
-                                    </div>
-                                    <div class="row" style="padding:0 20px;margin-top:5px;" id="timeslot">
-
-                                    </div>
-
-                                    <!--<div style="padding:0 20px;margin-top:5px;" id="detail_to_passenger_page">-->
-
-                                    <!--</div>-->
-
-                                    <div style="padding:0 20px;margin-top:5px;" id="perbooking">
-
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <div class="row">
-                                <div class="col-sm-12" style="background-color:white; border:1px solid #f15a22; margin-top:5px; padding:0;">
-                                    <ul class="nav nav-tabs-themespark" style="text-align:center; margin-bottom:15px;">
-                                        <li class="li-themespark" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-themespark active" data-toggle="tab" href="#detail"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></a>
-                                        </li>
-                                        <li class="li-themespark" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-themespark" data-toggle="tab" href="#rules"><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></a>
-                                        </li>
-                                        <li class="li-themespark" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-themespark" data-toggle="tab" href="#prices"><i class="fa fa-usd" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Prices</span></a>
-                                        </li>
-                                        <li class="li-themespark" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-themespark" data-toggle="tab" href="#vouchers"><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></a>
-                                        </li>
-                                        {% if response.itinerary != ''%}
-                                        <li class="li-themespark" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                            <a class="tab-menu-themespark" data-toggle="tab" href="#price_itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></a>
-                                        </li>
-                                        {% endif %}
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div id="detail" class="tab-pane fade in active show">
-                                            {% if response.description != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Description</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.description}}</p>
-                                            {% endif %}
-                                            {% if response.highlights != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Highlights</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.highlights}}</p>
-                                            {% endif %}
-                                            {% if response.additionalInfo != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Additional Info</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.additionalInfo}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="rules" class="tab-pane fade">
-                                            {% if response.warnings != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Warnings</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.warnings}}</p>
-                                            {% endif %}
-                                            {% if response.safety != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Safety</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.safety}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="prices" class="tab-pane fade">
-                                            {% if response.priceIncludes != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Price Includes</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.priceIncludes}}</p>
-                                            {% endif %}
-                                            {% if response.priceExcludes != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Price Excludes</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.priceExcludes}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="vouchers" class="tab-pane fade" id="vouchers">
-                                            {% if response.voucher_validity != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Validity</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.voucher_validity}}</p>
-                                            {% endif %}
-                                            {% if response.voucherUse != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Use</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.voucherUse}}</p>
-                                            {% endif %}
-                                            {% if response.voucherRedemptionAddress != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Address</h3>
-                                            <p style="padding:0 20pxtext-align:justify;">{{response.voucherRedemptionAddress}}</p>
-                                            {% endif %}
-                                            {% if response.voucherRequiresPrinting != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Print</h3>
-                                            <p style="padding:0 20px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
-                                            {% endif %}
-                                        </div>
-                                        <div id="price_itinerary" class="tab-pane fade">
-                                            {% if response.itinerary != '' %}
-                                            <h3 style="padding:0 20px; margin-bottom:10px;">Itinerary</h3>
-                                            <p style="padding:0 20px; text-align:justify">{{response.itinerary}}</p>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4" id="ticket_price">
-                            <div style="background-color:#f15a22; padding:5px;">
-                                <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                            </div>
-                            <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="activity_detail">
-                                <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                                <br/><span id="product_type_title"></span>
-                                <br/><br/>
-                                <div id="activity_detail_table">
-
-                                </div>
-                            </div>
-                            <br/>
-                            <div id="activity_detail_next_btn">
-
-                            </div>
-                        </div>
-                    </div>
                     <div id="data_id">
 
                     </div>
@@ -263,107 +306,10 @@
     </div>
 </div>
 
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget mail-chimp">
-                    <h6 class="mb-20">InstaFeed</h6>
-                    <ul class="instafeed d-flex flex-wrap">
-                        <li><img src="{{static_path}}img/i1.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i2.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i3.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i4.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i5.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i6.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i7.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i8.jpg" alt=""></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <script>
-    activity_get_detail(`{{response.uuid}}`);
+    activity_get_detail(`{{response.uuid}}`, `{{response.provider_id}}`);
     var myIndex = 0;
-    carousel();
-
-    function carousel() {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      for (i = 0; i < x.length; i++) {
-        x[i].style.display = "none";
-      }
-      myIndex++;
-      if (myIndex > x.length) {myIndex = 1}
-      x[myIndex-1].style.display = "block";
-      setTimeout(carousel, 5000); // Change image every 2 seconds
-    }
 
     //gotopax
 

@@ -920,6 +920,9 @@ S2.define('select2/results',[
       var $option = this.option(item);
 
       $options.push($option);
+
+      if($options.length > 10)
+        break
     }
 
     this.$results.append($options);

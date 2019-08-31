@@ -20,12 +20,12 @@ MODEL_NAME = 'tt_website_skytors'
 def issued_offline(request):
     if 'user_account' in request.session._session:
 
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
@@ -34,6 +34,21 @@ def issued_offline(request):
         for line in file:
             response = json.loads(line)
         file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
 
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
@@ -60,7 +75,9 @@ def issued_offline(request):
             'airline_destinations': airline_destinations,
             'train_destination': train_destination,
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -72,12 +89,12 @@ def issued_offline(request):
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
@@ -87,12 +104,29 @@ def issued_offline_history(request):
             response = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_history_templates.html', values)
     else:

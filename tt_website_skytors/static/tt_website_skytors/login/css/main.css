@@ -5,7 +5,7 @@
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
-@font-face {
+/*@font-face {
   font-family: Ubuntu-Regular;
   src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
 }
@@ -13,7 +13,7 @@
 @font-face {
   font-family: Ubuntu-Bold;
   src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
-}
+}*/
 
 
 
@@ -402,7 +402,12 @@ iframe {
 }
 
 .login100-form-btn:hover:before {
-  opacity: 1;
+  opacity: 0.9;
+}
+
+.login100-form-btn:disabled {
+  background: #cccccc;
+  cursor:not-allowed;
 }
 
 

@@ -335,7 +335,6 @@ function hotel_provision(price_code, provider){
 }
 
 function hotel_issued_booking(){
-    console.log()
     getToken();
     $.ajax({
        type: "POST",

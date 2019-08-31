@@ -36,21 +36,29 @@
     passengers = passengers.replace(/True/g, true);
     passengers = passengers.replace(/False/g, false);
     passengers = JSON.parse(passengers);
+
+    passengers_ssr = `{{passengers_ssr}}`;
+    passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
+    passengers_ssr = passengers_ssr.replace(/True/g, true);
+    passengers_ssr = passengers_ssr.replace(/False/g, false);
+    passengers_ssr = JSON.parse(passengers_ssr);
+
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
     time_limit = {{time_limit}};
     session_time_limit();
-    //document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    ssr = {{ssr}};
+    seat = {{seat}};
 </script>
-
+{% include 'tt_website_skytors/logout.html' %}
 <header id="header">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
                     <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                     </center>
                 </div>
                 <div class="col-lg-12">
@@ -98,18 +106,19 @@
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
+                    <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="show_loading_booking();airline_hold_booking(0);" style="width:100%;">
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 Hold Booking
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="show_loading_issued();airline_hold_booking(1);" style="width:100%;">
+                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">
                                 Issued Booking
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>

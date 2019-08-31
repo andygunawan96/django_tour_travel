@@ -94,12 +94,12 @@ def search(request):
         child_age = []
         if request.POST['child_age'] != '':
             request.POST['child_age'].split(',')
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -108,21 +108,25 @@ def search(request):
         destination_id = ''
         hotel_id = ''
         landmark_id = ''
-        for hotel in response['result']['response']['hotel_config']:
-            if request.POST['destination'] == hotel['name']:
-                if hotel['type'] == 'Country':
-                    country_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                elif hotel['type'] == 'City':
-                    destination_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                elif hotel['type'] == 'Hotel':
-                    hotel_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                elif hotel['type'] == 'Landmark':
-                    landmark_id = int(hotel['id'])
-                    id = int(hotel['id'])
-                break
+        try:
+            for hotel in response['result']['response']['hotel_config']:
+                if request.POST['destination'] == hotel['name']:
+                    if hotel['type'] == 'Country':
+                        country_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'City':
+                        destination_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Hotel':
+                        hotel_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    elif hotel['type'] == 'Landmark':
+                        landmark_id = int(hotel['id'])
+                        id = int(hotel['id'])
+                    break
+        except:
+            pass
+
         data = {
             'child': int(request.POST['child']),
             'hotel_id': hotel_id,

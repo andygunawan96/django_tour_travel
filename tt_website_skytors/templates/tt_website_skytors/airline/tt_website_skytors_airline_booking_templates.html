@@ -21,26 +21,24 @@
     airline_carriers = JSON.parse(airline_carriers);
     order_number = '{{order_number}}';
     signature = `{{signature}}`;
-    //time = 300;
-    //triggered_balance();
 </script>
-
+{% include 'tt_website_skytors/logout.html' %}
 <header id="header">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
                     <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{static_path}}images/icon/skytors_logo.png" style="width:80px; height:35px;" alt="" title="" /></a>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                     </center>
                 </div>
                 <div class="col-lg-12">
                     <ul class="progressbar">
-                        <li class="active" style="cursor:not-allowed;"><span>Home <i class="fas fa-home"></i></span></li>
+                        <li class="active" style="cursor:pointer;" onclick="location.href='{% url 'tt_website_skytors:index'%}';"><span>Home <i class="fas fa-home"></i></span></li>
                         <li class="active" style="cursor:not-allowed;"><span>Search <i class="fas fa-search"></i></span></li>
                         <li class="active" style="cursor:not-allowed;"><span>Passenger <i class="fas fa-users"></i></span></li>
                         <li class="active" style="cursor:not-allowed;"><span>Book <i class="fas fa-book-open"></i></span></li>
-                        <li class="current" id="issued-breadcrumb"><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                        <li class="current" id="issued-breadcrumb"><span id="header_issued">Issued <i class="fas fa-check-circle"></i></span></li>
                     </ul>
                 </div>
             </div>
@@ -57,7 +55,7 @@
                 </div>
             </div>
         </div>
-
+        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
         <form method="POST" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
             <div class="row" style="padding-top:20px;">

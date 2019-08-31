@@ -7,7 +7,6 @@ $(document).ready(function(){
     var sort_arrival=0;
 
     $("#myModalPopUp").modal('show');
-
 //    $(window).load(function() {
 //    });
 
@@ -70,6 +69,16 @@ $(document).ready(function(){
             scrollTop : 0                       // Scroll to top of body
         }, 500);
     });
+
+    $('ul.tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.tabs li').removeClass('current');
+		$('.tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
 
 //    $('#myModalTicketFlight').click(function() {
 //
@@ -785,7 +794,6 @@ $(document).ready(function(){
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
-
 //            text_mc += `
 //            <div class="row">
 //                <div class="col-lg-12" style="padding:0px;">
@@ -963,7 +971,6 @@ $(document).ready(function(){
 
         }
         else if (selected_value == "multicity"){
-            console.log('here');
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
@@ -1002,8 +1009,8 @@ $(document).ready(function(){
             document.getElementById('mc_airline_default').innerHTML = text_mc;
             document.getElementById('ori_airline').style.display = "none";
             document.getElementById('is_combo_price').disabled = true;
-            document.getElementById('is_combo_price').checked = false;
-            document.getElementById('checkbox_combo_price').style.display = "none";
+            document.getElementById('is_combo_price').disabled = false;
+            document.getElementById('checkbox_combo_price').style.display = "block";
             airline_request_counter = airline_request.counter;
             if(airline_request_counter == 0)
                 airline_request_counter = 2
@@ -1345,4 +1352,132 @@ function show_hide_tac(id){
         div_tac.style.display = "block";
         span_tac_up.style.display = "none";
     }
+}
+
+var count_alert=0;
+var count_alert_items=[];
+try{
+    var AlertBox = function(id, option) {
+      this.show = function(msg) {
+        if (msg === ''  || typeof msg === 'undefined' || msg === null) {
+          throw '"msg parameter is empty"';
+        }
+        else {
+          var alertArea = document.querySelector(id);
+          var alertBox = document.createElement('DIV');
+          var alertContent = document.createElement('DIV');
+          var alertClose = document.createElement('A');
+          var alertClass = this;
+
+          count_alert_items.push(count_alert);
+          count_alert = count_alert+1;
+          console.log(count_alert_items.length)
+          if(count_alert_items.length == 3){
+
+            $(".alert-id-"+count_alert_items[0]).hide(alertBox);
+            count_alert_items.shift();
+
+          }
+          if(count_alert > 3){
+            count_alert = 0;
+          }
+
+          alertContent.classList.add('alert-content');
+          alertContent.innerText = msg;
+          alertClose.classList.add('alert-close');
+          alertClose.setAttribute('href', '#');
+          alertBox.classList.add('alert-box');
+          alertBox.classList.add('alert-id-'+count_alert);
+          alertBox.appendChild(alertContent);
+          if (!option.hideCloseButton || typeof option.hideCloseButton === 'undefined') {
+            alertBox.appendChild(alertClose);
+          }
+          alertArea.appendChild(alertBox);
+          alertClose.addEventListener('click', function(event) {
+            event.preventDefault();
+            alertClass.hide(alertBox);
+          });
+          if (!option.persistent) {
+            var alertTimeout = setTimeout(function() {
+              alertClass.hide(alertBox);
+              clearTimeout(alertTimeout);
+            }, option.closeTime);
+          }
+        }
+      };
+
+      this.hide = function(alertBox) {
+        alertBox.classList.add('hide');
+        var disperseTimeout = setTimeout(function() {
+          alertBox.parentNode.removeChild(alertBox);
+          clearTimeout(disperseTimeout);
+        }, 500);
+      };
+    };
+
+    var AlertBox2 = function(id, option) {
+      this.show = function(msg) {
+        if (msg === ''  || typeof msg === 'undefined' || msg === null) {
+          throw '"msg parameter is empty"';
+        }
+        else {
+          var alertArea = document.querySelector(id);
+          var alertBox = document.createElement('DIV');
+          var alertContent = document.createElement('DIV');
+          var alertClose = document.createElement('A');
+          var alertClass = this;
+
+          count_alert_items.push(count_alert);
+          count_alert = count_alert+1;
+          if(count_alert > 3){
+            count_alert_items.shift();
+            $(".alert-id-"+count_alert_items[0]).hide(alertBox);
+          }
+
+          alertContent.classList.add('alert-content');
+          alertContent.innerText = msg;
+          alertClose.classList.add('alert-close');
+          alertClose.setAttribute('href', '#');
+          alertBox.classList.add('alert-box-success');
+          alertBox.classList.add('alert-id-'+count_alert);
+          alertBox.appendChild(alertContent);
+          if (!option.hideCloseButton || typeof option.hideCloseButton === 'undefined') {
+            alertBox.appendChild(alertClose);
+          }
+          alertArea.appendChild(alertBox);
+          alertClose.addEventListener('click', function(event) {
+            event.preventDefault();
+            alertClass.hide(alertBox);
+          });
+          if (!option.persistent) {
+            var alertTimeout = setTimeout(function() {
+              alertClass.hide(alertBox);
+              clearTimeout(alertTimeout);
+            }, option.closeTime);
+          }
+        }
+      };
+
+      this.hide = function(alertBox) {
+        alertBox.classList.add('hide');
+        var disperseTimeout = setTimeout(function() {
+          alertBox.parentNode.removeChild(alertBox);
+          clearTimeout(disperseTimeout);
+        }, 500);
+      };
+    };
+
+    var alertShowMessage = document.querySelector('#login-form-home');
+    var alertbox = new AlertBox('#alert-area', {
+      closeTime: 5000,
+      persistent: false,
+      hideCloseButton: false
+    });
+    var alertbox2 = new AlertBox2('#alert-area', {
+      closeTime: 5000,
+      persistent: false,
+      hideCloseButton: false
+    });
+}catch(err){
+    console.log('err');
 }

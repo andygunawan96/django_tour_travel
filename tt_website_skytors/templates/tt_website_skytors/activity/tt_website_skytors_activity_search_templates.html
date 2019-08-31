@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
     offset = 600;
     get_new = true;
@@ -30,6 +31,10 @@
         city = [];
     {% endfor %}
 
+    {% for category in activity_categories %}
+        console.log(category);
+    {% endfor %}
+
     {% for key, value in activity_sub_categories.items %}
         {% for item in value %}
             name = '{{item.name}}';
@@ -47,9 +52,9 @@
         sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
         sub_category_list = [];
     {% endfor %}
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
+{% include 'tt_website_skytors/header.html' %}
 <section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black;">
     <div class="animated fadeInDown delay-1s">
         <div class="container">
@@ -66,29 +71,13 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:0px;">
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="themespark_query" id="themespark_query" placeholder="Search for Activity" value="{{query}}"/>
+                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" value="{{query}}"/>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <div class="row">
-                                        <div class="col-lg-12 activity_sort">
-                                            <span class="span-search-ticket"><i class="fa fa-sort"></i> Sort By </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 activity_sort">
-                                            <div class="form-select">
-                                                <select id="themespark_sort" name="themespark_sort" size="5">
-                                                    <option value="name_asc">Name (A-Z)</option>
-                                                    <option value="name_desc">Name (Z-A)</option>
-                                                    <option value="price_asc" selected="">Price (Low-High)</option>
-                                                    <option value="price_desc">Price (High-Low)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </div>
                             </div>
                             <div class="row">
@@ -99,7 +88,7 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                             <div class="form-select" id="default-select">
-                                                <select id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="set_city();" size="5" data-live-search="true" name="activity_countries">
                                                     {% if not parsed_country %}
                                                     <option value="" selected="">All Country</option>
                                                     {% for country in activity_countries %}
@@ -119,8 +108,8 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                             <div class="form-select">
-                                                <div id="temp_themespark_cities">
-                                                    <select id="themespark_cities" name="themespark_cities" size="5">
+                                                <div id="temp_activity_cities">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
                                                         <option value="" selected="">Cities</option>
                                                     </select>
                                                 </div>
@@ -138,7 +127,7 @@
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
                                             <div class="form-select">
-                                                <select id="themespark_type" name="themespark_type" data-live-search="true" size="5">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                     <option value="0" selected="">All Types</option>
                                                     {% for type in activity_types %}
                                                     <option value="{{type.id}}">{{type.name}}</option>
@@ -148,19 +137,19 @@
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <div class="form-select">
-                                                <select id="themespark_category" onchange="set_sub_category();" name="themespark_category" size="5">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="set_sub_category();" name="activity_category" size="5">
                                                     <option value="0" selected="">All Categories</option>
                                                     {% for category in activity_categories %}
                                                     <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
                                                     {% endfor %}
-                                                    <!--<option id="temp_themespark_category"/>-->
+                                                    <!--<option id="temp_activity_category"/>-->
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <div class="form-select">
-                                                <div id="temp_themespark_sub_category">
-                                                    <select id="themespark_sub_category" name="themespark_sub_category" size="5">
+                                                <div class="js-example-basic-single" style="width:100%;" id="temp_activity_sub_category">
+                                                    <select id="activity_sub_category" name="activity_sub_category" size="5">
                                                         <option value="0" selected="">Sub Categories</option>
                                                     </select>
                                                 </div>
@@ -188,21 +177,88 @@
     <div class="container">
         <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
+                <ul class="progressbar">
+                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
+                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
+                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                </ul>
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
+            <div class="col-lg-12" style="position:sticky; top:95px; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right:2px;">
+                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
+                            <span style="color:white; font-size:12px;"> Filter & Sorting </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="modal fade" id="myModalFilterSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div id="filter2">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div id="sorting-flight2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-search-flight" id="filter-search-flight">
+                    <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9" style="margin-top:10px;">
+                <div class="row sorting-search-flight" id="sorting-search-flight">
+                    <div class="col-lg-12">
+                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:10px;">
+
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="row" id="activity_ticket" style="align:center;">
-
+                            <div id="loading-search-activity" style="margin-bottom:20px;">
+                                <div class="col-lg-12">
+                                    <div class="sk-circle">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                    <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -299,25 +355,24 @@
 
 <script>
     activity_login('');
+    activity_filter_render();
 
     function go_to_detail(sequence){
-        pick = JSON.stringify(activity_data[parseInt(sequence)]).replace(/'/g,'');
-        document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
-        document.getElementById(`csrf`+sequence).innerHTML += `<input type='hidden' value='`+pick+`' name='activity_pick'/>`;
-        document.getElementById('myForm'+sequence).submit();
+        for (i in activity_data)
+        {
+            if(activity_data[i].sequence == sequence)
+            {
+                pick = JSON.stringify(activity_data[i]).replace(/'/g,'');
+                document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
+                document.getElementById(`csrf`+sequence).innerHTML += `<input type='hidden' value='`+pick+`' name='activity_pick'/>`;
+                document.getElementById('myForm'+sequence).submit();
+            }
+        }
     }
 
 
     $(document).ready(function () {
-        $(window).scroll(function() {
-            if($(window).scrollTop() >= $(document).height() - ($(window).height() + 600)) {
-                if(get_new == true){
-                    get_new = false;
-                    activity_search();
-
-                }
-            }
-        });
+        $('.js-example-basic-single').select2();
     });
 </script>
 

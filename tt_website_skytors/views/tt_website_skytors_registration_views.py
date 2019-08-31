@@ -24,12 +24,12 @@ infant_title = ['MSTR', 'MISS']
 
 def open_page(request):
     try:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open("javascript_version.txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             javascript_version = json.loads(line)
         file.close()
@@ -39,19 +39,38 @@ def open_page(request):
             response = json.loads(line)
         file.close()
 
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
         values = {
             'countries': response['result']['response']['activity_config']['countries'],
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
             'social_medias': response['result']['response']['issued_offline']['social_media_id'],
+            'logo': logo,
+            'template': template
             # 'username': request.session['username'],
             # 'co_uid': request.session['co_uid'],
         }
     except:
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'javascript_version': javascript_version
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
         }
     return render(request, MODEL_NAME + '/agent_registration/tt_website_skytors_registration_form_template.html', values)
 
@@ -65,6 +84,22 @@ def register_agent(request):
     for line in file:
         javascript_version = json.loads(line)
     file.close()
+
+    try:
+        file = open("data_cache_template.txt", "r")
+        for idx, line in enumerate(file):
+            if idx == 0:
+                if line == '\n':
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                else:
+                    logo = line
+            elif idx == 1:
+                template = int(line)
+        file.close()
+    except:
+        template = 1
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+
     #pic
     while(check):
         try:
@@ -120,7 +155,9 @@ def register_agent(request):
     values = {
         'username': request.session['user_account'],
         'static_path': path_util.get_static_path(MODEL_NAME),
-        'javascript_version': javascript_version
+        'javascript_version': javascript_version,
+        'logo': logo,
+        'template': template
     }
     return render(request, MODEL_NAME + '/agent_registration/tt_website_skytors_registration_finish_template.html', values)
 

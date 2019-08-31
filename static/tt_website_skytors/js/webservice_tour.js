@@ -2,7 +2,7 @@ var tour_data = [];
 offset = 0;
 
 function tour_login(data){
-    //document.getElementById('themespark_category').value.split(' - ')[1]
+    //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
     $.ajax({
        type: "POST",

@@ -11,12 +11,11 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
-    time = 300;
-    triggered_balance();
-    // &&& separator
     airline_pick = `{{airline_pick}}`;
-    airline_pick = airline_pick.replace(/&quot;/g, '"');
-    airline_pick = airline_pick.replace(/&amp;/g, '&');
+    airline_pick = airline_pick.replace(/&#39;/g, '"');
+    airline_pick = airline_pick.replace(/True/g, 'true');
+    airline_pick = airline_pick.replace(/False/g, 'false');
+    //airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
     airline_pick = JSON.parse(airline_pick);
     price_itinerary = `{{price}}`;
@@ -28,261 +27,112 @@
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = airline_carriers.replace(/False/g, 'false');
+    airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
+
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    signature = `{{signature}}`;
+    time_limit = {{time_limit}};
+    session_time_limit();
 </script>
+{% include 'tt_website_skytors/logout.html' %}
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
+                    <center>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                    </center>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="progressbar">
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
+                        <li class="current"><span>Book <i class="fas fa-book-open"></i></span></li>
+                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
-            </div>
-        </div>
-        <br/>
-
-        <form id="airline_review" action="{% url 'tt_website_skytors:airline_review'%}" method="POST">
+        <form method="POST" id="airline_booking" action="{% if seat_map == 0 %} {% url 'tt_website_skytors:airline_seat_map'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12" style="padding-bottom:15px;">
                     <h3>Special Service Request</h3>
-                    {% if airline_ssrs.airline_for_ff|length != 0 %}
-                    <label>airline for ff</label>
-                    {% endif %}
-                    <br/>
                 </div>
-                <div class="col-lg-8" id="default-select" style="padding-bottom:20px;">
+                <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
-                        {% if airline_ssrs.ssr_codes.baggage_per_route|length != 0 %}
-                        <div class="col-lg-12" style="padding-bottom:20px;">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Baggage </span>
-                                </center>
-                            </div>
-                            <div style="background-color:white; padding:10px;">
-                                <div class="row">
-                                    {% for baggage in airline_ssrs.ssr_codes.baggage_per_route%}
-                                    {% with forloop.counter as baggage_counter%}
-                                    <div class="col-lg-6">
-                                        <h5>{{baggage.journey_code2}}</h5>
-                                        {% for passenger in passengers%}
-                                        <span>{{passenger.title}} {{passenger.first_name}} {{passenger.last_name}}</span><br/>
-                                        <div class="form-select">
-                                            <select id="baggage{{baggage_counter}}_{{forloop.counter}}" name="baggage{{baggage_counter}}_{{forloop.counter}}" onchange="on_change_ssr('baggage{{baggage_counter}}_{{forloop.counter}}hidden','baggage{{baggage_counter}}_{{forloop.counter}}')">
-                                                {% for code in baggage.ssr_codes%}
-                                                <option value="{{code.ssr_code}}">{{code.description}} {% if code.description != '' %} - IDR {{code.amount}} {% elif code.description == '' %} Not Selected {% endif %} </option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <input type="hidden" id="baggage{{baggage_counter}}_{{forloop.counter}}hidden" value="0"/>
-                                        {% endfor %}
-                                    </div>
-                                    {% endwith %}
-                                    {% endfor %}
+                        <div class="col-lg-12">
+                            <div id="airline_review" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                {% for pax in passengers%}
+                                    {% with forloop.counter as counter%}
+                                <div>
+                                    <h4>{{pax.title}} {{pax.first_name}} {{pax.last_name}}</h4>
                                 </div>
+                                    {% for ssr_provider in airline_ssrs.ssr_availability_provider %}
+                                        {% for key, ssr_values in ssr_provider.ssr_availability.items %}
+                                <h5>{{key}}</h5><br/>
+                                            {% for values in ssr_values %}
+                                <h6>{{values.origin}} - {{values.destination}}</h6>
+                                <span class="span-search-ticket">{{key}}</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <div class="form-select" id="default-select">
+                                        <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4">
+                                            {% for ssr in values.ssrs %}
+                                            <option value="{{ssr.ssr_code}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                    {% endwith %}
+                                {% endfor %}
                             </div>
                         </div>
-                        {% endif %}
-
-
-                        {% if airline_ssrs.ssr_codes.equip_per_route|length != 0 %}
-                        <div class="col-lg-12" style="padding-bottom:20px;">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Equipment </span>
-                                </center>
-                            </div>
-                            <div style="background-color:white; padding:10px;">
-                                <div class="row">
-                                    {% for equip in airline_ssrs.ssr_codes.equip_per_route%}
-                                    {% with forloop.counter as equip_counter%}
-                                    <div class="col-lg-6">
-                                        <h5>{{equip.journey_code2}}</h5>
-                                        {% for passenger in passengers%}
-                                        <span>{{passenger.title}} {{passenger.first_name}} {{passenger.last_name}}</span><br/>
-                                        <div class="form-select">
-                                            <select id="equip{{equip_counter}}_{{forloop.counter}}" name="equip{{equip_counter}}_{{forloop.counter}}" onchange="on_change_ssr('equip{{equip_counter}}_{{forloop.counter}}hidden','equip{{equip_counter}}_{{forloop.counter}}')">
-                                                {% for code in equip.ssr_codes%}
-                                                <option value="{{code.ssr_code}}">{{code.description}} {% if code.description != '' %} - IDR {{code.amount}} {% elif code.description == '' %} Not Selected {% endif %}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <input type="hidden" id="equip{{equip_counter}}_{{forloop.counter}}hidden" value="0"/>
-                                        {% endfor %}
-                                    </div>
-                                    {% endwith %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-
-                        {% if airline_ssrs.ssr_codes.equip_per_route|length != 0 %}
-                        <div class="col-lg-12" style="padding-bottom:20px;">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> For Free </span>
-                                </center>
-                            </div>
-                            <div style="background-color:white; padding:10px;">
-                                <div class="row">
-                                    {% for for_free in airline_ssrs.ssr_codes.for_free_per_route%}
-                                    {% with forloop.counter as for_free_counter%}
-                                    <div class="col-lg-6">
-                                        <h5>{{for_free.journey_code2}}</h5>
-                                        {% for passenger in passengers%}
-                                        <span>{{passenger.title}} {{passenger.first_name}} {{passenger.last_name}}</span><br/>
-                                        <div class="form-select">
-                                            <select id="for_free{{for_free_counter}}_{{forloop.counter}}" name="for_free{{for_free_counter}}_{{forloop.counter}}" onchange="on_change_ssr('for_free{{for_free_counter}}_{{forloop.counter}}hidden','for_free{{for_free_counter}}_{{forloop.counter}}')">
-                                                {% for code in for_free.ssr_codes%}
-                                                <option value="{{code.ssr_code}}">{{code.description}} {% if code.description != '' %} - IDR {{code.amount}} {% elif code.description == '' %} Not Selected {% endif %}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <input type="hidden" id="for_free{{for_free_counter}}_{{forloop.counter}}hidden" value="0"/>
-                                        {% endfor %}
-                                    </div>
-                                    {% endwith %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-
-                        {% if airline_ssrs.ssr_codes.meal_per_segment|length != 0 %}
-                        <div class="col-lg-12" style="padding-bottom:20px;">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Meal </span>
-                                </center>
-                            </div>
-                            <div style="background-color:white; padding:10px;">
-                                <div class="row">
-                                    {% for meal in airline_ssrs.ssr_codes.meal_per_segment%}
-                                    {% with forloop.counter as meal_counter%}
-                                    <div class="col-lg-6">
-                                        <h5>{{meal.segment_code2}}</h5>
-                                        {% for passenger in passengers%}
-                                        <span>{{passenger.title}} {{passenger.first_name}} {{passenger.last_name}}</span><br/>
-                                        <div class="form-select">
-                                            <select id="meal{{meal_counter}}_{{forloop.counter}}" name="meal{{meal_counter}}_{{forloop.counter}}" onchange="on_change_ssr('meal{{meal_counter}}_{{forloop.counter}}hidden','meal{{meal_counter}}_{{forloop.counter}}')">
-                                                {% for code in meal.ssr_codes%}
-                                                <option value="{{code.ssr_code}}">{{code.description}} {% if code.description != '' %} - IDR {{code.amount}} {% elif code.description == '' %} Not Selected {% endif %}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <input type="hidden" id="meal{{meal_counter}}_{{forloop.counter}}hidden" value="0"/>
-                                        {% endfor %}
-                                    </div>
-                                    {% endwith %}
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </div>
-                        {% endif %}
-
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div style="background-color:#f15a22;">
-                        <center>
-                            <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
-                        </center>
+                    <div class="row" style="padding-bottom:15px;">
+                    <div class="col-lg-12">
+                        <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                            <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                            <hr/>
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                            <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        </div>
                     </div>
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #f15a22;" id="airline_detail">
+                </div>
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
-
-                    <div style="padding-top:20px;">
-                        <input class="primary-btn hold-seat-booking-train" type="submit" value="Next" style="width:100%;"/>
-                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <button class="btn-next primary-btn next-passenger-train ld-ext-right" style="width:100%;" value="Next" onclick="next_disabled();next_ssr();">
+                        Next
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
                 </div>
             </div>
         </form>
+        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
     </div>
 </section>
 
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        Dapatkan Penawaran Langsung di Inbox Email Anda!
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fas fa-facebook-square"></i></a>
-                <a href="#"><i class="fas fa-twitter-square"></i></a>
-                <a href="#"><i class="fas fa-instagram"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <script>
-    airline_create_passengers();
     airline_detail();
+    //get_airline_review();
 </script>
-
+<!-- loader -->
 {% endblock %}

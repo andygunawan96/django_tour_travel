@@ -91,16 +91,20 @@ def api_models(request):
             res = get_fare_rules(request)
         elif req_data['action'] == 'sell_journeys':
             res = sell_journeys(request)
+        elif req_data['action'] == 'get_ssr_availabilty':
+            res = get_ssr_availabilty(request)
+        elif req_data['action'] == 'get_seat_availability':
+            res = get_seat_availability(request)
+        elif req_data['action'] == 'get_seat_map_response':
+            res = get_seat_map_response(request)
         elif req_data['action'] == 'update_contacts':
             res = update_contacts(request)
         elif req_data['action'] == 'update_passengers':
             res = update_passengers(request)
-        elif req_data['action'] == 'get_buy_information':
-            res = get_buy_information(request)
-        elif req_data['action'] == 'create_passengers':
-            res = create_passengers(request)
-        elif req_data['action'] == 'ssr':
-            res = set_ssr_ff(request)
+        elif req_data['action'] == 'sell_ssrs':
+            res = sell_ssrs(request)
+        elif req_data['action'] == 'assign_seats':
+            res = assign_seats(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'update_service_charge':
@@ -109,6 +113,13 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
+        # elif req_data['action'] == 'get_buy_information':
+        #     res = get_buy_information(request)
+        # elif req_data['action'] == 'create_passengers':
+        #     res = create_passengers(request)
+        # elif req_data['action'] == 'ssr':
+        #     res = set_ssr_ff(request)
+
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -235,12 +246,12 @@ def get_provider_list(request):
 def search2(request):
     # get_data_awal
     try:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -248,9 +259,10 @@ def search2(request):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
 
@@ -279,8 +291,8 @@ def search2(request):
                     month[request.session['airline_request']['departure'][idx].split(' ')[1]],
                     request.session['airline_request']['departure'][idx].split(' ')[0])
                 journey_list.append({
-                    'origin': request.session['airline_request']['origin'][idx][-4:][:3],
-                    'destination': request.session['airline_request']['destination'][idx][-4:][:3],
+                    'origin': request.session['airline_request']['origin'][idx].split(' - ')[0],
+                    'destination': request.session['airline_request']['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
             cabin_class = request.session['airline_request']['cabin_class'][0]
@@ -291,8 +303,8 @@ def search2(request):
                     month[request.session['airline_request']['departure'][idx].split(' ')[1]],
                     request.session['airline_request']['departure'][idx].split(' ')[0])
                 journey_list.append({
-                    'origin': request.session['airline_request']['origin'][idx][-4:][:3],
-                    'destination': request.session['airline_request']['destination'][idx][-4:][:3],
+                    'origin': request.session['airline_request']['origin'][idx].split(' - ')[0],
+                    'destination': request.session['airline_request']['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
             cabin_class = request.session['airline_request']['cabin_class'][0]
@@ -304,8 +316,8 @@ def search2(request):
                 month[request.session['airline_request']['return'][0].split(' ')[1]],
                 request.session['airline_request']['return'][0].split(' ')[0])
             journey_list.append({
-                'origin': request.session['airline_request']['destination'][0][-4:][:3],
-                'destination': request.session['airline_request']['origin'][0][-4:][:3],
+                'origin': request.session['airline_request']['destination'][0].split(' - ')[0],
+                'destination': request.session['airline_request']['origin'][0].split(' - ')[0],
                 'departure_date': departure_date
             })
             cabin_class = request.session['airline_request']['cabin_class'][0]
@@ -317,8 +329,8 @@ def search2(request):
                 month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
                 request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
             journey_list.append({
-                'origin': request.session['airline_request']['origin'][0][-4:][:3],
-                'destination': request.session['airline_request']['destination'][0][-4:][:3],
+                'origin': request.session['airline_request']['origin'][int(request.POST['counter_search'])].split(' - ')[0],
+                'destination': request.session['airline_request']['destination'][int(request.POST['counter_search'])].split(' - ')[0],
                 'departure_date': departure_date
             })
             cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
@@ -437,39 +449,27 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = open("version_cache.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open("airline_destination.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
 
-        airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
-                des.update({
-                    'country': country
-                })
-                airline_destinations.append(des)
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    return airline_destinations
+    return response
 
 def get_price_itinerary(request, boolean):
     try:
         #baru
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -477,9 +477,10 @@ def get_price_itinerary(request, boolean):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
         #baru
@@ -513,7 +514,7 @@ def get_price_itinerary(request, boolean):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
 
     try:
         if res['result']['error_code'] == 0:
@@ -592,10 +593,12 @@ def get_price_itinerary(request, boolean):
                                     break
             request.session['airline_price_itinerary'] = res['result']['response']
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
+        elif boolean == True:
+            pass
         else:
             # if(request.session['airline_request']['direction'] == 'RT'):
             #MC atau RT SEPARATE
-            get_price_itinerary(request, True)
+            res = get_price_itinerary(request, True)
     except Exception as e:
         get_price_itinerary(request, True)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -665,8 +668,144 @@ def sell_journeys(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def get_ssr_availabilty(request):
+    data = {}
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_ssr_availability",
+        "signature": request.POST['signature'],
+    }
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    try:
+        for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
+            for ssr_availability in ssr_availability_provider['ssr_availability']:
+                for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                    ssrs.update({
+                        'origin': ssrs['segments'][0]['origin'],
+                        'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                    })
+                    for ssr in ssrs['ssrs']:
+                        total = 0
+                        currency = ''
+                        for service_charge in ssr['service_charges']:
+                            currency = service_charge['currency']
+                            total = service_charge['amount']
+                        ssr['total_price'] = total
+                        ssr['currency'] = currency
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    request.session['airline_get_ssr'] = res
+    return res
+
+def get_seat_availability(request):
+    data = {}
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_seat_availability",
+        "signature": request.POST['signature'],
+    }
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    request.session['airline_get_seat_availability'] = res
+    return res
+
+def get_seat_map_response(request):
+    return request.session['airline_get_seat_availability']['result']['response']
+
+def set_ssr_ff(request):
+    #nanti ganti ke get_ssr_availability
+    ff_request = []
+    buy_ssrs_request = []
+
+    segments = []
+    segment_list = []
+    pax = []
+    ssr_code = []
+    segment_code = ''
+    check = 0
+    for journey in request.session['airline_request_ssr']:
+        for segment in journey:
+            check = 0
+            for list in segment_list:
+                if segment['segment_code'] == list:
+                    check = 1
+            if check == 0:
+                segment_list.append(segment['segment_code'])
+            segment_code = segment['segment_code']
+            for ssr in segment['passengers']['ssr_codes']:
+                ssr_code.append(ssr['ssr_code'])
+            print('a')
+            pax.append({
+                'segment_code': segment_code,
+                'passenger_number': segment['passengers']['passenger_number'],
+                'ssr_codes': ssr_code
+            })
+            ssr_code = []
+        segments.append({
+            'passengers': pax
+        })
+        pax = []
+
+    for segment in segments:
+        for passenger in segment['passengers']:
+            pax.append(passenger)
+
+    segments = []
+    new_pax = []
+    for segment in segment_list:
+        for idx, passenger in enumerate(pax):
+            if passenger['segment_code'] == segment:
+                new_pax.append({
+                    'passenger_number': passenger['passenger_number'],
+                    'ssr_codes': passenger['ssr_codes']
+                })
+        buy_ssrs_request.append({
+            "segment_code": segment,
+            "passengers": new_pax
+        })
+        new_pax = []
+
+    #ff_request nanti perbaiki belom di coding
+    data = {
+        "buy_ssrs_request": buy_ssrs_request,
+        "ff_request": ff_request
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "set_ssr_ff",
+        "signature": request.session['airline_signature'],
+    }
+
+    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
+
+    return res
+
 def update_contacts(request):
     try:
+        booker = request.session['airline_create_passengers']['booker']
+        contacts = request.session['airline_create_passengers']['contact']
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_code'] == country['name']:
+                booker['nationality_code'] = country['code']
+                break
+
+        for pax in request.session['airline_create_passengers']['contact']:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         data = {
             'booker': request.session['airline_create_passengers']['booker'],
             'contacts': request.session['airline_create_passengers']['contact']
@@ -692,12 +831,34 @@ def update_contacts(request):
 
 def update_passengers(request):
     try:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            file_cache_name = line
+        file.close()
+
+        file = open('version' + str(file_cache_name) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
         passenger = []
         for pax in request.session['airline_create_passengers']['adult']:
+            nationality_code = ''
+            country_of_issued_code = ''
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == country['name']:
+                    nationality_code = country['code']
+                    break
+            if pax['country_of_issued_code'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['country_of_issued_code'] == country['name']:
+                        country_of_issued_code = country['code']
+                        break
             pax.update({
                 'birth_date': '%s-%s-%s' % (
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0])
+                    pax['birth_date'].split(' ')[0]),
+                'nationality_code': nationality_code,
+                'country_of_issued_code': country_of_issued_code
             })
             if pax['passport_expdate'] != '':
                 pax.update({
@@ -707,10 +868,23 @@ def update_passengers(request):
                 })
             passenger.append(pax)
         for pax in request.session['airline_create_passengers']['child']:
+            nationality_code = ''
+            country_of_issued_code = ''
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == country['name']:
+                    nationality_code = country['code']
+                    break
+            if pax['country_of_issued_code'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['country_of_issued_code'] == country['name']:
+                        country_of_issued_code = country['code']
+                        break
             pax.update({
                 'birth_date': '%s-%s-%s' % (
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0])
+                    pax['birth_date'].split(' ')[0]),
+                'nationality_code': nationality_code,
+                'country_of_issued_code': country_of_issued_code
             })
             if pax['passport_expdate'] != '':
                 pax.update({
@@ -719,19 +893,32 @@ def update_passengers(request):
                         pax['passport_expdate'].split(' ')[0])
                 })
             passenger.append(pax)
-            for pax in request.session['airline_create_passengers']['infant']:
+        for pax in request.session['airline_create_passengers']['infant']:
+            nationality_code = ''
+            country_of_issued_code = ''
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_code'] == country['name']:
+                    nationality_code = country['code']
+                    break
+            if pax['country_of_issued_code'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['country_of_issued_code'] == country['name']:
+                        country_of_issued_code = country['code']
+                        break
+            pax.update({
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
+                'nationality_code': nationality_code,
+                'country_of_issued_code': country_of_issued_code
+            })
+            if pax['passport_expdate'] != '':
                 pax.update({
-                    'birth_date': '%s-%s-%s' % (
-                        pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                        pax['birth_date'].split(' ')[0])
+                    'passport_expdate': '%s-%s-%s' % (
+                        pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
+                        pax['passport_expdate'].split(' ')[0])
                 })
-                if pax['passport_expdate'] != '':
-                    pax.update({
-                        'passport_expdate': '%s-%s-%s' % (
-                            pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                            pax['passport_expdate'].split(' ')[0])
-                    })
-                passenger.append(pax)
+            passenger.append(pax)
         data = {
             'passengers': passenger
         }
@@ -744,6 +931,58 @@ def update_passengers(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def sell_ssrs(request):
+    try:
+
+        data = {
+            'sell_ssrs_request': request.session['airline_ssr_request']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_ssrs",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    if request.session['airline_ssr_request'] != {}:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        if request.session['airline_ssr_request'] == {}:
+            logging.getLogger("error_logger").error("NO SSR")
+        else:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def assign_seats(request):
+    try:
+        data = {
+            'segment_seat_request': request.session['airline_seat_request']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "assign_seats",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
@@ -798,12 +1037,12 @@ def get_booking(request):
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
-        file = open("version_cache.txt", "r")
+        file = open("javascript_version.txt", "r")
         for line in file:
             file_cache_name = line
         file.close()
 
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(file_cache_name) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -811,9 +1050,10 @@ def get_booking(request):
         # airline
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
+            for des in country['destinations']:
                 des.update({
-                    'country': country
+                    'country': country['code'],
+                    'country_name': country['name']
                 })
                 airline_destinations.append(des)
 
@@ -1052,71 +1292,3 @@ def create_passengers(request):
 
     return res
 
-def set_ssr_ff(request):
-    #nanti ganti ke get_ssr_availability
-    ff_request = []
-    buy_ssrs_request = []
-
-    segments = []
-    segment_list = []
-    pax = []
-    ssr_code = []
-    segment_code = ''
-    check = 0
-    for journey in request.session['airline_request_ssr']:
-        for segment in journey:
-            check = 0
-            for list in segment_list:
-                if segment['segment_code'] == list:
-                    check = 1
-            if check == 0:
-                segment_list.append(segment['segment_code'])
-            segment_code = segment['segment_code']
-            for ssr in segment['passengers']['ssr_codes']:
-                ssr_code.append(ssr['ssr_code'])
-            print('a')
-            pax.append({
-                'segment_code': segment_code,
-                'passenger_number': segment['passengers']['passenger_number'],
-                'ssr_codes': ssr_code
-            })
-            ssr_code = []
-        segments.append({
-            'passengers': pax
-        })
-        pax = []
-
-    for segment in segments:
-        for passenger in segment['passengers']:
-            pax.append(passenger)
-
-    segments = []
-    new_pax = []
-    for segment in segment_list:
-        for idx, passenger in enumerate(pax):
-            if passenger['segment_code'] == segment:
-                new_pax.append({
-                    'passenger_number': passenger['passenger_number'],
-                    'ssr_codes': passenger['ssr_codes']
-                })
-        buy_ssrs_request.append({
-            "segment_code": segment,
-            "passengers": new_pax
-        })
-        new_pax = []
-
-    #ff_request nanti perbaiki belom di coding
-    data = {
-        "buy_ssrs_request": buy_ssrs_request,
-        "ff_request": ff_request
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "set_ssr_ff",
-        "signature": request.session['airline_signature'],
-    }
-
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
-
-    return res
