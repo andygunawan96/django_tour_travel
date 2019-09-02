@@ -192,20 +192,19 @@ function activity_get_detail(uuid, provider){
            try{
                if(msg.result.error_code == 0){
                    activity_type = msg.result.response;
-                   console.log(msg);
                    var counti = 0;
                    var temp = ``;
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`);">
+                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`);">
+                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
@@ -213,7 +212,7 @@ function activity_get_detail(uuid, provider){
                        counti++;
                    }
                    $('#ticket_type').html(temp);
-                   activity_get_price(0);
+                   activity_get_price(0, true);
                }else{
                    try{
                        alert(msg.result.error_msg);
@@ -223,6 +222,7 @@ function activity_get_detail(uuid, provider){
                }
            }catch(err){
                try{
+                   console.log('here')
                    alert(msg.error_msg);
                }catch(err){
                    alert(msg.result.error_msg);
@@ -237,35 +237,35 @@ function activity_get_detail(uuid, provider){
     });
 }
 
-function activity_get_price(val){
-    if(parseInt(activity_type_pick) != val){
+function activity_get_price(val, bool){
+    if(parseInt(activity_type_pick) != val || bool == true){
         activity_type_pick = val;
         document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
-           text+=`<h3 style="padding:0 10px;">Validity</h3>
+           text+=`<h3 style="padding:0 20px;">Validity</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherUse != ''){
-           text+=`<h3 style="padding:0 10px;">Voucher Use</h3>
+           text+=`<h3 style="padding:0 20px;">Voucher Use</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRedemptionAddress != ''){
-           text+=`<h3 style="padding:0 10px;">Voucher Address</h3>
+           text+=`<h3 style="padding:0 20px;">Voucher Address</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h3 style="padding:0 10px;">Voucher Print</h3>
+           text+=`<h3 style="padding:0 20px;">Voucher Print</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
-           text+=`<h3 style="padding:0 10px;">Cancellation Policies</h3>
+           text+=`<h3 style="padding:0 20px;">Cancellation Policies</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
         }
 
         document.getElementById('vouchers').innerHTML = text;
-
+        console.log('asda');
         document.getElementById('date').innerHTML = `
             <div class="col-sm-6 form-group departure_date" style="padding:15px;">
                 <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
@@ -319,7 +319,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
            if(msg.result.error_code == 0){
                activity_date = msg.result.response;
                is_avail = 0
-               console.log(activity_date[event_pick]);
+               console.log(activity_date);
                document.getElementById("activity_date").disabled = false;
                for(i in activity_date[event_pick]){
                    console.log(moment(document.getElementById('activity_date').value).format('YYYY-MM-DD'));
@@ -713,12 +713,12 @@ function activity_get_booking(data){
 
              <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:90%;"/>
+                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
              </div>
              <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:90%;" onclick="show_commission();"/>
+                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
              </div>
            <div style="text-align:center;">

@@ -111,6 +111,7 @@ function tour_search(){
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.response.result;
+               $('#loading-search-tour').hide();
                if (tour_data.length == 0)
                {
                     text += `
@@ -300,8 +301,39 @@ function tour_get_details(package_id){
                     }
                     image_text += `</div>`;
 
+                    for (it_idx in tour_data[i].itinerary_ids)
+                    {
+                        itinerary_text += `<h4> Day `+tour_data[i].itinerary_ids[it_idx].day+` - `+tour_data[i].itinerary_ids[it_idx].name+`</h4><hr/>`;
+                        itinerary_text += `<div class="row">`;
+                        for(it_item in tour_data[i].itinerary_ids[it_idx].items)
+                        {
+                            itinerary_text += `<div class="col-lg-3" style="padding-bottom: 15px;"><div style="border: 1px solid #cdcdcd;"><div style="object-fit: cover;">`;
+                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].image)
+                            {
+                                itinerary_text += `<img src="`+tour_data[i].itinerary_ids[it_idx].items[it_item].image+`" style="width:100%; height: 200px;"/>`;
+                            }
+                            else
+                            {
+                                itinerary_text += `<img src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
+                            }
+                            itinerary_text += `</div>`;
 
-                    itinerary_text += tour_data[i].itinerary;
+                            itinerary_text += `<div style="padding:10px;"><span style="font-size: 15px; font-weight: bold;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].name+`</span><br/>`;
+                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].description)
+                            {
+                                itinerary_text += `<span style="font-size: 14px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].description+`</span><br/>`;
+                            }
+                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot)
+                            {
+                                itinerary_text += `<span style="font-size: 14px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot+`</span>`;
+                            }
+
+                            itinerary_text += `</div></div></div>`;
+                        }
+                        itinerary_text += `</div>`;
+                        itinerary_text += `<br/><br/>`;
+                    }
+
                     remarks_text += tour_data[i].requirements;
                     if (tour_data[i].flight == 'include')
                     {

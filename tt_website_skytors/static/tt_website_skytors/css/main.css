@@ -6395,8 +6395,8 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 }
 
 .tab-menu-activity.active {
-     color: black;
-     background-color:white;
+     color: white;
+     background-color:rgba(30, 30, 30, 0.8);
 }
 
 .nav-tabs-activity {
