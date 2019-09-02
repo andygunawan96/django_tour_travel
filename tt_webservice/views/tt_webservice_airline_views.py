@@ -368,6 +368,7 @@ def search2(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
+        print(res)
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['journey_list']:
                 for journey in journey_list['journeys']:
@@ -445,7 +446,11 @@ def search2(request):
             logging.getLogger("error_logger").error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res['result']
+    try:
+        response_search = res['result']
+    except:
+        response_search = res
+    return response_search
 
 def get_data(request):
     try:
@@ -501,7 +506,6 @@ def get_price_itinerary(request, boolean):
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
             "journeys_booking": journey_booking,
-
         }
         request.session['airline_get_price_request'] = data
         headers = {
@@ -606,13 +610,7 @@ def get_price_itinerary(request, boolean):
 
 def get_fare_rules(request):
     try:
-        data = {
-            "promotion_code": [],
-            "adult": int(request.session['airline_request']['adult']),
-            "child": int(request.session['airline_request']['child']),
-            "infant": int(request.session['airline_request']['infant']),
-            "journeys_booking": json.loads(request.POST['journeys_booking'])
-        }
+        data = request.session['airline_get_price_request']
         request.session['airline_get_price_request'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -635,20 +633,7 @@ def get_fare_rules(request):
 def sell_journeys(request):
     #nanti ganti ke select journey
     try:
-        journeys_booking = request.session['airline_get_price_request']['journeys_booking']
-        for journey in journeys_booking:
-            for segment in journey['segments']:
-                try:
-                    segment.pop('fare_pick')
-                except:
-                    continue
-        data = {
-            "promotion_code": [],
-            "adult": request.session['airline_get_price_request']['adult'],
-            "child": request.session['airline_get_price_request']['child'],
-            "infant": request.session['airline_get_price_request']['infant'],
-            "journeys_booking": journeys_booking
-        }
+        data = request.session['airline_get_price_request']
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -714,74 +699,7 @@ def get_seat_availability(request):
 def get_seat_map_response(request):
     return request.session['airline_get_seat_availability']['result']['response']
 
-def set_ssr_ff(request):
-    #nanti ganti ke get_ssr_availability
-    ff_request = []
-    buy_ssrs_request = []
 
-    segments = []
-    segment_list = []
-    pax = []
-    ssr_code = []
-    segment_code = ''
-    check = 0
-    for journey in request.session['airline_request_ssr']:
-        for segment in journey:
-            check = 0
-            for list in segment_list:
-                if segment['segment_code'] == list:
-                    check = 1
-            if check == 0:
-                segment_list.append(segment['segment_code'])
-            segment_code = segment['segment_code']
-            for ssr in segment['passengers']['ssr_codes']:
-                ssr_code.append(ssr['ssr_code'])
-            print('a')
-            pax.append({
-                'segment_code': segment_code,
-                'passenger_number': segment['passengers']['passenger_number'],
-                'ssr_codes': ssr_code
-            })
-            ssr_code = []
-        segments.append({
-            'passengers': pax
-        })
-        pax = []
-
-    for segment in segments:
-        for passenger in segment['passengers']:
-            pax.append(passenger)
-
-    segments = []
-    new_pax = []
-    for segment in segment_list:
-        for idx, passenger in enumerate(pax):
-            if passenger['segment_code'] == segment:
-                new_pax.append({
-                    'passenger_number': passenger['passenger_number'],
-                    'ssr_codes': passenger['ssr_codes']
-                })
-        buy_ssrs_request.append({
-            "segment_code": segment,
-            "passengers": new_pax
-        })
-        new_pax = []
-
-    #ff_request nanti perbaiki belom di coding
-    data = {
-        "buy_ssrs_request": buy_ssrs_request,
-        "ff_request": ff_request
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "set_ssr_ff",
-        "signature": request.session['airline_signature'],
-    }
-
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
-
-    return res
 
 def update_contacts(request):
     try:
@@ -1292,3 +1210,71 @@ def create_passengers(request):
 
     return res
 
+def set_ssr_ff(request):
+    #nanti ganti ke get_ssr_availability
+    ff_request = []
+    buy_ssrs_request = []
+
+    segments = []
+    segment_list = []
+    pax = []
+    ssr_code = []
+    segment_code = ''
+    check = 0
+    for journey in request.session['airline_request_ssr']:
+        for segment in journey:
+            check = 0
+            for list in segment_list:
+                if segment['segment_code'] == list:
+                    check = 1
+            if check == 0:
+                segment_list.append(segment['segment_code'])
+            segment_code = segment['segment_code']
+            for ssr in segment['passengers']['ssr_codes']:
+                ssr_code.append(ssr['ssr_code'])
+            print('a')
+            pax.append({
+                'segment_code': segment_code,
+                'passenger_number': segment['passengers']['passenger_number'],
+                'ssr_codes': ssr_code
+            })
+            ssr_code = []
+        segments.append({
+            'passengers': pax
+        })
+        pax = []
+
+    for segment in segments:
+        for passenger in segment['passengers']:
+            pax.append(passenger)
+
+    segments = []
+    new_pax = []
+    for segment in segment_list:
+        for idx, passenger in enumerate(pax):
+            if passenger['segment_code'] == segment:
+                new_pax.append({
+                    'passenger_number': passenger['passenger_number'],
+                    'ssr_codes': passenger['ssr_codes']
+                })
+        buy_ssrs_request.append({
+            "segment_code": segment,
+            "passengers": new_pax
+        })
+        new_pax = []
+
+    #ff_request nanti perbaiki belom di coding
+    data = {
+        "buy_ssrs_request": buy_ssrs_request,
+        "ff_request": ff_request
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "set_ssr_ff",
+        "signature": request.session['airline_signature'],
+    }
+
+    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
+
+    return res
