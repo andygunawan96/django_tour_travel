@@ -220,7 +220,7 @@ function activity_table_detail(){
    document.getElementById('activity_detail_table').innerHTML = text;
    text_btn = `
        <center>
-       <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:90%;">
+       <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:100%;">
             Next
             <i class="fas fa-angle-right"></i>
        </button><br/>
@@ -368,7 +368,7 @@ function activity_table_detail2(adult, senior, child, infant, pagetype){
    {
         text_btn = `
             <center>
-            <button type="button" class="primary-btn-ticket" value="Next" onclick='check_passenger();' style="width:90%;">
+            <button type="button" class="primary-btn-ticket" value="Next" onclick='check_passenger();' style="width:100%;">
                 Next
                 <i class="fas fa-angle-right"></i>
             </button>
@@ -522,7 +522,7 @@ function check_detail(){
                 check=1;
             }
             if(check==0){
-                text+= 'Please pick timeslot\n';
+                text+= 'Please pick timeslot!\n';
             }
         }
     }
