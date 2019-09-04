@@ -296,7 +296,7 @@ def search2(request):
                     'departure_date': departure_date
                 })
             cabin_class = request.session['airline_request']['cabin_class'][0]
-        elif request.session['airline_request']['direction'] == 'RT' and request.POST['provider'] in provider:
+        elif request.session['airline_request']['direction'] == 'RT':
             for idx, i in enumerate(request.session['airline_request']['origin']):
                 departure_date = '%s-%s-%s' % (
                     request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
@@ -308,20 +308,6 @@ def search2(request):
                     'departure_date': departure_date
                 })
             cabin_class = request.session['airline_request']['cabin_class'][0]
-
-        elif request.session['airline_request']['direction'] == 'RT' and int(request.POST['counter_search']) != 0:
-            #RT
-            departure_date = '%s-%s-%s' % (
-                request.session['airline_request']['return'][0].split(' ')[2],
-                month[request.session['airline_request']['return'][0].split(' ')[1]],
-                request.session['airline_request']['return'][0].split(' ')[0])
-            journey_list.append({
-                'origin': request.session['airline_request']['destination'][0].split(' - ')[0],
-                'destination': request.session['airline_request']['origin'][0].split(' - ')[0],
-                'departure_date': departure_date
-            })
-            cabin_class = request.session['airline_request']['cabin_class'][0]
-            is_combo_price = False
         else:
             #default
             departure_date = '%s-%s-%s' % (
@@ -344,10 +330,6 @@ def search2(request):
         data = {
             "journey_list": journey_list,
             "direction": direction,
-            # "origin": origin,
-            # "destination": destination,
-            # "departure_date": departure_date,
-            # "return_date": return_date,
             "is_combo_price": is_combo_price,
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
