@@ -317,7 +317,7 @@
 </header>
 {% elif template == 3%}
 <header id="header" id="home">
-    <div class="main-menu">
+    <div class="main-menu" style="background:rgba(0, 0, 0, 0.5);">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
                 <div class="col-lg-12" style="padding:0px 0px 0px 15px;">
@@ -335,8 +335,8 @@
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="index.html">Home</a></li>
                         {% if username != null %}
-                        <li class="pt5"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                        <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                        <li><a href="https://backend.rodextrip.com">Backend</a></li>
                         <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
                         <li class="menu-has-children"><a href="#">Top Up</a>
                             <ul>
@@ -456,7 +456,7 @@
                 </div>
             </div>
         </div>
-        <div class="row align-items-center bg-white" style="border-radius: 4px; padding:5px;">
+        <div class="row align-items-center" style="border-radius: 4px; padding:5px; background:rgba(255,255,255,0.9);">
             <div class="col-6 col-xl-2">
                 <h1 class="mb-0 site-logo"><a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a></h1>
             </div>
@@ -597,10 +597,10 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-active" style="margin-top:8px;"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
+                        <li style="margin-top:8px;"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
                         {% if username != null %}
-                        <li class="pt5"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                        <li style="margin-top:8px;"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                        <li style="margin-top:8px;"><a href="https://backend.rodextrip.com">Backend</a></li>
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
                         <li class="menu-has-children" style="margin-top:8px;"><a href="">Top Up <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul>

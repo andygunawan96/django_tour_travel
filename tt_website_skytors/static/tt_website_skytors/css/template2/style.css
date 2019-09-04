@@ -1676,6 +1676,7 @@ html .ui-button.ui-state-disabled:active {
 
 .roberto-service-area {
   position: relative;
+  background:#f7f7f7;
   z-index: 1; }
   @media only screen and (max-width: 767px) {
     .roberto-service-area .service-content {

@@ -50,6 +50,8 @@ def api_models(request):
             res = get_account(request)
         elif req_data['action'] == 'get_transactions':
             res = get_transactions(request)
+        elif req_data['action'] == 'get_version':
+            res = get_version(request)
         elif req_data['action'] == 'get_top_up_amount':
             res = get_top_up_amount(request)
         elif req_data['action'] == 'get_top_up':
@@ -65,6 +67,22 @@ def api_models(request):
     except Exception as e:
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
+
+def get_version(request):
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        file_cache_name = line
+    file.close()
+    res = {
+        'result': {
+            'error_code': 0,
+            'error_msg': '',
+            'response': {
+                'version': file_cache_name
+            }
+        }
+    }
+    return res
 
 def get_account(request):
     try:
