@@ -192,20 +192,19 @@ function activity_get_detail(uuid, provider){
            try{
                if(msg.result.error_code == 0){
                    activity_type = msg.result.response;
-                   console.log(msg);
                    var counti = 0;
                    var temp = ``;
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`);">
+                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`);">
+                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
@@ -213,7 +212,7 @@ function activity_get_detail(uuid, provider){
                        counti++;
                    }
                    $('#ticket_type').html(temp);
-                   activity_get_price(0);
+                   activity_get_price(0, true);
                }else{
                    try{
                        alert(msg.result.error_msg);
@@ -223,6 +222,7 @@ function activity_get_detail(uuid, provider){
                }
            }catch(err){
                try{
+                   console.log('here')
                    alert(msg.error_msg);
                }catch(err){
                    alert(msg.result.error_msg);
@@ -237,35 +237,34 @@ function activity_get_detail(uuid, provider){
     });
 }
 
-function activity_get_price(val){
-    if(parseInt(activity_type_pick) != val){
+function activity_get_price(val, bool){
+    if(parseInt(activity_type_pick) != val || bool == true){
         activity_type_pick = val;
         document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
-           text+=`<h3 style="padding:0 10px;">Validity</h3>
+           text+=`<h3 style="padding:0 20px;">Validity</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherUse != ''){
-           text+=`<h3 style="padding:0 10px;">Voucher Use</h3>
+           text+=`<h3 style="padding:0 20px;">Voucher Use</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRedemptionAddress != ''){
-           text+=`<h3 style="padding:0 10px;">Voucher Address</h3>
+           text+=`<h3 style="padding:0 20px;">Voucher Address</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h3 style="padding:0 10px;">Voucher Print</h3>
+           text+=`<h3 style="padding:0 20px;">Voucher Print</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
-           text+=`<h3 style="padding:0 10px;">Cancellation Policies</h3>
+           text+=`<h3 style="padding:0 20px;">Cancellation Policies</h3>
                 <p style="padding:0 20px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
         }
 
         document.getElementById('vouchers').innerHTML = text;
-
         document.getElementById('date').innerHTML = `
             <div class="col-sm-6 form-group departure_date" style="padding:15px;">
                 <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
@@ -319,7 +318,8 @@ function activity_get_price_date(activity_type_pick, pricing_days){
            if(msg.result.error_code == 0){
                activity_date = msg.result.response;
                is_avail = 0
-               console.log(activity_date[event_pick]);
+               act_date_data = JSON.stringify(activity_date).replace(/'/g, '');
+               document.getElementById('activity_date_div').innerHTML = `<input type='hidden' id='activity_date_data' name='activity_date_data' value='`+act_date_data+`'/>`;
                document.getElementById("activity_date").disabled = false;
                for(i in activity_date[event_pick]){
                    console.log(moment(document.getElementById('activity_date').value).format('YYYY-MM-DD'));
@@ -344,6 +344,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                else
                {
                    text = '';
+                   detail_for_session = JSON.stringify(activity_type).replace(/'/g, '');
                    for(i in activity_type[activity_type_pick].skus)
                    {
                         low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
@@ -359,6 +360,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    }
 
                    document.getElementById('pax').innerHTML = text;
+                   document.getElementById('details_div').innerHTML = `<input type='hidden' id='details_data' name='details_data' value='`+detail_for_session+`'/>`;
                    text = '';
                    for(i in activity_type[activity_type_pick].options.perBooking){
                         if(activity_type[activity_type_pick].options.perBooking[i].name != 'Guest age' &&
@@ -418,6 +420,9 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14){
                                 //flight number
                                 text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 50){
+                                //string validation
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
                             }
                             text+=`<label>`+activity_type[activity_type_pick].options.perBooking[i].description+`</label><br/>`;
                         }
@@ -450,16 +455,11 @@ function activity_get_price_date(activity_type_pick, pricing_days){
 
                    if(activity_type[activity_type_pick].timeslots.length>0){
                        text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
-                                <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot" id="timeslot">`;
-                       var temp_timeslotco = 0;
+                                <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+                       text += `<option value=''>Please Pick a Timeslot!</option>`;
                        for(j in activity_type[activity_type_pick].timeslots)
                        {
-                            if (temp_timeslotco == 0)
-                            {
-                                timeslot_change(j);
-                            }
-                            text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`" onclick='timeslot_change(`+j+`);'>`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
-                            temp_timeslotco += 1;
+                            text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`">`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
                        }
 
                        text += `</select></div>`;
@@ -713,12 +713,12 @@ function activity_get_booking(data){
 
              <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:90%;"/>
+                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
              </div>
              <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:90%;" onclick="show_commission();"/>
+                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
              </div>
            <div style="text-align:center;">

@@ -161,6 +161,8 @@ function airline_goto_search(){
             error_log+= 'Please use autocomplete for origin\n';
         if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for destination\n';
+        if(document.getElementById('origin_id_flight').value.split(' - ')[3] == document.getElementById('destination_id_flight').value.split(' - ')[3] && document.getElementById('destination_id_flight').value.split(' - ')[3] == 'Indonesia')
+            error_log+= "Sorry domestic airline still under development!\n";
 
     }else{
         for(var i=1;i<=counter_airline_search;i++){
@@ -173,8 +175,10 @@ function airline_goto_search(){
     if(error_log == ''){
         document.getElementById('counter').value = counter_airline_search;
         document.getElementById('airline_searchForm').submit();
-    }else
-        alert(error_log)
+    }else{
+        document.getElementById("airline_button_search").classList.remove("running");
+        alert(error_log);
+    }
 }
 
 function return_airline(){
@@ -271,10 +275,9 @@ function add_multi_city(type){
                             </div>
                         </ul>
                     </div>
-                </div>`;
-                text_paxs+=`
-                <div class="col-lg-4 col-md-4 col-sm-4" style="">
-                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                     <div class="input-container-search-ticket btn-group">
                         <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
                         <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
@@ -282,32 +285,58 @@ function add_multi_city(type){
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-4" style="">
-                    <span class="span-search-ticket">Class</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <div class="form-select" id="default-select`+counter_airline_search+`">
-                            <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
-                            for(i in cabin_class){
-                                try{
-                                    if(type == 'search'){
-                                        if(airline_request.cabin_class[0] == cabin_class[i].value)
-                                            text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                        else
-                                            text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                    }else if(i == 0){
-                                        if(type == 'home')
-                                            text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                        else
-                                            text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                    }else
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }catch(err){
-                                    if(i == 0)
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <span class="span-search-ticket">Class</span>`;
+                    if(template == 1){
+                        text_paxs += `
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" id="default-select`+counter_airline_search+`">
+                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                    }
+                    else if(template == 2){
+                        text_paxs += `
+                        <div>
+                            <div class="form-select" id="default-select`+counter_airline_search+`">
+                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                    }
+                    else if(template == 3){
+                        text_paxs += `
+                       <div class="form-group">
+                            <div class="default-select" id="default-select`+counter_airline_search+`">
+                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                    }
+                    else if(template == 4){
+                        text_paxs += `
+                        <div class="select-wrap">
+                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                            <select class="form-control rounded" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                    }
+                    else if(template == 5){
+                        text_paxs += `
+                        <div>
+                            <select class="app-select form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                    }
+                        for(i in cabin_class){
+                            try{
+                                if(type == 'search'){
+                                    if(airline_request.cabin_class[0] == cabin_class[i].value)
                                         text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
                                     else
                                         text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }
+                                }else if(i == 0){
+                                    if(type == 'home')
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }else
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                            }catch(err){
+                                if(i == 0)
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                else
+                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
                             }
+                        }
                      text_paxs+=`</select>
                         </div>
                     </div>
@@ -317,8 +346,9 @@ function add_multi_city(type){
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
             get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
-            $('#cabin_class_flight'+counter_airline_search).niceSelect();
-
+            if(template != 4){
+                $('#cabin_class_flight'+counter_airline_search).niceSelect();
+            }
         }
 
 //        var node_tabs = document.createElement("li");
@@ -338,85 +368,372 @@ function add_multi_city(type){
 //        document.getElementById("mc_airline_add_tabs").appendChild(node_tabs);
 
         var node = document.createElement("div");
-        text = `
-        <div class="col-lg-12">
-            <div class="row">`;
-                text+=`
-                <div class="col-lg-12" style="text-align:left; padding:0px; margin-top:10px; margin-bottom:10px;">
-                    <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                            <div class="input-container-search-ticket">
-                                <div class="form-select">`;
-                                if(type == 'search'){
-                                    if(airline_request.destination[counter_airline_search - 1] != null)
-                                        text+=`
-                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+        if(template == 1){
+            text = `
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12" style="text-align:left; padding:0px; margin-top:10px; margin-bottom:10px;">
+                        <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                    </div>
+                        <div class="col-lg-8">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 airline-from" style="padding-left:0px;">
+                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">`;
+                                            if(type == 'search'){
+                                                if(airline_request.destination[counter_airline_search - 1] != null)
+                                                    text+=`
+                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                                else{
+                                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                                    text+=`
+                                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                                }
+                                            }else if(counter_airline_search==1)
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            else{
+                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                                //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                            }
+                                    text+=`
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="image-change-route-vertical">
+                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    </div>
+                                    <div class="image-change-route-horizontal">
+                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                    </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">`;
+                                    if(type == 'search'){
+                                        if(airline_request.destination[counter_airline_search - 1] != null)
+                                            text+=`
+                                            <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        }
+
+                                    }else if(counter_airline_search == 1)
+                                    text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                     else{
-                                        temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                        text+=`
-                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                    text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
                                     }
-                                }else if(counter_airline_search==1)
-                                    text+=`
-                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                else{
-                                    temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
-                                    text+=`
-                                    <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
-                                    //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
-                                }
-                                    //</select>
-                                text+=`</div>
+                                    text+=`</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="image-change-route-vertical">
-                            <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                    </div>
+                    <div class="col-lg-4" style="padding:0px;">
+                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                         </div>
-                        <div class="image-change-route-horizontal">
-                            <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
+                    </div>
+                </div>
+            </div>`;
+        }
+        else if(template == 2){
+            text = `
+            <div class="row">
+                <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
+                    <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                    <div class="input-container-search-ticket">`;
+                                        if(type == 'search'){
+                                            if(airline_request.destination[counter_airline_search - 1] != null)
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            else{
+                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            }
+                                        }else if(counter_airline_search==1)
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                        }
+                                text+=`
+                                    </div>
+                                </div>
+                                <div class="image-change-route-vertical">
+                                    <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                </div>
+                                <div class="image-change-route-horizontal">
+                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                            <div class="input-container-search-ticket">
-                                <div class="form-select">`;
+                            <div class="input-container-search-ticket">`;
                                 if(type == 'search'){
                                     if(airline_request.destination[counter_airline_search - 1] != null)
                                         text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                     else{
                                         temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                         text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                     }
 
                                 }else if(counter_airline_search == 1)
                                 text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                 else{
                                     temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
                                 text+=`
-                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
                                     //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
                                 }
-                                    //</select>
-                                text+=`</div>
-                                <!--<input type="hidden" name="destination_id_flight`+counter_airline_search+`" id="airline_destination_flight`+counter_airline_search+`" />--!>
+                                text+=`
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
+                <div class="col-lg-4">
                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                     <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                     </div>
                 </div>
-            </div>
-        </div>`;
+            </div>`;
+        }
+        else if(template == 3){
+            text = `
+            <div class="row">
+                <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
+                    <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                    <div class="input-container-search-ticket">`;
+                                        if(type == 'search'){
+                                            if(airline_request.destination[counter_airline_search - 1] != null)
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            else{
+                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            }
+                                        }else if(counter_airline_search==1)
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                        }
+                                text+=`
+                                    </div>
+                                </div>
+                                <div class="image-change-route-vertical2">
+                                    <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                </div>
+                                <div class="image-change-route-horizontal2">
+                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                            <div class="input-container-search-ticket">`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+
+                                }else if(counter_airline_search == 1)
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                                }
+                                text+=`
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    </div>
+                </div>
+            </div>`;
+        }
+        else if(template == 4){
+            text = `
+            <div class="row">
+                <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
+                    <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                    <div class="input-container-search-ticket">`;
+                                        if(type == 'search'){
+                                            if(airline_request.destination[counter_airline_search - 1] != null)
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            else{
+                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            }
+                                        }else if(counter_airline_search==1)
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                        }
+                                text+=`
+                                    </div>
+                                </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                            <div class="input-container-search-ticket">`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+
+                                }else if(counter_airline_search == 1)
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                                }
+                                text+=`
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    </div>
+                </div>
+            </div>`;
+        }
+        else if(template == 5){
+            text = `
+            <div class="row">
+                <div class="col-lg-12" style="text-align:left; margin-top:10px; margin-bottom:10px;">
+                    <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                </div>
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                <span class="span-search-ticket">From</span>
+                                        <div class="input-container-search-ticket">
+                                            <i class="fas fa-plane-departure icon-search-ticket"></i>`;
+                                        if(type == 'search'){
+                                            if(airline_request.destination[counter_airline_search - 1] != null)
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.origin[counter_airline_search - 1]+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            else{
+                                                temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                                text+=`
+                                                <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            }
+                                        }else if(counter_airline_search==1)
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                        else{
+                                            temp = document.getElementById('destination_id_flight'+(counter_airline_search-1).toString()).value;
+                                            text+=`
+                                            <input id="origin_id_flight`+counter_airline_search+`" name="origin_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Origin" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('origin_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                            //<select class="form-control" style="width:100%;" id="origin_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin', `+counter_airline_search+`)">
+                                        }
+                                text+=`
+                                    </div>
+                                </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                <span class="span-search-ticket">To</span>
+                                    <div class="input-container-search-ticket">
+                                        <i class="fas fa-plane-arrival icon-search-ticket"></i>`;
+                                if(type == 'search'){
+                                    if(airline_request.destination[counter_airline_search - 1] != null)
+                                        text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+airline_request.destination[counter_airline_search - 1]+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    else{
+                                        temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                        text+=`
+                                        <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    }
+
+                                }else if(counter_airline_search == 1)
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                else{
+                                    temp = document.getElementById('origin_id_flight'+(counter_airline_search-1).toString()).value;
+                                text+=`
+                                    <input id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" class="form-control" type="text" placeholder="Destination" style="width:100%;outline:0" autocomplete="off" value="`+temp+`" onfocus="document.getElementById('destination_id_flight`+counter_airline_search+`').select();" onclick="set_airline_search_value_to_false();">`;
+                                    //<select class="form-control " name="state" style="width:100%;" id="destination_id_flight`+counter_airline_search+`" name="destination_id_flight`+counter_airline_search+`" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination', `+counter_airline_search+`)">
+                                }
+                                text+=`
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <span class="span-search-ticket">Departure</span>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    </div>
+                </div>
+            </div>`;
+        }
+
 
 //        if(counter_airline_search == 1){
 //            node.className = 'tab-pane fade show active';
@@ -2782,9 +3099,10 @@ function get_airline_review(){
                         <th style="width:18%;">Birth Date</th>
                         <th style="width:18%;">Special Service Request</th>
                     </tr>`;
+                    count_pax = 0
                     for(i in passengers_ssr){
                         text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
+                                <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
                                 <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
                                 <td>Adult</td>
                                 <td>`+passengers_ssr[i].birth_date+`</td>
@@ -2793,14 +3111,16 @@ function get_airline_review(){
                                     text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
                                 text+=`</td>
                                </tr>`;
+                        count_pax++;
                     }
                     for(i in passengers.infant){
                         text+=`<tr>
-                                <td class="list-of-passenger-left">`+(parseInt(i)+1)+`</td>
+                                <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
                                 <td>`+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</td>
                                 <td>Infant</td>
                                 <td>`+passengers.infant[i].birth_date+`</td>
                                </tr>`;
+                        count_pax++;
                     }
                 text+=`</table>
             </div>

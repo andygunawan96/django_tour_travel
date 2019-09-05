@@ -311,7 +311,6 @@ function carrier_to_provider(){
             }
         }
     }
-    console.log(airline);
     provider_airline = []
     for(i in airline){
         provider_airline.push({});
@@ -519,8 +518,6 @@ function get_airline_config(type, val){
 
 function airline_search(provider,carrier_codes){
     document.getElementById("airlines_ticket").innerHTML = '';
-    console.log(provider);
-    console.log(carrier_codes);
     getToken();
     count_progress_bar_airline++;
     $.ajax({

@@ -40,7 +40,7 @@
                                     <div class="input-container-search-ticket">
                                         <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                         <div class="form-select" id="default-select">
-                                            <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
 
                                             </select>
                                         </div>
@@ -51,7 +51,7 @@
                                     <div class="input-container-search-ticket">
                                         <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                         <div class="form-select">
-                                            <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                 {% for month_data in dest_month_data %}
                                                 {% if month_data.value == dest_month %}
                                                 <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
@@ -67,7 +67,7 @@
                                     <span class="span-search-ticket">Destination Year</span>
                                     <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                     <div class="form-select">
-                                        <select onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
                                         </select>
                                     </div>
@@ -153,6 +153,25 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
+                        <div id="loading-search-tour" style="margin-bottom:20px;">
+                            <div class="col-lg-12">
+                                <div class="sk-circle">
+                                    <div class="sk-circle1 sk-child"></div>
+                                    <div class="sk-circle2 sk-child"></div>
+                                    <div class="sk-circle3 sk-child"></div>
+                                    <div class="sk-circle4 sk-child"></div>
+                                    <div class="sk-circle5 sk-child"></div>
+                                    <div class="sk-circle6 sk-child"></div>
+                                    <div class="sk-circle7 sk-child"></div>
+                                    <div class="sk-circle8 sk-child"></div>
+                                    <div class="sk-circle9 sk-child"></div>
+                                    <div class="sk-circle10 sk-child"></div>
+                                    <div class="sk-circle11 sk-child"></div>
+                                    <div class="sk-circle12 sk-child"></div>
+                                </div>
+                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                            </div>
+                        </div>
                         <div class="row" id="tour_ticket" style="align:center;">
 
                         </div>
@@ -180,6 +199,10 @@
             }
         }
     }
+
+    $(document).ready(function () {
+        $('.js-example-basic-single').select2();
+    });
 </script>
 
 {% endblock %}

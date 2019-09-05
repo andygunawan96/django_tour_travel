@@ -54,7 +54,7 @@ function tour_get_countries(){
 
            var counter = 0;
            if(msg.result.error_code == 0){
-               tour_countries = msg.result.response.response.countries;
+               tour_countries = msg.result.response.countries;
                for(i in tour_countries){
                    if (temp == tour_countries[i].id)
                    {
@@ -110,7 +110,8 @@ function tour_search(){
            var counter = 0;
            data=[]
            if(msg.result.error_code == 0){
-               tour_data = msg.result.response.response.result;
+               tour_data = msg.result.response.result;
+               $('#loading-search-tour').hide();
                if (tour_data.length == 0)
                {
                     text += `
@@ -228,8 +229,8 @@ function tour_get_details(package_id){
            var package_id = 0;
            data=[]
            if(msg.result.error_code == 0){
-               tour_data = msg.result.response.response.result;
-               com_agent = msg.result.response.response.commission_agent_type;
+               tour_data = msg.result.response.result;
+               com_agent = msg.result.response.commission_agent_type;
                for (i in tour_data)
                {
                     package_id = tour_data[i].id;
@@ -300,8 +301,39 @@ function tour_get_details(package_id){
                     }
                     image_text += `</div>`;
 
+                    for (it_idx in tour_data[i].itinerary_ids)
+                    {
+                        itinerary_text += `<h4> Day `+tour_data[i].itinerary_ids[it_idx].day+` - `+tour_data[i].itinerary_ids[it_idx].name+`</h4><hr/>`;
+                        itinerary_text += `<div class="row">`;
+                        for(it_item in tour_data[i].itinerary_ids[it_idx].items)
+                        {
+                            itinerary_text += `<div class="col-lg-3" style="padding-bottom: 15px;"><div style="border: 1px solid #cdcdcd;"><div style="object-fit: cover;">`;
+                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].image)
+                            {
+                                itinerary_text += `<img src="`+tour_data[i].itinerary_ids[it_idx].items[it_item].image+`" style="width:100%; height: 200px;"/>`;
+                            }
+                            else
+                            {
+                                itinerary_text += `<img src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
+                            }
+                            itinerary_text += `</div>`;
 
-                    itinerary_text += tour_data[i].itinerary;
+                            itinerary_text += `<div style="padding:10px;"><span style="font-size: 15px; font-weight: bold;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].name+`</span><br/>`;
+                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].description)
+                            {
+                                itinerary_text += `<span style="font-size: 14px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].description+`</span><br/>`;
+                            }
+                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot)
+                            {
+                                itinerary_text += `<span style="font-size: 14px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot+`</span>`;
+                            }
+
+                            itinerary_text += `</div></div></div>`;
+                        }
+                        itinerary_text += `</div>`;
+                        itinerary_text += `<br/><br/>`;
+                    }
+
                     remarks_text += tour_data[i].requirements;
                     if (tour_data[i].flight == 'include')
                     {
@@ -469,9 +501,9 @@ function tour_update_passenger(val, pay_method, pax_list_res)
        success: function(msg) {
            console.log(msg);
            var pax_list = [];
-           var booker_data = msg.result.response.response.booker_data;
-           var book_line = msg.result.response.response.book_line;
-           var results = msg.result.response.response.pax_list;
+           var booker_data = msg.result.response.booker_data;
+           var book_line = msg.result.response.book_line;
+           var results = msg.result.response.pax_list;
            for(i in results){
                pax_list.push(parseInt(results[i]));
            }
@@ -530,7 +562,7 @@ function tour_commit_booking(val, result_data)
        },
        success: function(msg) {
            console.log(msg);
-           var booking_num = msg.result.response.response.booking_num;
+           var booking_num = msg.result.response.booking_num;
            if (booking_num)
            {
                document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
@@ -561,7 +593,7 @@ function get_payment_rules(id)
        },
        success: function(msg) {
            console.log(msg);
-           payment = msg.result.response.response.payment_rules;
+           payment = msg.result.response.payment_rules;
            pay_text = '';
            var idx = 1;
            var tot_price = parseInt(document.getElementById("grand_total_hidden").value);
@@ -598,7 +630,7 @@ function tour_issued_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
-           var booking_num = msg.result.response.response.order_number;
+           var booking_num = msg.result.response.order_number;
            if (booking_num)
            {
                document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
@@ -625,11 +657,11 @@ function tour_get_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
-           var book_obj = msg.result.response.response.result;
-           var tour_package = msg.result.response.response.tour_package;
-           var passengers = msg.result.response.response.passengers;
-           var rooms = msg.result.response.response.rooms;
-           var price_itinerary = msg.result.response.response.price_itinerary;
+           var book_obj = msg.result.response.result;
+           var tour_package = msg.result.response.tour_package;
+           var passengers = msg.result.response.passengers;
+           var rooms = msg.result.response.rooms;
+           var price_itinerary = msg.result.response.price_itinerary;
            var cur_state = '';
            updownsell_txt = '';
            pax_txt = '';
@@ -833,7 +865,7 @@ function get_price_itinerary(package_id) {
        },
        success: function(msg) {
             console.log(msg);
-            tour_data = msg.result.response.response.result;
+            tour_data = msg.result.response.result;
             tour_data = tour_data[0]
             document.getElementById("single_supplement_amount").value = 0;
             document.getElementById("single_supplement_price").value = 0;

@@ -18,7 +18,7 @@
     sub_category_list = [];
     name = '';
     {% for country in activity_countries %}
-        {% for city in country.city %}
+        {% for city in country.city.response %}
             city.push({
                 'name': '{{city.name}}', 'id':'{{city.id}}'
             });
@@ -29,10 +29,6 @@
             'id': '{{country.id}}'
         });
         city = [];
-    {% endfor %}
-
-    {% for category in activity_categories %}
-        console.log(category);
     {% endfor %}
 
     {% for key, value in activity_sub_categories.items %}
@@ -88,13 +84,14 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                             <div class="form-select" id="default-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="set_city();" size="5" data-live-search="true" name="activity_countries">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="auto_complete_activity('activity_countries');"  size="5" data-live-search="true" name="activity_countries">
                                                     {% if not parsed_country %}
                                                     <option value="" selected="">All Country</option>
                                                     {% for country in activity_countries %}
                                                     <option value="{{country.id}}">{{country.name}}</option>
                                                     {% endfor %}
                                                     {% else %}
+                                                    <option value="" selected="">All Country</option>
                                                     {% for country in activity_countries %}
                                                     {% if parsed_country == country.id %}
                                                     <option value="{{country.id}}" selected>{{country.name}}</option>
@@ -110,7 +107,7 @@
                                             <div class="form-select">
                                                 <div id="temp_activity_cities">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                        <option value="" selected="">Cities</option>
+                                                        <option value="" selected="">All Cities</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -128,29 +125,50 @@
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                    {% if not parsed_type %}
                                                     <option value="0" selected="">All Types</option>
                                                     {% for type in activity_types %}
                                                     <option value="{{type.id}}">{{type.name}}</option>
                                                     {% endfor %}
+                                                    {% else %}
+                                                    <option value="0" selected="">All Types</option>
+                                                    {% for type in activity_types %}
+                                                    {% if parsed_type == type.id %}
+                                                    <option value="{{type.id}}" selected>{{type.name}}</option>
+                                                    {% else %}
+                                                    <option value="{{type.id}}">{{type.name}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endif %}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="set_sub_category();" name="activity_category" size="5">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="auto_complete_activity('activity_category');" name="activity_category" size="5">
+                                                    {% if not parsed_category %}
                                                     <option value="0" selected="">All Categories</option>
                                                     {% for category in activity_categories %}
                                                     <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
                                                     {% endfor %}
-                                                    <!--<option id="temp_activity_category"/>-->
+                                                    {% else %}
+                                                    <option value="0" selected="">All Categories</option>
+                                                    {% for category in activity_categories %}
+                                                    {% if parsed_category == category.id %}
+                                                    <option value="{{category.id}} - {{category.name}}" selected>{{category.name}}</option>
+                                                    {% else %}
+                                                    <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endif %}
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                             <div class="form-select">
-                                                <div class="js-example-basic-single" style="width:100%;" id="temp_activity_sub_category">
-                                                    <select id="activity_sub_category" name="activity_sub_category" size="5">
-                                                        <option value="0" selected="">Sub Categories</option>
+                                                <div id="temp_activity_sub_category">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                        <option value="0" selected="">All Sub Categories</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -238,27 +256,28 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row" id="activity_ticket" style="align:center;">
-                            <div id="loading-search-activity" style="margin-bottom:20px;">
-                                <div class="col-lg-12">
-                                    <div class="sk-circle">
-                                        <div class="sk-circle1 sk-child"></div>
-                                        <div class="sk-circle2 sk-child"></div>
-                                        <div class="sk-circle3 sk-child"></div>
-                                        <div class="sk-circle4 sk-child"></div>
-                                        <div class="sk-circle5 sk-child"></div>
-                                        <div class="sk-circle6 sk-child"></div>
-                                        <div class="sk-circle7 sk-child"></div>
-                                        <div class="sk-circle8 sk-child"></div>
-                                        <div class="sk-circle9 sk-child"></div>
-                                        <div class="sk-circle10 sk-child"></div>
-                                        <div class="sk-circle11 sk-child"></div>
-                                        <div class="sk-circle12 sk-child"></div>
-                                    </div>
-                                    <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                    <div class="col-lg-12">
+                        <div id="loading-search-activity" style="margin-bottom:20px;">
+                            <div class="col-lg-12">
+                                <div class="sk-circle">
+                                    <div class="sk-circle1 sk-child"></div>
+                                    <div class="sk-circle2 sk-child"></div>
+                                    <div class="sk-circle3 sk-child"></div>
+                                    <div class="sk-circle4 sk-child"></div>
+                                    <div class="sk-circle5 sk-child"></div>
+                                    <div class="sk-circle6 sk-child"></div>
+                                    <div class="sk-circle7 sk-child"></div>
+                                    <div class="sk-circle8 sk-child"></div>
+                                    <div class="sk-circle9 sk-child"></div>
+                                    <div class="sk-circle10 sk-child"></div>
+                                    <div class="sk-circle11 sk-child"></div>
+                                    <div class="sk-circle12 sk-child"></div>
                                 </div>
+                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                             </div>
+                        </div>
+                        <div class="row" id="activity_ticket">
+
                         </div>
                     </div>
                 </div>
@@ -373,6 +392,13 @@
 
     $(document).ready(function () {
         $('.js-example-basic-single').select2();
+        {% if parsed_country %}
+            auto_complete_activity('activity_countries', {{parsed_city}});
+        {% endif %}
+
+        {% if parsed_category %}
+            auto_complete_activity('activity_category', {{parsed_sub_category}});
+        {% endif %}
     });
 </script>
 

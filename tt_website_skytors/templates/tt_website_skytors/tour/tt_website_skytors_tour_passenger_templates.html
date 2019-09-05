@@ -379,8 +379,8 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
-                                                        {% for key, country in countries.items %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -557,7 +557,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
-                                                        {% for key, country in countries.items %}
+                                                        {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
@@ -706,7 +706,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
-                                                        {% for key, country in countries.items %}
+                                                        {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
@@ -962,16 +962,16 @@
       auto_complete('booker_phone_code');
       {% for adult in adults%}
           auto_complete('adult_nationality{{forloop.counter}}');
-          //auto_complete('adult_country_of_issued{{forloop.counter}}');
+          auto_complete('adult_country_of_issued{{forloop.counter}}');
           auto_complete('adult_phone_code{{forloop.counter}}');
       {% endfor %}
       {% for child in childs%}
           auto_complete('child_nationality{{forloop.counter}}');
-          //auto_complete('child_country_of_issued{{forloop.counter}}');
+          auto_complete('child_country_of_issued{{forloop.counter}}');
       {% endfor %}
       {% for infant in infants%}
           auto_complete('infant_nationality{{forloop.counter}}');
-          //auto_complete('infant_country_of_issued{{forloop.counter}}');
+          auto_complete('infant_country_of_issued{{forloop.counter}}');
       {% endfor %}
     });
     $(function() {

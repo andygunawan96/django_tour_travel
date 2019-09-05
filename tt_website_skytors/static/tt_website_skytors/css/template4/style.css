@@ -10,7 +10,7 @@ body {
   color: #fff; }
 
 ::selection {
-  background: #000;
+  background: #f15a22;
   color: #fff; }
 
 a {
@@ -2679,6 +2679,19 @@ ul.tabs li.current{
   display:inline-block;
   padding:8px;
 }
+
+.image-rounded-icon2 {
+  color:black;
+  font-size: 18px;
+  text-align: center;
+  display:inline-block;
+  border-radius:50%;
+  border-radius: 20px;
+}
+.image-rounded-icon2:hover{
+    color: #f15a22;
+}
+
 
 .pt5{
     padding-top:5px;
