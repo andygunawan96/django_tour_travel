@@ -89,7 +89,10 @@ def search(request):
             'username': request.session['user_account'],
             'query': request.POST['activity_query'],
             'parsed_country': request.POST['activity_countries'] and int(request.POST['activity_countries']) or '',
-            'parsed_city': request.POST['activity_cities'],
+            'parsed_city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
+            'parsed_type': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
+            'parsed_category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
+            'parsed_sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
             'parsed_country_name': parsed_country_name,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
@@ -199,15 +202,20 @@ def passenger(request):
             'activity_timeslot': request.POST['activity_timeslot'],
             'additional_price': request.POST['additional_price'],
             'event_pick': request.POST['event_pick'],
-            'adult_passenger': request.POST['adult_passenger'],
-            'infant_passenger': request.POST['infant_passenger'],
-            'senior_passenger': request.POST['senior_passenger'],
-            'children_passenger': request.POST['children_passenger'],
+            'activity_types_data': json.loads(request.POST['details_data']),
+            'activity_date_data': json.loads(request.POST['activity_date_data']),
         }
+
+        for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
+            low_sku_id = temp_sku['sku_id'].lower()
+            request.session['activity_request'].update({
+                low_sku_id+'_passenger': request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0,
+            })
+
         perbooking_list = []
         upload = []
         #perbooking
-        for idx, perbooking in enumerate(request.session['activity_detail']['result'][int(request.POST['activity_type_pick'])]['options']['perBooking']):
+        for idx, perbooking in enumerate(request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])]['options']['perBooking']):
             if perbooking['name'] != 'Guest age' and perbooking['name'] != 'Nationality' and perbooking['name'] != 'Full name' and perbooking['name'] != 'Gender' and perbooking['name'] != 'Date of birth':
                 if perbooking['inputType'] == 1:
                     perbooking_list.append({
@@ -215,7 +223,6 @@ def passenger(request):
                         "value": request.POST['perbooking' + str(idx)],
                         "name": perbooking['name']
                     })
-                    print('a')
                 elif perbooking['inputType'] == 2:
                     for i, item in enumerate(perbooking['items']):
                         try:
@@ -358,8 +365,8 @@ def passenger(request):
             'infants': infant,
             'seniors': senior,
             'childs': child,
-            'price': request.session['activity_price']['result']['response'][int(request.POST['event_pick'])][int(request.POST['activity_date_pick'])],
-            'detail': request.session['activity_detail']['result'][int(request.POST['activity_type_pick'])],
+            'price': request.session['activity_request']['activity_date_data'][int(request.POST['event_pick'])][int(request.POST['activity_date_pick'])],
+            'detail': request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],

@@ -42,31 +42,84 @@ var sorting_list2 = [
     }
 ]
 
-function set_sub_category(){
-    var text = `<option value="0" selected="">Sub Categories</option>`;
-    var sub_category_list = sub_category[document.getElementById('activity_category').value.split(' - ')[1]];
-    for(i in sub_category_list){
-        text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`
+function set_sub_category(category_id, current_sub_id=0){
+    var text = `<option value="0" selected="">All Sub Categories</option>`;
+    var sub_category_list = sub_category[category_id.split(' - ')[1]];
+    if (current_sub_id == 0)
+    {
+        for(i in sub_category_list){
+            text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`;
+        }
     }
+    else
+    {
+        for(i in sub_category_list){
+            if (sub_category_list[i].id == current_sub_id)
+            {
+                text +=`<option value="`+sub_category_list[i].id+`" selected>`+sub_category_list[i].name+`</option>`;
+            }
+            else
+            {
+                text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`;
+            }
+        }
+    }
+
+    console.log(text);
     document.getElementById('activity_sub_category').innerHTML = text;
+    $('#activity_sub_category').niceSelect('update');
 //    activity_sub_category
 }
 
-function set_city(){
-    var text = `<option value="" selected="">Cities</option>`;
+function set_city(country_id, current_city_id=0){
+    var text = `<option value="" selected="">All Cities</option>`;
     var country = {};
     for(i in activity_country){
-       if(activity_country[i].id == parseInt(document.getElementById('activity_countries').value)){
+       console.log(parseInt(country_id));
+       if(activity_country[i].id == parseInt(country_id)){
            country = activity_country[i];
            break;
        }
     }
-    for(i in country.city){
-        console.log(country.city);
-        text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
+    if (current_city_id == 0)
+    {
+        for(i in country.city){
+            text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`;
+        }
     }
+    else
+    {
+        for(i in country.city){
+            if (country.city[i].id == current_city_id)
+            {
+                text +=`<option value="`+country.city[i].id+`" selected>`+country.city[i].name+`</option>`;
+            }
+            else
+            {
+                text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`;
+            }
+        }
+    }
+
     document.getElementById('activity_cities').innerHTML = text;
     $('#activity_cities').niceSelect('update');
+}
+
+function auto_complete_activity(type, current_opt=0){
+    sel_objs = $('#'+type).select2('data');
+    temp_obj_id = 0;
+    for (i in sel_objs)
+    {
+        temp_obj_id = sel_objs[i].id;
+    }
+    if (type == 'activity_countries')
+    {
+        set_city(temp_obj_id, current_opt);
+    }
+    else if (type == 'activity_category')
+    {
+        set_sub_category(temp_obj_id, current_opt);
+    }
 }
 
 function triggered(){
@@ -182,19 +235,19 @@ function activity_table_detail(){
            </div>
 
            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
                     <div class="alert alert-success">
                         <span style="font-size:13px;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
                     </div>
                 </div>
            </div>
 
-           <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+           <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>
-           <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+           <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
@@ -217,6 +270,7 @@ function activity_table_detail(){
                 </div>
            </div>
            `;
+
    document.getElementById('activity_detail_table').innerHTML = text;
    text_btn = `
        <center>
@@ -322,24 +376,22 @@ function activity_table_detail2(adult, senior, child, infant, pagetype){
            </div>
 
            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
                     <div class="alert alert-success">
                         <span style="font-size:13px;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
                     </div>
                 </div>
            </div>
 
-           <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
-               <div class="col-xs-12">`;
-   text += `<div class="row">
-                       <div class="col-xs-12">
-                           <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
-                       </div>
-                 </div>`;
+           <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-xs-12">
+                     <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+               </div>
+           </div>`;
 
    text+= `</div>
            </div>
-           <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+           <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
@@ -427,30 +479,27 @@ function check_detail(){
         text+='Visit date not available, please pick other date!\n';
 
     //check pax
-    if(activity_type[activity_type_pick].allowChildren!=0)
-        if(activity_type[activity_type_pick].minChildren <= document.getElementById('children_passenger').value)
-            pax += parseInt(document.getElementById('children_passenger').value);
+    console.log(activity_type[activity_type_pick]);
+    for (pax_check in activity_type[activity_type_pick].skus)
+    {
+        low_sku_id_check = String(activity_type[activity_type_pick].skus[pax_check].sku_id).toLowerCase();
+        if(activity_type[activity_type_pick].skus[pax_check].minPax <= document.getElementById(low_sku_id_check+'_passenger').value)
+        {
+            pax += parseInt(document.getElementById(low_sku_id_check+'_passenger').value);
+        }
         else
-            text+='Child passenger minimum'+ activity_type[activity_type_pick].minChildren +'!\n';
-    if(activity_type[activity_type_pick].allowInfant!=0)
-        if(activity_type[activity_type_pick].minInfant <= document.getElementById('infant_passenger').value)
-            pax += parseInt(document.getElementById('infant_passenger').value);
-        else
-            text+='Infant passenger minimum'+ activity_type[activity_type_pick].minInfant +'!\n';
-    if(activity_type[activity_type_pick].maxPax!=0)
-        if(activity_type[activity_type_pick].minPax <= document.getElementById('adult_passenger').value)
-            pax += parseInt(document.getElementById('adult_passenger').value);
-        else
-            text+='Adult passenger minimum'+ activity_type[activity_type_pick].minPax +'!\n';
-    if(activity_type[activity_type_pick].allowSeniors!=0)
-        if(activity_type[activity_type_pick].minSenior <= document.getElementById('senior_passenger').value)
-            pax += parseInt(document.getElementById('senior_passenger').value);
-        else
-            text+='Senior passenger minimum'+ activity_type[activity_type_pick].minSenior +'!\n';
+        {
+            text += 'Minimum passenger for ' + activity_type[activity_type_pick].skus[pax_check].title + ' is ' + activity_type[activity_type_pick].skus[pax_check].minPax +'!\n';
+        }
+    }
+
     console.log(pax);
-    console.log(activity_type[activity_type_pick].maxGroup);
-    if(pax > activity_type[activity_type_pick].maxGroup)
-        text+= 'Total Passenger must below than '+activity_type[activity_type_pick].maxGroup;
+    console.log(activity_type[activity_type_pick].maxPax);
+    if(pax > activity_type[activity_type_pick].maxPax)
+        text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax;
+    if(pax < activity_type[activity_type_pick].minPax)
+        text+= 'Total Passenger must be more than '+activity_type[activity_type_pick].minPax;
+
     //check perbooking
     for(i in activity_type[activity_type_pick].options.perBooking){
         if(activity_type[activity_type_pick].options.perBooking[i].name != 'Guest age' &&
@@ -461,12 +510,12 @@ function check_detail(){
             if(activity_type[activity_type_pick].options.perBooking[i].required == true){
                 //use regex bemyguest
                 if(activity_type[activity_type_pick].options.perBooking[i].formatRegex != false){
-                    if(check_regex(document.getElementById('perbooking'+i).value, activity_type[activity_type_pick].options.perBooking[i].formatRegex)==false)
+                    if(!document.getElementById('perbooking'+i).value || check_regex(document.getElementById('perbooking'+i).value, activity_type[activity_type_pick].options.perBooking[i].formatRegex)==false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
                 }
                 //no regex
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
-                    if(document.getElementById('perbooking'+i).value== '')
+                    if(document.getElementById('perbooking'+i).value == '')
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
                     for(j in activity_type[activity_type_pick].options.perBooking[i].items){
@@ -479,16 +528,22 @@ function check_detail(){
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
                     check=0;
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3)
-                    if(check_number(document.getElementById('perbooking'+i).value) == false)
+                {
+                    if(!document.getElementById('perbooking'+i).value || check_number(document.getElementById('perbooking'+i).value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 4)
-                    if(check_word(document.getElementById('perbooking'+i).value) == false)
+                {
+                    if(!document.getElementById('perbooking'+i).value || check_word(document.getElementById('perbooking'+i).value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 6)
-                    if(check_date(document.getElementById('perbooking'+i).value) == false)
+                {
+                    if(!document.getElementById('perbooking'+i).value || check_date(document.getElementById('perbooking'+i).value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
                     console.log(document.getElementById('perbooking'+i));
@@ -497,33 +552,44 @@ function check_detail(){
                     console.log(document.getElementById('perbooking'+i));
 
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10)
-                    if(check_time(document.getElementById('perbooking'+i).value) == false)
+                {
+                    if(!document.getElementById('perbooking'+i).value || check_time(document.getElementById('perbooking'+i).value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11)
+                {
                     if(check_date_time(document.getElementById('perbooking'+i+'0').value+' '+document.getElementById('perbooking'+i+'1').value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12)
-                    if(check_word(document.getElementById('perbooking'+i).value) == false)
+                {
+                    if(!document.getElementById('perbooking'+i).value || check_word(document.getElementById('perbooking'+i).value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14)
-                    if(check_flight(document.getElementById('perbooking'+i).value) == false)
+                {
+                    if(!document.getElementById('perbooking'+i).value || check_flight(document.getElementById('perbooking'+i).value) == false)
                         text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
+                else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 50)
+                {
+                    if(!document.getElementById('perbooking'+i).value)
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                }
             }
         }
     }
 
-    //check timeslot bemyguest
-    if(response.provider == 'bemyguest'){
-        if(activity_type[activity_type_pick].timeslots.length > 0){
+    //cek timeslot
+    if(activity_type[activity_type_pick].timeslots.length > 0){
 
-            var sel = document.getElementById('timeslot');
-            if (sel.value != '') {
-                check=1;
-            }
-            if(check==0){
-                text+= 'Please pick timeslot!\n';
-            }
+        var sel = document.getElementById('timeslot_1');
+        if (sel.value != '') {
+            check=1;
+        }
+        if(check==0){
+            text+= 'Please pick timeslot!\n';
         }
     }
 
@@ -888,8 +954,9 @@ function change_event(val){
     activity_table_detail();
 }
 
-function timeslot_change(val){
-    activity_timeslot = val;
+function timeslot_change(){
+    activity_timeslot = document.getElementById('timeslot_1').value;
+    console.log(activity_timeslot);
 }
 
 //perbooking

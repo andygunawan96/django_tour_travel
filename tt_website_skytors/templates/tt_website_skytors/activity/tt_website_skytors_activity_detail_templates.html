@@ -184,7 +184,7 @@
 
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12" id="ticket_price">
+                                <div class="col-lg-5 col-md-5" id="ticket_price">
                                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
@@ -287,6 +287,8 @@
                         </div>
                     </div>
                     <br/>
+                    <div id="details_div"></div>
+                    <div id="activity_date_div"></div>
                     <div id="data_id">
 
                     </div>
@@ -309,94 +311,25 @@
     function detail_to_passenger_page(){
 
         text = `
-                    <input type='hidden' value='`+activity_type_pick+`' name='activity_type_pick'/>
-                    <input type='hidden' value='`+activity_date_pick+`' name='activity_date_pick'/>
-                    <input type='hidden' value='`+activity_timeslot+`' name='activity_timeslot'/>
-                    <input type='hidden' value='`+additional_price+`' name='additional_price'/>
-                    <input type='hidden' value='`+event_pick+`' name='event_pick'/>`;
+        <input type='hidden' value='`+activity_type_pick+`' name='activity_type_pick'/>
+        <input type='hidden' value='`+activity_date_pick+`' name='activity_date_pick'/>
+        <input type='hidden' value='`+activity_timeslot+`' name='activity_timeslot'/>
+        <input type='hidden' value='`+additional_price+`' name='additional_price'/>
+        <input type='hidden' value='`+event_pick+`' name='event_pick'/>`;
 
-        /*  for(i in activity_type[activity_type_pick].options.perBooking){
-            if(activity_type[activity_type_pick].options.perBooking[i].inputType==1){
-                for (var i = 0, length = radios.length; i < length; i++) {
-                    var radios = document.getElementsByName('perbooking'+i);
-                    if (radios[i].checked) {
-                        text+= `<input type='hidden' value='`+radios[i].value+`' name='perbooking`+i+`'/>`;
-                        break;
-                    }
-                }
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==2){
-                for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                    text+=`<input type='hidden' value='`+document.getElementById('perbooking'+i+j).checked+`' name='perbooking`+i+j+`'/>`;
-                }
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==3){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==4){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==5){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==7){
-
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==8){
-
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==9){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==10){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==11){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i+'0').value+' '+document.getElementById('perbooking'+i+'1').value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==12){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==13){
-
-            }else if(activity_type[activity_type_pick].options.perBooking[i].inputType==14){
-                text+= `<input type='hidden' value='`+document.getElementById('perbooking'+i).value+`' name='perbooking`+i+`'/>`;
+        for (pax_check in activity_type[activity_type_pick].skus)
+        {
+            low_sku_id_check = String(activity_type[activity_type_pick].skus[pax_check].sku_id).toLowerCase();
+            try{
+                if(document.getElementById(low_sku_id_check + '_passenger').value != 0 )
+                    text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_passenger').value+`' name=low_sku_id_check + '_passenger'/>`;
+                else
+                    text+=`<input type='hidden' value='0' name=low_sku_id_check + '_passenger'/>`;
+            }catch(err){
+                text+=`<input type='hidden' value='0' name=low_sku_id_check + '_passenger'/>`;
             }
-
-        }*/
-        //adult
-        try{
-            if(document.getElementById('adult_passenger').value != 0 )
-                text+=`<input type='hidden' value='`+document.getElementById('adult_passenger').value+`' name='adult_passenger'/>`;
-            else
-                text+=`<input type='hidden' value='0' name='adult_passenger'/>`;
-        }catch(err){
-            text+=`<input type='hidden' value='0' name='adult_passenger'/>`;
         }
 
-        //children
-        try{
-            if(document.getElementById('children_passenger').value != 0 )
-                text+=`<input type='hidden' value='`+document.getElementById('children_passenger').value+`' name='children_passenger'/>`;
-            else
-                text+=`<input type='hidden' value='0' name='children_passenger'/>`;
-        }catch(err){
-            text+=`<input type='hidden' value='0' name='children_passenger'/>`;
-        }
-
-        //infant
-        try{
-            if(document.getElementById('infant_passenger').value != 0 )
-                text+=`<input type='hidden' value='`+document.getElementById('infant_passenger').value+`' name='infant_passenger'/>`;
-            else
-                text+=`<input type='hidden' value='0' name='infant_passenger'/>`;
-        }catch(err){
-            text+=`<input type='hidden' value='0' name='infant_passenger'/>`;
-        }
-
-        //senior
-        try{
-            if(document.getElementById('senior_passenger').value != 0 )
-                text+=`<input type='hidden' value='`+document.getElementById('senior_passenger').value+`' name='senior_passenger'/>`;
-            else
-                text+=`<input type='hidden' value='0' name='senior_passenger'/>`;
-        }catch(err){
-            text+=`<input type='hidden' value='0' name='senior_passenger'/>`;
-        }
-
-
-        //text += `</form>`;
         document.getElementById('data_id').innerHTML = text;
         document.getElementById('go_to_pax').submit();
     }

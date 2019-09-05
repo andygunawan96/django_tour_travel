@@ -27,7 +27,7 @@
     sub_category_list = [];
     name = '';
     {% for country in activity_countries %}
-        {% for city in country.city %}
+        {% for city in country.city.response %}
             city.push({
                 'name': '{{city.name}}', 'id':'{{city.id}}'
             });
@@ -39,6 +39,7 @@
         });
         city = [];
     {% endfor %}
+    console.log(activity_country);
     cabin_class = [];
     {% for airline_cabin_class in airline_cabin_class_list %}
         cabin_class.push({
@@ -583,7 +584,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                                     <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="set_city();" size="5" data-live-search="true" name="activity_countries">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="auto_complete_activity('activity_countries');" size="5" data-live-search="true" name="activity_countries">
                                                             <option value="" selected="">All Country</option>
                                                             {% for country in activity_countries %}
                                                             <option value="{{country.id}}">{{country.name}}</option>
@@ -596,7 +597,7 @@
                                                     <div class="form-select">
                                                         <div id="temp_activity_cities">
                                                             <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                                <option value="" selected="">Cities</option>
+                                                                <option value="" selected="">All Cities</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -623,7 +624,7 @@
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                                     <div class="form-select">
-                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="set_sub_category();" name="activity_category" size="5">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="auto_complete_activity('activity_category');" name="activity_category" size="5">
                                                             <option value="0" selected="">All Categories</option>
                                                             {% for category in activity_categories %}
                                                             <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
@@ -634,9 +635,9 @@
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                                     <div class="form-select">
-                                                        <div class="js-example-basic-single" style="width:100%;" id="temp_activity_sub_category">
-                                                            <select id="activity_sub_category" name="activity_sub_category" size="5">
-                                                                <option value="0" selected="">Sub Categories</option>
+                                                        <div id="temp_activity_sub_category">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                                <option value="0" selected="">All Sub Categories</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -672,7 +673,7 @@
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <div class="form-select">
-                                                    <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                                    <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
 
                                                     </select>
                                                 </div>
@@ -683,7 +684,7 @@
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                 <div class="form-select">
-                                                    <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                    <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                         <option value="00" selected="True">All Months</option>
                                                         <option value="01">January</option>
                                                         <option value="02">February</option>
@@ -705,7 +706,7 @@
                                             <span class="span-search-ticket">Destination Year</span>
                                             <input id="tour_hidden_year" type="hidden" value=""/>
                                             <div class="form-select">
-                                                <select onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
                                                 </select>
                                             </div>
@@ -4465,7 +4466,7 @@
                                         <input id="tour_hidden_destination" type="hidden" value=""/>
                                         <div class="form-group">
                                             <div class="default-select">
-                                                <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
 
                                                 </select>
                                             </div>
