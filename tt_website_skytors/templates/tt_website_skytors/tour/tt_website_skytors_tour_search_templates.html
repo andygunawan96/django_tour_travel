@@ -40,7 +40,7 @@
                                     <div class="input-container-search-ticket">
                                         <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                         <div class="form-select" id="default-select">
-                                            <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
 
                                             </select>
                                         </div>
@@ -51,7 +51,7 @@
                                     <div class="input-container-search-ticket">
                                         <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                         <div class="form-select">
-                                            <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                 {% for month_data in dest_month_data %}
                                                 {% if month_data.value == dest_month %}
                                                 <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
@@ -67,7 +67,7 @@
                                     <span class="span-search-ticket">Destination Year</span>
                                     <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                     <div class="form-select">
-                                        <select onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
                                         </select>
                                     </div>
@@ -199,6 +199,10 @@
             }
         }
     }
+
+    $(document).ready(function () {
+        $('.js-example-basic-single').select2();
+    });
 </script>
 
 {% endblock %}

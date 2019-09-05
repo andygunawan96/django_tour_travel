@@ -123,7 +123,7 @@ def search(request):
         except:
             print('no data')
 
-        for i in res['result']['response']['response']['result']:
+        for i in res['result']['response']['result']:
             i.update({
                 'sequence': counter
             })
