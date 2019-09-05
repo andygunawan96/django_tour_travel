@@ -103,10 +103,10 @@ def index(request):
                     # airline
 
                     # activity
-                    # activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                    # activity_categories = response['result']['response']['activity']['categories']
-                    # activity_types = response['result']['response']['activity']['types']
-                    # activity_countries = response['result']['response']['activity']['countries']
+                    activity_sub_categories = response['result']['response']['activity']['sub_categories']
+                    activity_categories = response['result']['response']['activity']['categories']
+                    activity_types = response['result']['response']['activity']['types']
+                    activity_countries = response['result']['response']['activity']['countries']
                     # activity
 
                     # issuedoffline
@@ -170,10 +170,10 @@ def index(request):
                         'airline_country': airline_country,
                         'logo': logo,
                         'template': template,
-                        # 'activity_sub_categories': activity_sub_categories,
-                        # 'activity_categories': activity_categories,
-                        # 'activity_types': activity_types,
-                        # 'activity_countries': activity_countries,
+                        'activity_sub_categories': activity_sub_categories,
+                        'activity_categories': activity_categories,
+                        'activity_types': activity_types,
+                        'activity_countries': activity_countries,
                         #hotel
                         # 'issued_offline_transaction_type': issued_offline_transaction_type,
                         # 'issued_offline_sector_type': issued_offline_sector_type,

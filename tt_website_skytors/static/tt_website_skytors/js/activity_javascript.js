@@ -284,7 +284,7 @@ function activity_table_detail(){
 }
 
 
-function activity_table_detail2(adult, senior, child, infant, pagetype){
+function activity_table_detail2(pagetype){
    var grand_total = 0;
    var grand_commission = 0;
    text = '';
@@ -293,67 +293,37 @@ function activity_table_detail2(adult, senior, child, infant, pagetype){
    $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
            '\nVisit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
            '\n\n';
-
-
    try{
-       if(passenger.adult != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Adult</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+passenger.adult+`</div>
-                        <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-           text+= getrupiah(price.prices.adults[passenger.adult].sale_price) +`</div>
-               </div>`;
+       skus = price.prices;
+       for (sku in skus)
+       {
+            low_sku_id = sku.toLowerCase();
+            if(passenger[low_sku_id] && passenger[low_sku_id] != 0)
+            {
+               text+= `<div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`+skus[sku].sku_title+`</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="padding-right: 5px; text-align: right;">`;
 
-           $test += passenger.adult+' Adult Price IDR '+getrupiah(price.prices.adults[passenger.adult].sale_price)+'\n';
-           grand_total += parseInt(adult) * price.prices.adults[passenger.adult].sale_price;
-           grand_commission += parseInt(adult) * price.prices.adults[passenger.adult].commission_price;
+               if(passenger[low_sku_id] in skus[sku])
+               {
+                   text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price);
+                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
+                   grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
+                   grand_commission += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].commission_price;
+               }
+               else
+               {
+                   text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price);
+                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
+                   grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
+                   grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
+               }
+               text+= `</div></div>`;
+           }
        }
-   }catch(err){
 
-   }
-   try{
-       if(passenger.senior != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Senior</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+passenger.senior+`</div>
-                        <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-           text+= getrupiah(price.prices.seniors[passenger.senior].sale_price) +`</div>
-               </div>`;
-       $test += passenger.senior+' Senior Price IDR '+getrupiah(price.prices.seniors[passenger.senior].sale_price)+'\n';
-       grand_total+= parseInt(senior) * price.prices.seniors[passenger.senior].sale_price;
-       grand_commission += parseInt(senior) * price.prices.seniors[passenger.senior].commission_price;
-       }
-   }catch(err){
-
-   }
-   try{
-       if(passenger.child != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Child</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+passenger.child+`</div>
-                        <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-           text+= getrupiah(price.prices.children[passenger.child].sale_price) +`</div>
-               </div>`;
-       $test += passenger.child+' Child Price IDR '+getrupiah(price.prices.children[passenger.child].sale_price)+'\n';
-       grand_total += parseInt(child) * price.prices.children[passenger.child].sale_price;
-       grand_commission += parseInt(child) * price.prices.children[passenger.child].commission_price;
-       }
-   }catch(err){
-
-   }
-   try{
-       if(passenger.infant != 0){
-           text+= `<div class="row">
-                        <div class="col-xs-3">Infant</div>
-                        <div class="col-xs-1">X</div>
-                        <div class="col-xs-1">`+passenger.infant+`</div>
-                        <div class="col-xs-6" style="padding-right: 5; text-align: right;">0</div>
-                   </div>`;
-       $test += passenger.infant+' Infant Price IDR '+getrupiah(0)+'\n';
-       }
    }catch(err){
 
    }
