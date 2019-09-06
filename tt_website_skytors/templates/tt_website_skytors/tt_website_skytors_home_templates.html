@@ -79,7 +79,7 @@
         airline_search_value = 'false';
         //get_train_config('home');
         //get_visa_config('home');
-        //tour_login('');
+        tour_login('');
 
         //get_agent_booking();
     {% endif %}
@@ -661,17 +661,15 @@
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-3" style="padding:0px;">
-                                            <span class="span-search-ticket">Search for Tour</span>
+                                            <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-briefcase icon-search-ticket"></i>
-                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Tour Keyword" autocomplete="off"/>
+                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination</span>
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
                                             <input id="tour_hidden_destination" type="hidden" value=""/>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
 
@@ -680,9 +678,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination Month</span>
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Month</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                         <option value="00" selected="True">All Months</option>
@@ -703,7 +700,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination Year</span>
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Year</span>
                                             <input id="tour_hidden_year" type="hidden" value=""/>
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
