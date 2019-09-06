@@ -1792,7 +1792,7 @@ function sort(airline){
                             text+=`
                             </div>
                             <div class="col-lg-7">`;
-                                for(k in airline[i].segments[j].legs)
+                                for(k in airline[i].segments[j].legs){
                                 text+=`
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -1804,7 +1804,7 @@ function sort(airline){
                                                     </div>
                                                     <div>
                                                         <span style="font-weight:500;">`+airline[i].segments[j].legs[k].origin_city+` - `+airline[i].segments[j].legs[k].origin_name+` (`+airline[i].segments[j].legs[k].origin+`)</span></br>
-                                                        <span>Terminal: </span>
+                                                        <span>Terminal: `+airline[i].segments[j].origin_terminal+`</span>
                                                     </div>
                                                 </li>
                                                 <li class="StepProgress-item is-end">
@@ -1813,13 +1813,15 @@ function sort(airline){
                                                     </div>
                                                     <div>
                                                         <span style="font-weight:500;">`+airline[i].segments[j].legs[k].destination_city+` - `+airline[i].segments[j].legs[k].destination_name+` (`+airline[i].segments[j].legs[k].destination+`)</span><br/>
-                                                        <span>Terminal: </span>
+                                                        <span>Terminal: `+airline[i].segments[j].destination_terminal+`</span>
                                                     </div>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div>`;
+                                }
+                            text+=`
                             </div>
                             <div class="col-lg-3">
                                 <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -2052,7 +2054,7 @@ function sort(airline){
                                             </div>
                                             <div>
                                                 <span style="font-weight:500;">`+airline[i].segments[j].origin_city+` - `+airline[i].segments[j].origin_name+` (`+airline[i].segments[j].origin+`)</span></br>
-                                                <span>Terminal: </span>
+                                                <span>Terminal: `+airline[i].segments[j].origin_terminal+`</span>
                                             </div>
                                         </li>
                                         <li class="StepProgress-item is-end">
@@ -2061,7 +2063,7 @@ function sort(airline){
                                             </div>
                                             <div>
                                                 <span style="font-weight:500;">`+airline[i].segments[j].destination_city+`</span> - <span>`+airline[i].segments[j].destination_name+` (`+airline[i].segments[j].destination+`)</span><br/>
-                                                <span>Terminal: </span>
+                                                <span>Terminal: `+airline[i].segments[j].destination_terminal+`</span>
                                             </div>
                                         </li>
                                     </ul>
@@ -2414,7 +2416,7 @@ function airline_pick_mc(type){
                                         </div>
                                         <div>
                                             <span style="font-weight:500;">`+airline_pick_list[i].segments[j].origin_city+` - `+airline_pick_list[i].segments[j].origin_name+` (`+airline_pick_list[i].segments[j].origin+`)</span></br>
-                                            <span>Terminal: </span>
+                                            <span>Terminal: `+airline_pick_list[i].segments[j].origin_terminal+`</span>
                                         </div>
                                     </li>
                                     <li class="StepProgress-item is-end">
@@ -2423,7 +2425,7 @@ function airline_pick_mc(type){
                                         </div>
                                         <div>
                                             <span style="font-weight:500;">`+airline_pick_list[i].segments[j].destination_city+`</span> - <span>`+airline_pick_list[i].segments[j].destination_name+` (`+airline_pick_list[i].segments[j].destination+`)</span><br/>
-                                            <span>Terminal: </span>
+                                            <span>Terminal: `+airline_pick_list[i].segments[j].destination_terminal+`</span>
                                         </div>
                                     </li>
                                 </ul>
