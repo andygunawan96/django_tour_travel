@@ -443,8 +443,8 @@ input:focus {
   transition-duration: 500ms; }
   .roberto-btn:focus, .roberto-btn:hover {
     font-weight: 500;
-    -webkit-box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
-    box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
+    /*-webkit-box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
+    box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);*/
     background-color: #C04B21;
     color: white; }
   .roberto-btn.btn-2 {
@@ -2589,12 +2589,12 @@ ul.tabs li.current .image-rounded-icon{
 
 /* On mouse-over, add a grey background color */
 .radio-button-custom:hover input ~ .checkmark-radio {
-  background-color: #9A9A9A;
+  background-color: #9A9A9A !important;
 }
 
 /* When the radio button is checked, add a blue background */
 .radio-button-custom input:checked ~ .checkmark-radio {
-  background-color: #f15a22;
+  background-color: #f15a22 !important;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -2654,12 +2654,12 @@ ul.tabs li.current .image-rounded-icon{
 
 /* On mouse-over, add a grey background color */
 .check_box_custom:hover input ~ .check_box_span_custom {
-  background-color: #ccc;
+  background-color: #9A9A9A !important;
 }
 
 /* When the checkbox is checked, add a blue background */
 .check_box_custom input:checked ~ .check_box_span_custom {
-  background-color: #f15a22;
+  background-color: #f15a22 !important;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -2716,7 +2716,6 @@ ul.tabs li.current .image-rounded-icon{
   margin-bottom:3px;
   font-size:14px;
 }
-
 
 .image-change-route-vertical {
   z-index: 10;
