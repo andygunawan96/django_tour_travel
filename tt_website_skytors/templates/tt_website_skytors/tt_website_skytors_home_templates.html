@@ -2122,7 +2122,7 @@
 <!--</div>-->
 
 {% elif template == 3 %}
-<section class="banner-area relative" id="home">
+<section class="banner-area relative">
     <div class="overlay overlay-bg"></div>
     <div class="container">
         <div class="row">
@@ -2188,7 +2188,7 @@
                                     <div class="col-lg-12" id="ori_airline">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span><br/>
+                                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                                                 <div class="form-group">
                                                     <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                 </div>
@@ -2196,13 +2196,15 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <h3 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
                                                 <h3 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
-                                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span><br/>
-                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                                <div class="form-group">
+                                                    <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                </div>
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="airline_date_search">
                                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                                                <div class="input-container-search-ticket">
+                                                <div class="form-group">
                                                     <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>

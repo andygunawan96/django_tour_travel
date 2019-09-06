@@ -346,14 +346,14 @@ function send_search_to_api(val){
 
     count_progress_bar_airline = 0;
     if(airline_request.direction == 'RT' && counter_search == 0){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-plane"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-long-arrow-alt-right"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
         if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
             date_show += ` - `+airline_request['return'][counter_search];
         }
         document.getElementById('show_date').innerHTML = date_show;
     }else if(airline_request.direction != 'RT'){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-plane"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-long-arrow-alt-right"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
         if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
             date_show += ` - `+airline_request['return'][counter_search];
@@ -793,11 +793,25 @@ function get_price_itinerary(val){
     document.getElementById('departjourney'+val).classList.remove("primary-btn-custom");
     document.getElementById('departjourney'+val).classList.add("primary-btn-custom-un");
     document.getElementById('departjourney'+val).disabled = true;
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     document.getElementById("airline_detail").innerHTML = "";
     choose_airline = val;
     provider = '';
     for(i in airline_data_filter[val].segments){
         var radios = document.getElementsByName('journey'+val+'segment'+i+'fare');
+        //get fare checked
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                fare = parseInt(radios[j].value)-1;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+        console.log(fare);
+        //give fare pick
+        airline_data_filter[val].segments[i].fare_pick = fare;
         if(airline_data_filter[val].segments[i].provider.match(/sabre/))
             provider = 'sabre'
         else
@@ -840,19 +854,18 @@ function get_price_itinerary(val){
     value_pick.push(val);
     airline_pick_list.push(airline_data_filter[val]);
     price = 0;
-    if(airline_request.direction == 'OW')
+    if(airline_request.direction == 'OW'){
         journey.push({'segments':segment, 'provider': provider});
-    else if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM")
+    }else if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM"){
         journey.push({'segments':segment, 'provider': provider});
-    else if(airline_request.direction == 'RT' && journey.length == 0){
+    }else if(airline_request.direction == 'RT' && journey.length == 0){
         journey.push({'segments':segment, 'provider': provider});
         document.getElementById("airlines_ticket").innerHTML = '';
         data_show = [];
         airline_departure = 'return';
         filtering('filter');
-       document.getElementById("airline_ticket_pick").innerHTML = '';
-       var total_price = 0;
-        airline_pick_mc('change');
+        var total_price = 0;
+
     }
     else if(airline_request.direction == 'RT' && journey.length == 1){
         journey.push({'segments':segment, 'provider': provider});
@@ -872,6 +885,7 @@ function get_price_itinerary(val){
     check = 0;
     //change view
     if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM"){
+        airline_pick_mc('change');
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -882,6 +896,7 @@ function get_price_itinerary(val){
         $('#choose-ticket-flight').hide();
     }
     else if(airline_request.direction == 'OW'){
+        airline_pick_mc('change');
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -892,6 +907,7 @@ function get_price_itinerary(val){
         $('#choose-ticket-flight').hide();
     }
     else if(airline_request.direction == 'RT' && journey.length == 2){
+        airline_pick_mc('change');
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -902,6 +918,7 @@ function get_price_itinerary(val){
         $('#choose-ticket-flight').hide();
     }
     else if(airline_request.direction == 'MC' && airline_data_filter[val].journey_type == "COM"){
+        airline_pick_mc('change');
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -921,9 +938,11 @@ function get_price_itinerary(val){
         $("#myModalTicketFlight").modal('show');
         $('#loading-search-flight').show();
         $('#choose-ticket-flight').hide();
+        counter_search = parseInt(airline_request.counter) - 1;
+        filtering('filter');
     }
     else if(airline_request.direction == 'MC' && airline_request.counter != journey.length){
-
+        console.log('here');
         document.getElementById("airline_ticket_pick").innerHTML = '';
         airline_pick_mc('all');
         send_search_to_api(counter_search);
@@ -948,6 +967,7 @@ function get_price_itinerary(val){
             }
         }
         get_price_itinerary_request();
+        airline_pick_mc('all');
     }
 }
 
@@ -1294,8 +1314,9 @@ function get_price_itinerary_request(){
                         <div class="alert alert-success">
                             <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
                         </div>
-                    </div>
-
+                    </div>`;
+                if (template == 1){
+                    text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
@@ -1307,8 +1328,39 @@ function get_price_itinerary_request(){
                             Next
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
+                    </div>`;
+                }
+                else if (template == 2){
+                    text+=`
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                        <input class="btn roberto-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
-                </div>`;
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                        <input class="btn roberto-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                        <button class="btn roberto-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
+                            Next
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>`;
+                }
+                else if (template == 3){
+                    text+=`
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                        <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                        <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
+                            Next
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>`;
+                }
+                text+=`</div>`;
 
                 document.getElementById('airline_detail').innerHTML = text;
                 $('.btn-next').prop('disabled', true);

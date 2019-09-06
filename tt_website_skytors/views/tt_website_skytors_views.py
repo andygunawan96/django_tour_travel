@@ -28,7 +28,7 @@ def index(request):
         for idx, line in enumerate(file):
             if idx == 0:
                 if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo = line
             elif idx == 1:
@@ -36,7 +36,7 @@ def index(request):
         file.close()
     except:
         template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
     try:
         if request.POST['logout']:
             request.session.delete()
@@ -230,7 +230,7 @@ def login(request):
         for idx, line in enumerate(file):
             if idx == 0:
                 if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo = line
             elif idx == 1:
@@ -238,7 +238,7 @@ def login(request):
         file.close()
     except:
         template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -291,7 +291,7 @@ def admin(request):
                 for idx, line in enumerate(file):
                     if idx == 0:
                         if line == '\n':
-                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                         else:
                             logo = line
                     elif idx == 1:
@@ -299,7 +299,7 @@ def admin(request):
                 file.close()
             except:
                 template = 1
-                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                 file = open('data_cache_template.txt', "w+")
                 file.write(logo+'\n'+str(template))
                 file.close()
@@ -337,7 +337,7 @@ def reservation(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -345,7 +345,7 @@ def reservation(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -379,7 +379,7 @@ def top_up(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -387,7 +387,7 @@ def top_up(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -417,7 +417,7 @@ def top_up_payment(request):
                 for idx, line in enumerate(file):
                     if idx == 0:
                         if line == '\n':
-                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                         else:
                             logo = line
                     elif idx == 1:
@@ -425,7 +425,7 @@ def top_up_payment(request):
                 file.close()
             except:
                 template = 1
-                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -468,7 +468,7 @@ def top_up_history(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -476,7 +476,7 @@ def top_up_history(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
