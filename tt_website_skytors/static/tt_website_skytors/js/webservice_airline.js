@@ -800,6 +800,7 @@ function get_price_itinerary(val){
     provider = '';
     for(i in airline_data_filter[val].segments){
         var radios = document.getElementsByName('journey'+val+'segment'+i+'fare');
+        console.log(radios);
         //get fare checked
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -859,6 +860,7 @@ function get_price_itinerary(val){
     }else if(airline_request.direction == 'RT' && airline_data_filter[val].journey_type == "COM"){
         journey.push({'segments':segment, 'provider': provider});
     }else if(airline_request.direction == 'RT' && journey.length == 0){
+        airline_pick_mc('change');
         journey.push({'segments':segment, 'provider': provider});
         document.getElementById("airlines_ticket").innerHTML = '';
         data_show = [];
@@ -869,6 +871,7 @@ function get_price_itinerary(val){
     }
     else if(airline_request.direction == 'RT' && journey.length == 1){
         journey.push({'segments':segment, 'provider': provider});
+
     }
     else if(airline_request.direction == 'MC' && airline_data_filter[val].journey_type == "COM")
         journey.push({'segments':segment, 'provider': provider});
@@ -965,9 +968,9 @@ function get_price_itinerary(val){
                     }
                 }
             }
+            airline_pick_mc('all');
         }
         get_price_itinerary_request();
-        airline_pick_mc('all');
     }
 }
 
@@ -981,6 +984,7 @@ function get_price_itinerary_request(){
     }catch(err){
 
     }
+    console.log(journey);
     getToken();
     $.ajax({
        type: "POST",

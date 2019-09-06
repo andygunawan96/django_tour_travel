@@ -1594,8 +1594,8 @@ function sort(airline){
                                     try{
                                     text+=`
                                     <div class="col-lg-12 col-md-4 col-sm-4 col-xs-4">
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><br/>
-                                        <span style="font-weight:500;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span>
+                                        <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">
                                     </div>`;
                                     }catch(err){
                                         text+=`
@@ -1699,12 +1699,12 @@ function sort(airline){
 
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
-                                            if(airline[i].elapsed_time.split(':')[0] != '0')
-                                                text+= airline[i].elapsed_time.split(':')[0] + 'd ';
-                                            if(airline[i].elapsed_time.split(':')[1] != '0')
-                                                text+= airline[i].elapsed_time.split(':')[1] + 'h ';
-                                            if(airline[i].elapsed_time.split(':')[2] != '0')
-                                                text+= airline[i].elapsed_time.split(':')[2] + 'm ';
+                                            if(airline[i].elapsed_time_return.split(':')[0] != '0')
+                                                text+= airline[i].elapsed_time_return.split(':')[0] + 'd ';
+                                            if(airline[i].elapsed_time_return.split(':')[1] != '0')
+                                                text+= airline[i].elapsed_time_return.split(':')[1] + 'h ';
+                                            if(airline[i].elapsed_time_return.split(':')[2] != '0')
+                                                text+= airline[i].elapsed_time_return.split(':')[2] + 'm ';
                                             text+=`</span><br/>
                                                 <span>Transit: `+airline[i].segments[j].transit_count+`</span>
                                             </div>`;
@@ -1781,14 +1781,15 @@ function sort(airline){
                                 <div class="col-lg-2">`;
                             try{
                             text+=`
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline[i].segments[j].carrier_code+`.png"><br/>
-                                <span style="font-weight: 500;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>`;
+                                <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
+                                <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                             }catch(err){
                             text+=`
-                                <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>`;
+                                <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>
+                                <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>`;
                             }
                             text+=`
-                                <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span>
                             </div>
                             <div class="col-lg-7">`;
                                 for(k in airline[i].segments[j].legs)
@@ -1822,12 +1823,12 @@ function sort(airline){
                             </div>
                             <div class="col-lg-3">
                                 <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
-                                if(airline[i].elapsed_time.split(':')[0] != '0')
-                                    text+= airline[i].elapsed_time.split(':')[0] + 'd ';
-                                if(airline[i].elapsed_time.split(':')[1] != '0')
-                                    text+= airline[i].elapsed_time.split(':')[1] + 'h ';
-                                if(airline[i].elapsed_time.split(':')[2] != '0')
-                                    text+= airline[i].elapsed_time.split(':')[2] + 'm ';
+                                if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
+                                    text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
+                                if(airline[i].segments[j].elapsed_time.split(':')[1] != '0')
+                                    text+= airline[i].segments[j].elapsed_time.split(':')[1] + 'h ';
+                                if(airline[i].segments[j].elapsed_time.split(':')[2] != '0')
+                                    text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                                 text+=`</span><br/>`;
                                 for(k in airline[i].segments[j].fares){
                                     if(k == 0){
@@ -1922,8 +1923,8 @@ function sort(airline){
                         <div class="col-lg-2">`;
                             for(j in airline[i].carrier_code_list)
                                 text+=`
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><br/>
-                                <span style="font-weight:500;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>`;
+                                <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
                             text+=`
                         </div>
 
@@ -2032,14 +2033,15 @@ function sort(airline){
                             <div class="col-lg-2">`;
                             try{
                             text+=`
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline[i].segments[j].carrier_code+`.png"><br/>
-                                <span style="font-weight: 500;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>`;
+                                <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
+                                <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                             }catch(err){
                             text+=`
-                                <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>`;
+                                <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>
+                                <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>`;
                             }
                             text+=`
-                                <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span>
                             </div>
                             <div class="col-lg-7">
                                 <div class="timeline-wrapper">
@@ -2067,12 +2069,12 @@ function sort(airline){
                             </div>
                             <div class="col-lg-3">
                                 <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
-                                if(airline[i].elapsed_time.split(':')[0] != '0')
-                                    text+= airline[i].elapsed_time.split(':')[0] + 'd ';
-                                if(airline[i].elapsed_time.split(':')[1] != '0')
-                                    text+= airline[i].elapsed_time.split(':')[1] + 'h ';
-                                if(airline[i].elapsed_time.split(':')[2] != '0')
-                                    text+= airline[i].elapsed_time.split(':')[2] + 'm ';
+                                if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
+                                    text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
+                                if(airline[i].segments[j].elapsed_time.split(':')[1] != '0')
+                                    text+= airline[i].segments[j].elapsed_time.split(':')[1] + 'h ';
+                                if(airline[i].segments[j].elapsed_time.split(':')[2] != '0')
+                                    text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                                 text+=`</span><br/>`;
                                 for(k in airline[i].segments[j].fares){
                                     if(k == 0){
@@ -2143,14 +2145,17 @@ function sort(airline){
 
 function change_departure(val){
     if(airline_request.direction != 'MC'){
-        journey = [];
-        value_pick = [];
-        airline_pick_list = [];
+        console.log(val);
         check_airline_pick = 0;
+        journey.splice(val,1);
+        value_pick.splice(val,1);
+        airline_pick_list.splice(val,1);
+        counter_search = val+1;
         document.getElementById("airline_ticket_pick").innerHTML = '';
         document.getElementById("airline_detail").innerHTML = '';
         airline_departure = 'departure';
         choose_airline = null;
+        airline_pick_mc('no_button');
         filtering('filter');
     }else{
         //MC
@@ -2215,8 +2220,8 @@ function airline_pick_mc(type){
                         <div class="col-lg-2">`;
                             for(j in airline_pick_list[i].carrier_code_list)
                             text+=`
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>
-                            <span style="font-weight:500;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>`;
+                            <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
+                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
                             text+=`
                         </div>
                     </div>
@@ -2390,14 +2395,15 @@ function airline_pick_mc(type){
                         <div class="col-lg-2">`;
                         try{
                         text+=`
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>
-                            <span style="font-weight: 500;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>`;
+                            <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>
+                            <span style="color:#f15a22; font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_name+`</span><br/>
+                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
                         }catch(err){
                         text+=`
-                            <span style="font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>`;
+                            <span style="font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>
+                            <span style="color:#f15a22; font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_name+`</span><br/>`;
                         }
                         text+=`
-                            <span style="color:#f15a22; font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_name+`</span>
                         </div>
                         <div class="col-lg-7">
                             <div class="timeline-wrapper">
@@ -2425,12 +2431,12 @@ function airline_pick_mc(type){
                         </div>
                         <div class="col-lg-3">
                             <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
-                            if(airline_pick_list[i].elapsed_time.split(':')[0] != '0')
-                                text+= airline_pick_list[i].elapsed_time.split(':')[0] + 'd ';
-                            if(airline_pick_list[i].elapsed_time.split(':')[1] != '0')
-                                text+= airline_pick_list[i].elapsed_time.split(':')[1] + 'h ';
-                            if(airline_pick_list[i].elapsed_time.split(':')[2] != '0')
-                                text+= airline_pick_list[i].elapsed_time.split(':')[2] + 'm ';
+                            if(airline_pick_list[i].segments[j].elapsed_time.split(':')[0] != '0')
+                                text+= airline_pick_list[i].segments[j].elapsed_time.split(':')[0] + 'd ';
+                            if(airline_pick_list[i].segments[j].elapsed_time.split(':')[1] != '0')
+                                text+= airline_pick_list[i].segments[j].elapsed_time.split(':')[1] + 'h ';
+                            if(airline_pick_list[i].segments[j].elapsed_time.split(':')[2] != '0')
+                                text+= airline_pick_list[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                             text+=`</span><br/>`;
                             for(k in airline_pick_list[i].segments[j].fares){
                                 if(k == 0){
@@ -2482,10 +2488,11 @@ function airline_pick_mc(type){
                                 </table>
                             </div>
                         </div>
-                    </div>`;
+                    </div>
+                </div>`;
                 }
                 text+=`
-                            </div>
+
                         </div>
                     </div>
                 </div>
