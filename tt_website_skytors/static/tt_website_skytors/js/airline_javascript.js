@@ -1487,6 +1487,7 @@ function sort_button(value){
 }
 
 function sort(airline){
+    ticket_count = 0;
     if (airline.length == 0 && count == airline_choose){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
@@ -1503,10 +1504,10 @@ function sort(airline){
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
         node = document.createElement("div");
-    }
-    else{
+    }else{
         //show data
         sorting = '';
+
         var radios = document.getElementsByName('radio_sorting');
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -1572,6 +1573,7 @@ function sort(airline){
         text = '';
         for(i in airline){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure'){
+               ticket_count++;
                var price = 0;
                text += `
                     <div class="search-box-result" id="journey`+i+`">
@@ -1660,7 +1662,7 @@ function sort(airline){
                                             //ganti sini
                                             flight_number = parseInt(j) + 1;
                                             text+=`
-                                            <div class="col-lg-12" style="margin-top:10px;">
+                                            <div class="col-lg-12">
                                                 <span style="font-weight: 500; color:#f15a22;">Flight `+flight_number+` </span>
                                             </div>`;
 
@@ -1904,6 +1906,7 @@ function sort(airline){
                text = '';
                document.getElementById('fare'+i).innerHTML = 'IDR '+ getrupiah(airline[i].total_price);
            }else if(airline[i].origin == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'return'){
+               ticket_count++;
                var price = 0;
                text += `
                 <div class="search-box-result" style="padding:10px;" id="journey`+i+`">
@@ -2143,6 +2146,25 @@ function sort(airline){
            }
        }
    }
+   if(airline_choose/count_progress_bar_airline == 1 && ticket_count == 0){
+        document.getElementById("airlines_ticket").innerHTML = '';
+        text = '';
+        text += `
+            <div style="padding:5px; margin:10px;">
+                <div style="text-align:center">
+                <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                <br/><br/>
+                <h6>NO FLIGHT AVAILABLE</h6>
+                </div>
+            </div>
+        `;
+        var node = document.createElement("div");
+        node.innerHTML = text;
+        document.getElementById("airlines_ticket").appendChild(node);
+        node = document.createElement("div");
+        alert('Sorry no ticket for flight '+ parseInt(counter_search+1).toString());
+        window.location.href="/";
+   }
 }
 
 function change_departure(val){
@@ -2279,7 +2301,7 @@ function airline_pick_mc(type){
                     </div>
                 </div>
                 <div class="col-lg-4" style="text-align:left; padding-top:15px;">
-                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" href="#detail_departjourney_pick`+i+`" style="color: #f15a22;" aria-expanded="true">
+                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details2(`+i+`);" href="#detail_departjourney_pick`+i+`" style="color: #f15a22; text-decoration: unset;" aria-expanded="true">
                         <span style="font-weight: bold; display:none;" id="flight_details_up2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                         <span style="font-weight: bold; display:block;" id="flight_details_down2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                     </a>
@@ -2500,11 +2522,7 @@ function airline_pick_mc(type){
                 </div>
             </div>`;
     }
-    if(airline_choose/count_progress_bar_airline == 1 && text == ''){
-        alert('Sorry no ticket for flight '+ parseInt(counter_search+1).toString());
-        window.location.href="/";
-    }else
-        document.getElementById('airline_ticket_pick').innerHTML = text;
+    document.getElementById('airline_ticket_pick').innerHTML = text;
 }
 
 function airline_check_search(){
@@ -2690,7 +2708,9 @@ function airline_detail(){
             //logo
             for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`
+                    <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`</span><br/>
+                    <img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }catch(err){
                     text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }
@@ -3281,7 +3301,9 @@ function get_airline_review(){
             //logo
             for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`
+                    <span style="font-weight: 500; font-size:12px;">`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`</span><br/>
+                    <img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png">`;
                 }catch(err){
                     text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }

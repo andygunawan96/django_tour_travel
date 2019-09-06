@@ -316,22 +316,20 @@
 <section style="padding:15px 0px 15px 0px; background:#cdcdcd; border-bottom:2px solid #cdcdcd;">
     <div class="container">
         <div class="row">
-            <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-8 {% endif %}">
+            <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <span style="text-transform: capitalize; font-weight:400; font-size:14px;">{% if airline_request.direction == 'OW' %} One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} - </span>
                         <span style="text-transform: capitalize;" id="show_origin_destination"></span>
                     </div>
-                    <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-6 {% endif %} col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="text-transform: capitalize; font-weight:400; font-size:13px;" id="show_date"></span>
-                    </div>
-                    <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-6 {% endif %} col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                        <span style="text-transform: capitalize; font-weight:400; font-size:13px;"><i class="fas fa-users"></i> {{airline_request.adult}} Adult, {{airline_request.child}} Child, {{airline_request.infant}} Infant</span>
+                    <div class="col-lg-12">
+                        <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-plane"></i>{% if airline_request.direction == 'OW' %} One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} </span>
+                        <span style="text-transform: capitalize; font-size:13px; padding-left:10px;" id="show_date"></span>
+                        <span style="text-transform: capitalize; font-size:13px; padding-left:10px;"><i class="fas fa-users"></i> {% if airline_request.adult != 0 %} {{airline_request.adult}} Adult {% endif %} {% if airline_request.child != 0 %}, {{airline_request.child}} Child {% endif %} {% if airline_request.infant != 0 %}, {{airline_request.infant}} Infant {% endif %}</span>
                     </div>
                 </div>
             </div>
             {%if airline_request.direction  == 'MC'%}
-            <div class="col-lg-3">
+            <div class="col-lg-3" style="padding-top:5px; padding-bottom:5px;">
                 <span style="font-weight:500;"> Separate Journey? </span><br/>
                 <label class="radio-button-custom" style="margin-bottom:0px !important;">
                     Yes
@@ -346,9 +344,9 @@
                 </label>
             </div>
             {%endif%}
-            <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right;">
+            <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
                 <button class="btn roberto-btn" type="button" onclick="show_hide_change_search();">
-                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
                 </button>
             </div>
@@ -1038,9 +1036,9 @@
         var node = document.createElement("div");
         if (template == 1){
         text+=`
-            <span class="span-search-ticket">Departure - Return</span>
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt icon-search-ticket"></i> Departure - Return</span>
             <div class="input-container-search-ticket">
-                <i class="fas fa-calendar-alt icon-search-ticket"></i>
+
                 <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
             </div>
             <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
