@@ -7144,3 +7144,92 @@ th input {
   height: 43.2px;
   width:100%;
   }
+
+.breadcrumbs-rdx{
+    font-size: 12px;
+   font-weight:500;
+   padding-right:10px;
+   color:#9B9B9B;
+   text-align: center;
+}
+.breadcrumb-rdx-icon{
+   display: inline-block;
+   height: 20px;
+   width: 20px;
+   line-height: 20px;
+   -moz-border-radius: 30px; /* or 50% */
+   border-radius: 30px; /* or 50% */
+   text-align: center;
+   background-color: #9B9B9B;
+   color: white;
+}
+
+.br-active{
+   color: #C04B21;
+}
+.br-icon-active {
+   background-color: #C04B21;
+}
+
+.br-done{
+   color: #f15a22;
+}
+.br-icon-done {
+   background-color: #f15a22;
+}
+
+.br-book {
+   color: #f15a22;
+}
+
+.br-icon-book {
+   background-color: #f15a22;
+}
+
+.br-fail {
+   color: #DB2B2B;
+}
+
+.br-icon-fail {
+   background-color: #DB2B2B;
+}
+
+.br-done:hover{
+   color: #C04B21;
+   cursor: pointer;
+}
+.br-icon-done:hover {
+   background-color: #C04B21;
+   cursor: pointer;
+}
+
+.br-book:hover{
+   cursor: not-allowed;
+}
+.br-icon-book:hover {
+   cursor: not-allowed;
+}
+
+.br-fail:hover{
+   cursor: not-allowed;
+}
+.br-icon-fail:hover {
+   cursor: not-allowed;
+}
+
+.br-fa{
+   padding-left:10px;
+   display:block;
+}
+
+@media (max-width: 541px) {
+ .br-fa {
+   display:none !important;
+ }
+}
+
+@media (min-width: 542px) {
+ .br-fa {
+   display:inline-flex;
+ }
+}

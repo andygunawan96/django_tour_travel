@@ -42,6 +42,27 @@ var sorting_list2 = [
     }
 ]
 
+function update_contact_cp(val){
+    temp = 1;
+    while(temp != adult+1){
+        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
+}
+
 function set_sub_category(category_id, current_sub_id=0){
     var text = `<option value="0" selected="">All Sub Categories</option>`;
     var sub_category_list = sub_category[category_id.split(' - ')[1]];
@@ -751,15 +772,10 @@ function check_passenger(){
 
        //child
        for(i=1;i<=passenger.child;i++){
-           document.getElementById('child_phone_code'+i).value = document.getElementById('booker_phone_code').value;
-           document.getElementById('child_phone'+i).value = document.getElementById('booker_phone').value;
-           document.getElementById('child_email'+i).value = document.getElementById('booker_email').value;
            if(document.getElementById('child_title'+i).value != '' &&
            document.getElementById('child_first_name'+i).value != '' &&
            document.getElementById('child_last_name'+i).value != '' &&
-           document.getElementById('child_nationality'+i).value != '' &&
-           document.getElementById('child_phone_code'+i).value != '' &&
-           document.getElementById('child_phone'+i).value != ''){
+           document.getElementById('child_nationality'+i).value != ''){
                if(check_name(document.getElementById('child_title'+i).value,
                document.getElementById('child_first_name'+i).value,
                document.getElementById('child_last_name'+i).value, 25) == false)
@@ -831,16 +847,11 @@ function check_passenger(){
 
        //infant
        for(i=1;i<=passenger.infant;i++){
-           document.getElementById('infant_phone_code'+i).value = document.getElementById('booker_phone_code').value;
-           document.getElementById('infant_phone'+i).value = document.getElementById('booker_phone').value;
-           document.getElementById('infant_email'+i).value = document.getElementById('booker_email').value;
 //           alert(document.getElementById('booker_phone').value);
            if(document.getElementById('infant_title'+i).value != '' &&
            document.getElementById('infant_first_name'+i).value != '' &&
            document.getElementById('infant_last_name'+i).value != '' &&
-           document.getElementById('infant_nationality'+i).value != '' &&
-           document.getElementById('infant_phone_code'+i).value != '' &&
-           document.getElementById('infant_phone'+i).value != ''){
+           document.getElementById('infant_nationality'+i).value != '' ){
                if(check_name(document.getElementById('infant_title'+i).value,
                document.getElementById('infant_first_name'+i).value,
                document.getElementById('infant_last_name'+i).value, 25) == false)

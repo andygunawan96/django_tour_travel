@@ -20,12 +20,9 @@
     detail = detail.replace(/True/g,'true');
     detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
-    passenger = {
-        'adult': parseInt({{adult_count}}),
-        'infant': parseInt({{infant_count}}),
-        'senior': parseInt({{senior_count}}),
-        'child': parseInt({{child_count}})
-    }
+    passenger = `{{pax_count}}`;
+    passenger = passenger.replace(/&#39;/g,'"');
+    passenger = JSON.parse(passenger);
     locations = [];
     images = [];
     {% for i in response.locations %}
@@ -65,27 +62,73 @@
         'name': '{{response.name}}',
         'itinerary': `{{response.itinerary}}`,
     };
-
-    time = 300;
-    triggered_balance();
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
 
+<!--<header id="header">-->
+<!--    <div class="main-menu">-->
+<!--       <div class="container">-->
+<!--           <div class="row align-items-center justify-content-between d-flex">-->
+<!--               <div id="logo" class="col-lg-2 col-md-2 col-sm-2">-->
+<!--                   <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>-->
+<!--               </div>-->
+<!--               <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">-->
+<!--                   <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">-->
+<!--                       <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>-->
+<!--                       <span style="padding-left:5px;">Home</span>-->
+<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
+<!--                   </div>-->
+<!--                   <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">-->
+<!--                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>-->
+<!--                       <span style="padding-left:5px;">Search</span>-->
+<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
+<!--                   </div>-->
+<!--                   <div class="breadcrumbs-rdx br-book">-->
+<!--                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>-->
+<!--                       <span style="padding-left:5px;">Passenger</span>-->
+<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
+<!--                   </div>-->
+<!--                   <div class="breadcrumbs-rdx br-book">-->
+<!--                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>-->
+<!--                       <span style="padding-left:5px;">Booking</span>-->
+<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
+<!--                   </div>-->
+<!--                   <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">-->
+<!--                       <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>-->
+<!--                       <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>-->
+<!--                   </div>-->
+<!--               </div>-->
+<!--           </div>-->
+<!--       </div>-->
+<!--   </div>-->
+<!--</header>-->
 
-<div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
+                    <center>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                    </center>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="progressbar">
+                        <ul class="progressbar">
+                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
+                            <li class="active"><span>Book <i class="fas fa-book-open"></i></span></li>
+                            <li class="current"><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                        </ul>
+                    </ul>
                 </div>
             </div>
         </div>
-        <br/>
+    </div>
+</header>
+
+<div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
         <form method="POST" id="activity_booking" action="{% url 'tt_website_skytors:activity_booking'%}">
             {% csrf_token %}
             <div class="row">
@@ -93,94 +136,120 @@
                     <h3>Please Review Your Order</h3>
                     <br/>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> Activity Order Details <img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></span>
-                                </center>
+                            <div id="activity_review_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                                <h4> Activity Order Details </h4>
+                                <hr/>
+                                <h4>{{response.name}}</h4>
+                                <span>{{detail.name}}</span>
+                                <br/>
+                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{price.date}}
+                                </span>
+                                <br/>
                             </div>
                         </div>
+                    </div>
 
+                    {% if perBooking|length > 0 %}
+                    <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white; border:1px solid #f15a22;">
-                                <label><span style="font-weight: bold;">{{response.name}}</span></label><br/>
-                                <label>{{detail.name}}</label><br/>
-                                <label>{{price.date}}</label><br/>
-
-                                <table style="margin-top:10px;width:100%;">
-                                    <tr>
-                                        <td><span style="font-weight: bold;">Booker Information</span></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Full Name</td>
-                                        <td>: {{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td>: {{booker.email}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Mobile Phone</td>
-                                        <td>: {{booker.mobile}}</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <br/>
-                        </div>
-                        <div class="col-lg-12">
-                            <div style="background-color:#f15a22;">
-                                <center>
-                                    <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
-                                </center>
+                            <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:15px;">
+                                    <h4> Additional Information </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Information</th>
+                                            <th style="width:25%;">Value</th>
+                                        </tr>
+                                        {% for perBook in perBooking %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{perBook.name}}</td>
+                                            <td>{{perBook.value}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    {% endif %}
 
+                    <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
-                            <div style="padding:10px; background-color:white; border:1px solid #f15a22;">
-                                <table style="width:100%">
-                                    <tr>
-                                        <th>Name</th>
-                                        <th>Birth Date</th>
-                                    </tr>
-                                    {% for adult in adults %}
-                                    <tr>
-                                        <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
-                                        <td>{{adult.birth_date}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for senior in seniors %}
-                                    <tr>
-                                        <td>{{senior.title}} {{senior.first_name}} {{senior.last_name}}</td>
-                                        <td>{{senior.birth_date}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for child in childs %}
-                                    <tr>
-                                        <td>{{child.title}} {{child.first_name}} {{child.last_name}}</td>
-                                        <td>{{child.birth_date}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                    {% for infant in infants %}
-                                    <tr>
-                                        <td>{{infant.title}} {{infant.first_name}} {{infant.last_name}}</td>
-                                        <td>{{infant.birth_date}}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </table>
+                            <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:15px;">
+                                    <h4> Contact Information </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:25%;">Email</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Mobile Phone</th>
+                                        </tr>
+                                        {% if contact_person|length > 0 %}
+                                        {% for con in contact_person %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{con.title}}. {{con.first_name}} {{con.last_name}}</td>
+                                            <td>{{con.email}}</td>
+                                            <td>{{con.mobile}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% else %}
+                                        <tr>
+                                            <td>1</td>
+                                            <td>{{booker.title}}. {{booker.first_name}} {{booker.last_name}}</td>
+                                            <td>{{booker.email}}</td>
+                                            <td>{{booker.mobile}}</td>
+                                        </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
                             </div>
-                            <br/>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:15px;">
+                                    <h4> List of Passenger(s) </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:10%;">Type</th>
+                                            <th style="width:25%;">Birth Date</th>
+                                            <th style="width:15%;" class="list-of-passenger-right">Ticket</th>
+                                        </tr>
+                                        {% for pax in all_pax %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{pax.title}}. {{pax.first_name}} {{pax.last_name}}</td>
+                                            <td>{{pax.pax_type_str}}</td>
+                                            <td>{{pax.birth_date}}</td>
+                                            <td>{{pax.sku_title}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-3">
-                    <div style="background-color:#f15a22; padding:5px;">
-                        <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="activity_detail">
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
+                        <h4> Price Detail </h4>
+                        <hr/>
                         <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
                         <br/><span id="product_type_title">{{detail.name}}</span>
                         <br/><br/>
@@ -196,16 +265,16 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-8 col-md-8 col-sm-8">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-4">
 
                         </div>
-                        <div align="center" class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
-                            <input class="primary-btn" type="button" value="Print form" />
+                        <div align="center" class="col-lg-4">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Print form" style="width:100%;"/>
                         </div>
-                        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4">
-                            <input style="float: right;" class="primary-btn" type="button" value="Issued" onclick="activity_create_booking();" />
+                        <div class="col-lg-4">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" onclick="activity_create_booking();" style="width:100%;"/>
                         </div>
                     </div>
                 </div>
