@@ -495,13 +495,13 @@ function sort(response){
                 text+=`
                 <div>
                     <span style="font-size:13px;"> <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>`;
-                if(response.hotel_ids[i].location.city != false)
+                if(response.hotel_ids[i].location.city)
                     text+= response.hotel_ids[i].location.city;
     //            if(response.hotel_ids[i].location.address != false)
     //                text+= ' '+ response.hotel_ids[i].location.address;
-                if(response.hotel_ids[i].location.district != false)
+                if(response.hotel_ids[i].location.district)
                     text+= ' '+ response.hotel_ids[i].location.district;
-                if(response.hotel_ids[i].location.state != false)
+                if(response.hotel_ids[i].location.state)
                     text+= ' '+ response.hotel_ids[i].location.state;
     //            if(response.hotel_ids[i].location.kelurahan != false)
     //                text+= ' '+ response.hotel_ids[i].location.kelurahan;
@@ -534,10 +534,10 @@ function sort(response){
                                 }
 
                                 if(facility_check == 1){
-                                    text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:5px;"/>`;
+                                    text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;"/>`;
                                 }
                                 else{
-                                    text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:5px;"/>`;
+                                    text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;"/>`;
                                 }
                             }
                         }catch(err){}
@@ -549,29 +549,16 @@ function sort(response){
                     <div class="row">
                         <div class="col-lg-12" style="margin-bottom:5px;">
                             <span style="font-size:14px; font-weight: bold; border-bottom:2px solid #f15a22;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">Vendor A</span>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">2.200.000 IDR</span>
-                        </div>
-
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <span style="font-size:13px; text-align:left;">Vendor B</span>
+                        </div>`
+                        for(j in response.hotel_ids[i].external_code){
+                            text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                            <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
                         </div>
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <span style="font-size:13px; text-align:right;">2.250.000 IDR</span>
-                        </div>
-
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                            <span style="font-size:12px; text-align:left;">Vendor C</span>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                            <span style="font-size:12px; text-align:right;">2.350.000 IDR</span>
-                        </div>
-
-                        <div class="col-lg-12" style="text-align:right; padding-top:15px;">
+                            <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">-</span>
+                        </div>`;
+                        }
+                       text += `<div class="col-lg-12" style="text-align:right; padding-top:15px;">
                             <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
                             <br/>
                             <span style="color:#f15a22; font-size:13px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
@@ -601,6 +588,7 @@ function sort(response){
                     var showFrom = perPage * (pageNumber - 1);
                     var showTo = showFrom + perPage;
                     items.hide().slice(showFrom, showTo).show();
+                    $('#pagination-container2').pagination('drawPage', pageNumber);
                 }
             });
 
@@ -613,9 +601,9 @@ function sort(response){
                     var showFrom = perPage * (pageNumber - 1);
                     var showTo = showFrom + perPage;
                     items.hide().slice(showFrom, showTo).show();
+                    $('#pagination-container').pagination('drawPage', pageNumber);
                 }
             });
-
         }
         /*for(i in response.landmark_ids){
             text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
@@ -844,11 +832,11 @@ function check_passenger(adult, child){
     if(document.getElementById('booker_title').value!= '' &&
        document.getElementById('booker_first_name').value!= '' &&
        document.getElementById('booker_last_name').value!='' &&
-       document.getElementById('booker_nationality').value!='' &&
+       document.getElementById('booker_nationality_id').value!='' &&
        document.getElementById('booker_email').value!='' &&
        document.getElementById('booker_phone_code').value!='' &&
-       document.getElementById('booker_phone').value!= ''){
-
+       document.getElementById('booker_phone').value!= '')
+       {
         if(check_name(document.getElementById('booker_title').value, document.getElementById('booker_first_name').value, document.getElementById('booker_last_name').value, 25) == false)
             error_log+= 'Total of Booker name maximum 25 characters!\n';
         if(check_phone_number(document.getElementById('booker_phone').value)==false)
@@ -882,18 +870,62 @@ function check_passenger(adult, child){
        else
            alert(error_log);
      }else{
+        console.log(document.getElementById('booker_title').value);
+        console.log(document.getElementById('booker_first_name').value);
+        console.log(document.getElementById('booker_last_name').value);
+        console.log(document.getElementById('booker_nationality').value);
+        console.log(document.getElementById('booker_email').value);
+        console.log(document.getElementById('booker_phone_code').value);
+        console.log(document.getElementById('booker_phone').value);
         alert('Please Fill all the blank !');
      }
 }
 
-//<span style="border: 2px solid #f15a22; border-radius:7px; background-color:#f15a22; color:white; padding-left:5px; padding-right:5px; margin-right:5px;"> 8.4 / 10 </span>
-//<span> Very Good (43121 Reviews) </span>
+function hotel_detail(rooms){
+    rooms = rooms.replace(/&#39;/g, '"');
+    rooms = rooms.replace(/&quot;/g, '"');
+    rooms = rooms.replace(/False/g, 'false');
+    rooms = rooms.replace(/True/g, 'true');
+    rooms = rooms.replace(/None/g, '[]');
 
-//<span style="border-left: 1px solid #f15a22; padding-left:5px; padding-right:5px; margin-right:5px;">
-//    <img src="/static/tt_website_skytors/img/icon/circle.png" style="width:15px; height:15px;"/>
-//    <img src="/static/tt_website_skytors/img/icon/circle.png" style="width:15px; height:15px;"/>
-//    <img src="/static/tt_website_skytors/img/icon/circle.png" style="width:15px; height:15px;"/>
-//    <img src="/static/tt_website_skytors/img/icon/circle.png" style="width:15px; height:15px;"/>
-//    <img src="/static/tt_website_skytors/img/icon/circle-none.png" style="width:15px; height:15px;"/>
-//    (194121)
-//</span>
+    rooms = JSON.parse(rooms);
+
+    console.log(rooms);
+    text = '';
+    text += `
+    <div class="row" style="margin-bottom:5px; ">
+        <div class="col-lg-12">
+           <h4> Price Detail </h4>
+           <hr/>
+        </div>
+    </div>`;
+    for(i in rooms){
+        text += '<h5>'+ rooms[i].category + '</h5>';
+        text += '<span> '+ rooms[i].description + '<span><br/>';
+        text += '<span>Meal Type: ' + rooms[i].meal_type + '</span/><br/><br/>';
+        text += `<div class="row">`;
+        for(j in rooms[i].nightly_prices){
+            date = new Date(rooms[i].nightly_prices[j].date).toString().split(' ');
+            if(rooms[i].nightly_prices[j].currency != 'IDR')
+                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + rooms[i].nightly_prices[j].currency + ' ' + parseInt((rooms[i].nightly_prices[j].price + rooms[i].nightly_prices[j].commission))+'<span/></div>';
+            else
+                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(rooms[i].nightly_prices[j].price + rooms[i].nightly_prices[j].commission))+'<span/></div>';
+        }
+        text += `<div class="col-lg-12"><hr/></div>`;
+        text += `<div class="col-lg-6">
+            <span style="font-weight:bold;">Total</span>
+        </div>
+        <div class="col-lg-6" style="text-align:right;">
+            <span style="font-weight:bold;">IDR `+ getrupiah(parseInt(rooms[i].price_total)) +`</span>
+        </div>
+        <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
+            <div class="alert alert-success">
+                <span style="font-size:13px;">Your Commission: IDR `+ getrupiah(parseInt(rooms[i].commission)) +`</span><br>
+            </div>
+        </div>`;
+
+        text += `</div>`;
+    }
+    //console.log(text);
+    document.getElementById('hotel_detail').innerHTML = text;
+}

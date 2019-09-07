@@ -10,21 +10,31 @@
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" class="active"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
+{% include 'tt_website_skytors/logout.html' %}
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
+                    <center>
+                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                    </center>
+                </div>
+                <div class="col-lg-12">
+                    <ul class="progressbar">
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
+                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
+                        <li class="current"><span>Passenger <i class="fas fa-users"></i></span></li>
+                        <li><span>Book <i class="fas fa-book-open"></i></span></li>
+                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
+                    </ul>
                 </div>
             </div>
         </div>
-        <br/>
+    </div>
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
         <form method="POST" id="hotel_booking" action="{% url 'tt_website_skytors:hotel_booking'%}">
             {% csrf_token %}
             <div class="row">
@@ -43,40 +53,36 @@
                         </div>
                         <div class="col-lg-12">
                             <div id="hotel_review" style="padding:10px; background-color:white; border:1px solid #f15a22;">
-                                <span style="font-size:20px; font-weight:bold; color:black;">{{response.name}}</span>
+                                <span style="font-size:20px; font-weight:bold; color:black;">{{hotel_pick.name}}</span>
                                 <span>
                                     <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                    ( {{response.rating}} )
+                                    ( {{hotel_pick.rating}} )
                                 </span><br/>
 
                                 <span>
                                 <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
-                                    {% if response.location.address != False %}
-                                    {{response.location.address}}
+                                    {% if hotel_pick.location.address != False %}
+                                    {{hotel_pick.location.address}}
                                     {% endif %}
-                                    {% if response.location.city != False %}
-                                    {{response.location.city}}
+                                    {% if hotel_pick.location.city != False %}
+                                    {{hotel_pick.location.city}}
                                     {% endif %}
-                                    {% if response.location.kelurahan != False %}
-                                    {{response.location.kelurahan}}
+                                    {% if hotel_pick.location.kelurahan != False %}
+                                    {{hotel_pick.location.kelurahan}}
                                     {% endif %}
-                                    {% if response.location.state != False %}
-                                    {{response.location.state}}
+                                    {% if hotel_pick.location.state != False %}
+                                    {{hotel_pick.location.state}}
                                     {% endif %}
-                                    {% if response.location.zipcode != False %}
-                                    {{response.location.zipcode}}
+                                    {% if hotel_pick.location.zipcode != False %}
+                                    {{hotel_pick.location.zipcode}}
                                     {% endif %}
 
-                                    - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{response.lat}}, {{response.long}})</a>
+                                    - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{hotel_pick.lat}}, {{hotel_pick.long}})</a>
                                 </span>
                                 <br/>
-                                <span>Telephone: {{response.telephone}}</span><br/><br/>
+                                <span>Telephone: {{hotel_pick.telephone}}</span><br/><br/>
                                 <span style="text-align:justify; font-weight:bold;">Description: </span>
-                                <span>{{response.description}}</span><br/><br/>
+                                <span>{{hotel_pick.description}}</span><br/><br/>
 
                                 <span style="text-align:justify; font-weight:bold;">Room: </span>
                                 {% for room in hotel_room_detail_pick.rooms %}
@@ -154,6 +160,15 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div class="row" style="padding-bottom:15px;">
+                        <div class="col-lg-12">
+                            <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                                <hr/>
+                                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-lg-12">
                             <div style="background-color:#f15a22;">
@@ -180,17 +195,11 @@
                     </div>
                 </div>
 
-
-                <div class="col-lg-9">
+                <div class="col-lg-8">
                     <div class="row">
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="hotel_issued_booking();" style="width:100%;">
-                                Issued
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-
-
-                            <!--                            <input type="button" class="primary-btn" style="width:100%;" value="Hold Booking" onclick="train_create_booking();" />-->
+                        <div class="col-lg-10 col-md-8"></div>
+                        <div class="col-lg-2 col-md-4" style="padding-bottom:10px;">
+                            <button type="button" class="primary-btn ld-ext-right" id="btn-issued-hotel" onclick="hotel_issued_booking();" style="width:100%;">Issued</button>
                         </div>
                     </div>
                 </div>
@@ -204,7 +213,7 @@
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
+                    <h6>About RODEXTRIP</h6>
                     <p>
                         PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
                     </p>
@@ -270,15 +279,6 @@
 
 <script>
     document.getElementById('price_total').innerHTML = 'Total Price: IDR ' + getrupiah(parseInt({{hotel_room_detail_pick.price_total}}) + parseInt({{hotel_room_detail_pick.commission}}));
-    {% for room in hotel_room_detail_pick.rooms %}
-        {% with forloop.counter as counter_room %}
-
-            {% for night in room.nightly_prices%}
-                {% with forloop.counter as counter_night %}
-                    document.getElementById('price_per_night_{{counter_room}}_{{counter_night}}').innerHTML = getrupiah(parseInt({{night.price}}) + parseInt({{night.commission}}));
-                {% endwith %}
-            {% endfor %}
-        {% endwith %}
-    {% endfor %}
+    hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
 </script>
 {% endblock %}

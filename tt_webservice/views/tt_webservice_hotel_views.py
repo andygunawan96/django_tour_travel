@@ -53,8 +53,10 @@ def api_models(request):
             res = get_cancellation_policy(request)
         elif req_data['action'] == 'provision':
             res = provision(request)
-        elif req_data['action'] == 'create_booking':
+        elif req_data['action'] == 'issued':
             res = create_booking(request)
+        elif req_data['action'] == 'get_top_facility':
+            res = get_top_facility(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:

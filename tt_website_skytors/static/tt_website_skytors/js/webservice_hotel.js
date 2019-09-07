@@ -139,6 +139,20 @@ function get_top_facility(){
        success: function(msg) {
         console.log(msg);
         top_facility = msg.result.response;
+        if (top_facility){
+            facility_filter_html = `<hr><h6 style="padding-bottom:10px;">Facilities:</h6>`;
+            for(i in top_facility){
+                facility_filter_html += `
+                <label class="check_box_custom">
+                    <span class="span-search-ticket" style="color:black;"><img src="`+top_facility[i].image_url+`" style="width:20px; height:20px;"/> `+top_facility[i].facility_name+`</span>
+                    <input type="checkbox" id="fac_filter`+i+`" onclick="change_filter('rating',`+i+`);">
+                    <span class="check_box_span_custom"></span>
+                </label><br/>`;
+            }
+            var node = document.createElement("div");
+            node.innerHTML = facility_filter_html;
+            document.getElementById("filter").appendChild(node);
+        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -162,16 +176,18 @@ function hotel_detail(id){
        data: {
             'external_code':id,
             'checkin_date': document.getElementById('checkin_date').value,
-            'checkout_date': document.getElementById('checkout_date').value
+            'checkout_date': document.getElementById('checkout_date').value,
+            'signature': '',
        },
        success: function(msg) {
         console.log(msg);
         //show package
 
+        var result = msg.result.response;
         text='';
         var node = document.createElement("div");
-        if(msg.result.prices.length != 0){
-            for(i in msg.result.prices){
+        if(result.prices.length != 0){
+            for(i in result.prices){
                 text = '<div class="row" style="margin-bottom:15px;">';
                 text += `
                 <div class="col-lg-12" style="margin-bottom:25px;">
@@ -184,11 +200,11 @@ function hotel_detail(id){
                     </div>
                 </div>`;
 
-                for(j in msg.result.prices[i].rooms){
-                    if(msg.result.prices[i].rooms[j].images.length != 0){
+                for(j in result.prices[i].rooms){
+                    if(result.prices[i].rooms[j].images.length != 0){
                         text+=`
                         <div class="col-lg-3 col-md-3">
-                            <div class="img-hotel-detail" style="background-image: url(`+msg.result.prices[i].rooms[j].images[0].url+`);"></div>
+                            <div class="img-hotel-detail" style="background-image: url(`+result.prices[i].rooms[j].images[0].url+`);"></div>
                         </div>`;
                     }else{
                         text+=`
@@ -197,19 +213,19 @@ function hotel_detail(id){
                         </div>`;
                     }
                     text+=`<div class="col-lg-6 col-md-6">`;
-                    text+= '<h4 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + msg.result.prices[i].rooms[j].category + '>' + msg.result.prices[i].rooms[j].category + '</h4><span>' + msg.result.prices[i].rooms[j].description + '</span><br/><span>Qty: '+ msg.result.prices[i].rooms[j].qty +'</span><br/>';
-                    text+= '<span>Meal Type: ' + msg.result.prices[i].meal_type+'</span><br/><br/>';
+                    text+= '<h4 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span>Qty: '+ result.prices[i].rooms[j].qty +'</span><br/>';
+                    text+= '<span>Meal Type: ' + result.prices[i].meal_type+'</span><br/><br/>';
 
                     text+=`</div>`;
                 }
 
                 text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
-                if(msg.result.prices[i].currency != 'IDR')
-                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ msg.result.prices[i].currency + ' ' + parseInt(msg.result.prices[i].price_total) +'</span><br/>';
+                if(result.prices[i].currency != 'IDR')
+                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/>';
                 else
-                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ msg.result.prices[i].currency + ' ' + getrupiah(parseInt(msg.result.prices[i].price_total))+'</span><br/>';
+                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/>';
 
-                text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+msg.result.prices[i].sequence+');" id="button'+msg.result.prices[i].sequence+'">Choose</button>';
+                text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
                 text+='</div></div>';
                 node.className = 'detail-hotel-box';
                 node.innerHTML = text;
@@ -217,9 +233,9 @@ function hotel_detail(id){
                 node = document.createElement("div");
                 $('#loading-detail-hotel').hide();
             }
-            hotel_price = msg.result.prices;
+            hotel_price = result.prices;
 
-            //            for(i in msg.result.prices){
+            //            for(i in result.prices){
 //                text+=`
 //                <div class="row" style="margin-bottom:15px;">
 //                    <div class="col-lg-12" style="margin-bottom:25px;">
@@ -286,23 +302,38 @@ function hotel_get_cancellation_policy(price_code, provider){
        headers:{
             'action': 'get_cancellation_policy',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           "price_code": price_code,
           "provider": provider
        },
        success: function(msg) {
-        hotel_provision(price_code, provider);
-//        if(msg.result.error_code == 0){
-//
-////            document.getElementById('train_booking').submit();
-////            gotoForm();
-//        }else{
-//            alert(msg.result.error_msg);
-//        }
+            // hotel_provision(price_code, provider);
+            console.log(msg);
+            var result = msg.result.response;
+            var text = '<h4>Cancellation Policy</h4>';
+            text += '<b>' + result.hotel_name + '</b><hr/>';
+            //text += '<ul style="list-style-type: circle;">';
+            text += '<ul>';
+            if(result.policies){
+                if(result.policies.length != 0){
+                    for(i in result.policies){
+                        text += '<li>Cancel Days Before Check in: ' + result.policies[i].max_cancel_days;
+                        text += ' will be Refunded: ' + result.policies[i].charge_rate + '</li>'
+                    }
+                } else {
+                    text += '<li>No Cancellation Policy Provided</li>';
+                };
+            } else {
+                text += '<li>No Cancellation Policy Provided</li>';
+            };
+            text += '</ul>';
+            //console.log(text);
+            document.getElementById('cancellation_policy').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+           text += '<ul>';
+           text += '<li>No Cancellation Policy Provided</li></ul>';
+           document.getElementById('cancellation_policy').innerHTML = text;
        }
     });
 }
@@ -321,17 +352,17 @@ function hotel_provision(price_code, provider){
           "provider": provider
        },
        success: function(msg) {
-//        if(msg.result.error_code == 0){
-//            document.getElementById('train_booking').submit();
-////            gotoForm();
-//        }else{
-//            alert(msg.result.error_msg);
-//        }
+            console.log(msg);
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+           //alert(errorThrown);
        }
     });
+}
+
+function gotoForm(){
+    document.getElementById('hotel_searchForm').submit();
 }
 
 function hotel_issued_booking(){
@@ -340,27 +371,18 @@ function hotel_issued_booking(){
        type: "POST",
        url: "/webservice/hotel",
        headers:{
-            'action': 'create_booking',
+            'action': 'issued',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-        'special_request': document.getElementById('special_request').value,
+            'special_request': document.getElementById('special_request').value,
        },
        success: function(msg) {
         console.log(msg);
-        if(msg.result.error_code == 0){
-//            document.getElementById('train_booking').submit();
-//            gotoForm();
-        }else{
-            alert(msg.result.error_msg);
-        }
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
     });
-}
-
-function gotoForm(){
-    document.getElementById('hotel_searchForm').submit();
 }
