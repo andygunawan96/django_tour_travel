@@ -1836,10 +1836,10 @@ function sort(airline){
                                 text+=`</span><br/>`;
                                 for(k in airline[i].segments[j].fares){
                                     if(k == 0){
-                                        for(l in airline[i].segments[j].fares[k].details){
-                                            if(airline[i].segments[j].fares[k].details[l].detail_type == 'BG'){
+                                        for(l in airline[i].segments[j].fares[k].fare_details){
+                                            if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
                                 text+=`
-                                <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline[i].segments[j].fares[k].details[l].amount+` `+airline[i].segments[j].fares[k].details[l].unit+`</span><br/>`;
+                                <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                             }
                                         }
                                     break;
@@ -2083,10 +2083,10 @@ function sort(airline){
                                 text+=`</span><br/>`;
                                 for(k in airline[i].segments[j].fares){
                                     if(k == 0){
-                                        for(l in airline[i].segments[j].fares[k].details){
-                                            if(airline[i].segments[j].fares[k].details[l].detail_type == 'BG'){
+                                        for(l in airline[i].segments[j].fares[k].fare_details){
+                                            if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
                                 text+=`
-                                <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline[i].segments[j].fares[k].details[l].amount+` `+airline[i].segments[j].fares[k].details[l].unit+`</span><br/>`;
+                                <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                             }
                                         }
                                     break;
@@ -2414,7 +2414,7 @@ function airline_pick_mc(type){
                 }
                 text+=`
                     <div class="col-lg-12">
-                        <div class="row" id="journey0segment0">
+                        <div class="row" id="journey0segment0" style="padding-top:10px;">
 
                         <div class="col-lg-2">`;
                         try{
@@ -2464,10 +2464,10 @@ function airline_pick_mc(type){
                             text+=`</span><br/>`;
                             for(k in airline_pick_list[i].segments[j].fares){
                                 if(k == 0){
-                                    for(l in airline_pick_list[i].segments[j].fares[k].details){
-                                        if(airline_pick_list[i].segments[j].fares[k].details[l].detail_type == 'BG'){
+                                    for(l in airline_pick_list[i].segments[j].fares[k].fare_details){
+                                        if(airline_pick_list[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
                             text+=`
-                            <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline_pick_list[i].segments[j].fares[k].details[l].amount+` `+airline_pick_list[i].segments[j].fares[k].details[l].unit+`</span><br/>`;
+                            <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline_pick_list[i].segments[j].fares[k].fare_details[l].amount+` `+airline_pick_list[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                         }
                                     }
                                 break;
