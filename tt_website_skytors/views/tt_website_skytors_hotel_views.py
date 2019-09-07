@@ -39,7 +39,7 @@ def search(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -47,7 +47,7 @@ def search(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -84,7 +84,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def detail(request):
     if 'user_account' in request.session._session:
@@ -98,7 +98,7 @@ def detail(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -106,7 +106,7 @@ def detail(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -130,7 +130,7 @@ def detail(request):
 
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def passengers(request):
     if 'user_account' in request.session._session:
@@ -154,7 +154,7 @@ def passengers(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -162,7 +162,7 @@ def passengers(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -206,7 +206,7 @@ def passengers(request):
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def review(request):
     if 'user_account' in request.session._session:
@@ -230,7 +230,7 @@ def review(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -238,7 +238,7 @@ def review(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         adult = []
         child = []
@@ -306,4 +306,4 @@ def review(request):
         }
         return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

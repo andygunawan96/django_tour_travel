@@ -76,15 +76,11 @@
                         </li>
 
                         {% if username != null %}
-                        <li class="menu-has-children pt5"><a href="#">Balance</a>
-                            <ul>
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                            </ul>
-                        </li>
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
                             <ul>
-                                <li><a id="username" title="{{username.user_login}}"> {{username.co_user_login}}</a></li>
+                                <li><a id="username" title="{{username.co_user_login}}"> {{username.co_user_login}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
@@ -133,22 +129,6 @@
     </div>
 </header>
 
-<div class="modal fade" id="myModalNotification" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" style="color:white;"> Notification <i class="fas fa-bell"></i></i></h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="row" id="notification_detail">
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 {% elif template == 2 %}
 <!--template2-->
 <header class="header-area">
@@ -163,36 +143,34 @@
     <!--    </div>-->
 
     <!-- Top Header Area Start -->
-    <div class="top-header-area">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-xs-4">
-                    <div class="top-header-content">
-                        <a href="tel:0315662000"><i class="fas fa-phone"></i> <span style="font-size:12px;">(031) 5662000</span></a>
-                        <a href="mailto:rodextravel@tours"><i class="fas fa-envelope"></i> <span style="font-size:12px;">rodextravel@tours</span></a>
-                    </div>
-                </div>
-
-                <div class="col-xs-8">
-                    <div class="top-header-content">
-                        <!-- Top Social Area -->
-                        <div class="top-social-area ml-auto">
-                            <div class="dropdown-custom">
-                                <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>
-                                <div class="dropdown-content-custom">
-                                    <a href="javascript:change_template(1);" style="line-height:10px !important;">ID</a><br/>
-                                    <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>
-                                    <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Nav Start -->
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--    <div class="top-header-area">-->
+    <!--        <div class="container">-->
+    <!--            <div class="row">-->
+    <!--                <div class="col-xs-4">-->
+    <!--                    <div class="top-header-content">-->
+    <!--                        <a href="tel:0315662000"><i class="fas fa-phone"></i> <span style="font-size:12px;">(031) 5662000</span></a>-->
+    <!--                        <a href="mailto:rodextravel@tours"><i class="fas fa-envelope"></i> <span style="font-size:12px;">rodextravel@tours</span></a>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <div class="col-xs-8">-->
+    <!--                    <div class="top-header-content">-->
+    <!--                        &lt;!&ndash; Top Social Area &ndash;&gt;-->
+    <!--                        <div class="top-social-area ml-auto">-->
+    <!--                            <div class="dropdown-custom">-->
+    <!--                                <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
+    <!--                                <div class="dropdown-content-custom">-->
+    <!--                                    <a href="javascript:change_template(1);" style="line-height:10px !important;">ID</a><br/>-->
+    <!--                                    <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
+    <!--                                    <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
+    <!--                                </div>-->
+    <!--                            </div>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                    &lt;!&ndash; Nav Start &ndash;&gt;-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
     <!-- Top Header Area End -->
 
     <!-- Main Header Start -->
@@ -201,16 +179,11 @@
             <div class="container">
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
                     <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
-                    <div class="classy-navbar-toggler">
-                        <div class="navbarToggler notification-mobile" style="margin-right:15px; display:none;">
-                            <div class="dropdown-custom">
-                                <button class="dropbtn-custom" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:20px;"> 0 </i></button>
-                                <div class="dropdown-content-custom" id="notification_detail">
-                                    <li><a style="line-height:10px !important;">No Notification (INI HARDCODE)</a></li>
-                                </div>
-                            </div>
+                    <div style="display:flex;">
+                        <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:#f15a22;"></i>
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
                         </div>
-                        <span class="navbarToggler"><span></span><span></span><span></span></span>
                     </div>
 
                     <div class="classy-menu">
@@ -252,15 +225,11 @@
                                     </ul>
                                 </li>
                                 {% if username != null %}
-                                <li><a href="#">Balance</a>
-                                    <ul class="dropdown">
-                                        <li><a id="balance"></a></li>
-                                        <li><a id="credit_limit"></a></li>
-                                    </ul>
-                                </li>
                                 <li class="notification-pc"><a href="#" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                                     <ul class="dropdown">
                                         <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                        <li><a id="balance"></a></li>
+                                        <li><a id="credit_limit"></a></li>
                                         <li><a>My Virtual Account: 9317918739186</a></li>
                                         <li><a href="#">Edit Agent Profile</a></li>
                                         <li>
@@ -290,12 +259,8 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="notification-pc" id="notification-pc" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
-                                    <ul class="dropdown" id="notification_detail">
-                                        <li><a>No Notification (INI HARDCODE)</a></li>
-                                    </ul>
-                                </li>
-                                {% endif %}
+                                <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                                    {% endif %}
                             </ul>
                             <!-- Search -->
                             <!--                            <div class="search-btn ml-4">-->
@@ -320,14 +285,14 @@
     <div class="main-menu" style="background:rgba(0, 0, 0, 0.5);">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
-                <div class="col-lg-12" style="padding:0px 0px 0px 15px;">
-                    <ul class="nav-menu" style="float:left;">
-                        <li id="phone-detail" style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>
-                        <li id="phone-detail-show" style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i></a></li>
-                        <li id="email-detail" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; margin-right:3px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>
-                        <li id="email-detail-show" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; margin-right:3px;"> <i class="fas fa-envelope"></i></a></li>
-                    </ul>
-                </div>
+                <!--                <div class="col-lg-12" style="padding:0px 0px 0px 15px;">-->
+                <!--                    <ul class="nav-menu" style="float:left;">-->
+                <!--                        <li id="phone-detail" style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>-->
+                <!--                        <li id="phone-detail-show" style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i></a></li>-->
+                <!--                        <li id="email-detail" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; margin-right:3px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>-->
+                <!--                        <li id="email-detail-show" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; margin-right:3px;"> <i class="fas fa-envelope"></i></a></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
                 <div id="logo" style="padding:15px 0px 15px 15px;">
                     <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
@@ -365,15 +330,11 @@
                             </ul>
                         </li>
                         {% if username != null %}
-                        <li class="menu-has-children"><a href="#">Balance</a>
-                            <ul>
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                            </ul>
-                        </li>
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                             <ul>
                                 <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
@@ -402,22 +363,14 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:18px; color:white; "> 0 </i>
-                            <ul id="notification_detail">
-                                <li> No Notification (INI HARDCODE) </li>
-                            </ul>
-                        </li>
-                        {% endif %}
+                        <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                            {% endif %}
 
                     </ul>
                 </nav>
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
-                        <li class="menu-has-children" style="font-size:13px; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px; color:white; padding-top:5px;"> 0 </i>
-                            <ul id="notification_detail2">
-                                <li> No Notification (INI HARDCODE) </li>
-                            </ul>
-                        </li>
+                        <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer; color:#f15a22;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" id="red_notification" style="font-size:16px; color:white; padding-top:5px;"></i></li>
                     </ul>
                 </nav>
             </div>
@@ -436,26 +389,26 @@
 
 <header class="site-navbar container py-0" role="banner">
     <div class="container">
-        <div class="row" style="border-radius: 4px;">
-            <div class="col-5" id="with-detail" style="text-align:left; padding:0px 0px 5px 0px;">
-                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i> <span>(031) 5662000</span></a>
-                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i> <span>rodextravel@tours</span></a>
-            </div>
-            <div class="col-5" id="no-detail" style="text-align:left; padding:0px 0px 5px 0px;">
-                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i></a>
-                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i></a>
-            </div>
-            <div class="col-7" style="text-align:right; padding:0px;">
-                <div class="dropdown-custom">
-                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>
-                    <div class="dropdown-content-custom">
-                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>
-                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>
-                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--        <div class="row" style="border-radius: 4px;">-->
+        <!--            <div class="col-5" id="with-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
+        <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i> <span>(031) 5662000</span></a>-->
+        <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i> <span>rodextravel@tours</span></a>-->
+        <!--            </div>-->
+        <!--            <div class="col-5" id="no-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
+        <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i></a>-->
+        <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i></a>-->
+        <!--            </div>-->
+        <!--            <div class="col-7" style="text-align:right; padding:0px;">-->
+        <!--                <div class="dropdown-custom">-->
+        <!--                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
+        <!--                    <div class="dropdown-content-custom">-->
+        <!--                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>-->
+        <!--                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
+        <!--                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </div>-->
+        <!--        </div>-->
         <div class="row align-items-center" style="border-radius: 4px; padding:5px; background:rgba(255,255,255,0.9);">
             <div class="col-6 col-xl-2">
                 <h1 class="mb-0 site-logo"><a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a></h1>
@@ -495,15 +448,11 @@
                             </ul>
                         </li>
                         {% if username != null %}
-                        <li class="has-children"><a href="#">Balance</a>
-                            <ul class="dropdown">
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                            </ul>
-                        </li>
                         <li class="has-children notification-pc"><a href="#" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                             <ul class="dropdown">
                                 <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
@@ -565,26 +514,26 @@
 </header>
 {% elif template == 5%}
 <header class="default-header">
-    <div class="menutop-wrap">
-        <div class="menu-top container">
-            <div class="d-flex justify-content-end align-items-center">
-                <div class="dropdown-custom">
-                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>
-                    <div class="dropdown-content-custom">
-                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>
-                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>
-                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>
-                    </div>
-                </div>
-                <ul class="list">
-                    <li id="phone-detail" style="color:black; border-left:1px solid black;"><a href="tel:0315662000" style="font-size:12px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>
-                    <li id="phone-detail-show" style="color:black; border-left:1px solid black;"><a href="tel:0315662000" style="font-size:12px;"><i class="fas fa-phone"></i></a></li>
-                    <li id="email-detail" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:12px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>
-                    <li id="email-detail-show" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:12px;"> <i class="fas fa-envelope"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    <!--    <div class="menutop-wrap">-->
+    <!--        <div class="menu-top container">-->
+    <!--            <div class="d-flex justify-content-end align-items-center">-->
+    <!--                <div class="dropdown-custom">-->
+    <!--                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
+    <!--                    <div class="dropdown-content-custom">-->
+    <!--                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>-->
+    <!--                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
+    <!--                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
+    <!--                    </div>-->
+    <!--                </div>-->
+    <!--                <ul class="list">-->
+    <!--                    <li id="phone-detail" style="color:black; border-left:1px solid black;"><a href="tel:0315662000" style="font-size:12px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>-->
+    <!--                    <li id="phone-detail-show" style="color:black; border-left:1px solid black;"><a href="tel:0315662000" style="font-size:12px;"><i class="fas fa-phone"></i></a></li>-->
+    <!--                    <li id="email-detail" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:12px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>-->
+    <!--                    <li id="email-detail-show" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:12px;"> <i class="fas fa-envelope"></i></a></li>-->
+    <!--                </ul>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
 
     <div class="main-menu">
         <div class="container">
@@ -629,15 +578,11 @@
                             </ul>
                         </li>
                         {% if username != null %}
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="">Balance <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
-                            <ul>
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                            </ul>
-                        </li>
                         <li class="menu-has-children notification-pc"><a href="" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                             <ul>
                                 <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
@@ -683,6 +628,22 @@
     </div>
 </header>
 {%endif%}
+<div class="modal fade" id="myModalNotification" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:white;"> Notification <i class="fas fa-bell"></i></i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="notification_detail">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     {% if username != null %}

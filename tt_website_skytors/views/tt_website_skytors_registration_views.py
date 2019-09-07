@@ -44,7 +44,7 @@ def open_page(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -52,7 +52,7 @@ def open_page(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         values = {
             'countries': response['result']['response']['activity_config']['countries'],
@@ -90,7 +90,7 @@ def register_agent(request):
         for idx, line in enumerate(file):
             if idx == 0:
                 if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo = line
             elif idx == 1:
@@ -98,7 +98,7 @@ def register_agent(request):
         file.close()
     except:
         template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
     #pic
     while(check):

@@ -4945,6 +4945,7 @@ button.close {
   align-items: flex-start;
   justify-content: space-between;
   padding: 1rem;
+  background: #f15a22;
   border-bottom: 1px solid #e9ecef;
   border-top-left-radius: 0.3rem;
   border-top-right-radius: 0.3rem;

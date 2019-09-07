@@ -68,7 +68,7 @@ def search(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -76,7 +76,7 @@ def search(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -127,7 +127,7 @@ def search(request):
         }
         return render(request, MODEL_NAME + '/tour/tt_website_skytors_tour_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def detail(request):
     if 'user_account' in request.session._session:
@@ -150,7 +150,7 @@ def detail(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -158,7 +158,7 @@ def detail(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -178,7 +178,7 @@ def detail(request):
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_detail_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -201,7 +201,7 @@ def passenger(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -209,7 +209,7 @@ def passenger(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -345,7 +345,7 @@ def passenger(request):
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def review(request):
@@ -369,7 +369,7 @@ def review(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -377,7 +377,7 @@ def review(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -539,7 +539,7 @@ def review(request):
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def booking(request):
@@ -563,7 +563,7 @@ def booking(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -571,7 +571,7 @@ def booking(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -585,5 +585,5 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 

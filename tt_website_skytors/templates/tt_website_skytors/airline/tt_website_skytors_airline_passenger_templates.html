@@ -17,16 +17,20 @@
     function check_years_old(sequence, type){
 
         var birth_date = '';
-        if(type =='adult')
+        if(type =='adult'){
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
-        if(type =='infant')
+            document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+        }if(type =='infant'){
             birth_date = moment(document.getElementById('infant_birth_date'+sequence).value, 'DD MMM YYYY');
-        if(type =='senior')
+            document.getElementById('infant_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+        }if(type =='senior'){
             birth_date = moment(document.getElementById('senior_birth_date'+sequence).value, 'DD MMM YYYY');
-        if(type =='child')
+            document.getElementById('senior_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+        }if(type =='child'){
             birth_date = moment(document.getElementById('child_birth_date'+sequence).value, 'DD MMM YYYY');
+            document.getElementById('child_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+        }
 
-        document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
 
 
@@ -65,20 +69,44 @@
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
-                    <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
-                    </center>
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-12">
-                    <ul class="progressbar">
-                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
-                        <li class="current"><span>Passenger <i class="fas fa-users"></i></span></li>
-                        <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                    </ul>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-active">
+                        <span class="breadcrumb-rdx-icon br-icon-active">3</span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx">
+                        <span class="breadcrumb-rdx-icon">4</span>
+                        <span style="padding-left:5px;">Booking</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx">
+                        <span class="breadcrumb-rdx-icon">5</span>
+                        <span style="padding-left:5px;">Issued</span>
+                    </div>
                 </div>
+                <!--                <div class="col-lg-12">-->
+                <!--                    <ul class="progressbar">-->
+                <!--                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>-->
+                <!--                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>-->
+                <!--                        <li class="current"><span>Passenger <i class="fas fa-users"></i></span></li>-->
+                <!--                        <li><span>Book <i class="fas fa-book-open"></i></span></li>-->
+                <!--                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
             </div>
         </div>
     </div>
@@ -87,7 +115,7 @@
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
-            <form id="airline_review" class="form-wrap" action=" {% if srr == 0 %} {% url 'tt_website_skytors:airline_ssr'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}" method="POST" style="padding:0; text-align:unset;">
+            <form id="airline_review" class="form-wrap" action=" {% if ssr == 0 %} {% url 'tt_website_skytors:airline_ssr'%} {%elif seat_map == 0 %} {% url 'tt_website_skytors:airline_seat_map'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">

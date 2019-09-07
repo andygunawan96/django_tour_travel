@@ -58,7 +58,7 @@ def search(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -66,7 +66,7 @@ def search(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         request.session['train_adult'] = request.POST['train_adult']
         request.session['train_infant'] = request.POST['train_infant']
@@ -92,7 +92,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -115,7 +115,7 @@ def passenger(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -123,7 +123,7 @@ def passenger(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -168,7 +168,7 @@ def passenger(request):
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def review(request):
     if 'user_account' in request.session._session:
@@ -182,7 +182,7 @@ def review(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -190,7 +190,7 @@ def review(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         #adult
         adult = []
@@ -298,7 +298,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -312,7 +312,7 @@ def booking(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -320,7 +320,7 @@ def booking(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -336,7 +336,7 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def seat_map(request):
     if 'user_account' in request.session._session:
@@ -350,7 +350,7 @@ def seat_map(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -358,7 +358,7 @@ def seat_map(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         passenger = []
         for pax in request.session['train_pax']:
@@ -376,4 +376,4 @@ def seat_map(request):
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_seat_map_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
