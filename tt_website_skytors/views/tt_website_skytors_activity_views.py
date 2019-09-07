@@ -43,7 +43,7 @@ def search(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -51,7 +51,7 @@ def search(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         # activity
         activity_sub_categories = response['result']['response']['activity']['sub_categories']
@@ -101,7 +101,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def detail(request):
@@ -125,7 +125,7 @@ def detail(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -133,7 +133,7 @@ def detail(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -149,7 +149,7 @@ def detail(request):
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_detail_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def passenger(request):
@@ -173,7 +173,7 @@ def passenger(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -181,7 +181,7 @@ def passenger(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -206,10 +206,15 @@ def passenger(request):
             'activity_date_data': json.loads(request.POST['activity_date_data']),
         }
 
+        pax_count = {}
+
         for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
             low_sku_id = temp_sku['sku_id'].lower()
             request.session['activity_request'].update({
                 low_sku_id+'_passenger': request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0,
+            })
+            pax_count.update({
+                low_sku_id: request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0
             })
 
         perbooking_list = []
@@ -313,11 +318,17 @@ def passenger(request):
                         "value": request.POST['perbooking' + str(idx)],
                         "name": perbooking['name']
                     })
+                elif perbooking['inputType'] == 50:
+                    perbooking_list.append({
+                        "uuid": perbooking['uuid'],
+                        "value": request.POST['perbooking' + str(idx)],
+                        "name": perbooking['name']
+                    })
 
         request.session['activity_perbooking'] = perbooking_list
         request.session['activity_upload'] = upload
 
-        # pax
+        #original pax count
         adult = []
         infant = []
         senior = []
@@ -357,10 +368,7 @@ def passenger(request):
             'additional_price': request.POST['additional_price'],
             'countries': airline_country,
             'response': request.session['activity_pick'],
-            'adult_count': len(adult),
-            'infant_count': len(infant),
-            'child_count': len(child),
-            'senior_count': len(senior),
+            'pax_count': pax_count,
             'adults': adult,
             'infants': infant,
             'seniors': senior,
@@ -373,9 +381,16 @@ def passenger(request):
             'logo': logo,
             'template': template
         }
+
+        for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
+            low_sku_id = temp_sku['sku_id'].lower()
+            values.update({
+                low_sku_id+'_count': pax_count.get(low_sku_id) and int(pax_count[low_sku_id]) or 0,
+            })
+
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def review(request):
@@ -406,7 +421,7 @@ def review(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -414,7 +429,7 @@ def review(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         booker = {
             'title': request.POST['booker_title'],
@@ -1136,7 +1151,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -1159,7 +1174,7 @@ def booking(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -1167,7 +1182,7 @@ def booking(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -1184,4 +1199,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME + '/activity/tt_website_skytors_activity_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

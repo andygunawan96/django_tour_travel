@@ -40,7 +40,7 @@ def issued_offline(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -48,7 +48,7 @@ def issued_offline(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         airline_destinations = []
         for country in response['result']['response']['airline']['destination']:
@@ -85,7 +85,7 @@ def issued_offline(request):
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
@@ -109,7 +109,7 @@ def issued_offline_history(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -117,7 +117,7 @@ def issued_offline_history(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -130,4 +130,4 @@ def issued_offline_history(request):
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_history_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

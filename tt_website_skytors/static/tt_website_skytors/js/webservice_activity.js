@@ -298,6 +298,9 @@ function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('timeslot').innerHTML = '';
     document.getElementById('perbooking').innerHTML = '';
     $('#loading-detail-activity').show();
+    document.getElementById('activity_date_desc').innerHTML = `
+                           <small id="departure_date_activity_desc" class="hidden" style="color: black;">Checking Availability...</small>
+                           `;
     startingDate = document.getElementById('activity_date').value;
     document.getElementById("activity_date").disabled = true;
     getToken();

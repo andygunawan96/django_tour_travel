@@ -2208,7 +2208,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .primary-btn {
-  background-color: #fab700;
+  background-color: #f15a22;
   line-height: 42px;
   padding-left: 40px;
   padding-right: 40px;
@@ -2244,9 +2244,15 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .primary-btn:hover {
-  color: #fab700;
-  background-color: transparent;
-  border-color: #fab700;
+  color: white;
+  background-color: #C04B21;
+  border-color: #C04B21;
+}
+
+primary-btn:disabled {
+  color: white;
+  background-color: #C04B21;
+  border-color: #C04B21;
 }
 
 .primary-btn.white {

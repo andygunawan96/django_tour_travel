@@ -443,8 +443,8 @@ input:focus {
   transition-duration: 500ms; }
   .roberto-btn:focus, .roberto-btn:hover {
     font-weight: 500;
-    -webkit-box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
-    box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
+    /*-webkit-box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);
+    box-shadow: 0 2px 40px 8px rgba(15, 15, 15, 0.15);*/
     background-color: #C04B21;
     color: white; }
   .roberto-btn.btn-2 {
@@ -2589,12 +2589,12 @@ ul.tabs li.current .image-rounded-icon{
 
 /* On mouse-over, add a grey background color */
 .radio-button-custom:hover input ~ .checkmark-radio {
-  background-color: #9A9A9A;
+  background-color: #9A9A9A !important;
 }
 
 /* When the radio button is checked, add a blue background */
 .radio-button-custom input:checked ~ .checkmark-radio {
-  background-color: #f15a22;
+  background-color: #f15a22 !important;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -2654,12 +2654,12 @@ ul.tabs li.current .image-rounded-icon{
 
 /* On mouse-over, add a grey background color */
 .check_box_custom:hover input ~ .check_box_span_custom {
-  background-color: #ccc;
+  background-color: #9A9A9A !important;
 }
 
 /* When the checkbox is checked, add a blue background */
 .check_box_custom input:checked ~ .check_box_span_custom {
-  background-color: #f15a22;
+  background-color: #f15a22 !important;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -2716,7 +2716,6 @@ ul.tabs li.current .image-rounded-icon{
   margin-bottom:3px;
   font-size:14px;
 }
-
 
 .image-change-route-vertical {
   z-index: 10;
@@ -3643,3 +3642,310 @@ ul.tabs li.current .image-rounded-icon{
   height: 43.2px;
   width:100%;
   }
+.search-box-result{
+    margin-top:15px;
+    background-color:white;
+    border:1px solid #cdcdcd;
+}
+.search-box-result:hover{
+    border:1px solid #f15a22 !important;
+}
+
+.detail-link{
+    text-decoration: unset;
+}
+.detail-link:hover{
+    color: #1497BF;
+}
+
+.bold{font-weight:bold;}
+.time{position:absolute; left:-110px;}
+.timeline-wrapper {
+min-width: 400px;
+font-size: 13px;
+/*border: 1px solid #CCC;*/
+}
+.StepProgress {
+position: relative;
+padding-left: 45px;
+list-style: none;
+}
+.StepProgress::before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 13px;
+    width: 10px;
+    border-left: 2px solid #CCC;
+}
+.StepProgress-item {
+position: relative;
+counter-increment: list;
+}
+.StepProgress-item:not(:last-child) {
+    padding-bottom: 20px;
+}
+.StepProgress-item::before {
+    display: inline-block;
+    content: '';
+    position: absolute;
+    left: -32px;
+    height: 100%;
+    width: 10px;
+}
+.StepProgress-item::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: -37px;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #CCC;
+    border-radius: 50%;
+    background-color: #FFF;
+}
+.StepProgress-item.is-done::before {
+border-left: 2px solid #f15a22;
+}
+.StepProgress-item.is-done::after {
+/*content: "?";*/
+    font-size: 10px;
+    color: #FFF;
+    text-align: center;
+    border: 2px solid #f15a22;
+    background-color: white;
+}
+.StepProgress-item.is-end::after{
+    font-size: 10px;
+    color: #FFF;
+    text-align: center;
+    border: 2px solid #f15a22;
+    background-color: white;
+}
+/*.StepProgress-item.current::before {
+border-left: 2px solid green;
+}
+.StepProgress-item.current::after {
+content: counter(list);
+padding-top: 1px;
+width: 19px;
+height: 18px;
+top: -4px;
+left: -40px;
+font-size: 14px;
+text-align: center;
+color: green;
+border: 2px solid green;
+background-color: white;
+}*/
+.StepProgress strong {
+display: block;
+}
+
+
+.primary-delete {
+  background: #FC3030;
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-delete:hover {
+  background: #DA1010;
+}
+
+.primary-delete-date {
+  background: transparent;
+  line-height: 45px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  border: none;
+  display: inline-block;
+  font-weight: 500;
+  height:43px;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn {
+  background: #f15a22;
+  line-height: 42px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-custom {
+  background: #f15a22;
+  line-height: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px;
+}
+
+.primary-btn-custom:hover {
+  background: #C04B21;
+}
+
+.primary-btn-custom:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.primary-btn-custom-un {
+  background: #C04B21;
+  line-height: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px;
+}
+
+.primary-btn:hover{
+  background: #C04B21;
+}
+
+.primary-btn:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.primary-btn-ad {
+  background: #f15a22;
+  line-height: 42px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right:5px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-ad:hover{
+  background: #C04B21;
+}
+
+.primary-btn-ad:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.payment_method:disabled{
+  cursor: not-allowed;
+}
+
+.primary-btn-logout {
+  background: #f15a22;
+  line-height: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 3px;
+  color: black;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+}
+
+.primary-btn-logout:hover{
+  background: #C04B21;
+}
+
+.primary-btn-modal {
+  background: lightgray;
+  line-height: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 3px;
+  color: black;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-modal:hover{
+  background: #9B9B9B;
+}

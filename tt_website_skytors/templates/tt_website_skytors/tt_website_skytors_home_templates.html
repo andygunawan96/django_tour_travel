@@ -74,14 +74,16 @@
         sub_category_list = [];
     {% endfor %}
     {% if username != undefined %}
-        //hotel_signin('home');
-        get_airline_config('home');
-        airline_search_value = 'false';
-        //get_train_config('home');
-        //get_visa_config('home');
-        //tour_login('');
+        try{
+            //hotel_signin('home');
+            get_airline_config('home');
+            airline_search_value = 'false';
+            //get_train_config('home');
+            //get_visa_config('home');
+            tour_login('');
+        }catch(err){
 
-        //get_agent_booking();
+        }
     {% endif %}
 </script>
 
@@ -661,17 +663,15 @@
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-3" style="padding:0px;">
-                                            <span class="span-search-ticket">Search for Tour</span>
+                                            <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-briefcase icon-search-ticket"></i>
-                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Tour Keyword" autocomplete="off"/>
+                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-3" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination</span>
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
                                             <input id="tour_hidden_destination" type="hidden" value=""/>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-map-marker-alt icon-search-ticket"></i>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
 
@@ -680,9 +680,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination Month</span>
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Month</span>
                                             <div class="input-container-search-ticket">
-                                                <i class="fas fa-calendar-alt icon-search-ticket"></i>
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                         <option value="00" selected="True">All Months</option>
@@ -703,7 +702,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <span class="span-search-ticket">Destination Year</span>
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Year</span>
                                             <input id="tour_hidden_year" type="hidden" value=""/>
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -2125,7 +2124,7 @@
 <!--</div>-->
 
 {% elif template == 3 %}
-<section class="banner-area relative" id="home">
+<section class="banner-area relative">
     <div class="overlay overlay-bg"></div>
     <div class="container">
         <div class="row">
@@ -2191,7 +2190,7 @@
                                     <div class="col-lg-12" id="ori_airline">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span><br/>
+                                                <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                                                 <div class="form-group">
                                                     <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                 </div>
@@ -2199,13 +2198,15 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <h3 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
                                                 <h3 class="image-change-route-horizontal"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
-                                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span><br/>
-                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                                <div class="form-group">
+                                                    <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                </div>
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="airline_date_search">
                                                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                                                <div class="input-container-search-ticket">
+                                                <div class="form-group">
                                                     <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>

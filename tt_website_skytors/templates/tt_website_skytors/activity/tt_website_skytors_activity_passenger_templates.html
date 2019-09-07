@@ -12,10 +12,6 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
-    adult = {{adult_count}};
-    senior = {{senior_count}};
-    child = {{child_count}};
-    infant = {{infant_count}};
 
     price = `{{price}}`;
     price = price.replace(/&#39;/g,'"');
@@ -26,12 +22,9 @@
     detail = detail.replace(/True/g,'true');
     detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
-    passenger = {
-        'adult': parseInt({{adult_count}}),
-        'infant': parseInt({{infant_count}}),
-        'senior': parseInt({{senior_count}}),
-        'child': parseInt({{child_count}})
-    }
+    passenger = `{{pax_count}}`;
+    passenger = passenger.replace(/&#39;/g,'"');
+    passenger = JSON.parse(passenger);
     locations = [];
     images = [];
     {% for i in response.locations %}
@@ -86,10 +79,7 @@
 
         document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
-
-    time = 300;
-    triggered_balance();
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
+    signature = `{{signature}}`;
 </script>
 
 <header id="header">
@@ -1130,12 +1120,12 @@
                         <br/>
                         {% endfor %}
                     </div>
-                    <div class="col-lg-4 col-md-4" style="margin-top:10px;">
+                    <div class="col-lg-4" style="margin-top:10px;">
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
                             <h4> Price Detail </h4>
                             <hr/>
                             <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                            <br/><span id="product_type_title"></span>
+                            <br/><span id="product_type_title">{{detail.name}}</span>
                             <br/><br/>
                             <div id="activity_detail_table">
 
@@ -1222,11 +1212,12 @@
 </footer>
 
 <script>
-    activity_table_detail2({{adult_count}}, {{senior_count}}, {{child_count}}, {{infant_count}}, 'passenger')
+    activity_table_detail2('passenger')
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
+
       {% for adult in adults%}
           auto_complete('adult_nationality{{forloop.counter}}');
           //auto_complete('adult_country_of_issued{{forloop.counter}}');
@@ -1241,6 +1232,7 @@
           //auto_complete('infant_country_of_issued{{forloop.counter}}');
       {% endfor %}
     });
+
     $(function() {
       for (var i = 1; i <= adult; i++){
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({

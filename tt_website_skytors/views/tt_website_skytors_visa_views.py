@@ -29,7 +29,7 @@ def search(request):
         for idx, line in enumerate(file):
             if idx == 0:
                 if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo = line
             elif idx == 1:
@@ -37,7 +37,7 @@ def search(request):
         file.close()
     except:
         template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
     try:
         visa_request = {
@@ -73,7 +73,7 @@ def passenger(request):
         for idx, line in enumerate(file):
             if idx == 0:
                 if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo = line
             elif idx == 1:
@@ -81,7 +81,7 @@ def passenger(request):
         file.close()
     except:
         template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
     list_visa = request.session['visa_search']
     count = 0
@@ -203,7 +203,7 @@ def review(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -211,7 +211,7 @@ def review(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         # get_balance(request)
         adult = []
@@ -380,7 +380,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -393,7 +393,7 @@ def booking(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -401,7 +401,7 @@ def booking(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -416,4 +416,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from rest_framework.views import APIView
@@ -58,7 +58,7 @@ def search(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -66,7 +66,7 @@ def search(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:
@@ -270,7 +270,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def passenger(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -299,7 +299,7 @@ def passenger(request):
                 for idx, line in enumerate(file):
                     if idx == 0:
                         if line == '\n':
-                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                         else:
                             logo = line
                     elif idx == 1:
@@ -307,7 +307,7 @@ def passenger(request):
                 file.close()
             except:
                 template = 1
-                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -340,11 +340,22 @@ def passenger(request):
                 pass
         except:
             pass
+        ssr = 0
+        seat_map = 0
+        try:
+            ssr = request.session['airline_get_ssr']['result']['error_code']
+        except:
+            ssr = 1
+
+        try:
+            seat_map = request.session['airline_get_seat_availability']['result']['error_code']
+        except:
+            seat_map = 1
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'srr': request.session['airline_get_ssr']['result']['error_code'],
-            # 'srr': 0,
+            'ssr': ssr,
+            'seat_map': seat_map,
             'countries': response['result']['response']['airline']['country'],
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
@@ -369,7 +380,7 @@ def passenger(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def ssr(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -397,7 +408,7 @@ def ssr(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -405,7 +416,7 @@ def ssr(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         adult = []
         child = []
@@ -571,7 +582,7 @@ def ssr(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_ssr_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def seat_map(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -599,7 +610,7 @@ def seat_map(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -607,13 +618,147 @@ def seat_map(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         ssr = []
 
+        #pax
         try:
-            passenger = request.session['airline_create_passengers']['adult'] + \
-                        request.session['airline_create_passengers']['child']
+            adult = []
+            child = []
+            infant = []
+            contact = []
+            booker = {
+                'title': request.POST['booker_title'],
+                'first_name': request.POST['booker_first_name'],
+                'last_name': request.POST['booker_last_name'],
+                'email': request.POST['booker_email'],
+                'calling_code': request.POST['booker_phone_code'],
+                'mobile': request.POST['booker_phone'],
+                'nationality_code': request.POST['booker_nationality'],
+                'booker_seq_id': request.POST['booker_id']
+            }
+            for i in range(int(request.session['airline_request']['adult'])):
+                adult.append({
+                    "pax_type": "ADT",
+                    "first_name": request.POST['adult_first_name' + str(i + 1)],
+                    "last_name": request.POST['adult_last_name' + str(i + 1)],
+                    "title": request.POST['adult_title' + str(i + 1)],
+                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                    "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                    "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
+                    "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                    "passport_number": request.POST['adult_passport_number' + str(i + 1)],
+                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
+                })
+
+                if i == 0:
+                    if request.POST['myRadios'] == 'yes':
+                        adult[len(adult) - 1].update({
+                            'is_also_booker': True,
+                            'is_also_contact': True
+                        })
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_booker': False
+                        })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': False
+                    })
+                try:
+                    if request.POST['adult_cp' + str(i + 1)] == 'on':
+                        adult[len(adult) - 1].update({
+                            'is_also_contact': True
+                        })
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_contact': False
+                        })
+                except:
+                    if i == 0 and request.POST['myRadios'] == 'yes':
+                        continue
+                    else:
+                        adult[len(adult) - 1].update({
+                            'is_also_contact': False
+                        })
+                try:
+                    if request.POST['adult_cp' + str(i + 1)] == 'on':
+                        contact.append({
+                            "first_name": request.POST['adult_first_name' + str(i + 1)],
+                            "last_name": request.POST['adult_last_name' + str(i + 1)],
+                            "title": request.POST['adult_title' + str(i + 1)],
+                            "email": request.POST['adult_email' + str(i + 1)],
+                            "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                            "mobile": request.POST['adult_phone' + str(i + 1)],
+                            "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                        })
+                    if i == 0:
+                        if request.POST['myRadios'] == 'yes':
+                            contact[len(contact)].update({
+                                'is_also_booker': True
+                            })
+                        else:
+                            contact[len(contact)].update({
+                                'is_also_booker': False
+                            })
+                except:
+                    pass
+
+            if len(contact) == 0:
+                contact.append({
+                    'title': request.POST['booker_title'],
+                    'first_name': request.POST['booker_first_name'],
+                    'last_name': request.POST['booker_last_name'],
+                    'email': request.POST['booker_email'],
+                    'calling_code': request.POST['booker_phone_code'],
+                    'mobile': request.POST['booker_phone'],
+                    'nationality_code': request.POST['booker_nationality'],
+                    'contact_id': request.POST['booker_id'],
+                    'is_also_booker': True
+                })
+
+            for i in range(int(request.session['airline_request']['child'])):
+                child.append({
+                    "pax_type": "CHD",
+                    "first_name": request.POST['child_first_name' + str(i + 1)],
+                    "last_name": request.POST['child_last_name' + str(i + 1)],
+                    "title": request.POST['child_title' + str(i + 1)],
+                    "birth_date": request.POST['child_birth_date' + str(i + 1)],
+                    "nationality_code": request.POST['child_nationality' + str(i + 1)],
+                    "passport_number": request.POST['child_passport_number' + str(i + 1)],
+                    "passport_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
+                    "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
+                    "passenger_id": request.POST['child_id' + str(i + 1)]
+                })
+
+            for i in range(int(request.session['airline_request']['infant'])):
+                infant.append({
+                    "pax_type": "INF",
+                    "first_name": request.POST['infant_first_name' + str(i + 1)],
+                    "last_name": request.POST['infant_last_name' + str(i + 1)],
+                    "title": request.POST['infant_title' + str(i + 1)],
+                    "birth_date": request.POST['infant_birth_date' + str(i + 1)],
+                    "nationality_code": request.POST['infant_nationality' + str(i + 1)],
+                    "passport_number": request.POST['infant_passport_number' + str(i + 1)],
+                    "passport_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
+                    "country_of_issued_code": request.POST['infant_country_of_issued' + str(i + 1)],
+                    "passenger_id": request.POST['infant_id' + str(i + 1)]
+                })
+
+            request.session['airline_create_passengers'] = {
+                'booker': booker,
+                'adult': adult,
+                'child': child,
+                'infant': infant,
+                'contact': contact
+            }
+        except:
+            #pax already in ssr
+            pass
+        try:
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             sell_ssrs = []
             sell_ssrs_request = []
             passengers_list = []
@@ -690,7 +835,7 @@ def seat_map(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_seat_map_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -713,7 +858,7 @@ def review(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -721,7 +866,7 @@ def review(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         ssr = []
 
@@ -971,7 +1116,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -990,7 +1135,7 @@ def booking(request):
             for idx, line in enumerate(file):
                 if idx == 0:
                     if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
                     else:
                         logo = line
                 elif idx == 1:
@@ -998,7 +1143,7 @@ def booking(request):
             file.close()
         except:
             template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEX.png'
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -1016,4 +1161,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
