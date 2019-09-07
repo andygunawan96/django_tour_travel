@@ -74,14 +74,16 @@
         sub_category_list = [];
     {% endfor %}
     {% if username != undefined %}
-        //hotel_signin('home');
-        get_airline_config('home');
-        airline_search_value = 'false';
-        //get_train_config('home');
-        //get_visa_config('home');
-        tour_login('');
+        try{
+            //hotel_signin('home');
+            get_airline_config('home');
+            airline_search_value = 'false';
+            //get_train_config('home');
+            //get_visa_config('home');
+            tour_login('');
+        }catch(err){
 
-        //get_agent_booking();
+        }
     {% endif %}
 </script>
 
