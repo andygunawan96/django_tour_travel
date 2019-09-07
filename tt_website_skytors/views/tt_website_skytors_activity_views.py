@@ -101,7 +101,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def detail(request):
@@ -149,7 +149,7 @@ def detail(request):
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_detail_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def passenger(request):
@@ -390,7 +390,7 @@ def passenger(request):
 
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 
 def review(request):
@@ -1151,7 +1151,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -1199,4 +1199,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME + '/activity/tt_website_skytors_activity_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

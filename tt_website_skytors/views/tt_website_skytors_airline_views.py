@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from rest_framework.views import APIView
@@ -270,7 +270,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_search_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def passenger(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -380,7 +380,7 @@ def passenger(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_passenger_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def ssr(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -582,7 +582,7 @@ def ssr(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_ssr_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def seat_map(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -835,7 +835,7 @@ def seat_map(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_seat_map_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -1116,7 +1116,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -1161,4 +1161,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/airline/tt_website_skytors_airline_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

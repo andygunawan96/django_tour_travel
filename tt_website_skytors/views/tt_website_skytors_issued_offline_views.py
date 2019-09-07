@@ -85,7 +85,7 @@ def issued_offline(request):
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
@@ -130,4 +130,4 @@ def issued_offline_history(request):
         }
         return render(request, MODEL_NAME+'/issued_offline/tt_website_skytors_issued_offline_history_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

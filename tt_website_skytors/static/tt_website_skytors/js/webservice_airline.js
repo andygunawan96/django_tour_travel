@@ -96,6 +96,7 @@ function airline_signin(data){
        success: function(msg) {
            console.log(msg);
            airline_signature = msg.result.response.signature;
+           signature = msg.result.response.signature;
            if(data == ''){
                temp = get_provider_list();
 
@@ -1324,8 +1325,7 @@ function get_price_itinerary_request(){
                             <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
                         </div>
                     </div>`;
-                if (template == 1){
-                    text+=`
+                text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
@@ -1338,37 +1338,6 @@ function get_price_itinerary_request(){
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>`;
-                }
-                else if (template == 2){
-                    text+=`
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="btn roberto-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="btn roberto-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <button class="btn roberto-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
-                            Next
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </div>`;
-                }
-                else if (template == 3){
-                    text+=`
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
-                            Next
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </div>`;
-                }
                 text+=`</div>`;
 
                 document.getElementById('airline_detail').innerHTML = text;
@@ -1579,8 +1548,6 @@ function get_seat_map_response(){
 
 function show_seat_map(val, checked){
     if(val != set_seat_show_segments || checked == true){
-        console.log('change');
-        console.log(set_seat_show_segments);
         document.getElementById(set_seat_show_segments).style.background = '#CACACA';
         document.getElementById(val).style.background = '#f15a22';
         set_seat_show_segments = val;
@@ -1680,7 +1647,6 @@ function set_passenger_seat_map_airline(val){
 }
 
 function update_seat_passenger(segment, row, column,seat_code){
-    console.log(passengers[passenger_pick].seat_list);
     for(i in passengers[passenger_pick].seat_list){
         if(passengers[passenger_pick].seat_list[i].segment_code == segment){
             //lepas passenger seat
@@ -1978,18 +1944,27 @@ function airline_get_booking(data){
            if(msg.result.error_code == 0){
             if(msg.result.response.state == 'fail_booked' || msg.result.response.state == 'fail_issued'){
                console.log('here');
-               document.getElementById('issued-breadcrumb').classList.remove("active");
-               document.getElementById('issued-breadcrumb').classList.add("fail");
-               document.getElementById('issued-breadcrumb').classList.remove("current");
-               document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail`;
             }else if(msg.result.response.state != 'issued'){
-                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-               document.getElementById('issued-breadcrumb').classList.remove("active");
-               document.getElementById('issued-breadcrumb').classList.add("current");
+               get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+               //document.getElementById('issued-breadcrumb').classList.remove("active");
+               //document.getElementById('issued-breadcrumb').classList.add("current");
+               document.getElementById('issued-breadcrumb').classList.add("br-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
             }
             else{
-               document.getElementById('issued-breadcrumb').classList.remove("current");
-               document.getElementById('issued-breadcrumb').classList.add("active");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('issued-breadcrumb').classList.add("active");
+               document.getElementById('issued-breadcrumb').classList.add("br-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
 
@@ -2451,8 +2426,11 @@ function airline_issued(data){
                     document.getElementById('passenger_ticket_'+pax).innerHTML = ticket;
                 }
 
-               document.getElementById('issued-breadcrumb').classList.add("active");
-               document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('issued-breadcrumb').classList.add("active");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               document.getElementById('issued-breadcrumb').classList.add("br-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                document.getElementById('success-issued').style.display = "block";
                document.getElementById('button-choose-print').value = "Print Ticket";
                document.getElementById('button-choose-print').type = "button";

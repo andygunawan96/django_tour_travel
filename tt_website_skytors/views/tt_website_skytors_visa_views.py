@@ -380,7 +380,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_review_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -416,4 +416,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_booking_templates.html', values)
     else:
-        return index(request)
+        return no_session_logout()

@@ -787,18 +787,6 @@
 {%endif%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
-        <!--        <div class="row" style="padding-bottom:10px;">-->
-        <!--            <div class="col-lg-12" style="margin-top:10px;">-->
-        <!--                <ul class="progressbar">-->
-        <!--                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>-->
-        <!--                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>-->
-        <!--                    <li><span>Passenger <i class="fas fa-users"></i></span></li>-->
-        <!--                    <li><span>Book <i class="fas fa-book-open"></i></span></li>-->
-        <!--                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>-->
-        <!--                </ul>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
         <div class="row">
             <div class="col-lg-12" style="position:sticky; top:67px; z-index:997; display:none;" id="mybuttonsticky">
                 <div class="row">
@@ -813,6 +801,33 @@
                             <span class="badge-notif2 animated bounceIn" id="badge-flight-notif2">0</span>
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12" style="display:flex; margin-top:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">2</span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">3</span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">4</span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
+                    <span style="padding-left:5px;">Issued</span>
                 </div>
             </div>
 
