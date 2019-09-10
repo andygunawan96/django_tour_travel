@@ -455,12 +455,10 @@ def review(request):
             'last_name': request.POST['booker_last_name'],
             'nationality_code': request.POST['booker_nationality'],
             'email': request.POST['booker_email'],
-            'mobile': request.POST['booker_phone_code'] + request.POST['booker_phone'],
+            'calling_code': request.POST['booker_phone_code'],
+            'mobile': request.POST['booker_phone'],
             'booker_id': request.POST['booker_id']
         }
-        # "city": this.state.city_agent,
-        # "province_state": this.state.state_agent,
-        # "contact_id": "",
 
         perpax_list = []
         perpax_list_temp = []
@@ -482,7 +480,8 @@ def review(request):
                 "sku_id": request.POST['adult_sku_id'+str(i+1)],
                 "sku_title": request.POST['adult_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['adult_sku_real_id' + str(i + 1)],
-                "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)] +request.POST['adult_phone' + str(i + 1)] or ' - ',
+                "calling_code": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)],
+                "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
                 "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                 "is_cp": request.POST.get('adult_cp' + str(i + 1)),
             })
@@ -819,6 +818,7 @@ def review(request):
                 "sku_id": request.POST['child_sku_id' + str(i + 1)],
                 "sku_title": request.POST['child_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
+                'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
             })
 
             # perpax
