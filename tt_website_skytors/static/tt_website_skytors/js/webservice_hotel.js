@@ -378,8 +378,15 @@ function hotel_issued_booking(){
             'special_request': document.getElementById('special_request').value,
        },
        success: function(msg) {
-        console.log(msg);
-
+            console.log('Result');
+            console.log(msg);
+            var form = document.getElementById('hotel_booking');
+            var input = document.createElement('input');//prepare a new input DOM element
+            input.setAttribute('name', 'result');//set the param name
+            input.setAttribute('value', JSON.stringify(msg) );//set the value
+            input.setAttribute('type', 'hidden')//set the type
+            form.appendChild(input);
+            form.submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
