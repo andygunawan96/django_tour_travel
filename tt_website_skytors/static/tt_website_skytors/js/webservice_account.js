@@ -138,6 +138,7 @@ function get_transactions(type){
     getToken();
     if(type == 'reset'){
         offset_transaction = 0;
+        data_counter = 0;
         data_search = [];
         document.getElementById("table_reservation").innerHTML = `
                     <tr>
@@ -249,7 +250,7 @@ function submit_top_up(){
             'currency_code': currency_code,
             'amount_seq_id': document.getElementById('amount').value,
             'amount_count': document.getElementById('qty').value,
-            'unique_amount': 0,
+            'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
             'signature': signature
        },
        success: function(msg) {
@@ -259,6 +260,9 @@ function submit_top_up(){
         else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
+            document.getElementById('submit_top_up').classList.remove('running');
+            document.getElementById('submit_top_up').disabled = false;
+
             alert(msg.result.error_msg);
         }
        },
@@ -410,6 +414,12 @@ function total_price_top_up(){
             break;
         }
     }
+    try{
+        document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)));
+        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+    }catch(err){
+    }
+
     $('#amount').niceSelect('update');
 }
 
@@ -432,11 +442,13 @@ function check_top_up(){
     if(error_text == ''){
         submit_top_up();
     }else{
+        document.getElementById('submit_top_up').classList.remove('running');
+        document.getElementById('submit_top_up').disabled = false;
         alert(error_text);
     }
 }
 
 function get_payment_acquirer_top_up(val){
     top_up_value = val;
-    get_payment_acq('Confirm','', '', 'top_up', signature, 'top_up','HO.1636001', top_up_history[val].name);
+    get_payment_acq('Confirm','', '', 'top_up', signature, 'top_up','HO.1636001', '');
 }

@@ -202,7 +202,7 @@ def get_top_up_amount(request):
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['user_account'] = res['result']['response']
+        request.session['top_up_amount'] = res['result']['response']
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_account SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:

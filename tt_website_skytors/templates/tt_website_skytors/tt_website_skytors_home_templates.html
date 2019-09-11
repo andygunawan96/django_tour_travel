@@ -205,7 +205,7 @@
                                                         <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
-                                                                <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                                 <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
                                                                 <!--</select>-->
@@ -223,7 +223,7 @@
                                                         <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
-                                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                                                 <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
 
                                                                 <!--</select>-->
@@ -4797,6 +4797,14 @@
       var now = moment().format('DD MMM YYYY');
         try{
             airline_date = cache.airline.departure;
+            if(cache.airline.origin != '')
+                document.getElementById('origin_id_flight').value = cache.airline.origin;
+            else
+                document.getElementById('origin_id_flight').value = 'SUB - Juanda International Airport - Surabaya - Indonesia';
+            if(cache.airline.destination != '')
+                document.getElementById('destination_id_flight').value = cache.airline.destination;
+            else
+                document.getElementById('destination_id_flight').value = 'SIN - Changi Intl - Singapore - Singapore';
             if(airline_date == '')
                 airline_date = now;
         }catch(err){
