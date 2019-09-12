@@ -51,7 +51,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 text+=`<option value="`+i+`">`+print+`</option>`;
             }
             text+=`</select>
-                </div>
             </div>`;
 
             text+=`

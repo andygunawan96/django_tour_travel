@@ -11,19 +11,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
-    airline_pick = `{{airline_pick}}`;
-    airline_pick = airline_pick.replace(/&#39;/g, '"');
-    airline_pick = airline_pick.replace(/True/g, 'true');
-    airline_pick = airline_pick.replace(/False/g, 'false');
-    //airline_pick = airline_pick.replace(/&amp;/g, '&');
-    airline_pick = airline_pick.replace('&&&', ',');
-    airline_pick = JSON.parse(airline_pick);
-    price_itinerary = `{{price}}`;
-    price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-    price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, '"true"');
-    price_itinerary = price_itinerary.replace(/False/g, '"false"');
-    price_itinerary = JSON.parse(price_itinerary);
+
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
@@ -31,11 +19,37 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
 
-    airline_request = `{{airline_request}}`;
-    airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
-    time_limit = {{time_limit}};
-    session_time_limit();
+    try{
+        time_limit = '{{time_limit}}';
+        if(time_limit != ''){
+            time_limit = parseInt(time_limit);
+            session_time_limit();
+        }
+        airline_pick = `{{airline_pick}}`;
+        airline_pick = airline_pick.replace(/&#39;/g, '"');
+        airline_pick = airline_pick.replace(/True/g, 'true');
+        airline_pick = airline_pick.replace(/False/g, 'false');
+        //airline_pick = airline_pick.replace(/&amp;/g, '&');
+        airline_pick = airline_pick.replace('&&&', ',');
+        airline_pick = JSON.parse(airline_pick);
+        price_itinerary = `{{price}}`;
+        price_itinerary = price_itinerary.replace(/&#39;/g, '"');
+        price_itinerary = price_itinerary.replace(/None/g, '"None"');
+        price_itinerary = price_itinerary.replace(/True/g, '"true"');
+        price_itinerary = price_itinerary.replace(/False/g, '"false"');
+        price_itinerary = JSON.parse(price_itinerary);
+        airline_request = `{{airline_request}}`;
+        airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+    }catch(err){
+        //request new
+        airline_get_booking = `{{airline_getbooking}}`;
+        airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
+        airline_get_booking = airline_get_booking.replace(/True/g, 'true');
+        airline_get_booking = airline_get_booking.replace(/False/g, 'false');
+        console.log(airline_get_booking);
+        airline_get_booking = JSON.parse(airline_get_booking);
+    }
 </script>
 {% include 'tt_website_skytors/logout.html' %}
 <header id="header">
@@ -63,7 +77,7 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <form method="POST" id="airline_booking" action="{% if seat_map == 0 %} {% url 'tt_website_skytors:airline_seat_map'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}">
+        <form method="POST" id="airline_booking" action="{% if seat_map == 0 %} {% url 'tt_website_skytors:airline_seat_map'%} {% elif seat_map == 1 %} {% url 'tt_website_skytors:airline_review_after_sales'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">
@@ -102,9 +116,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div class="row" style="padding-bottom:15px;">
-                    <div class="col-lg-12">
+                <div class="col-lg-4" style="padding-bottom:20px;" >
+                    <div class="row" >
+                    <div class="col-lg-12" id="div_4" hidden style="padding-bottom:15px;">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
                             <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
                             <hr/>
@@ -113,12 +127,12 @@
                         </div>
                     </div>
                 </div>
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
+                <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
-                    </div>
+                </div>
                 </div>
                 <div class="col-lg-8">
-                    <button class="btn-next primary-btn next-passenger-train ld-ext-right" style="width:100%;" value="Next" onclick="next_disabled();next_ssr();">
+                    <button class="btn-next primary-btn next-passenger-train ld-ext-right" id="ssr_next_button" style="width:100%;" value="Next" onclick="next_disabled();next_ssr();">
                         Next
                         <div class="ld ld-ring ld-cycle"></div>
                     </button>
@@ -131,8 +145,14 @@
 
 
 <script>
-    airline_detail();
-    //get_airline_review();
+    if(time_limit != ''){
+        document.getElementById('div_4').hidden = false;
+    }
+    try{
+        airline_detail('');
+    }catch(err){
+        airline_detail('request_new');
+    }
 </script>
 <!-- loader -->
 {% endblock %}

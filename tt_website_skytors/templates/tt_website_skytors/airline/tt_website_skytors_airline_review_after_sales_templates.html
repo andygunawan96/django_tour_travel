@@ -11,19 +11,6 @@
 
 <script>
     additional_price = {{additional_price}};
-    airline_pick = `{{airline_pick}}`;
-    airline_pick = airline_pick.replace(/&#39;/g, '"');
-    airline_pick = airline_pick.replace(/True/g, 'true');
-    airline_pick = airline_pick.replace(/False/g, 'false');
-    //airline_pick = airline_pick.replace(/&amp;/g, '&');
-    airline_pick = airline_pick.replace('&&&', ',');
-    airline_pick = JSON.parse(airline_pick);
-    price_itinerary = `{{price}}`;
-    price_itinerary = price_itinerary.replace(/&#39;/g, '"');
-    price_itinerary = price_itinerary.replace(/None/g, '"None"');
-    price_itinerary = price_itinerary.replace(/True/g, '"true"');
-    price_itinerary = price_itinerary.replace(/False/g, '"false"');
-    price_itinerary = JSON.parse(price_itinerary);
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
@@ -43,13 +30,25 @@
     passengers_ssr = passengers_ssr.replace(/False/g, false);
     passengers_ssr = JSON.parse(passengers_ssr);
 
-    airline_request = `{{airline_request}}`;
-    airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+    airline_signature = `{{signature}}`;
     signature = `{{signature}}`;
-    time_limit = {{time_limit}};
-    session_time_limit();
-    ssr = {{ssr}};
-    seat = {{seat}};
+    console.log(signature);
+    airline_get_booking = `{{airline_getbooking}}`;
+    airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
+    airline_get_booking = airline_get_booking.replace(/True/g, 'true');
+    airline_get_booking = airline_get_booking.replace(/False/g, 'false');
+    console.log(airline_get_booking);
+    airline_get_booking = JSON.parse(airline_get_booking);
+
+    try{
+        time_limit = `{{time_limit}}`;
+        if(time_limit != ''){
+            time_limit = parseInt(time_limit);
+            session_time_limit();
+        }
+    }catch(err){
+
+    }
 </script>
 {% include 'tt_website_skytors/logout.html' %}
 <header id="header">
@@ -109,8 +108,8 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div class="row" style="padding-bottom:15px;">
-                        <div class="col-lg-12">
+                    <div class="row" hidden>
+                        <div class="col-lg-12" style="padding-bottom:15px;">
                             <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
                                 <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
                                 <hr/>
@@ -126,15 +125,15 @@
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
-                                Hold Booking
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="sell_ssrs_after_sales();" style="width:100%;">
+                                Proceed
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
                             <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">
-                                Issued Booking
+                                Cancel
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
@@ -147,8 +146,8 @@
 
 
 <script>
-    airline_detail('');
-    get_airline_review();
+    airline_detail('request_new');
+    get_airline_review_after_sales();
 </script>
 <!-- loader -->
 {% endblock %}

@@ -1356,7 +1356,7 @@ function airline_sell_journeys(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-               get_seat_availability();
+               get_seat_availability('');
 //               document.getElementById('time_limit_input').value = time_limit
 //               document.getElementById('go_to_passenger').submit();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1376,7 +1376,7 @@ function airline_sell_journeys(){
 
 }
 //get seat map
-function get_seat_availability(){
+function get_seat_availability(type){
     getToken();
     $.ajax({
        type: "POST",
@@ -1390,7 +1390,11 @@ function get_seat_availability(){
        },
        success: function(msg) {
             console.log(msg);
-            get_ssr_availabilty();
+            if(type == '')
+                get_ssr_availabilty(type);
+            else if(type == 'request_new_seat'){
+                window.location.href='/airline/seat_map';
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -1563,7 +1567,7 @@ function update_seat_passenger(segment, row, column,seat_code){
 }
 
 //SSR
-function get_ssr_availabilty(){
+function get_ssr_availabilty(type){
     getToken();
     $.ajax({
        type: "POST",
@@ -1577,8 +1581,13 @@ function get_ssr_availabilty(){
        },
        success: function(msg) {
             console.log(msg);
-            document.getElementById('time_limit_input').value = time_limit
-            document.getElementById('go_to_passenger').submit();
+            if(type == ''){
+                document.getElementById('time_limit_input').value = time_limit;
+                document.getElementById('go_to_passenger').submit();
+            }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
+                window.location.href='/airline/ssr';
+            else if(type == 'request_new_ssr')
+                alert(msg.result.error_msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -1864,6 +1873,8 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
+            if(msg.result.response.state != 'fail_booked' || msg.result.response.state != 'fail_issued')
+                document.getElementById('ssr_request_after_sale').hidden = false;
 
             var text = `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
@@ -2200,10 +2211,10 @@ function airline_get_booking(data){
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
                         if(counter_service_charge == 0)
                         text_detail+=`
-                            <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
                         else
                             text_detail+=`
-                            <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
                         text_detail+=`
                         </div>
                     </div>`;
@@ -2238,7 +2249,7 @@ function airline_get_booking(data){
             <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
                     </div>
                 </div>
             </div>`;
@@ -2594,4 +2605,38 @@ function gotoForm(){
 
 function show_repricing(){
     $("#myModalRepricing").modal();
+}
+
+function sell_ssrs_after_sales(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'sell_ssrs',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'signature': airline_signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+
+//               document.getElementById('time_limit_input').value = time_limit
+//               document.getElementById('go_to_passenger').submit();
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                alert(msg.result.error_msg);
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+           $('.btn-next').removeClass('running');
+           $('.btn-next').prop('disabled', false);
+       }
+    });
 }
