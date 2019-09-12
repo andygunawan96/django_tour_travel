@@ -511,14 +511,12 @@ function activity_create_booking(){
        headers:{
             'action': 'create_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
             document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('activity_booking').submit();
-//            gotoForm();
         }else{
             alert(msg.result.error_msg);
         }

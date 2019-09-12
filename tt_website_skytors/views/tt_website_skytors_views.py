@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.staticfiles.templatetags.staticfiles import static
 from rest_framework.views import APIView
@@ -219,9 +219,6 @@ def index(request):
 
     return render(request, MODEL_NAME+'/tt_website_skytors_home_templates.html', values)
 
-def no_session_logout():
-    return redirect('/')
-
 def login(request):
     file = open("javascript_version.txt", "r")
     for line in file:
@@ -319,9 +316,9 @@ def admin(request):
             }
             return render(request, MODEL_NAME+'/backend/tt_website_skytors_admin_templates.html', values)
         else:
-            return no_session_logout()
+            return index(request)
     else:
-        return no_session_logout()
+        return index(request)
 
 def reservation(request):
     if 'user_account' in request.session._session:
@@ -368,7 +365,7 @@ def reservation(request):
         }
         return render(request, MODEL_NAME+'/backend/tt_website_skytors_reservation_templates.html', values)
     else:
-        return no_session_logout()
+        return index(request)
 
 def top_up(request):
     if 'user_account' in request.session._session:
@@ -405,7 +402,7 @@ def top_up(request):
         }
         return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
     else:
-        return no_session_logout()
+        return index(request)
 
 def top_up_history(request):
     if 'user_account' in request.session._session:
@@ -442,7 +439,7 @@ def top_up_history(request):
         }
         return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_history_templates.html', values)
     else:
-        return no_session_logout()
+        return index(request)
 
 
 
