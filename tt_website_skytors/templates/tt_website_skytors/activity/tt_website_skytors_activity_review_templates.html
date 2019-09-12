@@ -148,6 +148,12 @@
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i>
                                     {{price.date}}
                                 </span>
+                                {% if timeslot %}
+                                <br/>
+                                <span><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    {{timeslot.startTime}} - {{timeslot.endTime}}
+                                </span>
+                                {% endif %}
                                 <br/>
                             </div>
                         </div>
@@ -163,8 +169,8 @@
                                     <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
                                         <tr>
                                             <th style="width:5%;" class="list-of-passenger-left">No</th>
-                                            <th style="width:45%;">Information</th>
-                                            <th style="width:25%;">Value</th>
+                                            <th style="width:65%;">Information</th>
+                                            <th style="width:30%;">Value</th>
                                         </tr>
                                         {% for perBook in perBooking %}
                                         <tr>
