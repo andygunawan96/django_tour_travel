@@ -18,7 +18,17 @@
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
-
+    len_passenger = {{passengers|length}};
+    ssr_keys = [];
+    {% for ssr_availability_provider in airline_ssrs.ssr_availability_provider %}
+        {% for key, value in ssr_availability_provider.ssr_availability.items %}
+            ssr_keys.push({
+                'key': '{{key}}',
+                'len': {{value|length}}
+            });
+        {% endfor %}
+    {% endfor %}
+    console.log(ssr_keys);
     signature = `{{signature}}`;
     try{
         time_limit = '{{time_limit}}';
@@ -100,9 +110,9 @@
                                 <span class="span-search-ticket">{{key}}</span>
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select">
-                                        <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4">
+                                        <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -124,6 +134,7 @@
                             <hr/>
                             <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                             <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                            <input type="hidden" id="additional_price_input" name="additional_price_input" />
                         </div>
                     </div>
                 </div>
@@ -147,9 +158,11 @@
 <script>
     if(time_limit != ''){
         document.getElementById('div_4').hidden = false;
-    }
+        type  = '';
+    }else
+        type = 'request_new';
     try{
-        airline_detail('');
+        airline_detail(type);
     }catch(err){
         airline_detail('request_new');
     }

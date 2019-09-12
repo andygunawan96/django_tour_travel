@@ -883,14 +883,18 @@ def assign_seats(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    if request.session['airline_seat_request'] != {}:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        if request.session['airline_ssr_request'] == {}:
+            logging.getLogger("error_logger").error("NO SSR")
+        else:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def commit_booking(request):

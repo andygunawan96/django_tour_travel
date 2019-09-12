@@ -1888,7 +1888,11 @@ function sort(airline){
                node = document.createElement("div");
     //                   document.getElementById('airlines_ticket').innerHTML += text;
                text = '';
-               document.getElementById('fare'+i).innerHTML = 'IDR '+ getrupiah(airline[i].total_price);
+
+               if(airline[i].currency == 'IDR')
+                    document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
+               else
+                    document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+airline[i].total_price;
            }else if(airline[i].origin == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'return'){
                ticket_count++;
                var price = 0;
@@ -2844,23 +2848,34 @@ function airline_detail(type){
                 text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
             }
         }
-
-            text+=`
+        text+=`
             </div>
         </div>
         <div class="row">
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:13px;font-weight:500;">Additional Price</span><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right;">
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(Math.ceil(additional_price))+`</span><br/>
+            <div class="col-lg-5" style="text-align:right;">`;
+            if(airline_price[0].ADT.currency == 'IDR')
+            text+=`
+                <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(additional_price)+`</span><br/>`;
+            else
+            text+=`
+                <span style="font-size:13px; font-weight:500;" id="additional_price">`+additional_price+`</span><br/>`;
+            text+=`
                 <input type="hidden" name="additional_price" id="additional_price_hidden"/>
             </div>
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right;">
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(Math.ceil(total_price+additional_price))+`</b></span><br/>
+            <div class="col-lg-5" style="text-align:right;">`;
+            if(airline_price[0].ADT.currency == 'IDR')
+            text+=`
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
+            else
+            text+=`
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+additional_price)+`</b></span><br/>`;
+            text+=`
             </div>
         </div>
         <div class="row">
@@ -3051,6 +3066,19 @@ function airline_detail(type){
     }
     document.getElementById('airline_detail').innerHTML = text;
 
+}
+
+function on_change_srr(){
+    additional_price = 0;
+    for(i=1;i<=len_passenger;i++){
+        for(j in ssr_keys){
+            for(k=1;k<=ssr_keys[j].len;k++){
+                if(document.getElementById(ssr_keys[j].key+'_'+i+'_'+k).value != '')
+                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+i+'_'+k).value.split('_')[1])
+            }
+        }
+    }
+    airline_detail(type);
 }
 
 function check_passenger(adult, child, infant){
@@ -3631,12 +3659,14 @@ function update_contact_cp(val){
 
 function next_ssr(){
     document.getElementById('time_limit_input').value = time_limit;
+    document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
     document.getElementById('airline_booking').submit();
 }
 
 function next_seat_map(){
     document.getElementById('airline_booking').innerHTML += `<input type="hidden" id="passenger" name="passenger" value='`+JSON.stringify(passengers)+`'>`;
     document.getElementById('time_limit_input').value = time_limit;
+    document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
     document.getElementById('airline_booking').submit();
 }
 

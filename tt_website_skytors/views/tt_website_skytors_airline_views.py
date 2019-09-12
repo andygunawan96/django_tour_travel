@@ -867,12 +867,10 @@ def seat_map(request):
                             for idx, pax in enumerate(passenger):
                                 passengers_list.append({
                                     "passenger_number": idx,
-                                    "ssr_code": request.POST[
-                                        ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)]
+                                    "ssr_code": request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0]
                                 })
                                 for list_ssr in journey_ssr['ssrs']:
-                                    if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)] == \
-                                            list_ssr['ssr_code']:
+                                    if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
                                         pax['ssr_list'].append(list_ssr)
                                         break
                             sell_ssrs_request.append({
@@ -900,7 +898,11 @@ def seat_map(request):
                     pax['seat_list'].append({
                         'segment_code': segment['segment_code2'],
                         'seat_pick': '',
-                        'seat_code': ''
+                        'seat_code': '',
+                        'seat_name': '',
+                        'description': '',
+                        'currency': '',
+                        'price': ''
                     })
 
         # agent
@@ -917,6 +919,7 @@ def seat_map(request):
             'airline_carriers': carrier,
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
+            'additional_price': float(request.POST['additional_price_input']),
             # 'airline_destinations': airline_destinations,
             # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
             'passengers': passenger,
@@ -980,10 +983,10 @@ def review(request):
                             for idx, pax in enumerate(passenger):
                                 passengers_list.append({
                                     "passenger_number": idx,
-                                    "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)]
+                                    "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
                                 })
                                 for list_ssr in journey_ssr['ssrs']:
-                                    if request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)] == list_ssr['ssr_code']:
+                                    if request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0] == list_ssr['ssr_code']:
                                         pax['ssr_list'].append(list_ssr)
                                         break
                             sell_ssrs_request.append({
@@ -1172,13 +1175,6 @@ def review(request):
             passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             for pax in passenger:
                 pax['ssr_list'] = []
-        try:
-            if request.POST['additional_price'] != "":
-                additional_price = request.POST['additional_price']
-            else:
-                additional_price = 0
-        except:
-            additional_price = 0
 
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
@@ -1197,7 +1193,7 @@ def review(request):
             'back_page': request.META.get('HTTP_REFERER'),
             'json_airline_pick': request.session['airline_pick'],
             'airline_carriers': airline_carriers,
-            'additional_price': additional_price,
+            'additional_price': float(request.POST['additional_price_input']),
             'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers'],
             'passengers_ssr': passenger,
