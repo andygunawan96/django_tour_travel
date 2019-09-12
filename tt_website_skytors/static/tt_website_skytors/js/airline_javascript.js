@@ -3052,15 +3052,26 @@ function airline_detail(type){
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:13px;font-weight:500;">Additional Price</span><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right;">
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(0)+`</span><br/>
-                <input type="hidden" name="additional_price" id="additional_price_hidden"/>
+            <div class="col-lg-5" style="text-align:right;">`;
+            if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
+            text+=`
+                <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(additional_price)+`</span><br/>`;
+            else
+            text+=`
+                <span style="font-size:13px; font-weight:500;" id="additional_price">`+additional_price+`</span><br/>`;
+            text+=`
             </div>
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
             </div>
-            <div class="col-lg-5" style="text-align:right;">
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(Math.ceil(total_price))+`</b></span><br/>
+            <div class="col-lg-5" style="text-align:right;">`;
+            if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
+            text+=`
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(parseFloat(total_price+additional_price))+`</b></span><br/>`;
+            else
+            text+=`
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+additional_price)+`</b></span><br/>`;
+            text+=`
             </div>
         </div>`;
     }
@@ -3357,20 +3368,6 @@ function check_passenger(adult, child, infant){
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
    }
-}
-
-function on_change_ssr(idhidden, id){
-    price = 0;
-    if(parseInt(document.getElementById(id).options[document.getElementById(id).selectedIndex].text.split(' ')[document.getElementById(id).options[document.getElementById(id).selectedIndex].text.split(' ').length-1]) > 0)
-        price = parseInt(document.getElementById(id).options[document.getElementById(id).selectedIndex].text.split(' ')[document.getElementById(id).options[document.getElementById(id).selectedIndex].text.split(' ').length-1]);
-    if(document.getElementById(idhidden).value != 'Selected')
-        additional_price += price - parseInt(document.getElementById(idhidden).value);
-    else
-        additional_price += price;
-    document.getElementById('additional_price').innerHTML = getrupiah(additional_price);
-    document.getElementById('additional_price_hidden').value = additional_price;
-    document.getElementById(idhidden).value = document.getElementById(id).options[document.getElementById(id).selectedIndex].text.split(' ')[document.getElementById(id).options[document.getElementById(id).selectedIndex].text.split(' ').length-1];
-    document.getElementById('total_price').innerHTML = getrupiah(Math.ceil(total_price + additional_price));
 }
 
 function get_airline_review(){
@@ -3675,5 +3672,5 @@ function set_new_request_ssr(){
 }
 
 function set_new_request_seat(){
-    get_seat_availability('request_new_ssr');
+    get_seat_availability('request_new_seat');
 }

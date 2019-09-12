@@ -2650,9 +2650,7 @@ function sell_ssrs_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-
-//               document.getElementById('time_limit_input').value = time_limit
-//               document.getElementById('go_to_passenger').submit();
+                airline_commit_booking(false);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{

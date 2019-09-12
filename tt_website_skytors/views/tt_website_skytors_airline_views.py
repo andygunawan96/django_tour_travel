@@ -1470,7 +1470,7 @@ def review_after_sales(request):
             'back_page': request.META.get('HTTP_REFERER'),
             'airline_carriers': airline_carriers,
             'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
-            'additional_price': additional_price,
+            'additional_price': request.POST['additional_price_input'],
             'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers'],
             'passengers_ssr': passenger,
