@@ -929,3 +929,4 @@ function hotel_detail(rooms){
     //console.log(text);
     document.getElementById('hotel_detail').innerHTML = text;
 }
+

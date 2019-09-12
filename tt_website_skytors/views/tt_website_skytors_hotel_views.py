@@ -305,3 +305,44 @@ def review(request):
         return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_review_templates.html', values)
     else:
         return index(request)
+
+
+def booking(request):
+    if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+
+        resv_obj = json.loads(request.POST['result'])['result']['response']
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            # 'co_uid': request.session['co_user_name'],
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template,
+
+            'booking_name': resv_obj['booking_name'],
+            'pnrs': resv_obj['pnrs'],
+            'rooms': resv_obj['hotel_rooms'],
+            'passengers': resv_obj['passengers'],
+        }
+        return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
+    else:
+        return no_session_logout()

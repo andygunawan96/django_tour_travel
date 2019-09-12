@@ -202,8 +202,8 @@ def detail(request):
         data = request.session['hotel_request_data']
         data.update({
             'hotel_id': request.session['hotel_detail']['id'],
-            'checkin_date': str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10],
-            'checkout_date': str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10],
+            'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
+            'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
             'pax_country': False
         })
         headers = {
@@ -216,7 +216,8 @@ def detail(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
-       request.session['hotel_detail'] = res
+       # request.session['hotel_detail'] = res
+        res = res
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -224,7 +225,7 @@ def detail(request):
 def get_cancellation_policy(request):
     try:
         data = {
-            "hotel_code": request.session['hotel_detail']['result']['hotel_code'][request.session['hotel_room_pick']['provider']],
+            "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
             "price_code": request.POST['price_code'],
             "provider": request.POST['provider']
         }
@@ -232,7 +233,26 @@ def get_cancellation_policy(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_cancellation_policy",
-            "signature": request.session['train_signature'],
+            "signature": request.session['hotel_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    try:
+        request.session['hotel_cancellation_policy'] = res
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_top_facility(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_top_facility",
+            "signature": request.session['hotel_signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -287,16 +307,18 @@ def create_booking(request):
 
         data = {
             "passengers": passenger,
-            'user_id': request.session['co_uid'],
+            'user_id': request.session.get('co_uid') or '',
             'search_data': request.session['hotel_request'],
-            'cancellation_policy': [
-            ],
+            # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
+            'cancellation_policy': [],
             'promotion_codes_booking': [],
-            'hotel_code': [{
-                "hotel_code": request.session['hotel_detail']['result']['hotel_code'][request.session['hotel_room_pick']['provider']],
-                "provider": request.session['hotel_room_pick']['provider']
-            }],
-            'room_codes': request.session['hotel_room_pick']['price_code'],
+            # Remove Versi Baru
+            # 'hotel_code': [{
+            #     "hotel_code": request.session['hotel_detail']['result']['hotel_code'][request.session['hotel_room_pick']['provider']],
+            #     "provider": request.session['hotel_room_pick']['provider']
+            # }],
+            # Must set as list prepare buat issued multi vendor
+            'price_codes': [request.session['hotel_room_pick']['price_code'],],
             "contact": request.session['hotel_review_pax']['booker'],
             'kwargs': {
                 'force_issued': 'False'
@@ -309,7 +331,7 @@ def create_booking(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "create_booking",
+            "action": "issued",
             "signature": request.session['hotel_signature'],
         }
     except Exception as e:
