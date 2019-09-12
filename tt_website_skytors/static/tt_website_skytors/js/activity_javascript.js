@@ -356,10 +356,20 @@ function activity_table_detail2(pagetype){
    $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
            '\nPrices and availability may change at any time';
    console.log(grand_total);
-   text+= `<div class="row">
+   if (additional_price)
+   {
+        text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
                 <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
+   }
+   else
+   {
+        text+= `<div class="row">
+                <div class="col-xs-8">Additional Charge</div>
+                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+           </div>`;
+   }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>

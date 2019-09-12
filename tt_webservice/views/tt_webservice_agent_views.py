@@ -203,7 +203,7 @@ def signin(request):
                 #     "signature": request.session['signature'],
                 # }
                 #
-                # res_config_activity = util.send_request(url=url + 'themespark/booking', data=data, headers=headers,
+                # res_config_activity = util.send_request(url=url + 'activity/booking', data=data, headers=headers,
                 #                                      cookies=res_activity['result']['cookies'], method='POST')
 
 

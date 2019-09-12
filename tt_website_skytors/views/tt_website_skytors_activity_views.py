@@ -197,6 +197,7 @@ def passenger(request):
         # get_balance(request)
 
         request.session['activity_request'] = {
+            'activity_uuid': request.POST['activity_uuid'],
             'activity_type_pick': request.POST['activity_type_pick'],
             'activity_date_pick': request.POST['activity_date_pick'],
             'activity_timeslot': request.POST['activity_timeslot'],
@@ -630,7 +631,8 @@ def review(request):
                         "value": request.POST['adult_birth_date'+str(i+1)],
                         "name": perpax['name']
                     })
-            perpax_list.append(perpax_list_temp)
+            if perpax_list_temp:
+                perpax_list.append(perpax_list_temp)
             perpax_list_temp = []
 
         #senior
@@ -798,7 +800,8 @@ def review(request):
                         "value": request.POST['senior_birth_date'+str(i+1)],
                         "name": perpax['name']
                     })
-            perpax_list.append(perpax_list_temp)
+            if perpax_list_temp:
+                perpax_list.append(perpax_list_temp)
             perpax_list_temp = []
 
         #child
@@ -818,7 +821,6 @@ def review(request):
                 "sku_id": request.POST['child_sku_id' + str(i + 1)],
                 "sku_title": request.POST['child_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
-                'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
             })
 
             # perpax
@@ -965,7 +967,8 @@ def review(request):
                         "value": request.POST['child_birth_date' + str(i + 1)],
                         "name": perpax['name']
                     })
-            perpax_list.append(perpax_list_temp)
+            if perpax_list_temp:
+                perpax_list.append(perpax_list_temp)
             perpax_list_temp = []
 
         #infant
@@ -987,7 +990,8 @@ def review(request):
                 "sku_real_id": request.POST['infant_sku_real_id' + str(i + 1)],
             })
 
-            perpax_list.append(perpax_list_temp)
+            if perpax_list_temp:
+                perpax_list.append(perpax_list_temp)
             perpax_list_temp = []
 
         request.session['activity_perpax'] = perpax_list
@@ -1009,6 +1013,7 @@ def review(request):
             skus.append({
                 'id': temp_sku['id'],
                 'sku_id': low_sku_id,
+                'pax_type': temp_sku['pax_type'],
                 'title': temp_sku['title'],
                 'amount': int(request.session['activity_request'][low_sku_id+'_passenger']),
             })
@@ -1021,27 +1026,31 @@ def review(request):
         except:
             event_id = False
 
-        if request.session['activity_request']['activity_timeslot'] != '':
-            timeslot = request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots'][int(request.session['activity_request']['activity_timeslot'])]['uuid']
-        else:
-            timeslot = ''
+        timeslot = False
+        if request.session['activity_request'].get('activity_timeslot'):
+            for time in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['timeslots']:
+                if time['uuid'] == request.session['activity_request']['activity_timeslot']:
+                    timeslot = time
 
         search_request = {
             "instantConfirmation": True,
+            "activity_uuid": request.session['activity_request']['activity_uuid'],
             "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
+            "product_type_title": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
             "adult": len(adult),
             "senior": len(senior),
             "child": len(child),
             "infant": len(infant),
+            'skus': skus,
             "name": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
             "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
-            "timeslot": '',
+            "timeslot": timeslot and timeslot or False,
             "event_id": event_id,
             "provider": request.session['activity_pick']['provider']
         }
         request.session['activity_review_booking'] = {
             'all_pax': all_pax,
-            'contact_person': contact,
+            'contacts': contact,
             'booker': booker,
             'adult': adult,
             'senior': senior,
@@ -1073,6 +1082,7 @@ def review(request):
             'seniors': senior,
             'childs': child,
             'skus': skus,
+            "timeslot": timeslot and timeslot or False,
             'price': request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])],
             'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],
             'username': request.session['user_account'],
