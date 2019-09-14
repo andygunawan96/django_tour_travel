@@ -1517,7 +1517,7 @@ function sort(airline){
         }
         if(sorting_value != ''){
             sorting = sorting_value;
-       }
+        }
         for(var i = 0; i < airline.length-1; i++) {
             for(var j = i+1; j < airline.length; j++) {
                 if(sorting == ''){

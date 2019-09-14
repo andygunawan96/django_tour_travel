@@ -64,68 +64,63 @@
     };
 </script>
 
-<!--<header id="header">-->
-<!--    <div class="main-menu">-->
-<!--       <div class="container">-->
-<!--           <div class="row align-items-center justify-content-between d-flex">-->
-<!--               <div id="logo" class="col-lg-2 col-md-2 col-sm-2">-->
-<!--                   <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>-->
-<!--               </div>-->
-<!--               <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">-->
-<!--                   <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">-->
-<!--                       <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>-->
-<!--                       <span style="padding-left:5px;">Home</span>-->
-<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
-<!--                   </div>-->
-<!--                   <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">-->
-<!--                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>-->
-<!--                       <span style="padding-left:5px;">Search</span>-->
-<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
-<!--                   </div>-->
-<!--                   <div class="breadcrumbs-rdx br-book">-->
-<!--                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>-->
-<!--                       <span style="padding-left:5px;">Passenger</span>-->
-<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
-<!--                   </div>-->
-<!--                   <div class="breadcrumbs-rdx br-book">-->
-<!--                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>-->
-<!--                       <span style="padding-left:5px;">Booking</span>-->
-<!--                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>-->
-<!--                   </div>-->
-<!--                   <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">-->
-<!--                       <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>-->
-<!--                       <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>-->
-<!--                   </div>-->
-<!--               </div>-->
-<!--           </div>-->
-<!--       </div>-->
-<!--   </div>-->
-<!--</header>-->
-
 <header id="header">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
-                    <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
-                    </center>
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-12">
-                    <ul class="progressbar">
-                        <ul class="progressbar">
-                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
-                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>
-                            <li class="active"><span>Book <i class="fas fa-book-open"></i></span></li>
-                            <li class="current"><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                        </ul>
-                    </ul>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                        <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">4</span>
+                        <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+<!--<header id="header">-->
+<!--    <div class="main-menu">-->
+<!--        <div class="container">-->
+<!--            <div class="row align-items-center justify-content-between d-flex">-->
+<!--                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">-->
+<!--                    <center>-->
+<!--                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>-->
+<!--                    </center>-->
+<!--                </div>-->
+<!--                <div class="col-lg-12">-->
+<!--                    <ul class="progressbar">-->
+<!--                        <ul class="progressbar">-->
+<!--                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>-->
+<!--                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>-->
+<!--                            <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_passenger'%}';" style="cursor:pointer;"><span>Passenger <i class="fas fa-users"></i></span></li>-->
+<!--                            <li class="active"><span>Book <i class="fas fa-book-open"></i></span></li>-->
+<!--                            <li class="current"><span>Issued <i class="fas fa-check-circle"></i></span></li>-->
+<!--                        </ul>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</header>-->
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -140,7 +135,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="activity_review_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> Activity Order Details </h4>
+                                <h4> Activity Information </h4>
                                 <hr/>
                                 <h4>{{response.name}}</h4>
                                 <span>{{detail.name}}</span>
@@ -277,10 +272,15 @@
 
                         </div>
                         <div align="center" class="col-lg-4">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Print form" style="width:100%;"/>
+                            <button class="primary-btn hold-seat-booking-train" type="button" style="width:100%;">
+                                Print form
+                            </button>
                         </div>
                         <div class="col-lg-4">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" onclick="activity_create_booking();" style="width:100%;"/>
+                            <button class="primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" type="button" onclick="activity_pre_create_booking();" style="width:100%;">
+                                Issued
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                         </div>
                     </div>
                 </div>
