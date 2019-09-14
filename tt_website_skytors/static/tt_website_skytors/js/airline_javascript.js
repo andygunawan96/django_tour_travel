@@ -1629,7 +1629,7 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
-                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline[i].origin_city+` (`+airline[i].origin+`)</span><br/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <table style="width:100%; margin-bottom:6px;">
@@ -1640,7 +1640,7 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
-                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline[i].destination_city+` (`+airline[i].destination+`)</span><br/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -1940,7 +1940,7 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].departure_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline[i].origin_city+` (`+airline[i].origin+`)</span><br/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <table style="width:100%; margin-bottom:6px;">
@@ -1951,7 +1951,7 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].arrival_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline[i].destination_city+` (`+airline[i].destination+`)</span><br/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
