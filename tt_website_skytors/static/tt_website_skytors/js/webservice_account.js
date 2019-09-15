@@ -251,6 +251,7 @@ function submit_top_up(){
             'amount_seq_id': document.getElementById('amount').value,
             'amount_count': document.getElementById('qty').value,
             'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
             'signature': signature
        },
        success: function(msg) {
@@ -262,9 +263,49 @@ function submit_top_up(){
         }else{
             document.getElementById('submit_top_up').classList.remove('running');
             document.getElementById('submit_top_up').disabled = false;
-
-            alert(msg.result.error_msg);
+            error_log = msg.result.error_msg.split('\n');
+            log = "";
+            for(i in error_log){
+                log += error_log[i] + "\n";
+            }
+            alert(log);
         }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function cancel_top_up(name){
+
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'cancel_top_up',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'name': name,
+            'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        document.getElementById("table_top_up_history").innerHTML = `
+        <tr>
+            <th style="width:10%;">No.</th>
+            <th style="width:20%;">Top Up Number</th>
+            <th style="width:15%;">Due Date</th>
+            <th style="width:15%;">Amount</th>
+            <th style="width:15%;">Status</th>
+            <th style="width:10%;">Action</th>
+        </tr>`;
+//        document.getElementById("payment_acq").innerHTML = '';
+//        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
+        get_top_up();
+//        document.getElementById('top_up_form').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -382,15 +423,11 @@ function table_top_up_history(data){
 
         text+= `<td>`+data[i].due_date+`</td>`;
         text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        if(data[i].state != 'request')
-            text+= `<td>`+data[i].state+`</td>`;
-        else
-            text+= `<td>Please confirm to HO</td>`;
-        if(data[i].state != 'request'){
+        text+= `<td>`+data[i].state+`</td>`;
+        if(data[i].state == 'request'){
             text+= `<td>
-            <input type='button' class="primary-btn-custom" value='Pay' onclick="get_payment_acquirer_top_up(`+data_counter+`)" />`;
-            if(data[i].state == 'confirm')
-                text+=`<input type='button' class="primary-btn-custom" value='Confirm' onclick="request_top_up(`+data_counter+`)" />`;
+            <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
+
             text+=`</td>`;
         }else{
             text+= `<td></td>`;

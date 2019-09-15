@@ -36,6 +36,16 @@
     time_limit = {{time_limit}};
     session_time_limit();
     passenger_pick = 0;
+    additional_price = `{{additional_price}}`;
+    if(additional_price != ''){
+        type = '';
+        additional_price_fix = parseInt(additional_price);
+        console.log(additional_price_fix);
+    }else{
+        type = 'request_new';
+        additional_price_fix = 0;
+    }
+
 </script>
 <style>
 * {box-sizing: border-box}
@@ -194,6 +204,7 @@ img {vertical-align: middle;}
                                 <hr/>
                                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                                 <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                                <input type="hidden" id="additional_price_input" name="additional_price_input" />
                             </div>
                         </div>
                     </div>
@@ -218,7 +229,8 @@ img {vertical-align: middle;}
 
 
 <script>
-    airline_detail();
+
+    airline_detail(type);
     get_seat_map_response();
     set_passenger_seat_map_airline(0);
     //get_airline_review();
