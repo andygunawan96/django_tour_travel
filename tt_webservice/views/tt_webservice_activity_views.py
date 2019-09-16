@@ -164,10 +164,11 @@ def get_details(request):
 
 def get_pricing(request):
     pricing_days = int(request.POST['pricing_days'])
+    startingDate = request.POST['startingDate']
     data = {
         'product_type_uuid': request.POST['product_type_uuid'],
-        'date_start': to_date_now(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))[:10],
-        'date_end': to_date_now((datetime.now()+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
+        'date_start': to_date_now(datetime.strptime(startingDate, '%d %b %Y').strftime('%Y-%m-%d %H:%M:%S'))[:10],
+        'date_end': to_date_now((datetime.strptime(startingDate, '%d %b %Y')+timedelta(days=pricing_days)).strftime('%Y-%m-%d %H:%M:%S'))[:10],
         "provider": request.POST['provider']
     }
     headers = {
