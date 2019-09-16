@@ -75,8 +75,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
 function set_payment(val, type){
     payment_method = document.getElementById('payment_via').value;
     text= '';
-    console.log(payment_method);
-    console.log(payment_acq2);
     for(i in payment_acq2[payment_method]){
 //        <span style="font-size:14px;">`+payment_acq.result.response.acquirers[payment_method][i].name+`</span>
         if(payment_method != 'transfer')
@@ -98,8 +96,8 @@ function set_payment(val, type){
             <span class="checkmark-radio"></span>
         </label>
         <label class="radio-button-custom">
-            <span style="font-size:14px; font-weight:500;"> Account: `+payment_acq2[payment_method][i].account_name+`<br>
-            <span style="font-size:14px; font-weight:500;"> Account Name: `+payment_acq2[payment_method][i].account_number+`<br>
+            <span style="font-size:14px; font-weight:500;"> Account: `+payment_acq2[payment_method][i].account_number+`<br>
+            <span style="font-size:14px; font-weight:500;"> Account Name: `+payment_acq2[payment_method][i].account_name+`<br>
         </label>
         <br/>`;
     }
@@ -130,7 +128,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)));
+                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)));
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
                     }
@@ -161,7 +159,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
                     }
@@ -193,12 +191,20 @@ function set_price(val, type, product_type){
     }
     else if(payment_method == 'transfer'){
         //price
+
+
         text += `
                 <div class='col-sm-6' style='text-align:left;'>
                     <span>Price:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)))+`</span>
+                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
+                    try{
+                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)));
+                    }catch(err){
+                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
+                    }
+                    text+=`</span>
                 </div>`;
         //fee
         text += `
@@ -223,7 +229,13 @@ function set_price(val, type, product_type){
                     <span style='font-weight:500;'>Grand Total:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
+                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
+                    try{
+                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                    }catch(err){
+                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
+                    }
+                    text+=`</span>
                 </div>`;
         text+= `</div><br/>`;
 

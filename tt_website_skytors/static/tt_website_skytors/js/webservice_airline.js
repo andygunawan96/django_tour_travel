@@ -1452,6 +1452,9 @@ function get_seat_map_response(){
 }
 
 function show_seat_map(val, checked){
+    console.log(val);
+    console.log(checked);
+    console.log(set_seat_show_segments);
     if(val != set_seat_show_segments || checked == true){
         document.getElementById(set_seat_show_segments).style.background = '#CACACA';
         document.getElementById(val).style.background = '#f15a22';
@@ -1533,9 +1536,10 @@ function show_seat_map(val, checked){
                 }
             }
         }
+        document.getElementById('airline_slideshow').innerHTML = text;
+        showSlides(1, 0);
     }
-    document.getElementById('airline_slideshow').innerHTML = text;
-    showSlides(1, 0);
+
 }
 
 function set_passenger_seat_map_airline(val){
