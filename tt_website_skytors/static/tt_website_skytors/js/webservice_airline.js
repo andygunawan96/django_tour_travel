@@ -1395,9 +1395,10 @@ function get_seat_availability(type){
             console.log(msg);
             if(type == '')
                 get_ssr_availabilty(type);
-            else if(type == 'request_new_seat'){
+            else if(type == 'request_new_seat' && msg.result.error_code == 0)
                 window.location.href='/airline/seat_map';
-            }
+            else
+                alert(msg.result.error_msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -1902,7 +1903,7 @@ function airline_get_booking(data){
             }
 
             if(msg.result.response.state != 'fail_booked' || msg.result.response.state != 'fail_issued')
-                document.getElementById('ssr_request_after_sale').hidden = false;
+                document.getElementById('ssr_request_after_sales').hidden = true;
 
             var text = `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">

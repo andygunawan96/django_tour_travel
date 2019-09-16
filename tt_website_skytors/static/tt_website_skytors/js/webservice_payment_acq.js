@@ -51,7 +51,8 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 text+=`<option value="`+i+`">`+print+`</option>`;
             }
             text+=`</select>
-            </div>`;
+            </div>
+        </div>`;
 
             text+=`
             <div id="payment_description"></div>`;
@@ -127,7 +128,13 @@ function set_price(val, type, product_type){
                     <span>Price:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)))+`</span>
+                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
+                    try{
+                        text+=getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)));
+                    }catch(err){
+                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
+                    }
+                    text+=`</span>
                 </div>`;
         //fee
         text += `
@@ -152,7 +159,13 @@ function set_price(val, type, product_type){
                     <span style='font-weight:500;'>Grand Total:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
+                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
+                    try{
+                        text+=getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                    }catch(err){
+                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
+                    }
+                    text+=`</span>
                 </div>`;
         text+= `</div><br/>`;
     }
