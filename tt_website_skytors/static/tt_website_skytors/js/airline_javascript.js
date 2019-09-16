@@ -2546,6 +2546,7 @@ function getrupiah(price){
 }
 
 function copy_data(){
+    console.log($text);
     //
     document.getElementById('data_copy').innerHTML = $text;
     document.getElementById('data_copy').hidden = false;
@@ -2882,7 +2883,7 @@ function airline_detail(type){
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
