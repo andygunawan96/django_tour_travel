@@ -1934,6 +1934,7 @@ function airline_get_booking(data){
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
                     }
+                    $text +='\n';
             text+=`</table>
             </div>
 
@@ -1986,7 +1987,7 @@ function airline_get_booking(data){
                                         $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
                                         $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+'\n';
                                     }
-                                    $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+') - '+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+')\n';
+                                    $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+') - '+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+')\n\n';
 
                                     text+= `
                                     <div class="row">
@@ -2188,6 +2189,7 @@ function airline_get_booking(data){
             type_amount_repricing = ['Repricing'];
             //repricing
             counter_service_charge = 0;
+            $text += '\nPrice:\n';
             for(i in msg.result.response.passengers[0].sale_service_charges){
                 text_detail+=`
                     <div style="text-align:left">
@@ -2266,15 +2268,14 @@ function airline_get_booking(data){
                             <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
-                        if(j == 0)
-                            $text += '\nPrice:\n';
-                        $text += msg.result.response.passengers[j].name + ' Fare ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
+
+                        $text += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
                         if(counter_service_charge == 0){
-                            $text += msg.result.response.passengers[j].name + ' Tax ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
+                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
                         text_detail+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
-                            $text += msg.result.response.passengers[j].name + ' Tax ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
+                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
                             text_detail+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
                         }

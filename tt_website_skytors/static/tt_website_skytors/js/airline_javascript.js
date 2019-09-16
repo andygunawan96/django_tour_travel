@@ -157,8 +157,10 @@ function airline_goto_search(){
             break;
         }
     }
-
+    console.log(type);
     if(type != 'multicity'){
+        console.log(document.getElementById('origin_id_flight').value);
+        console.log(document.getElementById('destination_id_flight').value);
         if(document.getElementById('origin_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for origin\n';
         if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
@@ -2149,7 +2151,6 @@ function sort(airline){
 
 function change_departure(val){
     if(airline_request.direction != 'MC'){
-        console.log(val);
         check_airline_pick = 0;
         journey.splice(val,1);
         value_pick.splice(val,1);
@@ -2546,7 +2547,6 @@ function getrupiah(price){
 }
 
 function copy_data(){
-    console.log($text);
     //
     document.getElementById('data_copy').innerHTML = $text;
     document.getElementById('data_copy').hidden = false;
@@ -3158,7 +3158,6 @@ function check_passenger(adult, child, infant){
 
     var radios = document.getElementsByName('myRadios');
     for (var j = 0, length = radios.length; j < length; j++) {
-        console.log(radios[j]);
         if (radios[j].checked) {
             // do whatever you want with the checked radio
             booker_copy = radios[j].value;
