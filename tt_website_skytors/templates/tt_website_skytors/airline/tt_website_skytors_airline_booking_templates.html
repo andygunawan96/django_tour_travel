@@ -23,6 +23,8 @@
     signature = `{{signature}}`;
 </script>
 {% include 'tt_website_skytors/logout.html' %}
+<div class="loader-airline"></div>
+{%if template == 1%}
 <header id="header">
     <div class="main-menu">
         <div class="container">
@@ -60,8 +62,170 @@
         </div>
     </div>
 </header>
+{% elif template == 2 %}
+<header class="header-area">
+    <div class="main-header-area">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <nav class="classy-navbar justify-content-between" id="robertoNav">
+                    <div class="row">
+                        <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                            <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                            <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Home</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Search</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Passenger</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Booking</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                                <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                                <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 3 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                            <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Home</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Search</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Passenger</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Booking</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                                <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                                <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                            </div>
+                        </div>
+        </div>
+    </div>
+</header>
+{% elif template == 4 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                            <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Home</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Search</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Passenger</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Booking</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                                <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                                <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                            </div>
+                        </div>
+        </div>
+    </div>
+</header>
+{% elif template == 5 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                            <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Home</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Search</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Passenger</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-book">
+                                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Booking</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                                <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                                <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                            </div>
+                        </div>
+        </div>
+    </div>
+</header>
+{% endif %}
 
+
+{%if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2 %}
+<section style="padding:45px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 3 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 4 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 5 %}
+<section style="padding:30px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% endif %}
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
@@ -94,7 +258,7 @@
                             <div class="sk-circle11 sk-child"></div>
                             <div class="sk-circle12 sk-child"></div>
                         </div>
-                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        <div style="text-align:center"><span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/plane_loading.gif" style="height:50px; width:50px;"/></div>
                     </div>
                 </div>
                 <div class="col-lg-8" style="padding-bottom:20px;">
@@ -180,6 +344,7 @@
         </form>
     </div>
 </section>
+
 {% include 'tt_website_skytors/footer.html' %}
 <script>
     airline_signin('{{order_number}}');

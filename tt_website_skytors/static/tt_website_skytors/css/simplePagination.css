@@ -109,18 +109,18 @@ span.ellipse.clickable {
 
 .light-theme a, .light-theme span {
 	float: left;
-	color: #666;
+	color: black;
 	font-size:14px;
 	line-height:24px;
 	font-weight: normal;
 	text-align: center;
 	border: 1px solid #BBB;
 	min-width: 14px;
-	padding: 0 7px;
-	margin: 0 5px 0 0;
-	border-radius: 3px;
+	padding: 1px 10px;
+	margin: 5px 5px 0 0;
+	border-radius: 28px;
 	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-	background: #efefef; /* Old browsers */
+	background: white !important; /* Old browsers */
 	background: -moz-linear-gradient(top, #ffffff 0%, #efefef 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#efefef)); /* Chrome,Safari4+ */
 	background: -webkit-linear-gradient(top, #ffffff 0%,#efefef 100%); /* Chrome10+,Safari5.1+ */
@@ -131,21 +131,22 @@ span.ellipse.clickable {
 
 .light-theme a:hover, .light-theme li:not(.disabled):not(.active) span:hover {
 	text-decoration: none;
-	background: #FCFCFC;
+	background: #C04B21;
+	color:#f15a22;
 }
 
 .light-theme .current {
 	background: #f15a22;
-	color: #FFF;
-	border-color: #C04B21;
-	box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;
+	border: 2px solid #f15a22;
+	color: #f15a22;
+	/*box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;*/
 	cursor: default;
 }
 
 .light-theme .ellipse {
 	background: none;
 	border: none;
-	border-radius: 0;
+	border-radius: 28px;
 	box-shadow: none;
 	font-weight: bold;
 	cursor: default;

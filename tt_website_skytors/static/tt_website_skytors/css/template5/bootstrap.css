@@ -258,7 +258,8 @@ button {
 
 button:focus {
     outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color
+    outline: 5px auto -webkit-focus-ring-color;
+    outline: none !important;
 }
 
 button,
@@ -375,6 +376,7 @@ template {
     display: none !important
 }
 
+/*
 .h1,
 .h2,
 .h3,
@@ -393,6 +395,7 @@ h6 {
     line-height: 1.2;
     color: inherit
 }
+*/
 
 .h1,
 h1 {
@@ -2428,6 +2431,8 @@ textarea.form-control {
     font-size: 1rem;
     line-height: 1.5;
     border-radius: .25rem;
+    width:100px;
+    margin-top:10px;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
@@ -2445,7 +2450,7 @@ textarea.form-control {
 .btn.focus,
 .btn:focus {
     outline: 0;
-    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25)
+    /*box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25)*/
 }
 
 .btn.disabled,
@@ -2476,7 +2481,7 @@ fieldset:disabled a.btn {
 
 .btn-primary.focus,
 .btn-primary:focus {
-    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)
+    /*box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)*/
 }
 
 .btn-primary.disabled,
@@ -2490,14 +2495,14 @@ fieldset:disabled a.btn {
 .btn-primary:not(:disabled):not(.disabled):active,
 .show>.btn-primary.dropdown-toggle {
     color: #fff;
-    background-color: #0062cc;
-    border-color: #005cbf
+    background-color: #C04B21;
+    border-color: #C04B21;
 }
 
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .btn-primary:not(:disabled):not(.disabled):active:focus,
 .show>.btn-primary.dropdown-toggle:focus {
-    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)
+    /*box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .5)*/
 }
 
 .btn-secondary {
@@ -5679,6 +5684,7 @@ button.close {
     -ms-flex-pack: justify;
     justify-content: space-between;
     padding: 1rem;
+    background:#f15a22;
     border-bottom: 1px solid #e9ecef;
     border-top-left-radius: .3rem;
     border-top-right-radius: .3rem
@@ -5730,7 +5736,7 @@ button.close {
 
 @media (min-width:576px) {
     .modal-dialog {
-        max-width: 500px;
+        max-width: 700px;
         margin: 1.75rem auto
     }
     .modal-dialog-centered {

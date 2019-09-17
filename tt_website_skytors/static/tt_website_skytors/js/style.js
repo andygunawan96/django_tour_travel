@@ -7,8 +7,11 @@ $(document).ready(function(){
     var sort_arrival=0;
 
     $("#myModalPopUp").modal('show');
-//    $(window).load(function() {
-//    });
+
+    $(window).on('load', function(){
+         $('.loader-rodextrip').fadeOut();
+         $('.loader-airline').fadeOut();
+    });
 
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
@@ -58,9 +61,9 @@ $(document).ready(function(){
 //            document.getElementById("mybuttonfiltersort").style.display = "block";
         }
     });
-    $('.button-search').click(function() {      // When arrow is clicked
-        $('.button-search').addClass("running");
-    });
+//    $('.button-search').click(function() {      // When arrow is clicked
+//        $('.button-search').addClass("running");
+//    });
 
     $('#return-to-top').click(function() {      // When arrow is clicked
         $('body,html').animate({
@@ -1012,6 +1015,23 @@ $(document).ready(function(){
                 </div>
                 <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
             }
+            else if (template == 4){
+            text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                <div class="form-group">
+                    <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                </div>
+                <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            }
+            else if (template == 5){
+            text+=`
+                <span class="span-search-ticket">Departure</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                    <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                </div>
+                <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            }
 
 
             node.innerHTML = text;
@@ -1074,6 +1094,25 @@ $(document).ready(function(){
             text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="form-group">
+                    <input type="text" style="background:white;" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
+                </div>
+                <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            }
+            else if(template == 4){
+            text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <div class="form-group">
+                    <input type="text" style="background:white;" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
+                </div>
+                <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+            }
+            else if(template == 5){
+            text+=`
+                <span class="span-search-ticket">Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" style="background:white;" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
                 </div>
                 <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -1202,6 +1241,32 @@ $(document).ready(function(){
                 </div>`;
             }
             else if(template == 3){
+                text_mc += `
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="mc_airline_paxs"></div>
+                        <div id="mc_airline_add" style="background:none !important;"></div>
+                        <div style="text-align:left; padding-top:15px;">
+                            <button type="button" id="add_mc_btn" class="primary-btn" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" id="del_mc_btn" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            else if(template == 4){
+                text_mc += `
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="mc_airline_paxs"></div>
+                        <div id="mc_airline_add" style="background:none !important;"></div>
+                        <div style="text-align:left; padding-top:15px;">
+                            <button type="button" id="add_mc_btn" class="primary-btn" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" id="del_mc_btn" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            else if(template == 5){
                 text_mc += `
                 <div class="row">
                     <div class="col-lg-12">

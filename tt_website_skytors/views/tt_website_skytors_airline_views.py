@@ -351,6 +351,7 @@ def passenger(request):
             seat_map = request.session['airline_get_seat_availability']['result']['error_code']
         except:
             seat_map = 1
+
         airline_pick_list = request.session['airline_pick']
         for airline_pick in airline_pick_list:
             for journey in airline_pick['price_itinerary']:
@@ -362,6 +363,7 @@ def passenger(request):
             for journey in airline_pick['price_itinerary']:
                 journey['rules'] = []
         request.session['airline_price_itinerary'] = airline_pick_price_itinerary
+
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
