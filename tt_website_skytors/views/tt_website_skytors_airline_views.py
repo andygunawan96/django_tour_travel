@@ -989,10 +989,13 @@ def review(request):
                     for ssr_key in ssr_package['ssr_availability']:
                         for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                             for idx, pax in enumerate(passenger):
-                                passengers_list.append({
-                                    "passenger_number": idx,
-                                    "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                })
+                                try:
+                                    passengers_list.append({
+                                        "passenger_number": idx,
+                                        "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                    })
+                                except:
+                                    pass
                                 for list_ssr in journey_ssr['ssrs']:
                                     if request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0] == list_ssr['ssr_code']:
                                         pax['ssr_list'].append(list_ssr)
