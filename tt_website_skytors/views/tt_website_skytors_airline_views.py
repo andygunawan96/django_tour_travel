@@ -917,12 +917,17 @@ def seat_map(request):
 
         # get_balance(request)
 
+        additional_price_input = ''
+        additional_price = request.POST['additional_price_input'].split(',')
+        for i in additional_price:
+            additional_price_input += i
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'airline_carriers': carrier,
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
-            'additional_price': float(request.POST['additional_price_input']),
+            'additional_price': float(additional_price_input),
             # 'airline_destinations': airline_destinations,
             # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
             'passengers': passenger,
@@ -1186,6 +1191,10 @@ def review(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        additional_price_input = ''
+        additional_price = request.POST['additional_price_input'].split(',')
+        for i in additional_price:
+            additional_price_input += i
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'ssr': request.session['airline_get_ssr']['result']['error_code'],
@@ -1196,7 +1205,7 @@ def review(request):
             'back_page': request.META.get('HTTP_REFERER'),
             'json_airline_pick': request.session['airline_pick'],
             'airline_carriers': airline_carriers,
-            'additional_price': float(request.POST['additional_price_input']),
+            'additional_price': float(additional_price_input),
             'username': request.session['user_account'],
             'passengers': request.session['airline_create_passengers'],
             'passengers_ssr': passenger,
