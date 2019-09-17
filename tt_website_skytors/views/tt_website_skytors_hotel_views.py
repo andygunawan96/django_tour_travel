@@ -177,26 +177,24 @@ def passengers(request):
         # pax
         adult = []
         child = []
-        for i in range(int(request.session['hotel_request']['person'])):
+        for i in range(int(request.session['hotel_request']['adult'])):
             adult.append('')
         for i in range(int(request.session['hotel_request']['child'])):
             child.append()
         request.session['hotel_request'].update({
-            'check_in': str(datetime.strptime(request.POST['hotel_checkin'], '%d %b %Y'))[:10],
-            'check_out': str(datetime.strptime(request.POST['hotel_checkout'], '%d %b %Y'))[:10]
-
+            'check_in': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+            'check_out': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': airline_country,
             'hotel_search': request.session['hotel_request'],
-            'response': request.session['hotel_detail'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
             'username': request.session['username'],
             'childs': child,
             'adults': adult,
-            'adult_count': int(request.session['hotel_request']['person']),
+            'adult_count': int(request.session['hotel_request']['adult']),
             'child_count': int(request.session['hotel_request']['child']),
             'adult_title': adult_title,
             'infant_title': infant_title,
@@ -243,13 +241,13 @@ def review(request):
         adult = []
         child = []
         booker = {
-            'address': request.session['company_details']['address'],
+            'address': request.session.get('company_details') and request.session['company_details']['address'] or '',
             'first_name': request.POST['booker_first_name'],
             'last_name': request.POST['booker_last_name'],
             'title': request.POST['booker_title'],
             'email': request.POST['booker_email'],
-            'nationality_code': request.POST['booker_nationality'],
-            'country_code': request.POST['booker_nationality'],
+            'nationality_code': request.POST['booker_nationality_id'],
+            'country_code': request.POST['booker_nationality_id'],
             'work_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
             "mobile": "0" + request.POST['booker_phone'],
             'contact_id': request.POST.get('booker_id') and int(request.POST.get('booker_id')) or ''
@@ -258,7 +256,7 @@ def review(request):
         # "province_state": this.state.state_agent,
         # "contact_id": "",
 
-        for i in range(int(request.session['hotel_request']['person'])):
+        for i in range(int(request.session['hotel_request']['adult'])):
             adult.append({
                 "first_name": request.POST['adult_first_name' + str(i + 1)],
                 "last_name": request.POST['adult_last_name' + str(i + 1)],
@@ -293,9 +291,9 @@ def review(request):
             'adults': adult,
             'childs': child,
             'hotel_search': request.session['hotel_request'],
-            'response': request.session['hotel_detail'],
+            'hotel_pick': request.session['hotel_detail'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
-            'adult_count': int(request.session['hotel_request']['person']),
+            'adult_count': int(request.session['hotel_request']['adult']),
             'infant_count': int(request.session['hotel_request']['child']),
             'username': request.session['username'],
             'javascript_version': javascript_version,
@@ -305,5 +303,46 @@ def review(request):
 
         }
         return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_review_templates.html', values)
+    else:
+        return index(request)
+
+
+def booking(request):
+    if 'user_account' in request.session._session:
+        file = open("javascript_version.txt", "r")
+        for line in file:
+            javascript_version = json.loads(line)
+        file.close()
+
+        try:
+            file = open("data_cache_template.txt", "r")
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line == '\n':
+                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+                    else:
+                        logo = line
+                elif idx == 1:
+                    template = int(line)
+            file.close()
+        except:
+            template = 1
+            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+
+        resv_obj = json.loads(request.POST['result'])['result']['response']
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            # 'co_uid': request.session['co_user_name'],
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template,
+
+            'booking_name': resv_obj['booking_name'],
+            'pnrs': resv_obj['pnrs'],
+            'rooms': resv_obj['hotel_rooms'],
+            'passengers': resv_obj['passengers'],
+        }
+        return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
     else:
         return no_session_logout()

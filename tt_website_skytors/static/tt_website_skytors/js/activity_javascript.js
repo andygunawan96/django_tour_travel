@@ -42,6 +42,27 @@ var sorting_list2 = [
     }
 ]
 
+function update_contact_cp(val){
+    temp = 1;
+    while(temp != adult+1){
+        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
+}
+
 function set_sub_category(category_id, current_sub_id=0){
     var text = `<option value="0" selected="">All Sub Categories</option>`;
     var sub_category_list = sub_category[category_id.split(' - ')[1]];
@@ -335,10 +356,20 @@ function activity_table_detail2(pagetype){
    $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
            '\nPrices and availability may change at any time';
    console.log(grand_total);
-   text+= `<div class="row">
+   if (additional_price)
+   {
+        text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
                 <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
+   }
+   else
+   {
+        text+= `<div class="row">
+                <div class="col-xs-8">Additional Charge</div>
+                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+           </div>`;
+   }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
@@ -751,15 +782,10 @@ function check_passenger(){
 
        //child
        for(i=1;i<=passenger.child;i++){
-           document.getElementById('child_phone_code'+i).value = document.getElementById('booker_phone_code').value;
-           document.getElementById('child_phone'+i).value = document.getElementById('booker_phone').value;
-           document.getElementById('child_email'+i).value = document.getElementById('booker_email').value;
            if(document.getElementById('child_title'+i).value != '' &&
            document.getElementById('child_first_name'+i).value != '' &&
            document.getElementById('child_last_name'+i).value != '' &&
-           document.getElementById('child_nationality'+i).value != '' &&
-           document.getElementById('child_phone_code'+i).value != '' &&
-           document.getElementById('child_phone'+i).value != ''){
+           document.getElementById('child_nationality'+i).value != ''){
                if(check_name(document.getElementById('child_title'+i).value,
                document.getElementById('child_first_name'+i).value,
                document.getElementById('child_last_name'+i).value, 25) == false)
@@ -831,16 +857,11 @@ function check_passenger(){
 
        //infant
        for(i=1;i<=passenger.infant;i++){
-           document.getElementById('infant_phone_code'+i).value = document.getElementById('booker_phone_code').value;
-           document.getElementById('infant_phone'+i).value = document.getElementById('booker_phone').value;
-           document.getElementById('infant_email'+i).value = document.getElementById('booker_email').value;
 //           alert(document.getElementById('booker_phone').value);
            if(document.getElementById('infant_title'+i).value != '' &&
            document.getElementById('infant_first_name'+i).value != '' &&
            document.getElementById('infant_last_name'+i).value != '' &&
-           document.getElementById('infant_nationality'+i).value != '' &&
-           document.getElementById('infant_phone_code'+i).value != '' &&
-           document.getElementById('infant_phone'+i).value != ''){
+           document.getElementById('infant_nationality'+i).value != '' ){
                if(check_name(document.getElementById('infant_title'+i).value,
                document.getElementById('infant_first_name'+i).value,
                document.getElementById('infant_last_name'+i).value, 25) == false)
@@ -950,7 +971,7 @@ function input_type11_change_perbooking(val, val1){
         additional_price = additional_price - activity_type[activity_type_pick].options.perBooking[val].price_pick;
         activity_type[activity_type_pick].options.perBooking[val].price_pick = 0;
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type5_change_perbooking(val){
@@ -959,7 +980,7 @@ function input_type5_change_perbooking(val){
     }else if(document.getElementById('perbooking'+val).checked == false){
         additional_price -= activity_type[activity_type_pick].options.perBooking[val].price;
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type1_change_perbooking(val){
@@ -970,7 +991,7 @@ function input_type1_change_perbooking(val){
             break;
         }
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type2_change_perbooking(val,val1){
@@ -981,7 +1002,7 @@ function input_type2_change_perbooking(val,val1){
             activity_type[activity_type_pick].options.perBooking[val].price_pick += activity_type[activity_type_pick].options.perBooking[val].items[i].price;
     }
     additional_price += additional_price + activity_type[activity_type_pick].options.perBooking[val].price_pick;
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 //perpax
@@ -997,13 +1018,13 @@ function input_type_change_perpax(val, type, inputType){
     else if(type == 'senior')
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
     if(perpax != ''){
-        additional_price = additional_price - detail.perPax[val].price_pick + detail.perPax[val].price;
-        detail.perPax[val].price_pick = detail.perPax[val].price;
+        additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].price;
+        detail.perPax[val-1].price_pick = detail.perPax[val-1].price;
     }else{
         additional_price = additional_price - detail.perPax.price_pick;
-        detail.perPax[val].price_pick = 0;
+        detail.perPax[val-1].price_pick = 0;
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type11_change_perpax(val, val1, type, inputType){
@@ -1018,13 +1039,13 @@ function input_type11_change_perpax(val, val1, type, inputType){
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType+val1).value;
 
     if(perpax != ''){
-        additional_price = additional_price - detail.perPax[val].price_pick + detail.perPax[val].price;
-        detail.perPax[val].price_pick = detail.perPax[val].price;
+        additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].price;
+        detail.perPax[val-1].price_pick = detail.perPax[val-1].price;
     }else{
-        additional_price = additional_price - detail.perPax[val].price_pick;
-        detail.perPax[val].price_pick = 0;
+        additional_price = additional_price - detail.perPax[val-1].price_pick;
+        detail.perPax[val-1].price_pick = 0;
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type5_change_perpax(val, type, inputType){
@@ -1039,11 +1060,11 @@ function input_type5_change_perpax(val, type, inputType){
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).checked;
 
     if(perpax == true){
-        additional_price += detail.perPax[val].price;
+        additional_price += detail.perPax[val-1].price;
     }else if(perpax == false){
-        additional_price -= detail.perPax[val].price;
+        additional_price -= detail.perPax[val-1].price;
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type1_change_perpax(val, type, inputType){
@@ -1057,14 +1078,14 @@ function input_type1_change_perpax(val, type, inputType){
     else if(type == 'senior')
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
 
-    for(i in detail.perPax[val].items){
-        if(perpax == detail.perPax[val].items[i].value){
-            additional_price = additional_price - detail.perPax[val].price_pick + detail.perPax[val].items[i].price;
-            detail.perPax[val].price_pick = detail.perPax[val].items[i].price;
+    for(i in detail.perPax[val-1].items){
+        if(perpax == detail.perPax[val-1].items[i].value){
+            additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].items[i].price;
+            detail.perPax[val-1].price_pick = detail.perPax[val-1].items[i].price;
             break;
         }
     }
-    activity_table_detail();
+    activity_table_detail2();
 }
 
 function input_type2_change_perpax(val,val1, type, inputType){
@@ -1078,14 +1099,14 @@ function input_type2_change_perpax(val,val1, type, inputType){
     else if(type == 'senior')
         perpax = 'senior_perpax'+val+'_'+inputType;
 
-    additional_price -= detail.perPax[val].price_pick;
-    detail.perPax[val].price_pick = 0;
-    for(i in detail.perPax[val].items){
+    additional_price -= detail.perPax[val-1].price_pick;
+    detail.perPax[val-1].price_pick = 0;
+    for(i in detail.perPax[val-1].items){
         if(document.getElementById(perpax+'_'+val1).checked == true)
-            detail.perPax[val].price_pick += detail.perPax[val].items[i].price;
+            detail.perPax[val-1].price_pick += detail.perPax[val-1].items[i].price;
     }
-    additional_price += additional_price - detail.perPax[val].price_pick;
-    activity_table_detail();
+    additional_price += additional_price - detail.perPax[val-1].price_pick;
+    activity_table_detail2();
 }
 
 function activity_filter_render(){

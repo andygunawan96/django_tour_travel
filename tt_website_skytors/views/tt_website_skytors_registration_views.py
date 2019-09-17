@@ -26,15 +26,10 @@ def open_page(request):
     try:
         file = open("javascript_version.txt", "r")
         for line in file:
-            file_cache_name = line
+            javascript_version = line
         file.close()
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
+        file = open('version' + str(javascript_version) + ".txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()

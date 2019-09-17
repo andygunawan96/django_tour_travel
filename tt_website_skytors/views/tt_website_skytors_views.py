@@ -121,8 +121,8 @@ def index(request):
                     cache = {}
                     try:
                         cache['airline'] = {
-                                'origin': request.session['airline_request']['origin'],
-                                'destination': request.session['airline_request']['destination'],
+                                'origin': request.session['airline_request']['origin'][0],
+                                'destination': request.session['airline_request']['destination'][0],
                                 'departure': request.session['airline_request']['departure'][0],
                             }
                     except:
@@ -404,58 +404,6 @@ def top_up(request):
             'template': template
         }
         return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_templates.html', values)
-    else:
-        return no_session_logout()
-
-def top_up_payment(request):
-    if 'user_account' in request.session._session:
-        try:
-            file = open("javascript_version.txt", "r")
-            for line in file:
-                javascript_version = json.loads(line)
-            file.close()
-
-            try:
-                file = open("data_cache_template.txt", "r")
-                for idx, line in enumerate(file):
-                    if idx == 0:
-                        if line == '\n':
-                            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                        else:
-                            logo = line
-                    elif idx == 1:
-                        template = int(line)
-                file.close()
-            except:
-                template = 1
-                logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values = {
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'top_up_request': {
-                    'amount': request.POST['amount'],
-                    'unique_amount': request.POST['unique_amount'],
-                    'total_amount': request.POST['total_amount'],
-                    'payment_method': request.POST['payment_method'],
-                },
-                'javascript_version': javascript_version,
-                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-                'username': request.session['user_account'],
-                'signature': request.session['signature'],
-                'logo': logo,
-                'template': template
-            }
-            return render(request, MODEL_NAME+'/backend/tt_website_skytors_top_up_payment_templates.html', values)
-        except:
-            values = {
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version,
-                'logo': logo,
-                'template': template
-            }
-            return render(request, MODEL_NAME + '/backend/tt_website_skytors_top_up_templates.html', values)
     else:
         return no_session_logout()
 

@@ -8,107 +8,75 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 
 <script>
     function check_years_old(sequence, type){
-        if(type == 'adult'){
-            var birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD-MMM-YYYY');
-            var departure_date = moment({{hotel_search.check_in}},'YYYY-MM-DD');
-            var years_old = parseInt(Math.abs(departure_date - birth_date)/31536000000);
+        var birth_date = '';
+        if(type =='adult')
+            birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
+        if(type =='infant')
+            birth_date = moment(document.getElementById('infant_birth_date'+sequence).value, 'DD MMM YYYY');
+        if(type =='senior')
+            birth_date = moment(document.getElementById('senior_birth_date'+sequence).value, 'DD MMM YYYY');
+        if(type =='child')
+            birth_date = moment(document.getElementById('child_birth_date'+sequence).value, 'DD MMM YYYY');
 
-            document.getElementById('adult_years_old'+sequence).value = years_old;
-        }
+        document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
     adult = {{adult_count}};
     child = {{child_count}};
     infant = 0;
 </script>
-
-<header id="header" style="position:sticky;">
+{% include 'tt_website_skytors/logout.html' %}
+<header id="header">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo">
-                    <a href="index.html"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <nav id="nav-menu-container">
-                    <ul class="nav-menu">
-                        <li><a href="#">Home</a></li>
-                        <li class="menu-has-children"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">Frequently Asked Question</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">{{username}}</a>
-                            <ul>
-                                <li>
-                                    <a>
-                                        <!--<img alt="wallet" style="height:25px; width:25px;" src="{{static_path}}img/wallet.png">-->
-                                        My Balance: Rp {{balance}}
-                                    </a>
-                                </li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
-                                <li><a href="#">Logout</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
-
-            </div>
-        </div>
-    </div>
-    <div class="main-menu-2">
-        <div class="container">
-            <div class="align-items-center justify-content-between d-flex">
-                <nav>
-                    <ul class="nav-menu">
-                        <li><a href="#">Top Up</a>
-                            <ul>
-                                <li><a href="#">Request</a></li>
-                                <li><a href="#">Confirm</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">Reservation</a>
-                            <ul>
-                                <li><a href="#">Airline Hold Booking List</a></li>
-                                <li><a href="#">Train Hold Booking List</a></li>
-                                <li><a href="#">Group Booking Hold Booking List</a></li>
-                            </ul>
-                        </li>
-                        <!--                        <li><a href="javascript:showCart();"><i class="fa fa-shopping-cart"></i> My Ticket <span class="badge">0</span></a></li>-->
-                    </ul>
-                </nav>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:hotel_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Rooms</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-active">
+                        <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">4</span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span id="issued-breadcrumb-span" class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx">
+                        <span class="breadcrumb-rdx-icon">5</span>
+                        <span style="padding-left:5px;">Review</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx" id="issued-breadcrumb">
+                        <span class="breadcrumb-rdx-icon">6</span>
+                        <span style="padding-left:5px;">Issued</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </header>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;"> Review <i class="fas fa-info-circle"></i></a>
-                    <a href="#" style="pointer-events: none;"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;"> Issued <i class="fas fa-check-circle"></i></a>
-                </div>
-            </div>
-        </div>
         <div class="banner-right">
             <form id="hotel_review" class="form-wrap" action="{% url 'tt_website_skytors:hotel_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
@@ -116,27 +84,24 @@
                     <div class="col-lg-8" style="margin-top:10px;">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px;">
-                                    <center>
-                                        <span style="color:white; font-size:16px;">Booker Information <i class="fas fa-info-circle"></i></span>
-                                    </center>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #f15a22;">
+                                <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div class="row">
+                                        <div class="col-lg-12">
+                                            <h4>Booker Infomartion</h4>
+                                            <hr/>
+                                        </div>
                                         <div class="col-lg-6" style="text-align:left;">
-                                            <label>Booker Type :</label>
-                                            <label class="radio-button-custom">
-                                                Corporate
-                                                <input type="radio" checked="checked" name="radio-booker-type">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                Individual
-                                                <input type="radio" name="radio-booker-type">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
+                                            <!--                                            <label>Booker Type :</label><br/>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Corporate-->
+                                            <!--                                                <input type="radio" checked="checked" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Individual-->
+                                            <!--                                                <input type="radio" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
@@ -153,28 +118,25 @@
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="search_passenger('Booker','1','hotel')">Search <i class="fas fa-search"></i></button>
-                                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center"><h4>PLEASE WAIT ...</h4></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result">
 
                                                         </div>
                                                     </div>
@@ -186,10 +148,11 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
-                                                    <select id="booker_title" name="booker_title">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -200,10 +163,14 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -218,20 +185,23 @@
                                         </div>
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="booker_nationality" name="booker_nationality">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')" class="nice-select-default">
+                                                        {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="booker_nationality" id="booker_nationality" />
                                             </div>
                                         </div>
 
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -240,26 +210,26 @@
                                         </div>
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="row">
-                                                    <div class="col-lg-3">
-                                                        <div class="form-select">
-                                                            <select id="booker_phone_code" name="booker_phone_code">
-                                                                {% for country in countries%}
-                                                                <option value="{{country.phone_code}}">{{country.phone_code}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default">
+                                                            {% for country in countries %}
+                                                            <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
+                                                            {% endfor %}
+                                                        </select>
                                                     </div>
-                                                    <div class="col-lg-9">
-                                                        <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                        <input type="hidden" class="form-control" name="booker_id" id="booker_id">
-                                                    </div>
+                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                         </div>
 
                                     </div>
@@ -269,17 +239,17 @@
                         <br/>
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div style="background:white; padding:10px; border:1px solid #f15a22;">
+                                <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
-                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy','hotel');" value="yes"/>
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy','airline');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         No
-                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','hotel');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','airline');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
@@ -296,13 +266,12 @@
                         {% for adult in adults%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('adult', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Adult - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -310,56 +279,63 @@
                                 </div>
                                 <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
-                                        <div class="col-lg-6" style="text-align:left;"></div>
-                                        <div class="col-lg-6" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
+                                            <div class="input-container-search-ticket">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:black;">Make this to Contact Person</span>
+                                                    <input type="checkbox" id="adult_cp{{forloop.counter}}" name="adult_cp{{forloop.counter}}" onclick="update_contact_cp({{forloop.counter}})" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                        </div>
-                                        <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
-                                            <div class="modal-dialog">
-                                                <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'hotel')">Search</button>
-                                                        <div class="row" id="loading-pax-train" style="display:none;">
-                                                            <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
+
+                                            <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body" style="text-align:left;">
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                    <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                                 </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-lg-12">
+                                                                    <br/>
+                                                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row loading-pax-train" style="display:none;">
+                                                                <div class="col-lg-12">
+                                                                    <br/>
+                                                                    <div style="text-align:center"><h4>PLEASE WAIT ...</h4></div>
+                                                                </div>
+                                                            </div>
+                                                            <div id="search_result_adult{{forloop.counter}}">
+
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
-
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
+                                                    <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -367,9 +343,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6"></div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -377,7 +354,7 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
@@ -385,24 +362,61 @@
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="adult_nationality{{forloop.counter}}" name="adult_nationality{{forloop.counter}}">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-adult" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'adult')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
+                                            <label>Contact Email Address</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
+                                            <label style="margin:0;">Contact Person for Urgent Situation</label>
+                                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                            <div class="row">
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select class="form-control js-example-basic-single" name="adult_phone_code{{forloop.counter}}_id" style="width:100%;" id="adult_phone_code{{forloop.counter}}_id" onchange="auto_complete('adult_phone_code{{forloop.counter}}')" class="nice-select-default">
+                                                                {% for country in countries %}
+                                                                <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                        <input type="hidden" name="adult_phone_code{{forloop.counter}}" id="adult_phone_code{{forloop.counter}}" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                                    <div class="input-container-search-ticket">
+                                                        <input type="text" class="form-control" name="adult_phone{{forloop.counter}}" id="adult_phone{{forloop.counter}}" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                         </div>
                                     </div>
                                 </div>
@@ -414,13 +428,12 @@
                         {% for child in childs%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer;" onclick="show_paxs('child', '{{forloop.counter}}');">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"></div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">
-                                            <span style="color:white; text-align:center; font-size:16px;">Child - {{forloop.counter}} <i class="fas fa-info-circle"></i></span>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
                                             <span style="color:white; text-align:right; margin-right:5px;" id="child_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
@@ -441,29 +454,26 @@
                                                         <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Child',{{forloop.counter}}, 'hotel')">Search</button>
-                                                        <div class="row" id="loading-paxc-train" style="display:none;">
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center"><h4>PLEASE WAIT ...</h4></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
@@ -474,10 +484,11 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
-                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
+                                                    <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -488,6 +499,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -504,21 +516,24 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select id="child_nationality{{forloop.counter}}" name="child_nationality{{forloop.counter}}">
-                                                        {% for country in countries%}
+                                                    <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <input type="hidden" name="child_nationality{{forloop.counter}}" id="child_nationality{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-child" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}},'child')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -530,100 +545,221 @@
                         {% endfor %}
 
 
-                    </div>
-                    <div class="col-lg-4" style="margin-top:10px;">
-                        <div style="background-color:#f15a22; padding:5px;">
-                            <center><span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span></center>
-                        </div>
-                        <div style="background-color:white; padding:10px; border:1px solid #f15a22;" id="hotel_detail">
+                        {% for infant in infants%}
+                        <div class="row" id="infant{{forloop.counter}}">
+                            <div class="col-lg-12">
+                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;"></div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
+                                        </div>
+                                        <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row" >
+                                                            <div class="col-lg-12">
+                                                                <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center"><h4>PLEASE WAIT ...</h4></div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_infant{{forloop.counter}}">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
+                                            <label>Title</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}" class="nice-select-default">
+                                                        {% for title in infant_title%}
+                                                        <option>{{title}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label style="color:red">*</label>
+                                            <label>First name and middle name (if any)</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <br/>
+                                            <label>Last name</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="infant_last_name{{forloop.counter}}" id="infant_last_name{{forloop.counter}}" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            </div>
+                                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>Nationality</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
+                                            <label>Birth Date</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="padding-top:15px;"></div>
                         </div>
                         <br/>
-                        <center>
-                            <button class="primary-btn-ticket next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="check_passenger({{adult_count}}, {{child_count}});">
-                                Next
-                                <i class="fas fa-angle-right"></i>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </center>
+                        {% endfor %}
+
                     </div>
+                    <div class="col-lg-4" style="margin-top:10px;">
+                        <div class="row" style="padding-bottom:15px;">
+                            <div class="col-lg-12">
+                                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                                    <hr/>
+                                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
+
+                        </div><br/>
+
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
+
+                        </div>
+                    </div>
+
+                    <div class="col-lg-8" style="margin-top:15px;">
+                        <div class="row">
+                            <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div style="max-height:300px; overflow-y:auto;">
+                                                        <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> We found a mistake in your data.</h5>
+                                                        <br/>
+                                                        <span id="show_error_log" style="font-size:15px;">
+
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <button class="btn-next primary-btn next-passenger-hotel ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{adult_count}}, {{child_count}});">
+                                    Next
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="time_limit_input" name="time_limit_input" />
                 </div>
             </form>
         </div>
     </div>
 </section>
 
-<footer class="footer-area section-gap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
-
 <script>
+    hotel_detail('{{hotel_room_detail_pick.rooms}}');
     hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
+
+    $( document ).ready(function() {
+      if(template != 4){
+        $('.js-example-basic-single').niceSelect('destroy');
+      }
+      $('.js-example-basic-single').select2();
+      auto_complete('booker_nationality');
+      auto_complete('booker_phone_code');
+      {% for adult in adults%}
+          auto_complete('adult_nationality{{forloop.counter}}');
+          //auto_complete('adult_country_of_issued{{forloop.counter}}');
+          auto_complete('adult_phone_code{{forloop.counter}}');
+      {% endfor %}
+      {% for child in childs%}
+          auto_complete('child_nationality{{forloop.counter}}');
+          //auto_complete('child_country_of_issued{{forloop.counter}}');
+      {% endfor %}
+      {% for infant in infants%}
+          auto_complete('infant_nationality{{forloop.counter}}');
+          //auto_complete('infant_country_of_issued{{forloop.counter}}');
+      {% endfor %}
+    });
 
     $(function() {
       for (var i = 1; i <= adult; i++){

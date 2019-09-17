@@ -52,6 +52,8 @@
     seat = {{seat}};
 </script>
 {% include 'tt_website_skytors/logout.html' %}
+<div class="loader-airline"></div>
+{%if template == 1%}
 <header id="header">
     <div class="main-menu">
         <div class="container">
@@ -85,12 +87,183 @@
                         <span style="padding-left:5px;">Issued</span>
                     </div>
                 </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                            <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </header>
+{% elif template == 2 %}
+<header class="header-area">
+    <div class="main-header-area">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <nav class="classy-navbar justify-content-between" id="robertoNav">
+                    <div class="row">
+                        <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                            <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                            <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Home</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Search</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-done">
+                                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                                <span style="padding-left:5px;">Passenger</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx br-active">
+                                <span class="breadcrumb-rdx-icon br-icon-active">4</span>
+                                <span style="padding-left:5px;">Booking</span>
+                                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                            </div>
+                            <div class="breadcrumbs-rdx">
+                                <span class="breadcrumb-rdx-icon">5</span>
+                                <span style="padding-left:5px;">Issued</span>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 3 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">4</span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
+                    <span style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 4 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">4</span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
+                    <span style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 5 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">4</span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
+                    <span style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
 
+{%if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2 %}
+<section style="padding:45px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 3 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 4 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 5 %}
+<section style="padding:30px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% endif %}
     <div class="container">
         <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
@@ -102,28 +275,33 @@
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="airline_review" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                            <div id="airline_review" style="background-color:white; padding:10px; margin-bottom:15px; border:1px solid #cdcdcd;">
 
                             </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
+                                Hold Booking
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <button class="next-loading-issued for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">
+                                Issued Booking
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div class="row" style="padding-bottom:15px;">
-                        <div class="col-lg-12">
-                            <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
-                                <hr/>
-                                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
-                            </div>
-                        </div>
-                    </div>
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12 for-show-mobile">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
                             <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
@@ -147,7 +325,7 @@
 
 
 <script>
-    airline_detail();
+    airline_detail('');
     get_airline_review();
 </script>
 <!-- loader -->

@@ -319,8 +319,10 @@ function activity_get_price_date(activity_type_pick, pricing_days){
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
+               console.log(startingDate);
+               console.log(msg);
                activity_date = msg.result.response;
-               is_avail = 0
+               is_avail = 0;
                act_date_data = JSON.stringify(activity_date).replace(/'/g, '');
                document.getElementById('activity_date_div').innerHTML = `<input type='hidden' id='activity_date_data' name='activity_date_data' value='`+act_date_data+`'/>`;
                document.getElementById("activity_date").disabled = false;
@@ -503,6 +505,23 @@ function activity_get_price_date(activity_type_pick, pricing_days){
    });
 }
 
+function activity_pre_create_booking(){
+    Swal.fire({
+      title: 'Are you sure?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        $('.next-loading-issued').addClass("running");
+        $('.next-loading-issued').prop('disabled', true);
+        activity_create_booking();
+      }
+    })
+}
+
 function activity_create_booking(){
     getToken();
     $.ajax({
@@ -511,14 +530,12 @@ function activity_create_booking(){
        headers:{
             'action': 'create_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
             document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('activity_booking').submit();
-//            gotoForm();
         }else{
             alert(msg.result.error_msg);
         }
@@ -553,81 +570,186 @@ function activity_get_booking(data){
        success: function(msg) {
        console.log(msg);
         if(msg.result.error_code == 0){
-            text = `
+            if(msg.result.response.no_order_number){
+                text = ``;
+                voucher_text = ``;
+            }
+            else{
+                if(msg.result.response.status == 'done')
+                {
+                    conv_status = 'Confirmed';
+                }
+                else if(msg.result.response.status == 'rejected')
+                {
+                    conv_status = 'Rejected';
+                }
+                else{
+                    conv_status = 'Pending';
+                }
+
+                text = `
                         <div class="row">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22;">
-                                    <center>
-                                        <span style="color:white; font-size:16px;"> Activity Order Details <img style="width:18px;" src="/static/tt_website_skytors/images/icon/ferris-wheel.png"/></span>
-                                    </center>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:10px; background-color:white; border:1px solid #f15a22;">
-                                    <table style="margin-top:5px;width:100%;">
-                                        <tr>
-                                            <td><span style="font-weight: bold;">Order Number:</span></td>
-                                            <td><span style="font-weight: bold;">PNR:</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>`+msg.result.response.name+`</td>
-                                            <td>`+msg.result.response.pnr+`</td>
-                                        </tr>
-                                    </table>
+                                <div id="activity_booking_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                                    <h4> Activity Order Details </h4>
+                                    <hr/>
+                                    <h4>`+msg.result.response.name+`</h4>
+                                    <span style="font-size: 15px;" aria-hidden="true">Booking Code: `+msg.result.response.pnr+`</span>
+                                    <span style="font-size: 15px; float:right;" aria-hidden="true">Status: `+conv_status+`</span>
                                     <br/>
-                                    <label><span style="font-weight: bold;">`+msg.result.response.activity.name+`</span></label><br/>
-                                    <label>`+msg.result.response.activity.type+`</label><br/>
-                                    <label>`+moment(msg.result.response.visit_date).format('DD MMM YYYY')+`</label><br/>
-                                    <table style="margin-top:10px;width:100%;">
-                                        <tr>
-                                            <td><span style="font-weight: bold;">Booker Information</span></td>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Full Name</td>
-                                            <td>: `+msg.result.response.contacts.title+` `+msg.result.response.contacts.first_name+` `+msg.result.response.contacts.last_name+`</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td>: `+msg.result.response.contacts.email+`</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Mobile Phone</td>
-                                            <td>: `+msg.result.response.contacts.phone+`</td>
-                                        </tr>
-                                    </table>
                                 </div>
-                                <br/>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="background-color:#f15a22;">
-                                    <center>
-                                        <span style="color:white; font-size:16px;"> List of Passenger <i class="fas fa-users"></i></span>
-                                    </center>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div style="padding:10px; background-color:white; border:1px solid #f15a22;">
-                                    <table style="width:100%;">
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Birth Date</th>
-                                        </tr>`;
-                                        for(i in msg.result.response.passengers){
-                                            text+=`<tr>
-                                                <td>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</td>
-                                                <td>`+moment(msg.result.response.passengers[i].birth_date).format('DD MMM YYYY')+`</td>
-                                            </tr>`;
-                                        }
-                                        text+=`
-                                    </table>
-                                </div>
-                                <br/>
                             </div>
                         </div>
-                        <input class="primary-btn" type="button" value="Voucher" onclick="activity_get_voucher()" />
-            `;
-            document.getElementById('activity_ticket').innerHTML = text;
+                `;
+                text += `
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="activity_booking_info" style="padding:15px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                    <h4> Activity Information </h4>
+                                    <hr/>
+                                    <h4>`+msg.result.response.activity.name+`</h4>
+                                    <span>`+msg.result.response.activity.type+`</span>
+                                    <br/>
+                                    <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                        `+msg.result.response.visit_date+`
+                                    </span>`;
+
+                if (msg.result.response.timeslot)
+                {
+                    text += `<br/>
+                    <span><i class="fa fa-clock-o" aria-hidden="true"></i>
+                        `+msg.result.response.timeslot+`
+                    </span>`;
+                }
+
+               text += `<br/>
+                                </div>
+                            </div>
+                        </div>
+
+                `;
+
+               if(msg.result.response.booking_options.length > 0){
+                    text += `
+                        <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:15px;">
+                                    <h4> Additional Information </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:65%;">Information</th>
+                                            <th style="width:30%;">Value</th>
+                                        </tr>
+                    `;
+                    temp_seq = 1;
+                    for(i in msg.result.response.booking_options){
+                        text += `
+                            <tr>
+                                <td>`+temp_seq+`</td>
+                                <td>`+msg.result.response.booking_options[i].name+`</td>
+                                <td>`+msg.result.response.booking_options[i].value+`</td>
+                            </tr>
+                        `;
+                        temp_seq += 1;
+                    }
+                    text += `
+                        </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+               }
+
+               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == true)
+               {
+                    title = 'MRS';
+               }
+               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == false)
+               {
+                    title = 'MS';
+               }
+               else
+               {
+                    title = 'MR';
+               }
+
+               text += `
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:15px;">
+                                    <h4> Contact Information </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:25%;">Email</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Mobile Phone</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>`+title+`. `+msg.result.response.contacts.name+`</td>
+                                            <td>`+msg.result.response.contacts.email+`</td>
+                                            <td>`+msg.result.response.contacts.phone+`</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               `;
+
+               text += `
+                   <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:15px;">
+                                    <h4> List of Passenger(s) </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:10%;">Type</th>
+                                            <th style="width:25%;">Birth Date</th>
+                                            <th style="width:15%;" class="list-of-passenger-right">Ticket</th>
+                                        </tr>
+               `;
+
+               temp_pax_seq = 1
+               for(i in msg.result.response.passengers)
+               {
+                    text += `
+                        <tr>
+                            <td>`+temp_pax_seq+`</td>
+                            <td>`+msg.result.response.passengers[i].name+`</td>
+                            <td>`+msg.result.response.passengers[i].pax_type+`</td>
+                            <td>`+msg.result.response.passengers[i].birth_date+`</td>
+                            <td>`+msg.result.response.passengers[i].sku_name+`</td>
+                        </tr>
+                    `;
+                    temp_pax_seq += 1;
+               }
+
+               text += `
+                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               `;
+
+               voucher_text = `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher()" style="width:100%;">
+                                Voucher
+                            </button>`;
+            }
+            document.getElementById('activity_final_info').innerHTML = text;
+            document.getElementById('voucher').innerHTML = voucher_text;
 
             price_text = '';
             $test = msg.result.response.activity.name+'\n'+msg.result.response.activity.type+

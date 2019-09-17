@@ -7,6 +7,7 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     signature = `{{signature}}`;
 </script>
@@ -18,64 +19,83 @@
             <div class="banner-right" style="margin-bottom:25px;">
                 <form action="{% url 'tt_website_skytors:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white;">
-                        <div class="row" style="text-align:left">
-                            <div class="col-lg-12" style="margin-bottom:15px; margin-top:20px;">
-                                <h3>TOP UP SALDO</h3>
-                            </div>
-                            <div class="col-lg-6">
-                                <span>Select Amount</span><br/>
-                                <div class="form-select" id="default-select">
-                                    <select id="amount" data-size="7" data-live-search="true" name="amount" required="required" tabindex="-98" onchange="total_price_top_up();">
-
-                                    </select>
+                    <div class="row">
+                        <div class="col-lg-8" style="border:1px solid #cdcdcd; background:white;">
+                            <div class="row" style="text-align:left">
+                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:20px;">
+                                    <h3>TOP UP SALDO</h3>
                                 </div>
-
-                            </div>
-
-                            <div class="col-lg-6">
-                                <span>Qty</span><br/>
-                                <div class="input-container-search-ticket">
-                                    <input type="number" name="qty" id="qty" class="form-control" tabindex="1" value="1" min="1" required="required" onchange="total_price_top_up();">
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <span>Total</span><br/>
-                                <div class="input-container-search-ticket">
-                                    <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" value="{{agent.type}}" tabindex="1" readonly="readonly"/>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <span>Payment Method</span><br/>
-                                <div class="input-container-search-ticket btn-group">
+                                <div class="col-lg-6">
+                                    <span>Select Amount</span><br/>
                                     <div class="form-select" id="default-select">
-                                        <select id="payment_method" name="payment_method" required="required">
-                                            <option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>
-                                            <!--<option id="online_payment" value="online_payment">Online Payment</option>-->
+                                        <select id="amount" data-size="7" data-live-search="true" name="amount" required="required" tabindex="-98" onchange="total_price_top_up();">
+
                                         </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <span>Qty</span><br/>
+                                    <div class="input-container-search-ticket">
+                                        <input type="number" name="qty" id="qty" class="form-control" tabindex="1" value="1" min="1" required="required" onchange="total_price_top_up();">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span>Total</span><br/>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" value="{{agent.type}}" tabindex="1" readonly="readonly"/>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <span>Payment Method</span><br/>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select id="payment_method" name="payment_method" required="required">
+                                                <option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>
+                                                <!--<option id="online_payment" value="online_payment">Online Payment</option>-->
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-12" style="margin-top:15px;">
+                                    <div id="footer-info" class="footer-info">
+                                        <label class="check_box_custom">
+                                            <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of Rodextrip top up</span>
+                                            <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="tacModal" role="dialog">
+                                    <div class="modal-dialog">
+
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" style="color:white;">Term & Condition </h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="modal-body">
+                                                    <ol id="topup_tac"><li>The deposited amount for TOP UP will become your Rodextrip balance. It can not be withdrawn as cash/transfer.<br><br></li><li>Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br><br></li><li>Rodex Gateway TOP UP can be used on<br>Monday-Sunday: 8 AM - 8 PM (GMT +7)<br>*National Holiday included*<br>You have to wait if you make a request outside of Rodex Gateway TOP UP working hours.<br><br></li><li>Outside of Rodex Gateway TOP UP working hours, you are still able to request TOP UP via Mandiri or Klikpay BCA Payment Gateway.<br><br></li></ol>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:20px;">
+                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;text-align:left" id="payment_acq" hidden>
 
-
-                            <div class="col-lg-12" style="margin-top:15px;">
-                                <div id="footer-info" class="footer-info">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of TORS top up</span>
-                                        <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-lg-12" style="margin-top:15px;margin-bottom:15px;">
-
-                                <!--                                <div id="footer-info" class="footer-info">-->
-                                <!--                                    <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">-->
-                                <!--                                    <span>I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal">Terms &amp; Conditions</a> of TORS top up</span>-->
-                                <!--                                </div>-->
-                                <button class="primary-btn text-uppercase" type="button" name="button1" onclick="check_top_up();">SUBMIT</button>
                             </div>
                         </div>
                     </div>
@@ -88,7 +108,7 @@
 <script>
     //get_top_up_amount();
     get_top_up_amount();
-
+    get_payment_acquirer_top_up(0);
     unique_amount = parseInt(Math.random() * 1000);
     //document.getElementById('unique_amount').value = unique_amount;
 </script>

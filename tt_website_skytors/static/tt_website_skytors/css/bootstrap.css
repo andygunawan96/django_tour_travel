@@ -212,8 +212,9 @@ a:not([href]):not([tabindex]) {
 }
 
 a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
-  color: inherit;
+  color: #f15a22;
   text-decoration: none;
+  background:unset;
 }
 
 a:not([href]):not([tabindex]):focus {
@@ -4418,7 +4419,7 @@ tbody.collapse.show {
 .page-link:focus {
   z-index: 2;
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  /*box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);*/
 }
 
 .page-link:not(:disabled):not(.disabled) {

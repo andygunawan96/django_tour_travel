@@ -12,6 +12,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
+    //check years old
     function check_years_old(sequence, type){
         var birth_date = '';
         if(type =='adult')
@@ -23,7 +24,7 @@
         if(type =='child')
             birth_date = moment(document.getElementById('child_birth_date'+sequence).value, 'DD MMM YYYY');
 
-        document.getElementById('adult_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
+        document.getElementById(type+'_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
     }
 
     adult = {{price_itinerary.adult_total_pax}};
@@ -355,7 +356,7 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -533,7 +534,7 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -683,7 +684,8 @@
                                         <div class="col-lg-6">
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">

@@ -90,7 +90,7 @@ function get_customer_list(passenger, number, product){
     passenger_number = number;
 
     if(passenger == 'booker'){
-        $(".loading-booker-train").show();
+        $('.loading-booker-train').show();
         if(document.getElementById('train_booker_search').value.length >= 2){
             $.ajax({
                type: "POST",
@@ -145,19 +145,24 @@ function get_customer_list(passenger, number, product){
                         response+=`</table></div>`;
                         document.getElementById('search_result').innerHTML = response;
                         passenger_data = msg.result.response;
+                        $('.loading-booker-train').hide();
                     }else{
                         response = '';
                         response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
                         document.getElementById('search_result').innerHTML = response;
+                        $('.loading-booker-train').hide();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
+                    $('.loading-booker-train').hide();
                 }else{
                     alert(msg.result.error_msg);
+                    $('.loading-booker-train').hide();
                 }
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert(errorThrown);
+                   $('.loading-booker-train').hide();
                }
             });
         }else{
@@ -165,7 +170,7 @@ function get_customer_list(passenger, number, product){
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             document.getElementById('search_result').innerHTML = response;
         }
-        $(".loading-booker-train").hide();
+        $('.loading-booker-train').hide();
     }else{
         $(".loading-pax-train").show();
         if(document.getElementById('train_adult'+number+'_search').value.length >= 2){
@@ -186,9 +191,10 @@ function get_customer_list(passenger, number, product){
                 console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
+                    var like_name_paxs = document.getElementById('train_adult'+number+'_search').value;
                     if(msg.result.response.length != 0){
                         response+=`
-                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
+                        <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
                         <div style="overflow:auto;height:300px;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
@@ -221,20 +227,25 @@ function get_customer_list(passenger, number, product){
                         response+=`</table></div>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                         passenger_data = msg.result.response;
+                        $('.loading-pax-train').hide();
                     }else{
                         response = '';
                         response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
+                        $('.loading-pax-train').hide();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
+                    $('.loading-pax-train').hide();
                 }else{
                     alert(msg.result.error_msg);
+                    $('.loading-pax-train').hide();
                 }
 
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert(errorThrown);
+                   $('.loading-pax-train').hide();
                }
             });
         }else{
@@ -242,7 +253,7 @@ function get_customer_list(passenger, number, product){
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             document.getElementById('search_result_'+passenger+number).innerHTML = response;
         }
-        $(".loading-pax-train").hide();
+        $('.loading-pax-train').hide();
     }
 }
 
@@ -629,7 +640,9 @@ function pick_passenger(type, sequence, product){
     else if(type == 'Booker'){
         //change booker
         document.getElementById('booker_title').value = passenger_data[sequence].title;
-        $('#booker_title').niceSelect('update');
+        if(template != 4){
+            $('#booker_title').niceSelect('update');
+        }
         document.getElementById('booker_first_name').value = passenger_data[sequence].first_name;
         document.getElementById('booker_first_name').readOnly = true;
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
@@ -672,7 +685,9 @@ function pick_passenger(type, sequence, product){
             }
         }
         document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
-        $('#adult_title'+passenger_number).niceSelect('update');
+        if(template != 4){
+            $('#adult_title'+passenger_number).niceSelect('update');
+        }
         document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('adult_first_name'+passenger_number).readOnly = true;
         document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -695,10 +710,11 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].passport_expdate;
                 //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_code;
             }
-
-            if (document.getElementById("default-select")) {
-                $('select').niceSelect('update');
-            };
+            if(template != 4){
+                if (document.getElementById("default-select")) {
+                    $('select').niceSelect('update');
+                };
+            }
         }
 
         if(product=='train'){
@@ -740,7 +756,9 @@ function pick_passenger(type, sequence, product){
             }
         }
         document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
-        $('#child_title'+passenger_number).niceSelect('update');
+        if(template != 4){
+            $('#child_title'+passenger_number).niceSelect('update');
+        }
         document.getElementById('child_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('child_first_name'+passenger_number).readOnly = true;
         document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -783,7 +801,9 @@ function pick_passenger(type, sequence, product){
             }
         }
         document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
-        $('#infant_title'+passenger_number).niceSelect('update');
+        if(template != 4){
+            $('#infant_title'+passenger_number).niceSelect('update');
+        }
         document.getElementById('infant_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('infant_first_name'+passenger_number).readOnly = true;
         document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -825,7 +845,9 @@ function pick_passenger(type, sequence, product){
             }
         }
         document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
-        $('#senior_title'+passenger_number).niceSelect('update');
+        if(template != 4){
+            $('#senior_title'+passenger_number).niceSelect('update');
+        }
         document.getElementById('senior_first_name'+passenger_number).value = passenger_data[sequence].first_name;
         document.getElementById('senior_first_name'+passenger_number).readOnly = true;
         document.getElementById('senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -892,7 +914,9 @@ function copy_booker_to_passenger(val,type){
         }
 
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
-        $('#adult_title1').niceSelect('update');
+        if(template != 4){
+            $('#adult_title1').niceSelect('update');
+        }
         document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
         document.getElementById('adult_first_name1').readOnly = true;
         document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
@@ -911,13 +935,17 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
             if(document.getElementById('adult_years_old1').value >= 17){
                 document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
-                $('#adult_id_type1').niceSelect('update');
+                if(template != 4){
+                    $('#adult_id_type1').niceSelect('update');
+                }
                 document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
             }
         }else if(type == 'airline'){
             if(document.getElementById('booker_id_type').value == 'pas'){
                 document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
-                $('#adult_id_type1').niceSelect('update');
+                if(template != 4){
+                    $('#adult_id_type1').niceSelect('update');
+                }
                 document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
             }
             if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != '')
@@ -932,7 +960,9 @@ function copy_booker_to_passenger(val,type){
             }
         }
         document.getElementById('adult_title1').value = 'MR';
-        $('#adult_title1').niceSelect('update');
+        if(template != 4){
+            $('#adult_title1').niceSelect('update');
+        }
         document.getElementById('adult_first_name1').value = '';
         document.getElementById('adult_first_name1').readOnly = false;
         document.getElementById('adult_last_name1').value = '';

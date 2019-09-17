@@ -844,7 +844,6 @@ def update_passengers(request):
 
 def sell_ssrs(request):
     try:
-
         data = {
             'sell_ssrs_request': request.session['airline_ssr_request']
         }
@@ -884,14 +883,18 @@ def assign_seats(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    if request.session['airline_seat_request'] != {}:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        if request.session['airline_ssr_request'] == {}:
+            logging.getLogger("error_logger").error("NO SSR")
+        else:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def commit_booking(request):
@@ -1023,6 +1026,7 @@ def get_booking(request):
                                     'destination_name': destination['name'],
                                 })
                                 break
+        request.session['airline_get_booking_response'] = res
         logging.getLogger("info_logger").info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -1084,179 +1088,4 @@ def issued(request):
             logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-#GAK PAKE
-def get_buy_information(request):
-    #nanti ganti ke get_ssr_availability
-    data = {}
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_buy_information",
-        "signature": request.session['airline_signature'],
-    }
-
-
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
-
-    try:
-        for baggage in res['result']['response']['ssr_codes']['baggage_per_route']:
-            for code in baggage['ssr_codes']:
-                code.update({
-                    'amount': int(code['amount'])
-                })
-    except:
-        print('no baggage')
-    try:
-        for equip in res['result']['response']['ssr_codes']['equip_per_route']:
-            for code in equip['ssr_codes']:
-                code.update({
-                    'amount': int(code['amount'])
-                })
-    except:
-        print('no equip')
-    try:
-        for for_free in res['result']['response']['ssr_codes']['for_free_per_route']:
-            for code in for_free['ssr_codes']:
-                code.update({
-                    'amount': int(code['amount'])
-                })
-    except:
-        print('no for_free')
-    try:
-        for meal in res['result']['response']['ssr_codes']['meal_per_segment']:
-            for code in meal['ssr_codes']:
-                code.update({
-                    'amount': int(code['amount'])
-                })
-    except:
-        print('no meals')
-
-
-    request.session['airline_ssr'] = res['result']['response']
-
-    return res
-
-def create_passengers(request):
-    #nanti ganti ke get_ssr_availability
-    passenger = []
-    for pax in request.session['airline_create_passengers']['adult']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            pax.update({
-                'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                            pax['passport_expdate'].split(' ')[0])
-            })
-        passenger.append(pax)
-
-    for pax in request.session['airline_create_passengers']['child']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            pax.update({
-                'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                            pax['passport_expdate'].split(' ')[0])
-            })
-        passenger.append(pax)
-
-    for pax in request.session['airline_create_passengers']['infant']:
-        pax.update({
-            'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-        })
-        if pax['passport_expdate'] != '':
-            pax.update({
-                'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                            pax['passport_expdate'].split(' ')[0])
-            })
-        passenger.append(pax)
-
-
-    data = {
-        "contacts": request.session['airline_create_passengers']['booker'],
-        "passengers": passenger,
-        "kwargs": {},
-        "promotion_codes_request": []
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "create_passengers",
-        "signature": request.session['airline_signature'],
-    }
-
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
-
-    return res
-
-def set_ssr_ff(request):
-    #nanti ganti ke get_ssr_availability
-    ff_request = []
-    buy_ssrs_request = []
-
-    segments = []
-    segment_list = []
-    pax = []
-    ssr_code = []
-    segment_code = ''
-    check = 0
-    for journey in request.session['airline_request_ssr']:
-        for segment in journey:
-            check = 0
-            for list in segment_list:
-                if segment['segment_code'] == list:
-                    check = 1
-            if check == 0:
-                segment_list.append(segment['segment_code'])
-            segment_code = segment['segment_code']
-            for ssr in segment['passengers']['ssr_codes']:
-                ssr_code.append(ssr['ssr_code'])
-            print('a')
-            pax.append({
-                'segment_code': segment_code,
-                'passenger_number': segment['passengers']['passenger_number'],
-                'ssr_codes': ssr_code
-            })
-            ssr_code = []
-        segments.append({
-            'passengers': pax
-        })
-        pax = []
-
-    for segment in segments:
-        for passenger in segment['passengers']:
-            pax.append(passenger)
-
-    segments = []
-    new_pax = []
-    for segment in segment_list:
-        for idx, passenger in enumerate(pax):
-            if passenger['segment_code'] == segment:
-                new_pax.append({
-                    'passenger_number': passenger['passenger_number'],
-                    'ssr_codes': passenger['ssr_codes']
-                })
-        buy_ssrs_request.append({
-            "segment_code": segment,
-            "passengers": new_pax
-        })
-        new_pax = []
-
-    #ff_request nanti perbaiki belom di coding
-    data = {
-        "buy_ssrs_request": buy_ssrs_request,
-        "ff_request": ff_request
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "set_ssr_ff",
-        "signature": request.session['airline_signature'],
-    }
-
-    res = util.send_request(url=url + 'airlines/booking', data=data, headers=headers, cookies=request.session['airline_cookie'], method='POST')
-
     return res

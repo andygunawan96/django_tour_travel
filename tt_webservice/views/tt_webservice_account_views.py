@@ -58,6 +58,8 @@ def api_models(request):
             res = get_top_up(request)
         elif req_data['action'] == 'submit_top_up':
             res = submit_top_up(request)
+        elif req_data['action'] == 'cancel_top_up':
+            res = cancel_top_up(request)
         elif req_data['action'] == 'confirm_top_up':
             res = confirm_top_up(request)
         elif req_data['action'] == 'request_top_up_api':
@@ -202,7 +204,7 @@ def get_top_up_amount(request):
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['user_account'] = res['result']['response']
+        request.session['top_up_amount'] = res['result']['response']
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_account SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
@@ -235,12 +237,13 @@ def get_top_up(request):
 def submit_top_up(request):
     try:
         data = {
-          'name': 'New',
-          'currency_code': request.POST['currency_code'],
-          'amount_seq_id': request.POST['amount_seq_id'],
-          'amount_count': int(request.POST['amount_count']),
-          'unique_amount': int(request.POST['unique_amount']),
-          'fees': 0,
+            'name': 'New',
+            'currency_code': request.POST['currency_code'],
+            'amount_seq_id': request.POST['amount_seq_id'],
+            'amount_count': int(request.POST['amount_count']),
+            'unique_amount': int(request.POST['unique_amount']),
+            'payment_seq_id': request.POST['seq_id'],
+            'fees': 0,
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -259,6 +262,29 @@ def submit_top_up(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def cancel_top_up(request):
+    try:
+        data = {
+            'name': request.POST['name'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel_top_up",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_payment_acquirer SUCCESS SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+#DEPRECATED
 def confirm_top_up(request):
     try:
         data = {

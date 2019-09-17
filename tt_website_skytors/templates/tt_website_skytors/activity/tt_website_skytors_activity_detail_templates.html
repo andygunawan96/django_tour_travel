@@ -69,14 +69,26 @@
 <div class="destinations-area" style="margin-bottom:25px;">
     <div class="container">
         <div class="row" style="padding-bottom:15px;">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <ul class="progressbar">
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
-                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                </ul>
+            <div class="col-lg-12" style="display:flex; padding-top:15px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">2</span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">3</span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">4</span>
+                    <span style="padding-left:5px;">Issued</span>
+                </div>
             </div>
         </div>
         <div class="row full_activity_details" style="margin-top:20px;">
@@ -84,6 +96,7 @@
                 <form method='POST' action="{% url 'tt_website_skytors:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="row">
+                        <input type="hidden" id="activity_uuid" name="activity_uuid" value="{{response.uuid}}"/>
                         <div class="col-lg-12">
                             <span style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
                             <span style="font-size:18px;">
