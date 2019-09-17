@@ -1881,6 +1881,7 @@ function airline_get_booking(data){
            airline_get_detail = msg;
            //get booking view edit here
            if(msg.result.error_code == 0){
+            $text = '';
             if(msg.result.response.state == 'fail_booked' || msg.result.response.state == 'fail_issued'){
                console.log('here');
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
@@ -1908,7 +1909,8 @@ function airline_get_booking(data){
 
             if(msg.result.response.state != 'fail_booked' || msg.result.response.state != 'fail_issued')
                 document.getElementById('ssr_request_after_sales').hidden = true;
-
+            $text += 'Order Number: '+ msg.result.response.order_number + '\n';
+            $text += 'Hold Date:\n';
             var text = `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
                 <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
@@ -1925,12 +1927,14 @@ function airline_get_booking(data){
                         var localTime  = moment.utc(tes).toDate();
                         msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         //
+                        $text += msg.result.response.provider_bookings[i].pnr +' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
                         text+=`<tr>
                             <td>`+msg.result.response.provider_bookings[i].pnr+`</td>
                             <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
                     }
+                    $text +='\n';
             text+=`</table>
             </div>
 
@@ -1941,6 +1945,7 @@ function airline_get_booking(data){
                         <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/plane.png"/></h5>
                         <hr/>`;
                     check = 0;
+                    flight_counter = 1;
                     for(i in msg.result.response.provider_bookings){
                         for(j in msg.result.response.provider_bookings[i].journeys){
                             var cabin_class = '';
@@ -1948,12 +1953,19 @@ function airline_get_booking(data){
                             if(msg.result.response.provider_bookings[i].journeys[j].journey_type == 'DEP'){
                                 text+=`
                                     <h6>Departure</h6>`;
+                                $text += 'Departure\n';
                                 check = 1;
                             }else if(check == 1 && msg.result.response.provider_bookings[i].journeys[j].journey_type == 'RET'){
                                 text+=`<br/><h6>Return</h6>`;
+                                $text += 'Return\n';
                                 check = 2;
                             }
                             for(k in msg.result.response.provider_bookings[i].journeys[j].segments){
+                                if(msg.result.response.provider_bookings[i].journeys[j].journey_type == 'COM'){
+                                    text+=`<br/><h6>Flight `+flight_counter+`</h6>`;
+                                    $text += 'Flight '+ flight_counter+'\n';
+                                    flight_counter++;
+                                }
                                 //yang baru harus diganti
                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                     cabin_class = 'Economy Class';
@@ -1964,10 +1976,23 @@ function airline_get_booking(data){
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'F')
                                     cabin_class = 'First Class';
                                 for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
+                                    $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+'\n';
+                                    if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+' - ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+'\n';
+                                    }else{
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+' - ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+'\n';
+                                    }
+                                    $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+') - '+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+')\n\n';
+
                                     text+= `
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" class="airline-logo" src="http://static.skytors.id/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
                                         </div>
                                     </div>`;
                                     text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
@@ -2164,6 +2189,7 @@ function airline_get_booking(data){
             type_amount_repricing = ['Repricing'];
             //repricing
             counter_service_charge = 0;
+            $text += '\nPrice:\n';
             for(i in msg.result.response.passengers[0].sale_service_charges){
                 text_detail+=`
                     <div style="text-align:left">
@@ -2242,12 +2268,17 @@ function airline_get_booking(data){
                             <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
-                        if(counter_service_charge == 0)
+
+                        $text += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
+                        if(counter_service_charge == 0){
+                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
                         text_detail+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
-                        else
+                        }else{
+                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
                             text_detail+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                        }
                         text_detail+=`
                         </div>
                     </div>`;
@@ -2259,6 +2290,7 @@ function airline_get_booking(data){
                 }
                 counter_service_charge++;
             }
+            $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
             text_detail+=`
             <div>
                 <hr/>
@@ -2278,6 +2310,29 @@ function airline_get_booking(data){
                 </div>
             </div>`;
             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+            text_detail+=`<div class="row">
+            <div class="col-lg-12" style="padding-bottom:10px;">
+                <hr/>
+                <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                share_data();
+                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                    text_detail+=`
+                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                } else {
+                    text_detail+=`
+                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                }
+
+            text_detail+=`
+                </div>
+            </div>`;
             text_detail+=`
             <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -2286,7 +2341,17 @@ function airline_get_booking(data){
                     </div>
                 </div>
             </div>`;
-            text_detail+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/></div></div>`;
+            text_detail+=`<center>
+
+            <div style="padding-bottom:10px;">
+                <center>
+                    <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                </center>
+            </div>
+            <div style="margin-bottom:5px;">
+                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+            </div>
+        </div>`;
             try{
                 testing_price = price.currency;
                 text += text_detail;

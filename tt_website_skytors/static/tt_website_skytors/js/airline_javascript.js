@@ -157,8 +157,10 @@ function airline_goto_search(){
             break;
         }
     }
-
+    console.log(type);
     if(type != 'multicity'){
+        console.log(document.getElementById('origin_id_flight').value);
+        console.log(document.getElementById('destination_id_flight').value);
         if(document.getElementById('origin_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for origin\n';
         if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
@@ -2149,7 +2151,6 @@ function sort(airline){
 
 function change_departure(val){
     if(airline_request.direction != 'MC'){
-        console.log(val);
         check_airline_pick = 0;
         journey.splice(val,1);
         value_pick.splice(val,1);
@@ -2882,7 +2883,7 @@ function airline_detail(type){
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
@@ -3157,7 +3158,6 @@ function check_passenger(adult, child, infant){
 
     var radios = document.getElementsByName('myRadios');
     for (var j = 0, length = radios.length; j < length; j++) {
-        console.log(radios[j]);
         if (radios[j].checked) {
             // do whatever you want with the checked radio
             booker_copy = radios[j].value;
