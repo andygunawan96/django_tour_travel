@@ -278,39 +278,55 @@ function submit_top_up(){
 }
 
 function cancel_top_up(name){
+    Swal.fire({
+      title: 'Proceed this request?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        $('.loader-airline').fadeIn();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'cancel_top_up',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name': name,
+                'signature': signature
+           },
+           success: function(msg) {
+            console.log(msg);
+            document.getElementById("table_top_up_history").innerHTML = `
+            <tr>
+                <th style="width:10%;">No.</th>
+                <th style="width:20%;">Top Up Number</th>
+                <th style="width:15%;">Due Date</th>
+                <th style="width:15%;">Amount</th>
+                <th style="width:15%;">Status</th>
+                <th style="width:10%;">Action</th>
+            </tr>`;
+    //        document.getElementById("payment_acq").innerHTML = '';
+    //        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
+            get_top_up();
+    //        document.getElementById('top_up_form').submit();
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
 
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'cancel_top_up',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-            'name': name,
-            'signature': signature
-       },
-       success: function(msg) {
-        console.log(msg);
-        document.getElementById("table_top_up_history").innerHTML = `
-        <tr>
-            <th style="width:10%;">No.</th>
-            <th style="width:20%;">Top Up Number</th>
-            <th style="width:15%;">Due Date</th>
-            <th style="width:15%;">Amount</th>
-            <th style="width:15%;">Status</th>
-            <th style="width:10%;">Action</th>
-        </tr>`;
-//        document.getElementById("payment_acq").innerHTML = '';
-//        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
-        get_top_up();
-//        document.getElementById('top_up_form').submit();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
+      }else{
+        $('.loader-airline').fadeIn();
+        $('#submit_top_up').prop('disabled', false);
+        $('#submit_top_up').removeClass('running');
+      }
+    })
 }
 
 function get_top_up(){
@@ -470,14 +486,35 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        if(parseInt(document.getElementById('amount').value) * parseInt(document.getElementById('qty').value) <= 50000){
+        if(top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value) < 50000){
             error_text += 'Minimum top up Amount IDR 50,000\n';
         }
     }catch(err){
 
     }
+    console.log(top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount);
+    console.log(parseInt(document.getElementById('qty').value));
     if(error_text == ''){
-        submit_top_up();
+        Swal.fire({
+          title: 'Proceed this request?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+            console.log(result);
+          if (result.value) {
+            $('.loader-airline').fadeIn();
+            submit_top_up();
+
+          }else{
+            $('.loader-airline').fadeIn();
+            $('#submit_top_up').prop('disabled', false);
+            $('#submit_top_up').removeClass('running');
+          }
+        })
+
     }else{
         document.getElementById('submit_top_up').classList.remove('running');
         document.getElementById('submit_top_up').disabled = false;
