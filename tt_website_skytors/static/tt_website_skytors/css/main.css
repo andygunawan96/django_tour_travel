@@ -2937,11 +2937,18 @@ body.mobile-nav-active #mobile-nav-toggle {
     margin-bottom:15px;
     border:1px solid #cdcdcd;
 }
+.sorting-box-b:hover{
+    border:1px solid #f15a22;
+}
 
 .detail-hotel-box{
     background-color:white;
     padding:10px;
     margin-bottom:15px;
+    border:1px solid #cdcdcd;
+}
+.detail-hotel-box:hover{
+    border:1px solid #f15a22;
 }
 
 .box-sticky-hotel{
@@ -5536,7 +5543,7 @@ div.scrollmenu li {
 
 .myticket {
   position: fixed;
-  top: 114px;
+  top: 85px;
   right: 55px;
   z-index: 99;
   background-color: #f15a22;
@@ -5789,15 +5796,19 @@ div.scrollmenu li {
 
 .button-seat-pass {
   background-color:#4CAF50;
-  border: 1px solid #f15a22;
-  color: black;
+  border: 1px solid #cdcdcd;
+  color: white;
   padding: 15px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 14px;
   cursor: pointer;
-  border-radius: 8px;
+  border-radius:48px;
+}
+
+.button-seat-pass:focus{
+    outline:unset;
 }
 
 
@@ -7335,4 +7346,50 @@ display: block;
   .br-fa {
     display:inline-flex;
   }
+}
+
+.for-show-mobile{
+    display:none;
+}
+.for-show-website{
+    display:block;
+}
+
+@media (max-width: 991px) {
+  .for-show-mobile{
+    display:block !important;
+  }
+  .for-show-website{
+    display:none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .for-show-mobile{
+    display:none !important;
+  }
+  .for-show-website{
+    display:block !important;
+  }
+}
+
+.loader-rodextrip {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: url('/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.gif') 50% 50% no-repeat rgb(0,0,0,1);
+}
+
+.loader-airline {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: url('/static/tt_website_skytors/img/plane_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
+	background-size:50px auto;
 }

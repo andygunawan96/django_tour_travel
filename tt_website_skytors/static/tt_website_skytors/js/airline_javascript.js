@@ -157,17 +157,14 @@ function airline_goto_search(){
             break;
         }
     }
-    console.log(type);
+
     if(type != 'multicity'){
-        console.log(document.getElementById('origin_id_flight').value);
-        console.log(document.getElementById('destination_id_flight').value);
         if(document.getElementById('origin_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for origin\n';
         if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for destination\n';
         if(document.getElementById('origin_id_flight').value.split(' - ')[3] == document.getElementById('destination_id_flight').value.split(' - ')[3] && document.getElementById('destination_id_flight').value.split(' - ')[3] == 'Indonesia')
             error_log+= "Sorry domestic airline still under development!\n";
-
     }else{
         for(var i=1;i<=counter_airline_search;i++){
             if(document.getElementById('origin_id_flight'+i).value.split(' - ').length != 4)
@@ -175,12 +172,14 @@ function airline_goto_search(){
             if(document.getElementById('destination_id_flight'+i).value.split(' - ').length != 4)
                 error_log+= 'Please use autocomplete for destination '+i+'\n';
         }
+
     }
     if(error_log == ''){
+        $('.button-search').addClass("running");
         document.getElementById('counter').value = counter_airline_search;
         document.getElementById('airline_searchForm').submit();
     }else{
-        document.getElementById("airline_button_search").classList.remove("running");
+        $('.button-search').removeClass("running");
         alert(error_log);
     }
 }
@@ -1519,7 +1518,7 @@ function sort(airline){
         }
         if(sorting_value != ''){
             sorting = sorting_value;
-        }
+       }
         for(var i = 0; i < airline.length-1; i++) {
             for(var j = i+1; j < airline.length; j++) {
                 if(sorting == ''){
@@ -1631,7 +1630,7 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
-                                            <span style="font-weight:500;">`+airline[i].origin_city+` (`+airline[i].origin+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <table style="width:100%; margin-bottom:6px;">
@@ -1642,7 +1641,7 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
-                                            <span style="font-weight:500;">`+airline[i].destination_city+` (`+airline[i].destination+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -1942,7 +1941,7 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].departure_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline[i].origin_city+` (`+airline[i].origin+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <table style="width:100%; margin-bottom:6px;">
@@ -1953,7 +1952,7 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].arrival_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline[i].destination_city+` (`+airline[i].destination+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -3094,6 +3093,7 @@ function on_change_srr(){
 }
 
 function check_passenger(adult, child, infant){
+    $('.loader-airline').fadeIn();
     //booker
     error_log = '';
     //check booker jika teropong
@@ -3367,6 +3367,7 @@ function check_passenger(adult, child, infant){
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
+       $('.loader-airline').fadeOut();
    }
 }
 
@@ -3655,12 +3656,14 @@ function update_contact_cp(val){
 }
 
 function next_ssr(){
+    $('.loader-airline').fadeIn();
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
     document.getElementById('airline_booking').submit();
 }
 
 function next_seat_map(){
+    $('.loader-airline').fadeIn();
     document.getElementById('airline_booking').innerHTML += `<input type="hidden" id="passenger" name="passenger" value='`+JSON.stringify(passengers)+`'>`;
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;

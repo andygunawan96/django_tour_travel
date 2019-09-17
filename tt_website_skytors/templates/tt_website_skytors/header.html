@@ -41,10 +41,6 @@
                     <ul class="nav-menu">
                         <li class="menu-has-children pt5"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
                         {% if username != null %}
-                        {% if "admin" in username.co_agent_frontend_security %}
-                        <li class="pt5"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                        {% endif %}
-                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
                         <li class="pt5"><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="pt5"><a href="#">Top Up</a>
@@ -54,7 +50,7 @@
                             </ul>
                         </li>
                         {% endif%}
-                        <li class="pt5"><a href="#" style="border-right:1px solid black; margin-right:5px;">Issued Offline</a>
+                        <li class="pt5"><a href="#">Issued Offline</a>
                             <ul>
                                 <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
                                 <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
@@ -74,14 +70,20 @@
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
-
                         {% if username != null %}
+                        <li class="menu-has-children pt5"><a href="#">Setting</a>
+                            <ul>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                            </ul>
+                        </li>
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
                             <ul>
                                 <li><a id="username" title="{{username.co_user_login}}"> {{username.co_user_login}}</a></li>
                                 <li><a id="balance"></a></li>
                                 <li><a id="credit_limit"></a></li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -195,28 +197,22 @@
                             <ul id="nav">
                                 <li class="active"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
                                 {% if username != null %}
-                                <li class="pt5"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                                <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                                {% if "top_up" in username.co_agent_frontend_security %}
                                 <li><a href="#">Top Up</a>
                                     <ul class="dropdown">
-                                        <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                        <li><a href="{% url 'tt_website_skytors:top_up'%}">Request</a></li>
                                         <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="#">Issued Offline</a>
+                                {% endif%}
+                                <li><a href="#" style="margin-right:5px;">Issued Offline</a>
                                     <ul class="dropdown">
                                         <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
                                         <li><a href="{% url 'tt_website_skytors:issued_offline_history'%}">History</a></li>
                                     </ul>
                                 </li>
                                 {% endif %}
-                                <li><a href="#">User Guide</a>
-                                    <ul class="dropdown">
-                                        <li><a href="#">Guidelines</a></li>
-                                        <li><a href="#">FAQ</a></li>
-                                    </ul>
-                                </li>
                                 <li><a href="#">Partnership</a>
                                     <ul class="dropdown">
                                         <li><a href="/registration">Register Agent</a></li>
@@ -224,19 +220,32 @@
                                         <li><a href="#">Search Registration</a></li>
                                     </ul>
                                 </li>
-                                {% if username != null %}
-                                <li class="notification-pc"><a href="#" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                                <li><a href="#">User Guide</a>
                                     <ul class="dropdown">
-                                        <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                        <li><a href="#">Guidelines</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                    </ul>
+                                </li>
+                                {% if username != null %}
+                                <li><a href="#">Setting</a>
+                                    <ul class="dropdown">
+                                        {% if "admin" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                                        {% endif %}
+                                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                                    </ul>
+                                </li>
+                                <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                                    <ul class="dropdown">
+                                        <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                         <li><a id="balance"></a></li>
                                         <li><a id="credit_limit"></a></li>
-                                        <li><a>My Virtual Account: 9317918739186</a></li>
                                         <li><a href="#">Edit Agent Profile</a></li>
                                         <li>
                                             <a>
                                                 <form action="" method="POST">
                                                     {% csrf_token %}
-                                                    <button type="submit" class="btn roberto-btn" style="color:white;">Sign Out</button>
+                                                    <button type="submit" class="primary-btn-logout" style="color:white;">Sign Out</button>
                                                     <input type="hidden" id="logout" name="logout" value=true>
                                                 </form>
                                             </a>
@@ -282,7 +291,7 @@
 </header>
 {% elif template == 3%}
 <header id="header" id="home">
-    <div class="main-menu" style="background:rgba(0, 0, 0, 0.5);">
+    <div class="main-menu" style="background:rgba(0, 0, 0, 0.9);">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
                 <!--                <div class="col-lg-12" style="padding:0px 0px 0px 15px;">-->
@@ -300,15 +309,15 @@
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="index.html">Home</a></li>
                         {% if username != null %}
-                        <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                        <li><a href="https://backend.rodextrip.com">Backend</a></li>
-                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+s                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children"><a href="#">Top Up</a>
                             <ul>
-                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Request</a></li>
                                 <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
                             </ul>
                         </li>
+                        {% endif%}
                         <li class="menu-has-children"><a href="#">Issued Offline</a>
                             <ul>
                                 <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
@@ -316,12 +325,6 @@
                             </ul>
                         </li>
                         {% endif %}
-                        <li class="menu-has-children"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
                         <li class="menu-has-children"><a href="#">Partnership</a>
                             <ul>
                                 <li><a href="/registration">Register Agent</a></li>
@@ -329,13 +332,26 @@
                                 <li><a href="#">Search Registration</a></li>
                             </ul>
                         </li>
+                        <li class="menu-has-children"><a href="#">User Guide</a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
                         {% if username != null %}
+                        <li class="menu-has-children"><a href="#">Setting</a>
+                            <ul>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                            </ul>
+                        </li>
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                             <ul>
-                                <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                 <li><a id="balance"></a></li>
                                 <li><a id="credit_limit"></a></li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -350,7 +366,9 @@
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
                             <ul>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -364,7 +382,7 @@
                             </ul>
                         </li>
                         <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
-                            {% endif %}
+                        {% endif %}
 
                     </ul>
                 </nav>
@@ -416,17 +434,17 @@
             <div class="col-12 col-md-10 d-none d-xl-block">
                 <nav class="site-navigation position-relative text-right" role="navigation">
                     <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                        <li class="active"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
+                        <li><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
                         {% if username != null %}
-                        <li class="pt5"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
                         <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="has-children"><a href="#">Top Up</a>
                             <ul class="dropdown">
-                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Request</a></li>
                                 <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
                             </ul>
                         </li>
+                        {% endif%}
                         <li class="has-children"><a href="#">Issued Offline</a>
                             <ul class="dropdown">
                                 <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
@@ -448,12 +466,19 @@
                             </ul>
                         </li>
                         {% if username != null %}
-                        <li class="has-children notification-pc"><a href="#" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                        <li class="has-children"><a href="#">Setting</a>
                             <ul class="dropdown">
-                                <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-children notification-pc"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                            <ul class="dropdown">
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                 <li><a id="balance"></a></li>
                                 <li><a id="credit_limit"></a></li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -466,9 +491,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="has-children notification-mobile" style="display:none;"><a href="#" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
+                        <li class="has-children notification-mobile" style="display:none;"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
                             <ul class="dropdown">
-                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -482,11 +509,8 @@
                             </ul>
                         </li>
 
-                        <li class="has-children notification-pc" style="font-size:13px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i>
-                            <ul id="notification_detail" class="dropdown">
-                                <li><a>No Notification (INI HARDCODE)</a></li>
-                            </ul>
-                        </li>
+                        <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+
                         {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="cta"><span class="bg-primary text-white rounded">Sign in</span></a></li>
                         {% endif %}
@@ -496,15 +520,8 @@
 
 
             <div class="d-inline-block d-xl-none ml-auto py-3 col-6 text-right" style="position: relative; top: 3px;">
-                <div class="dropdown-custom" style="bottom:5px;">
-                    <button class="dropbtn-custom" style="font-size:16px;color:black; cursor:pointer;"><i class="fas fa-bell" id="red_notification" style="font-size:16px;"> 0 </i></button>
-                    <div class="dropdown-content-custom">
-                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">Template 1</a><br/>
-                        <a href="javascript:change_template(2);" style="line-height:10px !important;">Template 2</a><br/>
-                        <a href="javascript:change_template(3);" style="line-height:10px !important;">Template 3</a><br/>
-                        <a href="javascript:change_template(4);" style="line-height:10px !important;">Template 4</a><br/>
-                        <a href="javascript:change_template(5);" style="line-height:10px !important;">Template 5</a><br/>
-                    </div>
+                <div class="dropdown-custom" style="bottom:3px;">
+                    <button class="dropbtn-custom" style="color:#f15a22;padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell" id="red_notification" style="font-size:20px;"></i></button>
                 </div>
                 <a href="#" class="site-menu-toggle js-menu-toggle text-black"><span class="icon-menu h3"></span></a>
             </div>
@@ -547,16 +564,17 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_skytors:index'%}">Home</a></li>
+
                         {% if username != null %}
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                        <li style="margin-top:8px;"><a href="https://backend.rodextrip.com">Backend</a></li>
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children" style="margin-top:8px;"><a href="">Top Up <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul>
-                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Menu</a></li>
+                                <li><a href="{% url 'tt_website_skytors:top_up'%}">Request</a></li>
                                 <li><a href="{% url 'tt_website_skytors:top_up_history'%}">History</a></li>
                             </ul>
                         </li>
+                        {% endif%}
                         <li class="menu-has-children" style="margin-top:8px;"><a href="">Issued Offline <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul>
                                 <li><a href="{% url 'tt_website_skytors:issued_offline'%}">Create</a></li>
@@ -564,12 +582,6 @@
                             </ul>
                         </li>
                         {% endif %}
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="">User Guide <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
                         <li class="menu-has-children" style="margin-top:8px;"><a href="">Partnership <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul>
                                 <li><a href="/registration">Register Agent</a></li>
@@ -577,13 +589,26 @@
                                 <li><a href="#">Search Registration</a></li>
                             </ul>
                         </li>
-                        {% if username != null %}
-                        <li class="menu-has-children notification-pc"><a href="" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                        <li class="menu-has-children" style="margin-top:8px;"><a href="">User Guide <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul>
-                                <li><a id="username" title="{{username.agent_name}}">{{username.agent_name}}</a></li>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+                        {% if username != null %}
+                        <li class="menu-has-children" style="margin-top:8px;"><a href="">Setting <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                            <ul>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children notification-pc"><a href="" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                            <ul>
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                 <li><a id="balance"></a></li>
                                 <li><a id="credit_limit"></a></li>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -596,9 +621,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-mobile" style="display:none;"><a href="" id="username" title="{{username.agent_name}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
+                        <li class="menu-has-children notification-mobile" style="display:none;"><a href="" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
                             <ul>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                <li><a id="balance"></a></li>
+                                <li><a id="credit_limit"></a></li>
                                 <li><a href="">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
@@ -611,13 +638,8 @@
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="menu-has-children notification-pc" style="font-size:13px;color:black; cursor:pointer; margin-top:3px;"><a href="" style="padding-top:25px;"><i class="fas fa-bell" id="red_notification" style="font-size:18px;"> 0 </i></a>
-                            <ul id="notification_detail">
-                                <li><a>No Notification (INI HARDCODE)</a></li>
-                            </ul>
-                        </li>
-                        {% else %}
+                        <li title="Click to show your notification" class="menu-has-children notification-pc" style="color:#f15a22; padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                            {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">Sign in <i class="fas fa-sign-in-alt"></i></span></a></li>
                         {% endif %}
                     </ul>
@@ -628,7 +650,7 @@
     </div>
 </header>
 {%endif%}
-<div class="modal fade" id="myModalNotification" role="dialog">
+<div class="modal fade" id="myModalNotification" role="dialog" style="z-index:10001;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">

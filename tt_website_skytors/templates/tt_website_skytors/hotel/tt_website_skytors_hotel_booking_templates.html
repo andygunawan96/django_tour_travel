@@ -15,60 +15,94 @@
     triggered_balance();
     document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
 </script>
-
-{% include 'tt_website_skytors/header.html' %}
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
-    <div class="container">
-        <div class="row" style="padding-bottom:15px;">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <ul class="progressbar">
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
-                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <h3>Your Order Has Been Proceed!</h3>
-                <br/>
-            </div>
-            <div class="col-lg-8" id="hotel_resv_left">
-                <div class="row review-header">
-                    <div class="col-sm-9">
-                        <table class="table">
-                            <thead class="head">
-                            <tr>
-                                <th style="padding:0px; width:150px;">Booking Code</th>
-                                <th style="padding:0px;">Status</th>
-                            </tr>
-                            </thead>
-                            <tbody class="body">
-                            {% for pnr_obj in pnrs%}
-                                <tr>
-                                    <td style="padding:3px 0px; font-weight:bold; color:#f15a22;"><span class="pnr_number">{{pnr_obj.issued_code}}</span></td>
-                                    <td style="padding:3px 0px; font-weight:bold; "><span class="hold_date">{{pnr_obj.status}}</span></td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                     </div>
-                    <div class="col-sm-3">
-                        <div class="form-group order_number">
-                            <label>Order Number:</label>
-                            <p><span>{{booking_name}}</span></p>
-                        </div>
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:hotel_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Rooms</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Review</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                        <span class="breadcrumb-rdx-icon br-icon-active">6</span>
+                        <span style="padding-left:5px;">Issued</span>
                     </div>
                 </div>
-                <div class="row review-detail">
-                    <h5 style="border: 1px solid lightgray;">
-                        <img src="/tt_website_booking/static/src/img/passenger-icon.png" style="height: 40px; width: auto; padding: 6px 0px 6px 5px;"/>
-                        <span style="margin-left: 15px;">List of Room(s)</span>
-                    </h5>
-                    <table class="table">
-                        <thead class="head">
+            </div>
+        </div>
+    </div>
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h4>Your Order Has Been Proceed!</h4>
+            </div>
+            <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
+                <div class="sk-circle">
+                    <div class="sk-circle1 sk-child"></div>
+                    <div class="sk-circle2 sk-child"></div>
+                    <div class="sk-circle3 sk-child"></div>
+                    <div class="sk-circle4 sk-child"></div>
+                    <div class="sk-circle5 sk-child"></div>
+                    <div class="sk-circle6 sk-child"></div>
+                    <div class="sk-circle7 sk-child"></div>
+                    <div class="sk-circle8 sk-child"></div>
+                    <div class="sk-circle9 sk-child"></div>
+                    <div class="sk-circle10 sk-child"></div>
+                    <div class="sk-circle11 sk-child"></div>
+                    <div class="sk-circle12 sk-child"></div>
+                </div>
+                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+            </div>
+            <div class="col-lg-8" id="hotel_resv_left">
+                <div class="row review-header" style="padding:10px; margin-bottom:15px;">
+                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;">
+                        <h6>Order Number : {{booking_name}}</h6><br/>
+                        <table style="width:100%;">
+                            <tr>
+                                <th>Booking Code</th>
+                                <th>Status</th>
+                            </tr>
+                            {% for pnr_obj in pnrs%}
+                            <tr>
+                                <td>{{pnr_obj.issued_code}}</td>
+                                <td>{{pnr_obj.status}}</td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <div class="row review-detail" style="padding:10px; margin-bottom:15px;">
+                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;">
+                        <h4>List of Room(s)</h4>
+                        <hr/>
+                        <table style="width:100%;" id="list-of-passenger">
                             <tr>
                                 <th class="">No</th>
                                 <th class="">Date</th>
@@ -78,53 +112,47 @@
                                 <th class="">Rate</th>
                                 <th class="">Meal Type</th>
                             </tr>
-                        </thead>
-                        <tbody class="body">
-                        {% for room in rooms %}
+                            {% for room in rooms %}
                             <tr>
                                 <td>{{forloop.counter}}</td>
-                                <td><span>{{room.date}}</span></td>
-                                <td><span>{{room.room_name}} ({{room.room_type}})</span></td>
-                                <td><span class="pull-right">1</span></td>
-                                <td><span class="pull-right">{{room.person}} Adult,
+                                <td>{{room.date}}</td>
+                                <td>{{room.room_name}} ({{room.room_type}})</td>
+                                <td>1</td>
+                                <td>{{room.person}} Adult,
                                     {% if room.child_ages %} {{room.child_ages.length}} {% else %} No {% endif %} Child
                                     {% if room.extra_bed %}, with ({{extra_bed}} ExtraBeds) {% endif %}
-                                </span></td>
-                                <td><span class="pull-right">{{room.room_rate}}</span></td>
-                                <td><span>{{room.meal_type}}</span></td>
+                                </td>
+                                <td>{{room.room_rate}}</td>
+                                <td>{{room.meal_type}}</td>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            {% endfor %}
+                        </table>
+                    </div>
                 </div>
-                <div class="row review-passenger">
-                    <h5 style="border: 1px solid lightgray;">
-                        <img src="/tt_website_booking/static/src/img/passenger-icon.png" style="height: 40px; width: auto; padding: 6px 0px 6px 5px;"/>
-                        <span style="margin-left: 15px;">List of Guest(s)</span>
-                    </h5>
-                    <table class="table">
-                        <thead class="head">
-                        <tr>
-                            <th class="">No</th>
-                            <th class="">Nama</th>
-                            <th class="">Tipe</th>
-                            <th class="">Birth Date</th>
-                        </tr>
-                        </thead>
-                        <tbody class="body">
-                        {% for psg in passengers %}
+                <div class="row review-detail" style="padding:10px; margin-bottom:15px;">
+                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background-color:white; padding-top:15px; padding-bottom:15px;">
+                        <h5>List of Guest(s)</h5>
+                        <hr/>
+                        <table style="width:100%;" id="list-of-passenger">
+                            <tr>
+                                <th class="">No</th>
+                                <th class="">Nama</th>
+                                <th class="">Tipe</th>
+                                <th class="">Birth Date</th>
+                            </tr>
+                            {% for psg in passengers %}
                             <tr>
                                 <td>{{forloop.counter}}</td>
                                 <td><span>{{psg.title}} {{psg.first_name}} {{psg.last_name}}</span></td>
                                 <td><span>{{psg.pax_type}}</span></td>
                                 <td>{% if room.hotel %}<span>{{psg.birtyh_date}}</span>{% else %}<span/>{% endif %}</td>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            {% endfor %}
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4" style="padding-bottom:20px;">
+            <div class="col-lg-4" style="padding-bottom:20px; padding-top:10px;">
                 <div class="row" style="padding-bottom:15px;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">

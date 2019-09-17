@@ -106,6 +106,8 @@
 {% include 'tt_website_skytors/header.html' %}
 {% include 'tt_website_skytors/logout.html' %}
 <!-- Search Ticket -->
+<div class="loader-rodextrip"></div>
+<div class="loader-airline" style="display:none;"></div>
 {%if template == 1%}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
     <div class="container">
@@ -558,8 +560,8 @@
                                 <br/>
 
                                 <button class="button-search primary-btn text-uppercase ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
-                                    <img src="{{static_path}}images/icon/hotel.png" style="width:25px; height:25px;"/>
-                                    Search Hotel
+                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                    Search
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </form>
@@ -648,10 +650,10 @@
                                     </div>
                                 </div>
                                 <br/>
-                                <button class="button-search primary-btn text-uppercase ld-ext-right" type="submit" value="Submit">
+
+                                <button class="primary-btn text-uppercase" type="submit" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
-                                    <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </form>
                         </div>
@@ -772,8 +774,8 @@
                 <h4 style="color:white;">Already a RODEXTRIP member?</h4>
                 <h5 style="color:white;">Sign in to make booking easier!</h5>
                 <br/>
-                <button class="primary-btn-sign text-uppercase" type="button">
-                    <a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="color:white;">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
+                    Sign in <i class="fas fa-sign-in-alt"></i>
                 </button>
             </div>
             {% endif %}
@@ -2784,21 +2786,12 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="banner-content col-lg-4 col-md-5" style="padding:50px 0px 50px 20px; background-color: rgba(32, 46, 69, 0.8);">
-                        <h1 class="text-white">
-                            Hello, Guest !
-                        </h1>
-                        <h4 style="color:white; padding-top:5px;">
-                            Enjoy your trip with RODEXTRIP
-                        </h4>
-
-                    </div>
-                    <div class="col-lg-8 col-md-7 header-right" style="padding:50px 0px 50px 20px;">
+                    <div class="col-lg-12 header-right" style="padding:50px 0px 50px 20px;">
                         <h4>Already a RODEXTRIP member?</h4>
                         <h5>Sign in to make booking easier!</h5>
 
-                        <button class="primary-btn-ticket" type="button" style="margin-top:15px;">
-                            <a href="{% url 'tt_website_skytors:login'%}" style="color:white;">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                        <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
                         </button>
                     </div>
                     {% endif %}
@@ -3107,7 +3100,6 @@
                     </div>
 
                     <div class="col-xl-9 col-lg-9" style="text-align:left; display:flex;">
-
                         <div class="form-search-wrap tab-content current" id="tab-airline" data-aos="fade-up" data-aos-delay="200">
                             <form action="{% url 'tt_website_skytors:airline_search'%}" method="POST" id="airline_searchForm">
                                 {% csrf_token %}
@@ -3681,8 +3673,8 @@
                         <h4>Already a RODEXTRIP member?</h4>
                         <h5>Sign in to make booking easier!</h5>
 
-                        <button class="primary-btn-ticket" type="button" style="margin-top:15px;">
-                            <a href="{% url 'tt_website_skytors:login'%}" style="color:white;">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                        <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
                         </button>
                     </div>
                     {% endif %}
@@ -4123,10 +4115,8 @@
 
                                     </div>
                                     <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
-
-
                                     <div class="col-lg-12 d-flex justify-content-end">
-                                        <button class="primary-btn" type="button" onclick="airline_goto_search();" value="Submit"><img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/> SEARCH <span class="lnr lnr-arrow-right"></span></button>
+                                        <button class="primary-btn-2" type="button" onclick="airline_goto_search();" value="Submit"><img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/> SEARCH <span class="lnr lnr-arrow-right"></span></button>
                                     </div>
                                 </div>
                             </form>
@@ -4575,20 +4565,12 @@
                         </div>
                     </div>
                     {% else %}
-                    <div class="col-xl-4" style="text-align:left;">
-                        <h3>
-                            Hello, Guest !
-                        </h3>
-                        <h4>
-                            Enjoy your trip with RODEXTRIP
-                        </h4>
-                    </div>
-                    <div class="col-xl-8" style="text-align:left;">
+                    <div class="col-xl-12" style="text-align:left;">
                         <h4>Already a RODEXTRIP member?</h4>
                         <h5>Sign in to make booking easier!</h5>
                         <br/>
-                        <button class="primary-btn" type="button" style="padding-right:30px !important; margin-top:0px !important;">
-                            <a href="{% url 'tt_website_skytors:login'%}" style="color:white;">Sign in <i class="fas fa-sign-in-alt"></i></a>
+                        <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
                         </button>
                     </div>
                     {% endif %}
@@ -4685,6 +4667,7 @@
 {%endif%}
 {% include 'tt_website_skytors/footer.html' %}
 <script>
+    {% if username != null %}
     //test
     var origin = new autoComplete({
         selector: '#origin_id_flight',
@@ -4929,6 +4912,7 @@
     }catch(err){
 
     }
+    {%endif%}
 
 </script>
 

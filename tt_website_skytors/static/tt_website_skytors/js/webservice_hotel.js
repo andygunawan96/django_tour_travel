@@ -365,6 +365,24 @@ function gotoForm(){
     document.getElementById('hotel_searchForm').submit();
 }
 
+function hotel_issued_alert(){
+    Swal.fire({
+      title: 'Are you sure?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').addClass("running");
+        $('.next-loading-issued').prop('disabled', true);
+        hotel_issued_booking();
+      }
+    })
+}
+
 function hotel_issued_booking(){
     getToken();
     $.ajax({

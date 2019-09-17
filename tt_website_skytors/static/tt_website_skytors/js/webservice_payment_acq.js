@@ -189,8 +189,6 @@ function set_price(val, type, product_type){
     }
     else if(payment_method == 'transfer'){
         //price
-
-
         text += `
                 <div class='col-sm-6' style='text-align:left;'>
                     <span>Price:</span>
