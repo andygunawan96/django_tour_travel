@@ -627,75 +627,96 @@ function check_passenger(){
            if(document.getElementById('adult_title'+i).value != '' &&
            document.getElementById('adult_first_name'+i).value != '' &&
            document.getElementById('adult_last_name'+i).value != '' &&
-           document.getElementById('adult_nationality'+i).value != '' &&
-           document.getElementById('adult_phone_code'+i).value != '' &&
-           document.getElementById('adult_phone'+i).value != ''){
+           document.getElementById('adult_nationality'+i).value != ''){
                if(check_name(document.getElementById('adult_title'+i).value,
                document.getElementById('adult_first_name'+i).value,
                document.getElementById('adult_last_name'+i).value,
                25) == false)
                    error_log+= 'Total of adult '+i+' name maximum 25 characters!\n';
                if(check_date(document.getElementById('adult_birth_date'+i).value)==false)
-                   error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+               {
+                    error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+               }
+
+               perpax_count = 1
                for(j in detail.perPax){
                    console.log('detail perpax');
                    console.log(detail);
                    console.log(detail.perPax[j]);
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth'){
+                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
                         if(detail.perPax[j].required == true){
                             //use regex bemyguest
                             if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('adult_perpax'+i+'_'+j).value, detail.perPax[j].formatRegex)==false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_regex(document.getElementById('adult_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                             }
                             //no regex
                             else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('adult_perpax'+i+'_'+j).value=='')
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                             }else if(detail.perPax[j].inputType == 2){
+                                k_item_count = 1
                                 for(k in detail.perPax[j].items){
-                                    if(document.getElementById('adult_perpax'+i+'_'+j+'_'+k).checked==true)
+                                    if(document.getElementById('adult_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
+                                    {
                                         check=1;
+                                    }
+                                    k_item_count += 1;
                                 }
                                 if(check==0)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                                 check=0;
                             }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('adult_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_number(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('adult_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('adult_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_date(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 7){
-                                console.log(document.getElementById('adult_perpax'+i+'_'+j));
+                                console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
 
                             }else if(detail.perPax[j].inputType == 8){
                                 console.log('here');
-                                console.log(document.getElementById('adult_perpax'+i+'_'+j));
+                                console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
 
                             }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('adult_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_time(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('adult_perpax'+i+'_'+j+'0').value+' '+document.getElementById('perpax'+i+'_'+j+'1').value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_date_time(document.getElementById('adult_perpax'+i+'_'+perpax_count+'0').value+' '+document.getElementById('perpax'+i+'_'+perpax_count+'1').value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('adult_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('adult_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_flight(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                         }
                    }
+                   else if(detail.perPax[j].name == 'Passport number')
+                   {
+                       if(detail.perPax[j].required == true){
+                           if(document.getElementById('adult_passport_number'+i).value=='')
+                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                       }
+                   }
+                   else if(detail.perPax[j].name == 'Passport expiry date')
+                   {
+                       if(detail.perPax[j].required == true){
+                           if(document.getElementById('adult_passport_expired_date'+i).value=='')
+                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                       }
+                   }
+                   perpax_count += 1;
                }
 
            }else{
@@ -708,47 +729,52 @@ function check_passenger(){
            if(document.getElementById('senior_title'+i).value != '' &&
            document.getElementById('senior_first_name'+i).value != '' &&
            document.getElementById('senior_last_name'+i).value != '' &&
-           document.getElementById('senior_nationality'+i).value != '' &&
-           document.getElementById('senior_phone_code'+i).value != '' &&
-           document.getElementById('senior_phone'+i).value != ''){
+           document.getElementById('senior_nationality'+i).value != ''){
                if(check_name(document.getElementById('senior_title'+i).value,
                document.getElementById('senior_first_name'+i).value,
                document.getElementById('senior_last_name'+i).value, 25) == false)
                    error_log+= 'Total of senior '+i+' name maximum 25 characters!\n';
                if(check_date(document.getElementById('child_birth_date'+i).value)==false)
-                   error_log+= 'Birth date wrong for passenger senior '+i+'!\n';
+               {
+                    error_log+= 'Birth date wrong for passenger senior '+i+'!\n';
+               }
 
+               perpax_count = 1
                for(j in detail.perPax){
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth'){
+                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
                         if(detail.perPax[j].required == true){
                             //use regex bemyguest
                             if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('senior_perpax'+i+'_'+j).value, detail.perPax[j].formatRegex)==false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_regex(document.getElementById('senior_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                             }
                             //no regex
                             else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('senior_perpax'+i+'_'+j).value=='')
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(document.getElementById('senior_perpax'+i+'_'+perpax_count).value=='')
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                             }else if(detail.perPax[j].inputType == 2){
+                                k_item_count = 1
                                 for(k in detail.perPax[j].items){
-                                    if(document.getElementById('senior_perpax'+i+'_'+j+'_'+k).checked==true)
+                                    if(document.getElementById('senior_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
+                                    {
                                         check=1;
+                                    }
+                                    k_item_count += 1;
                                 }
                                 if(check==0)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                                 check=0;
                             }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('senior_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_number(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('senior_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('senior_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_date(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 7){
 
@@ -757,22 +783,37 @@ function check_passenger(){
 
 
                             }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('senior_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_time(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('senior_perpax'+i+'_'+j+'0').value+' '+document.getElementById('perpax'+i+'_'+j+'1').value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_date_time(document.getElementById('senior_perpax'+i+'_'+perpax_count+'0').value+' '+document.getElementById('perpax'+i+'_'+perpax_count+'1').value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('senior_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('senior_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_flight(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                         }
                    }
+                   else if(detail.perPax[j].name == 'Passport number')
+                   {
+                       if(detail.perPax[j].required == true){
+                           if(document.getElementById('senior_passport_number'+i).value=='')
+                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                       }
+                   }
+                   else if(detail.perPax[j].name == 'Passport expiry date')
+                   {
+                       if(detail.perPax[j].required == true){
+                           if(document.getElementById('senior_passport_expired_date'+i).value=='')
+                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                       }
+                   }
+                   perpax_count += 1;
                }
 
            }else{
@@ -791,39 +832,46 @@ function check_passenger(){
                document.getElementById('child_last_name'+i).value, 25) == false)
                    error_log+= 'Total of child '+i+' name maximum 25 characters!\n';
                if(check_date(document.getElementById('child_birth_date'+i).value)==false)
+               {
                    error_log+= 'Birth date wrong for passenger child '+i+'!\n';
+               }
 
+               perpax_count = 1
                for(j in detail.perPax){
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth'){
+                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
                         if(detail.perPax[j].required == true){
                             //use regex bemyguest
                             if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('child_perpax'+i+'_'+j).value, detail.perPax[j].formatRegex)==false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_regex(document.getElementById('child_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                             }
                             //no regex
                             else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('adult_perpax'+i+'_'+j).value=='')
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                             }else if(detail.perPax[j].inputType == 2){
+                                k_item_count = 1
                                 for(k in detail.perPax[j].items){
-                                    if(document.getElementById('child_perpax'+i+'_'+j+'_'+k).checked==true)
+                                    if(document.getElementById('child_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
+                                    {
                                         check=1;
+                                    }
+                                    k_item_count += 1;
                                 }
                                 if(check==0)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                                 check=0;
                             }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('child_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_number(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('child_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('child_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_date(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 7){
 
@@ -832,22 +880,37 @@ function check_passenger(){
 
 
                             }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('child_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_time(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('child_perpax'+i+'_'+j+'0').value+' '+document.getElementById('perpax'+i+'_'+j+'1').value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_date_time(document.getElementById('child_perpax'+i+'_'+perpax_count+'0').value+' '+document.getElementById('perpax'+i+'_'+perpax_count+'1').value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('child_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
 
                             else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('child_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
+                                if(check_flight(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
                         }
                    }
+                   else if(detail.perPax[j].name == 'Passport number')
+                   {
+                       if(detail.perPax[j].required == true){
+                           if(document.getElementById('child_passport_number'+i).value=='')
+                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                       }
+                   }
+                   else if(detail.perPax[j].name == 'Passport expiry date')
+                   {
+                       if(detail.perPax[j].required == true){
+                           if(document.getElementById('child_passport_expired_date'+i).value=='')
+                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                       }
+                   }
+                   perpax_count += 1;
                }
 
            }else{
@@ -867,65 +930,9 @@ function check_passenger(){
                document.getElementById('infant_last_name'+i).value, 25) == false)
                    error_log+= 'Total of infant '+i+' name maximum 25 characters!\n';
                if(check_date(document.getElementById('infant_birth_date'+i).value)==false)
+               {
                    error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
-
-               for(j in detail.perPax){
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth'){
-                        if(detail.perPax[j].required == true){
-                            //use regex bemyguest
-                            if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('infant_perpax'+i+'_'+j).value, detail.perPax[j].formatRegex)==false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-                            }
-                            //no regex
-                            else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('adult_perpax'+i+'_'+j).value=='')
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-                            }else if(detail.perPax[j].inputType == 2){
-                                for(k in detail.perPax[j].items){
-                                    if(document.getElementById('infant_perpax'+i+'_'+j+'_'+k).checked==true)
-                                        check=1;
-                                }
-                                if(check==0)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-                                check=0;
-                            }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('infant_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('infant_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('infant_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 7){
-
-
-                            }else if(detail.perPax[j].inputType == 8){
-
-
-                            }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('infant_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('infant_perpax'+i+'_'+j+'0').value+' '+document.getElementById('perpax'+i+'_'+j+'1').value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('infant_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('infant_perpax'+i+'_'+j).value) == false)
-                                    text+= 'Please check your '+detail.perPax[j].name+'\n';
-                        }
-                   }
                }
-
            }else{
                 error_log+= 'Please fill all the blank for Infant passenger '+i+'!\n';
            }
@@ -971,7 +978,7 @@ function input_type11_change_perbooking(val, val1){
         additional_price = additional_price - activity_type[activity_type_pick].options.perBooking[val].price_pick;
         activity_type[activity_type_pick].options.perBooking[val].price_pick = 0;
     }
-    activity_table_detail2();
+    activity_table_detail();
 }
 
 function input_type5_change_perbooking(val){
@@ -980,7 +987,7 @@ function input_type5_change_perbooking(val){
     }else if(document.getElementById('perbooking'+val).checked == false){
         additional_price -= activity_type[activity_type_pick].options.perBooking[val].price;
     }
-    activity_table_detail2();
+    activity_table_detail();
 }
 
 function input_type1_change_perbooking(val){
@@ -991,7 +998,7 @@ function input_type1_change_perbooking(val){
             break;
         }
     }
-    activity_table_detail2();
+    activity_table_detail();
 }
 
 function input_type2_change_perbooking(val,val1){
@@ -1002,7 +1009,7 @@ function input_type2_change_perbooking(val,val1){
             activity_type[activity_type_pick].options.perBooking[val].price_pick += activity_type[activity_type_pick].options.perBooking[val].items[i].price;
     }
     additional_price += additional_price + activity_type[activity_type_pick].options.perBooking[val].price_pick;
-    activity_table_detail2();
+    activity_table_detail();
 }
 
 //perpax

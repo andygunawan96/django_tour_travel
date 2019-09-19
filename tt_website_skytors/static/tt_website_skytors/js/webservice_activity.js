@@ -6,7 +6,7 @@ activity_date_pick = '';
 activity_timeslot = '';
 additional_price = 0;
 event_pick = 0;
-pricing_days = 3;
+pricing_days = 1;
 offset = 0;
 
 var month = {
@@ -507,7 +507,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
 
 function activity_pre_create_booking(){
     Swal.fire({
-      title: 'Are you sure?',
+      title: 'Are you sure you want to issued this order?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
