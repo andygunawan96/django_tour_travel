@@ -45,6 +45,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_auto_complete':
+            res = get_auto_complete(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'detail':
@@ -86,6 +88,30 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['hotel_signature'] = res['result']['response']['signature']
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_auto_complete(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search_autocomplete",
+            "signature": request.session['signature']
+        }
+
+        data = {
+            "name": request.POST['name'],
+            "limit": 10
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
+    try:
+        res['result']['response'] = json.loads(res['result']['response'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

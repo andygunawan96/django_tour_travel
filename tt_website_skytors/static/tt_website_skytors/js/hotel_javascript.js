@@ -3,6 +3,8 @@ var hotel_room_detail_pick = null;
 var hotel_room = [];
 var hotel_filter = [];
 var sorting_value = '';
+var hotelAutoCompleteVar;
+var hotel_choices = [];
 var rating_list = [
     {
         value:'1',
@@ -56,6 +58,7 @@ var sorting_list2 = [
         status: false
     }
 ]
+
 
 function search_hotel(val){
     clearTimeout(myVar);

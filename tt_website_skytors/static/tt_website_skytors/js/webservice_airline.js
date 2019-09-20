@@ -581,7 +581,6 @@ function datasearch2(airline){
                        can_book = true;
                    }
                }
-               console.log(price);
 
                if(airline.journey_list[i].journeys[j].segments[k].carrier_code == airline.journey_list[i].journeys[j].segments[k].operating_airline_code && airline.journey_list[i].journeys[j].operated_by != false){
                    airline.journey_list[i].journeys[j].operated_by_carrier_code = airline.journey_list[i].journeys[j].segments[k].operating_airline_code;

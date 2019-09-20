@@ -138,9 +138,10 @@
                                     <hr/>
                                 </div>
                                 {% for ssr_provider in airline_ssrs.ssr_availability_provider %}
-                                {% for key, ssr_values in ssr_provider.ssr_availability.items %}
-                                <span style="text-transform: capitalize; font-size:14px; font-weight:600;">{{key}}
-                                            {% for values in ssr_values %} <i class="fas fa-suitcase"></i> <br/>
+                                    {% for key, ssr_values in ssr_provider.ssr_availability.items %}
+
+                                        {% for values in ssr_values %}
+                                    <span style="text-transform: capitalize; font-size:14px; font-weight:600;">{{key}}<i class="fas fa-suitcase"></i> <br/>
                                     {{values.origin}} - {{values.destination}}</span>
                                 <br/>
                                 <span class="span-search-ticket">{{key}}</span>
