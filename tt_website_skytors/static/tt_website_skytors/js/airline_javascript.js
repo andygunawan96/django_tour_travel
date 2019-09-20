@@ -172,8 +172,8 @@ function airline_goto_search(){
             if(document.getElementById('destination_id_flight'+i).value.split(' - ').length != 4)
                 error_log+= 'Please use autocomplete for destination '+i+'\n';
         }
-
     }
+    error_log = '';
     if(error_log == ''){
         $('.button-search').addClass("running");
         document.getElementById('counter').value = counter_airline_search;

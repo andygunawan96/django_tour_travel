@@ -606,18 +606,23 @@ function datasearch2(airline){
 function change_fare(journey, segment, fares){
     price = 0;
     for(i in airline_data[journey].segments){
-        var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
+        var radios = document.getElementsByName('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
+        console.log('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
+        console.log('==========')
+
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
-                temp = document.getElementById('journey'+journey+'segment'+segment+'fare'+fares).innerHTML;
+                temp = document.getElementById('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(parseInt(j)+1)).innerHTML;
                 price += parseInt(temp.replace( /[^\d.]/g, '' ));
                 airline_data[journey].segments[i].fare_pick = parseInt(j);
                 // only one radio can be logically checked, don't check the rest
                 break;
             }
         }
+        console.log('asd vh svjjkv')
     }
+    console.log(price);
     document.getElementById('fare'+airline_data[journey].sequence).innerHTML = 'IDR ' + getrupiah(price.toString());
 //    airline_data[journey].total_price = price;
 
