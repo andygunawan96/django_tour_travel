@@ -8,7 +8,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
-
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     additional_price = {{additional_price}};
     airline_pick = `{{airline_pick}}`;
@@ -279,7 +279,6 @@
 
                             </div>
                         </div>
-
                         <div class="col-lg-4">
                             <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 Hold Booking
@@ -288,15 +287,18 @@
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <button class="next-loading-issued for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">
-                                Issued Booking
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
+                            <!--<button class="next-loading-issued for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">-->
+                                <!--Issued Booking-->
+                                <!--<div class="ld ld-ring ld-cycle"></div>-->
+                            <!--</button>-->
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd;" id="airline_detail">
+
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
 
                     </div>
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
@@ -311,10 +313,10 @@
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">
-                                Issued Booking
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
+                            <!--<button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">-->
+                                <!--Issued Booking-->
+                                <!--<div class="ld ld-ring ld-cycle"></div>-->
+                            <!--</button>-->
                         </div>
                     </div>
                 </div>
@@ -327,6 +329,7 @@
 <script>
     airline_detail('');
     get_airline_review();
+    get_payment_acq('Issued','', '', 'billing',signature,'airline_review');
 </script>
 <!-- loader -->
 {% endblock %}

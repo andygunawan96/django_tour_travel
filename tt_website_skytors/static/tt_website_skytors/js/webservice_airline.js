@@ -607,8 +607,6 @@ function change_fare(journey, segment, fares){
     price = 0;
     for(i in airline_data[journey].segments){
         var radios = document.getElementsByName('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
-        console.log('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
-        console.log('==========')
 
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -620,9 +618,7 @@ function change_fare(journey, segment, fares){
                 break;
             }
         }
-        console.log('asd vh svjjkv')
     }
-    console.log(price);
     document.getElementById('fare'+airline_data[journey].sequence).innerHTML = 'IDR ' + getrupiah(price.toString());
 //    airline_data[journey].total_price = price;
 
@@ -1832,6 +1828,8 @@ function airline_commit_booking(val){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'value': val,
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'member': payment_acq2[payment_method][selected].method,
             'signature': signature
        },
        success: function(msg) {
