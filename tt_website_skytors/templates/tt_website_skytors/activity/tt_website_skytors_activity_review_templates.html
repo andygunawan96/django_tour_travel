@@ -9,6 +9,7 @@
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 
 <script>
     price = `{{price}}`;
@@ -77,12 +78,12 @@
                         <span style="padding-left:5px;">Home</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                     </div>
-                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:activity_search'%}';">
                         <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
                         <span style="padding-left:5px;">Search</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                     </div>
-                    <div class="breadcrumbs-rdx br-done">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:activity_passenger'%}';">
                         <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
                         <span style="padding-left:5px;">Passenger</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>

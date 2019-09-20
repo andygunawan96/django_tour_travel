@@ -99,7 +99,7 @@
                         <span style="padding-left:5px;">Home</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                     </div>
-                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:activity_search'%}';">
                         <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
                         <span style="padding-left:5px;">Search</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
@@ -491,16 +491,20 @@
                                     {% with forloop.counter as counter%}
                                     {% for perpax in detail.options.perPax %}
                                     {% with forloop.counter as per_pax %}
-                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth' and perpax.name != 'Passport number' and perpax.name != 'Passport expiry date'%}
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>{{perpax.name}}</label><br/>
+                                            <label>{{perpax.name}}</label>
                                             {% if perpax.inputType == 1%}
-                                            <select id=adult_perpax{{counter}}_{{per_pax}} name=adult_perpax{{counter}}_{{per_pax}} onchange="input_type1_change_perpax({{counter}},'adult', {{per_pax}})">`;
-                                                {% for item in perpax.items %}
-                                                <option value="{{item.value}}">{{item.label}}</option>
-                                                {% endfor %}
-                                            </select><br/>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id=adult_perpax{{counter}}_{{per_pax}} name=adult_perpax{{counter}}_{{per_pax}} onchange="input_type1_change_perpax({{counter}},'adult', {{per_pax}})">`;
+                                                        {% for item in perpax.items %}
+                                                        <option value="{{item.value}}">{{item.label}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <br/>
                                             {% elif perpax.inputType == 2%}
                                             {% for item in perpax.items %}
@@ -510,30 +514,30 @@
                                             {% endfor %}
                                             <br/>
                                             {% elif perpax.inputType == 3%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 4%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 5%}
                                             <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 6%}
-                                            <input type="date" class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
+                                            <input type="text" class="form-control perPaxDate" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 7%}
                                             <input type="file" accept="application/JSON, application/pdf" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}' />
                                             {% elif perpax.inputType == 8%}
                                             <input type="file" accept="image/*" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 9%}
-                                            <input type='text' id='adult_perpax{{counter}}_{{per_pax}}' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" id='adult_perpax{{counter}}_{{per_pax}}' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 10%}
                                             <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 11%}
-                                            <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}0' name=adult_perpax{{counter}}_{{per_pax}}0/>
+                                            <input type="text" class="form-control" onchange="input_type11_change_perpax({{counter}}, '0','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}0' name=adult_perpax{{counter}}_{{per_pax}}0/>
                                             <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}1' name=adult_perpax{{counter}}_{{per_pax}}1/>
                                             {% elif perpax.inputType == 12%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 14%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% endif %}
-                                            <label>{{perpax.description}}</label><br/>
+                                            <label>{{perpax.description}}</label>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -724,16 +728,20 @@
                                     {% with forloop.counter as counter%}
                                     {% for perpax in detail.options.perPax %}
                                     {% with forloop.counter as per_pax %}
-                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth' and perpax.name != 'Passport number' and perpax.name != 'Passport expiry date'%}
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>{{perpax.name}}</label><br/>
+                                            <label>{{perpax.name}}</label>
                                             {% if perpax.inputType == 1%}
-                                            <select  onchange="input_type1_change_perpax({{counter}},'senior', {{per_pax}})" id=senior_perpax{{counter}}_{{per_pax}} name=senior_perpax{{counter}}_{{per_pax}} >`;
-                                                {% for item in perpax.items %}
-                                                <option value="{{item.value}}">{{item.label}}</option>
-                                                {% endfor %}
-                                            </select><br/>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select  onchange="input_type1_change_perpax({{counter}},'senior', {{per_pax}})" id=senior_perpax{{counter}}_{{per_pax}} name=senior_perpax{{counter}}_{{per_pax}} >`;
+                                                        {% for item in perpax.items %}
+                                                        <option value="{{item.value}}">{{item.label}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <br/>
                                             {% elif perpax.inputType == 2%}
                                             {% for item in perpax.items %}
@@ -743,32 +751,32 @@
                                             {% endfor %}
                                             <br/>
                                             {% elif perpax.inputType == 3%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 4%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 5%}
                                             <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}'  name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 6%}
-                                            <input type="date" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" class="form-control" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
+                                            <input type="text" class="form-control perPaxDate" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 7%}
                                             <input type="file" accept="application/JSON, application/pdf" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}' />
                                             {% elif perpax.inputType == 8%}
                                             <input type="file" accept="image/*" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 9%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 10%}
                                             <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 11%}
-                                            <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}0' name=senior_perpax{{counter}}_{{per_pax}}0/>
+                                            <input type="text" class="form-control" onchange="input_type11_change_perpax({{counter}}, '0','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}0' name=senior_perpax{{counter}}_{{per_pax}}0/>
                                             <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}1' name=senior_perpax{{counter}}_{{per_pax}}1/>
                                             {% elif perpax.inputType == 12%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 13%}
 
                                             {% elif perpax.inputType == 14%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% endif %}
-                                            <label>{{perpax.description}}</label><br/>
+                                            <label>{{perpax.description}}</label>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -927,16 +935,20 @@
                                     {% with forloop.counter as counter%}
                                     {% for perpax in detail.options.perPax %}
                                     {% with forloop.counter as per_pax %}
-                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth' and perpax.name != 'Passport number' and perpax.name != 'Passport expiry date'%}
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>{{perpax.name}}</label><br/>
+                                            <label>{{perpax.name}}</label>
                                             {% if perpax.inputType == 1%}
-                                            <select onchange="input_type1_change_perpax({{counter}},'child', {{per_pax}})" id=child_perpax{{counter}}_{{per_pax}} name=child_perpax{{counter}}_{{per_pax}} >`;
-                                                {% for item in perpax.items %}
-                                                <option value="{{item.value}}">{{item.label}}</option>
-                                                {% endfor %}
-                                            </select><br/>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select onchange="input_type1_change_perpax({{counter}},'child', {{per_pax}})" id=child_perpax{{counter}}_{{per_pax}} name=child_perpax{{counter}}_{{per_pax}} >`;
+                                                        {% for item in perpax.items %}
+                                                        <option value="{{item.value}}">{{item.label}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <br/>
                                             {% elif perpax.inputType == 2%}
                                             {% for item in perpax.items %}
@@ -946,32 +958,32 @@
                                             {% endfor %}
                                             <br/>
                                             {% elif perpax.inputType == 3%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 4%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 5%}
                                             <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 6%}
-                                            <input type="date" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" class="form-control" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
+                                            <input type="text" class="form-control perPaxDate" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 7%}
                                             <input type="file" accept="application/JSON, application/pdf" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}' />
                                             {% elif perpax.inputType == 8%}
                                             <input type="file" accept="image/*" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 9%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 10%}
                                             <input type="time" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" style="width:100%;height:20px;" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 11%}
-                                            <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}0' name=child_perpax{{counter}}_{{per_pax}}0/>
+                                            <input type="text" class="form-control" onchange="input_type11_change_perpax({{counter}}, '0','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}0' name=child_perpax{{counter}}_{{per_pax}}0/>
                                             <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}1' name=child_perpax{{counter}}_{{per_pax}}1/>
                                             {% elif perpax.inputType == 12%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 13%}
 
                                             {% elif perpax.inputType == 14%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% endif %}
-                                            <label>{{perpax.description}}</label><br/>
+                                            <label>{{perpax.description}}</label>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -1257,6 +1269,16 @@
     });
 
     $(function() {
+      $('.perPaxDate').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
       for (var i = 1; i <= adult; i++){
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
