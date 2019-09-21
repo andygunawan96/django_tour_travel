@@ -824,7 +824,7 @@ function activity_get_booking(data){
                        <span style="font-weight:bold">Grand Total</span>
                   </div>
                   <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                       <span style="font-weight:bold">IDR `+getrupiah(temp_grand_total)+`</span>
+                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(temp_grand_total))+`</span>
                   </div>
              </div>
 
@@ -865,7 +865,7 @@ function activity_get_booking(data){
                 </div>
             </div>
            `;
-            $test+= '\nGrand Total : IDR '+ getrupiah(temp_grand_total)+'\nPrices and availability may change at any time';
+            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(temp_grand_total))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
 
         }else{
