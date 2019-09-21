@@ -184,6 +184,10 @@ def get_pricing(request):
 
 
 def create_booking(request):
+    if request.POST['member'] == 'non_member':
+        member = False
+    else:
+        member = True
     passenger = []
     file = open("javascript_version.txt", "r")
     for line in file:
@@ -338,7 +342,9 @@ def create_booking(request):
         "transaction_type": "issued_book",
         "provider": request.session['activity_pick']['provider'],
         "upload_value": request.session['activity_review_booking']['upload_value'],
-        "pricing": request.session['activity_review_booking']['pricing']
+        "pricing": request.session['activity_review_booking']['pricing'],
+        'member': member,
+        'seq_id': request.POST['seq_id'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -356,8 +362,7 @@ def create_booking(request):
 
 def get_booking(request):
     data = {
-        'order_number': request.POST['order_number']
-    }
+        'order_number': request.POST['order_number']}
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
