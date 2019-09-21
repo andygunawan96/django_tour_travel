@@ -12,35 +12,35 @@
 
 <header id="header">
     <div class="main-menu">
-       <div class="container">
-           <div class="row align-items-center justify-content-between d-flex">
-               <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                   <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
-               </div>
-               <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                   <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                       <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                       <span style="padding-left:5px;">Home</span>
-                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                   </div>
-                   <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
-                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                       <span style="padding-left:5px;">Search</span>
-                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                   </div>
-                   <div class="breadcrumbs-rdx br-book">
-                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                       <span style="padding-left:5px;">Passenger</span>
-                       <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                   </div>
-                   <div class="breadcrumbs-rdx br-book" id="issued-breadcrumb">
-                       <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                       <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
-                   </div>
-               </div>
-           </div>
-       </div>
-   </div>
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-book">
+                        <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-book" id="issued-breadcrumb">
+                        <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                        <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -53,7 +53,25 @@
                     <br/>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;" id="activity_final_info">
-
+                    <div id="loading-search-activity" style="margin-bottom:20px;">
+                        <div class="col-lg-12">
+                            <div class="sk-circle">
+                                <div class="sk-circle1 sk-child"></div>
+                                <div class="sk-circle2 sk-child"></div>
+                                <div class="sk-circle3 sk-child"></div>
+                                <div class="sk-circle4 sk-child"></div>
+                                <div class="sk-circle5 sk-child"></div>
+                                <div class="sk-circle6 sk-child"></div>
+                                <div class="sk-circle7 sk-child"></div>
+                                <div class="sk-circle8 sk-child"></div>
+                                <div class="sk-circle9 sk-child"></div>
+                                <div class="sk-circle10 sk-child"></div>
+                                <div class="sk-circle11 sk-child"></div>
+                                <div class="sk-circle12 sk-child"></div>
+                            </div>
+                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
@@ -63,21 +81,6 @@
                         <br/><span id="product_type_title"></span>
                         <br/><br/>
                         <div id="activity_detail_table">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-8">
-                    <div class="row">
-                        <div class="col-lg-4" id="voucher">
-
-                        </div>
-                        <div align="center" class="col-lg-4">
-
-                        </div>
-                        <div class="col-lg-4">
 
                         </div>
                     </div>
@@ -157,6 +160,6 @@
 </footer>
 
 <script>
-    activity_get_booking('{{order_number}}');
+    activity_login('{{order_number}}');
 </script>
 {% endblock %}

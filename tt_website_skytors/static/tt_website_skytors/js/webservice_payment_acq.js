@@ -10,7 +10,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
        data: {
             'order_number': order_number,
             'booker_seq_id': booker_seq_id,
-            'order_number': order_number,
             'transaction_type': transaction_type,
             'signature': signature,
             'type': type,
@@ -240,6 +239,8 @@ function set_price(val, type, product_type){
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+    else if(type == 'activity')
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();activity_pre_create_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'top_up')
         text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;

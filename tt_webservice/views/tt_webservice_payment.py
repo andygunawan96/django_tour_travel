@@ -67,6 +67,11 @@ def get_payment_acquirer(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if request.POST['type'] == 'airline' or request.POST['type'] == 'top_up':
         url_post = 'booking/airline'
+    elif request.POST['type'] == 'activity':
+        url_post = 'booking/activity'
+        data.update({
+            'amount': int(request.POST['agent_seq_id'])
+        })
     if request.POST['type'] == 'top_up':
         data.update({
             'agent_seq_id': request.POST['agent_seq_id'],

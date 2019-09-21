@@ -1154,7 +1154,7 @@ def review(request):
         all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
 
         for temp_key, temp_val in no_low_pax_count.items():
-            if temp_val != 0:
+            if temp_val != 0 and temp_key not in ['Infant']:
                 if all_price['prices'][temp_key].get(str(temp_val)):
                     temp_used_price = copy.deepcopy(all_price['prices'][temp_key][str(temp_val)]['service_charges'])
                 else:

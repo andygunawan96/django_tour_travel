@@ -53,6 +53,7 @@ function activity_login(data){
           'offset': offset
        },
        success: function(msg) {
+           signature = msg.result.response.signature;
            if(data == ''){
                activity_search()
            }else if(data != ''){
@@ -515,8 +516,6 @@ function activity_pre_create_booking(){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.next-loading-issued').addClass("running");
-        $('.next-loading-issued').prop('disabled', true);
         activity_create_booking();
       }
     })
@@ -530,7 +529,10 @@ function activity_create_booking(){
        headers:{
             'action': 'create_booking',
        },
-       data: {},
+       data: {
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'member': payment_acq2[payment_method][selected].method,
+       },
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
@@ -568,7 +570,7 @@ function activity_get_booking(data){
            'order_number': data
        },
        success: function(msg) {
-       console.log(msg);
+       $('#loading-search-activity').hide();
         if(msg.result.error_code == 0){
             if(msg.result.response.no_order_number){
                 text = ``;
@@ -590,13 +592,18 @@ function activity_get_booking(data){
                 text = `
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="activity_booking_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
-                                    <h4> Activity Order Details </h4>
-                                    <hr/>
-                                    <h4>`+msg.result.response.name+`</h4>
-                                    <span style="font-size: 15px;" aria-hidden="true">Booking Code: `+msg.result.response.pnr+`</span>
-                                    <span style="font-size: 15px; float:right;" aria-hidden="true">Status: `+conv_status+`</span>
-                                    <br/>
+                                <div id="activity_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
+                                    <h6>Order Number : `+msg.result.response.name+`</h6><br/>
+                                     <table style="width:100%;">
+                                        <tr>
+                                            <th>PNR</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td>`+msg.result.response.pnr+`</td>
+                                            <td>`+conv_status+`</td>
+                                        </tr>
+                                     </table>
                                 </div>
                             </div>
                         </div>
@@ -604,7 +611,7 @@ function activity_get_booking(data){
                 text += `
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="activity_booking_info" style="padding:15px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                <div id="activity_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
                                     <h4> Activity Information </h4>
                                     <hr/>
                                     <h4>`+msg.result.response.activity.name+`</h4>
@@ -634,7 +641,7 @@ function activity_get_booking(data){
                         <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> Additional Information </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
@@ -681,7 +688,7 @@ function activity_get_booking(data){
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> Contact Information </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
@@ -708,7 +715,7 @@ function activity_get_booking(data){
                    <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> List of Passenger(s) </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
@@ -742,106 +749,99 @@ function activity_get_booking(data){
                             </div>
                         </div>
                     </div>
-               `;
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4">
 
-               voucher_text = `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher()" style="width:100%;">
+                        </div>
+                        <div align="center" class="col-lg-4" id="voucher">`;
+               if (msg.result.response.voucher_url)
+               {
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
+                                Voucher
+                             </button>`;
+               }
+               else
+               {
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
                                 Voucher
                             </button>`;
+               }
+               text += `</div>
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
+               `;
             }
             document.getElementById('activity_final_info').innerHTML = text;
-            document.getElementById('voucher').innerHTML = voucher_text;
+            document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
+            document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
 
+            temp_total_comm = 0;
+            temp_grand_total = 0;
             price_text = '';
             $test = msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
            '\nVisit Date : '+msg.result.response.visit_date+'\n\n';
-            try{
-               if(msg.result.response.price_itinerary.adult_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Adult</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.adult_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-                   price_text+= getrupiah(msg.result.response.price_itinerary.adult_price) +`</div>
-                       </div>`;
-                   $test += msg.result.response.price_itinerary.adult_amount+' Adult Price IDR '+getrupiah(msg.result.response.price_itinerary.adult_price)+'\n';
-               }
-           }catch(err){
 
-           }
-           try{
-               if(msg.result.response.price_itinerary.senior_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Senior</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.senior_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-                   price_text+= getrupiah(msg.result.response.price_itinerary.senior_price) +`</div>
-                       </div>`;
-                   $test += msg.result.response.price_itinerary.senior_amount+' Senior Price IDR '+getrupiah(msg.result.response.price_itinerary.senior_price)+'\n';
-               }
-           }catch(err){
+            for (i in msg.result.response.pricing)
+            {
+                if(msg.result.response.pricing[i].type != 'rac')
+                {
+                    price_text +=
+                    `<div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.pricing[i].name+`</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+msg.result.response.pricing[i].currency+` `+getrupiah(msg.result.response.pricing[i].price)+`</span>
+                            </div>
+                     </div>
+                    `;
+                    temp_grand_total += msg.result.response.pricing[i].price;
+                    $test += msg.result.response.pricing[i].name+' IDR '+getrupiah(msg.result.response.pricing[i].price)+'\n';
+                }
+                else
+                {
+                    temp_total_comm += msg.result.response.pricing[i].price;
+                }
+            }
 
-           }
-           try{
-               if(msg.result.response.price_itinerary.child_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Child</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.child_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-                   price_text+= getrupiah(msg.result.response.price_itinerary.child_price) +`</div>
-                       </div>`;
-                   $test += msg.result.response.price_itinerary.child_amount+' Child Price IDR '+getrupiah(msg.result.response.price_itinerary.child_price)+'\n';
-               }
-           }catch(err){
-
-           }
-           try{
-               if(msg.result.response.price_itinerary.infant_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Infant</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.infant_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">0</div>
-                           </div>`;
-                   $test += msg.result.response.price_itinerary.infant_amount+' Infant Price IDR '+getrupiah(0)+'\n';
-               }
-           }catch(err){
-
-           }
-
-           if(msg.result.response.price_itinerary.additional_charge_total)
-           {
-                price_text+= `
-                    <div class="row">
-                        <div class="col-xs-8">Additional Charge</div>
-                        <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+msg.result.response.price_itinerary.additional_charge_total+`</div>
-                    </div>
-                `;
-                $test += 'Additional price IDR '+getrupiah(msg.result.response.price_itinerary.additional_charge_total)+'\n';
-           }
+//           if(msg.result.response.price_itinerary.additional_charge_total)
+//           {
+//                price_text+= `
+//                    <div class="row">
+//                        <div class="col-xs-8">Additional Charge</div>
+//                        <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+msg.result.response.price_itinerary.additional_charge_total+`</div>
+//                    </div>
+//                `;
+//                $test += 'Additional price IDR '+getrupiah(msg.result.response.price_itinerary.additional_charge_total)+'\n';
+//           }
 
            price_text+= `
              <hr style="padding:0px;">
              <div class="row">
-                  <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                  <div class="col-xs-3" style="padding-right: 0; text-align: right;">`+getrupiah(msg.result.response.price_itinerary.total_itinerary_price)+`</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                       <span style="font-weight:bold">Grand Total</span>
+                  </div>
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(temp_grand_total))+`</span>
+                  </div>
              </div>
 
              <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(msg.result.response.price_itinerary.commission_total)+`</span><br>
+                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(temp_total_comm)+`</span><br>
                     </div>
                 </div>
              </div>
 
-             <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
              </div>
-             <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
@@ -865,11 +865,8 @@ function activity_get_booking(data){
                 </div>
             </div>
            `;
-            $test+= '\nGrand Total : IDR '+ getrupiah(msg.result.response.price_itinerary.total_itinerary_price)+'\nPrices and availability may change at any time';
+            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(temp_grand_total))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
-
-            document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
-            document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
 
         }else{
             alert(msg.result.error_msg);
@@ -881,7 +878,7 @@ function activity_get_booking(data){
     });
 }
 
-function activity_get_voucher(){
+function activity_get_voucher(order_number){
     getToken();
     $.ajax({
        type: "POST",
@@ -889,8 +886,9 @@ function activity_get_voucher(){
        headers:{
             'action': 'get_voucher',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'order_number': order_number
+       },
        success: function(msg) {
        console.log(msg)
         if(msg.result.error_code == 0){

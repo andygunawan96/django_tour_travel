@@ -24,6 +24,7 @@
     passenger = `{{pax_count}}`;
     passenger = passenger.replace(/&#39;/g,'"');
     passenger = JSON.parse(passenger);
+    signature = `{{signature}}`;
     locations = [];
     images = [];
     {% for i in response.locations %}
@@ -135,7 +136,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="activity_review_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="activity_review_detail" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
                                 <h4> Activity Information </h4>
                                 <hr/>
                                 <h4>{{response.name}}</h4>
@@ -159,7 +160,7 @@
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> Additional Information </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
@@ -185,7 +186,7 @@
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> Contact Information </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
@@ -221,7 +222,7 @@
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> List of Passenger(s) </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
@@ -246,6 +247,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4">
+
+                        </div>
+                        <div align="center" class="col-lg-4">
+                            <button class="primary-btn hold-seat-booking-train" type="button" style="width:100%;">
+                                Print form
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
@@ -259,30 +274,8 @@
 
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <label>By clicking the button below, you agree to SkyTors <a>Terms and Conditions</a></label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-8 col-md-8 col-sm-8">
-                    <div class="row">
-                        <div class="col-lg-4">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
 
-                        </div>
-                        <div align="center" class="col-lg-4">
-                            <button class="primary-btn hold-seat-booking-train" type="button" style="width:100%;">
-                                Print form
-                            </button>
-                        </div>
-                        <div class="col-lg-4">
-                            <button class="primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" type="button" onclick="activity_pre_create_booking();" style="width:100%;">
-                                Issued
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -360,6 +353,9 @@
 </footer>
 
 <script>
-    activity_table_detail2('review')
+    activity_table_detail2('review');
+    $(document).ready(function () {
+        get_payment_acq('Issued','{{booker.booker_id}}', '', 'billing',signature,'activity', grand_total);
+    });
 </script>
 {% endblock %}

@@ -306,7 +306,7 @@ function activity_table_detail(){
 
 
 function activity_table_detail2(pagetype){
-   var grand_total = 0;
+   grand_total = 0;
    var grand_commission = 0;
    text = '';
    name = response.name.replace(/&#39;/g,"'");
