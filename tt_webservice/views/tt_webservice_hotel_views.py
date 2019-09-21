@@ -95,27 +95,17 @@ def login(request):
 
 def get_auto_complete(request):
     try:
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "search_autocomplete",
-            "signature": request.session['signature']
-        }
+        file = open("hotel_cache_data.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
 
-        data = {
-            "name": request.POST['name'],
-            "limit": 10
-        }
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_autocomplete HOTEL SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
-    try:
-        res['result']['response'] = json.loads(res['result']['response'])
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    return res
+    return response
 
 def search(request):
     try:
