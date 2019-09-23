@@ -903,6 +903,15 @@ def commit_booking(request):
         data = {
             'force_issued': bool(int(request.POST['value']))
         }
+        if bool(int(request.POST['value'])) == True:
+            if request.POST['member'] == 'non_member':
+                member = False
+            else:
+                member = True
+            data.update({
+                'member': member,
+                'seq_id': request.POST['seq_id'],
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

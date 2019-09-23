@@ -59,6 +59,7 @@ var sorting_list2 = [
     }
 ]
 
+
 function search_hotel(val){
     clearTimeout(myVar);
     myVar = setTimeout(function() {

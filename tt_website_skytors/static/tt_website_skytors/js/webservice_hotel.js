@@ -42,8 +42,6 @@ function get_auto_complete(term,suggest){
     term = term.toLowerCase();
     console.log(term);
     check = 0;
-    var limit = 10;
-    var current_rec = 0;
     var priority = [];
 
     getToken();
@@ -67,47 +65,20 @@ function get_auto_complete(term,suggest){
                 var choices = hotel_choices;
                 console.log(choices);
                 for (i=0;i<choices.city_ids.length;i++){
-                    if (current_rec < limit){
-                        if(choices.city_ids[i].name.toLowerCase().search(term) !== -1){
-                            priority.push(choices.city_ids[i].name + ' - ' + 'City' );
-                            current_rec += 1;
-                        }
-                    } else {
-                        break;
-                    }
+                    if(choices.city_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.city_ids[i].name + ' - ' + 'City' );
                 }
-                console.log('city:' + current_rec);
                 for (i=0;i<choices.country_ids.length;i++){
-                    if (current_rec < limit){
-                        if(choices.country_ids[i].name.toLowerCase().search(term) !== -1){
-                            priority.push(choices.country_ids[i].name + ' - ' + 'Country');
-                            current_rec += 1;
-                        }
-                    } else {
-                        break;
-                    }
+                    if(choices.country_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.country_ids[i].name + ' - ' + 'Country');
                 }
-                console.log('country:' + current_rec);
                 for (i=0;i<choices.hotel_ids.length;i++){
-                    if (current_rec < limit){
-                        if(choices.hotel_ids[i].name.toLowerCase().search(term) !== -1){
-                            priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
-                            current_rec += 1;
-                        }
-                    } else {
-                        break;
-                    }
+                    if(choices.hotel_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
                 }
-                console.log('Hotel:' + current_rec);
                 for (i=0;i<choices.landmark_ids.length;i++){
-                    if (current_rec < limit){
-                        if(choices.landmark_ids[i].name.toLowerCase().search(term) !== -1){
-                            priority.push(choices.landmark_ids[i].name + ' - ' + 'Landmark');
-                            current_rec += 1;
-                        }
-                    } else {
-                        break;
-                    }
+                    if(choices.landmard_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.landmard_ids[i].name + ' - ' + 'Landmark');
                 }
             }catch(err){
 

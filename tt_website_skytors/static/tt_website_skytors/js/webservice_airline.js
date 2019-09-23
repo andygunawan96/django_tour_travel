@@ -581,7 +581,6 @@ function datasearch2(airline){
                        can_book = true;
                    }
                }
-               console.log(price);
 
                if(airline.journey_list[i].journeys[j].segments[k].carrier_code == airline.journey_list[i].journeys[j].segments[k].operating_airline_code && airline.journey_list[i].journeys[j].operated_by != false){
                    airline.journey_list[i].journeys[j].operated_by_carrier_code = airline.journey_list[i].journeys[j].segments[k].operating_airline_code;
@@ -607,11 +606,12 @@ function datasearch2(airline){
 function change_fare(journey, segment, fares){
     price = 0;
     for(i in airline_data[journey].segments){
-        var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
+        var radios = document.getElementsByName('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
+
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
-                temp = document.getElementById('journey'+journey+'segment'+segment+'fare'+fares).innerHTML;
+                temp = document.getElementById('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(parseInt(j)+1)).innerHTML;
                 price += parseInt(temp.replace( /[^\d.]/g, '' ));
                 airline_data[journey].segments[i].fare_pick = parseInt(j);
                 // only one radio can be logically checked, don't check the rest
@@ -1818,6 +1818,15 @@ function airline_assign_seats(val){
 }
 
 function airline_commit_booking(val){
+    data = {
+        'value': val,
+        'signature': signature
+    }
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+    }catch(err){
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -1826,10 +1835,7 @@ function airline_commit_booking(val){
             'action': 'commit_booking',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-            'value': val,
-            'signature': signature
-       },
+       data: data,
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
@@ -1901,6 +1907,7 @@ function airline_get_booking(data){
            airline_get_detail = msg;
            //get booking view edit here
            if(msg.result.error_code == 0){
+            var text = '';
             $text = '';
             if(msg.result.response.state == 'cancel2' || msg.result.response.state == 'cancel'){
                console.log('here');
@@ -1931,7 +1938,7 @@ function airline_get_booking(data){
                 document.getElementById('ssr_request_after_sales').hidden = true;
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
             $text += 'Hold Date:\n';
-            var text = `
+            text += `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
                 <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
                 <table style="width:100%;">
@@ -1942,7 +1949,11 @@ function airline_get_booking(data){
                     </tr>`;
                     for(i in msg.result.response.provider_bookings){
                         //datetime utc to local
-
+                        if(msg.result.response.provider_bookings[i].error_msg.length != 0)
+                            text += `<div class="alert alert-danger">
+                                `+msg.result.response.provider_bookings[i].error_msg+`
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
+                            </div>`;
                         tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
                         var localTime  = moment.utc(tes).toDate();
                         msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
@@ -2317,68 +2328,72 @@ function airline_get_booking(data){
                 }
                 counter_service_charge++;
             }
-            $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
-            text_detail+=`
-            <div>
-                <hr/>
-            </div>
-            <div class="row" style="margin-bottom:10px;">
-                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                    <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+            try{
+                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
+                text_detail+=`
+                <div>
+                    <hr/>
                 </div>
-                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                    <span style="font-size:13px; font-weight: bold;">`;
-                    try{
-                        text_detail+= price.currency+` `+getrupiah(total_price);
-                    }catch(err){
-
-                    }
-                    text_detail+= `</span>
-                </div>
-            </div>`;
-            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-            text_detail+=`<div class="row">
-            <div class="col-lg-12" style="padding-bottom:10px;">
-                <hr/>
-                <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                share_data();
-                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                if (isMobile) {
-                    text_detail+=`
-                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
-                } else {
-                    text_detail+=`
-                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
-                }
-
-            text_detail+=`
-                </div>
-            </div>`;
-            text_detail+=`
-            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                     </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px; font-weight: bold;">`;
+                        try{
+                            text_detail+= price.currency+` `+getrupiah(total_price);
+                        }catch(err){
+
+                        }
+                        text_detail+= `</span>
+                    </div>
+                </div>`;
+                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                text_detail+=`<div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        text_detail+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        text_detail+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
+
+                text_detail+=`
+                    </div>
+                </div>`;
+                text_detail+=`
+                <div class="row" id="show_commission" style="display:none;">
+                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                        </div>
+                    </div>
+                </div>`;
+                text_detail+=`<center>
+
+                <div style="padding-bottom:10px;">
+                    <center>
+                        <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                    </center>
+                </div>
+                <div style="margin-bottom:5px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>
             </div>`;
-            text_detail+=`<center>
+            }catch(err){
 
-            <div style="padding-bottom:10px;">
-                <center>
-                    <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                </center>
-            </div>
-            <div style="margin-bottom:5px;">
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-            </div>
-        </div>`;
+            }
             try{
                 testing_price = price.currency;
                 text += text_detail;
@@ -2434,6 +2449,13 @@ function airline_get_booking(data){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                logout();
            }else{
+                text += `<div class="alert alert-danger">
+                        <h5>
+                            `+msg.result.error_code+`
+                        </h5>
+                        `+msg.result.error_msg+`
+                    </div>`;
+                document.getElementById('airline_booking').innerHTML = text;
                alert(msg.result.error_msg);
            }
        },
@@ -2471,14 +2493,21 @@ function airline_issued(data){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
+                   text_error = ''
                    for(pax in msg.result.response.passengers){
                         ticket = '';
                         for(provider in msg.result.response.provider_bookings){
+                            if(msg.result.response.provider_bookings[i].error_msg.length != 0)
+                   text_error+=`<div class="alert alert-danger">
+                                    Invalid PNR or Order Number or Name
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
+                                </div>`;
                             ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
                             if(provider != msg.result.response.provider_bookings.length - 1)
                                 ticket += ', ';
                         }
                         document.getElementById('passenger_ticket_'+pax).innerHTML = ticket;
+                        document.getElementById('airline_booking').innerHTML = text_error + document.getElementById('airline_booking').innerHTML;
                     }
 
                    //document.getElementById('issued-breadcrumb').classList.add("active");

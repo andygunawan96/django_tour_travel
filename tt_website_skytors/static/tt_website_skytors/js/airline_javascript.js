@@ -141,6 +141,7 @@ function airline_search_autocomplete(term){
         }else if(choices[i].toLowerCase().search(term) !== -1)
             suggestions.push(choices[i]);
     }
+    console.log(priority.concat(suggestions).slice(0,100));
     return priority.concat(suggestions).slice(0,100);
 }
 
@@ -172,8 +173,8 @@ function airline_goto_search(){
             if(document.getElementById('destination_id_flight'+i).value.split(' - ').length != 4)
                 error_log+= 'Please use autocomplete for destination '+i+'\n';
         }
-
     }
+//    error_log = ''; //DEV GARUDA
     if(error_log == ''){
         $('.button-search').addClass("running");
         document.getElementById('counter').value = counter_airline_search;
@@ -1630,7 +1631,7 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].departure_date.split(' - ')[0]+` </span><br/>
-                                            <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline[i].origin_city+` (`+airline[i].origin+`)</span><br/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <table style="width:100%; margin-bottom:6px;">
@@ -1641,7 +1642,7 @@ function sort(airline){
                                                 </tr>
                                             </table>
                                             <span>`+airline[i].arrival_date.split(' - ')[0]+`</span><br/>
-                                            <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
+                                            <span style="font-weight:500;">`+airline[i].destination_city+` (`+airline[i].destination+`)</span><br/>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -1824,8 +1825,12 @@ function sort(airline){
                                         for(l in airline[i].segments[j].fares[k].fare_details){
                                             if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
                                 text+=`
-                                <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
+                                <span style="font-weight:500;"><i class="fas fa-suitcase"></i> `;
+                                            }else if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'ML'){
+                                text+=`
+                                <span style="font-weight:500;"><i class="fas fa-utensils"></i> `;
                                             }
+                                            text+=airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                         }
                                     break;
                                     }
@@ -1941,7 +1946,7 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].departure_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline_request.origin[counter_search-1].split(' - ')[2]+` (`+airline[i].origin+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline[i].origin_city+` (`+airline[i].origin+`)</span><br/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <table style="width:100%; margin-bottom:6px;">
@@ -1952,7 +1957,7 @@ function sort(airline){
                                         </tr>
                                     </table>
                                     <span>`+airline[i].arrival_date.split(' - ')[0]+` </span></br>
-                                    <span style="font-weight:500;">`+airline_request.destination[counter_search-1].split(' - ')[2]+` (`+airline[i].destination+`)</span><br/>
+                                    <span style="font-weight:500;">`+airline[i].destination_city+` (`+airline[i].destination+`)</span><br/>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
@@ -3203,9 +3208,10 @@ function check_passenger(adult, child, infant){
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_last_name'+i).value != ''){
-           if(check_word(document.getElementById('adult_last_name'+i).value) == false)
+           if(check_word(document.getElementById('adult_last_name'+i).value) == false){
                error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
@@ -3261,9 +3267,10 @@ function check_passenger(adult, child, infant){
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value != ''){
-           if(check_word(document.getElementById('child_last_name'+i).value) == false)
+           if(check_word(document.getElementById('child_last_name'+i).value) == false){
                error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
-           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+               document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }
@@ -3320,9 +3327,10 @@ function check_passenger(adult, child, infant){
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value != ''){
-           if(check_word(document.getElementById('infant_last_name'+i).value) == false)
+           if(check_word(document.getElementById('infant_last_name'+i).value) == false){
                error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+               document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }
