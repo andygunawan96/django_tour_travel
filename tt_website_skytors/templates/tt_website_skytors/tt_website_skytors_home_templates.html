@@ -78,9 +78,10 @@
             //hotel_signin('home');
             get_airline_config('home');
             airline_search_value = 'false';
+
             //get_train_config('home');
             //get_visa_config('home');
-            tour_login('');
+            //tour_login('');
         }catch(err){
 
         }
@@ -453,8 +454,7 @@
                                     <div class="col-lg-6 col-md-6" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel</span>
                                         <div class="input-container-search-ticket">
-                                            <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
-                                            <datalist id="hotel_destination_name"/>
+                                            <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6" style="padding:0px;">
@@ -4704,18 +4704,15 @@
 
     var hotel_autocomplete = new autoComplete({
         selector: '#hotel_id_destination',
-        minChars: 0,
+        minChars: 1,
         cache: false,
         delay:0,
         source: function(term, suggest){
-            if(term.split(' - ').length == 4)
-                term = ''
-            if(term.length > 1)
-                suggest(airline_search_autocomplete(term));
+            get_auto_complete(term,suggest);
+
         },
         onSelect: function(e, term, item){
             $("#hotel_id_destination").trigger("blur");
-            set_airline_search_value_to_true();
         }
     });
 

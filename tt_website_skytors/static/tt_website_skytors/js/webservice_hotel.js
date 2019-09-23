@@ -37,10 +37,64 @@ function get_hotel_config(){
     });
 }
 
+function get_auto_complete(term,suggest){
+    clearTimeout(hotelAutoCompleteVar);
+    term = term.toLowerCase();
+    console.log(term);
+    check = 0;
+    var priority = [];
+
+    getToken();
+    hotelAutoCompleteVar = setTimeout(function() {
+        console.log(term);
+        $.ajax({
+           type: "POST",
+           url: "/webservice/hotel",
+           headers:{
+                'action': 'get_auto_complete',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name':term
+           },
+           success: function(msg) {
+            console.log(msg);
+            console.log(JSON.stringify(msg));
+            hotel_choices = msg;
+            try{
+                var choices = hotel_choices;
+                console.log(choices);
+                for (i=0;i<choices.city_ids.length;i++){
+                    if(choices.city_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.city_ids[i].name + ' - ' + 'City' );
+                }
+                for (i=0;i<choices.country_ids.length;i++){
+                    if(choices.country_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.country_ids[i].name + ' - ' + 'Country');
+                }
+                for (i=0;i<choices.hotel_ids.length;i++){
+                    if(choices.hotel_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
+                }
+                for (i=0;i<choices.landmark_ids.length;i++){
+                    if(choices.landmard_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.landmard_ids[i].name + ' - ' + 'Landmark');
+                }
+            }catch(err){
+
+            }
+            console.log(priority.slice(0,100));
+            suggest(priority.slice(0,100));
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
+    }, 150);
+}
+
 //signin jadi 1 sama search
 function hotel_search(data){
-
-
     getToken();
     $.ajax({
        type: "POST",

@@ -153,6 +153,25 @@ def signin(request):
 
                 res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
 
+                #hotel
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "search_autocomplete",
+                    "signature": request.session['signature']
+                }
+
+                data = {
+                    "name": '',
+                    "limit": 999999999999
+                }
+
+                res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
+
+                file = open('hotel_cache_data.txt', "w+")
+                file.write(res_cache_hotel['result']['response'])
+                file.close()
+
                 #visa odoo12
                 # data = {
                 #     'provider': 'skytors_visa'
@@ -282,7 +301,9 @@ def get_url():
 def get_customer_list(request):
     try:
         data = {
-            'name': request.POST['name']
+            'name': request.POST['name'],
+            'upper': 200,
+            'lower': 0
         }
 
         headers = {
