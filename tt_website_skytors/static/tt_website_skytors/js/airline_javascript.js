@@ -174,7 +174,7 @@ function airline_goto_search(){
                 error_log+= 'Please use autocomplete for destination '+i+'\n';
         }
     }
-    error_log = '';
+//    error_log = ''; //DEV GARUDA
     if(error_log == ''){
         $('.button-search').addClass("running");
         document.getElementById('counter').value = counter_airline_search;
