@@ -3,6 +3,8 @@ var hotel_room_detail_pick = null;
 var hotel_room = [];
 var hotel_filter = [];
 var sorting_value = '';
+var hotelAutoCompleteVar;
+var hotel_choices = [];
 var rating_list = [
     {
         value:'1',
@@ -110,7 +112,7 @@ function getrupiah(price){
     var priceshow="";
     for(x=0;x<pj;x++){
         if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
+        priceshow+=".";
         }
         priceshow+=temp.charAt(x);
     }
@@ -556,20 +558,46 @@ function sort(response){
                                         }
                                     }
 
-                                    if(facility_check == 1){
-                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;"/>`;
-                                    }
-                                    else{
-                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;"/>`;
-                                    }
+                                if(facility_check == 1){
+                                    text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;"/>`;
                                 }
-                            }catch(err){}
-                            text+=`
-                            </span>
-                        </div>
-                        <div class="col-lg-5 col-md-5" style="text-align:right; padding-top:15px;">
-                            <span style="font-size:13px; margin-top:10px; font-weight:600;"> Per room/night </span>
+                                else{
+                                    text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                }
+                            }
+                        }catch(err){}
+                        text+=`
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-bottom:5px;">
+                            <span style="font-size:14px; font-weight: bold; border-bottom:2px solid #f15a22;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
+                        </div>`
+                        if(Object.keys(response.hotel_ids[i].prices).length > 0){
+                            for(j in response.hotel_ids[i].prices){
+                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]) + `</span>
+                            </div>`;
+                            }
+                        } else {
+                            for(j in response.hotel_ids[i].external_code){
+                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">-</span>
+                            </div>`;
+                            }
+                        }
+                       text += `<div class="col-lg-12" style="text-align:right; padding-top:15px;">
                             <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
+                            <br/>
+                            <span style="color:#f15a22; font-size:13px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
                         </div>
                     </div>
                 </div>
