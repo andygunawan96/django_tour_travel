@@ -184,182 +184,185 @@ def get_pricing(request):
 
 
 def create_booking(request):
-    if 'user_account' in request.session._session:
-        passenger = []
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+    if request.POST['member'] == 'non_member':
+        member = False
+    else:
+        member = True
+    passenger = []
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        file_cache_name = line
+    file.close()
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+    file = open('version' + str(file_cache_name) + ".txt", "r")
+    for line in file:
+        response = json.loads(line)
+    file.close()
 
-        countries = response['result']['response']['airline']['country']
+    countries = response['result']['response']['airline']['country']
 
-        for pax in request.session['activity_review_booking']['adult']:
-            nationality_code = ''
-            country_of_issued_code = ''
+    for pax in request.session['activity_review_booking']['adult']:
+        nationality_code = ''
+        country_of_issued_code = ''
+        for country in countries:
+            if pax['nationality_code'] == country['name']:
+                nationality_code = country['code']
+                break
+        if pax['country_of_issued_code'] != '':
             for country in countries:
-                if pax['nationality_code'] == country['name']:
-                    nationality_code = country['code']
+                if pax['country_of_issued_code'] == country['name']:
+                    country_of_issued_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
-                for country in countries:
-                    if pax['country_of_issued_code'] == country['name']:
-                        country_of_issued_code = country['code']
-                        break
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
-                'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
-            })
-            passenger.append(pax)
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
+            'nationality_code': nationality_code,
+            'country_of_issued_code': country_of_issued_code
+        })
+        passenger.append(pax)
 
-        for pax in request.session['activity_review_booking']['senior']:
-            nationality_code = ''
-            country_of_issued_code = ''
+    for pax in request.session['activity_review_booking']['senior']:
+        nationality_code = ''
+        country_of_issued_code = ''
+        for country in countries:
+            if pax['nationality_code'] == country['name']:
+                nationality_code = country['code']
+                break
+        if pax['country_of_issued_code'] != '':
             for country in countries:
-                if pax['nationality_code'] == country['name']:
-                    nationality_code = country['code']
+                if pax['country_of_issued_code'] == country['name']:
+                    country_of_issued_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
-                for country in countries:
-                    if pax['country_of_issued_code'] == country['name']:
-                        country_of_issued_code = country['code']
-                        break
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-                'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
-            })
-            passenger.append(pax)
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                pax['birth_date'].split(' ')[0]),
+            'nationality_code': nationality_code,
+            'country_of_issued_code': country_of_issued_code
+        })
+        passenger.append(pax)
 
-        for pax in request.session['activity_review_booking']['child']:
-            nationality_code = ''
-            country_of_issued_code = ''
+    for pax in request.session['activity_review_booking']['child']:
+        nationality_code = ''
+        country_of_issued_code = ''
+        for country in countries:
+            if pax['nationality_code'] == country['name']:
+                nationality_code = country['code']
+                break
+        if pax['country_of_issued_code'] != '':
             for country in countries:
-                if pax['nationality_code'] == country['name']:
-                    nationality_code = country['code']
+                if pax['country_of_issued_code'] == country['name']:
+                    country_of_issued_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
-                for country in countries:
-                    if pax['country_of_issued_code'] == country['name']:
-                        country_of_issued_code = country['code']
-                        break
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-                'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
-            })
-            passenger.append(pax)
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                pax['birth_date'].split(' ')[0]),
+            'nationality_code': nationality_code,
+            'country_of_issued_code': country_of_issued_code
+        })
+        passenger.append(pax)
 
-        for pax in request.session['activity_review_booking']['infant']:
-            nationality_code = ''
-            country_of_issued_code = ''
+    for pax in request.session['activity_review_booking']['infant']:
+        nationality_code = ''
+        country_of_issued_code = ''
+        for country in countries:
+            if pax['nationality_code'] == country['name']:
+                nationality_code = country['code']
+                break
+        if pax['country_of_issued_code'] != '':
             for country in countries:
-                if pax['nationality_code'] == country['name']:
-                    nationality_code = country['code']
+                if pax['country_of_issued_code'] == country['name']:
+                    country_of_issued_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
-                for country in countries:
-                    if pax['country_of_issued_code'] == country['name']:
-                        country_of_issued_code = country['code']
-                        break
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-                'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
-            })
-            passenger.append(pax)
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                pax['birth_date'].split(' ')[0]),
+            'nationality_code': nationality_code,
+            'country_of_issued_code': country_of_issued_code
+        })
+        passenger.append(pax)
 
-        perbooking = request.session['activity_perbooking']
-        for booking in perbooking:
-            if booking['name'] == 'Nationality':
+    perbooking = request.session['activity_perbooking']
+    for booking in perbooking:
+        if booking['name'] == 'Nationality':
+            for country in countries:
+                if country['code'] == booking.value:
+                    booking.update({
+                        'value': country['name']
+                    })
+                    break
+
+    perpax = request.session['activity_perpax']
+    for pax in perpax:
+        for item in pax:
+            if item['name'] == 'Nationality':
                 for country in countries:
-                    if country['code'] == booking.value:
-                        booking.update({
+                    if country['code'] == item['value']:
+                        item.update({
                             'value': country['name']
                         })
                         break
+        print('a')
 
-        perpax = request.session['activity_perpax']
-        for pax in perpax:
-            for item in pax:
-                if item['name'] == 'Nationality':
-                    for country in countries:
-                        if country['code'] == item.value:
-                            item.update({
-                                'value': country['name']
-                            })
-                            break
-            print('a')
+    booker = request.session['activity_review_booking']['booker']
+    contacts = request.session['activity_review_booking']['contacts']
+    for country in response['result']['response']['airline']['country']:
+        if booker['nationality_code'] == country['name']:
+            booker['nationality_code'] = country['code']
+            break
 
-        booker = request.session['activity_review_booking']['booker']
-        contacts = request.session['activity_review_booking']['contacts']
+    for pax in contacts:
         for country in response['result']['response']['airline']['country']:
-            if booker['nationality_code'] == country['name']:
-                booker['nationality_code'] = country['code']
+            if pax['nationality_code'] == country['name']:
+                pax['nationality_code'] = country['code']
                 break
 
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_code'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
+    data = {
+        "passengers": passenger,
+        "option": {
+            "perBooking": perbooking,
+            "perPax": perpax
+        },
+        "kwargs": {
+            "is_activity": True,
+            'payment_amount': 1,
+            "force_issued": True
+        },
+        "promotion_codes_booking": [],
+        "create_booking_type": "issued_book",
+        "booker": booker,
+        "contacts": contacts,
+        "search_request": request.session['activity_review_booking']['search_request'],
+        "transaction_type": "issued_book",
+        "provider": request.session['activity_pick']['provider'],
+        "upload_value": request.session['activity_review_booking']['upload_value'],
+        "pricing": request.session['activity_review_booking']['pricing'],
+        'member': member,
+        'seq_id': request.POST['seq_id'],
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "create_booking",
+        "signature": request.session['activity_signature']
+    }
 
-        data = {
-            "passengers": passenger,
-            "option": {
-                "perBooking": perbooking,
-                "perPax": perpax
-            },
-            "kwargs": {
-                "is_activity": True,
-                'payment_amount': 1,
-                "force_issued": True
-            },
-            "promotion_codes_booking": [],
-            "create_booking_type": "issued_book",
-            "booker": booker,
-            "contacts": contacts,
-            "search_request": request.session['activity_review_booking']['search_request'],
-            "transaction_type": "issued_book",
-            "provider": request.session['activity_pick']['provider'],
-            "upload_value": request.session['activity_review_booking']['upload_value']
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "create_booking",
-            "signature": request.session['activity_signature']
-        }
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    if res['result']['error_code'] == 0:
+        request.session['activity_order_number'] = res['result']['response']['order_number']
 
-        res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
-        if res['result']['error_code'] == 0:
-            request.session['activity_order_number'] = res['result']['response']['order_number']
-
-        return res
-    else:
-        return index(request)
+    return res
 
 
 def get_booking(request):
     data = {
-        'order_number': request.POST['order_number']
-    }
+        'order_number': request.POST['order_number']}
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",

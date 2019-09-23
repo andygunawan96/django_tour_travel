@@ -148,14 +148,13 @@ def search(request):
         data = {
             'child': int(request.POST['child']),
             'hotel_id': hotel_id,
-            'search_name': request.POST['destination'],
+            'search_name': request.POST['destination'].split(' - ')[0],
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
             'adult': int(request.POST['adult']),
             'destination_id': destination_id,
             'child_ages': child_age,
-
         }
         request.session['hotel_request_data'] = data
         headers = {
