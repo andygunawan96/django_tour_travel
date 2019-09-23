@@ -45,6 +45,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_auto_complete':
+            res = get_auto_complete(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'detail':
@@ -91,6 +93,20 @@ def login(request):
 
     return res
 
+def get_auto_complete(request):
+    try:
+        file = open("hotel_cache_data.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_autocomplete HOTEL SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return response
+
 def search(request):
     try:
         child_age = []
@@ -132,14 +148,13 @@ def search(request):
         data = {
             'child': int(request.POST['child']),
             'hotel_id': hotel_id,
-            'search_name': request.POST['destination'],
+            'search_name': request.POST['destination'].split(' - ')[0],
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
             'adult': int(request.POST['adult']),
             'destination_id': destination_id,
             'child_ages': child_age,
-
         }
         request.session['hotel_request_data'] = data
         headers = {

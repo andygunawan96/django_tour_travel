@@ -37,10 +37,93 @@ function get_hotel_config(){
     });
 }
 
+function get_auto_complete(term,suggest){
+    clearTimeout(hotelAutoCompleteVar);
+    term = term.toLowerCase();
+    console.log(term);
+    check = 0;
+    var limit = 10;
+    var current_rec = 0;
+    var priority = [];
+
+    getToken();
+    hotelAutoCompleteVar = setTimeout(function() {
+        console.log(term);
+        $.ajax({
+           type: "POST",
+           url: "/webservice/hotel",
+           headers:{
+                'action': 'get_auto_complete',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name':term
+           },
+           success: function(msg) {
+            console.log(msg);
+            console.log(JSON.stringify(msg));
+            hotel_choices = msg;
+            try{
+                var choices = hotel_choices;
+                console.log(choices);
+                for (i=0;i<choices.city_ids.length;i++){
+                    if (current_rec < limit){
+                        if(choices.city_ids[i].name.toLowerCase().search(term) !== -1){
+                            priority.push(choices.city_ids[i].name + ' - ' + 'City' );
+                            current_rec += 1;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                console.log('city:' + current_rec);
+                for (i=0;i<choices.country_ids.length;i++){
+                    if (current_rec < limit){
+                        if(choices.country_ids[i].name.toLowerCase().search(term) !== -1){
+                            priority.push(choices.country_ids[i].name + ' - ' + 'Country');
+                            current_rec += 1;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                console.log('country:' + current_rec);
+                for (i=0;i<choices.hotel_ids.length;i++){
+                    if (current_rec < limit){
+                        if(choices.hotel_ids[i].name.toLowerCase().search(term) !== -1){
+                            priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
+                            current_rec += 1;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+                console.log('Hotel:' + current_rec);
+                for (i=0;i<choices.landmark_ids.length;i++){
+                    if (current_rec < limit){
+                        if(choices.landmark_ids[i].name.toLowerCase().search(term) !== -1){
+                            priority.push(choices.landmark_ids[i].name + ' - ' + 'Landmark');
+                            current_rec += 1;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }catch(err){
+
+            }
+            console.log(priority.slice(0,100));
+            suggest(priority.slice(0,100));
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
+    }, 150);
+}
+
 //signin jadi 1 sama search
 function hotel_search(data){
-
-
     getToken();
     $.ajax({
        type: "POST",
