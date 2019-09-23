@@ -173,7 +173,7 @@ function get_customer_list(passenger, number, product){
         $('.loading-booker-train').hide();
     }else{
         $(".loading-pax-train").show();
-        if(document.getElementById('train_adult'+number+'_search').value.length >= 2){
+        if(document.getElementById('train_'+passenger+number+'_search').value.length >= 2){
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -182,7 +182,7 @@ function get_customer_list(passenger, number, product){
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
-                    'name': document.getElementById('train_adult'+number+'_search').value,
+                    'name': document.getElementById('train_'+passenger+number+'_search').value,
                     'product': product,
                     'passenger_type': passenger,
                     'signature': signature

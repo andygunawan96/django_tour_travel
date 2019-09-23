@@ -2,7 +2,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from tools import util, ERR
-import datetime
+from datetime import datetime
 from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
 import json

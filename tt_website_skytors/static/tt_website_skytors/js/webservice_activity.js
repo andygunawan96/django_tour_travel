@@ -557,6 +557,62 @@ function copy_data(){
     document.body.removeChild(el);
 }
 
+function show_repricing(){
+    $("#myModalRepricing").modal();
+}
+
+function update_service_charge(data){
+    upsell = []
+    for(i in act_get_booking.result.response.passengers){
+        for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
+            currency = act_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+        }
+        list_price = []
+        for(j in list){
+            if(act_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        console.log(act_get_booking.result.response.passengers[i]);
+        upsell.push({
+            'sequence': act_get_booking.result.response.passengers[i].sequence,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'update_service_charge',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+           'order_number': JSON.stringify(act_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                activity_get_booking(act_order_number);
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                alert(msg.result.error_msg);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
 function activity_get_booking(data){
     getToken();
     $.ajax({
@@ -570,6 +626,8 @@ function activity_get_booking(data){
            'order_number': data
        },
        success: function(msg) {
+       act_order_number = data;
+       act_get_booking = msg;
        $('#loading-search-activity').hide();
         if(msg.result.error_code == 0){
             if(msg.result.response.no_order_number){
@@ -671,11 +729,11 @@ function activity_get_booking(data){
                     `;
                }
 
-               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == true)
+               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == 'married')
                {
                     title = 'MRS';
                }
-               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == false)
+               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status != 'married')
                {
                     title = 'MS';
                }
@@ -734,7 +792,7 @@ function activity_get_booking(data){
                     text += `
                         <tr>
                             <td>`+temp_pax_seq+`</td>
-                            <td>`+msg.result.response.passengers[i].name+`</td>
+                            <td>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`</td>
                             <td>`+msg.result.response.passengers[i].pax_type+`</td>
                             <td>`+msg.result.response.passengers[i].birth_date+`</td>
                             <td>`+msg.result.response.passengers[i].sku_name+`</td>
@@ -777,33 +835,122 @@ function activity_get_booking(data){
             document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
             document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
 
-            temp_total_comm = 0;
-            temp_grand_total = 0;
             price_text = '';
             $test = msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
            '\nVisit Date : '+msg.result.response.visit_date+'\n\n';
 
-            for (i in msg.result.response.pricing)
-            {
-                if(msg.result.response.pricing[i].type != 'rac')
-                {
-                    price_text +=
-                    `<div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.pricing[i].name+`</span>
+            //detail
+            text = '';
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+
+            //repricing
+            type_amount_repricing = ['Repricing'];
+            //repricing
+            counter_service_charge = 0;
+            $test += '\nPrice:\n';
+            for(i in msg.result.response.passengers[0].sale_service_charges){
+                price_text+=`
+                    <div style="text-align:left">
+                        <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
+                    </div>`;
+                for(j in msg.result.response.passengers){
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                    for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                        price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+                    }
+                    try{
+                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+
+                    }catch(err){
+
+                    }
+                    //repricing
+                    check = 0;
+                    for(k in pax_type_repricing){
+                        if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                            check = 1;
+                    }
+                    if(check == 0){
+                        pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price['FARE'],
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }else{
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }
+                    text_repricing = `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Price</div>
+                            <div class="col-lg-3">Repricing</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
+                    </div>`;
+                    for(k in price_arr_repricing){
+                       text_repricing += `
+                       <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="adult">
+                                <div class="col-lg-3" id="`+k+`_`+i+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                if(price_arr_repricing[k].Repricing == 0)
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                else
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
                             </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+msg.result.response.pricing[i].currency+` `+getrupiah(msg.result.response.pricing[i].price)+`</span>
-                            </div>
-                     </div>
-                    `;
-                    temp_grand_total += msg.result.response.pricing[i].price;
-                    $test += msg.result.response.pricing[i].name+' IDR '+getrupiah(msg.result.response.pricing[i].price)+'\n';
+                        </div>`;
+                    }
+                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                    //repricing
+
+                    price_text+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+
+                        $test += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
+                        if(counter_service_charge == 0){
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
+                        price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                        }else{
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
+                            price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                        }
+                        price_text+=`
+                        </div>
+                    </div>`;
+                    if(counter_service_charge == 0)
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                    else
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    commission += parseInt(price.RAC);
                 }
-                else
-                {
-                    temp_total_comm += msg.result.response.pricing[i].price;
-                }
+                counter_service_charge++;
             }
 
 //           if(msg.result.response.price_itinerary.additional_charge_total)
@@ -824,14 +971,37 @@ function activity_get_booking(data){
                        <span style="font-weight:bold">Grand Total</span>
                   </div>
                   <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(temp_grand_total))+`</span>
+                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
              </div>
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+             <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        price_text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        price_text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
 
+                price_text+=`
+                </div>
+             </div>
              <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(temp_total_comm)+`</span><br>
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
                     </div>
                 </div>
              </div>
@@ -865,9 +1035,9 @@ function activity_get_booking(data){
                 </div>
             </div>
            `;
-            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(temp_grand_total))+'\nPrices and availability may change at any time';
+            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
-
+            add_repricing();
         }else{
             alert(msg.result.error_msg);
         }
