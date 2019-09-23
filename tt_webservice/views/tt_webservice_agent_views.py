@@ -301,7 +301,9 @@ def get_url():
 def get_customer_list(request):
     try:
         data = {
-            'name': request.POST['name']
+            'name': request.POST['name'],
+            'upper': 200,
+            'lower': 0
         }
 
         headers = {

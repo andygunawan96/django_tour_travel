@@ -173,7 +173,7 @@ function get_customer_list(passenger, number, product){
         $('.loading-booker-train').hide();
     }else{
         $(".loading-pax-train").show();
-        if(document.getElementById('train_adult'+number+'_search').value.length >= 2){
+        if(document.getElementById('train_'+passenger+number+'_search').value.length >= 2){
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -182,7 +182,7 @@ function get_customer_list(passenger, number, product){
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
-                    'name': document.getElementById('train_adult'+number+'_search').value,
+                    'name': document.getElementById('train_'+passenger+number+'_search').value,
                     'product': product,
                     'passenger_type': passenger,
                     'signature': signature
@@ -191,7 +191,7 @@ function get_customer_list(passenger, number, product){
                 console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
-                    var like_name_paxs = document.getElementById('train_adult'+number+'_search').value;
+                    var like_name_paxs = document.getElementById('train_'+passenger+number+'_search').value;
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
