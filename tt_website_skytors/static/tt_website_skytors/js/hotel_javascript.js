@@ -59,7 +59,6 @@ var sorting_list2 = [
     }
 ]
 
-
 function search_hotel(val){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
@@ -524,31 +523,8 @@ function sort(response){
                                     <img src="/static/tt_website_skytors/img/hotels/circle.png" style="width:15px; height:15px;"/>
                                     <img src="/static/tt_website_skytors/img/hotels/circle-none.png" style="width:15px; height:15px;"/>
                                 </span>
-                                <span style="padding-top:2px;"> (19412 Reviews) </span>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5">
-                            <div class="row">
-                                <div class="col-lg-12" style="margin-bottom:5px;">
-                                    <span style="font-size:13px; border-bottom:1px solid #f15a22; font-weight:bold;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
-                                </div>`;
-                                var count_best_price = 0;
-                                for(j in response.hotel_ids[i].external_code){
-                                    if(count_best_price < 3){
-                                        text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                            <span style="font-size:13px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                            <span style="font-size:13px; color:#f15a22; font-weight: bold; text-align:right;">-</span>
-                                        </div>`;
-                                    }
-                                    count_best_price++;
-                                }
-                               text += `
-                            </div>
-                        </div>
-                        <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:15px;">
-                            <span>`;
+                                <span style="padding-top:2px;"> (19412 Reviews) </span><br/><br/>
+                                <span id="top_faci">`;
                             try{
                                 for(j in top_facility){
                                     var facility_check = 0;
@@ -567,38 +543,44 @@ function sort(response){
                                 }
                             }
                         }catch(err){}
-                        text+=`
-                        </span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4">
-                    <div class="row">
-                        <div class="col-lg-12" style="margin-bottom:5px;">
-                            <span style="font-size:14px; font-weight: bold; border-bottom:2px solid #f15a22;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
-                        </div>`
-                        if(Object.keys(response.hotel_ids[i].prices).length > 0){
-                            for(j in response.hotel_ids[i].prices){
-                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
+                        text+=`</span>
                             </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]) + `</span>
-                            </div>`;
-                            }
-                        } else {
-                            for(j in response.hotel_ids[i].external_code){
-                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:5px;">
+                                    <span style="font-size:13px; border-bottom:1px solid #f15a22; font-weight:bold;"> Best Price <i class="fas fa-award" style="color:#f15a22;"></i></span>
+                                </div>`;
+                                if(Object.keys(response.hotel_ids[i].prices).length > 0){
+                                    for(j in response.hotel_ids[i].prices){
+                                        text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                        <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">`
+                                        if(response.hotel_ids[i].prices[j] == 0)
+                                            text += `<span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;"> - </span>
+                                            </div>`;
+                                        else
+                                            text += `<span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]) + `</span>
+                                        </div>`;
+                                    }
+                                } else {
+                                    for(j in response.hotel_ids[i].external_code){
+                                        text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                        <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:left;">` + j +`</span>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                        <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">-</span>
+                                    </div>`;
+                                    }
+                                }
+                               text += `
+                               <div class="col-lg-12" style="text-align:right; padding-top:15px;">
+                                   <button type="button" style="width: 100%;" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
+                                   <br/>
+                                   <span style="color:#f15a22; font-size:13px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
+                               </div>
                             </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                <span style="font-size:14px; color:#f15a22; font-weight: bold; text-align:right;">-</span>
-                            </div>`;
-                            }
-                        }
-                       text += `<div class="col-lg-12" style="text-align:right; padding-top:15px;">
-                            <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
-                            <br/>
-                            <span style="color:#f15a22; font-size:13px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
                         </div>
                     </div>
                 </div>

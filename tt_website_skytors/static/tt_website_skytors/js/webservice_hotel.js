@@ -77,8 +77,8 @@ function get_auto_complete(term,suggest){
                         priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
                 }
                 for (i=0;i<choices.landmark_ids.length;i++){
-                    if(choices.landmard_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.landmard_ids[i].name + ' - ' + 'Landmark');
+                    if(choices.landmark_ids[i].name.toLowerCase().search(term) !== -1)
+                        priority.push(choices.landmark_ids[i].name + ' - ' + 'Landmark');
                 }
             }catch(err){
 
