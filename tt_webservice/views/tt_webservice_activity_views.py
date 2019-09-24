@@ -53,6 +53,8 @@ def api_models(request):
             res = create_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         elif req_data['action'] == 'get_voucher':
             res = get_voucher(request)
         else:
@@ -371,6 +373,33 @@ def get_booking(request):
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
