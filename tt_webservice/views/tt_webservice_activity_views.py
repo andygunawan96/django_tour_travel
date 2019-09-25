@@ -405,7 +405,7 @@ def update_service_charge(request):
 
 def get_voucher(request):
     data = {
-        'order_number': request.session['activity_order_number']
+        'order_number': request.POST['order_number']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
