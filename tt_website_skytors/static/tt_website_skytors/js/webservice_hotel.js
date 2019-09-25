@@ -62,24 +62,8 @@ function get_auto_complete(term,suggest){
             console.log(JSON.stringify(msg));
             hotel_choices = msg;
             try{
-                var choices = hotel_choices;
-                console.log(choices);
-                for (i=0;i<choices.city_ids.length;i++){
-                    if(choices.city_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.city_ids[i].name + ' - ' + 'City' );
-                }
-                for (i=0;i<choices.country_ids.length;i++){
-                    if(choices.country_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.country_ids[i].name + ' - ' + 'Country');
-                }
-                for (i=0;i<choices.hotel_ids.length;i++){
-                    if(choices.hotel_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
-                }
-                for (i=0;i<choices.landmark_ids.length;i++){
-                    if(choices.landmark_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.landmark_ids[i].name + ' - ' + 'Landmark');
-                }
+                var priority = hotel_choices;
+                console.log(priority);
             }catch(err){
 
             }

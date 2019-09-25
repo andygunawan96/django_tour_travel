@@ -93,19 +93,65 @@ def login(request):
 
     return res
 
+
 def get_auto_complete(request):
+    def find_hotel_ilike(search_str, record_cache, limit=10):
+        hotel_list = []
+        for rec in record_cache:
+            if len(hotel_list) == limit:
+                return hotel_list
+            is_true = True
+            name = rec['name'].lower()
+            for list_str in search_str.split(' '):
+                if list_str in ['hotel', 'hotels']:
+                    pass
+                if list_str not in name:
+                    is_true = False
+                    break
+            if is_true:
+                hotel_list.append(rec)
+        return hotel_list
+
+    limit = 10
+    req = request.POST
     try:
         file = open("hotel_cache_data.txt", "r")
         for line in file:
-            response = json.loads(line)
+            record_cache = json.loads(line)
         file.close()
+
+        record_json = []
+        for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache['city_ids']):
+            if len(record_json) < limit:
+                record_json.append(rec['name'] + ' - ' + 'City')
+            else:
+                break
+        if len(record_json) < limit:
+            hotel_record = find_hotel_ilike(req['name'].lower(), record_cache['hotel_ids'], limit-len(record_json))
+            for rec in hotel_record:
+                if len(record_json) < limit + 1:
+                    record_json.append(rec['name'] + ' - ' + 'Hotel')
+                else:
+                    break
+        if len(record_json) < limit:
+            for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache['country_ids']):
+                if len(record_json) < limit:
+                    record_json.append(rec['name'] + ' - ' + 'Country')
+                else:
+                    break
+        if len(record_json) < limit:
+            for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache['landmark_ids']):
+                if len(record_json) < limit:
+                    record_json.append(rec['name'] + ' - ' + 'Landmark')
+                else:
+                    break
 
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_autocomplete HOTEL SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    return response
+    return record_json
 
 def search(request):
     try:
