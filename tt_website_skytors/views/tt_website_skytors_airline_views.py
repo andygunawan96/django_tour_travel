@@ -1273,8 +1273,7 @@ def review_after_sales(request):
                             for idx, pax in enumerate(passenger):
                                 passengers_list.append({
                                     "passenger_number": idx,
-                                    "ssr_code": request.POST[
-                                        ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)]
+                                    "ssr_code": request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0]
                                 })
                                 for list_ssr in journey_ssr['ssrs']:
                                     if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)] == list_ssr['ssr_code']:
