@@ -2162,7 +2162,7 @@ function airline_get_booking(data){
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`'"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2174,14 +2174,14 @@ function airline_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/3'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/2'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2200,7 +2200,7 @@ function airline_get_booking(data){
                         else{
                             text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.order_number+`'"/>
+                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2518,12 +2518,11 @@ function airline_issued(data){
                    document.getElementById('success-issued').style.display = "block";
                    document.getElementById('button-choose-print').value = "Print Ticket";
                    document.getElementById('button-choose-print').type = "button";
-                    "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+home
-                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number;
+                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+'/1';
                    document.getElementById('button-print-print').value = "Print Ticket (with Price)";
-                   document.getElementById('button-print-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+"/1";
+                   document.getElementById('button-print-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+"/2";
                    document.getElementById('button-issued-print').value = "Print Invoice";
-                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/"+msg.result.response.order_number;
+                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/"+msg.result.response.order_number+'/4';
                    document.getElementById('seat-map-link').href="#";
                    document.getElementById('seat-map-link').hidden=false;
                    document.getElementById('print_invoice').href="#";
