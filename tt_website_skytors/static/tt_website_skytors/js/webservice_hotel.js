@@ -350,17 +350,15 @@ function hotel_get_cancellation_policy(price_code, provider){
             var result = msg.result.response;
             var text = '<h4>Cancellation Policy</h4>';
             text += '<b>' + result.hotel_name + '</b><hr/>';
-            //text += '<ul style="list-style-type: circle;">';
-            text += '<ul>';
-            if(result.policies){
-                if(result.policies.length != 0){
-                    for(i in result.policies){
-                        text += '<li>Cancel Days Before Check in: ' + result.policies[i].max_cancel_days;
-                        text += ' will be Refunded: ' + result.policies[i].charge_rate + '</li>'
+            text += '<ul style="list-style-type: circle; margin: 0 15px;">';
+            if(result.policies.length != 0){
+                for(i in result.policies){
+                    if (result.policies[i].received_amount != 0){
+                        text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                    } else {
+                        text += '<li>No Cancellation after: ' + result.policies[i].date;
                     }
-                } else {
-                    text += '<li>No Cancellation Policy Provided</li>';
-                };
+                }
             } else {
                 text += '<li>No Cancellation Policy Provided</li>';
             };
