@@ -2918,10 +2918,16 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .primary-btn-sticky-hotel:hover {
   background: #f15a22;
+  color:white;
 }
 
 .primary-btn-sticky-hotel:focus {
   background: #f15a22;
+  color:white;
+}
+.sticky-hotel-active{
+  background: #f15a22;
+  color:white;
 }
 
 .sorting-box{
@@ -7392,4 +7398,56 @@ display: block;
 	z-index: 999999;
 	background: url('/static/tt_website_skytors/img/plane_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
 	background-size:50px auto;
+}
+
+/* Three column layout */
+.side-review {
+  float: left;
+  width: 15%;
+  margin-left:10px;
+  font-weight:500;
+}
+
+.middle-review {
+  float: left;
+  margin-left:10px;
+  width: 50%;
+}
+
+/* Place text to the right */
+.right-review {
+  text-align: right;
+}
+
+/* The bar container */
+.bar-container-review {
+  width: 100%;
+  background-color: #f1f1f1;
+  text-align: center;
+  color: white;
+}
+
+/* Individual bars */
+.bar-5-review {width: 60%; height: 18px; background-color: #f15a22;}
+.bar-4-review {width: 30%; height: 18px; background-color: #f15a22;}
+.bar-3-review {width: 13%; height: 18px; background-color: #f15a22;}
+.bar-2-review {width: 5%; height: 18px; background-color: #f15a22;}
+.bar-1-review {width: 2%; height: 18px; background-color: #f15a22;}
+
+/* Responsive layout - make the columns stack on top of each other instead of next to each other */
+@media (max-width: 400px) {
+  .side-review, .middle-review {
+    width: 100%;
+  }
+  .right-review {
+    display: none;
+  }
+}
+
+.nearby_hover:hover{
+    color:#f15a22;
+}
+
+.nearby_all:hover{
+    color:#C04B21 !important;
 }

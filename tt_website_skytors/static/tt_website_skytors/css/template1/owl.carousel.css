@@ -511,6 +511,7 @@
     background: none;
     color: inherit;
     border: none;
+    outline: none;
     padding: 0 !important;
     font: inherit; }
 
@@ -533,6 +534,7 @@
     background: none;
     color: inherit;
     border: none;
+    outline: unset;
     padding: 0 !important;
     font: inherit; }
 

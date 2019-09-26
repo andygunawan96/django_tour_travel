@@ -141,7 +141,6 @@ function airline_search_autocomplete(term){
         }else if(choices[i].toLowerCase().search(term) !== -1)
             suggestions.push(choices[i]);
     }
-    console.log(priority.concat(suggestions).slice(0,100));
     return priority.concat(suggestions).slice(0,100);
 }
 
@@ -2559,12 +2558,16 @@ function copy_data(){
     document.execCommand('copy');
     document.getElementById('data_copy').hidden = true;
 
-    Swal.fire({
+    const Toast = Swal.mixin({
+      toast: true,
       position: 'top-end',
-      type: 'success',
-      title: 'Copied',
       showConfirmButton: false,
-      timer: 1000
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
     })
 //    const el = document.createElement('textarea');
 //    el.innerHTML = $text;
@@ -3098,7 +3101,6 @@ function on_change_srr(){
 }
 
 function check_passenger(adult, child, infant){
-    $('.loader-airline').fadeIn();
     //booker
     error_log = '';
     //check booker jika teropong
@@ -3261,9 +3263,10 @@ function check_passenger(adult, child, infant){
        }if(document.getElementById('child_first_name'+i).value == '' || check_word(document.getElementById('child_first_name'+i).value) == false){
            if(document.getElementById('child_first_name'+i).value == '')
                error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('child_first_name'+i).value) == false)
+           else if(check_word(document.getElementById('child_first_name'+i).value) == false){
                error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
-           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value != ''){
@@ -3321,9 +3324,10 @@ function check_passenger(adult, child, infant){
        }if(document.getElementById('infant_first_name'+i).value == '' || check_word(document.getElementById('infant_first_name'+i).value) == false){
            if(document.getElementById('infant_first_name'+i).value == '')
                error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('infant_first_name'+i).value) == false)
+           else if(check_word(document.getElementById('infant_first_name'+i).value) == false){
                error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value != ''){
@@ -3367,15 +3371,16 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log==''){
+       $('.loader-airline').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('airline_review').submit();
    }
    else{
+       $('.loader-airline').fadeOut();
        document.getElementById('show_error_log').innerHTML = error_log;
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
-       $('.loader-airline').fadeOut();
    }
 }
 
@@ -3635,12 +3640,7 @@ function get_airline_review_after_sales(){
     </div>`;
 
     text+=`</div>`;
-
-
-
-
     document.getElementById('airline_review').innerHTML = text;
-
 }
 
 function update_contact_cp(val){

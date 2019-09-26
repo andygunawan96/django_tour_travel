@@ -99,6 +99,7 @@
     position: absolute;
     top: 100%;
     left: 0;
+    width:100%;
     -webkit-transform-origin: 50% 0;
         -ms-transform-origin: 50% 0;
             transform-origin: 50% 0;

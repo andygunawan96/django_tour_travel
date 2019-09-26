@@ -2307,6 +2307,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   border: 1px solid transparent;
   cursor:pointer;
   color:#303030;
+  height:30px;
 }
 
 .btn-custom-circle:hover {

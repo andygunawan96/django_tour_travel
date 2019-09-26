@@ -239,8 +239,8 @@ def submit_top_up(request):
         data = {
             'name': 'New',
             'currency_code': request.POST['currency_code'],
-            'amount_seq_id': request.POST['amount_seq_id'],
-            'amount_count': int(request.POST['amount_count']),
+            'amount': request.POST['amount'],
+            # 'amount_count': int(request.POST['amount_count']),
             'unique_amount': int(request.POST['unique_amount']),
             'payment_seq_id': request.POST['seq_id'],
             'fees': 0,

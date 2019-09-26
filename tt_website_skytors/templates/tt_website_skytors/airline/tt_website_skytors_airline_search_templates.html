@@ -64,7 +64,7 @@
 
 {% include 'tt_website_skytors/header.html' %}
 {% include 'tt_website_skytors/logout.html' %}
-<div class="loader-airline"></div>
+<!--<div class="loader-airline"></div>-->
 {%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
     <div class="container">
@@ -300,7 +300,7 @@
 
                         </div>
                         <br/>
-                        <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                             Search
                             <div class="ld ld-ring ld-cycle"></div>
@@ -345,9 +345,10 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="btn roberto-btn" type="button" onclick="show_hide_change_search();">
+                <button class="button-search btn roberto-btn ld-ext-right" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
+                    <div class="ld ld-ring ld-cycle"></div>
                 </button>
             </div>
         </div>
@@ -534,7 +535,7 @@
 
                             </div>
                             <center>
-                                <button class="btn roberto-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                                <button class="button-search btn roberto-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -581,7 +582,7 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="primary-btn text-center text-uppercase" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn text-center" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
                 </button>
@@ -769,7 +770,7 @@
                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         <div class="col-lg-12" style="text-align:right;">
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Search
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -815,7 +816,7 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="primary-btn text-center text-uppercase" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn text-center" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
                 </button>
@@ -1000,7 +1001,7 @@
                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         <div class="col-lg-12" style="text-align:right;">
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Search
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -1238,7 +1239,7 @@
                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         <div class="col-lg-12" style="text-align:right;">
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Search
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -1466,6 +1467,60 @@
 
 
     $(function() {
+      var quantity_adult_flight = parseInt($('#adult_flight').val());
+      var quantity_child_flight = parseInt($('#child_flight').val());
+      var quantity_infant_flight = parseInt($('#infant_flight').val());
+      if (quantity_adult_flight+quantity_child_flight == 9){
+        document.getElementById("right-plus-adult-flight").disabled = true;
+        document.getElementById("right-plus-child-flight").disabled = true;
+
+        if(quantity_adult_flight == 1 ){
+          document.getElementById("left-minus-adult-flight").disabled = true;
+        }
+        else{
+          document.getElementById("left-minus-adult-flight").disabled = false;
+        }
+
+        if(quantity_child_flight == 0){
+          document.getElementById("left-minus-child-flight").disabled = true;
+        }
+        else{
+          document.getElementById("left-minus-child-flight").disabled = false;
+        }
+      }
+      else{
+        if(quantity_adult_flight == 1 ){
+          document.getElementById("left-minus-adult-flight").disabled = true;
+          document.getElementById("right-plus-adult-flight").disabled = false;
+        }
+        else{
+          document.getElementById("left-minus-adult-flight").disabled = false;
+          document.getElementById("right-plus-adult-flight").disabled = false;
+        }
+
+        if(quantity_child_flight == 0){
+          document.getElementById("left-minus-child-flight").disabled = true;
+          document.getElementById("right-plus-child-flight").disabled = false;
+        }
+        else{
+          document.getElementById("left-minus-child-flight").disabled = false;
+          document.getElementById("right-plus-child-flight").disabled = false;
+        }
+      }
+
+      if (quantity_infant_flight == 0){
+          document.getElementById("left-minus-infant-flight").disabled = true;
+          document.getElementById("right-plus-infant-flight").disabled = false;
+      }
+      else if (quantity_infant_flight == quantity_adult_flight){
+          document.getElementById("left-minus-infant-flight").disabled = false;
+          document.getElementById("right-plus-infant-flight").disabled = true;
+      }
+      else{
+          document.getElementById("right-plus-infant-flight").disabled = false;
+          document.getElementById("left-minus-infant-flight").disabled = false;
+      }
+
       if(document.getElementById('radio_airline_ow').checked) {
         document.getElementById("airline_date_search").innerHTML = '';
         text='';

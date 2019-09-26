@@ -62,24 +62,8 @@ function get_auto_complete(term,suggest){
             console.log(JSON.stringify(msg));
             hotel_choices = msg;
             try{
-                var choices = hotel_choices;
-                console.log(choices);
-                for (i=0;i<choices.city_ids.length;i++){
-                    if(choices.city_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.city_ids[i].name + ' - ' + 'City' );
-                }
-                for (i=0;i<choices.country_ids.length;i++){
-                    if(choices.country_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.country_ids[i].name + ' - ' + 'Country');
-                }
-                for (i=0;i<choices.hotel_ids.length;i++){
-                    if(choices.hotel_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.hotel_ids[i].name + ' - ' + 'Hotel');
-                }
-                for (i=0;i<choices.landmark_ids.length;i++){
-                    if(choices.landmard_ids[i].name.toLowerCase().search(term) !== -1)
-                        priority.push(choices.landmard_ids[i].name + ' - ' + 'Landmark');
-                }
+                var priority = hotel_choices;
+                console.log(priority);
             }catch(err){
 
             }
@@ -239,18 +223,39 @@ function hotel_detail(id){
 
         var result = msg.result.response;
         text='';
+        text2='';
         var node = document.createElement("div");
+        var node2 = document.createElement("div");
         if(result.prices.length != 0){
+            text2+=`
+            <div class="row">
+                <div class="col-lg-6">
+                    <span style="font-size:14px; font-weight:bold;">Room - `+result.prices.length+` results</h6>
+                </div>
+                <div class="col-lg-6">
+                    <label class="check_box_custom" style="float:right;">
+                        <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                        <input type="checkbox" id="check_all_copy" onchange="check_all_result_room();"/>
+                        <span class="check_box_span_custom"></span>
+                    </label>
+                </div>
+            </div>`;
+
+            node2.innerHTML = text2;
+            document.getElementById("select_copy_all").appendChild(node2);
+            node2 = document.createElement("div");
+
             for(i in result.prices){
                 text = '<div class="row" style="margin-bottom:15px;">';
-                text += `
+                text+=`
                 <div class="col-lg-12" style="margin-bottom:25px;">
                     <div style="top:0px; right:10px; position:absolute;">
                         <label class="check_box_custom">
                             <span class="span-search-ticket"></span>
-                            <input type="checkbox" id="copy_hotel"/>
+                            <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyRoom();"/>
                             <span class="check_box_span_custom"></span>
                         </label>
+                        <span class="id_copy_result" hidden>`+i+`</span>
                     </div>
                 </div>`;
 
@@ -267,17 +272,17 @@ function hotel_detail(id){
                         </div>`;
                     }
                     text+=`<div class="col-lg-6 col-md-6">`;
-                    text+= '<h4 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span>Qty: '+ result.prices[i].rooms[j].qty +'</span><br/>';
-                    text+= '<span>Meal Type: ' + result.prices[i].meal_type+'</span><br/><br/>';
+                    text+= '<h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span class="qty_room">Qty: '+ result.prices[i].rooms[j].qty +'</span><br/>';
+                    text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/><br/>';
 
                     text+=`</div>`;
                 }
 
                 text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
                 if(result.prices[i].currency != 'IDR')
-                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:16px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/>';
                 else
-                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:16px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/>';
 
                 text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
                 text+='</div></div>';
@@ -285,8 +290,8 @@ function hotel_detail(id){
                 node.innerHTML = text;
                 document.getElementById("detail_room_pick").appendChild(node);
                 node = document.createElement("div");
-                $('#loading-detail-hotel').hide();
             }
+            $('#loading-detail-hotel').hide();
             hotel_price = result.prices;
 
             //            for(i in result.prices){
@@ -366,17 +371,15 @@ function hotel_get_cancellation_policy(price_code, provider){
             var result = msg.result.response;
             var text = '<h4>Cancellation Policy</h4>';
             text += '<b>' + result.hotel_name + '</b><hr/>';
-            //text += '<ul style="list-style-type: circle;">';
-            text += '<ul>';
-            if(result.policies){
-                if(result.policies.length != 0){
-                    for(i in result.policies){
-                        text += '<li>Cancel Days Before Check in: ' + result.policies[i].max_cancel_days;
-                        text += ' will be Refunded: ' + result.policies[i].charge_rate + '</li>'
+            text += '<ul style="list-style-type: circle; margin: 0 15px;">';
+            if(result.policies.length != 0){
+                for(i in result.policies){
+                    if (result.policies[i].received_amount != 0){
+                        text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                    } else {
+                        text += '<li>No Cancellation after: ' + result.policies[i].date;
                     }
-                } else {
-                    text += '<li>No Cancellation Policy Provided</li>';
-                };
+                }
             } else {
                 text += '<li>No Cancellation Policy Provided</li>';
             };
@@ -464,4 +467,197 @@ function hotel_issued_booking(){
            alert(errorThrown);
        }
     });
+}
+
+function checkboxCopyRoom(){
+    var count_copy = $(".copy_result:checked").length;
+    document.getElementById("badge-copy-notif").innerHTML = count_copy;
+    document.getElementById("badge-copy-notif2").innerHTML = count_copy;
+}
+
+function check_all_result_room(){
+   var selectAllCheckbox=document.getElementById("check_all_copy");
+   if(selectAllCheckbox.checked==true){
+        var checkboxes = document.getElementsByClassName("copy_result");
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = true;
+        $('#choose-hotel-copy').hide();
+    }
+   }else {
+    var checkboxes = document.getElementsByClassName("copy_result");
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = false;
+        $('#choose-hotel-copy').show();
+    }
+   }
+   checkboxCopyRoom();
+}
+
+function get_checked_copy_result_room(){
+    document.getElementById("show-list-copy-hotel").innerHTML = '';
+    text='';
+    $text='';
+    var room_number = 0;
+    var name_hotel = $(".name_hotel").html();
+    var rating_hotel = $(".rating_hotel").html();
+    var address_hotel = $('.address_hotel').html();
+    $text += ''+name_hotel+'\n';
+    $text += 'Rating: '+rating_hotel+'\n';
+    $text += 'Address: '+address_hotel+'\n \n';
+
+    node = document.createElement("div");
+    text+=`
+    <div class="col-lg-12" id="information_hotel">
+        <h6>`+name_hotel+`</h6>
+        <span>Rating: `+rating_hotel+`</span><br/>
+        <span>Address: `+address_hotel+`</span><br/><br/>
+        <h6>Room List:</h6><hr/>
+    </div>
+    <div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    $(".copy_result:checked").each(function(obj) {
+        var parent_room = $(this).parent().parent().parent().parent();
+        var name_room = parent_room.find('.name_room').html();
+        var qty_room = parent_room.find('.qty_room').html();
+        var meal_room = parent_room.find('.meal_room').html();
+        var price_room = parent_room.find('.price_room').html();
+        var id_room = parent_room.find('.id_copy_result').html();
+        room_number = room_number + 1;
+        $text += ''+room_number+'. '+name_room+'\n';
+        $text += 'Qty: '+qty_room+'\n';
+        $text += ''+meal_room+'\n';
+        $text += 'Price: '+price_room+'\n \n';
+        text+=`
+            <div class="row" id="div_list`+id_room+`">
+                <div class="col-lg-8">
+                    <h6>`+name_room+` </h6>
+                    <span>Qty: `+qty_room+`</span><br/>
+                    <span>`+meal_room+`</span><br/>
+                    <span style="font-weight:500;">Price: `+price_room+`</span>
+                </div>
+                <div class="col-lg-4" style="text-align:right;">
+                    <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result_room(`+id_room+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
+                </div>
+                <div class="col-lg-12"><hr/></div>
+            </div>`;
+        });
+    text+=`</div>
+    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;" id="share_result">
+        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        share_data_room();
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            text+=`
+                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>`;
+            if(room_number < 11){
+                text+=`
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>`;
+            }
+            else{
+                text+=`
+                <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line-gray.png"/></a>
+                <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram-gray.png"/></a>`;
+            }
+            text+=`
+                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+        } else {
+            text+=`
+                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>`;
+            if(room_number < 11){
+                text+=`
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>`;
+            }
+            else{
+                text+=`
+                <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line-gray.png"/></a>
+                <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram-gray.png"/></a>`;
+            }
+            text+=`
+                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+        }
+        if(room_number > 10){
+            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Room</span>`;
+        }
+    text+=`
+    </div>
+    <div class="col-lg-12" id="copy_result">
+        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data_room();" value="Copy">
+    </div>`;
+    node.innerHTML = text;
+    node.className = "row";
+    document.getElementById("show-list-copy-hotel").appendChild(node);
+
+    if(room_number > 10){
+        document.getElementById("mobile_line").style.display = "none";
+        document.getElementById("mobile_telegram").style.cursor = "not-allowed";
+        document.getElementById("pc_line").style.display = "not-allowe";
+        document.getElementById("pc_telegram").style.cursor = "not-allowed";
+    }
+
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-hotel-copy').show();
+        $("#information_hotel").remove();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $text = '';
+        $text_share = '';
+    }
+    else{
+        $('#choose-hotel-copy').hide();
+    }
+}
+
+function delete_checked_copy_result_room(id){
+    $("#div_list"+id).remove();
+    $("#copy_result"+id).prop("checked", false);
+
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-hotel-copy').show();
+        $("#information_hotel").remove();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $text = '';
+        $text_share = '';
+    }
+    else{
+        $('#choose-hotel-copy').hide();
+        get_checked_copy_result_room();
+        share_data_room();
+    }
+    checkboxCopyRoom();
+}
+
+function copy_data_room(){
+    get_checked_copy_result_room();
+    document.getElementById('data_copy').innerHTML = $text;
+    document.getElementById('data_copy').hidden = false;
+    var el = document.getElementById('data_copy');
+    el.select();
+    document.execCommand('copy');
+    document.getElementById('data_copy').hidden = true;
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+}
+
+function share_data_room(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($text);
 }

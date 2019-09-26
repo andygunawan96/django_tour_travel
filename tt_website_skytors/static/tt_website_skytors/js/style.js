@@ -6,11 +6,14 @@ $(document).ready(function(){
     var sort_departure=0;
     var sort_arrival=0;
 
+    //$("html, body").animate({scrollTop: 0}, 1000);
     $("#myModalPopUp").modal('show');
 
     $(window).on('load', function(){
-         $('.loader-rodextrip').fadeOut();
-         $('.loader-airline').fadeOut();
+        setTimeout(function(){
+            $('.loader-rodextrip').fadeOut();
+            $('.loader-airline').fadeOut();
+        }, 2000);
     });
 
     $(window).click(function(e) {
@@ -505,7 +508,6 @@ $(document).ready(function(){
                 $('#hotel_adult').val(quantity + 1);
                 quantity_adult_hotel = quantity + 1;
             }
-
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
 
@@ -664,20 +666,38 @@ $(document).ready(function(){
 
     $('#information-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 155
-        }, 500)
+            scrollTop: $("div.div-information-hotel").offset().top - 125
+        }, 500);
+        active_sticky_hotel("information");
     });
 
     $('#facility-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 140
-        }, 500)
+            scrollTop: $("div.div-facility-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("facility");
     });
+
+    $('#location-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-location-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("location");
+    });
+
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 140
-        }, 500)
+            scrollTop: $("div.div-select-room-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("select");
+    });
+
+    $('#review-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-review-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("review");
     });
 
     $('#about-partnership').click(function(e){
@@ -708,7 +728,6 @@ $(document).ready(function(){
             scrollTop: $("div.div-register-partnership").offset().top - 100
         }, 500)
     });
-
 
     $('#radio_airline_search').change(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
@@ -1759,3 +1778,48 @@ try{
 }catch(err){
     console.log('err');
 }
+
+function capitalizeInput(id){
+    $.fn.capitalize = function () {
+        $.each(this, function () {
+            var split = this.value.split(' ');
+            for (var i = 0, len = split.length; i < len; i++) {
+                split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
+            }
+            this.value = split.join(' ');
+        });
+        return this;
+    };
+
+
+    $('#'+id).on('keyup', function () {
+        $(this).capitalize();
+    }).capitalize();
+
+}
+
+function active_sticky_hotel(type){
+    if(type == "information"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#information-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "facility"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#facility-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "location"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#location-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "select"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#select-room-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "review"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#review-hotel").addClass("sticky-hotel-active");
+    }
+}
+
+//1. Location nearby restaurant attraction dan getting there
+//2. reviews

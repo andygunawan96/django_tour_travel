@@ -1589,8 +1589,7 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
   color: #222222;
   font-weight: 500;
-  font-size: 12px;
-  text-transform: uppercase;
+  font-size: 13px;
   outline: none; }
 .nav-menu:last-child a {
   padding-right: 15px; }
@@ -4859,4 +4858,298 @@ display: block;
 
 .primary-btn-modal:hover{
   background: #9B9B9B;
+}
+
+
+.primary-delete {
+  background: #FC3030;
+  line-height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-delete:hover {
+  background: #DA1010;
+}
+
+.primary-delete-date {
+  background: transparent;
+  line-height: 45px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 2px;
+  border: none;
+  display: inline-block;
+  font-weight: 500;
+  height:43px;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn {
+  background: #f15a22;
+  line-height: 42px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-custom {
+  background: #f15a22;
+  line-height: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 3px;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px;
+}
+
+.primary-btn-custom:hover {
+  background: #C04B21;
+}
+
+.primary-btn-custom:disabled {
+  background: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.primary-btn-custom-un {
+  background: #C04B21;
+  line-height: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  border-radius: 3px;
+}
+
+.primary-btn:hover{
+  background: #C04B21;
+}
+
+.primary-btn:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.primary-btn-ad {
+  background: #f15a22;
+  line-height: 42px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right:5px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-ad:hover{
+  background: #C04B21;
+}
+
+.primary-btn-ad:disabled {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.payment_method:disabled{
+  cursor: not-allowed;
+}
+
+.primary-btn-logout {
+  background: #f15a22;
+  line-height: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 3px;
+  color: black;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
+}
+
+.primary-btn-logout:hover{
+  background: #C04B21;
+}
+
+.primary-btn-modal {
+  background: lightgray;
+  line-height: 35px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 3px;
+  color: black;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-modal:hover{
+  background: #9B9B9B;
+}
+
+.for-show-mobile{
+    display:none;
+}
+.for-show-website{
+    display:block;
+}
+
+@media (max-width: 991px) {
+  .for-show-mobile{
+    display:block !important;
+  }
+  .for-show-website{
+    display:none !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .for-show-mobile{
+    display:none !important;
+  }
+  .for-show-website{
+    display:block !important;
+  }
+}
+
+.loader-rodextrip {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: url('/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.gif') 50% 50% no-repeat rgb(0,0,0,1);
+}
+
+.loader-airline {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: url('/static/tt_website_skytors/img/plane_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
+	background-size:50px auto;
+}
+
+.button-seat-map {
+  border: none;
+  color: black;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.button-seat-map2 {
+  border: none;
+  color: black;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  border-radius: 8px;
+}
+
+.button-seat-pass {
+  background-color:#4CAF50;
+  border: 1px solid #cdcdcd;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius:48px;
+}
+
+.button-seat-pass:focus{
+    outline:unset;
 }
