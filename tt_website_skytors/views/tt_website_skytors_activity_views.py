@@ -1054,7 +1054,7 @@ def review(request):
                         "name": perpax['name']
                     })
                 elif perpax['name'] == 'Gender':
-                    if request.POST['child_title' + str(i + 1)] == 'MR':
+                    if request.POST['child_title' + str(i + 1)] == 'MSTR':
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": 'Male',
