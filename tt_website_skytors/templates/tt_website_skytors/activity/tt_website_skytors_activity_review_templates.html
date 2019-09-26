@@ -19,6 +19,7 @@
     detail = `{{detail.options}}`;
     detail = detail.replace(/&#39;/g,'"');
     detail = detail.replace(/True/g,'true');
+    detail = detail.replace('\n','\\n');
     detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
     passenger = `{{pax_count}}`;
