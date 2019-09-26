@@ -337,7 +337,7 @@ def passenger(request):
                 elif perbooking['inputType'] == 11:
                     perbooking_list.append({
                         "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)+'0']+' '+request.POST['perbooking' + str(idx)+'1'],
+                        "value": request.POST['perbooking' + str(idx)],
                         "name": perbooking['name']
                     })
                 elif perbooking['inputType'] == 12:
@@ -583,15 +583,14 @@ def review(request):
                     elif perpax['inputType'] == 11:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
-                            "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1) + '0'] + ' ' +
-                                     request.POST['adult_perpax' + str(i) + '_' + str(idx) + '1'],
+                            "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
                             "name": perpax['name']
                         })
                     elif perpax['inputType'] == 12:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                            "name": perpax_list['name']
+                            "name": perpax['name']
                         })
                     elif perpax['inputType'] == 13:
                         print('deprecated')
@@ -833,14 +832,14 @@ def review(request):
                     elif perpax['inputType'] == 11:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
-                            "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1) + '0'] + ' ' + request.POST['senior_perpax' + str(i) + '_' + str(idx) + '1'],
+                            "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
                             "name": perpax['name']
                         })
                     elif perpax['inputType'] == 12:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                            "name": perpax_list['name']
+                            "name": perpax['name']
                         })
                     elif perpax['inputType'] == 13:
                         print('deprecated')
@@ -1012,14 +1011,14 @@ def review(request):
                     elif perpax['inputType'] == 11:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
-                            "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1) + '0'] + ' ' + request.POST['child_perpax' + str(i) + '_' + str(idx) + '1'],
+                            "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
                             "name": perpax['name']
                         })
                     elif perpax['inputType'] == 12:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                            "name": perpax_list['name']
+                            "name": perpax['name']
                         })
                     elif perpax['inputType'] == 13:
                         print('deprecated')
