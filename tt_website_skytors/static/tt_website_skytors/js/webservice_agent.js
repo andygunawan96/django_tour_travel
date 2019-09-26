@@ -837,7 +837,7 @@ function pick_passenger(type, sequence, product){
         passenger_data_pick[passenger_data_pick.length-1].sequence = 'infant'+passenger_number;
         auto_complete('infant_nationality'+passenger_number);
         $('#myModal_infant'+passenger_number).modal('hide');
-    }else if(type == 'Senior'){
+    }else if(type == 'senior'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'senior'+passenger_number){
                 passenger_data_pick.splice(i,1);
