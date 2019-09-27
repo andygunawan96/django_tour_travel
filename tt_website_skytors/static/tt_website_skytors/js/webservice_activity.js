@@ -376,7 +376,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
                             text+=`<label style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</label>`;
                             if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
-                                //selection buttton
+                                //selection button
                                 text+=`<select class="form-control" id=perbooking`+i+` name=perbooking`+i+` onchange='input_type1_change_perbooking(`+i+`)'>`;
                                 for(j in activity_type[activity_type_pick].options.perBooking[i].items){
                                     text+=`<option value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</option>`;
@@ -416,8 +416,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                 text+=`<input type="time" style="width:100%;height:20px;" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
                                 //datetime validation
-                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+`0 onchange='input_type11_change_perbooking(`+i+`,0)' name=perbooking`+i+`0 />`;
-                                text+=`<input type="text" id=perbooking`+i+`1 onchange='input_type11_change_perbooking(`+i+`,1)' name=perbooking`+i+`1 />`;
+                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+` onchange='input_type11_change_perbooking(`+i+`)' name=perbooking`+i+` style=""/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12){
                                 //string country
                                 text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
@@ -436,13 +435,14 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    document.getElementById('perbooking').innerHTML = text;
                    for(i in activity_type[activity_type_pick].options.perBooking){
                         if(activity_type[activity_type_pick].options.perBooking[i].inputType==11)
-                            $('#perbooking'+i+'0').daterangepicker({
+                            $('#perbooking'+i).daterangepicker({
+                                  timePicker: true,
                                   singleDatePicker: true,
                                   autoUpdateInput: true,
                                   showDropdowns: true,
                                   opens: 'center',
                                   locale: {
-                                      format: 'YYYY-MM-DD',
+                                      format: 'YYYY-MM-DD hh:mm',
                                   }
                              });
                         else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6)

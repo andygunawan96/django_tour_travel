@@ -1083,7 +1083,7 @@ function check_date(value){
 }
 
 function check_time(value){
-    return value.match('/^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/') != null
+    return value.match('^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$') != null
 }
 
 function check_date_time(value){
