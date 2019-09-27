@@ -60,8 +60,8 @@ def search(request):
                 'destination': request.POST['hotel_id_destination'],
                 'guest_nationality': request.POST['hotel_id_nationality'],
                 'business_trip': request.POST['business_trip'],
-                'checkin_date': request.POST['hotel_checkin'],
-                'checkout_date': request.POST['hotel_checkout'],
+                'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
+                'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
                 'room': int(request.POST['hotel_room']),
                 'adult': int(request.POST['hotel_adult']),
                 'child': int(request.POST['hotel_child']),
@@ -78,7 +78,8 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,
-            'template': template
+            'template': template,
+            'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -123,6 +124,7 @@ def detail(request):
             'check_out': data['checkout_date'],
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
+            'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
@@ -182,8 +184,8 @@ def passengers(request):
         for i in range(int(request.session['hotel_request']['child'])):
             child.append()
         request.session['hotel_request'].update({
-            'check_in': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
-            'check_out': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
+            'check_in': str(datetime.strptime(request.POST['hotel_checkin_checkout'].split(' - ')[0], '%d %b %Y'))[:10],
+            'check_out': str(datetime.strptime(request.POST['hotel_checkin_checkout'].split(' - ')[0], '%d %b %Y'))[:10],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
         values = {
@@ -198,6 +200,7 @@ def passengers(request):
             'child_count': int(request.session['hotel_request']['child']),
             'adult_title': adult_title,
             'infant_title': infant_title,
+            'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
@@ -296,6 +299,7 @@ def review(request):
             'adult_count': int(request.session['hotel_request']['adult']),
             'infant_count': int(request.session['hotel_request']['child']),
             'username': request.session['username'],
+            'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
