@@ -7451,3 +7451,22 @@ display: block;
 .nearby_all:hover{
     color:#C04B21 !important;
 }
+
+.status {
+  width: 100%;
+  padding: 20px;
+  font-size: 14px;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFF;
+  transition: all .575s
+}
+
+.status.on {
+  background: #2DDE98;
+  text-shadow: 0 0 8px rgba(0,0,0,.4);
+}
+.status.off {
+  background: #ff6c5f;
+}

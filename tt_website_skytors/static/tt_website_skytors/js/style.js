@@ -6,6 +6,34 @@ $(document).ready(function(){
     var sort_departure=0;
     var sort_arrival=0;
 
+    var checking = function() {
+      var status = document.getElementById('status');
+
+      if ( navigator.onLine && status.classList.contains('off') ) {
+        status.innerHTML = 'Online';
+        status.classList.remove('off');
+        status.classList.add('on');
+        status.style.display = "none";
+      }
+      if ( ! navigator.onLine && status.classList.contains('on') ) {
+        status.innerHTML = 'Your are offline';
+        status.classList.remove('on');
+        status.classList.add('off'); // can't use .replace() because of Chrome
+        status.style.display = "block";
+      }
+    };
+
+    window.addEventListener('online', checking);
+    window.addEventListener('offline', checking);
+
+//    var slowLoad = window.setTimeout( function() {
+//        alert( "the page is taking its sweet time loading" );
+//    }, 10000 );
+//
+//    window.addEventListener( 'load', function() {
+//        window.clearTimeout( slowLoad );
+//    }, false );
+
     //$("html, body").animate({scrollTop: 0}, 1000);
     $("#myModalPopUp").modal('show');
 
@@ -1820,6 +1848,3 @@ function active_sticky_hotel(type){
         $("#review-hotel").addClass("sticky-hotel-active");
     }
 }
-
-//1. Location nearby restaurant attraction dan getting there
-//2. reviews

@@ -214,7 +214,7 @@ function activity_table_detail(){
                                 <div class="col-xs-1">X</div>
                                 <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`</div>
                                 <div class="col-xs-3"></div>
-                                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`;
+                                <div class="col-xs-4" style="text-align: right;">`;
 
                    if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
                    {
@@ -249,20 +249,20 @@ function activity_table_detail(){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+0+`</div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`+getrupiah(grand_total)+`</div>
+                <div class="col-xs-4" style="text-align: right;">`+getrupiah(grand_total)+`</div>
            </div>
            <div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
@@ -288,7 +288,7 @@ function activity_table_detail(){
                 </div>
            </div>
            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
+                <div class="col-lg-12" style="margin-top:10px; text-align:center;">
                     <div class="alert alert-success">
                         <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
                     </div>
@@ -296,12 +296,12 @@ function activity_table_detail(){
            </div>
 
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
+               <div class="col-lg-12">
                    <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
+               <div class="col-lg-12">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
            </div>
@@ -317,6 +317,7 @@ function activity_table_detail(){
        </center>
    `;
    document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
+   document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
 }
 
 
@@ -340,7 +341,7 @@ function activity_table_detail2(pagetype){
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`+skus[sku].sku_title+`</div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="padding-right: 5px; text-align: right;">`;
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">`;
 
                if(passenger[low_sku_id] in skus[sku])
                {
@@ -375,20 +376,20 @@ function activity_table_detail2(pagetype){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+0+`</div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`+getrupiah(grand_total)+`</div>
+                <div class="col-xs-4" style="text-align: right;">`+getrupiah(grand_total)+`</div>
            </div>
 
            <div class="row">
@@ -450,6 +451,7 @@ function activity_table_detail2(pagetype){
             </center>
        `;
        document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
+       document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
    }
 }
 
@@ -1391,8 +1393,7 @@ function activity_filter_render(){
                 <input type="text" class="js-input-to form-control-custom" id="price-to" value="10000000" onchange="change_filter('price', '');"/>
             </div>
         </div>
-    </div>
-    <hr/>`;
+    </div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
