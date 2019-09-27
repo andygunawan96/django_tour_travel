@@ -6,7 +6,7 @@ activity_date_pick = '';
 activity_timeslot = '';
 additional_price = 0;
 event_pick = 0;
-pricing_days = 3;
+pricing_days = 1;
 offset = 0;
 
 var month = {
@@ -53,6 +53,7 @@ function activity_login(data){
           'offset': offset
        },
        success: function(msg) {
+           signature = msg.result.response.signature;
            if(data == ''){
                activity_search()
            }else if(data != ''){
@@ -375,7 +376,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
                             text+=`<label style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</label>`;
                             if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
-                                //selection buttton
+                                //selection button
                                 text+=`<select class="form-control" id=perbooking`+i+` name=perbooking`+i+` onchange='input_type1_change_perbooking(`+i+`)'>`;
                                 for(j in activity_type[activity_type_pick].options.perBooking[i].items){
                                     text+=`<option value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</option>`;
@@ -415,8 +416,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                 text+=`<input type="time" style="width:100%;height:20px;" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
                                 //datetime validation
-                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+`0 onchange='input_type11_change_perbooking(`+i+`,0)' name=perbooking`+i+`0 />`;
-                                text+=`<input type="text" id=perbooking`+i+`1 onchange='input_type11_change_perbooking(`+i+`,1)' name=perbooking`+i+`1 />`;
+                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+` onchange='input_type11_change_perbooking(`+i+`)' name=perbooking`+i+` style=""/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12){
                                 //string country
                                 text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
@@ -435,13 +435,14 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    document.getElementById('perbooking').innerHTML = text;
                    for(i in activity_type[activity_type_pick].options.perBooking){
                         if(activity_type[activity_type_pick].options.perBooking[i].inputType==11)
-                            $('#perbooking'+i+'0').daterangepicker({
+                            $('#perbooking'+i).daterangepicker({
+                                  timePicker: true,
                                   singleDatePicker: true,
                                   autoUpdateInput: true,
                                   showDropdowns: true,
                                   opens: 'center',
                                   locale: {
-                                      format: 'YYYY-MM-DD',
+                                      format: 'YYYY-MM-DD hh:mm',
                                   }
                              });
                         else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6)
@@ -507,7 +508,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
 
 function activity_pre_create_booking(){
     Swal.fire({
-      title: 'Are you sure?',
+      title: 'Are you sure you want to issued this order?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -515,8 +516,6 @@ function activity_pre_create_booking(){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.next-loading-issued').addClass("running");
-        $('.next-loading-issued').prop('disabled', true);
         activity_create_booking();
       }
     })
@@ -530,7 +529,10 @@ function activity_create_booking(){
        headers:{
             'action': 'create_booking',
        },
-       data: {},
+       data: {
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'member': payment_acq2[payment_method][selected].method,
+       },
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
@@ -553,6 +555,74 @@ function copy_data(){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+}
+
+function show_repricing(){
+    $("#myModalRepricing").modal();
+}
+
+function update_service_charge(data){
+    upsell = []
+    for(i in act_get_booking.result.response.passengers){
+        for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
+            currency = act_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+        }
+        list_price = []
+        for(j in list){
+            if(act_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        console.log(act_get_booking.result.response.passengers[i]);
+        upsell.push({
+            'sequence': act_get_booking.result.response.passengers[i].sequence,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'update_service_charge',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+           'order_number': JSON.stringify(act_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                activity_get_booking(act_order_number);
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                alert(msg.result.error_msg);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
 }
 
 function activity_get_booking(data){
@@ -568,7 +638,9 @@ function activity_get_booking(data){
            'order_number': data
        },
        success: function(msg) {
-       console.log(msg);
+       act_order_number = data;
+       act_get_booking = msg;
+       $('#loading-search-activity').hide();
         if(msg.result.error_code == 0){
             if(msg.result.response.no_order_number){
                 text = ``;
@@ -590,13 +662,18 @@ function activity_get_booking(data){
                 text = `
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="activity_booking_detail" style="padding:15px; background-color:white; border:1px solid #cdcdcd;">
-                                    <h4> Activity Order Details </h4>
-                                    <hr/>
-                                    <h4>`+msg.result.response.name+`</h4>
-                                    <span style="font-size: 15px;" aria-hidden="true">Booking Code: `+msg.result.response.pnr+`</span>
-                                    <span style="font-size: 15px; float:right;" aria-hidden="true">Status: `+conv_status+`</span>
-                                    <br/>
+                                <div id="activity_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
+                                    <h6>Order Number : `+msg.result.response.name+`</h6><br/>
+                                     <table style="width:100%;">
+                                        <tr>
+                                            <th>PNR</th>
+                                            <th>Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td>`+msg.result.response.pnr+`</td>
+                                            <td>`+conv_status+`</td>
+                                        </tr>
+                                     </table>
                                 </div>
                             </div>
                         </div>
@@ -604,7 +681,7 @@ function activity_get_booking(data){
                 text += `
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="activity_booking_info" style="padding:15px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                <div id="activity_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
                                     <h4> Activity Information </h4>
                                     <hr/>
                                     <h4>`+msg.result.response.activity.name+`</h4>
@@ -634,7 +711,7 @@ function activity_get_booking(data){
                         <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_perbooking" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> Additional Information </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-perbooking" class="list-of-passenger-class">
@@ -664,11 +741,11 @@ function activity_get_booking(data){
                     `;
                }
 
-               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == true)
+               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == 'married')
                {
                     title = 'MRS';
                }
-               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == false)
+               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status != 'married')
                {
                     title = 'MS';
                }
@@ -681,7 +758,7 @@ function activity_get_booking(data){
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> Contact Information </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
@@ -708,7 +785,7 @@ function activity_get_booking(data){
                    <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
                             <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
-                                <div style="padding:15px;">
+                                <div style="padding:10px;">
                                     <h4> List of Passenger(s) </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
@@ -727,7 +804,7 @@ function activity_get_booking(data){
                     text += `
                         <tr>
                             <td>`+temp_pax_seq+`</td>
-                            <td>`+msg.result.response.passengers[i].name+`</td>
+                            <td>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`</td>
                             <td>`+msg.result.response.passengers[i].pax_type+`</td>
                             <td>`+msg.result.response.passengers[i].birth_date+`</td>
                             <td>`+msg.result.response.passengers[i].sku_name+`</td>
@@ -742,135 +819,219 @@ function activity_get_booking(data){
                             </div>
                         </div>
                     </div>
-               `;
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4">
 
-               voucher_text = `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher()" style="width:100%;">
+                        </div>
+                        <div align="center" class="col-lg-4" id="voucher">`;
+               if (msg.result.response.voucher_url)
+               {
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
+                                Voucher
+                             </button>`;
+               }
+               else
+               {
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
                                 Voucher
                             </button>`;
+               }
+               text += `</div>
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
+               `;
             }
             document.getElementById('activity_final_info').innerHTML = text;
-            document.getElementById('voucher').innerHTML = voucher_text;
+            document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
+            document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
 
             price_text = '';
             $test = msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
            '\nVisit Date : '+msg.result.response.visit_date+'\n\n';
-            try{
-               if(msg.result.response.price_itinerary.adult_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Adult</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.adult_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-                   price_text+= getrupiah(msg.result.response.price_itinerary.adult_price) +`</div>
-                       </div>`;
-                   $test += msg.result.response.price_itinerary.adult_amount+' Adult Price IDR '+getrupiah(msg.result.response.price_itinerary.adult_price)+'\n';
-               }
-           }catch(err){
 
-           }
-           try{
-               if(msg.result.response.price_itinerary.senior_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Senior</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.senior_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-                   price_text+= getrupiah(msg.result.response.price_itinerary.senior_price) +`</div>
-                       </div>`;
-                   $test += msg.result.response.price_itinerary.senior_amount+' Senior Price IDR '+getrupiah(msg.result.response.price_itinerary.senior_price)+'\n';
-               }
-           }catch(err){
+            //detail
+            text = '';
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
 
-           }
-           try{
-               if(msg.result.response.price_itinerary.child_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Child</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.child_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">`;
-                   price_text+= getrupiah(msg.result.response.price_itinerary.child_price) +`</div>
-                       </div>`;
-                   $test += msg.result.response.price_itinerary.child_amount+' Child Price IDR '+getrupiah(msg.result.response.price_itinerary.child_price)+'\n';
-               }
-           }catch(err){
+            //repricing
+            type_amount_repricing = ['Repricing'];
+            //repricing
+            counter_service_charge = 0;
+            $test += '\nPrice:\n';
+            for(i in msg.result.response.passengers[0].sale_service_charges){
+                price_text+=`
+                    <div style="text-align:left">
+                        <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
+                    </div>`;
+                for(j in msg.result.response.passengers){
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                    for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                        price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+                    }
+                    try{
+                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
 
-           }
-           try{
-               if(msg.result.response.price_itinerary.infant_amount != 0){
-                   price_text+= `<div class="row">
-                                <div class="col-xs-3">Infant</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+msg.result.response.price_itinerary.infant_amount+`</div>
-                                <div class="col-xs-6" style="padding-right: 5; text-align: right;">0</div>
-                           </div>`;
-                   $test += msg.result.response.price_itinerary.infant_amount+' Infant Price IDR '+getrupiah(0)+'\n';
-               }
-           }catch(err){
+                    }catch(err){
 
-           }
+                    }
+                    //repricing
+                    check = 0;
+                    for(k in pax_type_repricing){
+                        if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                            check = 1;
+                    }
+                    if(check == 0){
+                        pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price['FARE'],
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }else{
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }
+                    text_repricing = `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Price</div>
+                            <div class="col-lg-3">Repricing</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
+                    </div>`;
+                    for(k in price_arr_repricing){
+                       text_repricing += `
+                       <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="adult">
+                                <div class="col-lg-3" id="`+k+`_`+i+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                if(price_arr_repricing[k].Repricing == 0)
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                else
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                            </div>
+                        </div>`;
+                    }
+                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                    //repricing
 
-           if(msg.result.response.price_itinerary.additional_charge_total)
-           {
-                price_text+= `
-                    <div class="row">
-                        <div class="col-xs-8">Additional Charge</div>
-                        <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+msg.result.response.price_itinerary.additional_charge_total+`</div>
+                    price_text+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                        </div>
                     </div>
-                `;
-                $test += 'Additional price IDR '+getrupiah(msg.result.response.price_itinerary.additional_charge_total)+'\n';
-           }
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+
+                        $test += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
+                        if(counter_service_charge == 0){
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
+                        price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                        }else{
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
+                            price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                        }
+                        price_text+=`
+                        </div>
+                    </div>`;
+                    if(counter_service_charge == 0)
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                    else
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    commission += parseInt(price.RAC);
+                }
+                counter_service_charge++;
+            }
+
+//           if(msg.result.response.price_itinerary.additional_charge_total)
+//           {
+//                price_text+= `
+//                    <div class="row">
+//                        <div class="col-xs-8">Additional Charge</div>
+//                        <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+msg.result.response.price_itinerary.additional_charge_total+`</div>
+//                    </div>
+//                `;
+//                $test += 'Additional price IDR '+getrupiah(msg.result.response.price_itinerary.additional_charge_total)+'\n';
+//           }
 
            price_text+= `
              <hr style="padding:0px;">
              <div class="row">
-                  <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                  <div class="col-xs-3" style="padding-right: 0; text-align: right;">`+getrupiah(msg.result.response.price_itinerary.total_itinerary_price)+`</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                       <span style="font-weight:bold">Grand Total</span>
+                  </div>
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
+                  </div>
              </div>
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+             <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        price_text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        price_text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
 
+                price_text+=`
+                </div>
+             </div>
              <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(msg.result.response.price_itinerary.commission_total)+`</span><br>
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
                     </div>
                 </div>
              </div>
 
-             <div class="row" style="margin:20px 0px 0px 0px; text-align:center;">
+             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                    <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
              </div>
-             <div class="row" style="margin:10px 0px 10px 0px; text-align:center;">
+             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
              </div>
-           <div style="text-align:center;">
-                <div id="copiedModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4>Copy</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <span style="font-weight:bold">Copied!</span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
            `;
-            $test+= '\nGrand Total : IDR '+ getrupiah(msg.result.response.price_itinerary.total_itinerary_price)+'\nPrices and availability may change at any time';
+            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
-
-            document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
-            document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
-
+            add_repricing();
         }else{
             alert(msg.result.error_msg);
         }
@@ -881,7 +1042,7 @@ function activity_get_booking(data){
     });
 }
 
-function activity_get_voucher(){
+function activity_get_voucher(order_number){
     getToken();
     $.ajax({
        type: "POST",
@@ -889,8 +1050,9 @@ function activity_get_voucher(){
        headers:{
             'action': 'get_voucher',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'order_number': order_number
+       },
        success: function(msg) {
        console.log(msg)
         if(msg.result.error_code == 0){

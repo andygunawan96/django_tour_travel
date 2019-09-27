@@ -24,6 +24,7 @@
     detail = `{{detail.options}}`;
     detail = detail.replace(/&#39;/g,'"');
     detail = detail.replace(/True/g,'true');
+    detail = detail.replace('\n','\\n');
     detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
     passenger = `{{pax_count}}`;
@@ -99,7 +100,7 @@
                         <span style="padding-left:5px;">Home</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                     </div>
-                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:activity_search'%}';">
                         <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
                         <span style="padding-left:5px;">Search</span>
                         <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
@@ -136,17 +137,17 @@
                                             <hr/>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
-                                            <label>Booker Type :</label>
-                                            <label class="radio-button-custom">
-                                                Corporate
-                                                <input type="radio" checked="checked" name="radio-booker-type">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                Individual
-                                                <input type="radio" name="radio-booker-type">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
+                                            <!--                                            <label>Booker Type :</label>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Corporate-->
+                                            <!--                                                <input type="radio" checked="checked" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Individual-->
+                                            <!--                                                <input type="radio" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
@@ -163,28 +164,27 @@
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="search_passenger('Booker','1','train')">Search <i class="fas fa-search"></i></button>
-                                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','activity');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result">
 
                                                         </div>
                                                     </div>
@@ -196,6 +196,7 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
@@ -210,6 +211,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -224,28 +226,26 @@
                                         <div class="col-lg-6">
                                             <br/>
                                             <label>Last name</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
-                                            </div>
+                                            <input type="text" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')" class="nice-select-default">
-                                                        {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')">
+                                                    {% for country in countries %}
+                                                    <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                    {% endfor %}
+                                                </select>
                                                 <input type="hidden" name="booker_nationality" id="booker_nationality" />
                                             </div>
                                         </div>
 
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -254,25 +254,26 @@
                                         </div>
 
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" placeholder="Nationality" onchange="auto_complete('booker_phone_code')" class="nice-select-default">
+                                                    <div class="input-container-search-ticket">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')">
                                                             {% for country in countries %}
                                                             <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                             {% endfor %}
                                                         </select>
+                                                        <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                     </div>
-                                                    <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                                     <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                         </div>
                                     </div>
                                 </div>
@@ -345,29 +346,28 @@
                                                         <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'tour')">Search</button>
-                                                        <div class="row" id="loading-pax-train" style="display:none;">
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_adult{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
@@ -378,6 +378,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -392,6 +393,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -408,6 +410,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -421,41 +424,40 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <br/>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
+                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')">
-                                                        <option value="">Country Of Issued</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                    <option value="">Country Of Issued</option>
+                                                    {% for country in countries %}
+                                                    <option value="{{country.code}}">{{country.name}}</option>
+                                                    {% endfor %}
+                                                </select>
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_email{{forloop.counter}}" id="adult_email{{forloop.counter}}" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -463,6 +465,7 @@
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
+                                            <label style="color:red">*</label>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
@@ -491,16 +494,20 @@
                                     {% with forloop.counter as counter%}
                                     {% for perpax in detail.options.perPax %}
                                     {% with forloop.counter as per_pax %}
-                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth' and perpax.name != 'Passport number' and perpax.name != 'Passport expiry date'%}
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>{{perpax.name}}</label><br/>
+                                            <label>{{perpax.name}}</label>
                                             {% if perpax.inputType == 1%}
-                                            <select id=adult_perpax{{counter}}_{{per_pax}} name=adult_perpax{{counter}}_{{per_pax}} onchange="input_type1_change_perpax({{counter}},'adult', {{per_pax}})">`;
-                                                {% for item in perpax.items %}
-                                                <option value="{{item.value}}">{{item.label}}</option>
-                                                {% endfor %}
-                                            </select><br/>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select id=adult_perpax{{counter}}_{{per_pax}} name=adult_perpax{{counter}}_{{per_pax}} onchange="input_type1_change_perpax({{counter}},'adult', {{per_pax}})">`;
+                                                        {% for item in perpax.items %}
+                                                        <option value="{{item.value}}">{{item.label}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <br/>
                                             {% elif perpax.inputType == 2%}
                                             {% for item in perpax.items %}
@@ -510,30 +517,31 @@
                                             {% endfor %}
                                             <br/>
                                             {% elif perpax.inputType == 3%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 4%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 5%}
                                             <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 6%}
-                                            <input type="date" class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
+                                            <input type="text" class="form-control perPaxDate" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 7%}
                                             <input type="file" accept="application/JSON, application/pdf" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}' />
                                             {% elif perpax.inputType == 8%}
                                             <input type="file" accept="image/*" required="" name='adult_perpax{{counter}}_{{per_pax}}' id='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 9%}
-                                            <input type='text' id='adult_perpax{{counter}}_{{per_pax}}' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" id='adult_perpax{{counter}}_{{per_pax}}' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 10%}
                                             <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 11%}
-                                            <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}0' name=adult_perpax{{counter}}_{{per_pax}}0/>
-                                            <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}1' name=adult_perpax{{counter}}_{{per_pax}}1/>
+                                            <input type="text" class="form-control perPaxDateTime" onchange="input_type11_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 12%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 14%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            {% elif perpax.inputType == 50%}
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'adult', {{per_pax}})" id='adult_perpax{{counter}}_{{per_pax}}' name='adult_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% endif %}
-                                            <label>{{perpax.description}}</label><br/>
+                                            <label>{{perpax.description}}</label>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -578,29 +586,28 @@
                                                         <h4 class="modal-title" style="color:white;">Senior - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Senior',{{forloop.counter}}, 'tour')">Search</button>
-                                                        <div class="row" id="loading-pax-train" style="display:none;">
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_senior{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_senior{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
@@ -611,6 +618,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -625,6 +633,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -641,6 +650,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -654,9 +664,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="senior_birth_date{{forloop.counter}}" id="senior_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'senior')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="senior_years_old{{forloop.counter}}" id="senior_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -671,7 +682,8 @@
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="senior_passport_expired_date{{forloop.counter}}" id="senior_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
+                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="senior_passport_expired_date{{forloop.counter}}" id="senior_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('senior', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -681,7 +693,7 @@
                                                     <select class="form-control js-example-basic-single" name="senior_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="senior_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('senior_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -724,16 +736,20 @@
                                     {% with forloop.counter as counter%}
                                     {% for perpax in detail.options.perPax %}
                                     {% with forloop.counter as per_pax %}
-                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth' and perpax.name != 'Passport number' and perpax.name != 'Passport expiry date'%}
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>{{perpax.name}}</label><br/>
+                                            <label>{{perpax.name}}</label>
                                             {% if perpax.inputType == 1%}
-                                            <select  onchange="input_type1_change_perpax({{counter}},'senior', {{per_pax}})" id=senior_perpax{{counter}}_{{per_pax}} name=senior_perpax{{counter}}_{{per_pax}} >`;
-                                                {% for item in perpax.items %}
-                                                <option value="{{item.value}}">{{item.label}}</option>
-                                                {% endfor %}
-                                            </select><br/>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select  onchange="input_type1_change_perpax({{counter}},'senior', {{per_pax}})" id=senior_perpax{{counter}}_{{per_pax}} name=senior_perpax{{counter}}_{{per_pax}} >`;
+                                                        {% for item in perpax.items %}
+                                                        <option value="{{item.value}}">{{item.label}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <br/>
                                             {% elif perpax.inputType == 2%}
                                             {% for item in perpax.items %}
@@ -743,32 +759,33 @@
                                             {% endfor %}
                                             <br/>
                                             {% elif perpax.inputType == 3%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 4%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 5%}
                                             <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}'  name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 6%}
-                                            <input type="date" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" class="form-control" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
+                                            <input type="text" class="form-control perPaxDate" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 7%}
                                             <input type="file" accept="application/JSON, application/pdf" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}' />
                                             {% elif perpax.inputType == 8%}
                                             <input type="file" accept="image/*" required="" name='senior_perpax{{counter}}_{{per_pax}}' id='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 9%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 10%}
                                             <input type="time" style="width:100%;height:20px;" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 11%}
-                                            <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}0' name=senior_perpax{{counter}}_{{per_pax}}0/>
-                                            <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}1' name=senior_perpax{{counter}}_{{per_pax}}1/>
+                                            <input type="text" class="form-control perPaxDateTime" onchange="input_type11_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 12%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 13%}
 
                                             {% elif perpax.inputType == 14%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            {% elif perpax.inputType == 50%}
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'senior', {{per_pax}})" id='senior_perpax{{counter}}_{{per_pax}}' name='senior_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% endif %}
-                                            <label>{{perpax.description}}</label><br/>
+                                            <label>{{perpax.description}}</label>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -813,29 +830,28 @@
                                                         <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Child',{{forloop.counter}}, 'tour')">Search</button>
-                                                        <div class="row" id="loading-paxc-train" style="display:none;">
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
@@ -846,6 +862,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -860,6 +877,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -876,6 +894,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -889,9 +908,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -906,7 +926,8 @@
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
+                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -916,7 +937,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -927,16 +948,20 @@
                                     {% with forloop.counter as counter%}
                                     {% for perpax in detail.options.perPax %}
                                     {% with forloop.counter as per_pax %}
-                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth'%}
+                                    {% if perpax.name != 'Guest age' and perpax.name != 'Nationality' and perpax.name != 'Full name' and perpax.name != 'Gender' and perpax.name != 'Date of birth' and perpax.name != 'Passport number' and perpax.name != 'Passport expiry date'%}
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label>{{perpax.name}}</label><br/>
+                                            <label>{{perpax.name}}</label>
                                             {% if perpax.inputType == 1%}
-                                            <select onchange="input_type1_change_perpax({{counter}},'child', {{per_pax}})" id=child_perpax{{counter}}_{{per_pax}} name=child_perpax{{counter}}_{{per_pax}} >`;
-                                                {% for item in perpax.items %}
-                                                <option value="{{item.value}}">{{item.label}}</option>
-                                                {% endfor %}
-                                            </select><br/>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select-2">
+                                                    <select onchange="input_type1_change_perpax({{counter}},'child', {{per_pax}})" id=child_perpax{{counter}}_{{per_pax}} name=child_perpax{{counter}}_{{per_pax}} >`;
+                                                        {% for item in perpax.items %}
+                                                        <option value="{{item.value}}">{{item.label}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
                                             <br/>
                                             {% elif perpax.inputType == 2%}
                                             {% for item in perpax.items %}
@@ -946,32 +971,33 @@
                                             {% endfor %}
                                             <br/>
                                             {% elif perpax.inputType == 3%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 4%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 5%}
                                             <input type="checkbox" onchange="input_type5_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 6%}
-                                            <input type="date" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" class="form-control" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
+                                            <input type="text" class="form-control perPaxDate" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 7%}
                                             <input type="file" accept="application/JSON, application/pdf" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}' />
                                             {% elif perpax.inputType == 8%}
                                             <input type="file" accept="image/*" required="" name='child_perpax{{counter}}_{{per_pax}}' id='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 9%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 10%}
                                             <input type="time" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" style="width:100%;height:20px;" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 11%}
-                                            <input type="text" onchange="input_type11_change_perpax({{counter}}, '0','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}0' name=child_perpax{{counter}}_{{per_pax}}0/>
-                                            <input type="time" onchange="input_type11_change_perpax({{counter}}, '1','child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}1' name=child_perpax{{counter}}_{{per_pax}}1/>
+                                            <input type="text" class="form-control perPaxDateTime" onchange="input_type11_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}'/>
                                             {% elif perpax.inputType == 12%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% elif perpax.inputType == 13%}
 
                                             {% elif perpax.inputType == 14%}
-                                            <input type='text' onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
+                                            {% elif perpax.inputType == 50%}
+                                            <input type='text' class="form-control" onchange="input_type_change_perpax({{counter}},'child', {{per_pax}})" id='child_perpax{{counter}}_{{per_pax}}' name='child_perpax{{counter}}_{{per_pax}}' style='display:block'/>
                                             {% endif %}
-                                            <label>{{perpax.description}}</label><br/>
+                                            <label>{{perpax.description}}</label>
                                         </div>
                                     </div>
                                     {% endif %}
@@ -1019,29 +1045,28 @@
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Infant',{{forloop.counter}}, 'tour')">Search</button>
-                                                        <div class="row" id="loading-paxi-train" style="display:none;">
+                                                    <div class="modal-body" style="text-align:left;">
+                                                        <div class="row" >
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_infant{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
@@ -1052,6 +1077,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2">
@@ -1066,6 +1092,7 @@
                                         <div class="col-lg-6"></div>
                                         <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
@@ -1082,6 +1109,7 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -1096,9 +1124,10 @@
 
                                         </div>
                                         <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
+                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -1113,7 +1142,8 @@
                                             <br/>
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '">
+                                                <input type="text" style="background:white;" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -1123,7 +1153,7 @@
                                                     <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -1150,10 +1180,49 @@
                             </div>
                         </div>
                         <br/>
-                        <div id="activity_detail_next_btn">
+                    </div>
 
+                    <div class="col-lg-8" style="margin-top:15px;">
+                        <div class="row">
+                            <div class="modal fade" id="myModalErrorPassenger" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <div style="max-height:300px; overflow-y:auto;">
+                                                        <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> We found a mistake in your data.</h5>
+                                                        <br/>
+                                                        <span id="show_error_log" style="font-size:15px;">
+
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
+                                <div id="activity_detail_next_btn">
+
+                                </div>
+                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                            </div>
                         </div>
                     </div>
+                    <input type="hidden" id="time_limit_input" name="time_limit_input" />
                 </div>
             </form>
         </div>
@@ -1257,6 +1326,27 @@
     });
 
     $(function() {
+      $('.perPaxDate').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'YYYY-MM-DD',
+          }
+      });
+      $('.perPaxDateTime').daterangepicker({
+          timePicker: true,
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'YYYY-MM-DD hh:mm',
+          }
+      });
       for (var i = 1; i <= adult; i++){
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,

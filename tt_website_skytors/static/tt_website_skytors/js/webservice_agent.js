@@ -856,7 +856,7 @@ function pick_passenger(type, sequence, product){
         passenger_data_pick[passenger_data_pick.length-1].sequence = 'infant'+passenger_number;
         auto_complete('infant_nationality'+passenger_number);
         $('#myModal_infant'+passenger_number).modal('hide');
-    }else if(type == 'Senior'){
+    }else if(type == 'senior'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'senior'+passenger_number){
                 passenger_data_pick.splice(i,1);
@@ -1102,7 +1102,7 @@ function check_date(value){
 }
 
 function check_time(value){
-    return value.match('/^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/') != null
+    return value.match('^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$') != null
 }
 
 function check_date_time(value){
