@@ -865,6 +865,11 @@ def sell_ssrs(request):
     except Exception as e:
         if request.session['airline_ssr_request'] == {}:
             logging.getLogger("error_logger").error("NO SSR")
+            res = {
+                'result':{
+                    'error_code': 0
+                }
+            }
         else:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -883,7 +888,7 @@ def assign_seats(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if request.session['airline_seat_request'] != {}:
+    if len(request.session['airline_seat_request']) != 0:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
@@ -891,8 +896,13 @@ def assign_seats(request):
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        if request.session['airline_ssr_request'] == {}:
-            logging.getLogger("error_logger").error("NO SSR")
+        if len(request.session['airline_ssr_request']) == 0:
+            logging.getLogger("error_logger").error("NO seat")
+            res = {
+                'result': {
+                    'error_code': 0
+                }
+            }
         else:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

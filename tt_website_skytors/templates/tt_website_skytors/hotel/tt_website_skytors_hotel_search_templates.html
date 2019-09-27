@@ -79,7 +79,7 @@
             </div>
 
             <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn text-uppercase" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                     Change Search
                 </button>
@@ -206,9 +206,9 @@
                             </div>
                         </div>
 
-                        <button class="primary-btn text-uppercase" onclick="hotel_search_check();" type="submit" value="Submit">
-                            <img src="{{static_path}}images/icon/hotel.png" style="width:25px; height:25px;"/>
-                            Search Hotel
+                        <button class="primary-btn" onclick="hotel_search_check();" type="submit" value="Submit">
+                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                            Search
                         </button>
                     </form>
                 </div>
@@ -219,8 +219,24 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
-        <div class="row align-items-center justify-content-between d-flex">
-            <div class="col-lg-12 col-md-12 col-sm-12" style="display:flex; padding-top:5px; padding-left:15px;">
+        <div class="row">
+            <div class="col-lg-12" style="position:sticky; top:67px; z-index:997; display:none;" id="mybuttonsticky">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:2px;">
+                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
+                            <span style="color:white; font-size:12px;"> Filter & Sorting </span>
+                        </button>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:2px;">
+                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
+                            <span style="color:white; font-size:12px;"> List Copy Hotel </span>
+                            <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-12" style="display:flex; padding-top:15px; padding-left:15px;">
                 <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
                     <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
                     <span style="padding-left:5px;">Home</span>
@@ -251,8 +267,6 @@
                     <span style="padding-left:5px;">Issued</span>
                 </div>
             </div>
-        </div>
-        <div class="row">
             <div class="col-lg-3">
                 <div class="modal fade" id="myModalFilterSort" role="dialog">
                     <div class="modal-dialog">
@@ -260,19 +274,19 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
-                                <button type="button" class="primary-btn-modal" data-dismiss="modal">CLOSE X</button>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <!--                                        <div id="filter2">-->
+                                        <div id="filter2">
 
-                                        <!--                                        </div>-->
+                                        </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                        <!--                                        <div id="sorting-flight2">-->
+                                        <div id="sorting-hotel2">
 
-                                        <!--                                        </div>-->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -356,11 +370,41 @@
                 <div class="row style-scrollbar" id="hotel_landmark" style="margin-bottom:10px; max-height:215px; overflow-y:auto; display:none;">
                 </div>
             </div>
+
+            <div class="col-lg-12">
+                <div class="modal fade" id="myModalCopyHotel" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" id="choose-hotel-copy">
+                                    <div class="col-lg-12">
+                                        <h6>Please choose your hotel want to copy!</h6>
+                                    </div>
+                                </div>
+                                <div id="show-list-copy-hotel">
+
+                                </div>
+                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 {% include 'tt_website_skytors/footer.html' %}
+
+<button class="myticket" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();" style="width:200px; border-radius:unset; height:40px;">
+    <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+</button>
+
 
 <script>
     guest_child_age2();
@@ -368,6 +412,66 @@
     hotel_filter_render();
 
     $(function() {
+      var quantity_room_hotel = parseInt($('#hotel_room').val());
+      var quantity_adult_hotel = parseInt($('#hotel_adult').val());
+      var quantity_child_hotel = parseInt($('#hotel_child').val());
+      if (quantity_room_hotel == 9){
+          document.getElementById("right-plus-room-hotel").disabled = true;
+          document.getElementById("left-minus-room-hotel").disabled = false;
+      }
+      else if(quantity_room_hotel == 1){
+          document.getElementById("left-minus-room-hotel").disabled = true;
+          document.getElementById("right-plus-room-hotel").disabled = false;
+      }
+      else{
+          document.getElementById("right-plus-room-hotel").disabled = false;
+          document.getElementById("left-minus-room-hotel").disabled = false;
+      }
+
+      if (quantity_room_hotel == quantity_adult_hotel){
+          document.getElementById("left-minus-adult-hotel").disabled = true;
+      }
+      else if (quantity_room_hotel < quantity_adult_hotel){
+          document.getElementById("left-minus-adult-hotel").disabled = false;
+      }
+
+      if (quantity_room_hotel > quantity_child_hotel){
+          document.getElementById("right-plus-child-hotel").disabled = false;
+      }
+      else{
+          document.getElementById("right-plus-child-hotel").disabled = true;
+      }
+
+      if(quantity_adult_hotel > quantity_room_hotel && quantity_adult_hotel < 18){
+          document.getElementById("left-minus-adult-hotel").disabled = false;
+          document.getElementById("right-plus-adult-hotel").disabled = false;
+      }
+      else if(quantity_adult_hotel == 18){
+          document.getElementById("left-minus-adult-hotel").disabled = false;
+          document.getElementById("right-plus-adult-hotel").disabled = true;
+      }
+
+      if(quantity_adult_hotel == quantity_room_hotel){
+          document.getElementById("left-minus-adult-hotel").disabled = true;
+      }
+      else{
+          document.getElementById("right-plus-adult-hotel").disabled = false;
+      }
+
+      if(quantity_child_hotel == quantity_room_hotel){
+          document.getElementById("right-plus-child-hotel").disabled = true;
+          document.getElementById("left-minus-child-hotel").disabled = false;
+      }
+      else if (quantity_child_hotel == 0){
+          document.getElementById("left-minus-child-hotel").disabled = true;
+          document.getElementById("right-plus-child-hotel").disabled = false;
+      }
+
+      if(quantity_child_hotel < quantity_room_hotel){
+          document.getElementById("right-plus-child-hotel").disabled = false;
+          document.getElementById("left-minus-child-hotel").disabled = false;
+      }
+
       var oneDay = 24*60*60*1000;
       var firstDate = new Date($("#hotel_checkin").val());
       var secondDate = new Date($("#hotel_checkout").val());

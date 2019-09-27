@@ -24,12 +24,30 @@ function signin(){
            success: function(msg) {
             console.log(msg);
             if(msg == true){
-                Swal.fire(
-                  'Correct',
-                  'Login Success!',
-                  'success'
-                )
-                gotoForm();
+                let timerInterval
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 2000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+                    gotoForm();
+                  }
+                })
             }else{
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
@@ -166,11 +184,12 @@ function get_customer_list(passenger, number, product){
                }
             });
         }else{
+            $('.loading-booker-train').hide();
             response = '';
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             document.getElementById('search_result').innerHTML = response;
         }
-        $('.loading-booker-train').hide();
+
     }else{
         $(".loading-pax-train").show();
         if(document.getElementById('train_'+passenger+number+'_search').value.length >= 2){
@@ -249,11 +268,11 @@ function get_customer_list(passenger, number, product){
                }
             });
         }else{
+            $('.loading-pax-train').hide();
             response = '';
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             document.getElementById('search_result_'+passenger+number).innerHTML = response;
         }
-        $('.loading-pax-train').hide();
     }
 }
 

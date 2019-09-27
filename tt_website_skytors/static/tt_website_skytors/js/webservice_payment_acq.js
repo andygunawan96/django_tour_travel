@@ -125,7 +125,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)));
+                        text+=getrupiah(document.getElementById('amount').value);
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
                     }
@@ -156,7 +156,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                        text += getrupiah((parseInt(document.getElementById('amount').value) + payment_acq2[payment_method][selected].price_component.unique_amount));
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
                     }
@@ -195,7 +195,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)));
+                        text+=getrupiah(document.getElementById('amount').value);
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
                     }
@@ -226,7 +226,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                        text+=getrupiah((parseInt(document.getElementById('amount').value) + payment_acq2[payment_method][selected].price_component.unique_amount));
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
                     }

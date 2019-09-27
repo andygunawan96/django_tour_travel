@@ -78,7 +78,6 @@
             //hotel_signin('home');
             get_airline_config('home');
             airline_search_value = 'false';
-
             //get_train_config('home');
             //get_visa_config('home');
             //tour_login('');
@@ -107,8 +106,9 @@
 {% include 'tt_website_skytors/header.html' %}
 {% include 'tt_website_skytors/logout.html' %}
 <!-- Search Ticket -->
+{% if username != null %}
 <div class="loader-rodextrip"></div>
-<div class="loader-airline" style="display:none;"></div>
+{% endif %}
 {%if template == 1%}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
     <div class="container">
@@ -344,7 +344,7 @@
 
                                 </div>
                                 <br/>
-                                <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
+                                <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -440,7 +440,7 @@
 
                                 <input type="hidden" id="train_response" name="response"/>
 
-                                <button class="primary-btn text-uppercase ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -559,7 +559,7 @@
                                 </div>
                                 <br/>
 
-                                <button class="button-search primary-btn text-uppercase ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
+                                <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -651,7 +651,7 @@
                                 </div>
                                 <br/>
 
-                                <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                <button class="primary-btn" type="submit" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                 </button>
@@ -715,7 +715,7 @@
                                 </div>
                                 <br/>
 
-                                <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                                <button class="primary-btn" type="submit" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                 </button>
@@ -758,7 +758,7 @@
                                 </div>
                                 <br/>
 
-                                <button class="button-search primary-btn text-uppercase ld-ext-right" type="submit" value="Submit">
+                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -1450,9 +1450,10 @@
                                 <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
                             </div>
                             <center>
-                                <button class="btn roberto-btn" type="button" onclick="airline_goto_search();" value="Submit">
+                                <button class="button-search btn roberto-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
+                                    <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </center>
                         </form>
@@ -2335,9 +2336,10 @@
                                     <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                                     <div class="col-lg-12" style="text-align:right; padding-top:15px;">
-                                        <button class="primary-btn text-center text-uppercase" type="button" onclick="airline_goto_search();" value="Submit">
+                                        <button class="button-search primary-btn text-center ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                             Search
+                                            <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </div>
                                 </div>
@@ -2436,9 +2438,10 @@
                                     <input type="hidden" id="train_response" name="response"/>
                                     <div class="col-lg-12">
                                         <center>
-                                            <button class="btn btn-default btn-lg text-center text-uppercase" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                            <button class="button-search btn btn-default btn-lg text-center ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
+                                                <div class="ld ld-ring ld-cycle"></div>
                                             </button>
                                         </center>
                                     </div>
@@ -2561,7 +2564,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <center>
-                                            <button class="btn btn-default btn-lg text-center text-uppercase" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
+                                            <button class="btn btn-default btn-lg text-center" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
                                             </button>
@@ -2660,7 +2663,7 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <center>
-                                        <button class="btn btn-default btn-lg text-center text-uppercase" type="submit" value="Submit">
+                                        <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
                                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                             Search
                                         </button>
@@ -2735,7 +2738,7 @@
                                     </div>
                                 </div>
                                 <center>
-                                    <button class="btn btn-default btn-lg text-center text-uppercase" type="submit" value="Submit">
+                                    <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
                                     </button>
@@ -2775,7 +2778,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <center>
-                                            <button class="btn btn-default btn-lg text-center text-uppercase" type="submit" value="Submit">
+                                            <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
                                             </button>
@@ -3260,9 +3263,10 @@
 
                                     <div class="col-xl-12">
                                         <center>
-                                            <button class="btn btn-primary rounded" type="button" onclick="airline_goto_search();" value="Submit">
+                                            <button class="button-search btn btn-primary rounded ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
+                                                <div class="ld ld-ring ld-cycle"></div>
                                             </button>
                                         </center>
                                     </div>
@@ -4116,7 +4120,11 @@
                                     </div>
                                     <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
                                     <div class="col-lg-12 d-flex justify-content-end">
-                                        <button class="primary-btn-2" type="button" onclick="airline_goto_search();" value="Submit"><img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/> SEARCH <span class="lnr lnr-arrow-right"></span></button>
+                                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            Search
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
                                     </div>
                                 </div>
                             </form>
@@ -4215,7 +4223,7 @@
                                     <input type="hidden" id="train_response" name="response"/>
                                     <div class="col-lg-12">
                                         <center>
-                                            <button class="btn btn-default btn-lg text-center text-uppercase" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                            <button class="btn btn-default btn-lg text-center" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
                                             </button>
@@ -4340,7 +4348,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <center>
-                                            <button class="btn btn-default btn-lg text-center text-uppercase" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
+                                            <button class="btn btn-default btn-lg text-center" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
                                             </button>
@@ -4439,7 +4447,7 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <center>
-                                        <button class="btn btn-default btn-lg text-center text-uppercase" type="submit" value="Submit">
+                                        <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
                                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                             Search
                                         </button>
@@ -4514,7 +4522,7 @@
                                     </div>
                                 </div>
                                 <center>
-                                    <button class="btn btn-default btn-lg text-center text-uppercase" type="submit" value="Submit">
+                                    <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
                                         <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                         Search
                                     </button>
@@ -4554,7 +4562,7 @@
                                     </div>
                                     <div class="col-lg-12">
                                         <center>
-                                            <button class="btn btn-default btn-lg text-center text-uppercase" type="submit" value="Submit">
+                                            <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
                                             </button>
