@@ -16,6 +16,7 @@
 
 
 <script>
+    signature = `{{signature}}`;
     $(document).ready(function() {
         $('#asdasd').datepicker({
             'format': 'd M yyyy',
@@ -409,11 +410,11 @@
                                         <span style="float:left;"><i class="fas fa-calendar-alt"></i> Check-in - Check-out</span>
                                         <div class="input-container-search-ticket">
 
-                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
                                             <i class="fas fa-moon icon-search-ticket" id="total_night_search">1</i>
 
-                                            <input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>
-                                            <input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>
+                                            <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
+                                            <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
                                         </div>
                                     </div>
                                 </div>
@@ -720,7 +721,6 @@
 
 
 <script>
-    hotel_detail(`{{response.external_code}}`);
     var myIndex = 0;
 
     $(function() {
@@ -745,8 +745,8 @@
         }
       });
       var oneDay = 24*60*60*1000;
-      var firstDate = new Date($("#checkin_date").val());
-      var secondDate = new Date($("#checkout_date").val());
+      var firstDate = new Date(`{{check_in}}`);
+      var secondDate = new Date(`{{check_out}}`);
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
       $("#total_night_search").text(diffDays);
 
@@ -754,8 +754,8 @@
           singleDatePicker: false,
           autoUpdateInput: true,
           opens: 'center',
-          startDate: moment().subtract(-1, 'days'),
-          endDate: moment().subtract(-2, 'days'),
+          startDate: firstDate,
+          endDate: secondDate,
           minDate: moment().subtract(-1, 'days'),
           maxDate: moment().subtract(-366, 'days'),
           showDropdowns: true,
@@ -763,7 +763,7 @@
               format: 'DD MMM YYYY',
           }
       });
-
+      hotel_detail_request(`{{response.external_code}}`);
       $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
           $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
             $("#checkin_date").val(picker.startDate.format('DD MMM YYYY'));

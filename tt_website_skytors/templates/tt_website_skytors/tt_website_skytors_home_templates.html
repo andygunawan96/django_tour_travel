@@ -4807,8 +4807,10 @@
 
         try{
             hotel_checkin = cache.hotel.checkin;
+            hotel_checkout = cache.hotel.checkout
         }catch(err){
             hotel_checkin = now;
+            hotel_checkout = moment().subtract(-2, 'days');
         }
         try{
             visa_date = cache.visa.date;
@@ -4847,7 +4849,7 @@
           autoUpdateInput: true,
           opens: 'center',
           startDate: hotel_checkin,
-          endDate: moment().subtract(-2, 'days'),
+          endDate: hotel_checkout,
           minDate: moment().subtract(-1, 'days'),
           maxDate: moment().subtract(-366, 'days'),
           showDropdowns: true,
@@ -4891,10 +4893,10 @@
     function change_date(type){
         if(type == 'checkin'){
             change_date_hotel('checkin');
-            hotel_detail(`{{response.external_code}}`);
+            hotel_detail_request(`{{response.external_code}}`);
         }else{
             change_date_hotel('checkout');
-            hotel_detail(`{{response.external_code}}`);
+            hotel_detail_request(`{{response.external_code}}`);
         }
     }
 

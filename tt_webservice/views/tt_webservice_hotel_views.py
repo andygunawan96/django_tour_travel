@@ -263,8 +263,8 @@ def detail(request):
         data = request.session['hotel_request_data']
         data.update({
             'hotel_id': request.session['hotel_detail']['id'],
-            'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
-            'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
+            'checkout_date': str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10],
+            'checkin_date': str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10],
             'pax_country': False
         })
         headers = {
