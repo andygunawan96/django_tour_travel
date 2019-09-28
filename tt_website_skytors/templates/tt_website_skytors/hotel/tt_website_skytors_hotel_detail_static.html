@@ -16,7 +16,6 @@
 
 
 <script>
-    signature = `{{signature}}`;
     $(document).ready(function() {
         $('#asdasd').datepicker({
             'format': 'd M yyyy',
@@ -89,8 +88,8 @@
                 <div class="col-lg-12 div-information-hotel" style="background:white; padding-top:5px; padding-bottom:40px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
-                            <span class="rating_hotel" hidden>3</span>
+                            <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">Airy Taman Remaja Kusuma Bangsa Surabaya</span>
+                            <span class="rating_hotel" hidden="">3</span>
                             <span>
                                 <i class="fas fa-star" style="color:#FFC44D;"></i>
                                 <i class="fas fa-star" style="color:#FFC44D;"></i>
@@ -98,23 +97,18 @@
                                 <i class="fas fa-star" style="color:#FFC44D;"></i>
                                 <i class="fas fa-star" style="color:#FFC44D;"></i>
                             </span>
-                            <br/>
+                            <br>
                             <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
-                            <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
-                            - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>
-                            <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor.png"/> 144 reviews
-                            <hr/>
+                            <span class="address_hotel">Jalan Kusuma Bangsa No.41, Surabaya, Surabaya, </span>
+                            - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br>
+                            <img style="height:20px; width:auto;" src="/static/tt_website_skytors/img/tripadvisor.png"> 144 reviews
+                            <hr>
                         </div>
 
                         <div class="col-lg-7" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="owl-carousel-hotel-img owl-theme">
-                                        <!--                                        {% for i in response.images %}-->
-                                        <!--                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">-->
-                                        <!--                                            <img class="img-fluid zoom-img" src="{{i.url}}" style="margin: auto; max-height:400px;" alt="">-->
-                                        <!--                                        </div>-->
-                                        <!--                                        {% endfor %}-->
                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
                                             <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-1.jpg" style="margin: auto; max-height:400px;" alt="">
                                         </div>
@@ -146,11 +140,6 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="owl-carousel-hotel owl-theme">
-                                        <!--                                        {% for i in response.images %}-->
-                                        <!--                                        <div class="item" style="cursor:pointer;">-->
-                                        <!--                                            <img class="img-fluid" src="{{i.url}}" style="max-width:100%; height:75px;">-->
-                                        <!--                                        </div>-->
-                                        <!--                                        {% endfor %}-->
                                         <div class="item" style="cursor:pointer;">
                                             <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" style="max-width:100%; height:75px;">
                                         </div>
@@ -410,17 +399,17 @@
                                         <span style="float:left;"><i class="fas fa-calendar-alt"></i> Check-in - Check-out</span>
                                         <div class="input-container-search-ticket">
 
-                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
+                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                             <i class="fas fa-moon icon-search-ticket" id="total_night_search">1</i>
 
-                                            <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
-                                            <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
+                                            <input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>
+                                            <input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="row" id="loading-detail-hotel">
+                            <div class="row" id="loading-detail-hotel" style="display: none;">
                                 <div class="col-lg-12">
                                     <div class="sk-circle">
                                         <div class="sk-circle1 sk-child"></div>
@@ -440,11 +429,85 @@
                                 </div>
                             </div>
                             <div id="select_copy_all">
-
-                            </div>
-                            <div id="detail_room_pick">
-
-                            </div>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span style="font-size:14px; font-weight:bold;">Room - 5 results</span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="check_box_custom" style="float:right;">
+                                                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                                                <input type="checkbox" id="check_all_copy" onchange="check_all_result_room();">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div></div></div>
+                            <div id="detail_room_pick1"><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result0" id="copy_result0" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">0</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="">1 Double</h4><span>DOUBLE QUEEN SIZE BED</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,440,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(0);" id="button0">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result1" id="copy_result1" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">1</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="" or="" 1="" twin="">1 Double or 1 Twin</h4><span>Room STANDARD</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,440,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(1);" id="button1">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result2" id="copy_result2" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">2</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="">1 Double</h4><span>Double room Queen bed</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: RO</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,470,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(2);" id="button2">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result3" id="copy_result3" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">3</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" twin="">1 Twin</h4><span>2 SINGLE BEDS STANDARD NON SMOKING</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,620,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(3);" id="button3">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result4" id="copy_result4" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">4</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="">1 Double</h4><span>QUEEN DELUXE NON SMOKING ROOM</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,740,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(4);" id="button4">Choose</button></div></div></div></div>
                         </div>
 
                         <div class="col-lg-4">
@@ -721,6 +784,7 @@
 
 
 <script>
+    hotel_detail(`{{response.external_code}}`);
     var myIndex = 0;
 
     $(function() {
@@ -745,8 +809,8 @@
         }
       });
       var oneDay = 24*60*60*1000;
-      var firstDate = new Date(`{{check_in}}`);
-      var secondDate = new Date(`{{check_out}}`);
+      var firstDate = new Date($("#checkin_date").val());
+      var secondDate = new Date($("#checkout_date").val());
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
       $("#total_night_search").text(diffDays);
 
@@ -754,8 +818,8 @@
           singleDatePicker: false,
           autoUpdateInput: true,
           opens: 'center',
-          startDate: firstDate,
-          endDate: secondDate,
+          startDate: moment().subtract(-1, 'days'),
+          endDate: moment().subtract(-2, 'days'),
           minDate: moment().subtract(-1, 'days'),
           maxDate: moment().subtract(-366, 'days'),
           showDropdowns: true,
@@ -763,7 +827,7 @@
               format: 'DD MMM YYYY',
           }
       });
-      hotel_detail_request(`{{response.external_code}}`);
+
       $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
           $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
             $("#checkin_date").val(picker.startDate.format('DD MMM YYYY'));
