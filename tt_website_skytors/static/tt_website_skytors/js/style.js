@@ -1848,3 +1848,14 @@ function active_sticky_hotel(type){
         $("#review-hotel").addClass("sticky-hotel-active");
     }
 }
+
+function active_sticky_activity(type){
+    if(type == "product"){
+        $(".content-activity").removeClass("sticky-activity-active");
+        $("#product-activity").addClass("sticky-activity-active");
+    }
+    else if(type == "description"){
+        $(".content-activity").removeClass("sticky-activity-active");
+        $("#description-activity").addClass("sticky-activity-active");
+    }
+}

@@ -245,24 +245,24 @@ function activity_get_price(val, bool){
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
-           text+=`<h3 style="padding:0 20px;">Validity</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Validity</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherUse != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Use</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Use</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRedemptionAddress != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Address</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Address</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Print</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Print</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
-           text+=`<h3 style="padding:0 20px;">Cancellation Policies</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Cancellation Policies</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
         }
 
         document.getElementById('vouchers').innerHTML = text;
@@ -466,18 +466,19 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                     text = '';
 
                    if(activity_type[activity_type_pick].timeslots.length>0){
-                       text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
-                                <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
-                       text += `<option value=''>Please Pick a Timeslot!</option>`;
+                       text += `<div class="col-xs-12">Timeslot</div>
+                                <div class="col-xs-12">
+                                <div class="form-select">
+                                <select style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+                       text += `<option value=''>Please Pick a Timeslot!</option></div>`;
                        for(j in activity_type[activity_type_pick].timeslots)
                        {
                             text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`">`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
                        }
-
                        text += `</select></div>`;
                    }
-
                    document.getElementById('timeslot').innerHTML = text;
+                   $('select').niceSelect();
 
                    for(i in msg.result.response[0]){
                        if(msg.result.response[0][i].available==true){

@@ -451,7 +451,6 @@ function activity_table_detail2(pagetype){
             </center>
        `;
        document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
-       document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
    }
 }
 
