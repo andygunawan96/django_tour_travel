@@ -17,6 +17,7 @@ from tools.parser import *
 
 MODEL_NAME = 'tt_website_skytors'
 
+
 def search(request):
     if 'user_account' in request.session._session:
         file = open("javascript_version.txt", "r")
@@ -86,6 +87,7 @@ def search(request):
     else:
         return no_session_logout()
 
+
 def detail(request):
     if 'user_account' in request.session._session:
         file = open("javascript_version.txt", "r")
@@ -131,6 +133,21 @@ def detail(request):
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_templates.html', values)
     else:
         return no_session_logout()
+
+
+def detail_static(request):
+    file = open("javascript_version.txt", "r")
+    for line in file:
+        javascript_version = json.loads(line)
+    file.close()
+    values = {
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'logo': '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png',
+        'template': 1
+    }
+    return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_static.html', values)
+
 
 def passengers(request):
     if 'user_account' in request.session._session:
@@ -205,6 +222,7 @@ def passengers(request):
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
     else:
         return no_session_logout()
+
 
 def review(request):
     if 'user_account' in request.session._session:
