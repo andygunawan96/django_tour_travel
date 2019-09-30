@@ -163,8 +163,8 @@ function airline_goto_search(){
             error_log+= 'Please use autocomplete for origin\n';
         if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for destination\n';
-        if(document.getElementById('origin_id_flight').value.split(' - ')[3] == document.getElementById('destination_id_flight').value.split(' - ')[3] && document.getElementById('destination_id_flight').value.split(' - ')[3] == 'Indonesia')
-            error_log+= "Sorry domestic airline still under development!\n";
+//        if(document.getElementById('origin_id_flight').value.split(' - ')[3] == document.getElementById('destination_id_flight').value.split(' - ')[3] && document.getElementById('destination_id_flight').value.split(' - ')[3] == 'Indonesia')
+//            error_log+= "Sorry domestic airline still under development!\n";
     }else{
         for(var i=1;i<=counter_airline_search;i++){
             if(document.getElementById('origin_id_flight'+i).value.split(' - ').length != 4)
