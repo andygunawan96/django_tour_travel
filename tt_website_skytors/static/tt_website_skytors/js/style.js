@@ -10,10 +10,11 @@ $(document).ready(function(){
       var status = document.getElementById('status');
 
       if ( navigator.onLine && status.classList.contains('off') ) {
-        status.innerHTML = 'Online';
+        status.innerHTML = 'Your are online';
         status.classList.remove('off');
         status.classList.add('on');
-        status.style.display = "none";
+        status.style.display = "block";
+        setTimeout(function(){ document.getElementById("status").innerHTML=""; status.classList.remove('off'); status.style.display = "none"; }, 3000);
       }
       if ( ! navigator.onLine && status.classList.contains('on') ) {
         status.innerHTML = 'Your are offline';
