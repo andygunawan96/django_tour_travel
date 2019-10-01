@@ -393,7 +393,14 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
                                 //checkbox
                                 for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                                    text+=`<span style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</span>`;
+                                    text+=`
+                                            <label class="check_box_custom">
+                                                <span style="font-size:13px;">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</span>
+                                                <input type="checkbox" id="perbooking`+i+j+`" name="perbooking`+i+j+`" onchange="input_type2_change_perbooking(`+i+`,`+j+`)" value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                    `;
+//                                    text+=`<span style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</span>`;
                                 }
                                 text+=`<br/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){

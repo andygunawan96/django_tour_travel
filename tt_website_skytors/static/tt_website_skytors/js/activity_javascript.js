@@ -531,9 +531,9 @@ function check_detail(){
     console.log(pax);
     console.log(activity_type[activity_type_pick].maxPax);
     if(pax > activity_type[activity_type_pick].maxPax)
-        text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax;
+        text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax+'</br>\n';
     if(pax < activity_type[activity_type_pick].minPax)
-        text+= 'Total Passenger must be more than '+activity_type[activity_type_pick].minPax;
+        text+= 'Total Passenger must be more than '+activity_type[activity_type_pick].minPax+'</br>\n';
 
     //check perbooking
     for(i in activity_type[activity_type_pick].options.perBooking){
