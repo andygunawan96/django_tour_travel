@@ -395,9 +395,9 @@ def update_service_charge(request):
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
