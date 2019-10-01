@@ -152,7 +152,7 @@ function get_customer_list(passenger, number, product){
                                     if(msg.result.response[i].phones.length != 0)
                                         response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
                                     if(msg.result.response[i].nationality_code != '')
-                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+` - `+msg.result.response[i].nationality_name+`</span>`;
                                     response+=`
                                 </td>`;
     //                            <td>`+msg.response.result[i].booker_type+`</td>
@@ -667,7 +667,7 @@ function pick_passenger(type, sequence, product){
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
         document.getElementById('booker_last_name').readOnly = true;
         if(passenger_data[sequence].nationality_code != '' && passenger_data[sequence].nationality_name != ''){
-            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_code;
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
             document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
         }
         document.getElementById('booker_email').value = passenger_data[sequence].email;
@@ -713,7 +713,7 @@ function pick_passenger(type, sequence, product){
         document.getElementById('adult_last_name'+passenger_number).readOnly = true;
         document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_code != ''){
-            document.getElementById('select2-adult_nationality_id'+passenger_number+'-container').innerHTML = passenger_data[sequence].nationality_name;
+            document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
             document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         }
         document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;

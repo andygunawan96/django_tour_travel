@@ -1702,12 +1702,12 @@ function sort(airline){
 
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
-                                            if(airline[i].elapsed_time_return.split(':')[0] != '0')
-                                                text+= airline[i].elapsed_time_return.split(':')[0] + 'd ';
-                                            if(airline[i].elapsed_time_return.split(':')[1] != '0')
-                                                text+= airline[i].elapsed_time_return.split(':')[1] + 'h ';
-                                            if(airline[i].elapsed_time_return.split(':')[2] != '0')
-                                                text+= airline[i].elapsed_time_return.split(':')[2] + 'm ';
+                                            if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
+                                                text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
+                                            if(airline[i].segments[j].elapsed_time.split(':')[1] != '0')
+                                                text+= airline[i].segments[j].elapsed_time.split(':')[1] + 'h ';
+                                            if(airline[i].segments[j].elapsed_time.split(':')[2] != '0')
+                                                text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                                             text+=`</span><br/>
                                                 <span>Transit: `+airline[i].segments[j].transit_count+`</span>
                                             </div>`;
