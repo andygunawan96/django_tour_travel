@@ -75,127 +75,132 @@
                     <span style="padding-left:5px;">Home</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">2</span>
+                <div class="breadcrumbs-rdx br-done">
+                    <span class="breadcrumb-rdx-icon br-icon-done">2</span>
                     <span style="padding-left:5px;">Search</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">3</span>
-                    <span style="padding-left:5px;">Passenger</span>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">3</span>
+                    <span style="padding-left:5px;">Detail</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>
                 <div class="breadcrumbs-rdx">
                     <span class="breadcrumb-rdx-icon">4</span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
                     <span style="padding-left:5px;">Issued</span>
                 </div>
             </div>
         </div>
-        <div class="row full_activity_details" style="margin-top:20px;">
+        <div class="row full_activity_details">
             <div class="col-lg-12">
                 <form method='POST' action="{% url 'tt_website_skytors:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="row">
-                        <input type="hidden" id="activity_uuid" name="activity_uuid" value="{{response.uuid}}"/>
+                    <div class="row" style="position:sticky;top: 66px;z-index: 814;">
                         <div class="col-lg-12">
-                            <span style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
-                            <span style="font-size:18px;">
+                            <div class="box-sticky-hotel">
+                                <button class="content-activity primary-btn-sticky-hotel" type="button" id="product-activity">Choose Product</button>
+                                <button class="content-activity primary-btn-sticky-hotel" type="button" id="description-activity">Description</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="div-product-activity" style="padding:0px 15px;">
+                        <input type="hidden" id="activity_uuid" name="activity_uuid" value="{{response.uuid}}"/>
+                        <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span style="font-size:18px; font-weight:700;">{{response.name}}</span>
+                                    <span style="font-size:14px;">
                                 <i class="fas fa-star" style="color:#FFC44D;"></i>
                                 {{response.reviewAverageScore}} ({{response.reviewCount}})
                             </span>
-                            <br/>
-                            <span style="font-size:18px;">
+                                    <br/>
+                                    <span style="font-size:13px;">
                                 <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
                                 {% for i in response.locations %}
                                 {{i.city_name}}, {{i.country_name}};
                                 {% endfor %}
                             </span>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12">
-                            <div id="activity_video_carousel">
-                                <div class="owl-carousel-activity-vid owl-theme">
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-7 col-md-7">
                                     {% for i in response.videos %}
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <video width="100%" height="360px" controls autoplay loop>
-                                                    <source src="{{i.url}}" type="video/mp4">
-                                                    Your browser does not support the video tag.
-                                                </video>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <video width="100%" height="360px" style="background:black;" controls autoplay loop>
+                                        <source src="{{i.url}}" type="video/mp4">
+                                        Your browser does not support the video tag.
+                                    </video>
                                     {% endfor %}
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-                            <div id="activity_carousel" style="object-fit: cover;">
-                                <div class="owl-carousel-activity-img owl-theme">
-                                    {% for i in response.images %}
-                                    <div class="item">
-                                        <div class="single-destination relative">
-                                            <div class="thumb relative">
-                                                <img class="img-fluid zoom-img" src="{{i.url}}{{i.path}}" alt="" style="display: block; width: 700px; height:360px; object-fit: contain;">
+                                <div class="col-lg-5 col-md-5">
+                                    <div id="activity_carousel" style="object-fit: cover;">
+                                        <div class="owl-carousel-activity-img owl-theme">
+                                            {% for i in response.images %}
+                                            <div class="item" style="background:black;">
+                                                <img class="img-fluid" src="{{i.url}}{{i.path}}" alt="" style="display: block; width: 700px; height:360px; object-fit: contain;">
                                             </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
-                                    {% endfor %}
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div class="row" style="padding:15px;">
-                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="background-color:white; border:1px solid #cdcdcd; padding: 0px;">
-                            <div class="col-lg-12" style="background-color: #f15a22; width:100%; height: 37px; padding-top:7px;"><i class="fa fa-shopping-cart" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Buy Now</span></div>
-                            <div class="row" style="padding: 15px;">
-                                <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12" id="ticket_detail">
-                                    <div class="row" style="padding-left:15px;">
-                                        <span style="font-weight:bold; font-size:13px;">Choose Product Type: </span>
-                                        <div class="input-group-btn" id="ticket_type" data-toggle="buttons" style="width: 100%; white-space: normal;">
+                            <div style="padding-top:30px;">
+                                <h5 style="padding-bottom:10px;">Choose Product Type: </h5>
+                                <div class="input-group-btn" id="ticket_type" data-toggle="buttons" style="width: 100%; white-space: normal;">
+
+                                </div>
+                            </div>
+                            <div class="row banner-right">
+                                <div class="col-lg-7 col-md-7" id="ticket_detail">
+                                    <div class="form-wrap" style="padding:0px;">
+                                        <div class="row" id="date" style="text-align:left;">
 
                                         </div>
-                                    </div>
-                                    <div class="row" style="padding:0px;margin-top:5px;" id="date">
-
-                                    </div>
-                                    <div id="loading-detail-activity" style="margin-bottom:20px;">
-                                        <div class="col-lg-12">
-                                            <div class="sk-circle">
-                                                <div class="sk-circle1 sk-child"></div>
-                                                <div class="sk-circle2 sk-child"></div>
-                                                <div class="sk-circle3 sk-child"></div>
-                                                <div class="sk-circle4 sk-child"></div>
-                                                <div class="sk-circle5 sk-child"></div>
-                                                <div class="sk-circle6 sk-child"></div>
-                                                <div class="sk-circle7 sk-child"></div>
-                                                <div class="sk-circle8 sk-child"></div>
-                                                <div class="sk-circle9 sk-child"></div>
-                                                <div class="sk-circle10 sk-child"></div>
-                                                <div class="sk-circle11 sk-child"></div>
-                                                <div class="sk-circle12 sk-child"></div>
+                                        <div id="loading-detail-activity" style="margin-bottom:20px;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                             </div>
-                                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                        </div>
+                                        <div class="row" id="event" style="text-align:left;">
+
+                                        </div>
+                                        <div class="row" id="pax" style="text-align:left;">
+
+                                        </div>
+                                        <div class="row" id="timeslot" style="text-align:left;">
+
+                                        </div>
+
+                                        <div class="row" style="text-align:left;" id="perbooking">
+
                                         </div>
                                     </div>
-                                    <div class="row" style="padding:0px;margin-top:5px;" id="event">
+                                    <div class="row" style="margin-top:15px;">
+                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6">
+                                            <div class="for-show-website" id="activity_detail_next_btn">
 
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="row" style="padding:0px;margin-top:5px; margin-left: -5px; margin-right: -5px;" id="pax">
-
-                                    </div>
-                                    <div class="row" style="padding:0px;margin-top:5px;" id="timeslot">
-
-                                    </div>
-
-                                    <div style="padding:0px;margin-top:5px;" id="perbooking">
-
-                                    </div>
-                                    <div class="modal fade" id="myModalErrorDetail" role="dialog">
+                                    <div style="text-align:left;" class="modal fade" id="myModalErrorDetail" role="dialog">
                                         <div class="modal-dialog">
                                             <!-- Modal content-->
                                             <div class="modal-content">
@@ -211,7 +216,7 @@
                                                                 <br/>
                                                                 <span id="show_error_log" style="font-size:15px;">
 
-                                                        </span>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -224,7 +229,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-md-5" id="ticket_price">
-                                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="activity_detail">
+                                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
                                         <h4> Price Detail </h4>
                                         <hr/>
                                         <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
@@ -235,14 +240,14 @@
                                         </div>
                                     </div>
                                     <br/>
-                                    <div id="activity_detail_next_btn">
+                                    <div class="for-show-mobile" id="activity_detail_next_btn2">
 
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row" style="padding:15px;">
+                    <div class="row" id="div-description-activity" style="padding:15px;">
                         <div class="col-lg-12" style="background-color:white; border:1px solid #cdcdcd; margin-top:5px; padding:0;">
                             <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
                                 <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
@@ -263,63 +268,63 @@
                                 </li>
                                 {% endif %}
                             </ul>
-                            <div class="tab-content">
-                                <div id="detail" class="tab-pane fade in active show">
+                            <div class="row tab-content">
+                                <div id="detail" class="col-lg-12 tab-pane fade in active show">
                                     {% if response.description != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Description</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.description | safe}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
                                     {% endif %}
                                     {% if response.highlights != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Highlights</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.highlights | safe}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
                                     {% endif %}
                                     {% if response.additionalInfo != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Additional Info</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.additionalInfo | safe}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
                                     {% endif %}
                                 </div>
-                                <div id="rules" class="tab-pane fade">
+                                <div id="rules" class="col-lg-12 tab-pane fade">
                                     {% if response.warnings != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Warnings</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.warnings | safe}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
                                     {% endif %}
                                     {% if response.safety != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Safety</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.safety | safe}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
                                     {% endif %}
                                 </div>
-                                <div id="prices" class="tab-pane fade">
+                                <div id="prices" class="col-lg-12 tab-pane fade">
                                     {% if response.priceIncludes != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Price Includes</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.priceIncludes}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
                                     {% endif %}
                                     {% if response.priceExcludes != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Price Excludes</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.priceExcludes}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
                                     {% endif %}
                                 </div>
-                                <div id="vouchers" class="tab-pane fade" id="vouchers">
+                                <div id="vouchers" class="col-lg-12 tab-pane fade"Vouch>
                                     {% if response.voucher_validity != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Validity</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.voucher_validity}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
                                     {% endif %}
                                     {% if response.voucherUse != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Use</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.voucherUse}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
                                     {% endif %}
                                     {% if response.voucherRedemptionAddress != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Address</h3>
-                                    <p style="padding:0 20pxtext-align:justify;">{{response.voucherRedemptionAddress}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
+                                    <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
                                     {% endif %}
                                     {% if response.voucherRequiresPrinting != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Voucher Print</h3>
-                                    <p style="padding:0 20px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
                                     {% endif %}
                                 </div>
-                                <div id="price_itinerary" class="tab-pane fade">
+                                <div id="price_itinerary" class="col-lg-12 tab-pane fade">
                                     {% if response.itinerary != '' %}
-                                    <h3 style="padding:0 20px; margin-bottom:10px;">Itinerary</h3>
-                                    <p style="padding:0 20px; text-align:justify">{{response.itinerary}}</p>
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
+                                    <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
                                     {% endif %}
                                 </div>
                             </div>
@@ -336,11 +341,39 @@
         </div>
     </div>
 </div>
+{% include 'tt_website_skytors/footer.html' %}
 
 
 <script>
     $( document ).ready(function() {
         activity_get_detail(`{{response.uuid}}`, `{{response.provider_id}}`);
+
+        $('#product-activity').click(function(e){
+            $('html, body').animate({
+                scrollTop: $("#div-product-activity").offset().top - 110
+            }, 500);
+            active_sticky_activity("product");
+        });
+        $('#description-activity').click(function(e){
+            $('html, body').animate({
+                scrollTop: $("#div-description-activity").offset().top - 90
+            }, 500);
+            active_sticky_activity("description");
+        });
+
+      $(window).scroll(function() {
+        if($(this).scrollTop()>=$('#div-product-activity').position().top-55 && $(this).scrollTop()<$('#div-description-activity').position().top-55){
+            active_sticky_activity("product");
+        }
+        else if($(this).scrollTop()>=$('#div-description-activity').position().top-55){
+            active_sticky_activity("description");
+        }
+        else if($(this).scrollTop() < $('#div-product-activity').position().top){
+            $(".content-activity").removeClass("sticky-activity-active");
+        }
+      });
+
+
     });
 
     var myIndex = 0;

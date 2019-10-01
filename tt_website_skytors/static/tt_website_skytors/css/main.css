@@ -2929,6 +2929,11 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #f15a22;
   color:white;
 }
+.sticky-activity-active{
+  background: #f15a22;
+  color:white;
+}
+
 
 .sorting-box{
     background-color:white;
@@ -6407,13 +6412,14 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 }
 
 .tab-menu-activity:hover {
-     color: black;
-     background-color:white;
+     color: white;
+     background-color:#C04B21;
+     text-decoration: unset;
 }
 
 .tab-menu-activity.active {
-     color: black;
-     background-color:white;
+     color: white;
+     background-color:#C04B21;
 }
 
 .nav-tabs-activity {
@@ -7451,4 +7457,26 @@ display: block;
 
 .nearby_all:hover{
     color:#C04B21 !important;
+}
+
+.status {
+  width: 100%;
+  padding: 15px;
+  font-size: 14px;
+  text-align: center;
+  font-family: sans-serif;
+  font-weight: bold;
+  color: #FFF;
+  transition: all .575s;
+  position:sticky;
+  top:67px;
+  z-index:1000;
+}
+
+.status.on {
+  background: #2DDE98;
+  text-shadow: 0 0 8px rgba(0,0,0,.4);
+}
+.status.off {
+  background: #ff6c5f;
 }

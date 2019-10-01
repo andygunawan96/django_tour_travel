@@ -51,145 +51,161 @@
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
-<section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black;">
-    <div class="animated fadeInDown delay-1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="padding:0;">
-                    <div class="banner-right">
-                        <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <span class="span-search-ticket">Activity Name </span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:0px;">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" value="{{query}}"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">Activity: {{query}}</span><br/>
+                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i> All Country, All Cities</span>
+                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i> All Types, All Categories, All Sub Categories</span><br/>
+            </div>
 
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <div class="form-select" id="default-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="auto_complete_activity('activity_countries');"  size="5" data-live-search="true" name="activity_countries">
-                                                    {% if not parsed_country %}
-                                                    <option value="" selected="">All Country</option>
-                                                    {% for country in activity_countries %}
-                                                    <option value="{{country.id}}">{{country.name}}</option>
-                                                    {% endfor %}
-                                                    {% else %}
-                                                    <option value="" selected="">All Country</option>
-                                                    {% for country in activity_countries %}
-                                                    {% if parsed_country == country.id %}
-                                                    <option value="{{country.id}}" selected>{{country.name}}</option>
-                                                    {% else %}
-                                                    <option value="{{country.id}}">{{country.name}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                            <div class="form-select">
-                                                <div id="temp_activity_cities">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                        <option value="" selected="">All Cities</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <div class="col-lg-12 search_type">
-                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                    {% if not parsed_type %}
-                                                    <option value="0" selected="">All Types</option>
-                                                    {% for type in activity_types %}
-                                                    <option value="{{type.id}}">{{type.name}}</option>
-                                                    {% endfor %}
-                                                    {% else %}
-                                                    <option value="0" selected="">All Types</option>
-                                                    {% for type in activity_types %}
-                                                    {% if parsed_type == type.id %}
-                                                    <option value="{{type.id}}" selected>{{type.name}}</option>
-                                                    {% else %}
-                                                    <option value="{{type.id}}">{{type.name}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                            <div class="form-select">
-                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="auto_complete_activity('activity_category');" name="activity_category" size="5">
-                                                    {% if not parsed_category %}
-                                                    <option value="0" selected="">All Categories</option>
-                                                    {% for category in activity_categories %}
-                                                    <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
-                                                    {% endfor %}
-                                                    {% else %}
-                                                    <option value="0" selected="">All Categories</option>
-                                                    {% for category in activity_categories %}
-                                                    {% if parsed_category == category.id %}
-                                                    <option value="{{category.id}} - {{category.name}}" selected>{{category.name}}</option>
-                                                    {% else %}
-                                                    <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                    {% endif %}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                            <div class="form-select">
-                                                <div id="temp_activity_sub_category">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                        <option value="0" selected="">All Sub Categories</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/>
-                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                Change Search
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    Change Search
+                </button>
             </div>
         </div>
     </div>
 </section>
 
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="padding:0;">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <span class="span-search-ticket">Activity Name </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:0px;">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" value="{{query}}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="form-select" id="default-select">
+                                            <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="auto_complete_activity('activity_countries');"  size="5" data-live-search="true" name="activity_countries">
+                                                {% if not parsed_country %}
+                                                <option value="" selected="">All Country</option>
+                                                {% for country in activity_countries %}
+                                                <option value="{{country.id}}">{{country.name}}</option>
+                                                {% endfor %}
+                                                {% else %}
+                                                <option value="" selected="">All Country</option>
+                                                {% for country in activity_countries %}
+                                                {% if parsed_country == country.id %}
+                                                <option value="{{country.id}}" selected>{{country.name}}</option>
+                                                {% else %}
+                                                <option value="{{country.id}}">{{country.name}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="form-select">
+                                            <div id="temp_activity_cities">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                    <option value="" selected="">All Cities</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 search_type">
+                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
+                                        <div class="form-select">
+                                            <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                {% if not parsed_type %}
+                                                <option value="0" selected="">All Types</option>
+                                                {% for type in activity_types %}
+                                                <option value="{{type.id}}">{{type.name}}</option>
+                                                {% endfor %}
+                                                {% else %}
+                                                <option value="0" selected="">All Types</option>
+                                                {% for type in activity_types %}
+                                                {% if parsed_type == type.id %}
+                                                <option value="{{type.id}}" selected>{{type.name}}</option>
+                                                {% else %}
+                                                <option value="{{type.id}}">{{type.name}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="form-select">
+                                            <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="auto_complete_activity('activity_category');" name="activity_category" size="5">
+                                                {% if not parsed_category %}
+                                                <option value="0" selected="">All Categories</option>
+                                                {% for category in activity_categories %}
+                                                <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
+                                                {% endfor %}
+                                                {% else %}
+                                                <option value="0" selected="">All Categories</option>
+                                                {% for category in activity_categories %}
+                                                {% if parsed_category == category.id %}
+                                                <option value="{{category.id}} - {{category.name}}" selected>{{category.name}}</option>
+                                                {% else %}
+                                                <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                        <div class="form-select">
+                                            <div id="temp_activity_sub_category">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                    <option value="0" selected="">All Sub Categories</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                            Search
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -207,11 +223,16 @@
                 </div>
                 <div class="breadcrumbs-rdx">
                     <span class="breadcrumb-rdx-icon">3</span>
-                    <span style="padding-left:5px;">Passenger</span>
+                    <span style="padding-left:5px;">Detail</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>
                 <div class="breadcrumbs-rdx">
                     <span class="breadcrumb-rdx-icon">4</span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
                     <span style="padding-left:5px;">Issued</span>
                 </div>
             </div>
@@ -298,91 +319,7 @@
     </div>
 </section>
 
-<footer class="footer-area section-gap">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn bb-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget mail-chimp">
-                    <h6 class="mb-20">InstaFeed</h6>
-                    <ul class="instafeed d-flex flex-wrap">
-                        <li><img src="{{static_path}}img/i1.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i2.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i3.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i4.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i5.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i6.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i7.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i8.jpg" alt=""></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
+{% include 'tt_website_skytors/footer.html' %}
 
 <script>
     activity_login('');

@@ -6,6 +6,35 @@ $(document).ready(function(){
     var sort_departure=0;
     var sort_arrival=0;
 
+    var checking = function() {
+      var status = document.getElementById('status');
+
+      if ( navigator.onLine && status.classList.contains('off') ) {
+        status.innerHTML = 'Your are online';
+        status.classList.remove('off');
+        status.classList.add('on');
+        status.style.display = "block";
+        setTimeout(function(){ document.getElementById("status").innerHTML=""; status.classList.remove('off'); status.style.display = "none"; }, 3000);
+      }
+      if ( ! navigator.onLine && status.classList.contains('on') ) {
+        status.innerHTML = 'Your are offline';
+        status.classList.remove('on');
+        status.classList.add('off'); // can't use .replace() because of Chrome
+        status.style.display = "block";
+      }
+    };
+
+    window.addEventListener('online', checking);
+    window.addEventListener('offline', checking);
+
+//    var slowLoad = window.setTimeout( function() {
+//        alert( "the page is taking its sweet time loading" );
+//    }, 10000 );
+//
+//    window.addEventListener( 'load', function() {
+//        window.clearTimeout( slowLoad );
+//    }, false );
+
     //$("html, body").animate({scrollTop: 0}, 1000);
     $("#myModalPopUp").modal('show');
 
@@ -1821,5 +1850,13 @@ function active_sticky_hotel(type){
     }
 }
 
-//1. Location nearby restaurant attraction dan getting there
-//2. reviews
+function active_sticky_activity(type){
+    if(type == "product"){
+        $(".content-activity").removeClass("sticky-activity-active");
+        $("#product-activity").addClass("sticky-activity-active");
+    }
+    else if(type == "description"){
+        $(".content-activity").removeClass("sticky-activity-active");
+        $("#description-activity").addClass("sticky-activity-active");
+    }
+}

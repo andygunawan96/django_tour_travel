@@ -106,8 +106,16 @@ function airline_signin(data){
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+           //alert(errorThrown);
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+       },timeout: 30000
     });
 
 }
@@ -260,8 +268,13 @@ function get_carrier_code_list(type, val){
                document.getElementById('provider_flight_content'+val).innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+
+       },timeout: 30000
     });
 
 }
@@ -283,8 +296,25 @@ function get_provider_list(){
            carrier_to_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+           Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+           $("#barFlightSearch").hide();
+           $("#waitFlightSearch").hide();
+           document.getElementById("airlines_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("airlines_error").appendChild(node);
+            node = document.createElement("div");
+       },timeout: 30000
     });
 
 }
@@ -413,8 +443,12 @@ function get_airline_config(type, val){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+       },timeout: 30000
     });
 }
 
@@ -532,7 +566,35 @@ function airline_search(provider,carrier_codes){
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            alert(errorThrown);
+        tt_website_skytors/static/tt_website_skytors/js/webservice_airline.js
+        airline_choose++;
+        var bar1 = new ldBar("#barFlightSearch");
+        var bar2 = document.getElementById('barFlightSearch').ldBar;
+        bar1.set((airline_choose/count_progress_bar_airline)*100);
+        if ((airline_choose/count_progress_bar_airline)*100 == 100){
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+        }
+       if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
+           Swal.fire({
+              type: 'error',
+              title: 'Oops '+errorThrown+' ...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+           $("#barFlightSearch").hide();
+           $("#waitFlightSearch").hide();
+           document.getElementById("airlines_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops `+errorThrown+`! Something went wrong, please try again or check your connection internet</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("airlines_error").appendChild(node);
+            node = document.createElement("div");
+        }
        },timeout: 60000 // sets timeout to 60 seconds
     });
 
@@ -1285,9 +1347,12 @@ function get_price_itinerary_request(){
            document.getElementById('airline_detail').innerHTML = text;
            $('#loading-search-flight').hide();
            $('#choose-ticket-flight').hide();
-           alert(errorThrown);
-
-       }
+           Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -1348,8 +1413,13 @@ function get_fare_rules(){
             $('.btn-next').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+           try{
+                for(var i=0;i<100;i++)//hardcode
+                    document.getElementById('rules'+i).innerHTML = '<b>Oops! Something went wrong, please choose / change again and check your connection internet</b>';
+            }catch(err){
+
+            }
+       },timeout: 30000
     });
 }
 
@@ -1382,11 +1452,15 @@ function airline_sell_journeys(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+           Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
            $('.loader-airline').fadeOut();
-       }
+       },timeout: 30000
     });
 
 }
@@ -1413,8 +1487,12 @@ function get_seat_availability(type){
                 alert(msg.result.error_msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -1464,8 +1542,12 @@ function get_seat_map_response(){
             show_seat_map(set_seat_show_segments, true)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -1639,8 +1721,12 @@ function get_ssr_availabilty(type){
                 alert(msg.result.error_msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -1768,8 +1854,12 @@ function airline_update_contact_booker(val){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -1791,8 +1881,12 @@ function airline_set_ssr(val){
                 airline_assign_seats(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       }, timeout: 30000
     });
 }
 
@@ -1814,8 +1908,12 @@ function airline_assign_seats(val){
                airline_commit_booking(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -1852,8 +1950,12 @@ function airline_commit_booking(val){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 }
 
@@ -2404,7 +2506,7 @@ function airline_get_booking(data){
             }
 
             document.getElementById('airline_detail').innerHTML = text;
-            loadingReviewHide();
+            $("#show_loading_booking_airline").hide();
 
             //
             text = `
@@ -2442,6 +2544,7 @@ function airline_get_booking(data){
             </div>`;
             //
             document.getElementById('airline_booking').innerHTML += text;
+            document.getElementById('show_title_airline').hidden = false;
             document.getElementById('show_loading_booking_airline').hidden = true;
             add_repricing();
             if (msg.result.response.state != 'booked'){
@@ -2462,8 +2565,14 @@ function airline_get_booking(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          $("#show_loading_booking_airline").hide();
+          $("#show_error_booking_airline").show();
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 60000
     });
 }
 
@@ -2477,6 +2586,7 @@ function airline_issued(data){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        show_loading();
         getToken();
         $.ajax({
            type: "POST",
@@ -2681,18 +2791,20 @@ function airline_issued(data){
                     logout();
                }else{
                     alert(msg.result.error_msg);
-                    $('.issued-booking-train').prop('disabled', false);
-                    $('.issued-booking-train').removeClass("running");
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
-           }
+              Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong, please try again or check your connection internet',
+               })
+           },timeout: 60000
         });
       }
     })
-
-
 }
 
 function update_service_charge(data){
@@ -2741,8 +2853,12 @@ function update_service_charge(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+       },timeout: 30000
     });
 
 }
@@ -2804,9 +2920,14 @@ function sell_ssrs_after_sales(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
-       }
+       },timeout: 30000
     });
 }

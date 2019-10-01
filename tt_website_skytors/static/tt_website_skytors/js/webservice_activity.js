@@ -198,14 +198,14 @@ function activity_get_detail(uuid, provider){
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
@@ -245,31 +245,31 @@ function activity_get_price(val, bool){
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
-           text+=`<h3 style="padding:0 20px;">Validity</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Validity</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherUse != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Use</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Use</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRedemptionAddress != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Address</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Address</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Print</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Print</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
-           text+=`<h3 style="padding:0 20px;">Cancellation Policies</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Cancellation Policies</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
         }
 
         document.getElementById('vouchers').innerHTML = text;
         document.getElementById('date').innerHTML = `
-            <div class="col-sm-6 form-group departure_date" style="padding:15px;">
-                <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
-                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control calendar-logo" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
+            <div class="col-lg-6 form-group departure_date">
+                <label id="departure_date_activity_label" for="activity_date"><span style="color:red;">* </span><i class="fas fa-calendar-alt"></i> Visit Date</label>
+                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control" style="margin-bottom:unset;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
                 <div id="activity_date_desc"></div>
             </div>
        `;
@@ -294,6 +294,7 @@ function activity_get_price(val, bool){
 function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('activity_detail_table').innerHTML = '';
     document.getElementById('activity_detail_next_btn').innerHTML = '';
+    document.getElementById('activity_detail_next_btn2').innerHTML = '';
     document.getElementById('pax').innerHTML = '';
     document.getElementById('event').innerHTML = '';
     document.getElementById('timeslot').innerHTML = '';
@@ -354,18 +355,22 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    for(i in activity_type[activity_type_pick].skus)
                    {
                         low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
-                        text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                                    <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
-                                    <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
-                                    <select class='form-control adult-icon activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                        text+= `<div class="col-lg-3">
+                            <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
+                            <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
                                     for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
                                     text+=`
                                         <option>`+j+`</option>`;
                                     text+=`</select>
-                                </div>`;
+                                </div>
+                            </div>
+                        </div>`;
                    }
-
                    document.getElementById('pax').innerHTML = text;
+                   $('select').niceSelect();
                    document.getElementById('details_div').innerHTML = `<input type='hidden' id='details_data' name='details_data' value='`+detail_for_session+`'/>`;
                    text = '';
                    for(i in activity_type[activity_type_pick].options.perBooking){
@@ -374,7 +379,8 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Gender' &&
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Nationality' &&
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
-                            text+=`<label style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</label>`;
+                            text+=`<div class="col-lg-6">`
+                            text+=`<span style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</span>`;
                             if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
                                 //selection button
                                 text+=`<select class="form-control" id=perbooking`+i+` name=perbooking`+i+` onchange='input_type1_change_perbooking(`+i+`)'>`;
@@ -387,21 +393,21 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
                                 //checkbox
                                 for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                                    text+=`<label style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+                                    text+=`<span style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</span>`;
                                 }
                                 text+=`<br/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){
                                 //number validation
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 4){
                                 //string validation
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block;' />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 5){
                                 //boolean checkbox true false
                                 text+=`<input type="checkbox" id=perbooking`+i+`  name=perbooking`+i+` onchange='input_type5_change_perbooking(`+i+`)' />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 6){
                                 //date
-                                text+=`<input type="text" class="form-control calendar-logo" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
+                                text+=`<input type="text" class="form-control" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
                                 //file //pdf
                                 text+=`<input type="file" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name=perbooking`+i+` id=perbooking`+i+` />`;
@@ -410,26 +416,26 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                 text+=`<input type="file" accept="image/*" required="" name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' id=perbooking`+i+` />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 9){
                                 //address no validation maybe from bemyguest
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10){
                                 //time validation
                                 text+=`<input type="time" style="width:100%;height:20px;" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
                                 //datetime validation
-                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+` onchange='input_type11_change_perbooking(`+i+`)' name=perbooking`+i+` style=""/>`;
+                                text+=`<input class="form-control" type="text" id=perbooking`+i+` onchange='input_type11_change_perbooking(`+i+`)' name=perbooking`+i+` style=""/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12){
                                 //string country
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 13){
                                 //deprecated
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14){
                                 //flight number
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 50){
                                 //string validation
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block;'/>`;
                             }
-                            text+=`<label>`+activity_type[activity_type_pick].options.perBooking[i].description+`</label><br/>`;
+                            text+=`<span>`+activity_type[activity_type_pick].options.perBooking[i].description+`</span><br/></div>`;
                         }
                     }
                    document.getElementById('perbooking').innerHTML = text;
@@ -460,18 +466,19 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                     text = '';
 
                    if(activity_type[activity_type_pick].timeslots.length>0){
-                       text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
-                                <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
-                       text += `<option value=''>Please Pick a Timeslot!</option>`;
+                       text += `<div class="col-xs-12">Timeslot</div>
+                                <div class="col-xs-12">
+                                <div class="form-select">
+                                <select style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+                       text += `<option value=''>Please Pick a Timeslot!</option></div>`;
                        for(j in activity_type[activity_type_pick].timeslots)
                        {
                             text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`">`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
                        }
-
                        text += `</select></div>`;
                    }
-
                    document.getElementById('timeslot').innerHTML = text;
+                   $('select').niceSelect();
 
                    for(i in msg.result.response[0]){
                        if(msg.result.response[0][i].available==true){
