@@ -1375,27 +1375,37 @@ function get_fare_rules(){
             text_fare = '';
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.fare_rule_provider){
-                    for(j in msg.result.response.fare_rule_provider[i].journeys){
-                        text_fare+=`
-                        <span id="span-tac-up`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                        <span id="span-tac-down`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
-                        <div id="div-tac`+count_fare+`" style="display:block;">`;
-                        for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
-                            if(msg.result.response.fare_rule_provider[i].journeys[j].rules[k] != ""){
-                                text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</span><br/>`;
+                    if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
+                        for(j in msg.result.response.fare_rule_provider[i].journeys){
+                            text_fare+=`
+                            <span id="span-tac-up`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                            <span id="span-tac-down`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                            <div id="div-tac`+count_fare+`" style="display:block;">`;
+                            for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
+                                if(msg.result.response.fare_rule_provider[i].journeys[j].rules[k] != ""){
+                                    text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</span><br/>`;
+                                }
                             }
+                            if(msg.result.response.fare_rule_provider[i].journeys[j].rules.length == 0)
+                                text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
+                            text_fare+=`</div>`;
+                            try{
+                                document.getElementById('rules'+count_fare).innerHTML = text_fare;
+                            }catch(err){
+
+                            }
+                            text_fare = '';
                         }
-                        if(msg.result.response.fare_rule_provider[i].journeys[j].rules.length == 0)
-                            text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
-                        text_fare+=`</div>`;
+                        count_fare++;
+                    }else{
                         try{
-                            document.getElementById('rules'+count_fare).innerHTML = text_fare;
+                            for(var i=0;i<100;i++)//hardcode
+                                document.getElementById('rules'+i).innerHTML = 'No fare rules';
                         }catch(err){
 
                         }
-                        text_fare = '';
                     }
-                    count_fare++;
+
                 }
 
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1407,7 +1417,6 @@ function get_fare_rules(){
                 }catch(err){
 
                 }
-                alert(msg.result.error_msg);
             }
             $('.btn-next').prop('disabled', false);
        },

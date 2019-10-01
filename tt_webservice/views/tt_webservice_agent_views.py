@@ -300,6 +300,20 @@ def get_url():
 
 def get_customer_list(request):
     try:
+        upper = 200
+        lower = 0
+        #define per product DEFAULT 0 - 200 / AMBIL SEMUA PASSENGER
+        #check jos
+        if request.POST['product'] == 'airline':
+            if request.POST['passenger_type'] == 'adult':
+                upper = 200
+                lower = 12
+            elif request.POST['passenger_type'] == 'child':
+                upper = 11
+                lower = 3
+            elif request.POST['passenger_type'] == 'infant':
+                upper = 2
+                lower = 0
         data = {
             'name': request.POST['name'],
             'upper': 200,
