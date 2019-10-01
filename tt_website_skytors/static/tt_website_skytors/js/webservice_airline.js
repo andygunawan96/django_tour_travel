@@ -2800,6 +2800,8 @@ function airline_issued(data){
                   title: 'Oops...',
                   text: 'Something went wrong, please try again or check your connection internet',
                })
+               $('.hold-seat-booking-train').prop('disabled', false);
+               $('.hold-seat-booking-train').removeClass("running");
            },timeout: 60000
         });
       }

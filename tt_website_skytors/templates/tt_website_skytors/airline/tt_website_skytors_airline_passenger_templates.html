@@ -76,31 +76,8 @@
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
                     <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                        <span style="padding-left:5px;">Home</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
-                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                        <span style="padding-left:5px;">Search</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx br-active">
-                        <span class="breadcrumb-rdx-icon br-icon-active">3</span>
-                        <span style="padding-left:5px;">Passenger</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx">
-                        <span class="breadcrumb-rdx-icon">4</span>
-                        <span style="padding-left:5px;">Booking</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx">
-                        <span class="breadcrumb-rdx-icon">5</span>
-                        <span style="padding-left:5px;">Issued</span>
-                    </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
                 </div>
                 <!--                <div class="col-lg-12">-->
                 <!--                    <ul class="progressbar">-->
@@ -123,6 +100,7 @@
         </div>
     </div>
 </header>
+{% include 'tt_website_skytors/check_connection.html' %}
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -3936,12 +3914,13 @@
         </form>
     </div>
 </section>
-
 {% endif %}
 
 <script>
     airline_detail('');
     $( document ).ready(function() {
+      breadcrumb_create("airline", 3, 0);
+
       if(template != 4){
         $('.js-example-basic-single').niceSelect('destroy');
       }
