@@ -566,7 +566,6 @@ function airline_search(provider,carrier_codes){
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-        tt_website_skytors/static/tt_website_skytors/js/webservice_airline.js
         airline_choose++;
         var bar1 = new ldBar("#barFlightSearch");
         var bar2 = document.getElementById('barFlightSearch').ldBar;
