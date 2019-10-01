@@ -55,11 +55,52 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">Activity: {{query}}</span><br/>
-                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i> All Country, All Cities</span>
-                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i> All Types, All Categories, All Sub Categories</span><br/>
+                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                    <span id="search_country_name">
+                        {% if not parsed_country %}
+                        All Countries
+                        {% else %}
+                        {% for country in activity_countries %}
+                        {% if parsed_country == country.id %}
+                        {{country.name}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_city_name">
+                        All Cities
+                    </span>
+                </span>
+                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
+                    <span id="search_type_name">
+                        {% if not parsed_type %}
+                        All Types
+                        {% else %}
+                        {% for type in activity_types %}
+                        {% if parsed_type == type.id %}
+                        {{type.name}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_category_name">
+                        {% if not parsed_category %}
+                        All Categories
+                        {% else %}
+                        {% for category in activity_categories %}
+                        {% if parsed_category == category.id %}
+                        {{category.name}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_sub_category_name">
+                        All Sub Categories
+                    </span>
+                </span>
+                <br/>
             </div>
-
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
@@ -348,6 +389,9 @@
         {% if parsed_category %}
             auto_complete_activity('activity_category', {{parsed_sub_category}});
         {% endif %}
+
+        get_city_search_name({{parsed_city}});
+        get_sub_cat_name({{parsed_sub_category}});
     });
 </script>
 

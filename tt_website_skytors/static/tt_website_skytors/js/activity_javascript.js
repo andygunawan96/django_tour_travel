@@ -126,6 +126,50 @@ function set_city(country_id, current_city_id=0){
     $('#activity_cities').niceSelect('update');
 }
 
+function get_sub_cat_name(current_sub_id=0){
+    search_sub_cat_name = 'All Sub Categories';
+    sel_objs = $('#activity_category').select2('data');
+    category_id = 0;
+    for (i in sel_objs)
+    {
+        category_id = sel_objs[i].id;
+    }
+    var sub_category_list = sub_category[category_id.split(' - ')[1]];
+    for(i in sub_category_list){
+        if (sub_category_list[i].id == current_sub_id)
+        {
+            search_sub_cat_name = sub_category_list[i].name;
+        }
+    }
+
+    document.getElementById('search_sub_category_name').innerHTML = search_sub_cat_name;
+}
+
+function get_city_search_name(current_city_id=0){
+    search_city_name = 'All Cities';
+    sel_objs = $('#activity_countries').select2('data');
+    country_id = 0;
+    for (i in sel_objs)
+    {
+        country_id = sel_objs[i].id;
+    }
+    var country = {};
+    for(i in activity_country){
+       if(activity_country[i].id == parseInt(country_id)){
+           country = activity_country[i];
+           break;
+       }
+    }
+    for(i in country.city){
+        if (country.city[i].id == current_city_id)
+        {
+            search_city_name = country.city[i].name;
+        }
+    }
+
+    document.getElementById('search_city_name').innerHTML = search_city_name;
+}
+
 function auto_complete_activity(type, current_opt=0){
     sel_objs = $('#'+type).select2('data');
     temp_obj_id = 0;
