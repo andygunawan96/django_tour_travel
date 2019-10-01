@@ -41,6 +41,7 @@
     airline_pick = airline_pick.replace(/False/g, 'false');
     //airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
+    airline_pick = airline_pick.replace('None', '""');
     console.log(airline_pick);
     airline_pick = JSON.parse(airline_pick);
     price_itinerary = `{{price}}`;

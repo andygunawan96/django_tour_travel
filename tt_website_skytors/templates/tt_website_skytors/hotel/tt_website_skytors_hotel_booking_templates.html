@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
+    signature = `{{signature}}`;
     time = 300;
     triggered_balance();
     document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});

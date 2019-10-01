@@ -6493,9 +6493,10 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 
 .img-hotel-search {
     width: auto;
-    height: 175px;
+    height: 185px;
     background-size:cover;
     background-position:50% 50%;
+    border-radius: 3px;
 }
 .img-hotel-search-c {
     width: auto;

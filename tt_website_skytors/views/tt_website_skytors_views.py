@@ -139,8 +139,8 @@ def index(request):
 
                     try:
                         cache['hotel'] = {
-                                'checkin': request.session['hotel_request']['check_in'],
-                                'checkout': request.session['hotel_request']['check_out']
+                                'checkin': request.session['hotel_request']['checkin_date'],
+                                'checkout': request.session['hotel_request']['checkout_date']
                             }
                     except:
                         pass

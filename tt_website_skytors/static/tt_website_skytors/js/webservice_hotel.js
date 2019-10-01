@@ -198,11 +198,10 @@ function get_top_facility(){
     });
 }
 
-function hotel_detail(id){
-    clearTimeout(myVar);
-    myVar = setTimeout(function() {
+function hotel_detail_request(id){
     document.getElementById("detail_room_pick").innerHTML = '';
     document.getElementById('hotel_detail_table').innerHTML = '';
+    document.getElementById("select_copy_all").innerHTML = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -213,14 +212,13 @@ function hotel_detail(id){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'external_code':id,
-            'checkin_date': document.getElementById('checkin_date').value,
-            'checkout_date': document.getElementById('checkout_date').value,
+            'checkin_date': document.getElementById('hotel_checkin_checkout').value.split(' - ')[0],
+            'checkout_date': document.getElementById('hotel_checkin_checkout').value.split(' - ')[1],
             'signature': '',
        },
        success: function(msg) {
         console.log(msg);
         //show package
-
         var result = msg.result.response;
         text='';
         text2='';
@@ -350,7 +348,6 @@ function hotel_detail(id){
            alert(errorThrown);
        }
     });
-    },500);
 }
 
 function hotel_get_cancellation_policy(price_code, provider){

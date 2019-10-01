@@ -431,7 +431,9 @@ def search2(request):
     try:
         response_search = res['result']
     except:
-        response_search = res
+        response_search = {
+            'result': res
+        }
     return response_search
 
 def get_data(request):

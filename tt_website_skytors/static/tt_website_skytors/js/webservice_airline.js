@@ -566,6 +566,7 @@ function airline_search(provider,carrier_codes){
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+        tt_website_skytors/static/tt_website_skytors/js/webservice_airline.js
         airline_choose++;
         var bar1 = new ldBar("#barFlightSearch");
         var bar2 = document.getElementById('barFlightSearch').ldBar;
@@ -594,7 +595,7 @@ function airline_search(provider,carrier_codes){
             document.getElementById("airlines_error").appendChild(node);
             node = document.createElement("div");
         }
-       },timeout: 30000
+       },timeout: 60000 // sets timeout to 60 seconds
     });
 
 }
@@ -1385,6 +1386,8 @@ function get_fare_rules(){
                                 text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</span><br/>`;
                             }
                         }
+                        if(msg.result.response.fare_rule_provider[i].journeys[j].rules.length == 0)
+                            text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
                         text_fare+=`</div>`;
                         try{
                             document.getElementById('rules'+count_fare).innerHTML = text_fare;
@@ -2602,43 +2605,48 @@ function airline_issued(data){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
-                   text_error = ''
-                   for(pax in msg.result.response.passengers){
-                        ticket = '';
-                        for(provider in msg.result.response.provider_bookings){
-                            if(msg.result.response.provider_bookings[i].error_msg.length != 0)
-                   text_error+=`<div class="alert alert-danger">
-                                    Invalid PNR or Order Number or Name
-                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
-                                </div>`;
-                            ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
-                            if(provider != msg.result.response.provider_bookings.length - 1)
-                                ticket += ', ';
-                        }
-                        document.getElementById('passenger_ticket_'+pax).innerHTML = ticket;
-                        document.getElementById('airline_booking').innerHTML = text_error + document.getElementById('airline_booking').innerHTML;
-                    }
-
-                   //document.getElementById('issued-breadcrumb').classList.add("active");
-                   //document.getElementById('issued-breadcrumb').classList.remove("current");
-                   document.getElementById('issued-breadcrumb').classList.add("br-active");
-                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                   document.getElementById('success-issued').style.display = "block";
-                   document.getElementById('button-choose-print').value = "Print Ticket";
-                   document.getElementById('button-choose-print').type = "button";
-                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+'/1';
-                   document.getElementById('button-print-print').value = "Print Ticket (with Price)";
-                   document.getElementById('button-print-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+"/2";
-                   document.getElementById('button-issued-print').value = "Print Invoice";
-                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/"+msg.result.response.order_number+'/4';
-                   document.getElementById('seat-map-link').href="#";
-                   document.getElementById('seat-map-link').hidden=false;
-                   document.getElementById('print_invoice').href="#";
-                   document.getElementById('print_invoice').hidden=false;
-                   document.getElementById('pnr').innerHTML="Issued";
-                   //$('.issued-booking-train').removeClass("running");
+                   document.getElementById('show_loading_booking_airline').hidden = false;
+                   document.getElementById('airline_booking').innerHTML = '';
+                   document.getElementById('airline_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
+                   airline_get_booking(msg.result.response.order_number);
+//                   text_error = ''
+//                   for(pax in msg.result.response.passengers){
+//                        ticket = '';
+//                        for(provider in msg.result.response.provider_bookings){
+//                            if(msg.result.response.provider_bookings[i].error_msg.length != 0)
+//                   text_error+=`<div class="alert alert-danger">
+//                                    Invalid PNR or Order Number or Name
+//                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
+//                                </div>`;
+//                            ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
+//                            if(provider != msg.result.response.provider_bookings.length - 1)
+//                                ticket += ', ';
+//                        }
+//                        document.getElementById('passenger_ticket_'+pax).innerHTML = ticket;
+//                        document.getElementById('airline_booking').innerHTML = text_error + document.getElementById('airline_booking').innerHTML;
+//                    }
+//
+//                   //document.getElementById('issued-breadcrumb').classList.add("active");
+//                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+//                   document.getElementById('issued-breadcrumb').classList.add("br-active");
+//                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+//                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+//                   document.getElementById('success-issued').style.display = "block";
+//                   document.getElementById('button-choose-print').value = "Print Ticket";
+//                   document.getElementById('button-choose-print').type = "button";
+//                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+'/1';
+//                   document.getElementById('button-print-print').value = "Print Ticket (with Price)";
+//                   document.getElementById('button-print-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+"/2";
+//                   document.getElementById('button-issued-print').value = "Print Invoice";
+//                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/"+msg.result.response.order_number+'/4';
+//                   document.getElementById('seat-map-link').href="#";
+//                   document.getElementById('seat-map-link').hidden=false;
+//                   document.getElementById('print_invoice').href="#";
+//                   document.getElementById('print_invoice').hidden=false;
+//                   document.getElementById('pnr').innerHTML="Issued";
+//                   //$('.issued-booking-train').removeClass("running");
+//                   document.getElementById('payment_acq').innerHTML = '';
                }else if(msg.result.error_code == 1006){
                     alert(msg.result.error_msg);
                     //modal pop up
