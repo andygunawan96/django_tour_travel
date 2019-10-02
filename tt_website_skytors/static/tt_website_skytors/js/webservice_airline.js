@@ -94,6 +94,7 @@ function airline_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+           console.log('signin airline');
            console.log(msg);
            airline_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
@@ -769,7 +770,6 @@ function get_price_itinerary(val){
     provider = '';
     for(i in airline_data_filter[val].segments){
         var radios = document.getElementsByName('journey'+val+'segment'+i+'fare');
-        console.log(radios);
         //get fare checked
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -779,7 +779,6 @@ function get_price_itinerary(val){
                 break;
             }
         }
-        console.log(fare);
         //give fare pick
         airline_data_filter[val].segments[i].fare_pick = fare;
         if(airline_data_filter[val].segments[i].provider.match(/sabre/))
@@ -914,7 +913,6 @@ function get_price_itinerary(val){
         filtering('filter');
     }
     else if(airline_request.direction == 'MC' && airline_request.counter != journey.length){
-        console.log('here');
         document.getElementById("airline_ticket_pick").innerHTML = '';
         airline_pick_mc('all');
         send_search_to_api(counter_search);
