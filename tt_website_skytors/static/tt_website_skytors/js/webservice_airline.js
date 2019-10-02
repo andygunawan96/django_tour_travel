@@ -393,22 +393,30 @@ function send_search_to_api(val){
         document.getElementById('show_date').innerHTML = date_show;
     }
     if(val == undefined){
-        for(j in provider_airline[counter_search]){
-            airline_search(j,provider_airline[counter_search][j]);
-        }
-        var bar1 = new ldBar("#barFlightSearch");
-        var bar2 = document.getElementById('barFlightSearch').ldBar;
-        bar1.set((airline_choose/count_progress_bar_airline)*100);
-        if ((airline_choose/count_progress_bar_airline)*100 == 100){
+        console.log(provider_airline);
+        if(JSON.stringify(provider_airline[0]) == '{}'){
+            Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
             $("#barFlightSearch").hide();
             $("#waitFlightSearch").hide();
+            document.getElementById("airlines_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your connection internet</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("airlines_error").appendChild(node);
+            node = document.createElement("div");
         }
-        document.getElementById('barFlightSearch').style.display = "block";
-        document.getElementById('waitFlightSearch').style.display = "block";
-    }else{
-        if(val == 0){
-            for(j in provider_airline[val]){
-                airline_search(j,provider_airline[val][j]);
+        else{
+            for(j in provider_airline[counter_search]){
+                airline_search(j,provider_airline[counter_search][j]);
             }
             var bar1 = new ldBar("#barFlightSearch");
             var bar2 = document.getElementById('barFlightSearch').ldBar;
@@ -419,6 +427,42 @@ function send_search_to_api(val){
             }
             document.getElementById('barFlightSearch').style.display = "block";
             document.getElementById('waitFlightSearch').style.display = "block";
+        }
+    }else{
+        if(val == 0){
+            if(JSON.stringify(provider_airline[0]) == '{}'){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong, please try again or check your connection internet',
+                })
+                $("#barFlightSearch").hide();
+                $("#waitFlightSearch").hide();
+                document.getElementById("airlines_error").innerHTML = '';
+                text = '';
+                text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your connection internet</span>
+                </div>`;
+                var node = document.createElement("div");
+                node.innerHTML = text;
+                document.getElementById("airlines_error").appendChild(node);
+                node = document.createElement("div");
+            }
+            else{
+                for(j in provider_airline[val]){
+                    airline_search(j,provider_airline[val][j]);
+                }
+                var bar1 = new ldBar("#barFlightSearch");
+                var bar2 = document.getElementById('barFlightSearch').ldBar;
+                bar1.set((airline_choose/count_progress_bar_airline)*100);
+                if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                    $("#barFlightSearch").hide();
+                    $("#waitFlightSearch").hide();
+                }
+                document.getElementById('barFlightSearch').style.display = "block";
+                document.getElementById('waitFlightSearch').style.display = "block";
+            }
         }
     }
     counter_search++;

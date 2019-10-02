@@ -68,32 +68,9 @@
 {% include 'tt_website_skytors/header.html' %}
 <div class="destinations-area" style="margin-bottom:25px;">
     <div class="container">
-        <div class="row" style="padding-bottom:15px;">
-            <div class="col-lg-12" style="display:flex; padding-top:15px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-done">
-                    <span class="breadcrumb-rdx-icon br-icon-done">2</span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">3</span>
-                    <span style="padding-left:5px;">Detail</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">4</span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">5</span>
-                    <span style="padding-left:5px;">Issued</span>
-                </div>
+        <div class="row" style="padding-top:15px; padding-bottom:15px;">
+            <div class="col-lg-12" id="breadcrumbs_create">
+
             </div>
         </div>
         <div class="row full_activity_details">
@@ -346,6 +323,7 @@
 
 <script>
     $( document ).ready(function() {
+        breadcrumb_create("activity", 3, 0);
         activity_get_detail(`{{response.uuid}}`, `{{response.provider_id}}`);
 
         $('#product-activity').click(function(e){

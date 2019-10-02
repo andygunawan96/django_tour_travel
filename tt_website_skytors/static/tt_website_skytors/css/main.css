@@ -7290,7 +7290,10 @@ display: block;
     background-color: #9B9B9B;
     color: white;
 }
-
+.breadcrumbs_flex{
+    display:flex;
+    padding-top:5px;
+}
 .br-active{
     color: #C04B21;
 }
@@ -7321,6 +7324,14 @@ display: block;
     background-color: #DB2B2B;
 }
 
+.br-pending {
+    color: #E2BF0F;
+}
+
+.br-icon-pending {
+    background-color: #E2BF0F;
+}
+
 .br-done:hover{
     color: #C04B21;
     cursor: pointer;
@@ -7341,6 +7352,13 @@ display: block;
     cursor: not-allowed;
 }
 .br-icon-fail:hover {
+    cursor: not-allowed;
+}
+
+.br-pending:hover{
+    cursor: not-allowed;
+}
+.br-icon-pending:hover {
     cursor: not-allowed;
 }
 
@@ -7479,9 +7497,4 @@ display: block;
 }
 .status.off {
   background: rgba(253,96,79,0.9);
-}
-
-.breadcrumbs_flex{
-    display:flex;
-    padding-top:5px;
 }
