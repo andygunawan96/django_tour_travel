@@ -86,7 +86,7 @@ def api_models(request):
         elif req_data['action'] == 'search':
             res = search2(request)
         elif req_data['action'] == 'get_price_itinerary':
-            res = get_price_itinerary(request, False)
+            res = get_price_itinerary(request, False, 1)
         elif req_data['action'] == 'get_fare_rules':
             res = get_fare_rules(request)
         elif req_data['action'] == 'sell_journeys':
@@ -450,7 +450,7 @@ def get_data(request):
 
     return response
 
-def get_price_itinerary(request, boolean):
+def get_price_itinerary(request, boolean, counter):
     try:
         #baru
         file = open("javascript_version.txt", "r")
@@ -586,9 +586,13 @@ def get_price_itinerary(request, boolean):
         else:
             # if(request.session['airline_request']['direction'] == 'RT'):
             #MC atau RT SEPARATE
-            res = get_price_itinerary(request, True)
+            counter += 1
+            if counter < 4:
+                res = get_price_itinerary(request, True, counter)
     except Exception as e:
-        get_price_itinerary(request, True)
+        counter += 1
+        if counter < 4:
+            get_price_itinerary(request, True, counter)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 

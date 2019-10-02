@@ -94,7 +94,6 @@ function airline_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-           console.log('signin airline');
            console.log(msg);
            airline_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
