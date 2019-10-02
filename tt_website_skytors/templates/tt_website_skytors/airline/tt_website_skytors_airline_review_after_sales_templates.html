@@ -69,31 +69,8 @@
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
                     <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
-                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                        <span style="padding-left:5px;">Home</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx br-book">
-                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                        <span style="padding-left:5px;">Search</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx br-book">
-                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                        <span style="padding-left:5px;">Passenger</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx br-book">
-                        <span class="breadcrumb-rdx-icon br-icon-active">4</span>
-                        <span style="padding-left:5px;">Booking</span>
-                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                    </div>
-                    <div class="breadcrumbs-rdx br-book">
-                        <span class="breadcrumb-rdx-icon">5</span>
-                        <span style="padding-left:5px;">Issued</span>
-                    </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
                 </div>
             </div>
         </div>
@@ -155,11 +132,15 @@
         </form>
     </div>
 </section>
-
+{%endif%}
 
 <script>
     airline_detail('request_new');
     get_airline_review_after_sales();
+
+    $( document ).ready(function() {
+        breadcrumb_create("airline_new", 5, 1);
+    });
 </script>
 <!-- loader -->
 {% endblock %}

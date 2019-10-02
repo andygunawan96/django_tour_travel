@@ -1860,3 +1860,138 @@ function active_sticky_activity(type){
         $("#description-activity").addClass("sticky-activity-active");
     }
 }
+
+function breadcrumb_create(breadcrumbs_type, current_step, back_step){
+    if(breadcrumbs_type == "airline"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:airline_search'%}';", "location.href='{% url 'tt_website_skytors:airline_passenger'%}';", "", ""];
+    }
+    if(breadcrumbs_type == "airline_new"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "SSR", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "", "", "", "", ""];
+    }
+
+    document.getElementById("breadcrumbs_create").innerHTML = '';
+    text = '';
+    for (var i = 0; i < breadcrumbs.length; i++) {
+      var step = i + 1;
+      //can back
+      if(back_step == 0){
+          //example if 1 < 3 done
+          if(step < current_step){
+            if(breadcrumbs_url[i] != ""){
+                text+=`
+                <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx br-done">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+          }
+          //example if 3 == 3 active
+          else if(step == current_step){
+            if(step != breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+            }
+          }
+          //example if 3 == 3 default gray
+          else{
+              if(step == breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+              }
+              else{
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+              }
+          }
+      }
+      //cant back
+      else{
+        //home
+        if(step == 1){
+            text+=`
+            <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
+                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+            </div>`;
+        }
+        //active
+        else if(step == current_step && step != 1){
+            if(step != breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx br-book" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-book" id="issued-breadcrumb-icon">`+step+`</span>
+                    <span id="issued-breadcrumb-span" style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+            }
+        }
+        else if(step < current_step && step > 1){
+            text+=`
+            <div class="breadcrumbs-rdx br-book">
+                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+            </div>`;
+        }
+        else{
+            if(step != breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+            }
+        }
+      }
+    }
+    var node = document.createElement("div");
+    node.className = 'breadcrumbs_flex';
+    node.innerHTML = text;
+    document.getElementById("breadcrumbs_create").appendChild(node);
+    node = document.createElement("div");
+}

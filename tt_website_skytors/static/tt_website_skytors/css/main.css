@@ -7393,7 +7393,7 @@ display: block;
 	width: 100%;
 	height: 100%;
 	z-index: 999999;
-	background: url('/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.gif') 50% 50% no-repeat rgb(0,0,0,1);
+	background: url('/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
 }
 
 .loader-airline {
@@ -7474,9 +7474,14 @@ display: block;
 }
 
 .status.on {
-  background: #2DDE98;
-  text-shadow: 0 0 8px rgba(0,0,0,.4);
+  background: rgba(66,169,128,0.9);
+  color:black;
 }
 .status.off {
-  background: #ff6c5f;
+  background: rgba(253,96,79,0.9);
+}
+
+.breadcrumbs_flex{
+    display:flex;
+    padding-top:5px;
 }
