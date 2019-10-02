@@ -336,7 +336,6 @@ $(document).ready(function(){
                 document.getElementById("left-minus-child-flight").disabled = true;
             }
         }
-
         // Increment
 
         if (quantity_adult_flight > quantity_infant_flight){

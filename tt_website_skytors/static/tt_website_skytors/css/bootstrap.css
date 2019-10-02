@@ -3004,6 +3004,9 @@ tbody.collapse.show {
   top: 100%;
   left: 0;
   width: 100%;
+  max-height:330px;
+  overflow-y: auto;
+  overflow-x:hidden;
   z-index: 1000;
   display: none;
   float: left;
