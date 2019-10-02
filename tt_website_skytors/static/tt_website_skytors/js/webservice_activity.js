@@ -530,6 +530,7 @@ function activity_pre_create_booking(){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        show_loading();
         activity_create_booking();
       }
     })
@@ -553,11 +554,19 @@ function activity_create_booking(){
             document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('activity_booking').submit();
         }else{
-            alert(msg.result.error_msg);
+           alert(msg.result.error_msg);
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
        }
     });
 }
@@ -661,16 +670,48 @@ function activity_get_booking(data){
                 voucher_text = ``;
             }
             else{
-                if(msg.result.response.status == 'done')
-                {
+                if(msg.result.response.status == 'done'){
                     conv_status = 'Confirmed';
+                    console.log(msg.result.response);
+                    document.getElementById('issued-breadcrumb').classList.add("br-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                 }
-                else if(msg.result.response.status == 'rejected')
-                {
+                else if(msg.result.response.status == 'rejected'){
                     conv_status = 'Rejected';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
+                }
+                else if(msg.result.response.status == 'cancel'){
+                    conv_status = 'Cancelled';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                }
+                else if(msg.result.response.status == 'cancel2'){
+                    conv_status = 'Expired';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                 }
                 else{
                     conv_status = 'Pending';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-pending");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
                 }
 
                 text = `

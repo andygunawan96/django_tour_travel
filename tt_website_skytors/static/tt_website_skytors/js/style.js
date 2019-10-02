@@ -1870,6 +1870,10 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs = ["Home", "Search", "Passenger", "SSR", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "", "", "", "", ""];
     }
+    if(breadcrumbs_type == "activity"){
+        var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:activity_search'%}';", "location.href='{% url 'tt_website_skytors:activity_detail'%}';", "location.href='{% url 'tt_website_skytors:activity_passenger'%}';", ""];
+    }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
     text = '';
