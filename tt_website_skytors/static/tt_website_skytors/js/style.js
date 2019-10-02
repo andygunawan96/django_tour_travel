@@ -1868,7 +1868,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     }
     if(breadcrumbs_type == "airline_new"){
         var breadcrumbs = ["Home", "Search", "Passenger", "SSR", "Review", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "", "", "", ""];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "", "", "", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
