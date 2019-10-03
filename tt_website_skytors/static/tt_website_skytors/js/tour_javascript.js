@@ -1224,6 +1224,53 @@ function sort(tour_dat){
     }
 }
 
+function auto_complete_tour(type, current_opt=0){
+    sel_objs = $('#'+type).select2('data');
+    temp_obj_id = 0;
+    for (i in sel_objs)
+    {
+        temp_obj_id = sel_objs[i].id;
+    }
+    if (type == 'tour_countries')
+    {
+        tour_set_city(temp_obj_id, current_opt);
+    }
+}
+
+function tour_set_city(country_id, current_city_id=0){
+    var text = `<option value="0" selected="">All Cities</option>`;
+    var country = {};
+    for(i in tour_country){
+       console.log(parseInt(country_id));
+       if(tour_country[i].id == parseInt(country_id)){
+           country = tour_country[i];
+           break;
+       }
+    }
+    if (current_city_id == 0)
+    {
+        for(i in country.city){
+            text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`;
+        }
+    }
+    else
+    {
+        for(i in country.city){
+            if (country.city[i].id == current_city_id)
+            {
+                text +=`<option value="`+country.city[i].id+`" selected>`+country.city[i].name+`</option>`;
+            }
+            else
+            {
+                text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`;
+            }
+        }
+    }
+
+    document.getElementById('tour_cities').innerHTML = text;
+    $('#tour_cities').niceSelect('update');
+}
+
 $(document).ready(function () {
     $('#btnDeleteRooms').click(function(){
         var index = document.getElementById('room_amount').value;

@@ -86,6 +86,10 @@ def index(request):
                     # activity_countries = response['result']['response']['activity']['countries']
                     # activity
 
+                    # tour
+                    # tour_countries = response['result']['response']['tour']['countries']
+                    # tour
+
                     # issuedoffline
                     # issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
                     # issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
@@ -130,6 +134,13 @@ def index(request):
                         pass
 
                     try:
+                        cache['tour'] = {
+                                'name': request.session['tour_request']['tour_query']
+                            }
+                    except:
+                        pass
+
+                    try:
                         cache['visa'] = {
                                 'destination': request.session['visa_request']['destination'],
                                 'departure_date': request.session['visa_request']['departure_date'],
@@ -147,10 +158,13 @@ def index(request):
                         'airline_country': airline_country,
                         'logo': logo,
                         'template': template,
+                        #activity
                         # 'activity_sub_categories': activity_sub_categories,
                         # 'activity_categories': activity_categories,
                         # 'activity_types': activity_types,
                         # 'activity_countries': activity_countries,
+                        #tour
+                        # 'tour_countries': tour_countries,
                         #hotel
                         # 'issued_offline_transaction_type': issued_offline_transaction_type,
                         # 'issued_offline_sector_type': issued_offline_sector_type,

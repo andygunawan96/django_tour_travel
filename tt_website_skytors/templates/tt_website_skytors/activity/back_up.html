@@ -187,7 +187,7 @@
                                                         <div class="form-group">
                                                             <select id="themespark_countries" onchange="set_city();" class="form-control selectpicker show-tick" data-size="5" data-live-search="true" name="themespark_countries">
                                                                 {% if not parsed_country %}
-                                                                <option value="" selected="">All Country</option>
+                                                                <option value="" selected="">All Countries</option>
                                                                 {% for country in activity_countries %}
                                                                 <option value="{{country.id}}">{{country.name}}</option>
                                                                 {% endfor %}

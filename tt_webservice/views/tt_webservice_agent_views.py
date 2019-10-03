@@ -120,6 +120,7 @@ def signin(request):
                         # 'issued_offline': response['result']['response']['issued_offline'],
                         # 'train': response['result']['response']['train'],
                         # 'activity': response['result']['response']['activity'],
+                        # 'tour': response['result']['response']['tour'],
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
@@ -211,20 +212,29 @@ def signin(request):
                 # headers = {
                 #     "Accept": "application/json,text/html,application/xml",
                 #     "Content-Type": "application/json",
-                #     "action": "get_config2",
+                #     "action": "get_config",
                 #     "signature": request.session['signature'],
                 # }
-                #
-                # res_config_activity = util.send_request(url=url + 'activity/booking', data=data, headers=headers,
-                #                                      cookies=res_activity['result']['cookies'], method='POST')
+                # res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
+                #                                     method='POST')
 
-
+                # tour
+                # data = {}
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_config",
+                #     "signature": request.session['signature'],
+                # }
+                # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
+                #                                         method='POST')
 
                 res['result']['response'].update({
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
                     # 'activity': res_config_activity['result'],
+                    # 'tour': res_config_tour['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
                         'destination': res_destination_airline['result']['response']

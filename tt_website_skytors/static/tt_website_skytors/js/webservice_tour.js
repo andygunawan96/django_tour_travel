@@ -1,7 +1,7 @@
 var tour_data = [];
 offset = 0;
 
-function tour_login(data){
+function tour_login(){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
     $.ajax({
@@ -15,72 +15,7 @@ function tour_login(data){
 
        },
        success: function(msg) {
-           if(data == ''){
-                tour_get_countries();
-           }
-           else {
-                tour_get_countries();
-                tour_search();
-           }
-
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
-function tour_get_countries(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/tour",
-       headers:{
-            'action': 'get_countries',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-
-       },
-       success: function(msg) {
-           console.log(msg);
-           temp = document.getElementById('tour_hidden_destination').value;
-           if (temp == "" || temp == "0"){
-               var text = '<option value="0" selected="">All Destinations</option>';
-           }
-           else {
-               var text = '<option value="0">All Destinations</option>';
-           }
-
-           var counter = 0;
-           if(msg.result.error_code == 0){
-               tour_countries = msg.result.response.countries;
-               for(i in tour_countries){
-                   if (temp == tour_countries[i].id)
-                   {
-                       text+=`
-                       <option value="`+tour_countries[i].id+`" selected="">`+tour_countries[i].name+`</option>
-                       `;
-                   }
-                   else
-                   {
-                       text+=`
-                       <option value="`+tour_countries[i].id+`">`+tour_countries[i].name+`</option>
-                       `;
-                   }
-
-               }
-               if (text != '') {
-                    document.getElementById('tour_destination').innerHTML = text;
-                    $('#tour_destination').niceSelect('update');
-               }
-               else {
-                    alert('Failed to get Tour Destinations.');
-               }
-
-           }else{
-                alert('Failed to get Tour Destinations.');
-           }
+           tour_search();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
