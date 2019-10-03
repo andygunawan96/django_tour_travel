@@ -208,7 +208,6 @@ function filtering(type){
         var check = 0;
         var temp_data = [];
         if(check_rating == 1){
-            //pick airline
             data.hotel_ids.forEach((obj)=> {
                 check = 0;
                 rating_list.forEach((obj1)=> {
@@ -217,6 +216,23 @@ function filtering(type){
                     }
                 });
                 if(check != 0){
+                    temp_data.push(obj);
+                }
+            });
+            data.hotel_ids = temp_data;
+            hotel_filter = data;
+            temp_data = [];
+        }
+        var searched_name = $('#hotel_filter_name').val();
+        if (searched_name){
+            data.hotel_ids.forEach((obj)=> {
+                var test = 1;
+                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                    if (obj.name.toLowerCase().includes( search_str ) == false){
+                        test = 0;
+                    }
+                });
+                if(test == 1){
                     temp_data.push(obj);
                 }
             });
@@ -701,7 +717,6 @@ function sort(response){
 function change_filter(type, value){
     var check = 0;
     if(type == 'rating'){
-//        transit_list
         rating_list[value].status = !rating_list[value].status;
     }
     filtering('filter');
@@ -712,7 +727,7 @@ function hotel_filter_render(){
     text+= `<h4>Filter</h4>
     <hr/>
     <h6 style="padding-bottom:10px;">Hotel Name</h6>
-    <input type="text" class="form-control-custom" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off"/>
+    <input type="text" class="form-control-custom" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="change_filter('','');"/>
     <hr/>
     <h6 style="padding-bottom:10px;">Price Range</h6>
     <div class="wrapper">
@@ -782,6 +797,9 @@ function hotel_filter_render(){
             <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
         </button>`;
     }
+    text += `<button class="myticket_static" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
+                <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+            </button>`
     var node = document.createElement("div");
     node.className = 'sorting-box';
     node.innerHTML = text;
@@ -1045,8 +1063,16 @@ function check_all_result(){
 
 function get_checked_copy_result(){
     document.getElementById("show-list-copy-hotel").innerHTML = '';
+
+    var search_params = document.getElementById("show-list-copy-hotel").innerHTML = '';;
+
+    var value_idx = [];
+    $("#hotel_search_params span").each(function(obj) {
+        value_idx.push( $(this).text() );
+    })
+
     text='';
-    $text='';
+    $text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\nRoom, Adult, Child: '+value_idx[3]+'\n\n';
     var hotel_number = 0;
     node = document.createElement("div");
     text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;

@@ -5551,6 +5551,17 @@ div.scrollmenu li {
     vertical-align: middle;
     white-space: nowrap;
 }
+.myticket_static {
+  background-color: #f15a22;
+  color: white;
+  height: 31px;
+  width: 200px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  float: right;
+}
 
 .myticket {
   position: fixed;
