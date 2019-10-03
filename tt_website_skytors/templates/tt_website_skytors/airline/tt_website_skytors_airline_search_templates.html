@@ -130,6 +130,8 @@
                                     <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
                                     <span class="checkmark-radio"></span>
                                 </label>
+                            </div>
+                            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                 <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                     <label class="check_box_custom">
                                         <span style="font-size:14px; color:white;">Is Combo Price</span>
@@ -379,9 +381,11 @@
                                         <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
                                         <span class="checkmark-radio"></span>
                                     </label>
-                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %} padding-top:10px; padding-bottom:10px;" id="checkbox_combo_price">
+                                </div>
+                                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                         <label class="check_box_custom">
-                                            <span style="font-size:14px;">Is Combo Price</span>
+                                            <span style="font-size:14px; color:white;">Is Combo Price</span>
                                             <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
                                             <span class="check_box_span_custom"></span>
                                         </label>
@@ -615,14 +619,14 @@
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                <div class="form-group">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:14px;">Is Combo Price</span>
-                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
+                                <label class="check_box_custom">
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-lg-12" id="ori_airline">
@@ -849,14 +853,14 @@
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                <div class="form-group">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:14px;">Is Combo Price</span>
-                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
+                                <label class="check_box_custom">
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-lg-12" id="ori_airline">
@@ -1081,14 +1085,14 @@
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                <div class="form-group">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:14px;">Is Combo Price</span>
-                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
+                                <label class="check_box_custom">
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-lg-12" id="ori_airline">
