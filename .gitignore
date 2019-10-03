@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
+javascript_version.txt
 .idea/
 tt_webservice/static/tt_webservice/url.py
 tt_webservice/static/tt_webservice/config.py

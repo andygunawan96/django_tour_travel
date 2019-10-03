@@ -6,7 +6,7 @@ from datetime import datetime
 from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
 import json
-
+from .tt_webservice_views import *
 import logging
 import traceback
 _logger = logging.getLogger(__name__)
@@ -112,23 +112,16 @@ def signin(request):
             try:
                 if res['result']['error_code'] == 0:
                     logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                    file = open("javascript_version.txt", "r")
-                    for line in file:
-                        file_cache_name = line
-                    file.close()
-
-                    file = open('version' + str(file_cache_name) + ".txt", "r")
-                    for line in file:
-                        res_data = json.loads(line)
-                    file.close()
+                    javascript_version = get_cache_version()
+                    response = get_cache_data(javascript_version)
 
                     res['result']['response'].update({
-                        # 'visa': res_data['result']['response']['visa'],
-                        # 'issued_offline': res_data['result']['response']['issued_offline'],
-                        # 'train': res_data['result']['response']['train'],
-                        # 'activity': res_data['result']['response']['activity'],
-                        'airline': res_data['result']['response']['airline'],
-                        # 'hotel_config': res_data['result']['response']['hotel_config'],
+                        # 'visa': response['result']['response']['visa'],
+                        # 'issued_offline': response['result']['response']['issued_offline'],
+                        # 'train': response['result']['response']['train'],
+                        # 'activity': response['result']['response']['activity'],
+                        'airline': response['result']['response']['airline'],
+                        # 'hotel_config': response['result']['response']['hotel_config'],
                     })
                     logging.getLogger("info_logger").error("USE CACHE IN TXT!")
             except:
@@ -167,10 +160,10 @@ def signin(request):
                 }
 
                 res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
-
-                file = open('hotel_cache_data.txt', "w+")
-                file.write(res_cache_hotel['result']['response'])
-                file.close()
+                if res_cache_hotel['result']['error_code'] == 0:
+                    file = open('hotel_cache_data.txt', "w+")
+                    file.write(res_cache_hotel['result']['response'])
+                    file.close()
 
                 #visa odoo12
                 # data = {
@@ -238,12 +231,9 @@ def signin(request):
                     },
                 })
 
-                file = open("javascript_version.txt", "r")
-                for line in file:
-                    file_cache_name = line
-                file.close()
+                javascript_version = get_cache_version()
 
-                file = open('version' + str(file_cache_name) + ".txt", "w+")
+                file = open('version' + str(javascript_version) + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
 
