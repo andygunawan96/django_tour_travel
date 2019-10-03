@@ -46,7 +46,6 @@ function get_auto_complete(term,suggest){
 
     getToken();
     hotelAutoCompleteVar = setTimeout(function() {
-        console.log(term);
         $.ajax({
            type: "POST",
            url: "/webservice/hotel",
@@ -58,17 +57,8 @@ function get_auto_complete(term,suggest){
                 'name':term
            },
            success: function(msg) {
-            console.log(msg);
-            console.log(JSON.stringify(msg));
             hotel_choices = msg;
-            try{
-                var priority = hotel_choices;
-                console.log(priority);
-            }catch(err){
-
-            }
-            console.log(priority.slice(0,100));
-            suggest(priority.slice(0,100));
+            suggest(hotel_choices);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                alert(errorThrown);

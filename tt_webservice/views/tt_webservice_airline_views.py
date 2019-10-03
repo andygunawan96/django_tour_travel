@@ -6,6 +6,7 @@ from tools.parser import *
 from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.url import *
+from .tt_webservice_views import *
 import json
 import logging
 import traceback
@@ -246,15 +247,8 @@ def get_provider_list(request):
 def search2(request):
     # get_data_awal
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
         # airline
         airline_destinations = []
@@ -453,15 +447,8 @@ def get_data(request):
 def get_price_itinerary(request, boolean, counter):
     try:
         #baru
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
         # airline
         airline_destinations = []
@@ -693,15 +680,8 @@ def update_contacts(request):
     try:
         booker = request.session['airline_create_passengers']['booker']
         contacts = request.session['airline_create_passengers']['contact']
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         for country in response['result']['response']['airline']['country']:
             if booker['nationality_code'] == country['name']:
                 booker['nationality_code'] = country['code']
@@ -737,15 +717,8 @@ def update_contacts(request):
 
 def update_passengers(request):
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         passenger = []
         for pax in request.session['airline_create_passengers']['adult']:
             nationality_code = ''
@@ -965,15 +938,8 @@ def get_booking(request):
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
         # airline
         airline_destinations = []

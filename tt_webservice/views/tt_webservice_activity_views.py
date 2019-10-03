@@ -8,6 +8,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+from .tt_webservice_views import *
 
 month = {
     'Jan': '01',
@@ -191,19 +192,8 @@ def create_booking(request):
     else:
         member = True
     passenger = []
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
-
-    file = open('version' + str(file_cache_name) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
 
     countries = response['result']['response']['airline']['country']
 

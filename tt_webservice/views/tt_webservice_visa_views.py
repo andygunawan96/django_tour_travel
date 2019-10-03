@@ -9,6 +9,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+from .tt_webservice_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -107,15 +108,8 @@ def login(request):
 
 def get_config(request):
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
         res = {}
         for visa_config in response['result']['response']['visa']:
