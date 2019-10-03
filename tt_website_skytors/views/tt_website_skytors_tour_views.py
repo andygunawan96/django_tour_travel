@@ -69,19 +69,12 @@ def search(request):
             {'value': '12', 'string': 'December'},
         ]
 
-        budget_data = [
-            {'value': '0-999999999', 'string': 'All Budget'},
-            {'value': '0-1000000', 'string': '0-1 juta'},
-            {'value': '1000000-2000000', 'string': '1-2 juta'},
-            {'value': '2000000-5000000', 'string': '2-5 juta'},
-            {'value': '5000000-10000000', 'string': '5-10 juta'},
-            {'value': '10000000-20000000', 'string': '10-20 juta'},
-            {'value': '20000000-99000000', 'string': '> 20 juta'},
-        ]
+        tour_countries = response['result']['response']['tour']['countries']
 
         request.session['tour_request'] = {
             'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'country_id': request.POST['tour_destination'],
+            'country_id': request.POST['tour_countries'],
+            'city_id': request.POST['tour_cities'],
             'month': request.POST['tour_dest_month'],
             'year': request.POST['tour_dest_year'],
             'limit': 25,
@@ -91,8 +84,10 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'tour_countries': tour_countries,
             'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'dest_destination': request.POST['tour_destination'],
+            'dest_country': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
+            'dest_city': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,

@@ -99,6 +99,7 @@ def search(request):
         data = {
             'provider': 'skytors_tour',
             'country_id': request.session['tour_request']['country_id'],
+            'city_id': request.session['tour_request']['city_id'],
             'month': request.session['tour_request']['month'],
             'year': request.session['tour_request']['year'],
             'tour_query': request.session['tour_request']['tour_query'],
