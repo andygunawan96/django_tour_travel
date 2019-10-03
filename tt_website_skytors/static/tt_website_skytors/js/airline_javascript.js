@@ -1124,64 +1124,195 @@ function airline_autocomplete(type,val){
 
 function airline_set_passenger_plus(type, val){
     pax = '';
+    quantity_adult_flight = parseInt(document.getElementById('adult_flight'+val).value);
+    quantity_child_flight = parseInt(document.getElementById('child_flight'+val).value);
+    quantity_infant_flight = parseInt(document.getElementById('infant_flight'+val).value);
+
     if(type == 'adult'){
-        pax = parseInt(document.getElementById('adult_flight'+val).value);
-        if(pax + parseInt(document.getElementById('child_flight'+val).value) != 9){
-            document.getElementById('adult_flight'+val).value = pax + 1;
-            document.getElementById('left-minus-adult-flight'+val).disabled = false;
-        }else{
-            alert("Maximum 9 passenger of adult and child in flight "+val+"!");
+        var quantity = parseInt($('#adult_flight'+val).val());
+        if(quantity < 9){
+            $('#adult_flight'+val).val(quantity + 1);
+            quantity_adult_flight = quantity + 1;
         }
+
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("left-minus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-adult-flight"+val).disabled = true;
+            document.getElementById("right-plus-child-flight"+val).disabled = true;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+        else{
+            document.getElementById("left-minus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+        if (quantity_adult_flight > quantity_infant_flight){
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
+        }
+        if (quantity_adult_flight == quantity_infant_flight){
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+        }
+
     }else if(type == 'child'){
-        pax = parseInt(document.getElementById('child_flight'+val).value);
-        if(pax + parseInt(document.getElementById('adult_flight'+val).value) != 9){
-            document.getElementById('child_flight'+val).value = pax + 1;
-            document.getElementById('left-minus-child-flight'+val).disabled = false;
-        }else{
-            alert("Maximum 9 passenger of adult and child in flight "+val+"!");
+        var quantity = parseInt($('#child_flight'+val).val());
+
+        if(quantity < 8){
+            $('#child_flight'+val).val(quantity + 1);
+            quantity_child_flight = quantity + 1;
         }
+
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("right-plus-adult-flight"+val).disabled = true;
+            document.getElementById("right-plus-child-flight"+val).disabled = true;
+            document.getElementById("left-minus-child-flight"+val).disabled = false;
+            if (quantity_adult_flight == 1){
+                document.getElementById("left-minus-adult-flight"+val).disabled = true;
+            }
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+        else{
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            document.getElementById("left-minus-child-flight"+val).disabled = false;
+
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+
     }else if(type == 'infant'){
-        pax = parseInt(document.getElementById('infant_flight'+val).value);
-        if(pax < parseInt(document.getElementById('adult_flight'+val).value)){
-            document.getElementById('infant_flight'+val).value = pax + 1;
-            document.getElementById('left-minus-infant-flight'+val).disabled = false;
-        }else{
-            alert("Maximum passenger for infant below than adult passenger in flight "+val+"!");
+        var quantity = parseInt($('#infant_flight'+val).val());
+
+        if (quantity < quantity_adult_flight){
+            $('#infant_flight'+val).val(quantity + 1);
+            quantity_infant_flight = quantity + 1;
+        }
+
+        if (quantity_infant_flight < quantity_adult_flight){
+            document.getElementById("left-minus-infant-flight"+val).disabled = false;
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
+        }
+        else if(quantity_infant_flight == quantity_adult_flight){
+            document.getElementById("left-minus-infant-flight"+val).disabled = false;
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+        }
+        else{
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+            document.getElementById("left-plus-infant-flight"+val).disabled = false;
         }
     }
-    for(i=1;i<=counter_airline_search;i++)
-        document.getElementById('show_total_pax_flight'+i).value = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant"
+
+    for(i=1;i<=counter_airline_search;i++){
+        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+    }
 }
 
 function airline_set_passenger_minus(type, val){
     error_log = '';
+    pax = '';
+    quantity_adult_flight = parseInt(document.getElementById('adult_flight'+val).value);
+    quantity_child_flight = parseInt(document.getElementById('child_flight'+val).value);
+    quantity_infant_flight = parseInt(document.getElementById('infant_flight'+val).value);
+
     if(type == 'adult'){
-        if(parseInt(document.getElementById('adult_flight'+val).value) != 1)
-            document.getElementById('adult_flight'+val).value = parseInt(document.getElementById('adult_flight'+val).value) - 1;
+        var quantity = parseInt($('#adult_flight'+val).val());
+
+        if(quantity > 1){
+            $('#adult_flight'+val).val(quantity - 1);
+            quantity_adult_flight = quantity - 1;
+
+            if(quantity_adult_flight < quantity_infant_flight){
+               quantity_infant_flight = quantity_adult_flight;
+               $('#infant_flight'+val).val(quantity - 1);
+            }
+        }
+
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("left-minus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-adult-flight"+val).disabled = true;
+            document.getElementById("right-plus-child-flight"+val).disabled = true;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+        }
         else{
-            alert("Minimum 1 adult in flight "+val+"!");
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+
+            if (quantity_adult_flight == 1){
+                document.getElementById("left-minus-adult-flight"+val).disabled = true;
+                document.getElementById("right-plus-adult-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("right-plus-adult-flight"+val).disabled = false;
+            }
         }
-        if(parseInt(document.getElementById('infant_flight'+val).value) > document.getElementById('adult_flight'+val).value)
-            document.getElementById('infant_flight'+val).value = document.getElementById('adult_flight'+val).value;
+
+        if (quantity_adult_flight == quantity_infant_flight){
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+        }
+
     }else if(type == 'child'){
-        if(parseInt(document.getElementById('child_flight'+val).value) != 0){
-            document.getElementById('child_flight'+val).value = parseInt(document.getElementById('child_flight'+val).value) - 1;
+        var quantity = parseInt($('#child_flight'+val).val());
+
+        if(quantity > 0){
+            $('#child_flight'+val).val(quantity - 1);
+            quantity_child_flight = quantity - 1;
         }
-        if(parseInt(document.getElementById('child_flight'+val).value) == 0){
-            document.getElementById('left-minus-child-flight'+val).disabled = true;
+
+        if (quantity_adult_flight+quantity_child_flight != 9){
+            document.getElementById("right-plus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            if (quantity_adult_flight == 1){
+                document.getElementById("left-minus-adult-flight"+val).disabled = true;
+            }
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
         }
 
     }else if(type == 'infant'){
-        if(parseInt(document.getElementById('infant_flight'+val).value) != 0){
-            document.getElementById('infant_flight'+val).value = parseInt(document.getElementById('infant_flight'+val).value) - 1;
+        var quantity = parseInt($('#infant_flight'+val).val());
+
+        if(quantity > 0){
+            $('#infant_flight'+val).val(quantity - 1);
+            quantity_infant_flight = quantity - 1;
         }
-        if(parseInt(document.getElementById('infant_flight'+val).value) == 0){
-            document.getElementById('left-minus-infant-flight'+val).disabled = true;
+
+        if (quantity_infant_flight == 0){
+            document.getElementById("left-minus-infant-flight"+val).disabled = true;
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
         }
     }
 
-    for(i=1;i<=counter_airline_search;i++)
-        document.getElementById('show_total_pax_flight'+i).value = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant"
+    for(i=1;i<=counter_airline_search;i++){
+        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+    }
 }
 
 function airline_switch(val){
