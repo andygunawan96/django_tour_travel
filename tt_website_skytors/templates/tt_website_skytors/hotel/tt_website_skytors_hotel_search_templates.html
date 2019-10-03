@@ -237,36 +237,8 @@
                 </div>
             </div>
 
-            <div class="col-lg-12" style="display:flex; padding-top:15px; padding-left:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">2</span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span id="issued-breadcrumb-span" class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">3</span>
-                    <span style="padding-left:5px;">Rooms</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">4</span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">5</span>
-                    <span style="padding-left:5px;">Review</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx" id="issued-breadcrumb">
-                    <span class="breadcrumb-rdx-icon">6</span>
-                    <span style="padding-left:5px;">Issued</span>
-                </div>
+            <div class="col-lg-12" id="breadcrumbs_create">
+
             </div>
             <div class="col-lg-3">
                 <div class="modal fade" id="myModalFilterSort" role="dialog">
@@ -332,7 +304,9 @@
                         </div>
                     </div>
                 </div>
+                <div id="hotel_error">
 
+                </div>
 
                 <div class="row">
                     <div class="col-lg-12">
@@ -402,10 +376,6 @@
 
 {% include 'tt_website_skytors/footer.html' %}
 
-<button class="myticket" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();" style="width:200px; border-radius:unset; height:40px;">
-    <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
-</button>
-
 
 <script>
     guest_child_age2();
@@ -413,6 +383,7 @@
     hotel_filter_render();
 
     $(function() {
+      breadcrumb_create("hotel", 2, 0);
       var quantity_room_hotel = parseInt($('#hotel_room').val());
       var quantity_adult_hotel = parseInt($('#hotel_adult').val());
       var quantity_child_hotel = parseInt($('#hotel_child').val());

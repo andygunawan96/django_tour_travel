@@ -31,36 +31,8 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
         <div class="row align-items-center justify-content-between d-flex">
-            <div class="col-lg-12" style="display:flex; padding-top:5px; padding-left:15px; padding-bottom:20px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:hotel_search'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">3</span>
-                    <span style="padding-left:5px;">Rooms</span>
-                    <span id="issued-breadcrumb-span" class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">4</span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">5</span>
-                    <span style="padding-left:5px;">Review</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx" id="issued-breadcrumb">
-                    <span class="breadcrumb-rdx-icon">6</span>
-                    <span style="padding-left:5px;">Issued</span>
-                </div>
+            <div class="col-lg-12" id="breadcrumbs_create" style="padding-bottom:15px;">
+
             </div>
         </div>
 
@@ -724,6 +696,7 @@
     var myIndex = 0;
 
     $(function() {
+      breadcrumb_create("hotel", 3, 0);
       $(window).scroll(function() {
         if($(this).scrollTop()>=$('.div-information-hotel').position().top-130 && $(this).scrollTop()<$('.div-facility-hotel').position().top-130){
             active_sticky_hotel("information");

@@ -116,6 +116,7 @@ function hotel_search(data){
                         'child_age': child_age
                        },
                        success: function(msg) {
+                           $('#loading-search-hotel').hide();
                            console.log(msg);
                            try{
                                 if(msg.result.error_code==0){
@@ -142,25 +143,95 @@ function hotel_search(data){
                                     filtering('sort');
                                 }else{
                                     //kalau error belum
+                                    $('#loading-search-hotel').hide();
+                                    document.getElementById("hotel_error").innerHTML = '';
+                                    text = '';
+                                    text += `
+                                        <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                                            <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                                        </div>
+                                    `;
+                                    var node = document.createElement("div");
+                                    node.innerHTML = text;
+                                    document.getElementById("hotel_error").appendChild(node);
+                                    node = document.createElement("div");
+
                                 }
                            }catch(err){
-                                alert(msg.result.error_msg);
+                                $('#loading-search-hotel').hide();
+                                document.getElementById("hotel_error").innerHTML = '';
+                                text = '';
+                                text += `
+                                    <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                                        <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                                    </div>
+                                `;
+                                var node = document.createElement("div");
+                                node.innerHTML = text;
+                                document.getElementById("hotel_error").appendChild(node);
+                                node = document.createElement("div");
+
                            }
                        },
                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                           alert(errorThrown);
+                            $('#loading-search-hotel').hide();
+                            document.getElementById("hotel_error").innerHTML = '';
+                            text = '';
+                            text += `
+                                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                                </div>
+                            `;
+                            var node = document.createElement("div");
+                            node.innerHTML = text;
+                            document.getElementById("hotel_error").appendChild(node);
+                            node = document.createElement("div");
                        }
                    });
                }else{
-
+                    $('#loading-search-hotel').hide();
+                    document.getElementById("hotel_error").innerHTML = '';
+                    text = '';
+                    text += `
+                        <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                            <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                        </div>
+                    `;
+                    var node = document.createElement("div");
+                    node.innerHTML = text;
+                    document.getElementById("hotel_error").appendChild(node);
+                    node = document.createElement("div");
                }
            }else if(data != ''){
                //goto reservation
+                $('#loading-search-hotel').hide();
+                document.getElementById("hotel_error").innerHTML = '';
+                text = '';
+                text += `
+                    <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                        <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                    </div>
+                `;
+                var node = document.createElement("div");
+                node.innerHTML = text;
+                document.getElementById("hotel_error").appendChild(node);
+                node = document.createElement("div");
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            $('#loading-search-hotel').hide();
+            document.getElementById("hotel_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("hotel_error").appendChild(node);
+            node = document.createElement("div");
+       },timeout: 10000
     });
 }
 
@@ -219,6 +290,7 @@ function hotel_detail_request(id){
        success: function(msg) {
         console.log(msg);
         //show package
+
         var result = msg.result.response;
         text='';
         text2='';
