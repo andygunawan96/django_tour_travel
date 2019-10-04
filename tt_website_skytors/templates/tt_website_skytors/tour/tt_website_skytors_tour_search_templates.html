@@ -15,6 +15,21 @@
         'budget': 'all',
     };
     sorting_value = '';
+    tour_country = [];
+    tour_city = [];
+    {% for tour_country_temp in tour_countries %}
+        {% for city in tour_country_temp.city.response %}
+            tour_city.push({
+                'name': '{{city.name}}', 'id':'{{city.id}}'
+            });
+        {% endfor %}
+        tour_country.push({
+            'city': tour_city,
+            'name': '{{tour_country_temp.name}}',
+            'id': '{{tour_country_temp.id}}'
+        });
+        tour_city = [];
+    {% endfor %}
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
@@ -27,52 +42,90 @@
                         <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-3" style="padding:0px;">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                     <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{tour_query}}"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-3" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
-                                    <input id="tour_hidden_destination" type="hidden" value="{{dest_destination}}"/>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select" id="default-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_destination" id="tour_destination" size="5">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 
-                                            </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination </span>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="form-select">
+                                                <select class="js-example-basic-single" style="width:100%;" id="tour_countries" onchange="auto_complete_tour('tour_countries');" size="5" data-live-search="true" name="tour_countries">
+                                                    {% if not dest_country %}
+                                                    <option value="0" selected="">All Countries</option>
+                                                    {% for country in tour_countries %}
+                                                    <option value="{{country.id}}">{{country.name}}</option>
+                                                    {% endfor %}
+                                                    {% else %}
+                                                    <option value="0" selected="">All Countries</option>
+                                                    {% for country in tour_countries %}
+                                                    {% if dest_country == country.id %}
+                                                    <option value="{{country.id}}" selected>{{country.name}}</option>
+                                                    {% else %}
+                                                    <option value="{{country.id}}">{{country.name}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <div class="form-select">
+                                                <div id="temp_tour_cities">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
+                                                        <option value="0" selected="">All Cities</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Month</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                {% for month_data in dest_month_data %}
-                                                {% if month_data.value == dest_month %}
-                                                <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
-                                                {% else %}
-                                                <option value="{{month_data.value}}">{{month_data.string}}</option>
-                                                {% endif %}
-                                                {% endfor %}
-                                            </select>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12 search_type">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure Time </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Year</span>
-                                    <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
-                                    <div class="form-select">
-                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                        {% for month_data in dest_month_data %}
+                                                        {% if month_data.value == dest_month %}
+                                                        <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
+                                                        {% else %}
+                                                        <option value="{{month_data.value}}">{{month_data.string}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                            <input id="tour_hidden_year" type="hidden" value=""/>
+                                            <div class="form-select">
+                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
-                                        </select>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <br/>
 
-                            <button class="primary-btn text-uppercase" type="submit" value="Submit">
+                            <button class="primary-btn" type="submit" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Change Search
                             </button>
@@ -180,7 +233,7 @@
 </section>
 
 <script>
-    tour_login('search');
+    tour_login();
     get_dept_year();
     tour_filter_render();
 
@@ -199,6 +252,9 @@
 
     $(document).ready(function () {
         $('.js-example-basic-single').select2();
+        {% if dest_country %}
+            auto_complete_tour('tour_countries', {{dest_city}});
+        {% endif %}
     });
 </script>
 

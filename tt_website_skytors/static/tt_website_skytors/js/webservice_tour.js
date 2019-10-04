@@ -1,7 +1,7 @@
 var tour_data = [];
 offset = 0;
 
-function tour_login(data){
+function tour_login(){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
     $.ajax({
@@ -15,72 +15,7 @@ function tour_login(data){
 
        },
        success: function(msg) {
-           if(data == ''){
-                tour_get_countries();
-           }
-           else {
-                tour_get_countries();
-                tour_search();
-           }
-
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
-}
-
-function tour_get_countries(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/tour",
-       headers:{
-            'action': 'get_countries',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-
-       },
-       success: function(msg) {
-           console.log(msg);
-           temp = document.getElementById('tour_hidden_destination').value;
-           if (temp == "" || temp == "0"){
-               var text = '<option value="0" selected="">All Destinations</option>';
-           }
-           else {
-               var text = '<option value="0">All Destinations</option>';
-           }
-
-           var counter = 0;
-           if(msg.result.error_code == 0){
-               tour_countries = msg.result.response.countries;
-               for(i in tour_countries){
-                   if (temp == tour_countries[i].id)
-                   {
-                       text+=`
-                       <option value="`+tour_countries[i].id+`" selected="">`+tour_countries[i].name+`</option>
-                       `;
-                   }
-                   else
-                   {
-                       text+=`
-                       <option value="`+tour_countries[i].id+`">`+tour_countries[i].name+`</option>
-                       `;
-                   }
-
-               }
-               if (text != '') {
-                    document.getElementById('tour_destination').innerHTML = text;
-                    $('#tour_destination').niceSelect('update');
-               }
-               else {
-                    alert('Failed to get Tour Destinations.');
-               }
-
-           }else{
-                alert('Failed to get Tour Destinations.');
-           }
+           tour_search();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -137,7 +72,7 @@ function tour_search(){
                    }
                    else
                    {
-                       img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+                       img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
                    }
 
                    if (tour_data[i].state_tour == 'sold')
@@ -294,7 +229,7 @@ function tour_get_details(package_id){
                         <div class="item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
-                                    <img class="img-fluid zoom-img" src="http://static.skytors.id/tour_packages/not_found.png" alt="">
+                                    <img class="img-fluid zoom-img" src="https://static.rodextrip.com/public/tour_packages/not_found.png" alt="">
                                 </div>
                             </div>
                         </div>`;
@@ -314,7 +249,7 @@ function tour_get_details(package_id){
                             }
                             else
                             {
-                                itinerary_text += `<img src="http://static.skytors.id/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
+                                itinerary_text += `<img src="https://static.rodextrip.com/public/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
                             }
                             itinerary_text += `</div>`;
 
@@ -354,13 +289,13 @@ function tour_get_details(package_id){
                                     <td class="hidden-xs">`;
                             if (tour_data[i].flight_segment_ids[k].carrier_code)
                             {
-                                flight_details_text += `<img src="http://static.skytors.id/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" title="`+tour_data[i].flight_segment_ids[k].carrier_id+`" width="50" height="50"/>`;
+                                flight_details_text += `<img src="https://static.rodextrip.com/public/airline_logo/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" title="`+tour_data[i].flight_segment_ids[k].carrier_id+`" width="50" height="50"/>`;
                             }
 
 //                            flight_details_text += `</td><td class="hidden-sm hidden-md hidden-lg hidden-xl">`;
 //                            if (tour_data[i].flight_segment_ids[k].carrier_code)
 //                            {
-//                                flight_details_text += `<img src="http://static.skytors.id/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" width="40" height="40"/>`+tour_data[i].flight_segment_ids[k].carrier_code;
+//                                flight_details_text += `<img src="https://static.rodextrip.com/public/airline_logo/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" width="40" height="40"/>`+tour_data[i].flight_segment_ids[k].carrier_code;
 //                            }
 
                             flight_details_text += `</td>`;

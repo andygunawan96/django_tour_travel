@@ -20,45 +20,17 @@ MODEL_NAME = 'tt_website_skytors'
 def issued_offline(request):
     if 'user_account' in request.session._session:
 
-        file = open("javascript_version.txt", "r")
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+
+        template, logo = get_logo_template()
+
+        file = open("airline_destination.txt", "r")
         for line in file:
-            file_cache_name = line
+            airline_destinations = json.loads(line)
         file.close()
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-
-        airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
-                des.update({
-                    'country': country
-                })
-                airline_destinations.append(des)
-
-        train_destination = response['result']['response']['train']
+        # train_destination = response['result']['response']['train']
 
         airline_country = response['result']['response']['airline']['country']
 
@@ -73,7 +45,7 @@ def issued_offline(request):
             'countries': airline_country,
             # 'agent': request.session['agent'],
             'airline_destinations': airline_destinations,
-            'train_destination': train_destination,
+            # 'train_destination': train_destination,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,
@@ -89,35 +61,10 @@ def issued_offline(request):
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open(str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

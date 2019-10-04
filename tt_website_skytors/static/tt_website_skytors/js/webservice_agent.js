@@ -24,12 +24,30 @@ function signin(){
            success: function(msg) {
             console.log(msg);
             if(msg == true){
-                Swal.fire(
-                  'Correct',
-                  'Login Success!',
-                  'success'
-                )
-                gotoForm();
+                let timerInterval
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 2000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+                    gotoForm();
+                  }
+                })
             }else{
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
@@ -134,7 +152,7 @@ function get_customer_list(passenger, number, product){
                                     if(msg.result.response[i].phones.length != 0)
                                         response+=`<br/> <span><i class="fas fa-mobile-alt"></i> `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_code+` - `+msg.result.response[i].phones[msg.result.response[i].phones.length - 1].calling_number+`</span>`;
                                     if(msg.result.response[i].nationality_code != '')
-                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+`</span>`;
+                                        response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_code+` - `+msg.result.response[i].nationality_name+`</span>`;
                                     response+=`
                                 </td>`;
     //                            <td>`+msg.response.result[i].booker_type+`</td>
@@ -166,11 +184,12 @@ function get_customer_list(passenger, number, product){
                }
             });
         }else{
+            $('.loading-booker-train').hide();
             response = '';
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             document.getElementById('search_result').innerHTML = response;
         }
-        $('.loading-booker-train').hide();
+
     }else{
         $(".loading-pax-train").show();
         if(document.getElementById('train_'+passenger+number+'_search').value.length >= 2){
@@ -249,11 +268,11 @@ function get_customer_list(passenger, number, product){
                }
             });
         }else{
+            $('.loading-pax-train').hide();
             response = '';
             response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-times-circle"></i> Please input more than 1 letter!</h6></div></center>`;
             document.getElementById('search_result_'+passenger+number).innerHTML = response;
         }
-        $('.loading-pax-train').hide();
     }
 }
 
@@ -648,7 +667,7 @@ function pick_passenger(type, sequence, product){
         document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
         document.getElementById('booker_last_name').readOnly = true;
         if(passenger_data[sequence].nationality_code != '' && passenger_data[sequence].nationality_name != ''){
-            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_code;
+            document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
             document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
         }
         document.getElementById('booker_email').value = passenger_data[sequence].email;
@@ -694,7 +713,7 @@ function pick_passenger(type, sequence, product){
         document.getElementById('adult_last_name'+passenger_number).readOnly = true;
         document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_code != ''){
-            document.getElementById('select2-adult_nationality_id'+passenger_number+'-container').innerHTML = passenger_data[sequence].nationality_name;
+            document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
             document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         }
         document.getElementById('adult_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
@@ -837,7 +856,7 @@ function pick_passenger(type, sequence, product){
         passenger_data_pick[passenger_data_pick.length-1].sequence = 'infant'+passenger_number;
         auto_complete('infant_nationality'+passenger_number);
         $('#myModal_infant'+passenger_number).modal('hide');
-    }else if(type == 'Senior'){
+    }else if(type == 'senior'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'senior'+passenger_number){
                 passenger_data_pick.splice(i,1);
@@ -1083,7 +1102,7 @@ function check_date(value){
 }
 
 function check_time(value){
-    return value.match('/^([0-1]?[0-9]|2[0-4]):([0-5][0-9])(:[0-5][0-9])?$/') != null
+    return value.match('^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$') != null
 }
 
 function check_date_time(value){

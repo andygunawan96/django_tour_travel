@@ -6,11 +6,43 @@ $(document).ready(function(){
     var sort_departure=0;
     var sort_arrival=0;
 
+    var checking = function() {
+      var status = document.getElementById('status');
+
+      if ( navigator.onLine && status.classList.contains('off') ) {
+        status.innerHTML = 'Your are online';
+        status.classList.remove('off');
+        status.classList.add('on');
+        status.style.display = "block";
+        setTimeout(function(){ document.getElementById("status").innerHTML=""; status.classList.remove('off'); status.style.display = "none"; }, 3000);
+      }
+      if ( ! navigator.onLine && status.classList.contains('on') ) {
+        status.innerHTML = 'Your are offline';
+        status.classList.remove('on');
+        status.classList.add('off'); // can't use .replace() because of Chrome
+        status.style.display = "block";
+      }
+    };
+
+    window.addEventListener('online', checking);
+    window.addEventListener('offline', checking);
+
+//    var slowLoad = window.setTimeout( function() {
+//        alert( "the page is taking its sweet time loading" );
+//    }, 10000 );
+//
+//    window.addEventListener( 'load', function() {
+//        window.clearTimeout( slowLoad );
+//    }, false );
+
+    //$("html, body").animate({scrollTop: 0}, 1000);
     $("#myModalPopUp").modal('show');
 
     $(window).on('load', function(){
-         $('.loader-rodextrip').fadeOut();
-         $('.loader-airline').fadeOut();
+        setTimeout(function(){
+            $('.loader-rodextrip').fadeOut();
+            $('.loader-airline').fadeOut();
+        }, 2000);
     });
 
     $(window).click(function(e) {
@@ -304,7 +336,6 @@ $(document).ready(function(){
                 document.getElementById("left-minus-child-flight").disabled = true;
             }
         }
-
         // Increment
 
         if (quantity_adult_flight > quantity_infant_flight){
@@ -505,7 +536,6 @@ $(document).ready(function(){
                 $('#hotel_adult').val(quantity + 1);
                 quantity_adult_hotel = quantity + 1;
             }
-
             $('#show_total_pax_hotel').text(quantity_room_hotel + " Room, " + quantity_adult_hotel + " Adult, " +quantity_child_hotel + " Child");
         }
 
@@ -664,20 +694,38 @@ $(document).ready(function(){
 
     $('#information-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 155
-        }, 500)
+            scrollTop: $("div.div-information-hotel").offset().top - 125
+        }, 500);
+        active_sticky_hotel("information");
     });
 
     $('#facility-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 140
-        }, 500)
+            scrollTop: $("div.div-facility-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("facility");
     });
+
+    $('#location-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-location-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("location");
+    });
+
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 140
-        }, 500)
+            scrollTop: $("div.div-select-room-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("select");
+    });
+
+    $('#review-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-review-hotel").offset().top - 110
+        }, 500);
+        active_sticky_hotel("review");
     });
 
     $('#about-partnership').click(function(e){
@@ -708,7 +756,6 @@ $(document).ready(function(){
             scrollTop: $("div.div-register-partnership").offset().top - 100
         }, 500)
     });
-
 
     $('#radio_airline_search').change(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
@@ -880,29 +927,10 @@ $(document).ready(function(){
             });
         }
         else if (selected_value == "multicity"){
+            console.log('asdadasd');
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';
-//            text_mc += `
-//            <div class="row">
-//                <div class="col-lg-12" style="padding:0px;">
-//                    <div id="mc_airline_paxs">
-//
-//                    </div>
-//                    <div class="banner-right" style="text-align:left;">
-//                        <ul class="nav nav-tabs" id="mc_airline_add_tabs" role="tablist" style="display:inline-block; margin-right:5px;">
-//
-//                        </ul>
-//                        <button type="button" id="add_mc_btn" class="primary-btn-ad" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
-//                        <button type="button" id="del_mc_btn" class="primary-btn-ad" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
-//                    </div>
-//
-//                    <div class="banner-right">
-//                        <div class="tab-content" id="mc_airline_add" style="padding-top:15px; background:none !important;">
-//                        </div>
-//                    </div>
-//                </div>
-//            </div>`;
 
             if(template == 1){
                 text_mc += `
@@ -1758,4 +1786,200 @@ try{
     });
 }catch(err){
     console.log('err');
+}
+
+function capitalizeInput(id){
+    $.fn.capitalize = function () {
+        $.each(this, function () {
+            var split = this.value.split(' ');
+            for (var i = 0, len = split.length; i < len; i++) {
+                split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
+            }
+            this.value = split.join(' ');
+        });
+        return this;
+    };
+
+
+    $('#'+id).on('keyup', function () {
+        $(this).capitalize();
+    }).capitalize();
+
+}
+
+function active_sticky_hotel(type){
+    if(type == "information"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#information-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "facility"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#facility-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "location"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#location-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "select"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#select-room-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "review"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#review-hotel").addClass("sticky-hotel-active");
+    }
+}
+
+function active_sticky_activity(type){
+    if(type == "product"){
+        $(".content-activity").removeClass("sticky-activity-active");
+        $("#product-activity").addClass("sticky-activity-active");
+    }
+    else if(type == "description"){
+        $(".content-activity").removeClass("sticky-activity-active");
+        $("#description-activity").addClass("sticky-activity-active");
+    }
+}
+
+function breadcrumb_create(breadcrumbs_type, current_step, back_step){
+    if(breadcrumbs_type == "airline"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:airline_search'%}';", "location.href='{% url 'tt_website_skytors:airline_passenger'%}';", "", ""];
+    }
+    if(breadcrumbs_type == "airline_new"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "SSR", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "", "", "", "", ""];
+    }
+    if(breadcrumbs_type == "activity"){
+        var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:activity_search'%}';", "location.href='{% url 'tt_website_skytors:activity_detail'%}';", "location.href='{% url 'tt_website_skytors:activity_passenger'%}';", ""];
+    }
+    if(breadcrumbs_type == "hotel"){
+        var breadcrumbs = ["Home", "Search", "Rooms", "Passenger", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:hotel_search'%}';", "", "", "", ""];
+    }
+
+    document.getElementById("breadcrumbs_create").innerHTML = '';
+    text = '';
+    for (var i = 0; i < breadcrumbs.length; i++) {
+      var step = i + 1;
+      //can back
+      if(back_step == 0){
+          //example if 1 < 3 done
+          if(step < current_step){
+            if(breadcrumbs_url[i] != ""){
+                text+=`
+                <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx br-done">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+          }
+          //example if 3 == 3 active
+          else if(step == current_step){
+            if(step != breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+            }
+          }
+          //example if 3 == 3 default gray
+          else{
+              if(step == breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+              }
+              else{
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+              }
+          }
+      }
+      //cant back
+      else{
+        //home
+        if(step == 1){
+            text+=`
+            <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
+                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+            </div>`;
+        }
+        //active
+        else if(step == current_step && step != 1){
+            if(step != breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx br-book" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-book" id="issued-breadcrumb-icon">`+step+`</span>
+                    <span id="issued-breadcrumb-span" style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+            }
+        }
+        else if(step < current_step && step > 1){
+            text+=`
+            <div class="breadcrumbs-rdx br-book">
+                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+            </div>`;
+        }
+        else{
+            if(step != breadcrumbs.length){
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>`;
+            }
+            else{
+                text+=`
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">`+step+`</span>
+                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                </div>`;
+            }
+        }
+      }
+    }
+    var node = document.createElement("div");
+    node.className = 'breadcrumbs_flex';
+    node.innerHTML = text;
+    document.getElementById("breadcrumbs_create").appendChild(node);
+    node = document.createElement("div");
 }

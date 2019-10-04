@@ -2,11 +2,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from tools import util, ERR
-import datetime
+from datetime import datetime
 from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
 import json
-
+from .tt_webservice_views import *
 import logging
 import traceback
 _logger = logging.getLogger(__name__)
@@ -112,23 +112,17 @@ def signin(request):
             try:
                 if res['result']['error_code'] == 0:
                     logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                    file = open("javascript_version.txt", "r")
-                    for line in file:
-                        file_cache_name = line
-                    file.close()
-
-                    file = open('version' + str(file_cache_name) + ".txt", "r")
-                    for line in file:
-                        res_data = json.loads(line)
-                    file.close()
+                    javascript_version = get_cache_version()
+                    response = get_cache_data(javascript_version)
 
                     res['result']['response'].update({
-                        # 'visa': res_data['result']['response']['visa'],
-                        # 'issued_offline': res_data['result']['response']['issued_offline'],
-                        # 'train': res_data['result']['response']['train'],
-                        # 'activity': res_data['result']['response']['activity'],
-                        'airline': res_data['result']['response']['airline'],
-                        # 'hotel_config': res_data['result']['response']['hotel_config'],
+                        # 'visa': response['result']['response']['visa'],
+                        # 'issued_offline': response['result']['response']['issued_offline'],
+                        # 'train': response['result']['response']['train'],
+                        # 'activity': response['result']['response']['activity'],
+                        # 'tour': response['result']['response']['tour'],
+                        'airline': response['result']['response']['airline'],
+                        # 'hotel_config': response['result']['response']['hotel_config'],
                     })
                     logging.getLogger("info_logger").error("USE CACHE IN TXT!")
             except:
@@ -167,10 +161,13 @@ def signin(request):
                 }
 
                 res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
-
-                file = open('hotel_cache_data.txt', "w+")
-                file.write(res_cache_hotel['result']['response'])
-                file.close()
+                try:
+                    if res_cache_hotel['result']['error_code'] == 0:
+                        file = open('hotel_cache_data.txt', "w+")
+                        file.write(res_cache_hotel['result']['response'])
+                        file.close()
+                except:
+                    pass
 
                 #visa odoo12
                 # data = {
@@ -218,32 +215,38 @@ def signin(request):
                 # headers = {
                 #     "Accept": "application/json,text/html,application/xml",
                 #     "Content-Type": "application/json",
-                #     "action": "get_config2",
+                #     "action": "get_config",
                 #     "signature": request.session['signature'],
                 # }
-                #
-                # res_config_activity = util.send_request(url=url + 'activity/booking', data=data, headers=headers,
-                #                                      cookies=res_activity['result']['cookies'], method='POST')
+                # res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
+                #                                     method='POST')
 
-
+                # tour
+                # data = {}
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_config",
+                #     "signature": request.session['signature'],
+                # }
+                # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
+                #                                         method='POST')
 
                 res['result']['response'].update({
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
                     # 'activity': res_config_activity['result'],
+                    # 'tour': res_config_tour['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
                         'destination': res_destination_airline['result']['response']
                     },
                 })
 
-                file = open("javascript_version.txt", "r")
-                for line in file:
-                    file_cache_name = line
-                file.close()
+                javascript_version = get_cache_version()
 
-                file = open('version' + str(file_cache_name) + ".txt", "w+")
+                file = open('version' + str(javascript_version) + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
 
@@ -300,6 +303,20 @@ def get_url():
 
 def get_customer_list(request):
     try:
+        upper = 200
+        lower = 0
+        #define per product DEFAULT 0 - 200 / AMBIL SEMUA PASSENGER
+        #check jos
+        if request.POST['product'] == 'airline':
+            if request.POST['passenger_type'] == 'adult':
+                upper = 200
+                lower = 12
+            elif request.POST['passenger_type'] == 'child':
+                upper = 11
+                lower = 3
+            elif request.POST['passenger_type'] == 'infant':
+                upper = 2
+                lower = 0
         data = {
             'name': request.POST['name'],
             'upper': 200,

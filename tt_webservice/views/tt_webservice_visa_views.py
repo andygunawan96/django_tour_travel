@@ -9,6 +9,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+from .tt_webservice_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -107,15 +108,8 @@ def login(request):
 
 def get_config(request):
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
         res = {}
         for visa_config in response['result']['response']['visa']:
@@ -145,7 +139,7 @@ def search(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.session['visa_signature'],
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -227,14 +221,15 @@ def search(request):
 def sell_visa(request):
     try:
         data = {
-            'pax': request.session['visa_passenger'],
+            'pax': request.session['visa_sell'],
+            'passenger': request.session['visa_passenger'],
             "provider": 'skytors_visa'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "sell_visa",
-            "signature": request.session['visa_signature'],
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -251,7 +246,7 @@ def update_contact(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "update_contacts",
-            "signature": request.session['visa_signature'],
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -317,7 +312,7 @@ def update_passengers(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "update_passengers",
-            "signature": request.session['visa_signature'],
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -327,7 +322,6 @@ def update_passengers(request):
 
 def commit_booking(request):
     try:
-        #nanti ganti ke get_ssr_availability
         if request.POST['force_issued'] == 'false':
             force_issued = False
         elif request.POST['force_issued'] == 'true':
@@ -335,11 +329,20 @@ def commit_booking(request):
         data = {
             'force_issued': force_issued
         }
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data.update({
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+        })
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "commit_booking",
-            "signature": request.session['visa_signature'],
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -360,7 +363,7 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": request.session['visa_signature'],
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

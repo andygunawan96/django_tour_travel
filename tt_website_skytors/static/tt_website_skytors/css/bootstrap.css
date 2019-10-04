@@ -2307,6 +2307,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   border: 1px solid transparent;
   cursor:pointer;
   color:#303030;
+  height:30px;
 }
 
 .btn-custom-circle:hover {
@@ -2326,7 +2327,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
 
 .btn:focus, .btn.focus {
   outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  /*box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);*/
 }
 
 .btn.disabled, .btn:disabled {
@@ -3003,6 +3004,9 @@ tbody.collapse.show {
   top: 100%;
   left: 0;
   width: 100%;
+  max-height:330px;
+  overflow-y: auto;
+  overflow-x:hidden;
   z-index: 1000;
   display: none;
   float: left;

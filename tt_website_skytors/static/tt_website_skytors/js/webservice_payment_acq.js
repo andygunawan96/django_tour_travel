@@ -28,7 +28,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            text=`<h4>Payment Method</h4><hr/>
+            text=`<h4 style="color:#f15a22;">Payment Method</h4><hr/>
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
             <div class="input-container-search-ticket btn-group">
 
@@ -125,7 +125,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)));
+                        text+=getrupiah(document.getElementById('amount').value);
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
                     }
@@ -156,7 +156,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                        text += getrupiah((parseInt(document.getElementById('amount').value) + payment_acq2[payment_method][selected].price_component.unique_amount));
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
                     }
@@ -195,7 +195,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)));
+                        text+=getrupiah(document.getElementById('amount').value);
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
                     }
@@ -226,7 +226,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
                     try{
-                        text+=getrupiah((top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+                        text+=getrupiah((parseInt(document.getElementById('amount').value) + payment_acq2[payment_method][selected].price_component.unique_amount));
                     }catch(err){
                         text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
                     }
@@ -240,9 +240,9 @@ function set_price(val, type, product_type){
     else if(type == 'airline_review')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_hold_booking(1);" style="width:100%;">Issued Booking<div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'activity')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();activity_pre_create_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="activity_pre_create_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'top_up')
         text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;

@@ -1,264 +1,47 @@
-{% extends 'tt_website_skytors/template_website_booking.html' %}
-{% load i18n %}
-{% load static from staticfiles %}
-{% block content %}
+<html>
+<script src="{{ static_path }}js/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
 <script>
-    counter = 0;
-    price = {
-        adult:{
-            'fare': 1000,
-            'tax': 1000,
-            'total': 2000
-        },child:{
-            'fare': 1000,
-            'tax': 1000,
-            'total': 2000
-        },infant:{
-            'fare': 1000,
-            'tax': 1000,
-            'total': 2000
-        }
-    }
+
+function hello()
+{
+	alert('hello')
+}
+
+function upload_file(){
+    //document.getElementById('activity_category').value.split(' - ')[1]
+    $.ajax({
+       type: "POST",
+       dataType: 'json',
+       contentType: 'application/json',
+       url: "http://127.0.0.1:8071/content",
+       headers:{
+            'action': 'upload_file',
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+       },
+       data: JSON.stringify({
+       		'filename': document.getElementById('filename').value,
+       		'file_reference': document.getElementById('file_reference').value,
+       		'file': document.getElementById('file').value	
+       }),
+       success: function(msg) {
+       		alert('success')
+       		console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
 </script>
-<script src="{{ static_path }}js/webservice_agent.js"></script>
-<script src="{{ static_path }}js/webservice_token.js"></script>
-<script src="{{ static_path }}js/jquery.min.js"></script>
-<script src="{{ static_path }}js/jquery-migrate-3.0.1.min.js"></script>
-<!--<label>Adult</label><br/>-->
-<!--<label>Fare</label><input id="fare_adult" value="1000" disabled/><br/>-->
-<!--<label>Tax</label><input id="tax_adult" value="1000" disabled/><br/>-->
-<!--<label>total amount</label><input id="total_adult" value="2000" disabled/><br/>-->
+<body>
 
-<!--<label>Child</label><br/>-->
-<!--<label>Fare</label><input id="fare_child" value="1000" disabled/><br/>-->
-<!--<label>Tax</label><input id="tax_child" value="1000" disabled/><br/>-->
-<!--<label>total amount</label><input id="total_child" value="2000" disabled/><br/>-->
+Upload Your File Here!<br>
+<label>filename</label><input type="text" name="filename" id="filename"/><br>
+<label>file reference</label><input type="text" name="file_reference" id="file_reference"/><br>
+<label>file</label><input type="file" name="file" id="file"/><br>
+<button onclick="upload_file();"> Submit </button>
 
-<!--<label>Infant</label><br/>-->
-<!--<label>Fare</label><input id="fare_infant" value="1000" disabled/><br/>-->
-<!--<label>Tax</label><input id="tax_infant" value="1000" disabled/><br/>-->
-<!--<label>total amount</label><input id="total_infant" value="2000" disabled/><br/>-->
+</body>
+</html>
 
-<!--<label>Total</label><br/>-->
-<!--<label>Fare</label><input id="fare_amount" value="3000" disabled/><br/>-->
-<!--<label>Tax</label><input id="tax_amount" value="3000" disabled/><br/>-->
-<!--<label>total amount</label><input id="total_amount" value="6000" disabled/><br/>-->
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-8 col-sm-8"></div>
-            <div class="col-lg-4 col-md-4 col-sm-4" style="max-height:500px; overflow-y:auto; border:1px solid red;">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h4 style="padding-top:15px;">Pricing</h4>
-                        <hr/>
-                    </div>
-                    <div class="col-lg-12" style="text-align:right;">
-                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
-                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                        <br/>
-                    </div>
-                    <div class="col-lg-12">
-                        <div style="padding:10px;" id="table_of_equation">
-
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div style="padding:5px;" class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-lg-3">Fare</div>
-                            <div class="col-lg-3">Tax</div>
-                            <div class="col-lg-3">Total</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div style="padding:5px;" class="row" id="adult">
-                            <div class="col-lg-3">Adult</div>
-                            <div class="col-lg-3" id="adult_fare">-</div>
-                            <div class="col-lg-3" id="adult_tax">-</div>
-                            <div class="col-lg-3" id="adult_total">-</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div style="padding:5px;" class="row" id="child">
-                            <div class="col-lg-3">Child</div>
-                            <div class="col-lg-3" id="child_fare">-</div>
-                            <div class="col-lg-3" id="child_tax">-</div>
-                            <div class="col-lg-3" id="child_total">-</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <div style="padding:5px;" class="row" id="infant">
-                            <div class="col-lg-3">Infant</div>
-                            <div class="col-lg-3" id="infant_fare">-</div>
-                            <div class="col-lg-3" id="infant_tax">-</div>
-                            <div class="col-lg-3" id="infant_total">-</div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                        <hr/>
-                        <center>
-                            <input class="primary-btn-ticket" type="button" onclick="calculate();" value="Calculate">
-                        </center>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<script>
-    function add_table_of_equation(){
-        if(counter != 0){
-            temp = counter-1;
-            console.log(temp);
-            if(document.getElementById("selection_fare"+temp).value == 'total')
-                alert("Type amount has been reset please check!");
-
-            text = '<option value="fare"';
-            if(document.getElementById("selection_fare"+temp).value == 'fare')
-                text += 'selected';
-            text +='>Fare</option>';
-
-            text += '<option value="tax"';
-            if(document.getElementById("selection_fare"+temp).value == 'tax')
-                text += 'selected';
-            text +='>Tax</option>';
-            document.getElementById("selection_fare"+temp).innerHTML = text;
-        }
-        text= '';
-        var node = document.createElement("div");
-        text += `
-        <div class="col-lg-4" style="padding:0px;">
-            <span style="font-size:11px;">Type</span><br/>
-            <div class="form-select">
-                <div class="input-container-search-ticket">
-                    <select id="selection_type`+counter+`" style="width:100%;">
-                        <option value="upsell">Upsell</option>
-                        <option value="discount">Discount</option>
-                    </select>
-                </div>
-            </div>
-        </div>`;
-        text += `
-        <div class="col-lg-4" style="padding:0px;">
-            <span style="font-size:11px;">Type Amount</span><br/>
-            <div class="input-container-search-ticket">
-                <div class="form-select">
-                    <select id="selection_fare`+counter+`" style="width:100%;">
-                        <option value="fare">Fare</option>
-                        <option value="tax">Tax</option>
-                        <option value="total">Total</option>
-                    </select>
-                </div>
-            </div>
-        </div>`;
-        text += `
-        <div class="col-lg-4" style="padding:0px;">
-            <span style="font-size:11px;">Pax Amount</span><br/>
-            <div class="input-container-search-ticket">
-                <div class="form-select">
-                    <select id="selection_pax`+counter+`" style="width:100%;">
-                        <option value="adult">Adult</option>
-                        <option value="child">Child</option>
-                        <option value="infant">Infant</option>
-                    </select>
-                </div>
-            </div>
-        </div>`;
-        text += `
-            <div class="col-lg-12" style="padding:0px;">
-                <span style="font-size:11px;">Equation</span><br/>
-                <div class="input-container-search-ticket">
-                    <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
-                </div>
-                <hr/>
-            </div>`;
-        node.className = 'row';
-        node.innerHTML = text;
-        node.setAttribute('id', 'div'+counter);
-        document.getElementById("table_of_equation").appendChild(node);
-        $('select').niceSelect();
-        counter++;
-    }
-
-    function delete_table_of_equation(){
-        if(counter != 0){
-            counter--;
-            if(counter != 0){
-                temp = counter-1;
-                document.getElementById("selection_fare"+temp).innerHTML = `<option value="fare">Fare</option><option value="tax">Tax</option><option value="fare">Total</option>`;
-            }
-            var element = document.getElementById('div'+counter);
-            element.parentNode.removeChild(element);
-        }
-    }
-
-    function calculate(){
-        price_duplication = JSON.parse(JSON.stringify(price));
-
-        for(i=0;i<counter;i++){
-            var selection_calculation = document.getElementById('calculation'+i).value;
-            var selection_pax = document.getElementById('selection_pax'+i).value;
-            var selection_fare = document.getElementById('selection_fare'+i).value;
-            if(selection_calculation == '' || selection_calculation == null)
-                selection_calculation = '0';
-            if(selection_calculation.match('-')){
-                var temp = '';
-                for(i in selection_calculation.split('-')){
-                    temp += selection_calculation[i];
-                }
-                selection_calculation = temp;
-            }
-            if(document.getElementById('selection_type'+i).value == 'upsell'){
-                if(selection_calculation.match('%')){
-                    if(selection_fare != 'total'){
-                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + ( price_duplication[selection_pax][selection_fare] * parseFloat(selection_calculation) / 100 );
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
-                    }else{
-                        price_duplication[selection_pax]['fare'] = price_duplication[selection_pax]['fare'] + ( price_duplication[selection_pax]['fare'] * parseFloat(selection_calculation) / 100 );
-                        price_duplication[selection_pax]['tax'] = price_duplication[selection_pax]['tax'] + ( price_duplication[selection_pax]['tax'] * parseFloat(selection_calculation) / 100 );
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['total'] + ( price_duplication[selection_pax]['total'] * parseFloat(selection_calculation) / 100 );
-                    }
-                }else{
-                    if(selection_fare != 'total'){
-                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] + parseFloat(selection_calculation);
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
-                    }else{
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'] + parseFloat(selection_calculation);
-                    }
-                }
-            }else if(document.getElementById('selection_type'+i).value == 'discount'){
-                if(selection_calculation.match('%')){
-                    if(parseFloat(selection_calculation) > 100){
-                        alert('Max discount 100%');
-                    }else if(selection_fare != 'total'){
-                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] - ( price_duplication[selection_pax][selection_fare] * parseFloat(selection_calculation) / 100 );
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
-                    }else{
-                        price_duplication[selection_pax]['fare'] = price_duplication[selection_pax]['fare'] - ( price_duplication[selection_pax]['fare'] * parseFloat(selection_calculation) / 100 );
-                        price_duplication[selection_pax]['tax'] = price_duplication[selection_pax]['tax'] - ( price_duplication[selection_pax]['tax'] * parseFloat(selection_calculation) / 100 );
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['total'] - ( price_duplication[selection_pax]['total'] * parseFloat(selection_calculation) / 100 );
-                    }
-                }else{
-                    if(selection_fare != 'total'){
-                        price_duplication[selection_pax][selection_fare] = price_duplication[selection_pax][selection_fare] - parseFloat(selection_calculation);
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'];
-                    }else{
-                        price_duplication[selection_pax]['total'] = price_duplication[selection_pax]['fare'] + price_duplication[selection_pax]['tax'] - parseFloat(selection_calculation);
-                    }
-                }
-            }
-            document.getElementById('adult_fare').innerHTML = price_duplication.adult.fare;
-            document.getElementById('adult_tax').innerHTML = price_duplication.adult.tax;
-            document.getElementById('adult_total').innerHTML = price_duplication.adult.total;
-            document.getElementById('child_fare').innerHTML = price_duplication.child.fare;
-            document.getElementById('child_tax').innerHTML = price_duplication.child.tax;
-            document.getElementById('child_total').innerHTML = price_duplication.child.total;
-            document.getElementById('infant_fare').innerHTML = price_duplication.infant.fare;
-            document.getElementById('infant_tax').innerHTML = price_duplication.infant.tax;
-            document.getElementById('infant_total').innerHTML = price_duplication.infant.total;
-
-        }
-    }
-</script>
-{% endblock %}

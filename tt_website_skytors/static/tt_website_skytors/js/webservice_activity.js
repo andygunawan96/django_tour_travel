@@ -116,7 +116,7 @@ function activity_search(){
                    }
                    else
                    {
-                       img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+                       img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
                    }
 
                    text+=`
@@ -198,14 +198,14 @@ function activity_get_detail(uuid, provider){
                    for(i in activity_type){
                        if (counti == 0){
                            temp += `
-                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                           <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off" checked="checked"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
                        }
                        else {
                            temp += `
-                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px; max-width:300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                           <label class="btn btn-activity" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
                                <input type="radio" class="activity" name="product_type" autocomplete="off"/><span>`+activity_type[i].name+`</span>
                            </label>
                        `;
@@ -245,31 +245,31 @@ function activity_get_price(val, bool){
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
-           text+=`<h3 style="padding:0 20px;">Validity</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Validity</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucher_validity+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherUse != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Use</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Use</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherUse+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRedemptionAddress != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Address</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Address</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h3 style="padding:0 20px;">Voucher Print</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Print</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
-           text+=`<h3 style="padding:0 20px;">Cancellation Policies</h3>
-                <p style="padding:0 20px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Cancellation Policies</h4>
+                <p style="padding:0 15px;">`+activity_type[activity_type_pick].cancellationPolicies+`</p>`;
         }
 
         document.getElementById('vouchers').innerHTML = text;
         document.getElementById('date').innerHTML = `
-            <div class="col-sm-6 form-group departure_date" style="padding:15px;">
-                <label id="departure_date_activity_label" for="activity_date"><span class="required-txt">* </span>Visit Date</label>
-                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control calendar-logo" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
+            <div class="col-lg-6 form-group departure_date">
+                <label id="departure_date_activity_label" for="activity_date"><span style="color:red;">* </span><i class="fas fa-calendar-alt"></i> Visit Date</label>
+                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control" style="margin-bottom:unset;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
                 <div id="activity_date_desc"></div>
             </div>
        `;
@@ -294,6 +294,7 @@ function activity_get_price(val, bool){
 function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('activity_detail_table').innerHTML = '';
     document.getElementById('activity_detail_next_btn').innerHTML = '';
+    document.getElementById('activity_detail_next_btn2').innerHTML = '';
     document.getElementById('pax').innerHTML = '';
     document.getElementById('event').innerHTML = '';
     document.getElementById('timeslot').innerHTML = '';
@@ -354,18 +355,22 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    for(i in activity_type[activity_type_pick].skus)
                    {
                         low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
-                        text+= `<div class="col-xs-3" style="padding:0px 5px;">
-                                    <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
-                                    <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
-                                    <select class='form-control adult-icon activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                        text+= `<div class="col-lg-3">
+                            <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
+                            <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
                                     for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
                                     text+=`
                                         <option>`+j+`</option>`;
                                     text+=`</select>
-                                </div>`;
+                                </div>
+                            </div>
+                        </div>`;
                    }
-
                    document.getElementById('pax').innerHTML = text;
+                   $('select').niceSelect();
                    document.getElementById('details_div').innerHTML = `<input type='hidden' id='details_data' name='details_data' value='`+detail_for_session+`'/>`;
                    text = '';
                    for(i in activity_type[activity_type_pick].options.perBooking){
@@ -374,75 +379,83 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Gender' &&
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Nationality' &&
                            activity_type[activity_type_pick].options.perBooking[i].name != 'Date of birth'){
-                            text+=`<label style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</label>`;
+                            text+=`<div class="col-lg-12" style="margin-bottom:10px;">`
+                            text+=`<span style='display:block;'>`+activity_type[activity_type_pick].options.perBooking[i].name+`</span>`;
                             if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
-                                //selection buttton
-                                text+=`<select class="form-control" id=perbooking`+i+` name=perbooking`+i+` onchange='input_type1_change_perbooking(`+i+`)'>`;
+                                //selection button
+                                text+=`
+                                <div class="form-select" style="margin-bottom: unset;">
+                                <select id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type1_change_perbooking(`+i+`)'>`;
                                 for(j in activity_type[activity_type_pick].options.perBooking[i].items){
                                     text+=`<option value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</option>`;
             //                        text+=`<label style="width:20%">
-            //                               <input type="radio" id=perbooking`+i+` name=perbooking`+i+` value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`" onchange='input_type1_change_perbooking(`+i+`,`+j+`)' />`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+            //                               <input type="radio" id="perbooking`+i+`" name="perbooking`+i+`" value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`" onchange='input_type1_change_perbooking(`+i+`,`+j+`)' />`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
                                 }
-                                text+=`</select><br/>`;
+                                text+=`</select></div>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
                                 //checkbox
                                 for(j in activity_type[activity_type_pick].options.perBooking[i].items){
-                                    text+=`<label style="width:20%"><input type="checkbox" id=perbooking`+i+j+` name=perbooking`+i+j+` onchange='input_type2_change_perbooking(`+i+`,`+j+`)' value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`"> `+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</label>`;
+                                    text+=`
+                                            <label class="check_box_custom">
+                                                <span style="font-size:13px;">`+activity_type[activity_type_pick].options.perBooking[i].items[j].label+`</span>
+                                                <input type="checkbox" id="perbooking`+i+j+`" name="perbooking`+i+j+`" onchange="input_type2_change_perbooking(`+i+`,`+j+`)" value="`+activity_type[activity_type_pick].options.perBooking[i].items[j].value+`">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                    `;
                                 }
-                                text+=`<br/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3){
                                 //number validation
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                                text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 4){
                                 //string validation
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                                text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;' />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 5){
                                 //boolean checkbox true false
-                                text+=`<input type="checkbox" id=perbooking`+i+`  name=perbooking`+i+` onchange='input_type5_change_perbooking(`+i+`)' />`;
+                                text+=`<input type="checkbox" id="perbooking`+i+`"  name="perbooking`+i+`" onchange='input_type5_change_perbooking(`+i+`)' style='margin-bottom: unset;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 6){
                                 //date
-                                text+=`<input type="text" class="form-control calendar-logo" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
+                                text+=`<input type="text" style="margin-bottom: unset;" class="form-control" id="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' name="perbooking`+i+`" />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
                                 //file //pdf
-                                text+=`<input type="file" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name=perbooking`+i+` id=perbooking`+i+` />`;
+                                text+=`<input type="file" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name="perbooking`+i+`" id="perbooking`+i+`" style="margin-bottom: unset;"/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 8){
                                 //image
-                                text+=`<input type="file" accept="image/*" required="" name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' id=perbooking`+i+` />`;
+                                text+=`<input type="file" accept="image/*" required="" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' id="perbooking`+i+`" style="margin-bottom: unset;"/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 9){
                                 //address no validation maybe from bemyguest
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                                text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10){
                                 //time validation
-                                text+=`<input type="time" style="width:100%;height:20px;" id=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' name=perbooking`+i+` />`;
+                                text+=`<input type="time" style="width:100%;height:20px;" id="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' name="perbooking`+i+`" />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
                                 //datetime validation
-                                text+=`<input class="form-control calendar-logo" type="text" id=perbooking`+i+`0 onchange='input_type11_change_perbooking(`+i+`,0)' name=perbooking`+i+`0 />`;
-                                text+=`<input type="text" id=perbooking`+i+`1 onchange='input_type11_change_perbooking(`+i+`,1)' name=perbooking`+i+`1 />`;
+                                text+=`<input class="form-control" type="text" id="perbooking`+i+`" onchange='input_type11_change_perbooking(`+i+`)' name="perbooking`+i+`" style="margin-bottom: unset;"/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12){
                                 //string country
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                                text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 13){
                                 //deprecated
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14){
                                 //flight number
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block'/>`;
+                                text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 50){
                                 //string validation
-                                text+=`<input class="form-control" type='text' id=perbooking`+i+` name=perbooking`+i+` onchange='input_type_change_perbooking(`+i+`)' style='display:block' />`;
+                                text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;'/>`;
                             }
-                            text+=`<label>`+activity_type[activity_type_pick].options.perBooking[i].description+`</label><br/>`;
+                            text+=`<span>`+activity_type[activity_type_pick].options.perBooking[i].description+`</span><br/></div>`;
                         }
                     }
                    document.getElementById('perbooking').innerHTML = text;
                    for(i in activity_type[activity_type_pick].options.perBooking){
                         if(activity_type[activity_type_pick].options.perBooking[i].inputType==11)
-                            $('#perbooking'+i+'0').daterangepicker({
+                            $('#perbooking'+i).daterangepicker({
+                                  timePicker: true,
                                   singleDatePicker: true,
                                   autoUpdateInput: true,
                                   showDropdowns: true,
                                   opens: 'center',
                                   locale: {
-                                      format: 'YYYY-MM-DD',
+                                      format: 'YYYY-MM-DD hh:mm',
                                   }
                              });
                         else if(activity_type[activity_type_pick].options.perBooking[i].inputType==6)
@@ -460,18 +473,19 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                     text = '';
 
                    if(activity_type[activity_type_pick].timeslots.length>0){
-                       text += `<div class="col-xs-12" style="padding:5px 0px 0px 15px;">Timeslot</div>
-                                <div class="col-xs-12" style="padding:5px 0px 0px 15px;"><select class="form-control" style="width:50%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
-                       text += `<option value=''>Please Pick a Timeslot!</option>`;
+                       text += `<div class="col-xs-12">Timeslot</div>
+                                <div class="col-xs-12">
+                                <div class="form-select">
+                                <select style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+                       text += `<option value=''>Please Pick a Timeslot!</option></div>`;
                        for(j in activity_type[activity_type_pick].timeslots)
                        {
                             text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`">`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
                        }
-
                        text += `</select></div>`;
                    }
-
                    document.getElementById('timeslot').innerHTML = text;
+                   $('select').niceSelect();
 
                    for(i in msg.result.response[0]){
                        if(msg.result.response[0][i].available==true){
@@ -516,6 +530,7 @@ function activity_pre_create_booking(){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        show_loading();
         activity_create_booking();
       }
     })
@@ -539,11 +554,19 @@ function activity_create_booking(){
             document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('activity_booking').submit();
         }else{
-            alert(msg.result.error_msg);
+           alert(msg.result.error_msg);
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
        }
     });
 }
@@ -555,6 +578,74 @@ function copy_data(){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+}
+
+function show_repricing(){
+    $("#myModalRepricing").modal();
+}
+
+function update_service_charge(data){
+    upsell = []
+    for(i in act_get_booking.result.response.passengers){
+        for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
+            currency = act_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+        }
+        list_price = []
+        for(j in list){
+            if(act_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        console.log(act_get_booking.result.response.passengers[i]);
+        upsell.push({
+            'sequence': act_get_booking.result.response.passengers[i].sequence,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'update_service_charge',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+           'order_number': JSON.stringify(act_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                activity_get_booking(act_order_number);
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                alert(msg.result.error_msg);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
 }
 
 function activity_get_booking(data){
@@ -570,6 +661,8 @@ function activity_get_booking(data){
            'order_number': data
        },
        success: function(msg) {
+       act_order_number = data;
+       act_get_booking = msg;
        $('#loading-search-activity').hide();
         if(msg.result.error_code == 0){
             if(msg.result.response.no_order_number){
@@ -577,16 +670,48 @@ function activity_get_booking(data){
                 voucher_text = ``;
             }
             else{
-                if(msg.result.response.status == 'done')
-                {
+                if(msg.result.response.status == 'done'){
                     conv_status = 'Confirmed';
+                    console.log(msg.result.response);
+                    document.getElementById('issued-breadcrumb').classList.add("br-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                 }
-                else if(msg.result.response.status == 'rejected')
-                {
+                else if(msg.result.response.status == 'rejected'){
                     conv_status = 'Rejected';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
+                }
+                else if(msg.result.response.status == 'cancel'){
+                    conv_status = 'Cancelled';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                }
+                else if(msg.result.response.status == 'cancel2'){
+                    conv_status = 'Expired';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                 }
                 else{
                     conv_status = 'Pending';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-pending");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
                 }
 
                 text = `
@@ -671,11 +796,11 @@ function activity_get_booking(data){
                     `;
                }
 
-               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == true)
+               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == 'married')
                {
                     title = 'MRS';
                }
-               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == false)
+               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status != 'married')
                {
                     title = 'MS';
                }
@@ -734,7 +859,7 @@ function activity_get_booking(data){
                     text += `
                         <tr>
                             <td>`+temp_pax_seq+`</td>
-                            <td>`+msg.result.response.passengers[i].name+`</td>
+                            <td>`+msg.result.response.passengers[i].title+`. `+msg.result.response.passengers[i].name+`</td>
                             <td>`+msg.result.response.passengers[i].pax_type+`</td>
                             <td>`+msg.result.response.passengers[i].birth_date+`</td>
                             <td>`+msg.result.response.passengers[i].sku_name+`</td>
@@ -777,33 +902,122 @@ function activity_get_booking(data){
             document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
             document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
 
-            temp_total_comm = 0;
-            temp_grand_total = 0;
             price_text = '';
             $test = msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
            '\nVisit Date : '+msg.result.response.visit_date+'\n\n';
 
-            for (i in msg.result.response.pricing)
-            {
-                if(msg.result.response.pricing[i].type != 'rac')
-                {
-                    price_text +=
-                    `<div class="row" style="margin-bottom:5px;">
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                <span style="font-size:12px;">`+msg.result.response.pricing[i].name+`</span>
+            //detail
+            text = '';
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+
+            //repricing
+            type_amount_repricing = ['Repricing'];
+            //repricing
+            counter_service_charge = 0;
+            $test += '\nPrice:\n';
+            for(i in msg.result.response.passengers[0].sale_service_charges){
+                price_text+=`
+                    <div style="text-align:left">
+                        <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
+                    </div>`;
+                for(j in msg.result.response.passengers){
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                    for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                        price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+                    }
+                    try{
+                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+
+                    }catch(err){
+
+                    }
+                    //repricing
+                    check = 0;
+                    for(k in pax_type_repricing){
+                        if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                            check = 1;
+                    }
+                    if(check == 0){
+                        pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price['FARE'],
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }else{
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }
+                    text_repricing = `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Price</div>
+                            <div class="col-lg-3">Repricing</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
+                    </div>`;
+                    for(k in price_arr_repricing){
+                       text_repricing += `
+                       <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="adult">
+                                <div class="col-lg-3" id="`+k+`_`+i+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                if(price_arr_repricing[k].Repricing == 0)
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                else
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
                             </div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+msg.result.response.pricing[i].currency+` `+getrupiah(msg.result.response.pricing[i].price)+`</span>
-                            </div>
-                     </div>
-                    `;
-                    temp_grand_total += msg.result.response.pricing[i].price;
-                    $test += msg.result.response.pricing[i].name+' IDR '+getrupiah(msg.result.response.pricing[i].price)+'\n';
+                        </div>`;
+                    }
+                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                    //repricing
+
+                    price_text+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+
+                        $test += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
+                        if(counter_service_charge == 0){
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
+                        price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                        }else{
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
+                            price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                        }
+                        price_text+=`
+                        </div>
+                    </div>`;
+                    if(counter_service_charge == 0)
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                    else
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    commission += parseInt(price.RAC);
                 }
-                else
-                {
-                    temp_total_comm += msg.result.response.pricing[i].price;
-                }
+                counter_service_charge++;
             }
 
 //           if(msg.result.response.price_itinerary.additional_charge_total)
@@ -824,21 +1038,44 @@ function activity_get_booking(data){
                        <span style="font-weight:bold">Grand Total</span>
                   </div>
                   <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(temp_grand_total))+`</span>
+                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
              </div>
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+             <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        price_text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        price_text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
 
+                price_text+=`
+                </div>
+             </div>
              <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(temp_total_comm)+`</span><br>
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
                     </div>
                 </div>
              </div>
 
              <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                    <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
              </div>
              <div class="row" style="margin-top:10px; text-align:center;">
@@ -846,28 +1083,10 @@ function activity_get_booking(data){
                     <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
              </div>
-           <div style="text-align:center;">
-                <div id="copiedModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4>Copy</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <span style="font-weight:bold">Copied!</span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
            `;
-            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(temp_grand_total))+'\nPrices and availability may change at any time';
+            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
-
+            add_repricing();
         }else{
             alert(msg.result.error_msg);
         }

@@ -24,34 +24,15 @@ infant_title = ['MSTR', 'MISS']
 
 def open_page(request):
     try:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(javascript_version) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         values = {
             'countries': response['result']['response']['activity_config']['countries'],
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'javascript_version': javascript_version,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
             'social_medias': response['result']['response']['issued_offline']['social_media_id'],
@@ -75,25 +56,9 @@ def register_agent(request):
     pic = []
     check = True
     counter = 1
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
+    javascript_version = get_cache_version()
 
-    try:
-        file = open("data_cache_template.txt", "r")
-        for idx, line in enumerate(file):
-            if idx == 0:
-                if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                else:
-                    logo = line
-            elif idx == 1:
-                template = int(line)
-        file.close()
-    except:
-        template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+    template, logo = get_logo_template()
 
     #pic
     while(check):

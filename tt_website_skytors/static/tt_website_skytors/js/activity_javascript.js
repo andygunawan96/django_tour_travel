@@ -126,6 +126,50 @@ function set_city(country_id, current_city_id=0){
     $('#activity_cities').niceSelect('update');
 }
 
+function get_sub_cat_name(current_sub_id=0){
+    search_sub_cat_name = 'All Sub Categories';
+    sel_objs = $('#activity_category').select2('data');
+    category_id = 0;
+    for (i in sel_objs)
+    {
+        category_id = sel_objs[i].id;
+    }
+    var sub_category_list = sub_category[category_id.split(' - ')[1]];
+    for(i in sub_category_list){
+        if (sub_category_list[i].id == current_sub_id)
+        {
+            search_sub_cat_name = sub_category_list[i].name;
+        }
+    }
+
+    document.getElementById('search_sub_category_name').innerHTML = search_sub_cat_name;
+}
+
+function get_city_search_name(current_city_id=0){
+    search_city_name = 'All Cities';
+    sel_objs = $('#activity_countries').select2('data');
+    country_id = 0;
+    for (i in sel_objs)
+    {
+        country_id = sel_objs[i].id;
+    }
+    var country = {};
+    for(i in activity_country){
+       if(activity_country[i].id == parseInt(country_id)){
+           country = activity_country[i];
+           break;
+       }
+    }
+    for(i in country.city){
+        if (country.city[i].id == current_city_id)
+        {
+            search_city_name = country.city[i].name;
+        }
+    }
+
+    document.getElementById('search_city_name').innerHTML = search_city_name;
+}
+
 function auto_complete_activity(type, current_opt=0){
     sel_objs = $('#'+type).select2('data');
     temp_obj_id = 0;
@@ -180,6 +224,16 @@ function update_pax(){
     activity_table_detail();
 }
 
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $test;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($test);
+}
+
 function activity_table_detail(){
    var grand_total = 0;
    var grand_commission = 0;
@@ -204,7 +258,7 @@ function activity_table_detail(){
                                 <div class="col-xs-1">X</div>
                                 <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`</div>
                                 <div class="col-xs-3"></div>
-                                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`;
+                                <div class="col-xs-4" style="text-align: right;">`;
 
                    if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
                    {
@@ -239,56 +293,61 @@ function activity_table_detail(){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+0+`</div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`+getrupiah(grand_total)+`</div>
+                <div class="col-xs-4" style="text-align: right;">`+getrupiah(grand_total)+`</div>
            </div>
+           <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
 
+                text+=`
+                </div>
+           </div>
            <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
+                <div class="col-lg-12" style="margin-top:10px; text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
                     </div>
                 </div>
            </div>
 
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
-                   <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+               <div class="col-lg-12">
+                   <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
+               <div class="col-lg-12">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
-
-                <div id="copiedModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4>Copy</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <span style="font-weight:bold">Copied!</span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
            </div>
            `;
 
@@ -302,6 +361,7 @@ function activity_table_detail(){
        </center>
    `;
    document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
+   document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
 }
 
 
@@ -325,7 +385,7 @@ function activity_table_detail2(pagetype){
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`+skus[sku].sku_title+`</div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`</div>
-                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="padding-right: 5px; text-align: right;">`;
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">`;
 
                if(passenger[low_sku_id] in skus[sku])
                {
@@ -360,33 +420,57 @@ function activity_table_detail2(pagetype){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+additional_price+`</div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+0+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+0+`</div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-3" style="padding-right: 0; text-align: right;">`+getrupiah(grand_total)+`</div>
+                <div class="col-xs-4" style="text-align: right;">`+getrupiah(grand_total)+`</div>
+           </div>
+
+           <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
+
+                text+=`
+                </div>
            </div>
 
            <div class="row" id="show_commission" style="display:none;">
                 <div class="col-lg-12 col-xs-12" style="margin-top:10px; text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
                     </div>
                 </div>
            </div>
 
            <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
-                     <input type="button" class="primary-btn-ticket" data-toggle="modal" data-target="#copiedModal" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                     <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>`;
 
@@ -397,33 +481,15 @@ function activity_table_detail2(pagetype){
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
            </div>
-           <div style="text-align:center;">
-                <div id="copiedModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4>Copy</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <span style="font-weight:bold">Copied!</span>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
            `;
    document.getElementById('activity_detail_table').innerHTML = text;
    if (pagetype == 'passenger')
    {
         text_btn = `
             <center>
-            <button type="button" class="primary-btn-ticket" value="Next" onclick='check_passenger();' style="width:100%;">
+            <button type="button" class="btn-next primary-btn next-passenger-train ld-ext-right" value="Next" onclick='next_disabled();check_passenger(`+adult+`,`+senior+`,`+child+`,`+infant+`);' style="width:100%;">
                 Next
-                <i class="fas fa-angle-right"></i>
+                <div class="ld ld-ring ld-cycle"></div>
             </button>
             <br/>
             </center>
@@ -439,6 +505,18 @@ function copy_data(){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
 }
 
 function show_commission(){
@@ -490,16 +568,16 @@ function check_detail(){
         }
         else
         {
-            text += 'Minimum passenger for ' + activity_type[activity_type_pick].skus[pax_check].title + ' is ' + activity_type[activity_type_pick].skus[pax_check].minPax +'!\n';
+            text += 'Minimum passenger for ' + activity_type[activity_type_pick].skus[pax_check].title + ' is ' + activity_type[activity_type_pick].skus[pax_check].minPax +'!</br>\n';
         }
     }
 
     console.log(pax);
     console.log(activity_type[activity_type_pick].maxPax);
     if(pax > activity_type[activity_type_pick].maxPax)
-        text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax;
+        text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax+'</br>\n';
     if(pax < activity_type[activity_type_pick].minPax)
-        text+= 'Total Passenger must be more than '+activity_type[activity_type_pick].minPax;
+        text+= 'Total Passenger must be more than '+activity_type[activity_type_pick].minPax+'</br>\n';
 
     //check perbooking
     for(i in activity_type[activity_type_pick].options.perBooking){
@@ -512,12 +590,12 @@ function check_detail(){
                 //use regex bemyguest
                 if(activity_type[activity_type_pick].options.perBooking[i].formatRegex != false){
                     if(!document.getElementById('perbooking'+i).value || check_regex(document.getElementById('perbooking'+i).value, activity_type[activity_type_pick].options.perBooking[i].formatRegex)==false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
                 //no regex
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 1){
                     if(document.getElementById('perbooking'+i).value == '')
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 2){
                     for(j in activity_type[activity_type_pick].options.perBooking[i].items){
                         console.log(document.getElementById('perbooking'+i+j).checked);
@@ -526,24 +604,24 @@ function check_detail(){
                     }
                     console.log(check);
                     if(check==0)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                     check=0;
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 3)
                 {
                     if(!document.getElementById('perbooking'+i).value || check_number(document.getElementById('perbooking'+i).value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 4)
                 {
-                    if(!document.getElementById('perbooking'+i).value || check_word(document.getElementById('perbooking'+i).value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                    if(!document.getElementById('perbooking'+i).value || (check_word(document.getElementById('perbooking'+i).value) == false && activity_type[activity_type_pick].options.perBooking[i].name != 'Flight Number'))
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 6)
                 {
                     if(!document.getElementById('perbooking'+i).value || check_date(document.getElementById('perbooking'+i).value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
@@ -555,28 +633,28 @@ function check_detail(){
                 }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10)
                 {
                     if(!document.getElementById('perbooking'+i).value || check_time(document.getElementById('perbooking'+i).value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
 
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11)
                 {
-                    if(check_date_time(document.getElementById('perbooking'+i+'0').value+' '+document.getElementById('perbooking'+i+'1').value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                    if(check_date_time(document.getElementById('perbooking'+i).value) == false)
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 12)
                 {
                     if(!document.getElementById('perbooking'+i).value || check_word(document.getElementById('perbooking'+i).value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 14)
                 {
                     if(!document.getElementById('perbooking'+i).value || check_flight(document.getElementById('perbooking'+i).value) == false)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
                 else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 50)
                 {
                     if(!document.getElementById('perbooking'+i).value)
-                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'\n';
+                        text+= 'Please check your '+activity_type[activity_type_pick].options.perBooking[i].name+'</br>\n';
                 }
             }
         }
@@ -590,361 +668,582 @@ function check_detail(){
             check=1;
         }
         if(check==0){
-            text+= 'Please pick timeslot!\n';
+            text+= 'Please pick timeslot!</br>\n';
         }
     }
 
     if(text==''){
-        //gotopax
         detail_to_passenger_page();
     }else{
-        alert(text);
+        document.getElementById('show_error_log').innerHTML = text;
+        $("#myModalErrorDetail").modal('show');
     }
 }
 
-function check_passenger(){
+function check_passenger(adult, senior, child, infant){
+    $('.loader-airline').fadeIn();
     //booker
     error_log = '';
-    if(document.getElementById('booker_title').value!= '' &&
-       document.getElementById('booker_first_name').value!= '' &&
-       document.getElementById('booker_last_name').value!='' &&
-       document.getElementById('booker_nationality').value!='' &&
-       document.getElementById('booker_email').value!='' &&
-       document.getElementById('booker_phone_code').value!='' &&
-       document.getElementById('booker_phone').value!= ''){
+    //check booker jika teropong
+    try{
+        if(JSON.stringify(booker_pick_passenger) != '{}')
+            if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
+                document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
+                document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
+                error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+    }catch(err){
 
-        if(check_name(document.getElementById('booker_title').value,
-                        document.getElementById('booker_first_name').value,
-                        document.getElementById('booker_last_name').value,
-                        25) == false)
-            error_log+= 'Total of Booker name maximum 25 characters!\n';
-        if(check_phone_number(document.getElementById('booker_phone').value)==false)
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
-        if(check_email(document.getElementById('booker_email').value)==false)
-            error_log+= 'Invalid Booker email!\n';
-       //adult
-       for(i=1;i<=passenger.adult;i++){
-           if(document.getElementById('adult_title'+i).value != '' &&
-           document.getElementById('adult_first_name'+i).value != '' &&
-           document.getElementById('adult_last_name'+i).value != '' &&
-           document.getElementById('adult_nationality'+i).value != ''){
-               if(check_name(document.getElementById('adult_title'+i).value,
-               document.getElementById('adult_first_name'+i).value,
-               document.getElementById('adult_last_name'+i).value,
-               25) == false)
-                   error_log+= 'Total of adult '+i+' name maximum 25 characters!\n';
-               if(check_date(document.getElementById('adult_birth_date'+i).value)==false)
-               {
-                    error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
-               }
+    }
+    if(check_name(document.getElementById('booker_title').value,
+                    document.getElementById('booker_first_name').value,
+                    document.getElementById('booker_last_name').value,
+                    25) == false){
+        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+        document.getElementById('booker_last_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+    }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
+        if(document.getElementById('booker_first_name').value == '')
+            error_log+= 'Please fill booker first name!</br>\n';
+        else if(check_word(document.getElementById('booker_first_name').value) == false)
+            error_log+= 'Please use alpha characters for booker first name!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_phone_number(document.getElementById('booker_phone').value)==false || check_word(document.getElementById('booker_last_name').value) == false){
+        if(check_word(document.getElementById('booker_last_name').value) == false)
+            error_log+= 'Please use alpha characters for booker last name!</br>\n';
+        else if(check_word(document.getElementById('booker_last_name').value) == false)
+            error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+        document.getElementById('booker_phone').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+    }if(check_email(document.getElementById('booker_email').value)==false){
+        error_log+= 'Invalid Booker email!</br>\n';
+        document.getElementById('booker_email').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
+    }
+    length_name = 25;
 
-               perpax_count = 1
-               for(j in detail.perPax){
-                   console.log('detail perpax');
-                   console.log(detail);
-                   console.log(detail.perPax[j]);
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
-                        if(detail.perPax[j].required == true){
-                            //use regex bemyguest
-                            if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('adult_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+    var radios = document.getElementsByName('myRadios');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            booker_copy = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    if(booker_copy == 'yes')
+        if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+           document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+           document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
+   for(i in passenger_data_pick){
+        passenger_check = {
+            'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+            'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
+        }
+        if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+           document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+           document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+
+    }
+   //adult
+   for(i=1;i<=adult;i++){
+
+       if(check_name(document.getElementById('adult_title'+i).value,
+            document.getElementById('adult_first_name'+i).value,
+            document.getElementById('adult_last_name'+i).value,
+            length_name) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+           if(document.getElementById('adult_first_name'+i).value == '')
+               error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+               error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_last_name'+i).value != ''){
+           if(check_word(document.getElementById('adult_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_passport_number'+i).value != '' ||
+          document.getElementById('adult_passport_expired_date'+i).value != '' ||
+          document.getElementById('adult_country_of_issued'+i).value != ''){
+           if(document.getElementById('adult_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
+       perpax_count = 1
+       for(j in detail.perPax){
+           console.log('detail perpax');
+           console.log(detail);
+           console.log(detail.perPax[j]);
+           if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
+                if(detail.perPax[j].required == true){
+                    //use regex bemyguest
+                    if(detail.perPax[j].formatRegex != false){
+                        if(check_regex(document.getElementById('adult_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                    }
+                    //no regex
+                    else if(detail.perPax[j].inputType == 1){
+                        if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                    }else if(detail.perPax[j].inputType == 2){
+                        k_item_count = 1
+                        for(k in detail.perPax[j].items){
+                            if(document.getElementById('adult_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
+                            {
+                                check=1;
                             }
-                            //no regex
-                            else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                            }else if(detail.perPax[j].inputType == 2){
-                                k_item_count = 1
-                                for(k in detail.perPax[j].items){
-                                    if(document.getElementById('adult_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
-                                    {
-                                        check=1;
-                                    }
-                                    k_item_count += 1;
-                                }
-                                if(check==0)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                                check=0;
-                            }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 7){
-                                console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
-
-                            }else if(detail.perPax[j].inputType == 8){
-                                console.log('here');
-                                console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
-
-                            }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('adult_perpax'+i+'_'+perpax_count+'0').value+' '+document.getElementById('perpax'+i+'_'+perpax_count+'1').value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                            k_item_count += 1;
                         }
-                   }
-                   else if(detail.perPax[j].name == 'Passport number')
-                   {
-                       if(detail.perPax[j].required == true){
-                           if(document.getElementById('adult_passport_number'+i).value=='')
-                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                       }
-                   }
-                   else if(detail.perPax[j].name == 'Passport expiry date')
-                   {
-                       if(detail.perPax[j].required == true){
-                           if(document.getElementById('adult_passport_expired_date'+i).value=='')
-                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                       }
-                   }
-                   perpax_count += 1;
-               }
+                        if(check==0)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                        check=0;
+                    }else if(detail.perPax[j].inputType == 3)
+                        if(check_number(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
 
+                    else if(detail.perPax[j].inputType == 4)
+                        if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 6)
+                        if(check_date(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 7){
+                        console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
+
+                    }else if(detail.perPax[j].inputType == 8){
+                        console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
+
+                    }else if(detail.perPax[j].inputType == 10)
+                        if(check_time(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 11)
+                        if(check_date_time(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 12)
+                        if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 14)
+                        if(check_flight(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 50)
+                        if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                }
+           }
+           else if(detail.perPax[j].name == 'Passport number')
+           {
+               if(detail.perPax[j].required == true){
+                   if(document.getElementById('adult_passport_number'+i).value=='')
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+               }
+           }
+           else if(detail.perPax[j].name == 'Passport expiry date')
+           {
+               if(detail.perPax[j].required == true){
+                   if(document.getElementById('adult_passport_expired_date'+i).value=='')
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+               }
+           }
+           perpax_count += 1;
+       }
+   }
+
+   //senior
+   for(i=1;i<=senior;i++){
+       if(check_name(document.getElementById('senior_title'+i).value,
+       document.getElementById('senior_first_name'+i).value,
+       document.getElementById('senior_last_name'+i).value,
+       length_name) == false){
+           error_log+= 'Total of senior '+i+' name maximum '+length_name+' characters!</br>\n';
+           document.getElementById('senior_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('senior_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('senior_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('senior_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('senior_first_name'+i).value == '' || check_word(document.getElementById('senior_first_name'+i).value) == false){
+           if(document.getElementById('senior_first_name'+i).value == '')
+               error_log+= 'Please input first name of senior passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('senior_first_name'+i).value) == false)
+               error_log+= 'Please use alpha characters first name of senior passenger '+i+'!</br>\n';
+           document.getElementById('senior_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('senior_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('senior_last_name'+i).value != ''){
+           if(check_word(document.getElementById('senior_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of senior passenger '+i+'!</br>\n';
+           document.getElementById('senior_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('senior_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('senior_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger senior '+i+'!</br>\n';
+           document.getElementById('senior_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('senior_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('senior_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger senior '+i+'!</br>\n';
+           document.getElementById('senior_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('senior_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('senior_passport_number'+i).value != '' ||
+          document.getElementById('senior_passport_expired_date'+i).value != '' ||
+          document.getElementById('senior_country_of_issued'+i).value != ''){
+           if(document.getElementById('senior_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger senior '+i+'!</br>\n';
+               document.getElementById('senior_passport_number'+i).style['border-color'] = 'red';
            }else{
-               error_log+= 'Please fill all the blank for Adult passenger '+i+'!\n';
+               document.getElementById('senior_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('senior_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger senior '+i+'!</br>\n';
+               document.getElementById('senior_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('senior_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('senior_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger senior '+i+'!</br>\n';
+               document.getElementById('senior_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('senior_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
-
-       //senior
-       for(i=1;i<=passenger.senior;i++){
-           if(document.getElementById('senior_title'+i).value != '' &&
-           document.getElementById('senior_first_name'+i).value != '' &&
-           document.getElementById('senior_last_name'+i).value != '' &&
-           document.getElementById('senior_nationality'+i).value != ''){
-               if(check_name(document.getElementById('senior_title'+i).value,
-               document.getElementById('senior_first_name'+i).value,
-               document.getElementById('senior_last_name'+i).value, 25) == false)
-                   error_log+= 'Total of senior '+i+' name maximum 25 characters!\n';
-               if(check_date(document.getElementById('child_birth_date'+i).value)==false)
-               {
-                    error_log+= 'Birth date wrong for passenger senior '+i+'!\n';
-               }
-
-               perpax_count = 1
-               for(j in detail.perPax){
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
-                        if(detail.perPax[j].required == true){
-                            //use regex bemyguest
-                            if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('senior_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+       perpax_count = 1
+       for(j in detail.perPax){
+           if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
+                if(detail.perPax[j].required == true){
+                    //use regex bemyguest
+                    if(detail.perPax[j].formatRegex != false){
+                        if(check_regex(document.getElementById('senior_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                    }
+                    //no regex
+                    else if(detail.perPax[j].inputType == 1){
+                        if(document.getElementById('senior_perpax'+i+'_'+perpax_count).value=='')
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                    }else if(detail.perPax[j].inputType == 2){
+                        k_item_count = 1
+                        for(k in detail.perPax[j].items){
+                            if(document.getElementById('senior_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
+                            {
+                                check=1;
                             }
-                            //no regex
-                            else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('senior_perpax'+i+'_'+perpax_count).value=='')
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                            }else if(detail.perPax[j].inputType == 2){
-                                k_item_count = 1
-                                for(k in detail.perPax[j].items){
-                                    if(document.getElementById('senior_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
-                                    {
-                                        check=1;
-                                    }
-                                    k_item_count += 1;
-                                }
-                                if(check==0)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                                check=0;
-                            }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 7){
-
-
-                            }else if(detail.perPax[j].inputType == 8){
-
-
-                            }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('senior_perpax'+i+'_'+perpax_count+'0').value+' '+document.getElementById('perpax'+i+'_'+perpax_count+'1').value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                            k_item_count += 1;
                         }
-                   }
-                   else if(detail.perPax[j].name == 'Passport number')
-                   {
-                       if(detail.perPax[j].required == true){
-                           if(document.getElementById('senior_passport_number'+i).value=='')
-                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                       }
-                   }
-                   else if(detail.perPax[j].name == 'Passport expiry date')
-                   {
-                       if(detail.perPax[j].required == true){
-                           if(document.getElementById('senior_passport_expired_date'+i).value=='')
-                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                       }
-                   }
-                   perpax_count += 1;
-               }
+                        if(check==0)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                        check=0;
+                    }else if(detail.perPax[j].inputType == 3)
+                        if(check_number(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
 
+                    else if(detail.perPax[j].inputType == 4)
+                        if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 6)
+                        if(check_date(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 7){
+
+
+                    }else if(detail.perPax[j].inputType == 8){
+
+
+                    }else if(detail.perPax[j].inputType == 10)
+                        if(check_time(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 11)
+                        if(check_date_time(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 12)
+                        if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 14)
+                        if(check_flight(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 50)
+                        if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                }
+           }
+           else if(detail.perPax[j].name == 'Passport number')
+           {
+               if(detail.perPax[j].required == true){
+                   if(document.getElementById('senior_passport_number'+i).value=='')
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+               }
+           }
+           else if(detail.perPax[j].name == 'Passport expiry date')
+           {
+               if(detail.perPax[j].required == true){
+                   if(document.getElementById('senior_passport_expired_date'+i).value=='')
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+               }
+           }
+           perpax_count += 1;
+       }
+   }
+
+   //child
+   for(i=1;i<=child;i++){
+       if(check_name(document.getElementById('child_title'+i).value,
+       document.getElementById('child_first_name'+i).value,
+       document.getElementById('child_last_name'+i).value,
+       length_name) == false){
+           error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
+           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_first_name'+i).value == '' || check_word(document.getElementById('child_first_name'+i).value) == false){
+           if(document.getElementById('child_first_name'+i).value == '')
+               error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('child_first_name'+i).value) == false)
+               error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
+           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_last_name'+i).value != ''){
+           if(check_word(document.getElementById('child_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('child_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
+           document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
+           document.getElementById('child_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('child_passport_number'+i).value != '' ||
+          document.getElementById('child_passport_expired_date'+i).value != '' ||
+          document.getElementById('child_country_of_issued'+i).value != ''){
+           if(document.getElementById('child_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
+               document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
            }else{
-                error_log+= 'Please fill all the blank for Senior passenger '+i+'!\n';
+               document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('child_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
+               document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('child_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
+               document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
-
-       //child
-       for(i=1;i<=passenger.child;i++){
-           if(document.getElementById('child_title'+i).value != '' &&
-           document.getElementById('child_first_name'+i).value != '' &&
-           document.getElementById('child_last_name'+i).value != '' &&
-           document.getElementById('child_nationality'+i).value != ''){
-               if(check_name(document.getElementById('child_title'+i).value,
-               document.getElementById('child_first_name'+i).value,
-               document.getElementById('child_last_name'+i).value, 25) == false)
-                   error_log+= 'Total of child '+i+' name maximum 25 characters!\n';
-               if(check_date(document.getElementById('child_birth_date'+i).value)==false)
-               {
-                   error_log+= 'Birth date wrong for passenger child '+i+'!\n';
-               }
-
-               perpax_count = 1
-               for(j in detail.perPax){
-                   if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
-                        if(detail.perPax[j].required == true){
-                            //use regex bemyguest
-                            if(detail.perPax[j].formatRegex != false){
-                                if(check_regex(document.getElementById('child_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+       perpax_count = 1
+       for(j in detail.perPax){
+           if(detail.perPax[j].name != 'Gender' && detail.perPax[j].name !=  'Full name' && detail.perPax[j].name !=  'Guest age' && detail.perPax[j].name !=  'Nationality' && detail.perPax[j].name !=  'Date of birth' && detail.perPax[j].name !=  'Passport number' && detail.perPax[j].name !=  'Passport expiry date'){
+                if(detail.perPax[j].required == true){
+                    //use regex bemyguest
+                    if(detail.perPax[j].formatRegex != false){
+                        if(check_regex(document.getElementById('child_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                    }
+                    //no regex
+                    else if(detail.perPax[j].inputType == 1){
+                        if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                    }else if(detail.perPax[j].inputType == 2){
+                        k_item_count = 1
+                        for(k in detail.perPax[j].items){
+                            if(document.getElementById('child_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
+                            {
+                                check=1;
                             }
-                            //no regex
-                            else if(detail.perPax[j].inputType == 1){
-                                if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                            }else if(detail.perPax[j].inputType == 2){
-                                k_item_count = 1
-                                for(k in detail.perPax[j].items){
-                                    if(document.getElementById('child_perpax'+i+'_'+perpax_count+'_'+k_item_count).checked==true)
-                                    {
-                                        check=1;
-                                    }
-                                    k_item_count += 1;
-                                }
-                                if(check==0)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                                check=0;
-                            }else if(detail.perPax[j].inputType == 3)
-                                if(check_number(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 4)
-                                if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 6)
-                                if(check_date(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 7){
-
-
-                            }else if(detail.perPax[j].inputType == 8){
-
-
-                            }else if(detail.perPax[j].inputType == 10)
-                                if(check_time(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 11)
-                                if(check_date_time(document.getElementById('child_perpax'+i+'_'+perpax_count+'0').value+' '+document.getElementById('perpax'+i+'_'+perpax_count+'1').value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 12)
-                                if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-
-                            else if(detail.perPax[j].inputType == 14)
-                                if(check_flight(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                                    error_log+= 'Please check your '+detail.perPax[j].name+'\n';
+                            k_item_count += 1;
                         }
-                   }
-                   else if(detail.perPax[j].name == 'Passport number')
-                   {
-                       if(detail.perPax[j].required == true){
-                           if(document.getElementById('child_passport_number'+i).value=='')
-                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                       }
-                   }
-                   else if(detail.perPax[j].name == 'Passport expiry date')
-                   {
-                       if(detail.perPax[j].required == true){
-                           if(document.getElementById('child_passport_expired_date'+i).value=='')
-                               error_log+= 'Please check your '+detail.perPax[j].name+'\n';
-                       }
-                   }
-                   perpax_count += 1;
-               }
+                        if(check==0)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                        check=0;
+                    }else if(detail.perPax[j].inputType == 3)
+                        if(check_number(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
 
+                    else if(detail.perPax[j].inputType == 4)
+                        if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 6)
+                        if(check_date(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 7){
+
+
+                    }else if(detail.perPax[j].inputType == 8){
+
+
+                    }else if(detail.perPax[j].inputType == 10)
+                        if(check_time(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 11)
+                        if(check_date_time(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 12)
+                        if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 14)
+                        if(check_flight(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+
+                    else if(detail.perPax[j].inputType == 50)
+                        if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                }
+           }
+           else if(detail.perPax[j].name == 'Passport number')
+           {
+               if(detail.perPax[j].required == true){
+                   if(document.getElementById('child_passport_number'+i).value=='')
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+               }
+           }
+           else if(detail.perPax[j].name == 'Passport expiry date')
+           {
+               if(detail.perPax[j].required == true){
+                   if(document.getElementById('child_passport_expired_date'+i).value=='')
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+               }
+           }
+           perpax_count += 1;
+       }
+   }
+
+   //infant
+   for(i=1;i<=infant;i++){
+       if(check_name(document.getElementById('infant_title'+i).value,
+       document.getElementById('infant_first_name'+i).value,
+       document.getElementById('infant_last_name'+i).value,
+       length_name) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!</br>\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_first_name'+i).value == '' || check_word(document.getElementById('infant_first_name'+i).value) == false){
+           if(document.getElementById('infant_first_name'+i).value == '')
+               error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('infant_first_name'+i).value) == false)
+               error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_last_name'+i).value != ''){
+           if(check_word(document.getElementById('infant_last_name'+i).value) == false)
+               error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
+           document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
+           document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_passport_number'+i).value != '' ||
+          document.getElementById('infant_passport_expired_date'+i).value != '' ||
+          document.getElementById('infant_country_of_issued'+i).value != ''){
+           if(document.getElementById('infant_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
+               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
            }else{
-                error_log+= 'Please fill all the blank for Child passenger '+i+'!\n';
+               document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
 
-       //infant
-       for(i=1;i<=passenger.infant;i++){
-//           alert(document.getElementById('booker_phone').value);
-           if(document.getElementById('infant_title'+i).value != '' &&
-           document.getElementById('infant_first_name'+i).value != '' &&
-           document.getElementById('infant_last_name'+i).value != '' &&
-           document.getElementById('infant_nationality'+i).value != '' ){
-               if(check_name(document.getElementById('infant_title'+i).value,
-               document.getElementById('infant_first_name'+i).value,
-               document.getElementById('infant_last_name'+i).value, 25) == false)
-                   error_log+= 'Total of infant '+i+' name maximum 25 characters!\n';
-               if(check_date(document.getElementById('infant_birth_date'+i).value)==false)
-               {
-                   error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
-               }
-           }else{
-                error_log+= 'Please fill all the blank for Infant passenger '+i+'!\n';
-           }
-       }
-       if(error_log==''){
-           document.getElementById('additional_price').value = additional_price;
-           document.getElementById('activity_review').submit();
-       }else
-           alert(error_log);
-     }else{
-        alert('Please Fill all the blank !');
-     }
+   }
+   if(error_log==''){
+       document.getElementById('additional_price').value = additional_price;
+       document.getElementById('activity_review').submit();
+   }
+   else{
+       document.getElementById('show_error_log').innerHTML = error_log;
+       $("#myModalErrorPassenger").modal('show');
+       $('.btn-next').removeClass("running");
+       $('.btn-next').prop('disabled', false);
+       $('.loader-airline').fadeOut();
+   }
 }
 
 function change_event(val){
@@ -970,8 +1269,8 @@ function input_type_change_perbooking(val){
     activity_table_detail();
 }
 
-function input_type11_change_perbooking(val, val1){
-    if(document.getElementById('perbooking'+val+val1).value != ''){
+function input_type11_change_perbooking(val){
+    if(document.getElementById('perbooking'+val).value != ''){
         additional_price = additional_price - activity_type[activity_type_pick].options.perBooking[val].price_pick + activity_type[activity_type_pick].options.perBooking[val].price;
         activity_type[activity_type_pick].options.perBooking[val].price_pick = activity_type[activity_type_pick].options.perBooking[val].price;
     }else{
@@ -1034,16 +1333,16 @@ function input_type_change_perpax(val, type, inputType){
     activity_table_detail2();
 }
 
-function input_type11_change_perpax(val, val1, type, inputType){
+function input_type11_change_perpax(val, type, inputType){
     var perpax = '';
     if(type == 'adult')
-        perpax = document.getElementById('adult_perpax'+val+'_'+inputType+val1).value;
+        perpax = document.getElementById('adult_perpax'+val+'_'+inputType).value;
     else if(type == 'infant')
-        perpax = document.getElementById('infant_perpax'+val+'_'+inputType+val1).value;
+        perpax = document.getElementById('infant_perpax'+val+'_'+inputType).value;
     else if(type == 'child')
-        perpax = document.getElementById('child_perpax'+val+'_'+inputType+val1).value;
+        perpax = document.getElementById('child_perpax'+val+'_'+inputType).value;
     else if(type == 'senior')
-        perpax = document.getElementById('senior_perpax'+val+'_'+inputType+val1).value;
+        perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
 
     if(perpax != ''){
         additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].price;
@@ -1137,8 +1436,7 @@ function activity_filter_render(){
                 <input type="text" class="js-input-to form-control-custom" id="price-to" value="10000000" onchange="change_filter('price', '');"/>
             </div>
         </div>
-    </div>
-    <hr/>`;
+    </div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -1342,7 +1640,7 @@ function sort(activity_dat){
                }
                else
                {
-                   img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+                   img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
                }
 
                text+=`

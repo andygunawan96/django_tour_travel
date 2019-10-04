@@ -20,6 +20,7 @@
     passenger = passenger.replace(/False/g, false);
     passenger = JSON.parse(passenger);
     visa_request = `{{visa_request}}`;
+    signature = `{{signature}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
     adult = passenger.adult;
     infant = passenger.infant;
@@ -368,7 +369,8 @@
         set_value_radio_first('infant',parseInt(i)+1);
     for(i in passenger.elder)
         set_value_radio_first('elder',parseInt(i)+1);
-    get_payment_acq('Create Booking');
+    get_payment_acq('Issued','{{passenger.booker.booker_id}}', '', 'billing',signature,'visa');
+    //get_payment_acq('Create Booking');
     //testing_bca();
 </script>
 <!-- loader -->

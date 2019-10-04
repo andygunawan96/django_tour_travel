@@ -141,7 +141,6 @@ function airline_search_autocomplete(term){
         }else if(choices[i].toLowerCase().search(term) !== -1)
             suggestions.push(choices[i]);
     }
-    console.log(priority.concat(suggestions).slice(0,100));
     return priority.concat(suggestions).slice(0,100);
 }
 
@@ -164,8 +163,8 @@ function airline_goto_search(){
             error_log+= 'Please use autocomplete for origin\n';
         if(document.getElementById('destination_id_flight').value.split(' - ').length != 4)
             error_log+= 'Please use autocomplete for destination\n';
-        if(document.getElementById('origin_id_flight').value.split(' - ')[3] == document.getElementById('destination_id_flight').value.split(' - ')[3] && document.getElementById('destination_id_flight').value.split(' - ')[3] == 'Indonesia')
-            error_log+= "Sorry domestic airline still under development!\n";
+//        if(document.getElementById('origin_id_flight').value.split(' - ')[3] == document.getElementById('destination_id_flight').value.split(' - ')[3] && document.getElementById('destination_id_flight').value.split(' - ')[3] == 'Indonesia')
+//            error_log+= "Sorry domestic airline still under development!\n";
     }else{
         for(var i=1;i<=counter_airline_search;i++){
             if(document.getElementById('origin_id_flight'+i).value.split(' - ').length != 4)
@@ -348,7 +347,7 @@ function add_multi_city(type){
             </div>`;
             node_paxs.innerHTML = text_paxs;
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
-            get_carrier_code_list(type, counter_airline_search);
+            //get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
             if(template != 4){
                 $('#cabin_class_flight'+counter_airline_search).niceSelect();
@@ -1125,64 +1124,195 @@ function airline_autocomplete(type,val){
 
 function airline_set_passenger_plus(type, val){
     pax = '';
+    quantity_adult_flight = parseInt(document.getElementById('adult_flight'+val).value);
+    quantity_child_flight = parseInt(document.getElementById('child_flight'+val).value);
+    quantity_infant_flight = parseInt(document.getElementById('infant_flight'+val).value);
+
     if(type == 'adult'){
-        pax = parseInt(document.getElementById('adult_flight'+val).value);
-        if(pax + parseInt(document.getElementById('child_flight'+val).value) != 9){
-            document.getElementById('adult_flight'+val).value = pax + 1;
-            document.getElementById('left-minus-adult-flight'+val).disabled = false;
-        }else{
-            alert("Maximum 9 passenger of adult and child in flight "+val+"!");
+        var quantity = parseInt($('#adult_flight'+val).val());
+        if(quantity < 9){
+            $('#adult_flight'+val).val(quantity + 1);
+            quantity_adult_flight = quantity + 1;
         }
+
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("left-minus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-adult-flight"+val).disabled = true;
+            document.getElementById("right-plus-child-flight"+val).disabled = true;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+        else{
+            document.getElementById("left-minus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+        if (quantity_adult_flight > quantity_infant_flight){
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
+        }
+        if (quantity_adult_flight == quantity_infant_flight){
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+        }
+
     }else if(type == 'child'){
-        pax = parseInt(document.getElementById('child_flight'+val).value);
-        if(pax + parseInt(document.getElementById('adult_flight'+val).value) != 9){
-            document.getElementById('child_flight'+val).value = pax + 1;
-            document.getElementById('left-minus-child-flight'+val).disabled = false;
-        }else{
-            alert("Maximum 9 passenger of adult and child in flight "+val+"!");
+        var quantity = parseInt($('#child_flight'+val).val());
+
+        if(quantity < 8){
+            $('#child_flight'+val).val(quantity + 1);
+            quantity_child_flight = quantity + 1;
         }
+
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("right-plus-adult-flight"+val).disabled = true;
+            document.getElementById("right-plus-child-flight"+val).disabled = true;
+            document.getElementById("left-minus-child-flight"+val).disabled = false;
+            if (quantity_adult_flight == 1){
+                document.getElementById("left-minus-adult-flight"+val).disabled = true;
+            }
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+        else{
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            document.getElementById("left-minus-child-flight"+val).disabled = false;
+
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
+        }
+
     }else if(type == 'infant'){
-        pax = parseInt(document.getElementById('infant_flight'+val).value);
-        if(pax < parseInt(document.getElementById('adult_flight'+val).value)){
-            document.getElementById('infant_flight'+val).value = pax + 1;
-            document.getElementById('left-minus-infant-flight'+val).disabled = false;
-        }else{
-            alert("Maximum passenger for infant below than adult passenger in flight "+val+"!");
+        var quantity = parseInt($('#infant_flight'+val).val());
+
+        if (quantity < quantity_adult_flight){
+            $('#infant_flight'+val).val(quantity + 1);
+            quantity_infant_flight = quantity + 1;
+        }
+
+        if (quantity_infant_flight < quantity_adult_flight){
+            document.getElementById("left-minus-infant-flight"+val).disabled = false;
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
+        }
+        else if(quantity_infant_flight == quantity_adult_flight){
+            document.getElementById("left-minus-infant-flight"+val).disabled = false;
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+        }
+        else{
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+            document.getElementById("left-plus-infant-flight"+val).disabled = false;
         }
     }
-    for(i=1;i<=counter_airline_search;i++)
-        document.getElementById('show_total_pax_flight'+i).value = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant"
+
+    for(i=1;i<=counter_airline_search;i++){
+        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+    }
 }
 
 function airline_set_passenger_minus(type, val){
     error_log = '';
+    pax = '';
+    quantity_adult_flight = parseInt(document.getElementById('adult_flight'+val).value);
+    quantity_child_flight = parseInt(document.getElementById('child_flight'+val).value);
+    quantity_infant_flight = parseInt(document.getElementById('infant_flight'+val).value);
+
     if(type == 'adult'){
-        if(parseInt(document.getElementById('adult_flight'+val).value) != 1)
-            document.getElementById('adult_flight'+val).value = parseInt(document.getElementById('adult_flight'+val).value) - 1;
+        var quantity = parseInt($('#adult_flight'+val).val());
+
+        if(quantity > 1){
+            $('#adult_flight'+val).val(quantity - 1);
+            quantity_adult_flight = quantity - 1;
+
+            if(quantity_adult_flight < quantity_infant_flight){
+               quantity_infant_flight = quantity_adult_flight;
+               $('#infant_flight'+val).val(quantity - 1);
+            }
+        }
+
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("left-minus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-adult-flight"+val).disabled = true;
+            document.getElementById("right-plus-child-flight"+val).disabled = true;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+        }
         else{
-            alert("Minimum 1 adult in flight "+val+"!");
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+
+            if (quantity_adult_flight == 1){
+                document.getElementById("left-minus-adult-flight"+val).disabled = true;
+                document.getElementById("right-plus-adult-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("right-plus-adult-flight"+val).disabled = false;
+            }
         }
-        if(parseInt(document.getElementById('infant_flight'+val).value) > document.getElementById('adult_flight'+val).value)
-            document.getElementById('infant_flight'+val).value = document.getElementById('adult_flight'+val).value;
+
+        if (quantity_adult_flight == quantity_infant_flight){
+            document.getElementById("right-plus-infant-flight"+val).disabled = true;
+        }
+
     }else if(type == 'child'){
-        if(parseInt(document.getElementById('child_flight'+val).value) != 0){
-            document.getElementById('child_flight'+val).value = parseInt(document.getElementById('child_flight'+val).value) - 1;
+        var quantity = parseInt($('#child_flight'+val).val());
+
+        if(quantity > 0){
+            $('#child_flight'+val).val(quantity - 1);
+            quantity_child_flight = quantity - 1;
         }
-        if(parseInt(document.getElementById('child_flight'+val).value) == 0){
-            document.getElementById('left-minus-child-flight'+val).disabled = true;
+
+        if (quantity_adult_flight+quantity_child_flight != 9){
+            document.getElementById("right-plus-adult-flight"+val).disabled = false;
+            document.getElementById("right-plus-child-flight"+val).disabled = false;
+            if (quantity_adult_flight == 1){
+                document.getElementById("left-minus-adult-flight"+val).disabled = true;
+            }
+            if (quantity_child_flight > 0){
+                document.getElementById("left-minus-child-flight"+val).disabled = false;
+            }
+            else{
+                document.getElementById("left-minus-child-flight"+val).disabled = true;
+            }
         }
 
     }else if(type == 'infant'){
-        if(parseInt(document.getElementById('infant_flight'+val).value) != 0){
-            document.getElementById('infant_flight'+val).value = parseInt(document.getElementById('infant_flight'+val).value) - 1;
+        var quantity = parseInt($('#infant_flight'+val).val());
+
+        if(quantity > 0){
+            $('#infant_flight'+val).val(quantity - 1);
+            quantity_infant_flight = quantity - 1;
         }
-        if(parseInt(document.getElementById('infant_flight'+val).value) == 0){
-            document.getElementById('left-minus-infant-flight'+val).disabled = true;
+
+        if (quantity_infant_flight == 0){
+            document.getElementById("left-minus-infant-flight"+val).disabled = true;
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
+        }
+        else{
+            document.getElementById("right-plus-infant-flight"+val).disabled = false;
         }
     }
 
-    for(i=1;i<=counter_airline_search;i++)
-        document.getElementById('show_total_pax_flight'+i).value = quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant"
+    for(i=1;i<=counter_airline_search;i++){
+        $('#show_total_pax_flight'+i).text(quantity_adult_flight + " Adult, " + quantity_child_flight + " Child, " +quantity_infant_flight + " Infant");
+    }
 }
 
 function airline_switch(val){
@@ -1599,11 +1729,11 @@ function sort(airline){
                                     text+=`
                                     <div class="col-lg-12 col-md-4 col-sm-4 col-xs-4">
                                         <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">
                                     </div>`;
                                     }catch(err){
                                         text+=`
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png">`;
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">`;
                                     }
                                 }
 
@@ -1703,12 +1833,12 @@ function sort(airline){
 
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <span style="font-weight:500;"><i class="fas fa-clock"></i> `;
-                                            if(airline[i].elapsed_time_return.split(':')[0] != '0')
-                                                text+= airline[i].elapsed_time_return.split(':')[0] + 'd ';
-                                            if(airline[i].elapsed_time_return.split(':')[1] != '0')
-                                                text+= airline[i].elapsed_time_return.split(':')[1] + 'h ';
-                                            if(airline[i].elapsed_time_return.split(':')[2] != '0')
-                                                text+= airline[i].elapsed_time_return.split(':')[2] + 'm ';
+                                            if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
+                                                text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
+                                            if(airline[i].segments[j].elapsed_time.split(':')[1] != '0')
+                                                text+= airline[i].segments[j].elapsed_time.split(':')[1] + 'h ';
+                                            if(airline[i].segments[j].elapsed_time.split(':')[2] != '0')
+                                                text+= airline[i].segments[j].elapsed_time.split(':')[2] + 'm ';
                                             text+=`</span><br/>
                                                 <span>Transit: `+airline[i].segments[j].transit_count+`</span>
                                             </div>`;
@@ -1771,7 +1901,7 @@ function sort(airline){
                             text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
                                 <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                             }catch(err){
                             text+=`
                                 <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>
@@ -1923,7 +2053,7 @@ function sort(airline){
                             for(j in airline[i].carrier_code_list)
                                 text+=`
                                 <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
                             text+=`
                         </div>
 
@@ -2026,7 +2156,7 @@ function sort(airline){
                             text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
                                 <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                             }catch(err){
                             text+=`
                                 <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>
@@ -2230,7 +2360,7 @@ function airline_pick_mc(type){
                             for(j in airline_pick_list[i].carrier_code_list)
                             text+=`
                             <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="http://static.skytors.id/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
+                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
                             text+=`
                         </div>
                     </div>
@@ -2358,7 +2488,7 @@ function airline_pick_mc(type){
                         text+=`
                             <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>
                             <span style="color:#f15a22; font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_name+`</span><br/>
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="http://static.skytors.id/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
+                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
                         }catch(err){
                         text+=`
                             <span style="font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>
@@ -2559,12 +2689,16 @@ function copy_data(){
     document.execCommand('copy');
     document.getElementById('data_copy').hidden = true;
 
-    Swal.fire({
+    const Toast = Swal.mixin({
+      toast: true,
       position: 'top-end',
-      type: 'success',
-      title: 'Copied',
       showConfirmButton: false,
-      timer: 1000
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
     })
 //    const el = document.createElement('textarea');
 //    el.innerHTML = $text;
@@ -2647,9 +2781,9 @@ function airline_detail(type){
                 //logo
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                     }
                 text+=`</div>`;
 
@@ -2959,9 +3093,9 @@ function airline_detail(type){
                 }
                 for(k in airline_get_booking.provider_bookings[i].journeys[j].segments){
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                     }
                     text+=`</div>`;
                     if(airline_get_booking.provider_bookings[i].journeys[j].journey_type == 'COM'){
@@ -3098,7 +3232,6 @@ function on_change_srr(){
 }
 
 function check_passenger(adult, child, infant){
-    $('.loader-airline').fadeIn();
     //booker
     error_log = '';
     //check booker jika teropong
@@ -3261,9 +3394,10 @@ function check_passenger(adult, child, infant){
        }if(document.getElementById('child_first_name'+i).value == '' || check_word(document.getElementById('child_first_name'+i).value) == false){
            if(document.getElementById('child_first_name'+i).value == '')
                error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('child_first_name'+i).value) == false)
+           else if(check_word(document.getElementById('child_first_name'+i).value) == false){
                error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
-           document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('child_first_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value != ''){
@@ -3321,9 +3455,10 @@ function check_passenger(adult, child, infant){
        }if(document.getElementById('infant_first_name'+i).value == '' || check_word(document.getElementById('infant_first_name'+i).value) == false){
            if(document.getElementById('infant_first_name'+i).value == '')
                error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
-           else if(check_word(document.getElementById('infant_first_name'+i).value) == false)
+           else if(check_word(document.getElementById('infant_first_name'+i).value) == false){
                error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+               document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           }
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value != ''){
@@ -3367,15 +3502,16 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log==''){
+       $('.loader-airline').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('airline_review').submit();
    }
    else{
+       $('.loader-airline').fadeOut();
        document.getElementById('show_error_log').innerHTML = error_log;
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
-       $('.loader-airline').fadeOut();
    }
 }
 
@@ -3405,9 +3541,9 @@ function get_airline_review(){
             //logo
             for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }catch(err){
-                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }
             text+=`</div>`;
 
@@ -3551,9 +3687,9 @@ function get_airline_review_after_sales(){
                     flight_count++;
                 }
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }catch(err){
-                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }
                 text+=`
                     <div class="row">
@@ -3635,12 +3771,7 @@ function get_airline_review_after_sales(){
     </div>`;
 
     text+=`</div>`;
-
-
-
-
     document.getElementById('airline_review').innerHTML = text;
-
 }
 
 function update_contact_cp(val){

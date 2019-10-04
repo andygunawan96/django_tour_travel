@@ -8,6 +8,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+from .tt_webservice_views import *
 
 month = {
     'Jan': '01',
@@ -53,6 +54,8 @@ def api_models(request):
             res = create_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         elif req_data['action'] == 'get_voucher':
             res = get_voucher(request)
         else:
@@ -189,19 +192,8 @@ def create_booking(request):
     else:
         member = True
     passenger = []
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
-
-    file = open('version' + str(file_cache_name) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
 
     countries = response['result']['response']['airline']['country']
 
@@ -374,9 +366,36 @@ def get_booking(request):
     return res
 
 
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+
 def get_voucher(request):
     data = {
-        'order_number': request.session['activity_order_number']
+        'order_number': request.POST['order_number']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",

@@ -231,13 +231,7 @@ function get_top_up_amount(){
 }
 
 function submit_top_up(){
-    currency_code = '';
-    for(i in top_up_amount_list){
-        if(top_up_amount_list[i].seq_id == document.getElementById('amount').value){
-            currency_code = top_up_amount_list[i].currency_code
-            break;
-        }
-    }
+    currency_code = 'IDR';
     getToken();
     $.ajax({
        type: "POST",
@@ -248,8 +242,8 @@ function submit_top_up(){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'currency_code': currency_code,
-            'amount_seq_id': document.getElementById('amount').value,
-            'amount_count': document.getElementById('qty').value,
+            'amount': document.getElementById('amount').value,
+//            'amount_count': document.getElementById('qty').value,
             'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
             'seq_id': payment_acq2[payment_method][selected].seq_id,
             'signature': signature
@@ -461,19 +455,21 @@ function table_top_up_history(data){
 }
 
 function total_price_top_up(){
-    for(i in top_up_amount_list){
-        if(top_up_amount_list[i].seq_id == document.getElementById('amount').value){
-            document.getElementById('total_amount').value = "Rp "+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)));
-            break;
-        }
-    }
+//    for(i in top_up_amount_list){
+//        if(top_up_amount_list[i].seq_id == document.getElementById('amount').value){
+//            document.getElementById('total_amount').value = "IDR "+getrupiah(top_up_amount_list[i].amount);
+//            break;
+//        }
+//    }
+    console.log(document.getElementById('amount').value);
+    document.getElementById('total_amount').value = "IDR "+getrupiah(document.getElementById('amount').value);
     try{
-        document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)));
-        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah((top_up_amount_list[i].amount * parseInt(document.getElementById('qty').value)) + payment_acq2[payment_method][selected].price_component.unique_amount);
+        document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
+        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
     }catch(err){
     }
 
-    $('#amount').niceSelect('update');
+//    $('#amount').niceSelect('update');
 }
 
 function check_top_up(){
@@ -486,14 +482,12 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        if(top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount * parseInt(document.getElementById('qty').value) < 50000){
+        if(parseInt(document.getElementById('amount')) < 50000){
             error_text += 'Minimum top up Amount IDR 50,000\n';
         }
     }catch(err){
 
     }
-    console.log(top_up_amount_list[parseInt(document.getElementById('amount').selectedIndex)].amount);
-    console.log(parseInt(document.getElementById('qty').value));
     if(error_text == ''){
         Swal.fire({
           title: 'Proceed this request?',
@@ -506,6 +500,7 @@ function check_top_up(){
             console.log(result);
           if (result.value) {
             $('.loader-airline').fadeIn();
+
             submit_top_up();
 
           }else{

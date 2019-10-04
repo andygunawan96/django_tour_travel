@@ -17,37 +17,12 @@ from tools.parser import *
 
 MODEL_NAME = 'tt_website_skytors'
 
+
 def search(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -60,8 +35,8 @@ def search(request):
                 'destination': request.POST['hotel_id_destination'],
                 'guest_nationality': request.POST['hotel_id_nationality'],
                 'business_trip': request.POST['business_trip'],
-                'checkin_date': request.POST['hotel_checkin'],
-                'checkout_date': request.POST['hotel_checkout'],
+                'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
+                'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
                 'room': int(request.POST['hotel_room']),
                 'adult': int(request.POST['hotel_adult']),
                 'child': int(request.POST['hotel_child']),
@@ -78,7 +53,8 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,
-            'template': template
+            'template': template,
+            'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -86,27 +62,11 @@ def search(request):
     else:
         return no_session_logout()
 
+
 def detail(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        template, logo = get_logo_template()
 
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -123,6 +83,7 @@ def detail(request):
             'check_out': data['checkout_date'],
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
+            'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
@@ -132,37 +93,23 @@ def detail(request):
     else:
         return no_session_logout()
 
+
+def detail_static(request):
+    javascript_version = get_cache_version()
+    values = {
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'logo': '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png',
+        'template': 1
+    }
+    return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_static.html', values)
+
+
 def passengers(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -198,6 +145,7 @@ def passengers(request):
             'child_count': int(request.session['hotel_request']['child']),
             'adult_title': adult_title,
             'infant_title': infant_title,
+            'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
@@ -206,37 +154,12 @@ def passengers(request):
     else:
         return no_session_logout()
 
+
 def review(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
 
         adult = []
         child = []
@@ -296,6 +219,7 @@ def review(request):
             'adult_count': int(request.session['hotel_request']['adult']),
             'infant_count': int(request.session['hotel_request']['child']),
             'username': request.session['username'],
+            'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
@@ -309,25 +233,8 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        template, logo = get_logo_template()
 
         resv_obj = json.loads(request.POST['result'])['result']['response']
         values = {

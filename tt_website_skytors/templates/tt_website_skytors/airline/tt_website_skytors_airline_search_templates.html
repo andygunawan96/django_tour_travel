@@ -64,7 +64,7 @@
 
 {% include 'tt_website_skytors/header.html' %}
 {% include 'tt_website_skytors/logout.html' %}
-<div class="loader-airline"></div>
+<!--<div class="loader-airline"></div>-->
 {%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
     <div class="container">
@@ -130,6 +130,8 @@
                                     <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
                                     <span class="checkmark-radio"></span>
                                 </label>
+                            </div>
+                            <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                 <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                     <label class="check_box_custom">
                                         <span style="font-size:14px; color:white;">Is Combo Price</span>
@@ -300,7 +302,7 @@
 
                         </div>
                         <br/>
-                        <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                        <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                             Search
                             <div class="ld ld-ring ld-cycle"></div>
@@ -345,9 +347,10 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="btn roberto-btn" type="button" onclick="show_hide_change_search();">
+                <button class="button-search btn roberto-btn ld-ext-right" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
+                    <div class="ld ld-ring ld-cycle"></div>
                 </button>
             </div>
         </div>
@@ -378,9 +381,11 @@
                                         <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
                                         <span class="checkmark-radio"></span>
                                     </label>
-                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %} padding-top:10px; padding-bottom:10px;" id="checkbox_combo_price">
+                                </div>
+                                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                    <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                         <label class="check_box_custom">
-                                            <span style="font-size:14px;">Is Combo Price</span>
+                                            <span style="font-size:14px; color:white;">Is Combo Price</span>
                                             <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
                                             <span class="check_box_span_custom"></span>
                                         </label>
@@ -534,7 +539,7 @@
 
                             </div>
                             <center>
-                                <button class="btn roberto-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                                <button class="button-search btn roberto-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
@@ -581,7 +586,7 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="primary-btn text-center text-uppercase" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn text-center" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
                 </button>
@@ -614,14 +619,14 @@
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                <div class="form-group">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:14px;">Is Combo Price</span>
-                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
+                                <label class="check_box_custom">
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-lg-12" id="ori_airline">
@@ -769,7 +774,7 @@
                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         <div class="col-lg-12" style="text-align:right;">
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Search
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -815,7 +820,7 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="primary-btn text-center text-uppercase" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn text-center" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
                 </button>
@@ -848,14 +853,14 @@
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                <div class="form-group">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:14px;">Is Combo Price</span>
-                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
+                                <label class="check_box_custom">
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-lg-12" id="ori_airline">
@@ -1000,7 +1005,7 @@
                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         <div class="col-lg-12" style="text-align:right;">
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Search
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -1080,14 +1085,14 @@
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                        </div>
+                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
-                                <div class="form-group">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:14px;">Is Combo Price</span>
-                                        <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
+                                <label class="check_box_custom">
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                    <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-lg-12" id="ori_airline">
@@ -1238,7 +1243,7 @@
                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
 
                         <div class="col-lg-12" style="text-align:right;">
-                            <button class="button-search primary-btn text-uppercase ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                            <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                 Search
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -1272,31 +1277,8 @@
                 </div>
             </div>
 
-            <div class="col-lg-12" style="display:flex; margin-top:15px;">
-                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">Home</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">2</span>
-                    <span style="padding-left:5px;">Search</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">3</span>
-                    <span style="padding-left:5px;">Passenger</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">4</span>
-                    <span style="padding-left:5px;">Booking</span>
-                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
-                </div>
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">5</span>
-                    <span style="padding-left:5px;">Issued</span>
-                </div>
+            <div class="col-lg-12" id="breadcrumbs_create">
+
             </div>
 
             <div class="col-lg-3">
@@ -1353,6 +1335,9 @@
                 <div data-preset="circle" id="barFlightSearch" class="ldBar label-center" style="width:100%;height:90px; margin-bottom:15px;" data-stroke="#f15a22" data-value="0"></div>
                 <div style="text-align:center;" id="waitFlightSearch">
                     <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/plane_loading.gif" style="height:50px; width:50px;"/>
+                </div>
+                <div id="airlines_error">
+
                 </div>
                 <div id="airline_ticket_pick">
 
@@ -1455,6 +1440,7 @@
     });
     //test
     $( document ).ready(function() {
+        breadcrumb_create("airline", 2, 0);
         //$('.js-example-basic-single').select2();
 
         get_airline_config('search');
@@ -1466,6 +1452,60 @@
 
 
     $(function() {
+      var quantity_adult_flight = parseInt($('#adult_flight').val());
+      var quantity_child_flight = parseInt($('#child_flight').val());
+      var quantity_infant_flight = parseInt($('#infant_flight').val());
+      if (quantity_adult_flight+quantity_child_flight == 9){
+        document.getElementById("right-plus-adult-flight").disabled = true;
+        document.getElementById("right-plus-child-flight").disabled = true;
+
+        if(quantity_adult_flight == 1 ){
+          document.getElementById("left-minus-adult-flight").disabled = true;
+        }
+        else{
+          document.getElementById("left-minus-adult-flight").disabled = false;
+        }
+
+        if(quantity_child_flight == 0){
+          document.getElementById("left-minus-child-flight").disabled = true;
+        }
+        else{
+          document.getElementById("left-minus-child-flight").disabled = false;
+        }
+      }
+      else{
+        if(quantity_adult_flight == 1 ){
+          document.getElementById("left-minus-adult-flight").disabled = true;
+          document.getElementById("right-plus-adult-flight").disabled = false;
+        }
+        else{
+          document.getElementById("left-minus-adult-flight").disabled = false;
+          document.getElementById("right-plus-adult-flight").disabled = false;
+        }
+
+        if(quantity_child_flight == 0){
+          document.getElementById("left-minus-child-flight").disabled = true;
+          document.getElementById("right-plus-child-flight").disabled = false;
+        }
+        else{
+          document.getElementById("left-minus-child-flight").disabled = false;
+          document.getElementById("right-plus-child-flight").disabled = false;
+        }
+      }
+
+      if (quantity_infant_flight == 0){
+          document.getElementById("left-minus-infant-flight").disabled = true;
+          document.getElementById("right-plus-infant-flight").disabled = false;
+      }
+      else if (quantity_infant_flight == quantity_adult_flight){
+          document.getElementById("left-minus-infant-flight").disabled = false;
+          document.getElementById("right-plus-infant-flight").disabled = true;
+      }
+      else{
+          document.getElementById("right-plus-infant-flight").disabled = false;
+          document.getElementById("left-minus-infant-flight").disabled = false;
+      }
+
       if(document.getElementById('radio_airline_ow').checked) {
         document.getElementById("airline_date_search").innerHTML = '';
         text='';

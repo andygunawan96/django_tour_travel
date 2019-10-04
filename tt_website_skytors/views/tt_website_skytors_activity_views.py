@@ -25,34 +25,10 @@ infant_title = ['MSTR', 'MISS']
 
 def search(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         # activity
         activity_sub_categories = response['result']['response']['activity']['sub_categories']
@@ -107,34 +83,10 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -155,34 +107,10 @@ def detail(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -337,7 +265,7 @@ def passenger(request):
                 elif perbooking['inputType'] == 11:
                     perbooking_list.append({
                         "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)+'0']+' '+request.POST['perbooking' + str(idx)+'1'],
+                        "value": request.POST['perbooking' + str(idx)],
                         "name": perbooking['name']
                     })
                 elif perbooking['inputType'] == 12:
@@ -423,34 +351,10 @@ def review(request):
         all_pax = []
         used_price = []
 
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         booker = {
             'title': request.POST['booker_title'],
@@ -583,15 +487,14 @@ def review(request):
                     elif perpax['inputType'] == 11:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
-                            "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1) + '0'] + ' ' +
-                                     request.POST['adult_perpax' + str(i) + '_' + str(idx) + '1'],
+                            "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
                             "name": perpax['name']
                         })
                     elif perpax['inputType'] == 12:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": request.POST['adult_perpax' + str(i + 1) + '_' + str(idx + 1)],
-                            "name": perpax_list['name']
+                            "name": perpax['name']
                         })
                     elif perpax['inputType'] == 13:
                         print('deprecated')
@@ -833,14 +736,14 @@ def review(request):
                     elif perpax['inputType'] == 11:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
-                            "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1) + '0'] + ' ' + request.POST['senior_perpax' + str(i) + '_' + str(idx) + '1'],
+                            "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
                             "name": perpax['name']
                         })
                     elif perpax['inputType'] == 12:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": request.POST['senior_perpax' + str(i+1) + '_' + str(idx+1)],
-                            "name": perpax_list['name']
+                            "name": perpax['name']
                         })
                     elif perpax['inputType'] == 13:
                         print('deprecated')
@@ -1012,14 +915,14 @@ def review(request):
                     elif perpax['inputType'] == 11:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
-                            "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1) + '0'] + ' ' + request.POST['child_perpax' + str(i) + '_' + str(idx) + '1'],
+                            "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
                             "name": perpax['name']
                         })
                     elif perpax['inputType'] == 12:
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": request.POST['child_perpax' + str(i+1) + '_' + str(idx+1)],
-                            "name": perpax_list['name']
+                            "name": perpax['name']
                         })
                     elif perpax['inputType'] == 13:
                         print('deprecated')
@@ -1054,7 +957,7 @@ def review(request):
                         "name": perpax['name']
                     })
                 elif perpax['name'] == 'Gender':
-                    if request.POST['child_title' + str(i + 1)] == 'MR':
+                    if request.POST['child_title' + str(i + 1)] == 'MSTR':
                         perpax_list_temp.append({
                             "uuid": perpax['uuid'],
                             "value": 'Male',
@@ -1234,34 +1137,10 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
