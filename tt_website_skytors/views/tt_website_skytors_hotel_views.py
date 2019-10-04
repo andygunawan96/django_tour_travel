@@ -129,8 +129,8 @@ def passengers(request):
         for i in range(int(request.session['hotel_request']['child'])):
             child.append()
         request.session['hotel_request'].update({
-            'check_in': str(datetime.strptime(request.POST['hotel_checkin_checkout'].split(' - ')[0], '%d %b %Y'))[:10],
-            'check_out': str(datetime.strptime(request.POST['hotel_checkin_checkout'].split(' - ')[0], '%d %b %Y'))[:10],
+            'check_in': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+            'check_out': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
         values = {

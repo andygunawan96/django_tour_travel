@@ -38,12 +38,16 @@
 
         <div class="row" style="position:sticky;top: 66px;z-index: 24;">
             <div class="col-lg-12">
-                <div class="box-sticky-hotel">
+                <div class="box-sticky-hotel" style="padding-right:0px;">
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="information-hotel">Hotel Description</button>
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="facility-hotel">Facility</button>
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="location-hotel">Location Info</button>
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="review-hotel">Review</button>
+
+                    <button class="myticket_static" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();" style="margin: 8px;">
+                        <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -686,10 +690,6 @@
     </div>
 </section>
 {% include 'tt_website_skytors/footer.html' %}
-
-<button class="myticket" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();" style="width:200px; border-radius:unset; height:40px;">
-    <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
-</button>
 
 
 <script>

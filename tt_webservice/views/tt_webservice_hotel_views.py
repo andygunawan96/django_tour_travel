@@ -96,6 +96,23 @@ def login(request):
 
 
 def get_auto_complete(request):
+    def find_hotel_ilike(search_str, record_cache, limit=10):
+        hotel_list = []
+        for rec in record_cache:
+            if len(hotel_list) == limit:
+                return hotel_list
+            is_true = True
+            name = rec['name'].lower()
+            for list_str in search_str.split(' '):
+                if list_str in ['hotel', 'hotels']:
+                    pass
+                if list_str not in name:
+                    is_true = False
+                    break
+            if is_true:
+                hotel_list.append(rec)
+        return hotel_list
+
     limit = 25
     req = request.POST
     try:
@@ -105,7 +122,8 @@ def get_auto_complete(request):
         file.close()
 
         record_json = []
-        for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
+        # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
+        for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit):
             if len(record_json) < limit:
                 record_json.append(rec['name'] + ' - ' + rec['type'])
             else:
@@ -221,8 +239,8 @@ def detail(request):
         data = request.session['hotel_request_data']
         data.update({
             'hotel_id': request.session['hotel_detail']['id'],
-            'checkout_date': str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10],
-            'checkin_date': str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10],
+            'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
+            'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
             'pax_country': False
         })
         headers = {
