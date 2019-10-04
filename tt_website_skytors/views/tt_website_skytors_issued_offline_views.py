@@ -25,15 +25,12 @@ def issued_offline(request):
 
         template, logo = get_logo_template()
 
-        airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in response['result']['response']['airline']['destination'][country]:
-                des.update({
-                    'country': country
-                })
-                airline_destinations.append(des)
+        file = open("airline_destination.txt", "r")
+        for line in file:
+            airline_destinations = json.loads(line)
+        file.close()
 
-        train_destination = response['result']['response']['train']
+        # train_destination = response['result']['response']['train']
 
         airline_country = response['result']['response']['airline']['country']
 
@@ -48,7 +45,7 @@ def issued_offline(request):
             'countries': airline_country,
             # 'agent': request.session['agent'],
             'airline_destinations': airline_destinations,
-            'train_destination': train_destination,
+            # 'train_destination': train_destination,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,

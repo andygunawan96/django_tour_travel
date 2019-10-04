@@ -11,6 +11,7 @@ from ..views import tt_webservice_hotel_views as HotelWebserviceView
 from ..views import tt_webservice_visa_views as VisaWebserviceView
 from ..views import tt_webservice_registration_views as RegisterWebserviceView
 from ..views import tt_webservice_bca_views as BcaWebserviceView
+from ..views import tt_webservice_testing_views as TestWebserviceView
 
 app_name = 'tt_webservice'
 
@@ -27,5 +28,6 @@ urlpatterns = [
     re_path('registration', RegisterWebserviceView.api_models, name="registration"),
     re_path('visa', VisaWebserviceView.api_models, name="visa"),
     re_path('bca', BcaWebserviceView.api_models, name="bca"),
+    re_path('test', TestWebserviceView.api_models, name="test"),
     # url(r'^$', views.index),
 ]

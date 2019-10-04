@@ -66,14 +66,17 @@ def get_payment_acquirer(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    if request.POST['type'] == 'airline' or request.POST['type'] == 'top_up' or request.POST['type'] == 'airline_review':
+    if request.POST['type'] == 'airline' or request.POST['type'] == 'airline_review':
         url_post = 'booking/airline'
     elif request.POST['type'] == 'activity':
         url_post = 'booking/activity'
         data.update({
             'amount': int(request.POST['agent_seq_id'])
         })
-    if request.POST['type'] == 'top_up':
+    elif request.POST['type'] == 'visa':
+        url_post = 'booking/visa'
+    elif request.POST['type'] == 'top_up':
+        url_post = 'booking/airline'
         data.update({
             'agent_seq_id': request.POST['agent_seq_id'],
             'top_up_name': request.POST['top_up_name']

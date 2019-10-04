@@ -70,6 +70,7 @@ function visa_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+            signature = msg.result.response.signature;
             if(data == ''){
                 search_visa();
             }else if(data != ''){
@@ -94,7 +95,8 @@ function search_visa(){
        data: {
             'destination': document.getElementById('visa_destination_id_hidden').value,
             'departure_date': document.getElementById('visa_departure').value,
-            'consulate': document.getElementById('visa_consulate_id_hidden').value
+            'consulate': document.getElementById('visa_consulate_id_hidden').value,
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -205,7 +207,9 @@ function sell_visa(){
             'action': 'sell_visa',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
 
        },
@@ -339,7 +343,8 @@ function update_passenger(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'id': JSON.stringify(data_pax)
+            'id': JSON.stringify(data_pax),
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -362,7 +367,9 @@ function update_contact(){
             'action': 'update_contacts',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
            console.log(msg);
             if(msg.result.error_code == 0){
@@ -376,6 +383,15 @@ function update_contact(){
 }
 
 function commit_booking(){
+    data = {
+        'force_issued': 'true',
+        'signature': signature
+    }
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+    }catch(err){
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -384,9 +400,7 @@ function commit_booking(){
             'action': 'commit_booking',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-            'force_issued': 'true'
-       },
+       data: data,
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
@@ -410,9 +424,11 @@ function visa_get_data(data){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'order_number': data
+            'order_number': data,
+            'signature': signature
        },
        success: function(msg) {
+            console.log(msg);
             if(msg.result.error_code == 0){
                 visa = msg.result.response;
                 text= '';

@@ -37,6 +37,7 @@ def search(request):
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'visa_request': visa_request,
+        'signature': request.session['signature'],
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
         'javascript_version': javascript_version,
@@ -77,11 +78,16 @@ def passenger(request):
     infant = []
     child = []
     elder = []
+    sell_journey = []
     for visa in list_visa['result']['response']['list_of_visa']:
 
         pax_count = 0
         try:
             pax_count = int(request.POST['qty_pax_'+str(count)])
+            sell_journey.append({
+                'pax': int(request.POST['qty_pax_'+str(count)]),
+                'id': visa['id']
+            })
         except:
             try:
                 pax_count = visa['total_pax']
@@ -113,7 +119,7 @@ def passenger(request):
             for i in range(pax_count):
                 elder.append('')
         count = count + 1
-
+    request.session['visa_sell'] = sell_journey
     request.session['visa_passenger'] = pax
     request.session['visa_search'] = list_visa
     if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -122,6 +128,7 @@ def passenger(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'visa': request.session['visa_search']['result']['response'],
         'passengers': pax,
+        'signature': request.session['visa_signature'],
         'countries': airline_country,
         'adults': adult,
         'childs': child,
@@ -302,6 +309,7 @@ def review(request):
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],
             'passengers': pax,
+            'signature': request.session['visa_signature'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,
@@ -327,6 +335,7 @@ def booking(request):
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
             'logo': logo,
+            'signature': request.session['visa_signature'],
             'template': template
             # 'order_number': 'VS.19072500003',
             # 'cookies': json.dumps(res['result']['cookies']),

@@ -161,10 +161,13 @@ def signin(request):
                 }
 
                 res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
-                if res_cache_hotel['result']['error_code'] == 0:
-                    file = open('hotel_cache_data.txt', "w+")
-                    file.write(res_cache_hotel['result']['response'])
-                    file.close()
+                try:
+                    if res_cache_hotel['result']['error_code'] == 0:
+                        file = open('hotel_cache_data.txt', "w+")
+                        file.write(res_cache_hotel['result']['response'])
+                        file.close()
+                except:
+                    pass
 
                 #visa odoo12
                 # data = {
