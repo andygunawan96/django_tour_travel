@@ -119,7 +119,7 @@ def signin(request):
                         # 'visa': response['result']['response']['visa'],
                         # 'issued_offline': response['result']['response']['issued_offline'],
                         # 'train': response['result']['response']['train'],
-                        # 'activity': response['result']['response']['activity'],
+                        'activity': response['result']['response']['activity'],
                         # 'tour': response['result']['response']['tour'],
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
@@ -208,15 +208,15 @@ def signin(request):
                 # res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
 
                 #activity
-                # data = {}
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "signature": request.session['signature'],
-                # }
-                # res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
-                #                                     method='POST')
+                data = {}
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "signature": request.session['signature'],
+                }
+                res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
+                                                    method='POST')
 
                 # tour
                 # data = {}
@@ -233,7 +233,7 @@ def signin(request):
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
-                    # 'activity': res_config_activity['result'],
+                    'activity': res_config_activity['result'],
                     # 'tour': res_config_tour['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
