@@ -213,6 +213,14 @@ def index(request):
 def no_session_logout():
     return redirect('/')
 
+def testing(request):
+    values = {
+        'static_path': path_util.get_static_path(MODEL_NAME),
+    }
+    return render(request, MODEL_NAME+'/testing.html', values)
+
+
+
 def login(request):
     javascript_version = get_cache_version()
     template, logo = get_logo_template()

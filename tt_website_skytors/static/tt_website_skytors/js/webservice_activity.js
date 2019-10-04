@@ -116,7 +116,7 @@ function activity_search(){
                    }
                    else
                    {
-                       img_src = `http://static.skytors.id/tour_packages/not_found.png`;
+                       img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
                    }
 
                    text+=`

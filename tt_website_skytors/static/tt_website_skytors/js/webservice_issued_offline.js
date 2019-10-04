@@ -12,10 +12,11 @@ function get_data_issued_offline(){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+           console.log(msg);
            issued_offline_data = msg;
            text = '<option value=""></option>';
            for(i in issued_offline_data.transaction_type){
-               text+= `<option value='`+issued_offline_data.transaction_type[i][0]+`'>`+issued_offline_data.transaction_type[i][1]+`</option>`;
+               text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
            $('#transaction_type').niceSelect('update');

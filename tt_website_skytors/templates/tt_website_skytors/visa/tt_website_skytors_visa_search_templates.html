@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script>
     visa_request = `{{visa_request}}`;
+    signature = `{{signature}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
 </script>
 {% include 'tt_website_skytors/header.html' %}

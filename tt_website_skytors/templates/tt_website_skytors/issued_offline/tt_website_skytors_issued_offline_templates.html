@@ -54,6 +54,9 @@
     }
 </script>
 
+{% include 'tt_website_skytors/header.html' %}
+{% include 'tt_website_skytors/logout.html' %}
+
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right" style="margin-bottom:25px; border:1px solid #cdcdcd;">
@@ -222,11 +225,12 @@
                                                                     </div>
 
                                                                     <div class="col-lg-6">
+                                                                        <label style="color:red">*</label>
                                                                         <label>Nationality</label>
                                                                         <div class="input-container-search-ticket">
                                                                             <div class="form-select">
-                                                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')">
-                                                                                    {% for key, country in countries.items %}
+                                                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')" class="nice-select-default">
+                                                                                    {% for country in countries %}
                                                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                                                     {% endfor %}
                                                                                 </select>
@@ -250,8 +254,8 @@
                                                                         <div class="row">
                                                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                                                 <div class="form-select">
-                                                                                    <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" placeholder="Nationality" onchange="auto_complete('booker_phone_code')">
-                                                                                        {% for key, country in countries.items%}
+                                                                                    <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default">
+                                                                                        {% for country in countries %}
                                                                                         <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                                                         {% endfor %}
                                                                                     </select>

@@ -1082,9 +1082,9 @@ function get_price_itinerary_request(){
                             try{
                                 text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]].name+`</span><br/>
-                                <img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="http://static.skytors.id/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                                <img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                             }catch(err){
-                                text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="http://static.skytors.id/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                                text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                             }
                         }
                         text+=`</div>`;
@@ -2176,7 +2176,7 @@ function airline_get_booking(data){
                                     text+= `
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="http://static.skytors.id/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
                                         </div>
                                     </div>`;
                                     text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
