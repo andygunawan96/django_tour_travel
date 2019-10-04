@@ -19,24 +19,8 @@ MODEL_NAME = 'tt_website_skytors'
 
 # Create your views here.
 def index(request):
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-    try:
-        file = open("data_cache_template.txt", "r")
-        for idx, line in enumerate(file):
-            if idx == 0:
-                if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                else:
-                    logo = line
-            elif idx == 1:
-                template = int(line)
-        file.close()
-    except:
-        template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+    javascript_version = get_cache_version()
+    template, logo = get_logo_template()
     try:
         if request.POST['logout']:
             request.session.delete()
@@ -61,15 +45,8 @@ def index(request):
 
                 #get_data_awal
                 try:
-                    file = open("javascript_version.txt", "r")
-                    for line in file:
-                        file_cache_name = line
-                    file.close()
-
-                    file = open('version' + str(file_cache_name) + ".txt", "r")
-                    for line in file:
-                        response = json.loads(line)
-                    file.close()
+                    javascript_version = get_cache_version()
+                    response = get_cache_data(javascript_version)
 
                     # agent
                     adult_title = ['MR', 'MRS', 'MS']
@@ -108,6 +85,10 @@ def index(request):
                     # activity_types = response['result']['response']['activity']['types']
                     # activity_countries = response['result']['response']['activity']['countries']
                     # activity
+
+                    # tour
+                    # tour_countries = response['result']['response']['tour']['countries']
+                    # tour
 
                     # issuedoffline
                     # issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
@@ -153,6 +134,13 @@ def index(request):
                         pass
 
                     try:
+                        cache['tour'] = {
+                                'name': request.session['tour_request']['tour_query']
+                            }
+                    except:
+                        pass
+
+                    try:
                         cache['visa'] = {
                                 'destination': request.session['visa_request']['destination'],
                                 'departure_date': request.session['visa_request']['departure_date'],
@@ -170,10 +158,13 @@ def index(request):
                         'airline_country': airline_country,
                         'logo': logo,
                         'template': template,
+                        #activity
                         # 'activity_sub_categories': activity_sub_categories,
                         # 'activity_categories': activity_categories,
                         # 'activity_types': activity_types,
                         # 'activity_countries': activity_countries,
+                        #tour
+                        # 'tour_countries': tour_countries,
                         #hotel
                         # 'issued_offline_transaction_type': issued_offline_transaction_type,
                         # 'issued_offline_sector_type': issued_offline_sector_type,
@@ -223,25 +214,8 @@ def no_session_logout():
     return redirect('/')
 
 def login(request):
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
-
-    try:
-        file = open("data_cache_template.txt", "r")
-        for idx, line in enumerate(file):
-            if idx == 0:
-                if line == '\n':
-                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                else:
-                    logo = line
-            elif idx == 1:
-                template = int(line)
-        file.close()
-    except:
-        template = 1
-        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+    javascript_version = get_cache_version()
+    template, logo = get_logo_template()
 
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -283,10 +257,7 @@ def admin(request):
                 file = open('data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
-            file = open("javascript_version.txt", "r")
-            for line in file:
-                javascript_version = json.loads(line)
-            file.close()
+            javascript_version = get_cache_version()
 
 
             try:
@@ -325,30 +296,14 @@ def admin(request):
 
 def reservation(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
 
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
         file.close()
 
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -372,25 +327,8 @@ def reservation(request):
 
 def top_up(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -409,25 +347,9 @@ def top_up(request):
 
 def top_up_history(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
 
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -444,7 +366,37 @@ def top_up_history(request):
     else:
         return no_session_logout()
 
+def get_cache_version():
+    file = open("javascript_version.txt", "r")
+    for idx, line in enumerate(file):
+        if idx == 0:
+            javascript_version = line.split('\n')[0]
+    file.close()
+    return javascript_version
 
+def get_cache_data(javascript_version):
+    file = open('version' + str(javascript_version) + ".txt", "r")
+    for line in file:
+        response = json.loads(line)
+    file.close()
+    return response
+
+def get_logo_template():
+    try:
+        file = open("data_cache_template.txt", "r")
+        for idx, line in enumerate(file):
+            if idx == 0:
+                if line == '\n':
+                    logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+                else:
+                    logo = line
+            elif idx == 1:
+                template = int(line)
+        file.close()
+    except:
+        template = 1
+        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+    return template, logo
 
 # @api_view(['GET'])
 # def testing(request):

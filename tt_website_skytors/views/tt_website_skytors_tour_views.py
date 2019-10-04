@@ -48,35 +48,10 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -94,19 +69,12 @@ def search(request):
             {'value': '12', 'string': 'December'},
         ]
 
-        budget_data = [
-            {'value': '0-999999999', 'string': 'All Budget'},
-            {'value': '0-1000000', 'string': '0-1 juta'},
-            {'value': '1000000-2000000', 'string': '1-2 juta'},
-            {'value': '2000000-5000000', 'string': '2-5 juta'},
-            {'value': '5000000-10000000', 'string': '5-10 juta'},
-            {'value': '10000000-20000000', 'string': '10-20 juta'},
-            {'value': '20000000-99000000', 'string': '> 20 juta'},
-        ]
+        tour_countries = response['result']['response']['tour']['countries']
 
         request.session['tour_request'] = {
             'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'country_id': request.POST['tour_destination'],
+            'country_id': request.POST['tour_countries'],
+            'city_id': request.POST['tour_cities'],
             'month': request.POST['tour_dest_month'],
             'year': request.POST['tour_dest_year'],
             'limit': 25,
@@ -116,8 +84,10 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'tour_countries': tour_countries,
             'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'dest_destination': request.POST['tour_destination'],
+            'dest_country': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
+            'dest_city': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
             'dest_year': request.POST['tour_dest_year'],
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,
@@ -131,34 +101,10 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -182,34 +128,10 @@ def detail(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -350,34 +272,9 @@ def passenger(request):
 
 def review(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -544,34 +441,10 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
 
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

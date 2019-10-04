@@ -20,35 +20,9 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -91,25 +65,8 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        template, logo = get_logo_template()
 
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -138,10 +95,7 @@ def detail(request):
 
 
 def detail_static(request):
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        javascript_version = json.loads(line)
-    file.close()
+    javascript_version = get_cache_version()
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'javascript_version': javascript_version,
@@ -153,35 +107,9 @@ def detail_static(request):
 
 def passengers(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -229,35 +157,9 @@ def passengers(request):
 
 def review(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        template, logo = get_logo_template()
 
         adult = []
         child = []
@@ -331,25 +233,8 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            javascript_version = json.loads(line)
-        file.close()
-
-        try:
-            file = open("data_cache_template.txt", "r")
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line == '\n':
-                        logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
-                    else:
-                        logo = line
-                elif idx == 1:
-                    template = int(line)
-            file.close()
-        except:
-            template = 1
-            logo = '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png'
+        javascript_version = get_cache_version()
+        template, logo = get_logo_template()
 
         resv_obj = json.loads(request.POST['result'])['result']['response']
         values = {

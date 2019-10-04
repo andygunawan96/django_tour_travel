@@ -927,6 +927,7 @@ $(document).ready(function(){
             });
         }
         else if (selected_value == "multicity"){
+            console.log('asdadasd');
             airline_counter_config = 0;
             counter_airline_search = 0;
             text_mc='';

@@ -23,13 +23,15 @@
     signature = `{{signature}}`;
     activity_country = [];
     city = [];
+    tour_country = [];
+    tour_city = [];
     sub_category = {};
     sub_category_list = [];
     name = '';
     {% for country in activity_countries %}
-        {% for city in country.city.response %}
+        {% for temp_city in country.city.response %}
             city.push({
-                'name': '{{city.name}}', 'id':'{{city.id}}'
+                'name': '{{temp_city.name}}', 'id':'{{temp_city.id}}'
             });
         {% endfor %}
         activity_country.push({
@@ -73,6 +75,21 @@
         sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
         sub_category_list = [];
     {% endfor %}
+
+    {% for tour_country_temp in tour_countries %}
+        {% for city in tour_country_temp.city.response %}
+            tour_city.push({
+                'name': '{{city.name}}', 'id':'{{city.id}}'
+            });
+        {% endfor %}
+        tour_country.push({
+            'city': tour_city,
+            'name': '{{tour_country_temp.name}}',
+            'id': '{{tour_country_temp.id}}'
+        });
+        tour_city = [];
+    {% endfor %}
+
     {% if username != undefined %}
         try{
             //hotel_signin('home');
@@ -590,7 +607,7 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="auto_complete_activity('activity_countries');" size="5" data-live-search="true" name="activity_countries">
-                                                        <option value="" selected="">All Country</option>
+                                                        <option value="" selected="">All Countries</option>
                                                         {% for country in activity_countries %}
                                                         <option value="{{country.id}}">{{country.name}}</option>
                                                         {% endfor %}
@@ -683,8 +700,11 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                                 <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_countries" onchange="auto_complete_activity('activity_countries');" size="5" data-live-search="true" name="tour_countries">
-                                                        <option value="" selected="">All Country</option>
+                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_countries" onchange="auto_complete_tour('tour_countries');" size="5" data-live-search="true" name="tour_countries">
+                                                        <option value="0" selected="">All Countries</option>
+                                                        {% for country in tour_countries %}
+                                                        <option value="{{country.id}}">{{country.name}}</option>
+                                                        {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
@@ -692,7 +712,7 @@
                                                 <div class="form-select">
                                                     <div id="temp_tour_cities">
                                                         <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
-                                                            <option value="" selected="">All Cities</option>
+                                                            <option value="0" selected="">All Cities</option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -1320,9 +1340,11 @@
                                         <input type="radio" name="radio_airline_type" value="multicity">
                                         <span class="checkmark-radio"></span>
                                     </label>
+                                </div>
+                                <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                     <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                         <label class="check_box_custom">
-                                            <span style="font-size:14px; color:#7D7D7D;">Is Combo Price</span>
+                                            <span style="font-size:13px; color:white;">Is Combo Price</span>
                                             <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                             <span class="check_box_span_custom"></span>
                                         </label>
@@ -1702,7 +1724,7 @@
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <select class="form-control" id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
-                                                <option value="" selected="">All Country</option>
+                                                <option value="" selected="">All Countries</option>
                                                 {% for country in activity_countries %}
                                                 <option value="{{country.id}}">{{country.name}}</option>
                                                 {% endfor %}
@@ -2208,9 +2230,11 @@
                                             <input type="radio" name="radio_airline_type" value="multicity">
                                             <span class="checkmark-radio"></span>
                                         </label>
+                                    </div>
+                                    <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                             <label class="check_box_custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">Is Combo Price</span>
+                                                <span style="font-size:13px; color:white;">Is Combo Price</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -2618,7 +2642,7 @@
                                                 <div class="form-group">
                                                     <div class="default-select">
                                                         <select id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
-                                                            <option value="" selected="">All Country</option>
+                                                            <option value="" selected="">All Countries</option>
                                                             {% for country in activity_countries %}
                                                             <option value="{{country.id}}">{{country.name}}</option>
                                                             {% endfor %}
@@ -3149,9 +3173,11 @@
                                             <input type="radio" name="radio_airline_type" value="multicity">
                                             <span class="checkmark-radio"></span>
                                         </label>
+                                    </div>
+                                    <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                             <label class="check_box_custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">Is Combo Price</span>
+                                                <span style="font-size:13px; color:white;">Is Combo Price</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -3520,7 +3546,7 @@
                                                 <div class="select-wrap">
                                                     <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
                                                     <select class="form-control rounded" id="themespark_countries" onchange="set_city();" name="themespark_countries">
-                                                        <option value="" selected="">All Country</option>
+                                                        <option value="" selected="">All Countries</option>
                                                         {% for country in activity_countries %}
                                                         <option value="{{country.id}}">{{country.name}}</option>
                                                         {% endfor %}
@@ -3997,9 +4023,11 @@
                                             <input type="radio" name="radio_airline_type" value="multicity">
                                             <span class="checkmark-radio"></span>
                                         </label>
+                                    </div>
+                                    <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                             <label class="check_box_custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">Is Combo Price</span>
+                                                <span style="font-size:13px; color:white;">Is Combo Price</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -4402,7 +4430,7 @@
                                                 <div class="form-group">
                                                     <div class="default-select">
                                                         <select id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
-                                                            <option value="" selected="">All Country</option>
+                                                            <option value="" selected="">All Countries</option>
                                                             {% for country in activity_countries %}
                                                             <option value="{{country.id}}">{{country.name}}</option>
                                                             {% endfor %}
