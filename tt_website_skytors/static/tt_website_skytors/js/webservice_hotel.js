@@ -260,6 +260,8 @@ function get_top_facility(){
 }
 
 function hotel_detail_request(id){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
     document.getElementById("detail_room_pick").innerHTML = '';
     document.getElementById('hotel_detail_table').innerHTML = '';
     document.getElementById("select_copy_all").innerHTML = '';
@@ -278,6 +280,7 @@ function hotel_detail_request(id){
             'signature': '',
        },
        success: function(msg) {
+        $('#loading-detail-hotel').hide();
         console.log(msg);
         //show package
 
@@ -410,6 +413,7 @@ function hotel_detail_request(id){
            alert(errorThrown);
        }
     });
+    },500);
 }
 
 function hotel_get_cancellation_policy(price_code, provider){
@@ -576,13 +580,14 @@ function get_checked_copy_result_room(){
     $(".copy_result:checked").each(function(obj) {
         var parent_room = $(this).parent().parent().parent().parent();
         var name_room = parent_room.find('.name_room').html();
+        var desc_room = parent_room.find('.desc_room').html();
         var qty_room = parent_room.find('.qty_room').html();
         var meal_room = parent_room.find('.meal_room').html();
         var price_room = parent_room.find('.price_room').html();
         var id_room = parent_room.find('.id_copy_result').html();
         room_number = room_number + 1;
-        $text += ''+room_number+'. '+name_room+'\n';
-        $text += 'Qty: '+qty_room+'\n';
+        $text += room_number+'. '+name_room+ ' ' + desc_room+'\n';
+        $text += qty_room+'\n';
         $text += ''+meal_room+'\n';
         $text += 'Price: '+price_room+'\n \n';
         text+=`

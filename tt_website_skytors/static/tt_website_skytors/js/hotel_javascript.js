@@ -1064,7 +1064,7 @@ function check_all_result(){
 function get_checked_copy_result(){
     document.getElementById("show-list-copy-hotel").innerHTML = '';
 
-    var search_params = document.getElementById("show-list-copy-hotel").innerHTML = '';;
+    var search_params = document.getElementById("show-list-copy-hotel").innerHTML = '';
 
     var value_idx = [];
     $("#hotel_search_params span").each(function(obj) {
@@ -1072,7 +1072,7 @@ function get_checked_copy_result(){
     })
 
     text='';
-    $text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\nRoom, Adult, Child: '+value_idx[3]+'\n\n';
+    $text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
     var hotel_number = 0;
     node = document.createElement("div");
     text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
