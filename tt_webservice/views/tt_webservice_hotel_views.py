@@ -9,6 +9,7 @@ import json
 import copy
 import logging
 import traceback
+from .tt_webservice_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -112,7 +113,7 @@ def get_auto_complete(request):
                 hotel_list.append(rec)
         return hotel_list
 
-    limit = 10
+    limit = 25
     req = request.POST
     try:
         file = open("hotel_cache_data.txt", "r")
@@ -121,30 +122,12 @@ def get_auto_complete(request):
         file.close()
 
         record_json = []
-        for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache['city_ids']):
+        # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
+        for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit):
             if len(record_json) < limit:
-                record_json.append(rec['name'] + ' - ' + 'City')
+                record_json.append(rec['name'] + ' - ' + rec['type'])
             else:
                 break
-        if len(record_json) < limit:
-            hotel_record = find_hotel_ilike(req['name'].lower(), record_cache['hotel_ids'], limit-len(record_json))
-            for rec in hotel_record:
-                if len(record_json) < limit + 1:
-                    record_json.append(rec['name'] + ' - ' + 'Hotel')
-                else:
-                    break
-        if len(record_json) < limit:
-            for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache['country_ids']):
-                if len(record_json) < limit:
-                    record_json.append(rec['name'] + ' - ' + 'Country')
-                else:
-                    break
-        if len(record_json) < limit:
-            for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache['landmark_ids']):
-                if len(record_json) < limit:
-                    record_json.append(rec['name'] + ' - ' + 'Landmark')
-                else:
-                    break
 
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_autocomplete HOTEL SIGNATURE " + request.POST['signature'])
@@ -158,15 +141,8 @@ def search(request):
         child_age = []
         if request.POST['child_age'] != '':
             request.POST['child_age'].split(',')
-        file = open("javascript_version.txt", "r")
-        for line in file:
-            file_cache_name = line
-        file.close()
-
-        file = open('version' + str(file_cache_name) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         id = ''
         country_id = ''
         destination_id = ''
@@ -263,8 +239,8 @@ def detail(request):
         data = request.session['hotel_request_data']
         data.update({
             'hotel_id': request.session['hotel_detail']['id'],
-            'checkout_date': str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10],
-            'checkin_date': str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10],
+            'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
+            'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
             'pax_country': False
         })
         headers = {

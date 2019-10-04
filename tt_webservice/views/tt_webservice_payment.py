@@ -9,6 +9,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+from .tt_webservice_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -70,7 +71,7 @@ def get_payment_acquirer(request):
     elif request.POST['type'] == 'activity':
         url_post = 'booking/activity'
         data.update({
-            'total_cost': int(request.POST['agent_seq_id'])
+            'amount': int(request.POST['agent_seq_id'])
         })
     if request.POST['type'] == 'top_up':
         data.update({

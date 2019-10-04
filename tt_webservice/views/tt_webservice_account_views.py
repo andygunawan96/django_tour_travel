@@ -10,7 +10,7 @@ import json
 import logging
 import traceback
 _logger = logging.getLogger(__name__)
-
+from .tt_webservice_views import *
 
 month = {
     'Jan': '01',
@@ -71,16 +71,13 @@ def api_models(request):
     return Response(res)
 
 def get_version(request):
-    file = open("javascript_version.txt", "r")
-    for line in file:
-        file_cache_name = line
-    file.close()
+    javascript_version = get_cache_version()
     res = {
         'result': {
             'error_code': 0,
             'error_msg': '',
             'response': {
-                'version': file_cache_name
+                'version': javascript_version
             }
         }
     }
