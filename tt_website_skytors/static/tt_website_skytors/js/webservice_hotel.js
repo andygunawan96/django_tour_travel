@@ -133,95 +133,25 @@ function hotel_search(data){
                                     filtering('sort');
                                 }else{
                                     //kalau error belum
-                                    $('#loading-search-hotel').hide();
-                                    document.getElementById("hotel_error").innerHTML = '';
-                                    text = '';
-                                    text += `
-                                        <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                                            <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                                        </div>
-                                    `;
-                                    var node = document.createElement("div");
-                                    node.innerHTML = text;
-                                    document.getElementById("hotel_error").appendChild(node);
-                                    node = document.createElement("div");
-
                                 }
                            }catch(err){
-                                $('#loading-search-hotel').hide();
-                                document.getElementById("hotel_error").innerHTML = '';
-                                text = '';
-                                text += `
-                                    <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                                        <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                                    </div>
-                                `;
-                                var node = document.createElement("div");
-                                node.innerHTML = text;
-                                document.getElementById("hotel_error").appendChild(node);
-                                node = document.createElement("div");
-
+                                alert(msg.result.error_msg);
                            }
                        },
                        error: function(XMLHttpRequest, textStatus, errorThrown) {
-                            $('#loading-search-hotel').hide();
-                            document.getElementById("hotel_error").innerHTML = '';
-                            text = '';
-                            text += `
-                                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                                </div>
-                            `;
-                            var node = document.createElement("div");
-                            node.innerHTML = text;
-                            document.getElementById("hotel_error").appendChild(node);
-                            node = document.createElement("div");
+                           alert(errorThrown);
                        }
                    });
                }else{
-                    $('#loading-search-hotel').hide();
-                    document.getElementById("hotel_error").innerHTML = '';
-                    text = '';
-                    text += `
-                        <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                            <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                        </div>
-                    `;
-                    var node = document.createElement("div");
-                    node.innerHTML = text;
-                    document.getElementById("hotel_error").appendChild(node);
-                    node = document.createElement("div");
+
                }
            }else if(data != ''){
                //goto reservation
-                $('#loading-search-hotel').hide();
-                document.getElementById("hotel_error").innerHTML = '';
-                text = '';
-                text += `
-                    <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                        <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                    </div>
-                `;
-                var node = document.createElement("div");
-                node.innerHTML = text;
-                document.getElementById("hotel_error").appendChild(node);
-                node = document.createElement("div");
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('#loading-search-hotel').hide();
-            document.getElementById("hotel_error").innerHTML = '';
-            text = '';
-            text += `
-                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                </div>
-            `;
-            var node = document.createElement("div");
-            node.innerHTML = text;
-            document.getElementById("hotel_error").appendChild(node);
-            node = document.createElement("div");
-       },timeout: 10000
+           alert(errorThrown);
+       }
     });
 }
 

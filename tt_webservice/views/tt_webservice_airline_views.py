@@ -248,17 +248,18 @@ def search2(request):
     # get_data_awal
     try:
         javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
-
         # airline
         airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in country['destinations']:
-                des.update({
-                    'country': country['code'],
-                    'country_name': country['name']
-                })
-                airline_destinations.append(des)
+        file = open("airline_destination.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response:
+            airline_destinations.append({
+                'code': country['code'],
+                'name': country['name'],
+                'city': country['city']
+            })
 
         # get_data_awal
         # direction = request.session['airline_request']['direction']
