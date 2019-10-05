@@ -167,6 +167,7 @@ def signin(request):
                         file.write(res_cache_hotel['result']['response'])
                         file.close()
                 except:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel))
                     pass
 
                 #visa odoo12
@@ -221,20 +222,18 @@ def signin(request):
                 # res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
                 #                                     method='POST')
 
-                # tour
-                # data = {}
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "signature": request.session['signature'],
-                # }
-                # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
-                #                                         method='POST')
-
+                #check sebelum masukkan ke cache
+                if res_country_airline['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
+                if res_destination_airline['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
+                # if res_config_visa['result']['error_code'] == 0:
+                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
+                # if res_config_issued_offline['result']['error_code'] == 0:
+                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
                 res['result']['response'].update({
-                    # 'visa': res_config_visa['result']['response'], #belum di install
-                    # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
+                    'visa': res_config_visa['result']['response'], #belum di install
+                    'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
                     # 'activity': res_config_activity['result'],
                     # 'tour': res_config_tour['result'],
