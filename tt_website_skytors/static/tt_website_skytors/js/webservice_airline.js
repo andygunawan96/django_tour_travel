@@ -94,6 +94,7 @@ function airline_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+       try{
            console.log(msg);
            airline_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
@@ -103,6 +104,28 @@ function airline_signin(data){
            }else if(data != ''){
                airline_get_booking(data);
            }
+       }catch(err){
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+           document.getElementById("airlines_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("airlines_error").appendChild(node);
+            node = document.createElement("div");
+
+       }
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

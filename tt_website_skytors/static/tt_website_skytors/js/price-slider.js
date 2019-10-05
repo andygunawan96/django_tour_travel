@@ -2372,6 +2372,7 @@
 // Trigger
 
 $(function () {
+var checkUpdateInput = 0;
 
 var $range = $(".js-range-slider"),
     $inputFrom = $(".js-input-from"),
@@ -2396,8 +2397,6 @@ $range.ionRangeSlider({
     prettify_separator: ".",
     values_separator: " - ",
     force_edges: true
-
-
 });
 
 instance = $range.data("ionRangeSlider");
@@ -2405,21 +2404,29 @@ instance = $range.data("ionRangeSlider");
 function updateInputs (data) {
     from = data.from;
     to = data.to;
-
+    document.getElementById('price-from').value = from;
+    document.getElementById('price-to').value = to;
+    if(checkUpdateInput == 0)
+    {
+        checkUpdateInput = checkUpdateInput + 1;
+        price_slider_true(0);
+    }
+    else{
+        price_slider_true(1);
+    }
     $inputFrom.prop("value", from);
     $inputTo.prop("value", to);
 }
 
 $inputFrom.on("input", function () {
     var val = $(this).prop("value");
-
     // validate
     if (val < min) {
         val = min;
     } else if (val > to) {
         val = to;
     }
-
+    price_slider_true(1);
     instance.update({
         from: val
     });
@@ -2434,7 +2441,7 @@ $inputTo.on("input", function () {
     } else if (val > max) {
         val = max;
     }
-
+    price_slider_true(1);
     instance.update({
         to: val
     });
