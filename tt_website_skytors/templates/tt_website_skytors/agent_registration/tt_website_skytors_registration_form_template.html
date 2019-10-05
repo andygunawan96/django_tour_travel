@@ -11,25 +11,14 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
-    city = [];
-    country_list = [];
-    titles = `{{titles}}`;
-    titles = JSON.parse(titles.replace(/&#39;/g, '"'));
-    {% for country in countries %}
-        {% for city in country.city %}
-            city.push({
-                'name': '{{city.name}}', 'id':'{{city.id}}'
-            });
-        {% endfor %}
-        country_list.push({
-            'city': city,
-            'name': '{{country.name}}',
-            'id': '{{country.id}}'
-        });
-        city = [];
-    {% endfor %}
+    //city = [];
+    //country_list = [];
+    signature = `{{signature}}`;
 </script>
-
+{% if username != null %}
+{% include 'tt_website_skytors/header.html' %}
+{% include 'tt_website_skytors/logout.html' %}
+{% endif %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row banner-right">
@@ -251,7 +240,7 @@
             <form id="agent_registration" class="form-wrap" action="{% url 'tt_website_skytors:registration_register'%}" method="POST" style="padding:0; text-align:unset; width:100%;" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col-lg-8 div-register-partnership" style="margin-top:10px; margin-bottom:15px;">
+                    <div class="col-lg-12 div-register-partnership" style="margin-top:10px; margin-bottom:15px;">
                         <div style="background-color:white; padding:15px;">
                             <h3 style="margin-bottom:15px;">Register</h3>
                             <div class="row">
@@ -307,17 +296,18 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <span class="control-label" for="city_id">Country<span class="required-txt">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <i class="fas fa-map-marker-alt icon-search-ticket"></i>
+
                                         <div class="form-select">
                                             <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
                                                 {% for country in countries %}
                                                     {% if country.name == 'Indonesia' %}
-                                                <option value="{{country.id}}" selected="">{{country.name}}</option>
+                                                <option value="{{country.code}}" selected="">{{country.name}}</option>
                                                     {% else %}
-                                                <option value="{{country.id}}">{{country.name}}</option>
+                                                <option value="{{country.code}}">{{country.name}}</option>
                                                     {% endif %}
                                                 {% endfor %}
                                             </select>
@@ -338,18 +328,18 @@
                                         <!--</div>-->
                                     <!--</div>-->
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="city_id">City<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
-                                        <i class="fas fa-plane-departure icon-search-ticket"></i>
-                                        <div class="form-select">
-                                            <select class="form-control js-example-basic-single" name="city_id" style="width:100%;" id="city_id" onchange="auto_complete('city')">
+                                <!--<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">-->
+                                    <!--<span class="control-label" for="city_id">City<span class="required-txt">* </span></span>-->
+                                    <!--<div class="input-container-search-ticket">-->
+                                        <!--<i class="fas fa-plane-departure icon-search-ticket"></i>-->
+                                        <!--<div class="form-select">-->
+                                            <!--<select class="form-control js-example-basic-single" name="city_id" style="width:100%;" id="city_id" onchange="auto_complete('city')">-->
 
-                                            </select>
-                                        </div>
-                                        <input type="hidden" name="city" id="city" />
-                                    </div>
-                                </div>
+                                            <!--</select>-->
+                                        <!--</div>-->
+                                        <!--<input type="hidden" name="city" id="city" />-->
+                                    <!--</div>-->
+                                <!--</div>-->
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -430,11 +420,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>
-                            <h4>Payment Method</h4><hr/>
-                        </div>
-                    </div>
+                    <!--<div class="col-lg-4">-->
+                        <!--<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="payment_acq" hidden>-->
+                            <!--<h4>Payment Method</h4><hr/>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </form>
         </div>
@@ -515,7 +505,7 @@
         agent_register_get_config();
         auto_complete_registration('country');
         auto_complete_registration('social_media');
-        get_payment_acq('Registration');
+        //get_payment_acq('Registration','', '', 'top_up', signature, 'top_up','HO.1636001', '')
     });
 
 </script>
