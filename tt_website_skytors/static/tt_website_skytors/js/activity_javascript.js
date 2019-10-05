@@ -1418,12 +1418,7 @@ function input_type2_change_perpax(val,val1, type, inputType){
 function price_slider_true(type){
     $minPrice = parseInt(document.getElementById('price-from').value);
     $maxPrice = parseInt(document.getElementById('price-to').value);
-    if(type == 0){
-        change_filter('price', 0);
-    }
-    else if(type == 1){
-        change_filter('price', 1);
-    }
+    change_filter('price', type);
 }
 
 function activity_filter_render(){
@@ -1535,12 +1530,7 @@ function sort_button(value){
 function change_filter(type, value){
     var check = 0;
     if(type == 'price'){
-        if(value == 0){
-            filtering('filter', 0);
-        }
-        else if(value == 1){
-            filtering('filter', 1);
-        }
+        filtering('filter', value);
     }
 }
 
@@ -1549,21 +1539,9 @@ function filtering(type, check){
    data = activity_data;
    if(type == 'filter'){
        console.log(data);
-       if(check == 0){
-        sort(data, 0);
-       }
-       else if(check == 1){
-        sort(data, 1);
-       }
+       sort(data, check)
    }else if(type == 'sort'){
        sort(activity_data, check);
-       if(check == 0){
-         sort(activity_data, 0);
-       }
-       else if(check == 1){
-         sort(activity_data, 1);
-       }
-
    }
 }
 
