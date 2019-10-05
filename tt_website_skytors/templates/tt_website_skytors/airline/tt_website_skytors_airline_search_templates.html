@@ -157,10 +157,10 @@
                                                 </div>
                                             </div>
                                             <div class="image-change-route-vertical">
-                                                <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                             </div>
                                             <div class="image-change-route-horizontal">
-                                                <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -402,10 +402,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="image-change-route-vertical">
-                                                    <h4><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                 </div>
                                                 <div class="image-change-route-horizontal">
-                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                                                     <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -640,8 +640,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" tabindex="-1" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                             <div class="form-group">
                                                 <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_request.destination.0}}" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
@@ -872,8 +872,8 @@
                                             <input id="origin_id_flight" name="origin_id_flight" class="form-control rounded" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_request.origin.0}}" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" tabindex="-1" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                             <div class="form-group">
                                                 <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{airline_request.destination.0}}" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
@@ -1107,8 +1107,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch();" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                             <span class="span-search-ticket">To</span>
                                             <div class="input-container-search-ticket">
                                                 <i class="fas fa-plane-arrival icon-search-ticket"></i>
