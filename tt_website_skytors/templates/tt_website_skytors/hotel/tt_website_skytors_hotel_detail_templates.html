@@ -66,13 +66,11 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
-                            <span class="rating_hotel" hidden>3</span>
+                            <span class="rating_hotel" hidden>{{response.rating}}</span>
                             <span>
-                                <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                {% for i in rating %}
+                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                {% endfor %}
                             </span>
                             <br/>
                             <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
@@ -86,74 +84,26 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="owl-carousel-hotel-img owl-theme">
-                                        <!--                                        {% for i in response.images %}-->
-                                        <!--                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">-->
-                                        <!--                                            <img class="img-fluid zoom-img" src="{{i.url}}" style="margin: auto; max-height:400px;" alt="">-->
-                                        <!--                                        </div>-->
-                                        <!--                                        {% endfor %}-->
+                                        {% for i in response.images %}
                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-1.jpg" style="margin: auto; max-height:400px;" alt="">
+                                            <img class="img-fluid zoom-img" src="{{i.url}}" style="margin: auto; max-height:400px;" alt="">
                                         </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-2.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-3.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-4.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-5.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-6.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-7.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-8.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
-                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-9.jpg" style="margin: auto; max-height:400px;" alt="">
-                                        </div>
+                                        {% endfor %}
+<!--                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">-->
+<!--                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-1.jpg" style="margin: auto; max-height:400px;" alt="">-->
+<!--                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="owl-carousel-hotel owl-theme">
-                                        <!--                                        {% for i in response.images %}-->
-                                        <!--                                        <div class="item" style="cursor:pointer;">-->
-                                        <!--                                            <img class="img-fluid" src="{{i.url}}" style="max-width:100%; height:75px;">-->
-                                        <!--                                        </div>-->
-                                        <!--                                        {% endfor %}-->
+                                        {% for i in response.images %}
                                         <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" style="max-width:100%; height:75px;">
+                                            <img class="img-fluid" src="{{i.url}}" style="max-width:100%; height:75px;">
                                         </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-2.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-4.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-7.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-8.jpg" style="max-width:100%; height:75px;">
-                                        </div>
-                                        <div class="item" style="cursor:pointer;">
-                                            <img class="img-fluid" src="{{static_path}}images/hotel-9.jpg" style="max-width:100%; height:75px;">
-                                        </div>
+                                        {% endfor %}
+<!--                                        <div class="item" style="cursor:pointer;">-->
+<!--                                            <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" style="max-width:100%; height:75px;">-->
+<!--                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -194,26 +144,29 @@
                 <div class="col-lg-12 div-facility-hotel" style="background:#f9f9f9; padding-top:40px; padding-bottom:40px;">
                     <h4>Facility</h4>
                     <hr/>
-                    <table style="width:100%;">
-                        <tr>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Wi-Fi in designated areas</td>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport shuttle</td>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport pickup service</td>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Restaurant</td>
-                        </tr>
-                        <tr>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Café</td>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Bar</td>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Non-smoking floor</td>
-                            <td style="width:25%;"><i class="fas fa-circle"></i> Currency exchange</td>
-                        </tr>
-                    </table>
+<!--                    <table style="width:100%;">-->
+<!--                        <tr>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Wi-Fi in designated areas</td>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport shuttle</td>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport pickup service</td>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Restaurant</td>-->
+<!--                        </tr>-->
+<!--                        <tr>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Café</td>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Bar</td>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Non-smoking floor</td>-->
+<!--                            <td style="width:25%;"><i class="fas fa-circle"></i> Currency exchange</td>-->
+<!--                        </tr>-->
+<!--                    </table>-->
+                    <div class="row">
+                        {% for facility in response.facilities %}
+                        <div class="col-md-3 col-xs-4" style="width:25%;">
+                            {% if facility.url != false %}<i class="fas fa-circle"></i>{% else %}<i class="fas fa-circle"></i>{% endif %}
+                            {{facility.facility_name}}
+                        </div>
+                        {% endfor %}
+                    </div>
 
-                    <!--                    <span>-->
-                    <!--                        {% for facility in response.facilities %}-->
-                    <!--                        {{facility.facility_name.facility_name}}<br/>-->
-                    <!--                        {% endfor %}-->
-                    <!--                    </span>-->
                 </div>
 
                 <div class="col-lg-12 div-location-hotel" style="background:white; padding-top:40px; padding-bottom:40px;">
