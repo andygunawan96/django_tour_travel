@@ -2357,10 +2357,16 @@ function airline_pick_mc(type){
                 <div class="col-lg-2" id="airline-info">
                     <div class="row">
                         <div class="col-lg-2">`;
-                            for(j in airline_pick_list[i].carrier_code_list)
-                            text+=`
-                            <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
+                            for(j in airline_pick_list[i].carrier_code_list){
+                                try{
+                                    text+=`
+                                        <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
+                                }catch(err){
+                                    text+=`
+                                        <span style="font-weight:500; font-size:12px;">`+airline_pick_list[i].carrier_code_list[j]+`</span><br/>`;
+                                }
+                            }
                             text+=`
                         </div>
                     </div>
@@ -2624,12 +2630,16 @@ function check_provider(carrier_code,val){
         check = 0;
         for(i in airline_provider_list){
             if(document.getElementById('provider_box_'+airline_provider_list[i].code).checked == true){
-                check = 1;
-                break;
+                check++;
             }
         }
-        if(check == 0)
+        console.log(check);
+        if(check == 0){
             document.getElementById('provider_box_All').checked = true
+            document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
+        }else{
+            document.getElementById('show_provider_airline').innerHTML = check+' Airline chosen';
+        }
     }else{
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
@@ -2647,13 +2657,17 @@ function check_provider(carrier_code,val){
         check = 0;
         for(i in airline_provider_list){
             if(document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked == true){
-                check = 1;
-                break;
+                check++;
             }
         }
         if(check == 0){
             document.getElementById('provider_box_All_'+val).checked = true
             document.getElementById('provider_box_All').checked = true
+            document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
+            document.getElementById('show_provider_airline1').innerHTML = 'All airline chosen';
+        }else{
+            document.getElementById('show_provider_airline').innerHTML = check+' Airline chosen';
+            document.getElementById('show_provider_airline1').innerHTML = check+' Airline chosen';
         }
     }
 

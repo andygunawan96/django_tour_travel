@@ -8,6 +8,8 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_issued_offline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/issued_offline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
@@ -46,7 +48,7 @@
     countries = countries.replace(/False/g, 'false');
     countries = countries.replace(/True/g, 'true');
     countries = JSON.parse(countries);
-
+    signature = '{{signature}}'
     function check_years_old(sequence){
         var birth_date = '';
         birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
