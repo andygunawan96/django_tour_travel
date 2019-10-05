@@ -86,7 +86,8 @@ def detail(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
-            'template': template
+            'template': template,
+            'rating': range(request.session['hotel_detail']['rating']),
         }
 
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_detail_templates.html', values)
