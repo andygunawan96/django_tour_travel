@@ -413,23 +413,23 @@ def review(request):
             'child_pax': child,
             'infant_pax': infant,
             'all_pax': all_pax,
-            'contact_person': contact,
+            'contact': contact,
             'sameBooker': request.POST['myRadios'],
-            'contact': booker,
+            'booker': booker,
             'total_pax_all': temp_idx,
         })
 
         request.session['booking_data'] = temp_booking_data
 
         values.update({
-            'contact': booker,
+            'booker': booker,
             'room_list': request.session['booking_data']['room_list'],
             'room_amount': request.session['booking_data']['room_amount'],
             'adult_pax': adult,
             'child_pax': child,
             'infant_pax': infant,
             'all_pax': all_pax,
-            'contact_person': contact,
+            'contact': contact,
             'total_pax_all': temp_idx,
             'javascript_version': javascript_version
         })
