@@ -81,7 +81,7 @@ def register(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "create_agent",
-            "signature": request.session['signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

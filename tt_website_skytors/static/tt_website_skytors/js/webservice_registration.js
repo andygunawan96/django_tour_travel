@@ -9,21 +9,29 @@ function submit_agent_registration(){
             'action': 'agent_registration',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
-            text = '';
-            text += `<br/>
-                <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>
-                <label>`+msg.result.response.name+`</label><br/>
-                <label>Fee: `;
-            if(msg.result.response.currency != false)
-                text+=msg.result.response.currency+' ';
-            else
-                text+='IDR ';
-            text+=getrupiah(msg.result.response.registration_fee)+`</label><br/>`;
-            $("#result_data_id").html(text);
+            if(msg.result.error_code == 0){
+                if(username == 'itrodex.api')
+                    get_payment_acq('Issued','', '', 'top_up', signature, 'registration','', '')
+                else
+                    get_payment_acq('Issued','', '', 'billing', signature, 'registration','', '')
+                text = '';
+                text += `<br/>
+                    <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>
+                    <label>`+msg.result.response.name+`</label><br/>
+                    <label>Fee: `;
+                if(msg.result.response.currency != false)
+                    text+=msg.result.response.currency+' ';
+                else
+                    text+='IDR ';
+                text+=getrupiah(msg.result.response.registration_fee)+`</label><br/>`;
+                $("#result_data_id").html(text);
+            }else{
+                alert('Oops..', msg.result.error_msg);
+            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

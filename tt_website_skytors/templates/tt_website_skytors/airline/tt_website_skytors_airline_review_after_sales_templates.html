@@ -51,43 +51,45 @@
     }
 </script>
 {% include 'tt_website_skytors/logout.html' %}
-<div class="loader-airline"></div>
-<header>
-    {%if template == 1%}
+<header id="header">
     <div class="main-menu">
-    {%elif template == 2%}
-    <div class="main-menu" style="padding:10px;">
-    {%elif template == 3%}
-    <div style="padding:10px;">
-    {%elif template == 4%}
-    <div style="padding:10px;">
-    {%elif template == 5%}
-    <div style="padding:10px;">
-    {%endif%}
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
                     <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
-
+                <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:index'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Home</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_skytors:airline_search'%}';">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Search</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-done">
+                        <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                        <span style="padding-left:5px;">Passenger</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx br-active">
+                        <span class="breadcrumb-rdx-icon br-icon-active">4</span>
+                        <span style="padding-left:5px;">Booking</span>
+                        <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                    </div>
+                    <div class="breadcrumbs-rdx">
+                        <span class="breadcrumb-rdx-icon">5</span>
+                        <span style="padding-left:5px;">Issued</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
 
-
-{%if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-{% elif template == 2 %}
-<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 3 %}
-<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 4 %}
-<section style="padding:40px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
-{% elif template == 5 %}
-<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
     <div class="container">
         <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_booking'%}">
             {% csrf_token %}
@@ -106,6 +108,15 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div class="row" hidden>
+                        <div class="col-lg-12" style="padding-bottom:15px;">
+                            <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                                <hr/>
+                                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                            </div>
+                        </div>
+                    </div>
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
@@ -132,15 +143,11 @@
         </form>
     </div>
 </section>
-{%endif%}
+
 
 <script>
     airline_detail('request_new');
     get_airline_review_after_sales();
-
-    $( document ).ready(function() {
-        breadcrumb_create("airline_new", 5, 1);
-    });
 </script>
 <!-- loader -->
 {% endblock %}
