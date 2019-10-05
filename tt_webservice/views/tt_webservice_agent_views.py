@@ -120,7 +120,7 @@ def signin(request):
                         # 'issued_offline': response['result']['response']['issued_offline'],
                         # 'train': response['result']['response']['train'],
                         'activity': response['result']['response']['activity'],
-                        'tour': response['result']['response']['tour'],
+                        # 'tour': response['result']['response']['tour'],
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
