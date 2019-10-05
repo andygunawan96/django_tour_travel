@@ -347,7 +347,7 @@ function add_multi_city(type){
             </div>`;
             node_paxs.innerHTML = text_paxs;
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
-            //get_carrier_code_list(type, counter_airline_search);
+            get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
             if(template != 4){
                 $('#cabin_class_flight'+counter_airline_search).niceSelect();
@@ -2634,11 +2634,16 @@ function check_provider(carrier_code,val){
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
                 document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked = false;
+                document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
             }
             document.getElementById('provider_box_All_'+val).checked = true;
+            document.getElementById('provider_box_All').checked = true;
         }
-        else
+        else{
+            document.getElementById('provider_box_'+carrier_code).checked = !document.getElementById('provider_box_'+carrier_code).checked;
             document.getElementById('provider_box_All_'+val).checked = false;
+            document.getElementById('provider_box_All').checked = false;
+        }
         check = 0;
         for(i in airline_provider_list){
             if(document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked == true){
@@ -2646,8 +2651,10 @@ function check_provider(carrier_code,val){
                 break;
             }
         }
-        if(check == 0)
+        if(check == 0){
             document.getElementById('provider_box_All_'+val).checked = true
+            document.getElementById('provider_box_All').checked = true
+        }
     }
 
 }
