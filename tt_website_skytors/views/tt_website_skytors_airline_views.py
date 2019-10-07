@@ -878,12 +878,12 @@ def review(request):
                                             break
                                 except:
                                     pass
-
-                            sell_ssrs_request.append({
-                                'journey_code': journey_ssr['journey_code'],
-                                'passengers': passengers_list,
-                                'availability_type': ssr_key
-                            })
+                            if len(passengers_list) > 0:
+                                sell_ssrs_request.append({
+                                    'journey_code': journey_ssr['journey_code'],
+                                    'passengers': passengers_list,
+                                    'availability_type': ssr_key
+                                })
                             passengers_list = []
                 sell_ssrs.append({
                     'sell_ssrs': sell_ssrs_request,
