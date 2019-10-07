@@ -18,7 +18,7 @@
             'state_name': '{{i.state_name}}'
         })
     {% endfor %}
-
+    signature = '{{signature}}';
     {% for i in response.images %}
         images.push({
             'url': '{{i.url}}',

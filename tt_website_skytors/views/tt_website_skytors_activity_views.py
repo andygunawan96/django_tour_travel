@@ -96,7 +96,7 @@ def detail(request):
             'response': request.session['activity_search'][int(request.POST['sequence'])],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'signature': request.session['signature'],
+            'signature': request.session['activity_signature'],
             'logo': logo,
             'template': template
         }
@@ -322,7 +322,7 @@ def passenger(request):
             'detail': request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'signature': request.session['signature'],
+            'signature': request.session['activity_signature'],
             'logo': logo,
             'template': template
         }
@@ -1126,7 +1126,7 @@ def review(request):
             'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'signature': request.session['signature'],
+            'signature': request.session['activity_signature'],
             'logo': logo,
             'template': template
         }
