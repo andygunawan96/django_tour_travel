@@ -782,7 +782,7 @@ function pick_passenger(type, sequence, product){
         document.getElementById('child_first_name'+passenger_number).readOnly = true;
         document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
         document.getElementById('child_last_name'+passenger_number).readOnly = true;
-        document.getElementById('child_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('child_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         document.getElementById('child_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         document.getElementById('child_birth_date'+passenger_number).readOnly = true;
         check_years_old(passenger_number,'child');
@@ -791,10 +791,13 @@ function pick_passenger(type, sequence, product){
             document.getElementById('child_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
         }
         if(product=='airline'){
-            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+
             document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
-            document.getElementById('child_passport_expired_date'+passenger_number).value = passport_date;
+            if(passenger_data[sequence].passport_expdate != '' && passenger_data[sequence].passport_expdate != undefined){
+                passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+                passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+                document.getElementById('child_passport_expired_date'+passenger_number).value = passport_date;
+            }
             if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
 //                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
                 document.getElementById('select2-child_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;
@@ -827,7 +830,7 @@ function pick_passenger(type, sequence, product){
         document.getElementById('infant_first_name'+passenger_number).readOnly = true;
         document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
         document.getElementById('infant_last_name'+passenger_number).readOnly = true;
-        document.getElementById('infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_id.code;
+        document.getElementById('infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_code;
         document.getElementById('infant_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
         document.getElementById('infant_birth_date'+passenger_number).readOnly = true;
         check_years_old(passenger_number,'infant');
@@ -836,10 +839,14 @@ function pick_passenger(type, sequence, product){
             document.getElementById('infant_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
         }
         if(product=='airline'){
-            passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
-            passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+
+
             document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].passport_number;
-            document.getElementById('infant_passport_expired_date'+passenger_number).value = passport_date;
+            if(passenger_data[sequence].passport_expdate != '' && passenger_data[sequence].passport_expdate != undefined){
+                passport_date = new Date(passenger_data[sequence].passport_expdate).toString().split(' ');
+                passport_date = passport_date[2] + ' '+ passport_date[1] + ' ' + passport_date[3];
+                document.getElementById('infant_passport_expired_date'+passenger_number).value = passport_date;
+            }
             if(passenger_data[sequence].country_of_issued_name != '' && passenger_data[sequence].country_of_issued_code != undefined){
 //                document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued;
                 document.getElementById('select2-infant_country_of_issued'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].country_of_issued_name;

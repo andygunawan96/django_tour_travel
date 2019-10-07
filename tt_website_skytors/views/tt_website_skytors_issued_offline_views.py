@@ -47,6 +47,7 @@ def issued_offline(request):
             'airline_destinations': airline_destinations,
             # 'train_destination': train_destination,
             'username': request.session['user_account'],
+            'signature': request.session['signature'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template

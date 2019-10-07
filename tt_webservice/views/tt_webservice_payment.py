@@ -78,7 +78,9 @@ def get_payment_acquirer(request):
     elif request.POST['type'] == 'visa':
         url_post = 'booking/visa'
     elif request.POST['type'] == 'top_up':
-        url_post = 'booking/airline'
+        url_post = 'account'
+    elif request.POST['type'] == 'issued_offline':
+        url_post = 'booking/issued_offline'
         # data.update({
         #     # 'agent_seq_id': request.POST['agent_seq_id'],
         #     'top_up_name': request.POST['top_up_name']

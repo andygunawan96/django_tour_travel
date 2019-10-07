@@ -14,6 +14,7 @@
 <script src="{{ static_path }}js/issued_offline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
 
     airline_destination = [];
@@ -122,7 +123,7 @@
                                                         <div id="booker_content">
                                                             <div id="booker_search">
                                                                 <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Booker','1','issued_offline')">Search</button>
+                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('booker','1','issued_offline')">Search</button>
                                                                 <div id="search_result" style="overflow:auto;height:200px;">
 
                                                                 </div>
@@ -395,6 +396,11 @@
 
                         <div class="col-lg-12" style="margin-top:15px;margin-bottom:15px;">
                             <button class="primary-btn" type="button" onclick="check_issued_offline()">SUBMIT</button>
+                        </div>
+                        <div class="col-lg-12" style="padding-bottom:20px;">
+                            <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+
+                            </div>
                         </div>
                     </div>
                 </div>
