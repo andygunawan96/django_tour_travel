@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
+import logging
+import traceback
 from tools import path_util
 from django.utils import translation
 import json
@@ -48,19 +50,11 @@ def index(request):
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)
 
-                    # agent
-                    adult_title = ['MR', 'MRS', 'MS']
-
-                    infant_title = ['MSTR', 'MISS']
-
-                    id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
-
-                    # agent
-
-
-                    airline_country = response['result']['response']['airline']['country']
-
-                    # airline_carriers = response['result']['response']['airline']['carriers']
+                    try:
+                        airline_country = response['result']['response']['airline']['country']
+                    except Exception as e:
+                        airline_country = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
                     airline_cabin_class_list = [
                         {
@@ -80,23 +74,57 @@ def index(request):
                     # airline
 
                     # activity
-                    # activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                    # activity_categories = response['result']['response']['activity']['categories']
-                    # activity_types = response['result']['response']['activity']['types']
-                    # activity_countries = response['result']['response']['activity']['countries']
+                    try:
+                        activity_sub_categories = response['result']['response']['activity']['sub_categories']
+                    except Exception as e:
+                        activity_sub_categories = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        activity_categories = response['result']['response']['activity']['categories']
+                    except Exception as e:
+                        activity_categories = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        activity_types = response['result']['response']['activity']['types']
+                    except Exception as e:
+                        activity_types = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        activity_countries = response['result']['response']['activity']['countries']
+                    except Exception as e:
+                        activity_countries = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                     # activity
 
                     # tour
-                    # tour_countries = response['result']['response']['tour']['countries']
+                    try:
+                        tour_countries = response['result']['response']['tour']['countries']
+                    except Exception as e:
+                        tour_countries = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                     # tour
 
                     # issuedoffline
-                    # issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
-                    # issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
-                    # issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
-                    # issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
-
-                    # issuedoffline
+                    try:
+                        issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
+                    except Exception as e:
+                        issued_offline_transaction_type = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
+                    except Exception as e:
+                        issued_offline_sector_type = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
+                    except Exception as e:
+                        issued_offline_carrier_id = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
+                    except Exception as e:
+                        issued_offline_social_media_id = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
                     #get_data_awal
                     cache = {}
@@ -159,17 +187,17 @@ def index(request):
                         'logo': logo,
                         'template': template,
                         #activity
-                        # 'activity_sub_categories': activity_sub_categories,
-                        # 'activity_categories': activity_categories,
-                        # 'activity_types': activity_types,
-                        # 'activity_countries': activity_countries,
+                        'activity_sub_categories': activity_sub_categories,
+                        'activity_categories': activity_categories,
+                        'activity_types': activity_types,
+                        'activity_countries': activity_countries,
                         #tour
-                        # 'tour_countries': tour_countries,
-                        #hotel
-                        # 'issued_offline_transaction_type': issued_offline_transaction_type,
-                        # 'issued_offline_sector_type': issued_offline_sector_type,
-                        # 'issued_offline_carrier_id': issued_offline_carrier_id,
-                        # 'issued_offline_social_media_id': issued_offline_social_media_id,
+                        'tour_countries': tour_countries,
+
+                        'issued_offline_transaction_type': issued_offline_transaction_type,
+                        'issued_offline_sector_type': issued_offline_sector_type,
+                        'issued_offline_carrier_id': issued_offline_carrier_id,
+                        'issued_offline_social_media_id': issued_offline_social_media_id,
                         'javascript_version': javascript_version,
                         'update_data': 'false',
                         'signature': request.session['signature']

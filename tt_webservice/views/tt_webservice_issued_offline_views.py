@@ -114,8 +114,8 @@ def set_data_issued_offline(request):
                 temp_date = request.POST['line_arrival' + str(i)].split(' ')
                 arrival = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 if request.POST['type'] == 'airline':
-                    origin = request.POST['line_origin'+str(i)][-4:][:3]
-                    destination = request.POST['line_destination'+str(i)][-4:][:3]
+                    origin = request.POST['line_origin'+str(i)][-4:].split(' - ')[0]
+                    destination = request.POST['line_destination'+str(i)].split(' - ')[0]
                 elif request.POST['type'] == 'train':
                     origin = request.POST['line_origin' + str(i)].split(' - ')[0]
                     destination = request.POST['line_destination' + str(i)].split(' - ')[0]

@@ -347,7 +347,7 @@ function add_multi_city(type){
             </div>`;
             node_paxs.innerHTML = text_paxs;
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
-            //get_carrier_code_list(type, counter_airline_search);
+            get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
             if(template != 4){
                 $('#cabin_class_flight'+counter_airline_search).niceSelect();
@@ -407,10 +407,10 @@ function add_multi_city(type){
                                         </div>
                                     </div>
                                     <div class="image-change-route-vertical">
-                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                        <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal">
-                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                     </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -482,10 +482,10 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                                 <div class="image-change-route-vertical">
-                                    <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                 </div>
                                 <div class="image-change-route-horizontal">
-                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -555,8 +555,8 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="input-container-search-ticket">`;
                                 if(type == 'search'){
@@ -624,8 +624,8 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="input-container-search-ticket">`;
                                 if(type == 'search'){
@@ -694,8 +694,8 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                                <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                                 <span class="span-search-ticket">To</span>
                                     <div class="input-container-search-ticket">
                                         <i class="fas fa-plane-arrival icon-search-ticket"></i>`;
@@ -2357,10 +2357,16 @@ function airline_pick_mc(type){
                 <div class="col-lg-2" id="airline-info">
                     <div class="row">
                         <div class="col-lg-2">`;
-                            for(j in airline_pick_list[i].carrier_code_list)
-                            text+=`
-                            <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
+                            for(j in airline_pick_list[i].carrier_code_list){
+                                try{
+                                    text+=`
+                                        <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
+                                }catch(err){
+                                    text+=`
+                                        <span style="font-weight:500; font-size:12px;">`+airline_pick_list[i].carrier_code_list[j]+`</span><br/>`;
+                                }
+                            }
                             text+=`
                         </div>
                     </div>
@@ -2624,30 +2630,45 @@ function check_provider(carrier_code,val){
         check = 0;
         for(i in airline_provider_list){
             if(document.getElementById('provider_box_'+airline_provider_list[i].code).checked == true){
-                check = 1;
-                break;
+                check++;
             }
         }
-        if(check == 0)
+        console.log(check);
+        if(check == 0){
             document.getElementById('provider_box_All').checked = true
+            document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
+        }else{
+            document.getElementById('show_provider_airline').innerHTML = check+' Airline chosen';
+        }
     }else{
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
                 document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked = false;
+                document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
             }
             document.getElementById('provider_box_All_'+val).checked = true;
+            document.getElementById('provider_box_All').checked = true;
         }
-        else
+        else{
+            document.getElementById('provider_box_'+carrier_code).checked = !document.getElementById('provider_box_'+carrier_code).checked;
             document.getElementById('provider_box_All_'+val).checked = false;
+            document.getElementById('provider_box_All').checked = false;
+        }
         check = 0;
         for(i in airline_provider_list){
             if(document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked == true){
-                check = 1;
-                break;
+                check++;
             }
         }
-        if(check == 0)
+        if(check == 0){
             document.getElementById('provider_box_All_'+val).checked = true
+            document.getElementById('provider_box_All').checked = true
+            document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
+            document.getElementById('show_provider_airline1').innerHTML = 'All airline chosen';
+        }else{
+            document.getElementById('show_provider_airline').innerHTML = check+' Airline chosen';
+            document.getElementById('show_provider_airline1').innerHTML = check+' Airline chosen';
+        }
     }
 
 }

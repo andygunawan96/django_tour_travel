@@ -9,17 +9,29 @@ function submit_agent_registration(){
             'action': 'agent_registration',
        },
        data: {
-
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
-            text = '';
-            text += `<br/>
-                <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>
-                <label>`+msg.result.response.name+`</label><br/>
-                <label>Fee: `+msg.result.response.currency+` `+getrupiah(msg.result.response.registration_fee)+`</label><br/>
-            `;
-            $("#result_data_id").html(text);
+            if(msg.result.error_code == 0){
+                if(username == 'itrodex.api')
+                    get_payment_acq('Issued','', '', 'top_up', signature, 'registration','', '')
+                else
+                    get_payment_acq('Issued','', '', 'billing', signature, 'registration','', '')
+                text = '';
+                text += `<br/>
+                    <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>
+                    <label>`+msg.result.response.name+`</label><br/>
+                    <label>Fee: `;
+                if(msg.result.response.currency != false)
+                    text+=msg.result.response.currency+' ';
+                else
+                    text+='IDR ';
+                text+=getrupiah(msg.result.response.registration_fee)+`</label><br/>`;
+                $("#result_data_id").html(text);
+            }else{
+                alert('Oops..', msg.result.error_msg);
+            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -78,10 +90,10 @@ function auto_complete_registration(type){
                break;
            }
         }
-        for(i in country.city){
-            text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
-        }
-        document.getElementById('city_id').innerHTML = text;
+//        for(i in country.city){
+//            text +=`<option value="`+country.city[i].id+`">`+country.city[i].name+`</option>`
+//        }
+//        document.getElementById('city_id').innerHTML = text;
         document.getElementById('country').value = document.getElementById('select2-country_id-container').innerHTML;
     }else if(type == 'city'){
         document.getElementById('city').value = document.getElementById('select2-'+type+'_id-container').innerHTML;
@@ -170,11 +182,11 @@ function check_registration(){
         document.getElementById('country').style['border-color'] = 'red';
     }else{
         document.getElementById('country').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('city').value == ''){
-        error_log+= 'Please fill city!\n';
-        document.getElementById('city').style['border-color'] = 'red';
-    }else{
-        document.getElementById('city').style['border-color'] = '#EFEFEF';
+//    }if(document.getElementById('city').value == ''){
+//        error_log+= 'Please fill city!\n';
+//        document.getElementById('city').style['border-color'] = 'red';
+//    }else{
+//        document.getElementById('city').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('tacagree').checked == false){
         error_log+= 'Please fill check term n condition!\n';
         document.getElementById('tacagree').style['border-color'] = 'red';

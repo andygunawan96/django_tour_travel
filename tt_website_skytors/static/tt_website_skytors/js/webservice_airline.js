@@ -94,6 +94,7 @@ function airline_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+       try{
            console.log(msg);
            airline_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
@@ -103,6 +104,28 @@ function airline_signin(data){
            }else if(data != ''){
                airline_get_booking(data);
            }
+       }catch(err){
+          $("#barFlightSearch").hide();
+          $("#waitFlightSearch").hide();
+
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+            })
+           document.getElementById("airlines_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("airlines_error").appendChild(node);
+            node = document.createElement("div");
+
+       }
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -143,9 +166,14 @@ function get_carrier_code_list(type, val){
                                 if(val == undefined)
                                 text+=`
                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>`;
-                                else
-                                text+=`
-                                    <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
+                                else{
+                                    if(document.getElementById('provider_box_All').checked == false)
+                                        text+=`
+                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="check_provider('all',`+val+`)"/>`;
+                                    else
+                                        text+=`
+                                            <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
+                                }
                                 text+=`
                                 <span class="check_box_span_custom"></span>
                             </label>
@@ -162,9 +190,14 @@ function get_carrier_code_list(type, val){
                                     if(val == undefined)
                                     text+=`
                                         <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
-                                    else
-                                    text+=`
-                                        <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                    else{
+                                        if(document.getElementById('provider_box_'+msg[i].code).checked == false)
+                                            text+=`
+                                                <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                        else
+                                            text+=`
+                                                <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" checked="checked" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                    }
                                     text+=`
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -183,79 +216,57 @@ function get_carrier_code_list(type, val){
                                 if(val == undefined)
                                 text+=`
                                     <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>`;
-                                else
-                                    if(airline_carriers[val-1]['All'].bool == true)
+                                else{
+                                    if(airline_carriers[val-1]['All'].bool == true){
                                         text+=`
                                             <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
-                                    else
+                                    }else
                                         text+=`
                                             <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" onclick="check_provider('all',`+val+`)"/>`;
+                                }
                                 text+=`
                                 <span class="check_box_span_custom"></span>
                             </label>
                         </a>
                         <br/>
                     </li>`;
-                   for(i in msg){
-                        text+=`
-                            <li>
-                                <a class="small" data-value="option1" tabIndex="-1">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">`+msg[i].name+`</span>`;
-                                        if(val == undefined)
-                                        text+=`
-                                            <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
-                                        else
-                                            if(airline_carriers[val][msg[i].code].bool == true)
-                                                text+=`
-                                                    <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)" checked="checked"/>`;
-                                            else
-                                                text+=`
-                                                    <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
-                                        text+=`
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </a>
-                                <br/>
-                            </li>`;
+                   for(i in airline_carriers[0]){
+                        if(i != 'All'){
+                            text+=`
+                                <li>
+                                    <a class="small" data-value="option1" tabIndex="-1">
+                                        <label class="check_box_custom">
+                                            <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].name+`</span>`;
+                                            if(val == undefined)
+                                            text+=`
+                                                <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
+                                            else{
+                                                try{
+                                                    if(document.getElementById('provider_box_'+i).checked == true)
+                                                        text+=`
+                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                    else
+                                                        text+=`
+                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                }catch(err){
+                                                    if(airline_carriers[val-1][i].bool == true)
+                                                        text+=`
+                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                    else
+                                                        text+=`
+                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                }
+                                            }
+                                            text+=`
+                                            <span class="check_box_span_custom"></span>
+                                        </label>
+                                    </a>
+                                    <br/>
+                                </li>`;
+                        }
                    }
                }catch(err){
-                   text = `
-                    <li>
-                        <a class="small" data-value="option1" tabIndex="-1">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket" style="color:black;">All</span>`;
-                                if(val == undefined)
-                                text+=`
-                                    <input type="checkbox" id="provider_box_All" name="provider_box_All" value="all" checked="checked" onclick="check_provider('all')"/>`;
-                                else
-                                text+=`
-                                    <input type="checkbox" id="provider_box_All_`+val+`" name="provider_box_All_`+val+`" value="all" checked="checked" onclick="check_provider('all',`+val+`)"/>`;
-                                text+=`
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </a>
-                        <br/>
-                    </li>`;
-                   for(i in msg){
-                        text+=`
-                            <li>
-                                <a class="small" data-value="option1" tabIndex="-1">
-                                    <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">`+msg[i].name+`</span>`;
-                                        if(val == undefined)
-                                        text+=`
-                                            <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
-                                        else
-                                        text+=`
-                                            <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
-                                        text+=`
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </a>
-                                <br/>
-                            </li>`;
-                   }
+
                }
            }
            if(val == undefined)

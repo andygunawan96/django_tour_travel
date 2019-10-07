@@ -119,7 +119,7 @@ def signin(request):
                         # 'visa': response['result']['response']['visa'],
                         # 'issued_offline': response['result']['response']['issued_offline'],
                         # 'train': response['result']['response']['train'],
-                        # 'activity': response['result']['response']['activity'],
+                        'activity': response['result']['response']['activity'],
                         # 'tour': response['result']['response']['tour'],
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
@@ -167,6 +167,7 @@ def signin(request):
                         file.write(res_cache_hotel['result']['response'])
                         file.close()
                 except:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel))
                     pass
 
                 #visa odoo12
@@ -211,15 +212,15 @@ def signin(request):
                 # res_origin_train = util.send_request(url=url + 'train/session', data=data, headers=headers, method='POST')
 
                 #activity
-                # data = {}
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "signature": request.session['signature'],
-                # }
-                # res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
-                #                                     method='POST')
+                data = {}
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "signature": request.session['signature'],
+                }
+                res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
+                                                    method='POST')
 
                 # tour
                 # data = {}
@@ -229,9 +230,18 @@ def signin(request):
                 #     "action": "get_config",
                 #     "signature": request.session['signature'],
                 # }
-                # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
+                # res_config_activity = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
                 #                                         method='POST')
 
+                #check sebelum masukkan ke cache
+                if res_country_airline['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
+                if res_destination_airline['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
+                # if res_config_visa['result']['error_code'] == 0:
+                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
+                # if res_config_issued_offline['result']['error_code'] == 0:
+                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
                 res['result']['response'].update({
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install

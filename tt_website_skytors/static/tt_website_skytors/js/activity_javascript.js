@@ -1415,6 +1415,12 @@ function input_type2_change_perpax(val,val1, type, inputType){
     activity_table_detail2();
 }
 
+function price_slider_true(type){
+    $minPrice = parseInt(document.getElementById('price-from').value);
+    $maxPrice = parseInt(document.getElementById('price-to').value);
+    change_filter('price', type);
+}
+
 function activity_filter_render(){
 
     var node = document.createElement("div");
@@ -1424,16 +1430,16 @@ function activity_filter_render(){
     <h6 style="padding-bottom:10px;">Price Range</h6>
     <div class="wrapper">
         <div class="range-slider">
-            <input type="text" class="js-range-slider" value="" oninput="change_filter('price', '');"/>
+            <input type="text" class="js-range-slider"/>
         </div>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <span>Min</span><br/>
-                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" onchange="change_filter('price', '');"/>
+                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <span>Max</span><br/>
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="10000000" onchange="change_filter('price', '');"/>
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="5000000"/>
             </div>
         </div>
     </div>`;
@@ -1470,7 +1476,6 @@ function activity_filter_render(){
             <hr/>`;
 
     for(i in sorting_list){
-
             text+=`
             <label class="radio-button-custom">
                 <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
@@ -1519,33 +1524,30 @@ function sort_button(value){
    }else{
        sorting_value = value;
    }
-   filtering('filter');
+   filtering('filter', 1);
 }
 
 function change_filter(type, value){
     var check = 0;
     if(type == 'price'){
-
+        filtering('filter', value);
     }
-    filtering('filter');
 }
 
-function filtering(type){
+function filtering(type, check){
    var temp_data = [];
    data = activity_data;
    if(type == 'filter'){
-
        console.log(data);
-       sort(data);
-
+       sort(data, check)
    }else if(type == 'sort'){
-       sort(activity_data);
+       sort(activity_data, check);
    }
 }
 
-function sort(activity_dat){
+function sort(activity_dat, check){
     console.log(activity_dat);
-    if (activity_dat.length == 0){
+    if (activity_dat.length == 0 && check != 0){
         document.getElementById("activity_ticket").innerHTML = '';
         text = '';
         text += `
@@ -1567,10 +1569,6 @@ function sort(activity_dat){
     }
     else{
         //show data
-        minPrice = parseInt(document.getElementById('price-from').value);
-        maxPrice = parseInt(document.getElementById('price-to').value);
-        console.log(minPrice);
-        console.log(maxPrice);
         sorting = '';
         var radios = document.getElementsByName('radio_sorting');
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -1630,9 +1628,10 @@ function sort(activity_dat){
         console.log(activity_dat);
         document.getElementById("activity_ticket").innerHTML = '';
         text = '';
+        check_available = 0;
         for(i in activity_dat)
         {
-           if (activity_dat[i].converted_price >= minPrice && activity_dat[i].converted_price <= maxPrice)
+           if (activity_dat[i].converted_price >= $minPrice && activity_dat[i].converted_price <= $maxPrice)
            {
                if (activity_dat[i].images.length > 0)
                {
@@ -1684,7 +1683,7 @@ function sort(activity_dat){
                `;
            }
         }
-        if (text == '')
+        if (text == '' && check != 0)
         {
             text += `
             <div class="col-lg-4">

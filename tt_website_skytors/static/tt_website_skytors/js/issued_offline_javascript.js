@@ -354,6 +354,7 @@ function delete_table_of_passenger(){
 }
 
 function add_table_of_line(type){
+    get_airline_config('home');
     text= '';
     var node = document.createElement("div");
     if(type == 'airline' || type == 'train'){
@@ -373,12 +374,8 @@ function add_table_of_line(type){
                             text+=`<img src="static/tt_website_skytors/img/icon/train-01.png" class="icon-search-ticket"/>`;
                         }
                         text+=`
-                        <div class="form-select">
-                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'origin')">
+                        <input id="origin`+counter_line+`" name="origin`+counter_line+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
 
-                            </select>
-                        </div>
-                        <input type="hidden" name="origin`+counter_line+`" id="origin`+counter_line+`" />
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -391,12 +388,7 @@ function add_table_of_line(type){
                             text+=`<img src="static/tt_website_skytors/img/icon/train-02.png" class="icon-search-ticket"/>`;
                         }
                         text+=`
-                        <div class="form-select">
-                            <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'destination')">
-
-                            </select>
-                        </div>
-                        <input type="hidden" name="destination`+counter_line+`" id="destination`+counter_line+`" />
+                        <input id="destination`+counter_line+`" name="destination`+counter_line+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -462,8 +454,41 @@ function add_table_of_line(type){
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
         set_provider_data(counter_line, type);
-        set_origin_data(counter_line, type);
-        set_destination_data(counter_line, type);
+//        set_origin_data(counter_line, type);
+//        set_destination_data(counter_line, type);
+
+        var origin = new autoComplete({
+            selector: '#origin'+counter_line,
+            minChars: 1,
+            cache: false,
+            delay:0,
+            source: function(term, suggest){
+                if(term.split(' - ').length == 4)
+                        term = ''
+                if(term.length > 1)
+                    suggest(airline_search_autocomplete(term));
+            },
+            onSelect: function(e, term, item){
+                $("#origin_id_flight").trigger("blur");
+                set_airline_search_value_to_true();
+            }
+        });
+        var destination = new autoComplete({
+            selector: '#destination'+counter_line,
+            minChars: 0,
+            cache: false,
+            delay:0,
+            source: function(term, suggest){
+                if(term.split(' - ').length == 4)
+                    term = ''
+                if(term.length > 1)
+                    suggest(airline_search_autocomplete(term));
+            },
+            onSelect: function(e, term, item){
+                $("#destination_id_flight").trigger("blur");
+                set_airline_search_value_to_true();
+            }
+        });
 
         $('input[type="text"].departure_date').daterangepicker({
               singleDatePicker: true,
@@ -497,8 +522,8 @@ function add_table_of_line(type){
               }
         });
         $('.js-example-basic-single').select2();
-        set_data(0,'origin');
-        set_data(0,'destination');
+//        set_data(0,'origin');
+//        set_data(0,'destination');
         set_data(0,'provider');
     }else if(type == 'hotel'){
         text += `

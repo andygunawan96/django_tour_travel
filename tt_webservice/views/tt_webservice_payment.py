@@ -73,14 +73,16 @@ def get_payment_acquirer(request):
         data.update({
             'amount': int(request.POST['agent_seq_id'])
         })
+    elif request.POST['type'] == 'registration':
+        url_post = 'session/agent_registration'
     elif request.POST['type'] == 'visa':
         url_post = 'booking/visa'
     elif request.POST['type'] == 'top_up':
         url_post = 'booking/airline'
-        data.update({
-            'agent_seq_id': request.POST['agent_seq_id'],
-            'top_up_name': request.POST['top_up_name']
-        })
+        # data.update({
+        #     # 'agent_seq_id': request.POST['agent_seq_id'],
+        #     'top_up_name': request.POST['top_up_name']
+        # })
     res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:
