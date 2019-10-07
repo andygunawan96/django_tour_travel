@@ -230,7 +230,7 @@ def signin(request):
                 #     "action": "get_config",
                 #     "signature": request.session['signature'],
                 # }
-                # res_config_activity = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
+                # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
                 #                                         method='POST')
 
                 #check sebelum masukkan ke cache
@@ -246,7 +246,7 @@ def signin(request):
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
-                    # 'activity': res_config_activity['result'],
+                    'activity': res_config_activity['result']['response'],
                     # 'tour': res_config_tour['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
