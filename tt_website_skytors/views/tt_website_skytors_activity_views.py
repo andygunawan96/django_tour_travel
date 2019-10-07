@@ -73,6 +73,7 @@ def search(request):
             'parsed_country_name': parsed_country_name,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
+            'time_limit': 600,
             'logo': logo,
             'template': template
         }
@@ -88,6 +89,8 @@ def detail(request):
 
         template, logo = get_logo_template()
 
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
@@ -98,6 +101,7 @@ def detail(request):
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_detail_templates.html', values)
@@ -111,6 +115,8 @@ def passenger(request):
         response = get_cache_data(javascript_version)
 
         template, logo = get_logo_template()
+
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -324,6 +330,7 @@ def passenger(request):
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
         }
 
@@ -355,6 +362,8 @@ def review(request):
         response = get_cache_data(javascript_version)
 
         template, logo = get_logo_template()
+
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         booker = {
             'title': request.POST['booker_title'],
@@ -1128,6 +1137,7 @@ def review(request):
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
         }
         return render(request, MODEL_NAME+'/activity/tt_website_skytors_activity_review_templates.html', values)

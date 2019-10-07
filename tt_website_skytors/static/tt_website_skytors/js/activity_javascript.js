@@ -673,6 +673,7 @@ function check_detail(){
     }
 
     if(text==''){
+        document.getElementById('time_limit_input').value = time_limit;
         detail_to_passenger_page();
     }else{
         document.getElementById('show_error_log').innerHTML = text;
@@ -1234,6 +1235,7 @@ function check_passenger(adult, senior, child, infant){
 
    }
    if(error_log==''){
+       document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('additional_price').value = additional_price;
        document.getElementById('activity_review').submit();
    }
@@ -1422,6 +1424,18 @@ function price_slider_true(type){
 }
 
 function activity_filter_render(){
+
+    var node = document.createElement("div");
+    text = '';
+    text+= `
+    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+    <hr/>
+    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>`;
+
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("session_timer").appendChild(node);
+    node = document.createElement("div");
 
     var node = document.createElement("div");
     text = '';

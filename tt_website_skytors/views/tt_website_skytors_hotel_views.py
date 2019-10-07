@@ -130,8 +130,8 @@ def passengers(request):
         for i in range(int(request.session['hotel_request']['child'])):
             child.append()
         request.session['hotel_request'].update({
-            'check_in': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
-            'check_out': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
+            'check_in': request.POST.get('chekin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+            'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
         values = {
@@ -237,20 +237,24 @@ def booking(request):
         javascript_version = get_cache_version()
         template, logo = get_logo_template()
 
-        resv_obj = json.loads(request.POST['result'])['result']['response']
-        values = {
-            'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['user_account'],
-            # 'co_uid': request.session['co_user_name'],
-            'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
+        resv_obj = json.loads(request.POST['result'])['result']
 
-            'booking_name': resv_obj['booking_name'],
-            'pnrs': resv_obj['pnrs'],
-            'rooms': resv_obj['hotel_rooms'],
-            'passengers': resv_obj['passengers'],
-        }
-        return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
+        if resv_obj['response']:
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'username': request.session['user_account'],
+                # 'co_uid': request.session['co_user_name'],
+                'javascript_version': javascript_version,
+                'logo': logo,
+                'template': template,
+
+                'booking_name': resv_obj['booking_name'],
+                'pnrs': resv_obj['pnrs'],
+                'rooms': resv_obj['hotel_rooms'],
+                'passengers': resv_obj['passengers'],
+            }
+            return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
+        else:
+            return no_session_logout()
     else:
         return no_session_logout()
