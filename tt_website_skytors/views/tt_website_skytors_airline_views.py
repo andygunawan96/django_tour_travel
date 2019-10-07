@@ -771,24 +771,29 @@ def seat_map(request):
                     for ssr_key in ssr_package['ssr_availability']:
                         for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                             for idx, pax in enumerate(passenger):
-                                passengers_list.append({
-                                    "passenger_number": idx,
-                                    "ssr_code": request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0]
+                                try:
+                                    passengers_list.append({
+                                        "passenger_number": idx,
+                                        "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                    })
+                                    for list_ssr in journey_ssr['ssrs']:
+                                        if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                            pax['ssr_list'].append(list_ssr)
+                                            break
+                                except:
+                                    pass
+                            if len(passengers_list) > 0:
+                                sell_ssrs_request.append({
+                                    'journey_code': journey_ssr['journey_code'],
+                                    'passengers': passengers_list,
+                                    'availability_type': ssr_key
                                 })
-                                for list_ssr in journey_ssr['ssrs']:
-                                    if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                        pax['ssr_list'].append(list_ssr)
-                                        break
-                            sell_ssrs_request.append({
-                                'journey_code': journey_ssr['journey_code'],
-                                'passengers': passengers_list,
-                                'availability_type': ssr_key
-                            })
                             passengers_list = []
-                sell_ssrs.append({
-                    'sell_ssrs': sell_ssrs_request,
-                    'provider': ssr_package['provider']
-                })
+                if len(sell_ssrs_request) != 0:
+                    sell_ssrs.append({
+                        'sell_ssrs': sell_ssrs_request,
+                        'provider': ssr_package['provider']
+                    })
                 sell_ssrs_request = []
             request.session['airline_ssr_request'] = sell_ssrs
             sell_ssrs = []
@@ -885,10 +890,11 @@ def review(request):
                                     'availability_type': ssr_key
                                 })
                             passengers_list = []
-                sell_ssrs.append({
-                    'sell_ssrs': sell_ssrs_request,
-                    'provider': ssr_package['provider']
-                })
+                if len(sell_ssrs_request) != 0:
+                    sell_ssrs.append({
+                        'sell_ssrs': sell_ssrs_request,
+                        'provider': ssr_package['provider']
+                    })
                 sell_ssrs_request = []
             request.session['airline_ssr_request'] = sell_ssrs
             sell_ssrs = []
@@ -1143,10 +1149,11 @@ def review_after_sales(request):
                                     'availability_type': ssr_key
                                 })
                             passengers_list = []
-                sell_ssrs.append({
-                    'sell_ssrs': sell_ssrs_request,
-                    'provider': ssr_package['provider']
-                })
+                if len(sell_ssrs_request) != 0:
+                    sell_ssrs.append({
+                        'sell_ssrs': sell_ssrs_request,
+                        'provider': ssr_package['provider']
+                    })
                 sell_ssrs_request = []
             request.session['airline_ssr_request'] = sell_ssrs
             sell_ssrs = []
