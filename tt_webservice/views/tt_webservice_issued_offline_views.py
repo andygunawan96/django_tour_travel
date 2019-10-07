@@ -326,7 +326,14 @@ def update_passenger(request):
 
 def commit_booking(request):
     try:
-        data = {}
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data = {
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+        }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

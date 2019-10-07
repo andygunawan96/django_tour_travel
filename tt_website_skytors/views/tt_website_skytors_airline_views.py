@@ -795,7 +795,8 @@ def seat_map(request):
                         'provider': ssr_package['provider']
                     })
                 sell_ssrs_request = []
-            request.session['airline_ssr_request'] = sell_ssrs
+            if len(sell_ssrs) > 0:
+                request.session['airline_ssr_request'] = sell_ssrs
             sell_ssrs = []
         except:
             request.session['airline_ssr_request'] = {}
@@ -896,7 +897,8 @@ def review(request):
                         'provider': ssr_package['provider']
                     })
                 sell_ssrs_request = []
-            request.session['airline_ssr_request'] = sell_ssrs
+            if len(sell_ssrs) > 0:
+                request.session['airline_ssr_request'] = sell_ssrs
             sell_ssrs = []
         except:
             print('no ssr')
@@ -1155,7 +1157,8 @@ def review_after_sales(request):
                         'provider': ssr_package['provider']
                     })
                 sell_ssrs_request = []
-            request.session['airline_ssr_request'] = sell_ssrs
+            if len(sell_ssrs) > 0:
+                request.session['airline_ssr_request'] = sell_ssrs
             sell_ssrs = []
         except:
             print('no ssr')

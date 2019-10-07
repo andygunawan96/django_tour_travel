@@ -449,17 +449,17 @@ def get_price_itinerary(request, boolean, counter):
     try:
         #baru
         javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
-
-        # airline
         airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in country['destinations']:
-                des.update({
-                    'country': country['code'],
-                    'country_name': country['name']
-                })
-                airline_destinations.append(des)
+        file = open("airline_destination.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response:
+            airline_destinations.append({
+                'code': country['code'],
+                'name': country['name'],
+                'city': country['city']
+            })
         #baru
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
@@ -893,15 +893,18 @@ def commit_booking(request):
         data = {
             'force_issued': bool(int(request.POST['value']))
         }
-        if bool(int(request.POST['value'])) == True:
-            if request.POST['member'] == 'non_member':
-                member = False
-            else:
-                member = True
-            data.update({
-                'member': member,
-                'seq_id': request.POST['seq_id'],
-            })
+        try:
+            if bool(int(request.POST['value'])) == True:
+                if request.POST['member'] == 'non_member':
+                    member = False
+                else:
+                    member = True
+                data.update({
+                    'member': member,
+                    'seq_id': request.POST['seq_id'],
+                })
+        except:
+            pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
