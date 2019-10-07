@@ -876,7 +876,7 @@ def assign_seats(request):
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        if len(request.session['airline_ssr_request']) == 0:
+        if len(request.session['airline_seat_request']) == 0:
             logging.getLogger("error_logger").error("NO seat")
             res = {
                 'result': {
