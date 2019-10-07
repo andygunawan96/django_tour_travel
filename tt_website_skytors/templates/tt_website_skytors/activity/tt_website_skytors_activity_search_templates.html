@@ -48,6 +48,8 @@
         sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
         sub_category_list = [];
     {% endfor %}
+    time_limit = {{time_limit}};
+    session_time_limit();
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
@@ -255,6 +257,7 @@
 
             </div>
         </div>
+
         <div class="row">
             <div class="col-lg-12" style="position:sticky; top:95px; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
                 <div class="row">
@@ -291,7 +294,9 @@
                         </div>
                     </div>
                 </div>
+                <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="session_timer">
 
+                </div>
                 <div class="filter-search-flight" id="filter-search-flight">
                     <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">
 
@@ -330,6 +335,7 @@
                         <div class="row" id="activity_ticket">
 
                         </div>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
                     </div>
                 </div>
             </div>
@@ -351,6 +357,7 @@
                 pick = JSON.stringify(activity_data[i]).replace(/'/g,'');
                 document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
                 document.getElementById(`csrf`+sequence).innerHTML += `<input type='hidden' value='`+pick+`' name='activity_pick'/>`;
+                document.getElementById('myForm'+sequence).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
                 document.getElementById('myForm'+sequence).submit();
             }
         }
