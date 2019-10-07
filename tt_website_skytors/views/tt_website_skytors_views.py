@@ -73,16 +73,35 @@ def index(request):
                     ]
                     # airline
 
-                    #KASIH TRY CATCH
                     # activity
-                    # activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                    # activity_categories = response['result']['response']['activity']['categories']
-                    # activity_types = response['result']['response']['activity']['types']
-                    # activity_countries = response['result']['response']['activity']['countries']
+                    try:
+                        activity_sub_categories = response['result']['response']['activity']['sub_categories']
+                    except Exception as e:
+                        activity_sub_categories = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        activity_categories = response['result']['response']['activity']['categories']
+                    except Exception as e:
+                        activity_categories = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        activity_types = response['result']['response']['activity']['types']
+                    except Exception as e:
+                        activity_types = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    try:
+                        activity_countries = response['result']['response']['activity']['countries']
+                    except Exception as e:
+                        activity_countries = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                     # activity
 
                     # tour
-                    # tour_countries = response['result']['response']['tour']['countries']
+                    try:
+                        tour_countries = response['result']['response']['tour']['countries']
+                    except Exception as e:
+                        tour_countries = []
+                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                     # tour
 
                     # issuedoffline
@@ -168,12 +187,12 @@ def index(request):
                         'logo': logo,
                         'template': template,
                         #activity
-                        # 'activity_sub_categories': activity_sub_categories,
-                        # 'activity_categories': activity_categories,
-                        # 'activity_types': activity_types,
-                        # 'activity_countries': activity_countries,
+                        'activity_sub_categories': activity_sub_categories,
+                        'activity_categories': activity_categories,
+                        'activity_types': activity_types,
+                        'activity_countries': activity_countries,
                         #tour
-                        # 'tour_countries': tour_countries,
+                        'tour_countries': tour_countries,
 
                         'issued_offline_transaction_type': issued_offline_transaction_type,
                         'issued_offline_sector_type': issued_offline_sector_type,

@@ -222,6 +222,17 @@ def signin(request):
                 res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
                                                     method='POST')
 
+                # tour
+                # data = {}
+                # headers = {
+                #     "Accept": "application/json,text/html,application/xml",
+                #     "Content-Type": "application/json",
+                #     "action": "get_config",
+                #     "signature": request.session['signature'],
+                # }
+                # res_config_activity = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
+                #                                         method='POST')
+
                 #check sebelum masukkan ke cache
                 if res_country_airline['result']['error_code'] == 0:
                     logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
@@ -235,7 +246,7 @@ def signin(request):
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
-                    'activity': res_config_activity['result'],
+                    # 'activity': res_config_activity['result'],
                     # 'tour': res_config_tour['result'],
                     'airline': {
                         'country': res_country_airline['result']['response'],
