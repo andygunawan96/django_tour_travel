@@ -389,7 +389,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
-                                                        {% for key, country in countries.items %}
+                                                        {% for country in countries %}
                                                         <option value="{{country.code}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>

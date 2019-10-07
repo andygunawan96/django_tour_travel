@@ -2972,7 +2972,7 @@ function sell_ssrs_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                airline_commit_booking(false);
+                airline_commit_booking(0);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{

@@ -37,7 +37,7 @@ function get_data_issued_offline(){
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.social_media_id){
-               text+= `<option value='`+issued_offline_data.social_media_id[i].id+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
+               text+= `<option value='`+issued_offline_data.social_media_id[i].name+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
            }
            document.getElementById('social_media').innerHTML = text;
            $('#social_media').niceSelect('update');
@@ -376,8 +376,10 @@ function issued_offline_signin(){
        },
        data: {},
        success: function(msg) {
-            if(msg.result.error_code == 0)
+            if(msg.result.error_code == 0){
+                signature = msg.result.response.signature;
                 set_data_issued_offline();
+            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -733,8 +735,10 @@ function update_passenger(){
        },
        data: request,
        success: function(msg) {
-            if(msg.result.error_code == 0)
-                commit_booking();
+            if(msg.result.error_code == 0){
+                get_payment_acq('Issued','', '', 'billing', signature, 'issued_offline','', '');
+            }
+//
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -744,6 +748,12 @@ function update_passenger(){
 }
 
 function commit_booking(){
+
+    data = {
+        'seq_id':payment_acq2[payment_method][selected].seq_id,
+        'member':payment_acq2[payment_method][selected].method
+    }
+
     getToken();
     $.ajax({
        type: "POST",
@@ -751,8 +761,9 @@ function commit_booking(){
        headers:{
             'action': 'commit_booking',
        },
-       data: {},
+       data: data,
        success: function(msg) {
+           console.log(msg);
            if(msg.result.error_code == 0){
                alert('Issued Offline number booking: '+msg.result.response.id);
                document.getElementById('transaction_type').value = '';

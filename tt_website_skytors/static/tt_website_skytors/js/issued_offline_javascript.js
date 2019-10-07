@@ -146,9 +146,9 @@ function add_table_of_passenger(){
                             </div>
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
-                                    <input type="text" id="train`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
+                                    <input type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
                                     <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
-                                    <div id="search_result`+(counter_passenger+1)+`" style="overflow:auto;height:200px;">
+                                    <div id="search_result_`+(counter_passenger+1)+`" style="overflow:auto;height:200px;">
 
                                     </div>
                                 </div>

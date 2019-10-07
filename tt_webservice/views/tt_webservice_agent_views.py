@@ -318,8 +318,8 @@ def get_customer_list(request):
                 lower = 0
         data = {
             'name': request.POST['name'],
-            'upper': 200,
-            'lower': 0
+            'upper': upper,
+            'lower': lower
         }
 
         headers = {
