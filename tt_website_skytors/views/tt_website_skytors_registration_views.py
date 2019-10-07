@@ -30,11 +30,12 @@ def open_page(request):
         template, logo = get_logo_template()
 
         values = {
-            'countries': response['result']['response']['activity_config']['countries'],
+            'countries': response['result']['response']['airline']['country'],
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
+            'signature': request.session['signature'],
             'social_medias': response['result']['response']['issued_offline']['social_media_id'],
             'logo': logo,
             'template': template
@@ -45,6 +46,7 @@ def open_page(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }
@@ -115,6 +117,7 @@ def register_agent(request):
     values = {
         'username': request.session['user_account'],
         'static_path': path_util.get_static_path(MODEL_NAME),
+        'signature': request.session['signature'],
         'javascript_version': javascript_version,
         'logo': logo,
         'template': template

@@ -232,8 +232,8 @@ def signin(request):
                 # if res_config_issued_offline['result']['error_code'] == 0:
                 #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
                 res['result']['response'].update({
-                    'visa': res_config_visa['result']['response'], #belum di install
-                    'issued_offline': res_config_issued_offline['result']['response'], #belum di install
+                    # 'visa': res_config_visa['result']['response'], #belum di install
+                    # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
                     'activity': res_config_activity['result'],
                     # 'tour': res_config_tour['result'],

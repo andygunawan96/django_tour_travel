@@ -9,7 +9,6 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     //city = [];
     //country_list = [];
@@ -503,9 +502,8 @@
     $( document ).ready(function() {
         $('.js-example-basic-single').select2();
         agent_register_get_config();
-        auto_complete_registration('country');
+        auto_complete('country')
         auto_complete_registration('social_media');
-        //get_payment_acq('Registration','', '', 'top_up', signature, 'top_up','HO.1636001', '')
     });
 
 </script>
