@@ -340,7 +340,7 @@ def get_customer_list(request):
                     age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
                     age = age.years
                 else:
-                    age = ''
+                    age = 12
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
                     if age > 11:
                         title = 'MRS'
