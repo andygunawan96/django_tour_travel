@@ -683,9 +683,8 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_id_number').value = passenger_data[sequence].identity_number;
             document.getElementById('booker_id_number').readOnly = true;
         }else if(product == 'airline'){
-            document.getElementById('booker_id_type').value = passenger_data[sequence].identity_type;
-            document.getElementById('booker_id_type').readOnly = true;
-            document.getElementById('booker_id_number').value = passenger_data[sequence].identity_number;
+
+            document.getElementById('booker_id_number').value = passenger_data[sequence].passport_number;
             document.getElementById('booker_id_number').readOnly = true;
             document.getElementById('booker_country_of_issued').value = passenger_data[sequence].country_of_issued_id;
             document.getElementById('booker_id_number').readOnly = true;
@@ -940,6 +939,7 @@ function copy_booker_to_passenger(val,type){
         }
 
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+        document.getElementById('adult_title1').readOnly = true;
         if(template != 4){
             $('#adult_title1').niceSelect('update');
         }
@@ -967,13 +967,8 @@ function copy_booker_to_passenger(val,type){
                 document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
             }
         }else if(type == 'airline'){
-            if(document.getElementById('booker_id_type').value == 'pas'){
-                document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
-                if(template != 4){
-                    $('#adult_id_type1').niceSelect('update');
-                }
-                document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
-            }
+            document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
+
             if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != '')
                 document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
         }

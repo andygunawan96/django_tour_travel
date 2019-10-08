@@ -342,11 +342,20 @@ def get_customer_list(request):
                 else:
                     age = ''
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                    title = 'MRS'
+                    if age > 11:
+                        title = 'MRS'
+                    else:
+                        title = 'MISS'
                 elif pax['gender'] == 'female':
-                    title = 'MS'
+                    if age > 11:
+                        title = 'MRS'
+                    else:
+                        title = 'MISS'
                 else:
-                    title = 'MR'
+                    if age > 11:
+                        title = 'MR'
+                    else:
+                        title = 'MSTR'
                 pax.update({
                     'sequence': counter,
                     'age': age,
