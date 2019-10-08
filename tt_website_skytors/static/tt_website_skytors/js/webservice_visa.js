@@ -448,7 +448,7 @@ function visa_get_data(data){
                                 </tr>
                                 <tr>
                                     <td class="list-of-passenger-left">`+1+`</td>
-                                    <td>`+msg.result.response.contact.first_name+` `+msg.result.response.contact.last_name+`</td>
+                                    <td>`+msg.result.response.contact.name+`</td>
                                     <td>`+msg.result.response.contact.email+`</td>
                                     <td>`+msg.result.response.contact.phone_number+`</td>
                                 </tr>

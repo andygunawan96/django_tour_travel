@@ -244,7 +244,7 @@ function set_price(val, type, product_type){
     else if(type == 'activity')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="activity_pre_create_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'top_up')
-        text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();commit_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'issued_offline')
         text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();commit_booking();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;
