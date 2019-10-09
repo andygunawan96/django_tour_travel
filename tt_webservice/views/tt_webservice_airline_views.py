@@ -728,9 +728,10 @@ def update_passengers(request):
                 if pax['nationality_code'] == country['name']:
                     nationality_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
+
+            if pax['identity_country_of_issued_code'] != '':
                 for country in response['result']['response']['airline']['country']:
-                    if pax['country_of_issued_code'] == country['name']:
+                    if pax['identity_country_of_issued_code'] == country['name']:
                         country_of_issued_code = country['code']
                         break
             pax.update({
@@ -738,25 +739,27 @@ def update_passengers(request):
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                     pax['birth_date'].split(' ')[0]),
                 'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
+                'identity_country_of_issued_code': country_of_issued_code
             })
-            if pax['passport_expdate'] != '':
+
+            if pax['identity_expdate'] != '':
                 pax.update({
-                    'passport_expdate': '%s-%s-%s' % (
-                        pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                        pax['passport_expdate'].split(' ')[0])
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
                 })
             passenger.append(pax)
         for pax in request.session['airline_create_passengers']['child']:
             nationality_code = ''
             country_of_issued_code = ''
+
             for country in response['result']['response']['airline']['country']:
                 if pax['nationality_code'] == country['name']:
                     nationality_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
+            if pax['identity_country_of_issued_code'] != '':
                 for country in response['result']['response']['airline']['country']:
-                    if pax['country_of_issued_code'] == country['name']:
+                    if pax['identity_country_of_issued_code'] == country['name']:
                         country_of_issued_code = country['code']
                         break
             pax.update({
@@ -764,13 +767,13 @@ def update_passengers(request):
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                     pax['birth_date'].split(' ')[0]),
                 'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
+                'identity_country_of_issued_code': country_of_issued_code
             })
-            if pax['passport_expdate'] != '':
+            if pax['identity_expdate'] != '':
                 pax.update({
-                    'passport_expdate': '%s-%s-%s' % (
-                        pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                        pax['passport_expdate'].split(' ')[0])
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
                 })
             passenger.append(pax)
         for pax in request.session['airline_create_passengers']['infant']:
@@ -780,9 +783,10 @@ def update_passengers(request):
                 if pax['nationality_code'] == country['name']:
                     nationality_code = country['code']
                     break
-            if pax['country_of_issued_code'] != '':
+
+            if pax['identity_country_of_issued_code'] != '':
                 for country in response['result']['response']['airline']['country']:
-                    if pax['country_of_issued_code'] == country['name']:
+                    if pax['identity_country_of_issued_code'] == country['name']:
                         country_of_issued_code = country['code']
                         break
             pax.update({
@@ -790,13 +794,13 @@ def update_passengers(request):
                     pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                     pax['birth_date'].split(' ')[0]),
                 'nationality_code': nationality_code,
-                'country_of_issued_code': country_of_issued_code
+                'identity_country_of_issued_code': country_of_issued_code
             })
-            if pax['passport_expdate'] != '':
+            if pax['identity_expdate'] != '':
                 pax.update({
-                    'passport_expdate': '%s-%s-%s' % (
-                        pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                        pax['passport_expdate'].split(' ')[0])
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
                 })
             passenger.append(pax)
         data = {

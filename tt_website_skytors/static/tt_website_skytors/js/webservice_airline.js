@@ -2707,11 +2707,11 @@ function airline_issued(data){
 //                   document.getElementById('pnr').innerHTML="Issued";
 //                   //$('.issued-booking-train').removeClass("running");
 //                   document.getElementById('payment_acq').innerHTML = '';
-               }else if(msg.result.error_code == 1006){
+               }else if(msg.result.error_code == 4006){
                     alert(msg.result.error_msg);
                     //modal pop up
 
-                    booking_price_detail(msg);
+//                    booking_price_detail(msg);
                     tax = 0;
                     fare = 0;
                     total_price = 0;
