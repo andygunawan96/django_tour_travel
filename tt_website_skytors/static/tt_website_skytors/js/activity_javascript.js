@@ -1570,7 +1570,7 @@ function sort(activity_dat, check){
             <div class="col-lg-4">
                 <div style="padding:5px; margin:10px;">
                     <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                        <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
                         <br/><br/>
                         <h6>NO ACTIVITY AVAILABLE</h6>
                     </div>
@@ -1705,7 +1705,7 @@ function sort(activity_dat, check){
             <div class="col-lg-4">
                 <div style="padding:5px; margin:10px;">
                     <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                        <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
                         <br/><br/>
                         <h6>NO ACTIVITY AVAILABLE</h6>
                     </div>

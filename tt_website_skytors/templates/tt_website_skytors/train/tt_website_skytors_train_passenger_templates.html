@@ -184,6 +184,11 @@
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -307,7 +312,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Adult',{{forloop.counter}}, 'train')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('Adult',{{forloop.counter}}, 'train')">Search</button>
                                                         <div class="row" id="loading-pax-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -460,7 +465,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="search_passenger('Infant',{{forloop.counter}}, 'train')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('Infant',{{forloop.counter}}, 'train')">Search</button>
                                                         <div class="row" id="loading-paxi-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">

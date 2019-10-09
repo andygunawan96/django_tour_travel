@@ -582,7 +582,7 @@ def ssr(request):
                     "email": request.session['airline_get_booking_response']['result']['response']['booker']['email'],
                     "calling_code": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(request.session['airline_get_booking_response']['result']['response']['booker']['phones'])-1]['calling_code'],
                     "mobile": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(request.session['airline_get_booking_response']['result']['response']['booker']['phones'])-1]['calling_number'],
-                    "nationality_code": request.session['airline_get_booking_response']['result']['response']['booker']['nationality_name'],
+                    "nationality_name": request.session['airline_get_booking_response']['result']['response']['booker']['nationality_name'],
                     "contact_seq_id": request.session['airline_get_booking_response']['result']['response']['booker']['seq_id']
                 },
                 'adult': adult,
@@ -641,7 +641,7 @@ def seat_map(request):
                 'email': request.POST['booker_email'],
                 'calling_code': request.POST['booker_phone_code'],
                 'mobile': request.POST['booker_phone'],
-                'nationality_code': request.POST['booker_nationality'],
+                'nationality_name': request.POST['booker_nationality'],
                 'booker_seq_id': request.POST['booker_id']
             }
             for i in range(int(request.session['airline_request']['adult'])):
@@ -699,7 +699,7 @@ def seat_map(request):
                             "email": request.POST['adult_email' + str(i + 1)],
                             "calling_name": request.POST['adult_phone_code' + str(i + 1)],
                             "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                            "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                             "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                         })
                     if i == 0:
