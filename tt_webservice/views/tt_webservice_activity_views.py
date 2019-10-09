@@ -198,85 +198,33 @@ def create_booking(request):
     countries = response['result']['response']['airline']['country']
 
     for pax in request.session['activity_review_booking']['adult']:
-        nationality_code = ''
-        country_of_issued_code = ''
-        for country in countries:
-            if pax['nationality_code'] == country['name']:
-                nationality_code = country['code']
-                break
-        if pax['country_of_issued_code'] != '':
-            for country in countries:
-                if pax['country_of_issued_code'] == country['name']:
-                    country_of_issued_code = country['code']
-                    break
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
-            'nationality_code': nationality_code,
-            'country_of_issued_code': country_of_issued_code
         })
         passenger.append(pax)
 
     for pax in request.session['activity_review_booking']['senior']:
-        nationality_code = ''
-        country_of_issued_code = ''
-        for country in countries:
-            if pax['nationality_code'] == country['name']:
-                nationality_code = country['code']
-                break
-        if pax['country_of_issued_code'] != '':
-            for country in countries:
-                if pax['country_of_issued_code'] == country['name']:
-                    country_of_issued_code = country['code']
-                    break
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
-            'nationality_code': nationality_code,
-            'country_of_issued_code': country_of_issued_code
         })
         passenger.append(pax)
 
     for pax in request.session['activity_review_booking']['child']:
-        nationality_code = ''
-        country_of_issued_code = ''
-        for country in countries:
-            if pax['nationality_code'] == country['name']:
-                nationality_code = country['code']
-                break
-        if pax['country_of_issued_code'] != '':
-            for country in countries:
-                if pax['country_of_issued_code'] == country['name']:
-                    country_of_issued_code = country['code']
-                    break
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
-            'nationality_code': nationality_code,
-            'country_of_issued_code': country_of_issued_code
         })
         passenger.append(pax)
 
     for pax in request.session['activity_review_booking']['infant']:
-        nationality_code = ''
-        country_of_issued_code = ''
-        for country in countries:
-            if pax['nationality_code'] == country['name']:
-                nationality_code = country['code']
-                break
-        if pax['country_of_issued_code'] != '':
-            for country in countries:
-                if pax['country_of_issued_code'] == country['name']:
-                    country_of_issued_code = country['code']
-                    break
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
-            'nationality_code': nationality_code,
-            'country_of_issued_code': country_of_issued_code
         })
         passenger.append(pax)
 
@@ -304,16 +252,6 @@ def create_booking(request):
 
     booker = request.session['activity_review_booking']['booker']
     contacts = request.session['activity_review_booking']['contacts']
-    for country in response['result']['response']['airline']['country']:
-        if booker['nationality_code'] == country['name']:
-            booker['nationality_code'] = country['code']
-            break
-
-    for pax in contacts:
-        for country in response['result']['response']['airline']['country']:
-            if pax['nationality_code'] == country['name']:
-                pax['nationality_code'] = country['code']
-                break
 
     data = {
         "passengers": passenger,
