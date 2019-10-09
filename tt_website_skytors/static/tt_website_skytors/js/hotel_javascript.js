@@ -204,9 +204,10 @@ function filtering(type){
         for(i in rating_list)
             if(rating_list[i].status == true)
                 check_rating = 1;
-
         var check = 0;
         var temp_data = [];
+        var searched_name = $('#hotel_filter_name').val();
+
         if(check_rating == 1){
             data.hotel_ids.forEach((obj)=> {
                 check = 0;
@@ -223,7 +224,7 @@ function filtering(type){
             hotel_filter = data;
             temp_data = [];
         }
-        var searched_name = $('#hotel_filter_name').val();
+
         if (searched_name){
             data.hotel_ids.forEach((obj)=> {
                 var test = 1;
@@ -240,6 +241,32 @@ function filtering(type){
             hotel_filter = data;
             temp_data = [];
         }
+
+        data.hotel_ids.forEach((obj)=> {
+            if (Object.keys(obj.prices).length === 0 && $minPrice == 0){
+                temp_data.push(obj);
+            } else {
+                for (i in obj.prices) {
+                    // if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
+                    if ($minPrice <= parseFloat(obj.prices[i].price)){
+                        //console.log('MinPrice:' + $minPrice);
+                        //console.log('Pass Min:' + obj.prices[i].price);
+                        //console.log('MaxPrice:' + $maxPrice);
+                        if (parseFloat(obj.prices[i].price) <= parseFloat($maxPrice)){
+                            //console.log('Pass Max:' + obj.prices[i].price);
+                            //console.log('Adding:' + obj.name);
+                            temp_data.push(obj);
+                            break;
+                        } else {
+                            //console.log('Fail Max:' + obj.prices[i].price);
+                        }
+                    }
+                }
+            }
+        });
+        data.hotel_ids = temp_data;
+        hotel_filter = data;
+        temp_data = [];
     }
     sort(data);
 }
@@ -435,218 +462,178 @@ function sort(response){
         document.getElementById("hotel_result").appendChild(node);
         node = document.createElement("div");
 
-
-        /*
-        for(i in response.country_ids){
-            text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
-            text += `{%csrf_token%}`;
-            //msg.result.response.city_ids[i].sequence
-            if(response.country_ids[i].images.length != 0)
-                text+=`<img data-toggle="tooltip" class="airline-logo" style="width:50px;heigh:50px;" src="`+response.country_ids[i].images[0].url+`"><span> </span>`;
-            else
-                text+=`<img data-toggle="tooltip" class="airline-logo" style="width:50px;heigh:50px;" src="/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg"><span> </span>`;
-            text+=`<br/><label>`+response.country_ids[i].name+`</label>`;
-            text+=`<br/><label>`+response.country_ids[i].rating+` KASIH GAMBAR BINTANG</label>`;
-            text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+JSON.stringify(response.country_ids[i])+`'/>`;
-            text+=`<label>`;
-            if(response.country_ids[i].location.city != false)
-                text+= response.country_ids[i].location.city;
-            if(response.country_ids[i].location.address != false)
-                text+= ' '+ response.country_ids[i].location.address;
-            if(response.country_ids[i].location.district != false)
-                text+= ' '+ response.country_ids[i].location.district;
-            if(response.country_ids[i].location.state != false)
-                text+= ' '+ response.country_ids[i].location.state;
-            if(response.country_ids[i].location.kelurahan != false)
-                text+= ' '+ response.country_ids[i].location.kelurahan;
-            if(response.country_ids[i].location.zipcode != false)
-                text+= ' '+ response.country_ids[i].location.zipcode;
-            text+=`</label>
-            <button type="button" onclick="goto_detail('country',`+response.country_ids[i].sequence+`,`+response.country_ids[i].counter+`)"/>
-            </form>`;
-            //tambah button ke detail
-            node.innerHTML = text;
-            document.getElementById("hotel_ticket").appendChild(node);
-            node = document.createElement("div");
-        }*/
-
         document.getElementById("hotel_ticket").innerHTML = '';
         text='';
-        for(i in response.hotel_ids){
-            text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
-            //msg.result.response.city_ids[i].sequence
-            text+=`
-            <div class="row">
-                <div class="col-lg-12" style="margin-bottom:25px;">
-                    <div style="top:0px; right:10px; position:absolute;">
-                        <label class="check_box_custom">
-                            <span class="span-search-ticket"></span>
-                            <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
-                            <span class="check_box_span_custom"></span>
-                        </label>
-                        <span class="id_copy_result" hidden>`+i+`</span>
-                    </div>
-                </div>`;
-                if(response.hotel_ids[i].images.length != 0){
-                    text+=`
-                    <div class="col-lg-3 col-md-3">
-                        <div class="img-hotel-search" style="background-image: url(`+response.hotel_ids[i].images[0].url+`);"></div>
-                    </div>`;
-                }
-                else{
-                    text+=`
-                    <div class="col-lg-3">
-                        <div class="img-hotel-search" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
-                    </div>`;
-                }
+        if(response.hotel_ids.length != 0){
+            for(i in response.hotel_ids){
+                text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
+                //msg.result.response.city_ids[i].sequence
                 text+=`
-                <div class="col-lg-9" style="padding-left: 0;">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div style="margin-bottom:10px;">
-                                <h4 class="name_hotel" title="`+response.hotel_ids[i].name+`" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;">`+response.hotel_ids[i].name+`</h4>
-                            </div>
+                <div class="row">
+                    <div class="col-lg-12" style="margin-bottom:25px;">
+                        <div style="top:0px; right:10px; position:absolute;">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket"></span>
+                                <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                            <span class="id_copy_result" hidden>`+i+`</span>
                         </div>
-                        <div class="col-lg-7 col-md-7">
-                            <div style="margin-bottom:10px;">
-                            <span>
-                                <span style="border: 2px solid #f15a22; border-radius:7px; padding-left:10px; padding-right:10px; margin-right:5px; font-weight: bold;"> Hotel </span>`;
-                            if(response.hotel_ids[i].rating != false){
-                                for (co=0; co < parseInt(response.hotel_ids[i].rating); co++){
-                                    text+=`<i class="fas fa-star" style="color:#FFC44D;"></i>`;
-                                }
-                                text+=`<span class="rating_hotel" hidden>`+response.hotel_ids[i].rating+` star(s)</span>`;
-                            }
-                            else{
-                                text+=`<span class="rating_hotel" hidden>Unrated</span>`;
-                            }
-                        text+=`</span></div>`;
-                        detail = JSON.stringify(response.hotel_ids[i]);
-                        detail = detail.replace(/'/g, "");
-                        text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
+                    </div>`;
+                    if(response.hotel_ids[i].images.length != 0){
                         text+=`
-                        <div>
-                            <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                        if(response.hotel_ids[i].location.city)
-                            text+= response.hotel_ids[i].location.city;
-            //            if(response.hotel_ids[i].location.address != false)
-            //                text+= ' '+ response.hotel_ids[i].location.address;
-                        if(response.hotel_ids[i].location.district)
-                            text+= ' '+ response.hotel_ids[i].location.district;
-                        if(response.hotel_ids[i].location.state)
-                            text+= ' '+ response.hotel_ids[i].location.state;
-            //            if(response.hotel_ids[i].location.kelurahan != false)
-            //                text+= ' '+ response.hotel_ids[i].location.kelurahan;
-            //            if(response.hotel_ids[i].location.zipcode != false)
-            //                text+= ' '+ response.hotel_ids[i].location.zipcode;
-//                        <span>
-//                            <img src="/static/tt_website_skytors/img/hotels/circle.png" style="width:15px; height:15px;"/>
-//                            <img src="/static/tt_website_skytors/img/hotels/circle.png" style="width:15px; height:15px;"/>
-//                            <img src="/static/tt_website_skytors/img/hotels/circle.png" style="width:15px; height:15px;"/>
-//                            <img src="/static/tt_website_skytors/img/hotels/circle.png" style="width:15px; height:15px;"/>
-//                            <img src="/static/tt_website_skytors/img/hotels/circle-none.png" style="width:15px; height:15px;"/>
-//                        </span>
-                        text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-search" style="background-image: url(`+response.hotel_ids[i].images[0].url+`);"></div>
+                        </div>`;
+                    }
+                    else{
+                        text+=`
+                        <div class="col-lg-3">
+                            <div class="img-hotel-search" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div>`;
+                    }
+                    text+=`
+                    <div class="col-lg-9" style="padding-left: 0;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="margin-bottom:10px;">
+                                    <h4 class="name_hotel" title="`+response.hotel_ids[i].name+`" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;">`+response.hotel_ids[i].name+`</h4>
+                                </div>
                             </div>
-                            <div style="margin-bottom:10px;">
-                                <img style="height:20px; width:auto;" src="/static/tt_website_skytors/img/tripadvisor.png"/>
-                                <span> (194 reviews) </span>
-                            </div>
-                        </div>
-                        <div class="col-lg-5 col-md-5">
-                            <div class="row">`;
-                                if(Object.keys(response.hotel_ids[i].prices).length > 0){
-                                    var best_price = [];
-                                    var check_price = 0;
-                                    for(j in response.hotel_ids[i].prices){
-                                        check_price += 1;
-                                        if(check_price < 4){
-                                            text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                            <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                <span style="font-size:13px; font-weight: 700; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
-                                            </div>`;
-                                        }
-                                        if(response.hotel_ids[i].prices[j]['price'] != 0 && response.hotel_ids[i].prices[j]['price'] != false && response.hotel_ids[i].prices[j]['price'] != "-")
-                                            best_price.push(response.hotel_ids[i].prices[j]['price']);
+                            <div class="col-lg-7 col-md-7">
+                                <div style="margin-bottom:10px;">
+                                <span>
+                                    <span style="border: 2px solid #f15a22; border-radius:7px; padding-left:10px; padding-right:10px; margin-right:5px; font-weight: bold;"> Hotel </span>`;
+                                if(response.hotel_ids[i].rating != false){
+                                    for (co=0; co < parseInt(response.hotel_ids[i].rating); co++){
+                                        text+=`<i class="fas fa-star" style="color:#FFC44D;"></i>`;
                                     }
-
-                                    if (check_price > 3){
-                                        text += `<div class="col-lg-12">
-                                            <span style="font-size:13px; font-weight:700; text-align:left; cursor:pointer;" data-toggle="dropdown"> View all `+ check_price +` <i class="fas fa-caret-down"></i></span>
-                                            <ul class="dropdown-menu" role="menu" style="top:-10px !important; border:1px solid black;">
-                                                <div class="row" style="padding:10px;">`;
-                                                for(j in response.hotel_ids[i].prices){
-                                                    text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <span style="font-size:13px; font-weight: 700; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
-                                                    </div>`;
-                                                }
-                                                text+=`</div>
-                                            </ul>
-                                        </div>`;
-                                    }
-
-                                    best_price.sort(function(a, b){return a - b});
-                                    if(best_price[0] != undefined)
-                                        text+=`<span class="price_hotel" hidden>IDR ` + getrupiah(best_price[0]) + `</span>`;
-                                    else
-                                        text+=`<span class="price_hotel" hidden>Waiting price from vendor</span>`;
-                                } else {
-                                    for(j in response.hotel_ids[i].external_code){
-                                        text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                        <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                        <span style="font-size:13px; font-weight: 700; text-align:right;">-</span>
-                                    </div>`;
-                                    }
-                                    text+=`<span class="price_hotel" hidden>Waiting price from vendor</span>`;
-                                }
-                               text += `
-                            </div>
-                        </div>
-                        <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:15px;">
-                            <span>`;
-                            try{
-                                for(j in top_facility){
-                                    var facility_check = 0;
-                                    for(k in response.hotel_ids[i].facilities){
-                                        if(top_facility[j].facility_id == response.hotel_ids[i].facilities[k].facility_id){
-                                            facility_check = 1;
-                                            break;
-                                        }
-                                    }
-
-                                if(facility_check == 1){
-                                    text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                    text+=`<span class="rating_hotel" hidden>`+response.hotel_ids[i].rating+` star(s)</span>`;
                                 }
                                 else{
-                                    text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                    text+=`<span class="rating_hotel" hidden>Unrated</span>`;
                                 }
-                            }
-                        }catch(err){}
-                        text+=`</span>
+                            text+=`</span></div>`;
+                            detail = JSON.stringify(response.hotel_ids[i]);
+                            detail = detail.replace(/'/g, "");
+                            text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
+                            text+=`
+                            <div>
+                                <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                            if(response.hotel_ids[i].location.city)
+                                text+= response.hotel_ids[i].location.city;
+                //            if(response.hotel_ids[i].location.address != false)
+                //                text+= ' '+ response.hotel_ids[i].location.address;
+                            if(response.hotel_ids[i].location.district)
+                                text+= ' '+ response.hotel_ids[i].location.district;
+                            if(response.hotel_ids[i].location.state)
+                                text+= ' '+ response.hotel_ids[i].location.state;
+                //            if(response.hotel_ids[i].location.kelurahan != false)
+                //                text+= ' '+ response.hotel_ids[i].location.kelurahan;
+                //            if(response.hotel_ids[i].location.zipcode != false)
+                //                text+= ' '+ response.hotel_ids[i].location.zipcode;
+                            text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
+                                </div>
+                                <div style="margin-bottom:10px;">
+                                    <img style="height:20px; width:auto;" src="/static/tt_website_skytors/img/tripadvisor.png"/>
+                                    <span> (194 reviews) </span>
+                                </div>
                             </div>
-                            <div class="col-lg-5  col-md-5" style="text-align:right; padding-top:15px;">
-                               <button type="button" style="width: 100%;" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
-                               <br/>
-                               <span style="color:#f15a22; font-size:11px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
-                           </div>
+                            <div class="col-lg-5 col-md-5">
+                                <div class="row">`;
+                                    if(Object.keys(response.hotel_ids[i].prices).length > 0){
+                                        var best_price = [];
+                                        var check_price = 0;
+                                        for(j in response.hotel_ids[i].prices){
+                                            check_price += 1;
+                                            if(check_price < 4){
+                                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <span style="font-size:13px; font-weight: 700; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
+                                                </div>`;
+                                            }
+                                            if(response.hotel_ids[i].prices[j]['price'] != 0 && response.hotel_ids[i].prices[j]['price'] != false && response.hotel_ids[i].prices[j]['price'] != "-")
+                                                best_price.push(response.hotel_ids[i].prices[j]['price']);
+                                        }
+
+                                        if (check_price > 3){
+                                            text += `<div class="col-lg-12">
+                                                <span style="font-size:13px; font-weight:700; text-align:left; cursor:pointer;" data-toggle="dropdown"> View all `+ check_price +` <i class="fas fa-caret-down"></i></span>
+                                                <ul class="dropdown-menu" role="menu" style="top:-10px !important; border:1px solid black;">
+                                                    <div class="row" style="padding:10px;">`;
+                                                    for(j in response.hotel_ids[i].prices){
+                                                        text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                        <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                            <span style="font-size:13px; font-weight: 700; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
+                                                        </div>`;
+                                                    }
+                                                    text+=`</div>
+                                                </ul>
+                                            </div>`;
+                                        }
+
+                                        best_price.sort(function(a, b){return a - b});
+                                        if(best_price[0] != undefined)
+                                            text+=`<span class="price_hotel" hidden>IDR ` + getrupiah(best_price[0]) + `</span>`;
+                                        else
+                                            text+=`<span class="price_hotel" hidden>Waiting price from vendor</span>`;
+                                    } else {
+                                        for(j in response.hotel_ids[i].external_code){
+                                            text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
+                                        </div>
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <span style="font-size:13px; font-weight: 700; text-align:right;">-</span>
+                                        </div>`;
+                                        }
+                                        text+=`<span class="price_hotel" hidden>Waiting price from vendor</span>`;
+                                    }
+                                   text += `
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:15px;">
+                                <span>`;
+                                try{
+                                    for(j in top_facility){
+                                        var facility_check = 0;
+                                        for(k in response.hotel_ids[i].facilities){
+                                            if(top_facility[j].facility_id == response.hotel_ids[i].facilities[k].facility_id){
+                                                facility_check = 1;
+                                                break;
+                                            }
+                                        }
+
+                                    if(facility_check == 1){
+                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                    }
+                                    else{
+                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                    }
+                                }
+                            }catch(err){}
+                            text+=`</span>
+                                </div>
+                                <div class="col-lg-5  col-md-5" style="text-align:right; padding-top:15px;">
+                                   <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
+                                   <br/>
+                                   <span style="color:#f15a22; font-size:11px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
+                               </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            </form>`;
-            //tambah button ke detail
-            node.className = 'sorting-box-b';
-            node.innerHTML = text;
-            document.getElementById("hotel_ticket").appendChild(node);
-            node = document.createElement("div");
-            $('#loading-search-hotel').hide();
+                </form>`;
+                //tambah button ke detail
+                node.className = 'sorting-box-b';
+                node.innerHTML = text;
+                document.getElementById("hotel_ticket").appendChild(node);
+                node = document.createElement("div");
+                $('#loading-search-hotel').hide();
+            }
 
             var items = $(".sorting-box-b");
             var numItems = items.length;
@@ -678,7 +665,14 @@ function sort(response){
                     $('#pagination-container').pagination('drawPage', pageNumber);
                 }
             });
+            $('#pagination-container').show();
+            $('#pagination-container2').show();
         }
+        else{
+            $('#pagination-container').hide();
+            $('#pagination-container2').hide();
+        }
+
         /*for(i in response.landmark_ids){
             text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
             text += `{%csrf_token%}`;
@@ -713,6 +707,12 @@ function sort(response){
         }*/
     }
 
+function filter_name(){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
+        change_filter('','');
+    }, 500);
+}
 
 function change_filter(type, value){
     var check = 0;
@@ -723,23 +723,36 @@ function change_filter(type, value){
 }
 
 function hotel_filter_render(){
+
+    var node = document.createElement("div");
+    text = '';
+    text+= `
+    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+    <hr/>
+    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>`;
+
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("session_timer").appendChild(node);
+    node = document.createElement("div");
+
     text = '';
     text+= `<h4>Filter</h4>
     <hr/>
     <h6 style="padding-bottom:10px;">Hotel Name</h6>
-    <input type="text" class="form-control-custom" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="change_filter('','');"/>
+    <input type="text" class="form-control-custom" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name();"/>
     <hr/>
     <h6 style="padding-bottom:10px;">Price Range</h6>
     <div class="wrapper">
         <div class="range-slider">
-            <input type="text" class="js-range-slider" value="" />
+            <input type="text" class="js-range-slider"/>
         </div>
         <div class="row">
             <div class="col-lg-6">
-                <input type="text" class="js-input-from form-control-custom" value="0" />
+                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" />
             </div>
             <div class="col-lg-6">
-                <input type="text" class="js-input-to form-control-custom" value="0" />
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="5000000" />
             </div>
         </div>
     </div>
@@ -905,6 +918,7 @@ function show_commission_hotel(){
 
 function goto_passenger(){
     document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
+    document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('goto_passenger').submit();
 }
 
@@ -951,10 +965,13 @@ function check_passenger(adult, child){
                 error_log+= 'Please fill all the blank for Child passenger '+i+'!\n';
            }
        }
-       if(error_log=='')
+       if(error_log==''){
+           document.getElementById('time_limit_input').value = time_limit;
            document.getElementById('hotel_review').submit();
-       else
+       }
+       else{
            alert(error_log);
+       }
      }else{
         console.log(document.getElementById('booker_title').value);
         console.log(document.getElementById('booker_first_name').value);
@@ -1220,4 +1237,15 @@ function share_data(){
     document.execCommand('copy');
     document.body.removeChild(el);
     $text_share = window.encodeURIComponent($text);
+}
+
+$check_load = 0;
+function price_slider_true(type){
+    $minPrice = parseFloat(document.getElementById('price-from').value);
+    $maxPrice = parseFloat(document.getElementById('price-to').value);
+
+    if($check_load != 0)
+        change_filter('rating', type);
+    else
+        $check_load = 1;
 }

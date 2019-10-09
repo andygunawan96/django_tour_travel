@@ -335,6 +335,7 @@ def booking(request):
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
             'logo': logo,
+            'signature': request.session['visa_signature'],
             'template': template
             # 'order_number': 'VS.19072500003',
             # 'cookies': json.dumps(res['result']['cookies']),
