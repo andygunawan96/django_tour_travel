@@ -150,8 +150,13 @@ function hotel_search(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          $("#loading-search-hotel").hide();
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+          })
+       },timeout: 120000
     });
 }
 
@@ -219,7 +224,16 @@ function hotel_detail_request(id){
         text2='';
         var node = document.createElement("div");
         var node2 = document.createElement("div");
-        if(result.prices.length != 0){
+        if(typeof result.prices === "undefined"){
+            alert("There's no room in this hotel!");
+            $('#loading-detail-hotel').hide();
+            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
+            // window.location.href = "http://localhost:8000";
+        }else if(result.prices.length == 0){
+            alert("There's no room in this hotel!");
+            $('#loading-detail-hotel').hide();
+            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
+        }else{
             text2+=`
             <div class="row">
                 <div class="col-lg-6">
@@ -332,11 +346,6 @@ function hotel_detail_request(id){
 //
 //            }
 //            hotel_price = msg.result.prices;
-
-        }else{
-            alert("There's no room in this hotel!");
-            $('#loading-detail-hotel').hide();
-//            window.location.href = "http://localhost:8000";
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
