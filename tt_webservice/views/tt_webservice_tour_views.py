@@ -273,7 +273,7 @@ def get_payment_rules(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_payment_rules",
+        "action": "get_payment_rules_provider",
         "signature": request.session['tour_signature']
     }
 

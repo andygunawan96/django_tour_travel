@@ -216,14 +216,14 @@ def passenger(request):
         else:
             dept = request.session['tour_pick']['departure_date']
 
-        if request.POST.get('arrival_date_tour2'):
-            arr = request.POST['arrival_date_tour2']
+        if request.POST.get('return_date_tour2'):
+            arr = request.POST['return_date_tour2']
         else:
-            arr = request.session['tour_pick']['arrival_date']
+            arr = request.session['tour_pick']['return_date']
 
         request.session['tour_pick'].update({
             'tour_departure_date': dept,
-            'tour_arrival_date': arr,
+            'tour_return_date': arr,
         })
 
         room_amount = int(request.POST['room_amount'])
