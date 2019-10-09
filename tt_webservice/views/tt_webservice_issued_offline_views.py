@@ -184,8 +184,9 @@ def set_data_issued_offline(request):
     return res
 
 def update_contact(request):
-    passenger = []
     contact = []
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
     try:
         for i in range(int(request.POST['counter_passenger'])):
             if request.POST['passenger_cp' + str(i)] == 'true':
@@ -196,8 +197,8 @@ def update_contact(request):
                     'email': request.POST['passenger_email' + str(i)],
                     'calling_code': request.POST['booker_calling_code'],
                     'mobile': request.POST['booker_mobile'],
-                    'nationality_code': request.POST['booker_nationality_code'],
-                    'contact_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
+                    'nationality_name': request.POST['booker_nationality_code'],
+                    'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
                 })
                 if i == 0:
                     if request.POST['myRadios'] == 'true':
@@ -223,8 +224,8 @@ def update_contact(request):
                 'email': request.POST['booker_email'],
                 'calling_code': request.POST['booker_calling_code'],
                 'mobile': request.POST['booker_mobile'],
-                'nationality_code': request.POST['booker_nationality_code'],
-                'contact_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or '',
+                'nationality_name': request.POST['booker_nationality_code'],
+                'contact_seq_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or '',
                 'is_booker': True
             })
 
@@ -234,17 +235,30 @@ def update_contact(request):
             "action": "update_contact",
             "signature": request.session['issued_offline_signature'],
         }
+        booker = {
+            'title': request.POST['booker_title'],
+            'first_name': request.POST['booker_first_name'],
+            'last_name': request.POST['booker_last_name'],
+            'email': request.POST['booker_email'],
+            'calling_code': request.POST['booker_calling_code'],
+            'mobile': request.POST['booker_mobile'],
+            'nationality_name': request.POST['booker_nationality_code'],
+            'booker_seq_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or ''
+        }
+
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                break
+
+        for pax in contact:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
+
         data = {
-            'booker': {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_calling_code'],
-                'mobile': request.POST['booker_mobile'],
-                'nationality_code': request.POST['booker_nationality_code'],
-                'booker_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or ''
-            },
+            'booker': booker,
             'contacts': contact
         }
     except Exception as e:
@@ -256,7 +270,8 @@ def update_contact(request):
 def update_passenger(request):
     try:
         passenger = []
-
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         for i in range(int(request.POST['counter_passenger'])):
             birth_date = ''
             passport_expdate = ''
@@ -282,11 +297,12 @@ def update_passenger(request):
                 "last_name": request.POST['passenger_last_name' + str(i)],
                 "title": request.POST['passenger_title' + str(i)],
                 "birth_date": birth_date,
-                "nationality_code": request.POST['passenger_nationality_code' + str(i)],
-                "country_of_issued_code": request.POST['passenger_country_of_issued' + str(i)],
-                "passport_expdate": passport_expdate,
-                "passport_number": request.POST['passenger_passport_number' + str(i)],
-                'passenger_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
+                "nationality_name": request.POST['passenger_nationality_code' + str(i)],
+                "identity_country_of_issued_name": request.POST['passenger_country_of_issued' + str(i)],
+                "identity_expdate": passport_expdate,
+                "identity_number": request.POST['passenger_passport_number' + str(i)],
+                "identity_type": "passport",
+                'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
             })
             if i == 0:
                 if request.POST['myRadios'] == 'true':
@@ -315,6 +331,22 @@ def update_passenger(request):
             "action": "update_passenger",
             "signature": request.session['issued_offline_signature'],
         }
+        for pax in passenger:
+            if pax['nationality_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_name'] == country['name']:
+                        pax['nationality_code'] = country['code']
+                        break
+
+            if pax['identity_country_of_issued_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_name'] == country['name']:
+                        pax['identity_country_of_issued_code'] = country['code']
+                        break
+            if pax['identity_expdate'] == '':
+                pax.update({
+                    "identity_type": ""
+                })
         data = {
             'passengers': passenger
         }
