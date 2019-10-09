@@ -230,6 +230,15 @@ function get_top_up_amount(){
     });
 }
 
+function change_top_up(){
+    document.getElementById('amount').disabled = false;
+    document.getElementById('payment_method').disabled = false;
+    document.getElementById('tac_checkbox').disabled = false;
+    document.getElementById('payment_acq').innerHTML = '';
+    document.getElementById('submit_name').innerHTML = 'Submit';
+    document.getElementById('submit_name').setAttribute( "onClick", "javascript: submit_top_up();" );
+}
+
 function submit_top_up(){
     currency_code = 'IDR';
     getToken();
@@ -241,18 +250,25 @@ function submit_top_up(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'currency_code': currency_code,
+//            'currency_code': currency_code,
             'amount': document.getElementById('amount').value,
 //            'amount_count': document.getElementById('qty').value,
-            'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
-            'seq_id': payment_acq2[payment_method][selected].seq_id,
+//            'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
+//            'seq_id': payment_acq2[payment_method][selected].seq_id,
             'signature': signature
        },
        success: function(msg) {
         console.log(msg);
-        if(msg.result.error_code == 0)
-            document.getElementById('top_up_form').submit();
-        else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+        if(msg.result.error_code == 0){
+            document.getElementById('amount').disabled = true;
+            document.getElementById('payment_method').disabled = true;
+            document.getElementById('tac_checkbox').disabled = true;
+            document.getElementById('submit_name').innerHTML = 'Change';
+            document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
+
+            get_payment_acq('Issued','', '', 'billing', signature, 'top_up','', '');
+//            document.getElementById('top_up_form').submit();
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
             document.getElementById('submit_top_up').classList.remove('running');
@@ -270,6 +286,37 @@ function submit_top_up(){
        }
     });
 }
+
+function commit_top_up(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'commit_top_up',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'member': payment_acq2[payment_method][selected].method,
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        console.log(document.getElementById('top_up_form'));
+        if(msg.result.error_code == 0){
+            document.getElementById('top_up_form').submit();
+        }else{
+            alert(msg.result.error_msg);
+        }
+        document.getElementById('top_up_form').submit();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
 
 function cancel_top_up(name){
     Swal.fire({

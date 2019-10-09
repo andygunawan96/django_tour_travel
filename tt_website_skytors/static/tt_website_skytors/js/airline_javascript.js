@@ -3773,6 +3773,8 @@ function get_airline_review_after_sales(){
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list)
                                     text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
+                                for(j in passengers_ssr[i].seat_list)
+                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` `+passengers_ssr[i].seat_list[j].seat_pick+`</label>`;
                                 text+=`</td>
                                </tr>`;
                         count_pax++;

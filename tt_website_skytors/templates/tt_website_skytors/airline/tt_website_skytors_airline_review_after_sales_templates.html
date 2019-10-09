@@ -24,11 +24,15 @@
     passengers = passengers.replace(/False/g, false);
     passengers = JSON.parse(passengers);
 
-    passengers_ssr = `{{passengers_ssr}}`;
-    passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
-    passengers_ssr = passengers_ssr.replace(/True/g, true);
-    passengers_ssr = passengers_ssr.replace(/False/g, false);
-    passengers_ssr = JSON.parse(passengers_ssr);
+    try{
+        passengers_ssr = `{{passengers_ssr}}`;
+        passengers_ssr = passengers_ssr.replace(/&#39;/g, '"');
+        passengers_ssr = passengers_ssr.replace(/True/g, true);
+        passengers_ssr = passengers_ssr.replace(/False/g, false);
+        passengers_ssr = JSON.parse(passengers_ssr);
+    }catch(err){
+
+    }
 
     airline_signature = `{{signature}}`;
     signature = `{{signature}}`;
@@ -125,7 +129,7 @@
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="sell_ssrs_after_sales();" style="width:100%;">
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="{% if goto == 0 %} sell_ssrs_after_sales(); {% else %}assign_seats_after_sales(); {% endif %}" style="width:100%;">
                                 Proceed
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>

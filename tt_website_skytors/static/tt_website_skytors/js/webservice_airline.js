@@ -1727,11 +1727,11 @@ function set_passenger_seat_map_airline(val){
     document.getElementById('airline_passenger_detail_seat').innerHTML = text;
     try{
         show_seat_map(set_seat_show_segments,true);
-        console.log('asdasda');
+        airline_detail(type);
     }catch(err){
-
+        airline_detail('request_new');
     }
-    airline_detail(type);
+
 }
 
 function update_seat_passenger(segment, row, column,seat_code,seat_name, currency, amount,description){
@@ -2782,6 +2782,7 @@ function airline_issued(data){
 
                     airline_get_detail = msg;
                     total_price = 0;
+                    commission = 0;
                     //new price
                     text=`
                         <div style="background-color:#f15a22; margin-top:20px;">
@@ -2964,6 +2965,43 @@ function sell_ssrs_after_sales(){
        url: "/webservice/airline",
        headers:{
             'action': 'sell_ssrs',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'signature': airline_signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                airline_commit_booking(0);
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                alert(msg.result.error_msg);
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+           })
+
+           $('.btn-next').removeClass('running');
+           $('.btn-next').prop('disabled', false);
+       },timeout: 30000
+    });
+}
+
+function assign_seats_after_sales(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'assign_seats',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {

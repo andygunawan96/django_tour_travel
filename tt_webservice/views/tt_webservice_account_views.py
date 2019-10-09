@@ -58,6 +58,8 @@ def api_models(request):
             res = get_top_up(request)
         elif req_data['action'] == 'submit_top_up':
             res = submit_top_up(request)
+        elif req_data['action'] == 'commit_top_up':
+            res = commit_top_up(request)
         elif req_data['action'] == 'cancel_top_up':
             res = cancel_top_up(request)
         elif req_data['action'] == 'confirm_top_up':
@@ -203,7 +205,7 @@ def get_top_up_amount(request):
     try:
         request.session['top_up_amount'] = res['result']['response']
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_account SUCCESS SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("get_top_up_amount SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -226,7 +228,7 @@ def get_top_up(request):
                 top_up.update({
                     'due_date': convert_string_to_date_to_string_front_end_with_time(top_up['due_date'])
                 })
-            logging.getLogger("info_logger").info("get_balance SUCCESS SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("get_top_up SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -234,13 +236,13 @@ def get_top_up(request):
 def submit_top_up(request):
     try:
         data = {
-            'name': 'New',
-            'currency_code': request.POST['currency_code'],
+            # 'name': 'New',
+            # 'currency_code': request.POST['currency_code'],
             'amount': request.POST['amount'],
             # 'amount_count': int(request.POST['amount_count']),
-            'unique_amount': int(request.POST['unique_amount']),
-            'payment_seq_id': request.POST['seq_id'],
-            'fees': 0,
+            # 'unique_amount': int(request.POST['unique_amount']),
+            # 'payment_seq_id': request.POST['seq_id'],
+            # 'fees': 0,
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -254,7 +256,36 @@ def submit_top_up(request):
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_transactions SUCCESS SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("get_submit_top_up SUCCESS SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def commit_top_up(request):
+    try:
+        data = {
+            'seq_id': request.POST['seq_id'],
+        }
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data.update({
+            'member': member,
+        })
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "commit_top_up",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_commit_top_up SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
