@@ -128,7 +128,7 @@ function activity_search(){
                             <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
                             <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
                                 <div class="single-destination relative">
-                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.skytors.id/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('https://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                         <div class="overlay overlay-bg"></div>
                                         <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                     </div>

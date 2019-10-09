@@ -278,6 +278,21 @@ function activity_table_detail(){
                }
             }
        }
+       if(document.getElementById('infant_passenger'))
+        {
+            if(document.getElementById('infant_passenger').value != 0){
+               text+= `<div class="row">
+                            <div class="col-xs-3">Infant</div>
+                            <div class="col-xs-1">X</div>
+                            <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`</div>
+                            <div class="col-xs-3"></div>
+                            <div class="col-xs-4" style="text-align: right;">`;
+
+               text+= getrupiah(0);
+               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
+               text+= `</div></div>`;
+           }
+        }
    }catch(err){
 
    }

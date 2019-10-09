@@ -1176,12 +1176,12 @@ function sort(tour_dat){
 
            if (tour_dat[i].state_tour == 'sold')
            {
-               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].arrival_date;
+               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
                dat_content2 = `Sold Out`
            }
            else
            {
-               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].arrival_date;
+               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
                dat_content2 = `Availability: `+tour_dat[i].seat+`/`+tour_dat[i].quota;
            }
 

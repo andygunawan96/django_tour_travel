@@ -921,8 +921,8 @@ S2.define('select2/results',[
 
       $options.push($option);
 
-      if($options.length > 10)
-        break
+//      if($options.length > 10)
+//        break
     }
 
     this.$results.append($options);

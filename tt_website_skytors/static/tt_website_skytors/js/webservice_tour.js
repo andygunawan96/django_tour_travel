@@ -77,12 +77,12 @@ function tour_search(){
 
                    if (tour_data[i].state_tour == 'sold')
                    {
-                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].arrival_date;
+                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].return_date;
                        dat_content2 = `Sold Out`
                    }
                    else
                    {
-                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].arrival_date;
+                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].return_date;
                        dat_content2 = `Availability: `+tour_data[i].seat+`/`+tour_data[i].quota;
                    }
 
@@ -96,7 +96,7 @@ function tour_search(){
                         <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
                         <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
                             <div class="single-destination relative">
-                                <div class="thumb relative">
+                                <div class="thumb relative" style="margin: auto; width:100%; background-image: url('https://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                     <div class="overlay overlay-bg"></div>
                                     <img class="img-fluid" src="`+img_src+`" alt="">
                                 </div>
@@ -180,7 +180,7 @@ function tour_get_details(package_id){
                         country_text += `<span>Available Quota : ` + tour_data[i].seat + `</span><br/>`;
                     }
                     country_text += `<br/><span style="font-size: 14px;"><i class="fa fa-calendar" aria-hidden="true"></i> `;
-                    country_text += tour_data[i].departure_date_f + ` - ` + tour_data[i].arrival_date_f;
+                    country_text += tour_data[i].departure_date_f + ` - ` + tour_data[i].return_date_f;
                     country_text += `</span>`;
                     if (tour_data[i].duration)
                     {
@@ -310,7 +310,7 @@ function tour_get_details(package_id){
                             }
                             flight_details_text += `</td>`;
 
-                            flight_details_text += `<td colspan="2">`+tour_data[i].flight_segment_ids[k].destination_id+`<br/>`+tour_data[i].flight_segment_ids[k].arrival_date_fmt;
+                            flight_details_text += `<td colspan="2">`+tour_data[i].flight_segment_ids[k].destination_id+`<br/>`+tour_data[i].flight_segment_ids[k].return_date_fmt;
                             if(tour_data[i].flight_segment_ids[k].destination_terminal)
                             {
                                 flight_details_text += `<br/>Terminal : ` + tour_data[i].flight_segment_ids[k].destination_terminal;
@@ -741,7 +741,7 @@ function tour_get_booking(order_number)
            document.getElementById('tour_book_breadcrumb').innerHTML += breadcrumb_txt;
            document.getElementById('state_title').innerHTML += 'Your Order Has Been ' + cur_state + '!';
            document.getElementById('tour_data_name').innerHTML += tour_package.name;
-           document.getElementById('tour_data_dates').innerHTML += ' ' + tour_package.departure_date_f + ' - ' + tour_package.arrival_date_f;
+           document.getElementById('tour_data_dates').innerHTML += ' ' + tour_package.departure_date_f + ' - ' + tour_package.return_date_f;
            document.getElementById('tour_data_duration').innerHTML += ' ' + tour_package.duration + ' Days';
            document.getElementById('tour_data_flight_visa').innerHTML += tour_package.flight + ' Flight, ' + tour_package.visa + ' Visa';
            document.getElementById('tour_order_detail').innerHTML += order_detail_txt;
