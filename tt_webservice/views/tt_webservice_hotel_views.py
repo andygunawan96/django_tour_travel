@@ -262,7 +262,8 @@ def detail(request):
 def get_cancellation_policy(request):
     try:
         data = {
-            "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
+            # "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
+            "hotel_code": request.session['hotel_detail']['id'],
             "price_code": request.POST['price_code'],
             "provider": request.POST['provider']
         }

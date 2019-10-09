@@ -369,11 +369,11 @@ def review(request):
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
             'last_name': request.POST['booker_last_name'],
-            'nationality_code': request.POST['booker_nationality'],
+            'nationality_name': request.POST['booker_nationality'],
             'email': request.POST['booker_email'],
             'calling_code': request.POST['booker_phone_code'],
             'mobile': request.POST['booker_phone'],
-            'booker_id': request.POST['booker_id']
+            'booker_seq_id': request.POST['booker_id']
         }
 
         perpax_list = []
@@ -384,15 +384,16 @@ def review(request):
             adult.append({
                 "first_name": request.POST['adult_first_name'+str(i+1)],
                 "last_name": request.POST['adult_last_name'+str(i+1)],
-                "nationality_code": request.POST['adult_nationality'+str(i+1)],
+                "nationality_name": request.POST['adult_nationality'+str(i+1)],
                 "title": request.POST['adult_title'+str(i+1)],
                 "pax_type": "ADT",
                 "pax_type_str": "Adult",
                 "birth_date": request.POST['adult_birth_date'+str(i+1)],
-                "passport_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
-                "passport_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
-                "country_of_issued_code": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
-                "passenger_id": request.POST['adult_id'+str(i+1)],
+                "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['adult_id'+str(i+1)],
+                "identity_type": "passport",
                 "sku_id": request.POST['adult_sku_id'+str(i+1)],
                 "sku_title": request.POST['adult_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['adult_sku_real_id' + str(i + 1)],
@@ -612,7 +613,7 @@ def review(request):
                         "email": request.POST['adult_email' + str(i + 1)],
                         "calling_code": request.POST['adult_phone_code' + str(i + 1)],
                         "mobile": request.POST['adult_phone' + str(i + 1)],
-                        "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                        "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                         "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                     })
                 if i == 0:
@@ -635,8 +636,8 @@ def review(request):
                 'email': request.POST['booker_email'],
                 'calling_code': request.POST['booker_phone_code'],
                 'mobile': request.POST['booker_phone'],
-                'nationality_code': request.POST['booker_nationality'],
-                'contact_id': request.POST['booker_id'],
+                'nationality_name': request.POST['booker_nationality'],
+                'contact_seq_id': request.POST['booker_id'],
                 'is_also_booker': True
             })
 
@@ -647,15 +648,16 @@ def review(request):
             senior.append({
                 "first_name": request.POST['senior_first_name'+str(i+1)],
                 "last_name": request.POST['senior_last_name'+str(i+1)],
-                "nationality_code": request.POST['senior_nationality'+str(i+1)],
+                "nationality_name": request.POST['senior_nationality'+str(i+1)],
                 "title": request.POST['senior_title'+str(i+1)],
                 "pax_type": "YCD",
                 "pax_type_str": "Senior",
                 "birth_date": request.POST['senior_birth_date'+str(i+1)],
-                "passport_number": request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '',
-                "passport_expdate": request.POST.get('senior_passport_expired_date' + str(i + 1)) and request.POST['senior_passport_expired_date' + str(i + 1)] or '',
-                "country_of_issued_code": request.POST.get('senior_country_of_issued' + str(i + 1)) and request.POST['senior_country_of_issued' + str(i + 1)] or '',
-                "passenger_id": request.POST['senior_id'+str(i+1)],
+                "identity_number": request.POST.get('senior_passport_number' + str(i + 1)) and request.POST['senior_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('senior_passport_expired_date' + str(i + 1)) and request.POST['senior_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('senior_country_of_issued' + str(i + 1)) and request.POST['senior_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['senior_id'+str(i+1)],
+                "identity_type": "passport",
                 "sku_id": request.POST['senior_sku_id' + str(i + 1)],
                 "sku_title": request.POST['senior_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['senior_sku_real_id' + str(i + 1)],
@@ -826,18 +828,20 @@ def review(request):
             child.append({
                 "first_name": request.POST['child_first_name'+str(i+1)],
                 "last_name": request.POST['child_last_name'+str(i+1)],
-                "nationality_code": request.POST['child_nationality'+str(i+1)],
+                "nationality_name": request.POST['child_nationality'+str(i+1)],
                 "title": request.POST['child_title'+str(i+1)],
                 "pax_type": "CHD",
                 "pax_type_str": "Child",
                 "birth_date": request.POST['child_birth_date'+str(i+1)],
-                "passport_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
-                "passport_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
-                "country_of_issued_code": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
-                "passenger_id": request.POST['child_id'+str(i+1)],
+                "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['child_id'+str(i+1)],
+                "identity_type": "passport",
                 "sku_id": request.POST['child_sku_id' + str(i + 1)],
                 "sku_title": request.POST['child_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
+
             })
 
             # perpax
@@ -1005,15 +1009,16 @@ def review(request):
             infant.append({
                 "first_name": request.POST['infant_first_name'+str(i+1)],
                 "last_name": request.POST['infant_last_name'+str(i+1)],
-                "nationality_code": request.POST['infant_nationality'+str(i+1)],
+                "nationality_name": request.POST['infant_nationality'+str(i+1)],
                 "title": request.POST['infant_title'+str(i+1)],
                 "pax_type": "INF",
                 "pax_type_str": "Infant",
                 "birth_date": request.POST['infant_birth_date'+str(i+1)],
-                "passport_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
-                "passport_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
-                "country_of_issued_code": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
-                "passenger_id": request.POST['infant_id'+str(i+1)],
+                "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['infant_id'+str(i+1)],
+                "identity_type": "passport",
                 "sku_id": request.POST['infant_sku_id' + str(i + 1)],
                 "sku_title": request.POST['infant_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['infant_sku_real_id' + str(i + 1)],

@@ -566,7 +566,7 @@ function airline_search(provider,carrier_codes){
                 text += `
                     <div style="padding:5px; margin:10px;">
                         <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/img/icon/no-flight.jpeg" style="width:80px; height:80px;" alt="" title="" />
+                        <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
                         <br/><br/>
                         <h6>NO FLIGHT AVAILABLE</h6>
                         </div>
@@ -2711,7 +2711,7 @@ function airline_issued(data){
                     alert(msg.result.error_msg);
                     //modal pop up
 
-                    booking_price_detail(msg);
+//                    booking_price_detail(msg);
                     tax = 0;
                     fare = 0;
                     total_price = 0;

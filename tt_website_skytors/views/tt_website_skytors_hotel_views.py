@@ -54,6 +54,7 @@ def search(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
+            'time_limit': 600,
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -67,6 +68,8 @@ def detail(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         template, logo = get_logo_template()
+
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -87,6 +90,7 @@ def detail(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
+            'time_limit': request.session['time_limit'],
             'rating': range(request.session['hotel_detail']['rating']),
         }
 
@@ -112,6 +116,8 @@ def passengers(request):
         response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
 
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -130,7 +136,7 @@ def passengers(request):
         for i in range(int(request.session['hotel_request']['child'])):
             child.append()
         request.session['hotel_request'].update({
-            'check_in': request.POST.get('chekin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+            'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
             'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
@@ -149,6 +155,7 @@ def passengers(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
@@ -161,6 +168,8 @@ def review(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
+
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         adult = []
         child = []
@@ -223,6 +232,7 @@ def review(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -237,9 +247,8 @@ def booking(request):
         javascript_version = get_cache_version()
         template, logo = get_logo_template()
 
-        resv_obj = json.loads(request.POST['result'])['result']
-
-        if resv_obj['response']:
+        resv_obj = json.loads(request.POST['result'])['result']['response']
+        if resv_obj:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
@@ -255,6 +264,14 @@ def booking(request):
             }
             return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
         else:
-            return no_session_logout()
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'username': request.session['user_account'],
+                # 'co_uid': request.session['co_user_name'],
+                'javascript_version': javascript_version,
+                'logo': logo,
+                'template': template,
+            }
+            return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
     else:
         return no_session_logout()
