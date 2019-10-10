@@ -357,17 +357,21 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                         low_sku_id = activity_type[activity_type_pick].skus[i].sku_id.toLowerCase();
                         text+= `<div class="col-lg-3">
                             <input type="hidden" id="sku_id" name="sku_id" value="`+activity_type[activity_type_pick].skus[i].sku_id+`"/>
-                            <label>`+activity_type[activity_type_pick].skus[i].title+`</label><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Age Range: `+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old" style="padding-left:5px;"></i>
+                            <label>`+activity_type[activity_type_pick].skus[i].title+`</label>
                             <div class="input-container-search-ticket">
-                                <div class="form-select">
+                                <div class="form-select" style="margin-bottom:5px;">
                                     <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
                                     for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
                                     text+=`
                                         <option>`+j+`</option>`;
                                     text+=`</select>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                        if(activity_type[activity_type_pick].skus[i].minAge)
+                        {
+                            text+= `<small id="activity_age_range" class="hidden">(`+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old)</small>`;
+                        }
+                        text+= `</div>`;
                    }
                    document.getElementById('pax').innerHTML = text;
                    $('select').niceSelect();
@@ -875,25 +879,29 @@ function activity_get_booking(data){
                         </div>
                     </div>
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-4">
-
-                        </div>
-                        <div align="center" class="col-lg-4" id="voucher">`;
+                        <div class="col-lg-4" id="voucher">`;
                if (msg.result.response.voucher_url)
                {
                     text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
-                                Voucher
+                                Print Ticket
                              </button>`;
                }
                else
                {
                     text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
-                                Voucher
+                                Print Ticket
                             </button>`;
                }
                text += `</div>
                         <div class="col-lg-4">
-
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/1')" style="width:100%;">
+                                Print Itinerary Form
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+                            <button class="primary-btn hold-seat-booking-train" type="button" style="width:100%;">
+                                Print Invoice
+                            </button>
                         </div>
                     </div>
                `;

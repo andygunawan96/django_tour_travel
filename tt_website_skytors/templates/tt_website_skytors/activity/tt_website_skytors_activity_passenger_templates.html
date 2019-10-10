@@ -294,10 +294,10 @@
                                     </label>
 
                                     <br/>
-                                    <label>Passenger Data</label><br/>
+                                    <label>Guest Data</label><br/>
                                     <ul>
-                                        <li>1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM</li>
-                                        <li>2. Passenger data can't be changed after the passing of this page</li>
+                                        <li>1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM</li>
+                                        <li>2. Guest data can't be changed after the passing of this page</li>
                                     </ul>
                                 </div>
                             </div>
@@ -309,7 +309,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Adult - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                            <h6 style="color:white;">Adult Guest - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -558,7 +558,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Senior - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                            <h6 style="color:white;">Senior Guest - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -801,7 +801,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Child - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                            <h6 style="color:white;">Child Guest - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -1014,7 +1014,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Infant - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                            <h6 style="color:white;">Infant Guest - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>

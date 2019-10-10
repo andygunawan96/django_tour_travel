@@ -258,7 +258,7 @@ function activity_table_detail(){
                                 <div class="col-xs-1">X</div>
                                 <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`</div>
                                 <div class="col-xs-3"></div>
-                                <div class="col-xs-4" style="text-align: right;">`;
+                                <div class="col-xs-4" style="text-align: right;">IDR `;
 
                    if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
                    {
@@ -279,20 +279,20 @@ function activity_table_detail(){
             }
        }
        if(document.getElementById('infant_passenger'))
-        {
+       {
             if(document.getElementById('infant_passenger').value != 0){
                text+= `<div class="row">
                             <div class="col-xs-3">Infant</div>
                             <div class="col-xs-1">X</div>
                             <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`</div>
                             <div class="col-xs-3"></div>
-                            <div class="col-xs-4" style="text-align: right;">`;
+                            <div class="col-xs-4" style="text-align: right;">IDR `;
 
                text+= getrupiah(0);
                $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
                text+= `</div></div>`;
            }
-        }
+       }
    }catch(err){
 
    }
@@ -308,20 +308,20 @@ function activity_table_detail(){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+additional_price+`</div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+0+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+0+`</div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-4" style="text-align: right;">`+getrupiah(grand_total)+`</div>
+                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
            </div>
            <div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
@@ -400,7 +400,7 @@ function activity_table_detail2(pagetype){
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`+skus[sku].sku_title+`</div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`</div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">`;
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">IDR `;
 
                if(passenger[low_sku_id] in skus[sku])
                {
@@ -419,6 +419,18 @@ function activity_table_detail2(pagetype){
                text+= `</div></div>`;
            }
        }
+       if (passenger['infant'] && passenger['infant'] != 0)
+       {
+           text+= `<div class="row">
+                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Infant</div>
+                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
+                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger['infant']+`</div>
+                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">IDR `;
+
+           text+= getrupiah(0);
+           $test += passenger['infant'].toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
+           text+= `</div></div>`;
+       }
 
    }catch(err){
 
@@ -435,20 +447,20 @@ function activity_table_detail2(pagetype){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+additional_price+`</div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>`+0+`</div>
+                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+0+`</div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-4" style="text-align: right;">`+getrupiah(grand_total)+`</div>
+                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
            </div>
 
            <div class="row">
@@ -784,26 +796,32 @@ function check_passenger(adult, senior, child, infant){
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
            if(document.getElementById('adult_first_name'+i).value == '')
-               error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+               error_log+= 'Please input first name of adult guest '+i+'!</br>\n';
            else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+               error_log+= 'Please use alpha characters first name of adult guest '+i+'!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_last_name'+i).value != ''){
            if(check_word(document.getElementById('adult_last_name'+i).value) == false)
-               error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
-           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+           {
+                error_log+= 'Please use alpha characters last name of adult guest '+i+'!</br>\n';
+                document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+           }
+           else
+           {
+                document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+           }
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+           error_log+= 'Birth date wrong for adult guest '+i+'!</br>\n';
            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
+           error_log+= 'Please fill nationality for adult guest '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -811,17 +829,17 @@ function check_passenger(adult, senior, child, infant){
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
           document.getElementById('adult_country_of_issued'+i).value != ''){
            if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill passport number for adult guest '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill passport expired date for adult guest '+i+'!</br>\n';
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill country of issued for adult guest '+i+'!</br>\n';
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -837,12 +855,12 @@ function check_passenger(adult, senior, child, infant){
                     //use regex bemyguest
                     if(detail.perPax[j].formatRegex != false){
                         if(check_regex(document.getElementById('adult_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
                     }
                     //no regex
                     else if(detail.perPax[j].inputType == 1){
                         if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
                     }else if(detail.perPax[j].inputType == 2){
                         k_item_count = 1
                         for(k in detail.perPax[j].items){
@@ -853,19 +871,19 @@ function check_passenger(adult, senior, child, infant){
                             k_item_count += 1;
                         }
                         if(check==0)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
                         check=0;
                     }else if(detail.perPax[j].inputType == 3)
                         if(check_number(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 4)
                         if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 6)
                         if(check_date(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 7){
                         console.log(document.getElementById('adult_perpax'+i+'_'+perpax_count));
@@ -875,37 +893,37 @@ function check_passenger(adult, senior, child, infant){
 
                     }else if(detail.perPax[j].inputType == 10)
                         if(check_time(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 11)
                         if(check_date_time(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 12)
                         if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 14)
                         if(check_flight(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 50)
                         if(check_word(document.getElementById('adult_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
                 }
            }
            else if(detail.perPax[j].name == 'Passport number')
            {
                if(detail.perPax[j].required == true){
                    if(document.getElementById('adult_passport_number'+i).value=='')
-                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
                }
            }
            else if(detail.perPax[j].name == 'Passport expiry date')
            {
                if(detail.perPax[j].required == true){
                    if(document.getElementById('adult_passport_expired_date'+i).value=='')
-                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger adult '+i+'</br>\n';
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for adult guest '+i+'</br>\n';
                }
            }
            perpax_count += 1;
@@ -926,26 +944,32 @@ function check_passenger(adult, senior, child, infant){
            document.getElementById('senior_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('senior_first_name'+i).value == '' || check_word(document.getElementById('senior_first_name'+i).value) == false){
            if(document.getElementById('senior_first_name'+i).value == '')
-               error_log+= 'Please input first name of senior passenger '+i+'!</br>\n';
+               error_log+= 'Please input first name of senior guest '+i+'!</br>\n';
            else if(check_word(document.getElementById('senior_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of senior passenger '+i+'!</br>\n';
+               error_log+= 'Please use alpha characters first name of senior guest '+i+'!</br>\n';
            document.getElementById('senior_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('senior_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('senior_last_name'+i).value != ''){
            if(check_word(document.getElementById('senior_last_name'+i).value) == false)
-               error_log+= 'Please use alpha characters last name of senior passenger '+i+'!</br>\n';
-           document.getElementById('senior_last_name'+i).style['border-color'] = 'red';
+           {
+                error_log+= 'Please use alpha characters last name of senior guest '+i+'!</br>\n';
+                document.getElementById('senior_last_name'+i).style['border-color'] = 'red';
+           }
+           else
+           {
+                document.getElementById('senior_last_name'+i).style['border-color'] = '#EFEFEF';
+           }
        }else{
            document.getElementById('senior_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('senior_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger senior '+i+'!</br>\n';
+           error_log+= 'Birth date wrong for senior guest '+i+'!</br>\n';
            document.getElementById('senior_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('senior_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('senior_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger senior '+i+'!</br>\n';
+           error_log+= 'Please fill nationality for senior guest '+i+'!</br>\n';
            document.getElementById('senior_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('senior_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -953,17 +977,17 @@ function check_passenger(adult, senior, child, infant){
           document.getElementById('senior_passport_expired_date'+i).value != '' ||
           document.getElementById('senior_country_of_issued'+i).value != ''){
            if(document.getElementById('senior_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger senior '+i+'!</br>\n';
+               error_log+= 'Please fill passport number for senior guest '+i+'!</br>\n';
                document.getElementById('senior_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('senior_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('senior_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger senior '+i+'!</br>\n';
+               error_log+= 'Please fill passport expired date for senior guest '+i+'!</br>\n';
                document.getElementById('senior_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('senior_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('senior_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger senior '+i+'!</br>\n';
+               error_log+= 'Please fill country of issued for senior guest '+i+'!</br>\n';
                document.getElementById('senior_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('senior_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -976,12 +1000,12 @@ function check_passenger(adult, senior, child, infant){
                     //use regex bemyguest
                     if(detail.perPax[j].formatRegex != false){
                         if(check_regex(document.getElementById('senior_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
                     }
                     //no regex
                     else if(detail.perPax[j].inputType == 1){
                         if(document.getElementById('senior_perpax'+i+'_'+perpax_count).value=='')
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
                     }else if(detail.perPax[j].inputType == 2){
                         k_item_count = 1
                         for(k in detail.perPax[j].items){
@@ -992,19 +1016,19 @@ function check_passenger(adult, senior, child, infant){
                             k_item_count += 1;
                         }
                         if(check==0)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
                         check=0;
                     }else if(detail.perPax[j].inputType == 3)
                         if(check_number(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 4)
                         if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 6)
                         if(check_date(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 7){
 
@@ -1014,37 +1038,37 @@ function check_passenger(adult, senior, child, infant){
 
                     }else if(detail.perPax[j].inputType == 10)
                         if(check_time(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 11)
                         if(check_date_time(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 12)
                         if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 14)
                         if(check_flight(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 50)
                         if(check_word(document.getElementById('senior_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
                 }
            }
            else if(detail.perPax[j].name == 'Passport number')
            {
                if(detail.perPax[j].required == true){
                    if(document.getElementById('senior_passport_number'+i).value=='')
-                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
                }
            }
            else if(detail.perPax[j].name == 'Passport expiry date')
            {
                if(detail.perPax[j].required == true){
                    if(document.getElementById('senior_passport_expired_date'+i).value=='')
-                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger senior '+i+'</br>\n';
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for senior guest '+i+'</br>\n';
                }
            }
            perpax_count += 1;
@@ -1065,26 +1089,32 @@ function check_passenger(adult, senior, child, infant){
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_first_name'+i).value == '' || check_word(document.getElementById('child_first_name'+i).value) == false){
            if(document.getElementById('child_first_name'+i).value == '')
-               error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
+               error_log+= 'Please input first name of child guest '+i+'!</br>\n';
            else if(check_word(document.getElementById('child_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
+               error_log+= 'Please use alpha characters first name of child guest '+i+'!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value != ''){
            if(check_word(document.getElementById('child_last_name'+i).value) == false)
-               error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
-           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+           {
+                error_log+= 'Please use alpha characters last name of child guest '+i+'!</br>\n';
+                document.getElementById('child_last_name'+i).style['border-color'] = 'red';
+           }
+           else
+           {
+                document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
+           }
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('child_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
+           error_log+= 'Birth date wrong for child guest '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
+           error_log+= 'Please fill nationality for child guest '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -1092,17 +1122,17 @@ function check_passenger(adult, senior, child, infant){
           document.getElementById('child_passport_expired_date'+i).value != '' ||
           document.getElementById('child_country_of_issued'+i).value != ''){
            if(document.getElementById('child_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
+               error_log+= 'Please fill passport number for child guest '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
+               error_log+= 'Please fill passport expired date for child guest '+i+'!</br>\n';
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
+               error_log+= 'Please fill country of issued for child guest '+i+'!</br>\n';
                document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -1115,12 +1145,12 @@ function check_passenger(adult, senior, child, infant){
                     //use regex bemyguest
                     if(detail.perPax[j].formatRegex != false){
                         if(check_regex(document.getElementById('child_perpax'+i+'_'+perpax_count).value, detail.perPax[j].formatRegex)==false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                     }
                     //no regex
                     else if(detail.perPax[j].inputType == 1){
                         if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                     }else if(detail.perPax[j].inputType == 2){
                         k_item_count = 1
                         for(k in detail.perPax[j].items){
@@ -1131,19 +1161,19 @@ function check_passenger(adult, senior, child, infant){
                             k_item_count += 1;
                         }
                         if(check==0)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                         check=0;
                     }else if(detail.perPax[j].inputType == 3)
                         if(check_number(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 4)
                         if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 6)
                         if(check_date(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 7){
 
@@ -1153,37 +1183,37 @@ function check_passenger(adult, senior, child, infant){
 
                     }else if(detail.perPax[j].inputType == 10)
                         if(check_time(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 11)
                         if(check_date_time(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 12)
                         if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 14)
                         if(check_flight(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
 
                     else if(detail.perPax[j].inputType == 50)
                         if(check_word(document.getElementById('child_perpax'+i+'_'+perpax_count).value) == false)
-                            error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                            error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                 }
            }
            else if(detail.perPax[j].name == 'Passport number')
            {
                if(detail.perPax[j].required == true){
                    if(document.getElementById('child_passport_number'+i).value=='')
-                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                }
            }
            else if(detail.perPax[j].name == 'Passport expiry date')
            {
                if(detail.perPax[j].required == true){
                    if(document.getElementById('child_passport_expired_date'+i).value=='')
-                       error_log+= 'Please check your '+detail.perPax[j].name+' for passenger child '+i+'</br>\n';
+                       error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                }
            }
            perpax_count += 1;
@@ -1204,26 +1234,32 @@ function check_passenger(adult, senior, child, infant){
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_first_name'+i).value == '' || check_word(document.getElementById('infant_first_name'+i).value) == false){
            if(document.getElementById('infant_first_name'+i).value == '')
-               error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
+               error_log+= 'Please input first name of infant guest '+i+'!</br>\n';
            else if(check_word(document.getElementById('infant_first_name'+i).value) == false)
-               error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
+               error_log+= 'Please use alpha characters first name of infant guest '+i+'!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value != ''){
            if(check_word(document.getElementById('infant_last_name'+i).value) == false)
-               error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
-           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+           {
+                error_log+= 'Please use alpha characters last name of infant guest '+i+'!</br>\n';
+                document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+           }
+           else
+           {
+                document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+           }
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }
        if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
+           error_log+= 'Birth date wrong for infant guest '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
+           error_log+= 'Please fill nationality for infant guest '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -1231,17 +1267,17 @@ function check_passenger(adult, senior, child, infant){
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
           document.getElementById('infant_country_of_issued'+i).value != ''){
            if(document.getElementById('infant_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
+               error_log+= 'Please fill passport number for infant guest '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
+               error_log+= 'Please fill passport expired date for infant guest '+i+'!</br>\n';
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+               error_log+= 'Please fill country of issued for infant guest '+i+'!</br>\n';
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
