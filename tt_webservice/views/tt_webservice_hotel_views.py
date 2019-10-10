@@ -328,21 +328,35 @@ def provision(request):
 def create_booking(request):
     try:
         passenger = []
-
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         for pax in request.session['hotel_review_pax']['adult']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
+            if pax['nationality_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_name'] == country['name']:
+                        pax['nationality_code'] = country['code']
+                        break
             passenger.append(pax)
         for pax in request.session['hotel_review_pax']['child']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0])
-            })
+            if pax['nationality_name'] != '':
+                for country in response['result']['response']['airline']['country']:
+                    if pax['nationality_name'] == country['name']:
+                        pax['nationality_code'] = country['code']
+                        break
             passenger.append(pax)
+        booker = request.session['hotel_review_pax']['booker']
+        contacts = request.session['hotel_review_pax']['contact']
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                booker['country_code'] = country['code']
+                break
 
+        for pax in contacts:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         data = {
             "passengers": passenger,
             'user_id': request.session.get('co_uid') or '',
@@ -357,7 +371,8 @@ def create_booking(request):
             # }],
             # Must set as list prepare buat issued multi vendor
             'price_codes': [request.session['hotel_room_pick']['price_code'],],
-            "contact": request.session['hotel_review_pax']['booker'],
+            "contact": contacts,
+            "booker": booker,
             'kwargs': {
                 'force_issued': 'False'
             },

@@ -288,18 +288,29 @@ def update_passengers(request):
                     if pax['nationality_name'] == country['name']:
                         pax['identity_country_of_issued_code'] = country['code']
                         break
-            if pax['passport_expdate'] != '':
-                try:
-                    pax.update({
-                        'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                    pax['passport_expdate'].split(' ')[0])
-                    })
-                except:
-                    print('no passport exp date')
-            else:
+            pax.update({
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
+            })
+            if pax['identity_expdate'] != '':
                 pax.update({
-                    "identity_type": ""
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
                 })
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_country_of_issued_code')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
             pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
             pax['required'] = master_visa_id[len(passengers)]['required']
             passengers.append(pax)
@@ -319,14 +330,29 @@ def update_passengers(request):
             pax.update({
                 'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
             })
-            if pax['passport_expdate'] != '':
-                try:
-                    pax.update({
-                        'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                    pax['passport_expdate'].split(' ')[0])
-                    })
-                except:
-                    print('no passport exp date')
+            pax.update({
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
+            })
+            if pax['identity_expdate'] != '':
+                pax.update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
+                })
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_country_of_issued_code')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
             pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
             pax['required'] = master_visa_id[len(passengers)]['required']
             passengers.append(pax)
@@ -346,14 +372,29 @@ def update_passengers(request):
             pax.update({
                 'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
             })
-            if pax['passport_expdate'] != '':
-                try:
-                    pax.update({
-                        'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                    pax['passport_expdate'].split(' ')[0])
-                    })
-                except:
-                    print('no passport exp date')
+            pax.update({
+                'birth_date': '%s-%s-%s' % (
+                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                    pax['birth_date'].split(' ')[0]),
+            })
+            if pax['identity_expdate'] != '':
+                pax.update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                        pax['identity_expdate'].split(' ')[0])
+                })
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_country_of_issued_code')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
             pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
             pax['required'] = master_visa_id[len(passengers)]['required']
             passengers.append(pax)

@@ -305,8 +305,10 @@ def signin(request):
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    return 'login' in res_user['result']['response']['co_agent_frontend_security']
+    try:
+        return 'login' in res_user['result']['response']['co_agent_frontend_security']
+    except:
+        return False
 
 def get_url():
     return url_web
