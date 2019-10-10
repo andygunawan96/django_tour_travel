@@ -109,7 +109,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="get_customer_list('Booker','1','train')">Search <i class="fas fa-search"></i></button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="get_customer_list('booker','1','train')">Search <i class="fas fa-search"></i></button>
                                                         <div class="row" id="loading-booker-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -279,7 +279,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
@@ -292,7 +292,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('Adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-pax-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -455,7 +455,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
@@ -468,7 +468,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('Child',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-paxc-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
@@ -603,7 +603,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
@@ -617,7 +617,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('Infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
                                                         <div class="row" id="loading-paxi-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
