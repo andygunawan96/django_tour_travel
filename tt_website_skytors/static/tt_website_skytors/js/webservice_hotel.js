@@ -169,7 +169,9 @@ function get_top_facility(){
             'action': 'get_top_facility',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
         console.log(msg);
         top_facility = msg.result.response;

@@ -751,26 +751,66 @@ function add_multi_city(type){
               autoUpdateInput: true,
               opens: 'center',
               startDate: airline_request.departure[counter_airline_search-1],
-              minDate: moment(),
+              minDate: airline_request.departure[counter_airline_search-1],
               maxDate: moment().subtract(-365, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
               }
             });
-        }else
+        }else{
+            min_date = '';
+            try{
+                if($("#airline_departure"+parseInt(counter_airline_search - 1).toString()).val() != undefined)
+                    min_date = $("#airline_departure"+parseInt(counter_airline_search - 1).toString()).val();
+                else
+                    min_date = $("#airline_departure").val()
+            }catch(err){
+                min_date = $("#airline_departure").val()
+            }
             $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               opens: 'center',
-              startDate: $("#airline_departure").val(),
-              minDate: moment(),
+              startDate: min_date,
+              minDate: min_date,
               maxDate: moment().subtract(-365, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
               }
             });
+        }
+
+        $('input[name="airline_departure'+counter_airline_search+'"]').change(function() {
+            val = parseInt(this.id.replace ( /[^\d.]/g, '' ));
+            for(i=val;i<=counter_airline_search;i++){
+                if(i != val){
+                    min_date = '';
+                    try{
+                        if($("#airline_departure"+(i-1).toString()).val() != undefined)
+                            min_date = $("#airline_departure"+(i-1).toString()).val();
+                        else
+                            min_date = $("#airline_departure").val()
+                    }catch(err){
+                        min_date = $("#airline_departure").val()
+                    }
+                    $('input[name="airline_departure'+i+'"]').daterangepicker({
+                      singleDatePicker: true,
+                      autoUpdateInput: true,
+                      opens: 'center',
+                      startDate: min_date,
+                      minDate: min_date,
+                      maxDate: moment().subtract(-365, 'days'),
+                      showDropdowns: true,
+                      locale: {
+                          format: 'DD MMM YYYY',
+                      }
+                    });
+                }
+            }
+        });
+
         var temp_origin = new autoComplete({
             selector: '#origin_id_flight'+counter_airline_search,
             minChars: 0,

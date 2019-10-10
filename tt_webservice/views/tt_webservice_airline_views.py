@@ -730,7 +730,7 @@ def update_passengers(request):
 
             if pax['identity_country_of_issued_name'] != '':
                 for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_name'] == country['name']:
+                    if pax['identity_country_of_issued_name'] == country['name']:
                         pax['identity_country_of_issued_code'] = country['code']
                         break
             pax.update({
@@ -744,10 +744,20 @@ def update_passengers(request):
                         pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
                         pax['identity_expdate'].split(' ')[0])
                 })
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+
             else:
-                pax.update({
-                    "identity_type": ""
-                })
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_country_of_issued_code')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
             passenger.append(pax)
         for pax in request.session['airline_create_passengers']['child']:
             pax.update({
@@ -761,6 +771,18 @@ def update_passengers(request):
                         pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
                         pax['identity_expdate'].split(' ')[0])
                 })
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_country_of_issued_code')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
             passenger.append(pax)
         for pax in request.session['airline_create_passengers']['infant']:
             pax.update({
@@ -774,6 +796,18 @@ def update_passengers(request):
                         pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
                         pax['identity_expdate'].split(' ')[0])
                 })
+                pax['identity'] = {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": pax.pop('identity_type'),
+                }
+            else:
+                pax.pop('identity_country_of_issued_name')
+                pax.pop('identity_country_of_issued_code')
+                pax.pop('identity_expdate')
+                pax.pop('identity_number')
+                pax.pop('identity_type')
             passenger.append(pax)
         data = {
             'passengers': passenger

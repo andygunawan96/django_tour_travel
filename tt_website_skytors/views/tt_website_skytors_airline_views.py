@@ -452,7 +452,7 @@ def ssr(request):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
-                    'contact_id': request.POST['booker_id'],
+                    'contact_seq_id': request.POST['booker_id'],
                     'is_also_booker': True
                 })
 
@@ -723,7 +723,7 @@ def seat_map(request):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
-                    'contact_id': request.POST['booker_id'],
+                    'contact_seq_id': request.POST['booker_id'],
                     'is_also_booker': True
                 })
 
@@ -1156,7 +1156,7 @@ def review(request):
                     'calling_code': request.POST['booker_phone_code'],
                     'mobile': request.POST['booker_phone'],
                     'nationality_name': request.POST['booker_nationality'],
-                    'contact_id': request.POST['booker_id'],
+                    'contact_seq_id': request.POST['booker_id'],
                     'is_also_booker': True
                 })
 
