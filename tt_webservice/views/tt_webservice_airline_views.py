@@ -721,94 +721,47 @@ def update_passengers(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         passenger = []
-        for pax in request.session['airline_create_passengers']['adult']:
-            if pax['nationality_name'] != '':
-                for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_name'] == country['name']:
-                        pax['nationality_code'] = country['code']
-                        break
+        for pax_type in request.session['airline_create_passengers']:
+            if pax_type != 'booker' and pax_type != 'contact':
+                for pax in request.session['airline_create_passengers'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
 
-            if pax['identity_country_of_issued_name'] != '':
-                for country in response['result']['response']['airline']['country']:
-                    if pax['identity_country_of_issued_name'] == country['name']:
-                        pax['identity_country_of_issued_code'] = country['code']
-                        break
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-            })
-            if pax['identity_expdate'] != '':
-                pax.update({
-                    'identity_expdate': '%s-%s-%s' % (
-                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                        pax['identity_expdate'].split(' ')[0])
-                })
-                pax['identity'] = {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                    "identity_expdate": pax.pop('identity_expdate'),
-                    "identity_number": pax.pop('identity_number'),
-                    "identity_type": pax.pop('identity_type'),
-                }
+                    if pax['identity_country_of_issued_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['identity_country_of_issued_name'] == country['name']:
+                                pax['identity_country_of_issued_code'] = country['code']
+                                break
+                    pax.update({
+                        'birth_date': '%s-%s-%s' % (
+                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                            pax['birth_date'].split(' ')[0]),
+                    })
+                    if pax['identity_expdate'] != '':
+                        pax.update({
+                            'identity_expdate': '%s-%s-%s' % (
+                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                pax['identity_expdate'].split(' ')[0])
+                        })
+                        pax['identity'] = {
+                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                            "identity_expdate": pax.pop('identity_expdate'),
+                            "identity_number": pax.pop('identity_number'),
+                            "identity_type": pax.pop('identity_type'),
+                        }
 
-            else:
-                pax.pop('identity_country_of_issued_name')
-                pax.pop('identity_country_of_issued_code')
-                pax.pop('identity_expdate')
-                pax.pop('identity_number')
-                pax.pop('identity_type')
-            passenger.append(pax)
-        for pax in request.session['airline_create_passengers']['child']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-            })
-            if pax['identity_expdate'] != '':
-                pax.update({
-                    'identity_expdate': '%s-%s-%s' % (
-                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                        pax['identity_expdate'].split(' ')[0])
-                })
-                pax['identity'] = {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                    "identity_expdate": pax.pop('identity_expdate'),
-                    "identity_number": pax.pop('identity_number'),
-                    "identity_type": pax.pop('identity_type'),
-                }
-            else:
-                pax.pop('identity_country_of_issued_name')
-                pax.pop('identity_country_of_issued_code')
-                pax.pop('identity_expdate')
-                pax.pop('identity_number')
-                pax.pop('identity_type')
-            passenger.append(pax)
-        for pax in request.session['airline_create_passengers']['infant']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-            })
-            if pax['identity_expdate'] != '':
-                pax.update({
-                    'identity_expdate': '%s-%s-%s' % (
-                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                        pax['identity_expdate'].split(' ')[0])
-                })
-                pax['identity'] = {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                    "identity_expdate": pax.pop('identity_expdate'),
-                    "identity_number": pax.pop('identity_number'),
-                    "identity_type": pax.pop('identity_type'),
-                }
-            else:
-                pax.pop('identity_country_of_issued_name')
-                pax.pop('identity_country_of_issued_code')
-                pax.pop('identity_expdate')
-                pax.pop('identity_number')
-                pax.pop('identity_type')
-            passenger.append(pax)
+                    else:
+                        pax.pop('identity_country_of_issued_name')
+                        pax.pop('identity_country_of_issued_code')
+                        pax.pop('identity_expdate')
+                        pax.pop('identity_number')
+                        pax.pop('identity_type')
+                    passenger.append(pax)
+
         data = {
             'passengers': passenger
         }

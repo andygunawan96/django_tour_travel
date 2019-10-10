@@ -356,6 +356,7 @@ def update_passenger(request):
                 })
                 pax['identity'] = {
                     "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                     "identity_expdate": pax.pop('identity_expdate'),
                     "identity_number": pax.pop('identity_number'),
                     "identity_type": pax.pop('identity_type'),

@@ -727,7 +727,7 @@ function add_multi_city(type){
                     <span class="span-search-ticket">Departure</span>
                     <div class="input-container-search-ticket">
                         <i class="fas fa-calendar-alt icon-search-ticket"></i>
-                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                        <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;" >
                     </div>
                 </div>
             </div>`;
@@ -745,7 +745,6 @@ function add_multi_city(type){
         document.getElementById("mc_airline_add").appendChild(node);
         $("airline_departure"+counter_airline_search).val(moment().format('DD MMM YYYY'));
         if(type == 'search'){
-            airline_request.departure
             $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
