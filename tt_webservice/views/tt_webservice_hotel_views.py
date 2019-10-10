@@ -330,20 +330,15 @@ def create_booking(request):
         passenger = []
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        for pax in request.session['hotel_review_pax']['adult']:
-            if pax['nationality_name'] != '':
-                for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_name'] == country['name']:
-                        pax['nationality_code'] = country['code']
-                        break
-            passenger.append(pax)
-        for pax in request.session['hotel_review_pax']['child']:
-            if pax['nationality_name'] != '':
-                for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_name'] == country['name']:
-                        pax['nationality_code'] = country['code']
-                        break
-            passenger.append(pax)
+        for pax_type in request.session['hotel_review_pax']:
+            if pax_type != 'contact' and pax_type != 'booker':
+                for pax in request.session['hotel_review_pax'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
+                    passenger.append(pax)
         booker = request.session['hotel_review_pax']['booker']
         contacts = request.session['hotel_review_pax']['contact']
         for country in response['result']['response']['airline']['country']:

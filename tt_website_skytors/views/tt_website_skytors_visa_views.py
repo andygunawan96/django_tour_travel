@@ -243,7 +243,7 @@ def review(request):
                 'email': request.POST['booker_email'],
                 'calling_name': request.POST['booker_phone_code'],
                 'mobile': request.POST['booker_phone'],
-                'nationality_code': request.POST['booker_nationality'],
+                'nationality_name': request.POST['booker_nationality'],
                 'contact_seq_id': request.POST['booker_id'],
                 'is_booker': True
             })
