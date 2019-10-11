@@ -2377,7 +2377,7 @@ var $range = $(".js-range-slider"),
     $inputTo = $(".js-input-to"),
     instance,
     min = 0,
-    max = parseInt($("#price-to").val()),
+    max = $("#price-to").val(),
     from = 0,
     to = 0;
 
@@ -2386,7 +2386,7 @@ $range.ionRangeSlider({
     min: min,
     max: max,
     from: 0,
-    to: parseInt($("#price-to").val()),
+    to: $("#price-to").val(),
     prefix: 'Rp. ',
     onStart: updateInputs,
     onChange: updateInputs,
@@ -2416,7 +2416,7 @@ function updateInputs (data) {
     $inputTo.prop("value", to);
 }
 
-$inputFrom.on("input", function () {
+$inputFrom.on("input", function (e) {
     var val = $(this).prop("value");
     // validate
     if (val < min) {
@@ -2424,25 +2424,22 @@ $inputFrom.on("input", function () {
     } else if (val > to) {
         val = to;
     }
+
+    price_update();
     price_slider_true(1);
-    instance.update({
-        from: val
-    });
 });
 
-$inputTo.on("input", function () {
+$inputTo.on("input", function (e) {
     var val = $(this).prop("value");
-
     // validate
     if (val < from) {
         val = from;
     } else if (val > max) {
         val = max;
     }
+
+    price_update();
     price_slider_true(1);
-    instance.update({
-        to: val
-    });
 });
 
 });

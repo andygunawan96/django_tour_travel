@@ -8,6 +8,8 @@ additional_price = 0;
 event_pick = 0;
 pricing_days = 1;
 offset = 0;
+high_price_slider = 0;
+step_slider = 0;
 
 var month = {
     '01': 'Jan',
@@ -87,7 +89,7 @@ function activity_search(){
         console.log(msg);
            var text = '';
            var counter = 0;
-           data=[]
+           data=[];
            if(msg.result.error_code == 0){
                activity_data = msg.result.response;
                $('#loading-search-activity').hide();
@@ -110,6 +112,10 @@ function activity_search(){
                     `;
                }
                for(i in activity_data){
+                   if(high_price_slider < activity_data[i].converted_price){
+                        high_price_slider = activity_data[i].converted_price;
+                    }
+
                    if (activity_data[i].images.length > 0)
                    {
                        img_src = activity_data[i].images[0].url+activity_data[i].images[0].path;
@@ -159,6 +165,27 @@ function activity_search(){
                    </div>
                    `;
                }
+
+               if(high_price_slider <= 1000000){
+                step_slider = 50000;
+               }
+               else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                step_slider = 100000;
+               }
+               else{
+                step_slider = 200000;
+               }
+               document.getElementById("price-to").value = high_price_slider;
+
+               $(".js-range-slider").data("ionRangeSlider").update({
+                    from: 0,
+                    to: high_price_slider,
+                    min: 0,
+                    max: high_price_slider,
+                    step: step_slider
+               });
+               $(".js-range-slider").data("ionRangeSlider").reset();
+
                offset++;
                document.getElementById('activity_ticket').innerHTML += text;
                if(msg.result.response.length!=0)
