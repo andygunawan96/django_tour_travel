@@ -169,46 +169,6 @@ def review(request):
         response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
         request.session['time_limit'] = int(request.POST['time_limit_input'])
-        # adult = []
-        # child = []
-        # booker = {
-        #     'address': request.session.get('company_details') and request.session['company_details']['address'] or '',
-        #     'first_name': request.POST['booker_first_name'],
-        #     'last_name': request.POST['booker_last_name'],
-        #     'title': request.POST['booker_title'],
-        #     'email': request.POST['booker_email'],
-        #     'nationality_name': request.POST['booker_nationality_id'],
-        #     'country_code': request.POST['booker_nationality_id'],
-        #     'work_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-        #     "mobile": "0" + request.POST['booker_phone'],
-        #     'contact_id': request.POST.get('booker_id') and int(request.POST.get('booker_id')) or ''
-        # }
-        # # "city": this.state.city_agent,
-        # # "province_state": this.state.state_agent,
-        # # "contact_id": "",
-        #
-        # for i in range(int(request.session['hotel_request']['adult'])):
-        #     adult.append({
-        #         "first_name": request.POST['adult_first_name' + str(i + 1)],
-        #         "last_name": request.POST['adult_last_name' + str(i + 1)],
-        #         "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-        #         "title": request.POST['adult_title' + str(i + 1)],
-        #         "room_number": "1",
-        #         "pax_type": "ADT",
-        #         "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-        #         "passenger_id": request.POST.get('adult_id') and int(request.POST['adult_id' + str(i + 1)]) or ''
-        #     })
-        # for i in range(int(request.session['hotel_request']['child'])):
-        #     child.append({
-        #         "first_name": request.POST['child_first_name' + str(i + 1)],
-        #         "last_name": request.POST['child_last_name' + str(i + 1)],
-        #         "nationality_code": request.POST['child_nationality' + str(i + 1)],
-        #         "title": request.POST['child_title' + str(i + 1)],
-        #         "pax_type": "CHD",
-        #         "birth_date": request.POST['child_birth_date' + str(i + 1)],
-        #         "room_number": "1",
-        #         "passenger_id": request.POST.get('child_id') and int(request.POST['child_id' + str(i + 1)]) or ''
-        #     })
 
         adult = []
         child = []

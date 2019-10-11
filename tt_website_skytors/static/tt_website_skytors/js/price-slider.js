@@ -2367,8 +2367,6 @@
 
 }));
 
-
-
 // Trigger
 
 $(function () {

@@ -505,15 +505,13 @@ function get_checked_copy_result_room(){
     var name_hotel = $(".name_hotel").html();
     var rating_hotel = $(".rating_hotel").html();
     var address_hotel = $('.address_hotel').html();
-    $text += ''+name_hotel+'\n';
-    $text += 'Rating: '+rating_hotel+'\n';
+    $text += ''+name_hotel+ ' ' +rating_hotel+ '\n';
     $text += 'Address: '+address_hotel+'\n \n';
 
     node = document.createElement("div");
     text+=`
     <div class="col-lg-12" id="information_hotel">
-        <h6>`+name_hotel+`</h6>
-        <span>Rating: `+rating_hotel+`</span><br/>
+        <h6>`+name_hotel+` `+rating_hotel+ `</h6>
         <span>Address: `+address_hotel+`</span><br/><br/>
         <h6>Room List:</h6><hr/>
     </div>
