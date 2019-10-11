@@ -363,7 +363,6 @@ def update_passenger(request):
                 }
             else:
                 pax.pop('identity_country_of_issued_name')
-                pax.pop('identity_country_of_issued_code')
                 pax.pop('identity_expdate')
                 pax.pop('identity_number')
                 pax.pop('identity_type')
