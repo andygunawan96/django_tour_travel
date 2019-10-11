@@ -691,9 +691,10 @@ function copy_booker_to_passenger(val,type){
 
         document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
         document.getElementById('adult_title1').readOnly = true;
-//        for(i in document.getElementById('adult_title1').options){
-//            document.getElementById('adult_title1').options[i].disabled = true;
-//        }
+        for(i in document.getElementById('adult_title1').options){
+            if(document.getElementById('adult_title1').options[i].selected != true)
+                document.getElementById('adult_title1').options[i].disabled = true;
+        }
         if(template != 4){
             $('#adult_title1').niceSelect('update');
         }

@@ -9,7 +9,9 @@
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
+    signature = '{{signature}}';
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -171,19 +173,22 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
 
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-lg-8"></div>
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" id="btn-issued-hotel" type="button" value="Issued Booking" onclick="hotel_issued_alert();" style="width:100%;">
-                                Issued Booking
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </div>
                     </div>
                 </div>
+
+                <!--<div class="col-lg-8">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-lg-8"></div>-->
+                        <!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+                            <!--<button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" id="btn-issued-hotel" type="button" value="Issued Booking" onclick="hotel_issued_alert();" style="width:100%;">-->
+                                <!--Issued Booking-->
+                                <!--<div class="ld ld-ring ld-cycle"></div>-->
+                            <!--</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
         </form>
@@ -194,7 +199,7 @@
 <script>
     document.getElementById('price_total').innerHTML = '<h4>Price Detail</h4><hr/>Total Price: IDR ' + getrupiah(parseInt({{hotel_room_detail_pick.price_total}}) + parseInt({{hotel_room_detail_pick.commission}}));
     hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
-
+    get_payment_acq('Issued','', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
       breadcrumb_create("hotel", 5, 0);
     });

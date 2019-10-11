@@ -81,6 +81,8 @@ def get_payment_acquirer(request):
         url_post = 'account'
     elif request.POST['type'] == 'issued_offline':
         url_post = 'booking/issued_offline'
+    elif request.POST['type'] == 'hotel_review':
+        url_post = 'booking/hotel'
         # data.update({
         #     # 'agent_seq_id': request.POST['agent_seq_id'],
         #     'top_up_name': request.POST['top_up_name']
