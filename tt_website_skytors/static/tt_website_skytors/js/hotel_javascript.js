@@ -373,7 +373,6 @@ function sort(response){
                 }
             }
         }
-
         document.getElementById("hotel_result_city").innerHTML = '';
         text = '';
         var node = document.createElement("div");
@@ -407,7 +406,6 @@ function sort(response){
             document.getElementById("hotel_city").appendChild(node);
             node = document.createElement("div");
         }
-
         document.getElementById("hotel_result_landmark").innerHTML = '';
         text = '';
         var node = document.createElement("div");
@@ -443,7 +441,6 @@ function sort(response){
             document.getElementById("hotel_landmark").appendChild(node);
             node = document.createElement("div");
         }
-
 
         document.getElementById("hotel_result").innerHTML = '';
         text = '';
@@ -483,7 +480,7 @@ function sort(response){
                     if(response.hotel_ids[i].images.length != 0){
                         text+=`
                         <div class="col-lg-3 col-md-3">
-                            <div class="img-hotel-search" style="background-image: url(`+response.hotel_ids[i].images[0].url+`);"></div>
+                            <div class="img-hotel-search" style="background-image: url(`+response.hotel_ids[i].images[0].url+`);" onclick="goto_detail('hotel',`+i+`)"></div>
                         </div>`;
                     }
                     else{
@@ -497,7 +494,7 @@ function sort(response){
                         <div class="row">
                             <div class="col-lg-12">
                                 <div style="margin-bottom:10px;">
-                                    <h4 class="name_hotel" title="`+response.hotel_ids[i].name+`" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;">`+response.hotel_ids[i].name+`</h4>
+                                    <a href="#"><h4 class="name_hotel" title="`+response.hotel_ids[i].name+`" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h4></a>
                                 </div>
                             </div>
                             <div class="col-lg-7 col-md-7">
@@ -508,7 +505,7 @@ function sort(response){
                                     for (co=0; co < parseInt(response.hotel_ids[i].rating); co++){
                                         text+=`<i class="fas fa-star" style="color:#FFC44D;"></i>`;
                                     }
-                                    text+=`<span class="rating_hotel" hidden>`+response.hotel_ids[i].rating+` star(s)</span>`;
+                                    text+=`<span class="rating_hotel" hidden>*`+response.hotel_ids[i].rating+`</span>`;
                                 }
                                 else{
                                     text+=`<span class="rating_hotel" hidden>Unrated</span>`;
@@ -533,10 +530,6 @@ function sort(response){
                 //            if(response.hotel_ids[i].location.zipcode != false)
                 //                text+= ' '+ response.hotel_ids[i].location.zipcode;
                             text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
-                                </div>
-                                <div style="margin-bottom:10px;">
-                                    <img style="height:20px; width:auto;" src="/static/tt_website_skytors/img/tripadvisor.png"/>
-                                    <span> (194 reviews) </span>
                                 </div>
                             </div>
                             <div class="col-lg-5 col-md-5">
@@ -601,17 +594,17 @@ function sort(response){
                                     for(j in top_facility){
                                         var facility_check = 0;
                                         for(k in response.hotel_ids[i].facilities){
-                                            if(top_facility[j].facility_id == response.hotel_ids[i].facilities[k].facility_id){
+                                            if(top_facility[j].internal_code == response.hotel_ids[i].facilities[k].facility_id){
                                                 facility_check = 1;
                                                 break;
                                             }
                                         }
 
                                     if(facility_check == 1){
-                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
                                     }
                                     else{
-                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;"/>`;
+                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
                                     }
                                 }
                             }catch(err){}
@@ -632,8 +625,8 @@ function sort(response){
                 node.innerHTML = text;
                 document.getElementById("hotel_ticket").appendChild(node);
                 node = document.createElement("div");
-                $('#loading-search-hotel').hide();
             }
+            $('#loading-search-hotel').hide();
 
             var items = $(".sorting-box-b");
             var numItems = items.length;
@@ -1101,15 +1094,13 @@ function get_checked_copy_result(){
         var price_hotel = parent_hotel.find('.price_hotel').html();
         var id_hotel = parent_hotel.find('.id_copy_result').html();
         hotel_number = hotel_number + 1;
-        $text += ''+hotel_number+'. '+name_hotel+'\n';
-        $text += 'Rating: '+rating_hotel+'\n';
+        $text += ''+hotel_number+'. '+name_hotel+ ' ' +rating_hotel+'\n';
         $text += 'Location: '+location_hotel+'\n';
         $text += 'Best Price: '+price_hotel+'\n \n';
         text+=`
             <div class="row" id="div_list`+id_hotel+`">
                 <div class="col-lg-8">
-                    <h6>`+hotel_number+`. `+name_hotel+` </h6>
-                    <span>Rating: `+rating_hotel+`</span><br/>
+                    <h6>`+hotel_number+`. `+name_hotel+` `+rating_hotel+ `</h6>
                     <span>Location: `+location_hotel+`</span><br/>
                     <span style="font-weight:500;">Best Price: `+price_hotel+`</span>
                 </div>
