@@ -192,6 +192,7 @@ def create_booking(request):
     else:
         member = True
     passenger = []
+    pax_sequence = 1
     javascript_version = get_cache_version()
     response = get_cache_data(javascript_version)
 
@@ -201,6 +202,7 @@ def create_booking(request):
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
+            'sequence': pax_sequence
         })
         if pax['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
@@ -228,17 +230,18 @@ def create_booking(request):
             }
         else:
             pax.pop('identity_country_of_issued_name')
-            pax.pop('identity_country_of_issued_code')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
         passenger.append(pax)
+        pax_sequence += 1
 
     for pax in request.session['activity_review_booking']['senior']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
+            'sequence': pax_sequence
         })
         if pax['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
@@ -259,23 +262,25 @@ def create_booking(request):
             })
             pax['identity'] = {
                 "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
-            pax.pop('identity_country_of_issued_code')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
         passenger.append(pax)
+        pax_sequence += 1
 
     for pax in request.session['activity_review_booking']['child']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
+            'sequence': pax_sequence
         })
         if pax['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
@@ -296,23 +301,25 @@ def create_booking(request):
             })
             pax['identity'] = {
                 "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
-            pax.pop('identity_country_of_issued_code')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
         passenger.append(pax)
+        pax_sequence += 1
 
     for pax in request.session['activity_review_booking']['infant']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
+            'sequence': pax_sequence
         })
         if pax['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
@@ -333,17 +340,18 @@ def create_booking(request):
             })
             pax['identity'] = {
                 "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": pax.pop('identity_type'),
             }
         else:
             pax.pop('identity_country_of_issued_name')
-            pax.pop('identity_country_of_issued_code')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
             pax.pop('identity_type')
         passenger.append(pax)
+        pax_sequence += 1
 
     perbooking = request.session['activity_perbooking']
     for booking in perbooking:

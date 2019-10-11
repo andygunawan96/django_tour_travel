@@ -1474,6 +1474,22 @@ function price_slider_true(type){
     change_filter('price', type);
 }
 
+function price_update(){
+   var from_price = parseInt(document.getElementById('price-from').value);
+   var to_price = parseInt(document.getElementById('price-to').value);
+   if(from_price > to_price){
+    document.getElementById('price-from').value = to_price;
+   }
+   $(".js-range-slider").data("ionRangeSlider").update({
+        from: $("#price-from").val(),
+        to: $("#price-to").val(),
+        min: 0,
+        max: high_price_slider,
+        step: step_slider
+   });
+
+}
+
 function activity_filter_render(){
 
     var node = document.createElement("div");
@@ -1504,7 +1520,7 @@ function activity_filter_render(){
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <span>Max</span><br/>
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="5000000"/>
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
             </div>
         </div>
     </div>`;
