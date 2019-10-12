@@ -150,6 +150,7 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['airline_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
         logging.getLogger("info_logger").info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

@@ -101,6 +101,7 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
