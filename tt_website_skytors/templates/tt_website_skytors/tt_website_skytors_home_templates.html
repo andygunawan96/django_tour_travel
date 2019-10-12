@@ -374,7 +374,7 @@
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
-                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-01.png" style="width:20px; height: 20px;"/> From</span>
+                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>
                                                 <div class="input-container-search-ticket">
                                                     <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
                                                     <datalist id="train_origin_name"/>
@@ -388,7 +388,7 @@
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
-                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-02.png" style="width:20px; height: 20px;"/> To</span>
+                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width:20px; height: 20px;"/> To</span>
                                                 <div class="input-container-search-ticket">
                                                     <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
                                                     <datalist id="train_destination_name"/>
@@ -586,17 +586,21 @@
                             <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" autocomplete="off"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
+                                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5" style="padding:0px;">
+                                        <div class="span-search-ticket"><i class="fas fa-cog"></i> Advanced Search</div>
+                                        <div class="input-container-search-ticket">
+                                            <button type="button" class="form-control" id="advanced_down" onclick="show_hide_advanced();" style="background:#bababa; color:#000000;">Advanced Search <i class="fas fa-caret-down"></i></button>
+                                            <button type="button" class="form-control" id="advanced_up" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; display:none;">Advanced Search <i class="fas fa-caret-up"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" id="advanced_search" style="display:none;">
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Location </span>
@@ -814,11 +818,11 @@
                 {% endif %}
             </div>
             {% else %}
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="padding-top:90px; padding-bottom:90px;">
                 <h4 style="color:white;">Already a RODEXTRIP member?</h4>
                 <h5 style="color:white;">Sign in to make booking easier!</h5>
                 <br/>
-                <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
+                <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
                     Sign in <i class="fas fa-sign-in-alt"></i>
                 </button>
             </div>

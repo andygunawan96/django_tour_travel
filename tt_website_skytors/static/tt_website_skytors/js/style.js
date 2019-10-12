@@ -40,8 +40,9 @@ $(document).ready(function(){
 
     $(window).on('load', function(){
         setTimeout(function(){
-            $('.loader-rodextrip').fadeOut();
             $('.loader-airline').fadeOut();
+            $('.loader-activity').fadeOut();
+            $('.loader-hotel').fadeOut();
         }, 2000);
     });
 
@@ -1622,6 +1623,23 @@ function show_hide_city_hotel(){
         city_hotel_up.style.display = "block";
         hotel_city.style.display = "";
         city_hotel_down.style.display = "none";
+    }
+}
+
+function show_hide_advanced(){
+    var advanced_search = document.getElementById("advanced_search");
+    var advanced_down = document.getElementById("advanced_down");
+    var advanced_up = document.getElementById("advanced_up");
+
+    if (advanced_down.style.display === "none") {
+        advanced_up.style.display = "none";
+        advanced_search.style.display = "none";
+        advanced_down.style.display = "block";
+    }
+    else {
+        advanced_up.style.display = "block";
+        advanced_search.style.display = "";
+        advanced_down.style.display = "none";
     }
 }
 
