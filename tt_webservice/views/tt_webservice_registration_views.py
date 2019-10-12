@@ -17,6 +17,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'get_config':
             res = get_config(request)
+        elif req_data['action'] == 'get_requirement_list_doc':
+            res = get_requirement_list_doc(request)
         elif req_data['action'] == 'agent_registration':
             res = register(request)
         else:

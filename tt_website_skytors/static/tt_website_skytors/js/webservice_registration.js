@@ -53,6 +53,7 @@ function agent_register_get_config(){
        },
        success: function(msg) {
             console.log(msg);
+            agent_register_get_requirement_list_doc();
             text=  '';
             //company
             for(i in msg.result.response.company_type){
@@ -71,6 +72,28 @@ function agent_register_get_config(){
             }
             document.getElementById('agent_type_id').innerHTML = text;
             console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function agent_register_get_requirement_list_doc(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/registration",
+       headers:{
+            'action': 'get_requirement_list_doc',
+       },
+       data: {
+
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0)
+            requirement_document = msg.result.response;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -364,7 +387,35 @@ function update_contact(type,val){
     }
 }
 
-function add_table_of_doc(){
+function set_document_requirement(){
+    text='';
+    text +=`<h4>List of Document Registration<label style="color:red;"> *</label></h4><hr/>
+    <div style="margin-top:15px;">
+        <table id="table_of_doc" name="table_of_doc" style="width:100%;" class="list-of-table">
+            <tr>
+                <th style="width:5%;">No.</th>
+                <th style="width:40%;">Type</th>
+                <th style="width:35%;">Image</th>
+            </tr>
+        </table>
+    </div>`;
+    document.getElementById('list_of_doc').innerHTML = text;
+    counter_regis_doc = 0;
+//    for(i = counter_regis_doc; i>0; i--){
+//        delete_table_of_doc();
+//    }
+    for(i in requirement_document){
+        if(document.getElementById('agent_type').value == requirement_document[i].name){
+            for(j in requirement_document[i].docs){
+                if(requirement_document[i].docs[j].document_type == 'registration')
+                    add_table_of_doc(requirement_document[i].docs[j].display_name);
+            }
+        }
+    }
+
+}
+
+function add_table_of_doc(val){
     text= '';
     var node = document.createElement("tr");
     text += `
@@ -372,14 +423,22 @@ function add_table_of_doc(){
         <td>
             <div class="input-container-search-ticket btn-group">
                 <div class="form-select">
-                    <select name="type_regis_doc`+(parseInt(counter_regis_doc)+1)+`">
-                        <option value="ktp">KTP</option>
-                        <option value="npwp">NPWP</option>
-                        <option value="siup">SIUP</option>
-                    </select>
+                    <select name="type_regis_doc`+(parseInt(counter_regis_doc)+1)+`">`;
+                    if(val == 'KTP')
+                    text+=`<option value="ktp">KTP</option>`;
+                    else
+                    text+=`<option disabled value="ktp">KTP</option>`;
+                    if(val == 'NPWP')
+                    text+=`<option value="npwp">NPWP</option>`;
+                    else
+                    text+=`<option disabled value="npwp">NPWP</option>`;
+                    if(val == 'SIUP')
+                    text+=`<option value="siup">SIUP</option>`;
+                    else
+                    text+=`<option disabled value="siup">SIUP</option>`;
+                    text+=`</select>
                 </div>
             </div>
-
         </td>
         <td>
             <div class="input-container-search-ticket">
