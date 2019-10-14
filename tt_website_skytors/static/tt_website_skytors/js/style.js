@@ -1872,7 +1872,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:activity_search'%}';", "location.href='{% url 'tt_website_skytors:activity_detail'%}';", "location.href='{% url 'tt_website_skytors:activity_passenger'%}';", ""];
     }
     if(breadcrumbs_type == "hotel"){
-        var breadcrumbs = ["Home", "Search", "Rooms", "Passenger", "Review", "Issued"];
+        var breadcrumbs = ["Home", "Search", "Rooms", "Guest", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:hotel_search'%}';", "", "", "", ""];
     }
 
