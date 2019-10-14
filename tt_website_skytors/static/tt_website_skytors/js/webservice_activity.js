@@ -176,7 +176,7 @@ function activity_search(){
                 step_slider = 200000;
                }
                document.getElementById("price-to").value = high_price_slider;
-
+               $maxPrice = high_price_slider;
                $(".js-range-slider").data("ionRangeSlider").update({
                     from: 0,
                     to: high_price_slider,
