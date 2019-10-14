@@ -5,6 +5,8 @@ var hotel_filter = [];
 var sorting_value = '';
 var hotelAutoCompleteVar;
 var hotel_choices = [];
+var checking_price = 0;
+var checking_slider = 0;
 var rating_list = [
     {
         value:'1',
@@ -197,13 +199,16 @@ function triggered(){
     }
 }
 
-function filtering(type){
+function filtering(type, update){
     var data = JSON.parse(JSON.stringify(hotel_data));
+    checking_slider = update;
     if(type == 'filter'){
         check_rating = 0;
-        for(i in rating_list)
-            if(rating_list[i].status == true)
+        for(i in rating_list){
+            if(rating_list[i].status == true){
                 check_rating = 1;
+            }
+        }
         var check = 0;
         var temp_data = [];
         var searched_name = $('#hotel_filter_name').val();
@@ -218,11 +223,18 @@ function filtering(type){
                 });
                 if(check != 0){
                     temp_data.push(obj);
+                } else {
+                    // Tambahkan hotel ygy unrated jika *1 nya tercentang
+                    console.log(obj.rating);
+                    if(rating_list[0].status == true && obj.rating == false){
+                        temp_data.push(obj);
+                    }
                 }
             });
             data.hotel_ids = temp_data;
             hotel_filter = data;
             temp_data = [];
+            high_price_slider = 0;
         }
 
         if (searched_name){
@@ -240,35 +252,37 @@ function filtering(type){
             data.hotel_ids = temp_data;
             hotel_filter = data;
             temp_data = [];
+            high_price_slider = 0;
         }
 
-        data.hotel_ids.forEach((obj)=> {
-            if (Object.keys(obj.prices).length === 0 && $minPrice == 0){
-                temp_data.push(obj);
-            } else {
+        if(checking_slider == 1){
+            if (check_rating != 1 || !searched_name){
+                checking_price = 1;
+                sort(data, 1);
+            }
+            else{
+                checking_price = 1;
+                sort(data, 0);
+            }
+        }
+        // Perubahan high price jika di trigger dari input user
+        else{
+            $maxPrice = parseFloat(document.getElementById('price-to').value);
+            data.hotel_ids.forEach((obj)=> {
                 for (i in obj.prices) {
-                    // if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
-                    if ($minPrice <= parseFloat(obj.prices[i].price)){
-                        //console.log('MinPrice:' + $minPrice);
-                        //console.log('Pass Min:' + obj.prices[i].price);
-                        //console.log('MaxPrice:' + $maxPrice);
-                        if (parseFloat(obj.prices[i].price) <= parseFloat($maxPrice)){
-                            //console.log('Pass Max:' + obj.prices[i].price);
-                            //console.log('Adding:' + obj.name);
-                            temp_data.push(obj);
-                            break;
-                        } else {
-                            //console.log('Fail Max:' + obj.prices[i].price);
-                        }
+                    if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
+                        temp_data.push(obj);
+                        break;
                     }
                 }
-            }
-        });
-        data.hotel_ids = temp_data;
-        hotel_filter = data;
-        temp_data = [];
+            });
+            data.hotel_ids = temp_data;
+            hotel_filter = data;
+            temp_data = [];
+            checking_price = 0;
+            sort(data, 1);
+        }
     }
-    sort(data);
 }
 
 function sorting_button(value){
@@ -305,12 +319,64 @@ function sorting_button(value){
     }else{
         sorting_value = value;
     }
-    filtering('filter');
+    filtering('filter', 0);
 }
 
-function sort(response){
+function sort(response, check_filter){
         //no filter
         sorting = sorting_value;
+        if(check_filter == 1){
+            for(i in response.hotel_ids){
+                for(j in response.hotel_ids[i].prices){
+                    if (high_price_slider < response.hotel_ids[i].prices[j]['price']){
+                        high_price_slider = response.hotel_ids[i].prices[j]['price'];
+                    }
+                }
+            }
+            if(high_price_slider <= 1000000){
+                step_slider = 50000;
+            }
+            else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                step_slider = 100000;
+            }
+            else{
+                step_slider = 200000;
+            }
+
+            if (checking_price == 1){
+                document.getElementById("price-to").value = high_price_slider;
+                $(".js-range-slider").data("ionRangeSlider").update({
+                     from: 0,
+                     to: high_price_slider,
+                     min: 0,
+                     max: high_price_slider,
+                     step: step_slider
+                });
+                checking_price = 0;
+            }
+        }
+        else{
+            if(high_price_slider <= 1000000){
+                step_slider = 50000;
+            }
+            else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                step_slider = 100000;
+            }
+            else{
+                step_slider = 200000;
+            }
+            document.getElementById("price-to").value = high_price_slider;
+            if (checking_price == 1){
+                $(".js-range-slider").data("ionRangeSlider").update({
+                     from: 0,
+                     to: high_price_slider,
+                     min: 0,
+                     max: high_price_slider,
+                     step: step_slider
+                });
+                checking_price = 0;
+            }
+        }
 
         for(var i = 0; i < response.hotel_ids.length-1; i++) {
             for(var j = i+1; j < response.hotel_ids.length-1; j++) {
@@ -588,7 +654,8 @@ function sort(response){
                                    text += `
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:15px;">
+                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:20px;">
+                                Facilities:<br/>
                                 <span>`;
                                 try{
                                     for(j in top_facility){
@@ -601,10 +668,10 @@ function sort(response){
                                         }
 
                                     if(facility_check == 1){
-                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:25px; height:25px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
+                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
                                     }
                                     else{
-                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:25px; height:25px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
+                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
                                     }
                                 }
                             }catch(err){}
@@ -613,7 +680,7 @@ function sort(response){
                                 <div class="col-lg-5  col-md-5" style="text-align:right; padding-top:15px;">
                                    <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
                                    <br/>
-                                   <span style="color:#f15a22; font-size:11px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
+                                   <span style="font-size:11px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
                                </div>
                             </div>
                         </div>
@@ -712,7 +779,7 @@ function change_filter(type, value){
     if(type == 'rating'){
         rating_list[value].status = !rating_list[value].status;
     }
-    filtering('filter');
+    filtering('filter', 1);
 }
 
 function hotel_filter_render(){
@@ -745,7 +812,7 @@ function hotel_filter_render(){
                 <input type="text" class="js-input-from form-control-custom" id="price-from" value="0" />
             </div>
             <div class="col-lg-6">
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="5000000" />
+                <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`" />
             </div>
         </div>
     </div>
@@ -1234,9 +1301,34 @@ $check_load = 0;
 function price_slider_true(type){
     $minPrice = parseFloat(document.getElementById('price-from').value);
     $maxPrice = parseFloat(document.getElementById('price-to').value);
-
+    checking_price = 0;
     if($check_load != 0)
-        change_filter('rating', type);
+        filtering('filter', 0);
     else
         $check_load = 1;
+}
+
+function price_update(){
+   var from_price = parseInt(document.getElementById('price-from').value);
+   var to_price = parseInt(document.getElementById('price-to').value);
+//   if (Number.isNaN(from_price)){
+//       document.getElementById('price-from').value = 0;
+//   }
+//   if (Number.isNaN(to_price)){
+//       document.getElementById('price-to').value = 0;
+//   }
+
+   if(from_price > to_price){
+       document.getElementById('price-from').value = to_price;
+   }
+   console.log(from_price);
+   console.log(to_price);
+
+   $(".js-range-slider").data("ionRangeSlider").update({
+        from: $("#price-from").val(),
+        to: $("#price-to").val(),
+        min: 0,
+        max: high_price_slider,
+        step: step_slider
+   });
 }
