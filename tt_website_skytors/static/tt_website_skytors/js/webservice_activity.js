@@ -926,7 +926,7 @@ function activity_get_booking(data){
                             </button>
                         </div>
                         <div class="col-lg-4">
-                            <button class="primary-btn hold-seat-booking-train" type="button" style="width:100%;">
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
                                 Print Invoice
                             </button>
                         </div>
@@ -1146,9 +1146,7 @@ function activity_get_voucher(order_number){
        success: function(msg) {
        console.log(msg)
         if(msg.result.error_code == 0){
-            for(i in msg.result.response)
-                document.getElementById('voucher').innerHTML = `<embed src="data:application/pdf;base64,`+msg.result.response[i]+`" width="800px" height="2100px" />`;
-//            gotoForm();
+            window.open(msg.result.response[0].name,'_blank');
         }else{
             alert(msg.result.error_msg);
         }

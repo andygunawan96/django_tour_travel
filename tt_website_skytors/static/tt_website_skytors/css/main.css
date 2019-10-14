@@ -7436,6 +7436,28 @@ display: block;
 	background-size:50px auto;
 }
 
+.loader-activity {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: url('/static/tt_website_skytors/img/activity_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
+	background-size:50px auto;
+}
+
+.loader-hotel {
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 999999;
+	background: url('/static/tt_website_skytors/img/hotel_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
+	background-size:50px auto;
+}
+
 /* Three column layout */
 .side-review {
   float: left;
