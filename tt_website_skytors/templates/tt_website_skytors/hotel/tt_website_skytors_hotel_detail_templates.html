@@ -25,6 +25,7 @@
     city_id = {{response.location.city_id}};
     time_limit = {{time_limit}};
     session_time_limit();
+    hotel_facility_request();
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
@@ -136,7 +137,7 @@
                     <div class="row">
                         {% for facility in response.facilities %}
                         <div class="col-md-3 col-xs-4" style="width:25%;">
-                            {% if facility.url != false %}<i class="fas fa-circle"></i>{% else %}<i class="fas fa-circle"></i>{% endif %}
+                            <i class="fas fa-circle"></i>
                             {{facility.facility_name}}
                         </div>
                         {% endfor %}

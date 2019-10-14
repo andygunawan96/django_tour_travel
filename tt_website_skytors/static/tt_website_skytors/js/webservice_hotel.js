@@ -16,6 +16,8 @@ var month = {
     '11': 'Nov',
     '12': 'Dec',
 }
+high_price_slider = 0;
+step_slider = 0;
 
 function get_hotel_config(){
     getToken();
@@ -114,23 +116,47 @@ function hotel_search(data){
                                     vendor = [];
                                     for(i in msg.result.response.hotel_ids){
                                         check = 0;
-                                        if(vendor.length != 0)
-                                            for(j in msg.result.response.hotel_ids[i].external_code){
-                                                if(vendor.indexOf(j) == -1){
-                                                    vendor.push(j);
-                                                }else{
-                                                    check = 1;
-                                                }
-                                            }
-                                        if(check == 0){
-                                            for(j in msg.result.response.hotel_ids[i].external_code){
-                                                if(vendor.indexOf(j) == -1){
-                                                    vendor.push(j);
-                                                }
-                                            }
-                                        }
+//                                        if(vendor.length != 0){
+//                                            for(j in msg.result.response.hotel_ids[i].prices){
+//                                                if(vendor.indexOf(j) == -1){
+//                                                    vendor.push(j);
+//                                                }else{
+//                                                    check = 1;
+//                                                }
+//                                            }
+//                                        }
+//                                        if(check == 0){
+//                                            for(j in msg.result.response.hotel_ids[i].prices){
+//                                                if(vendor.indexOf(j) == -1){
+//                                                    vendor.push(j);
+//                                                }
+//                                            }
+//                                        }
+                                       for(j in msg.result.response.hotel_ids[i].prices){
+                                           if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
+                                               high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                           }
+                                       }
                                     }
-                                    filtering('sort');
+                                    if(high_price_slider <= 1000000){
+                                        step_slider = 50000;
+                                    }
+                                    else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                                        step_slider = 100000;
+                                    }
+                                    else{
+                                        step_slider = 200000;
+                                    }
+                                    document.getElementById("price-to").value = high_price_slider;
+
+                                    $(".js-range-slider").data("ionRangeSlider").update({
+                                         from: 0,
+                                         to: high_price_slider,
+                                         min: 0,
+                                         max: high_price_slider,
+                                         step: step_slider
+                                    });
+                                    filtering('filter', 0);
                                 }else{
                                     //kalau error belum
                                 }
@@ -193,6 +219,27 @@ function get_top_facility(){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
+    });
+}
+
+function hotel_facility_request(){
+    getToken();
+    $.ajax({
+        type: "POST",
+        url: "/webservice/hotel",
+        headers:{
+            'action': 'get_facility_img',
+        },
+        data: {
+            'signature': signature
+        },
+        success: function(msg) {
+            console.log(msg);
+            facility_image = msg.result.response;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
     });
 }
 
