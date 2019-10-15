@@ -217,6 +217,13 @@ def set_inactive_delete_banner(request):
         data = img
         res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
     try:
+        if len(imgs) == 0:
+            res = {
+                'result': {
+                    'error_code': 0,
+                    'error_msg': '',
+                }
+            }
         pass
         # request.session['signature'] = res['result']['response']['signature']
         # if func == 'get_config':

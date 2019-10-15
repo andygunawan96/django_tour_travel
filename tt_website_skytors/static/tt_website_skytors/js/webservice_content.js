@@ -101,39 +101,7 @@ function set_inactive_delete_banner(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                document.getElementById(type).innerHTML = '';
-
-                if(page == 'home'){
-
-                }else if(page == 'admin'){
-                    text = ''
-
-//                            <img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" style="height:220px;width:auto"/>
-                    for(i in msg.result.response)
-                        text += `
-                        <div style="height:220px;margin-bottom:25px;">
-                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto"/>
-
-                            <div class="row" style="justify-content:space-around">
-                                <div class="checkbox" style="display: block;">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:13px;">Active</span>
-                                        <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active" checked> <!--hardcode-->
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
-                                <div class="checkbox" style="display: block;">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:13px;">Delete</span>
-                                        <input type="checkbox" value="" id="`+type+i+`_delete" name="`+type+i+`_delete">
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        `;
-                    document.getElementById(type).innerHTML = text;
-                }
+                document.getElementById('form_admin').submit();
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -172,7 +140,7 @@ function get_banner(type,page){
                     for(i in msg.result.response)
                         text += `
                         <div style="height:220px;margin-bottom:25px;">
-                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto"/>
+                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />
 
                             <div class="row" style="justify-content:space-around">
                                 <div class="checkbox" style="display: block;">
