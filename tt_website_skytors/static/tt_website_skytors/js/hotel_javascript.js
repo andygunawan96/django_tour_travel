@@ -478,22 +478,41 @@ function sort(response, check_filter){
 
         document.getElementById("hotel_city").innerHTML = '';
         text='';
-        var node = document.createElement("div");
-        for(i in response.city_ids){
-            text = '<form id="hotel_city'+i+'" action="/hotel/detail" method="POST" class="c-pointer">';
-                if(response.city_ids[i].image != false)
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.city_ids[i].image+`');border:1px solid #cdcdcd;"></div>`;
-                else
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
-                text+=`
-                <div class="text-block-custom">
-                    <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.city_ids[i].name+` `+response.city_ids[i].country_name+`</span><br/>
-                    <span style="font-size:13px;">`+response.city_ids[i].hotel_qty+` Found</span>
+        if(response.city_ids.length != 0){
+            var node = document.createElement("div");
+            for(i in response.city_ids){
+                text = '<form id="hotel_city'+i+'" action="/hotel/detail" method="POST" class="c-pointer">';
+                    if(response.city_ids[i].image != false)
+                        text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.city_ids[i].image+`');border:1px solid #cdcdcd;"></div>`;
+                    else
+                        text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
+                    text+=`
+                    <div class="text-block-custom">
+                        <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.city_ids[i].name+` `+response.city_ids[i].country_name+`</span><br/>
+                        <span style="font-size:13px;">`+response.city_ids[i].hotel_qty+` Found</span>
+                    </div>
+                </form>`;
+                node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-6';
+                node.innerHTML = text;
+                document.getElementById("hotel_city").appendChild(node);
+                node = document.createElement("div");
+            }
+        }
+        else{
+            document.getElementById("city_error").innerHTML = '';
+            text = '';
+            text += `
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_skytors/images/nofound/no-city.png" style="width:60px; height:60px;" alt="" title="" />
+                        <br/><br/>
+                        <span style="font-size:14px; font-weight:600;">Oops! City not found.</span>
+                    </div>
                 </div>
-            </form>`;
-            node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-6';
+            `;
+            var node = document.createElement("div");
             node.innerHTML = text;
-            document.getElementById("hotel_city").appendChild(node);
+            document.getElementById("city_error").appendChild(node);
             node = document.createElement("div");
         }
         document.getElementById("hotel_result_landmark").innerHTML = '';
@@ -511,24 +530,43 @@ function sort(response, check_filter){
 
         document.getElementById("hotel_landmark").innerHTML = '';
         text='';
-        var node = document.createElement("div");
-        for(i in response.landmark_ids){
-            text = '<form id="hotel_landmark'+i+'" action="/hotel/detail" method="POST" class="c-pointer">';
-                if(response.landmark_ids[i].images.length != 0)
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.landmark_ids[i].images[0].url+`');border:1px solid #cdcdcd;"></div>`;
-                else
-                    text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
+        if(response.landmark_ids.length != 0){
+            var node = document.createElement("div");
+            for(i in response.landmark_ids){
+                text = '<form id="hotel_landmark'+i+'" action="/hotel/detail" method="POST" class="c-pointer">';
+                    if(response.landmark_ids[i].images.length != 0)
+                        text+=`<div class="img-hotel-search-c" style="background-image: url('`+response.landmark_ids[i].images[0].url+`');border:1px solid #cdcdcd;"></div>`;
+                    else
+                        text+=`<div class="img-hotel-search-c" style="background-image: url('/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg');border:1px solid #cdcdcd;"></div>`;
 
-                text+=`
-                <div class="text-block-custom">
-                    <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">`+response.landmark_ids[i].name+`</span><br/>
-                    <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.landmark_ids[i].city+`</span><br/>
-                    <span style="font-size:13px;">`+response.landmark_ids[i].near_by_hotel+` Found</span>
+                    text+=`
+                    <div class="text-block-custom">
+                        <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">`+response.landmark_ids[i].name+`</span><br/>
+                        <span style="font-size:13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;"><i class="fas fa-map-marker-alt" style="color:#FFC44D;"></i> `+response.landmark_ids[i].city+`</span><br/>
+                        <span style="font-size:13px;">`+response.landmark_ids[i].near_by_hotel+` Found</span>
+                    </div>
+                </form>`;
+                node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-6';
+                node.innerHTML = text;
+                document.getElementById("hotel_landmark").appendChild(node);
+                node = document.createElement("div");
+            }
+        }
+        else{
+            document.getElementById("landmark_error").innerHTML = '';
+            text = '';
+            text += `
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_skytors/images/nofound/no-landmark.png" style="width:60px; height:60px;" alt="" title="" />
+                        <br/><br/>
+                        <span style="font-size:14px; font-weight:600;">Oops! Landmark not found.</span>
+                    </div>
                 </div>
-            </form>`;
-            node.className = 'col-lg-3 col-md-3 col-sm-4 col-xs-6';
+            `;
+            var node = document.createElement("div");
             node.innerHTML = text;
-            document.getElementById("hotel_landmark").appendChild(node);
+            document.getElementById("landmark_error").appendChild(node);
             node = document.createElement("div");
         }
 
@@ -756,6 +794,22 @@ function sort(response, check_filter){
             $('#pagination-container2').show();
         }
         else{
+            document.getElementById("hotel_error").innerHTML = '';
+            text = '';
+            text += `
+                <div style="padding:5px; margin:10px;">
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_skytors/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="" title="" />
+                        <br/><br/>
+                        <span style="font-size:14px; font-weight:600;">Oops! Hotel not found. Please try another day or another hotel</span>
+                    </div>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("hotel_error").appendChild(node);
+            node = document.createElement("div");
+
             $('#pagination-container').hide();
             $('#pagination-container2').hide();
         }
