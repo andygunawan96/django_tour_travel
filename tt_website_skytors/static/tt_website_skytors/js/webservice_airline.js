@@ -105,31 +105,27 @@ function airline_signin(data){
                airline_get_booking(data);
            }
        }catch(err){
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
+           $("#barFlightSearch").hide();
+           $("#waitFlightSearch").hide();
 
-          Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
-            })
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               text: 'Something went wrong, please try again or check your connection internet',
+           })
            document.getElementById("airlines_error").innerHTML = '';
-            text = '';
-            text += `
-                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
-                </div>
-            `;
-            var node = document.createElement("div");
-            node.innerHTML = text;
-            document.getElementById("airlines_error").appendChild(node);
-            node = document.createElement("div");
-
-       }
-//            document.getElementById('train_searchForm').submit();
+           text = '';
+           text += `
+           <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+               <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+           </div>`;
+           var node = document.createElement("div");
+           node.innerHTML = text;
+           document.getElementById("airlines_error").appendChild(node);
+           node = document.createElement("div");
+        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           //alert(errorThrown);
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
 
@@ -283,7 +279,7 @@ function get_carrier_code_list(type, val){
               type: 'error',
               title: 'Oops...',
               text: 'Something went wrong, please try again or check your connection internet',
-            })
+          })
 
        },timeout: 30000
     });
@@ -564,14 +560,11 @@ function airline_search(provider,carrier_codes){
                 document.getElementById("airlines_ticket").innerHTML = '';
                 text = '';
                 text += `
-                    <div style="padding:5px; margin:10px;">
-                        <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                        <br/><br/>
-                        <h6>NO FLIGHT AVAILABLE</h6>
-                        </div>
-                    </div>
-                `;
+                <div style="text-align:center">
+                    <img src="/static/tt_website_skytors/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
+                    <br/>
+                </div>
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try another another flight. </h6></div></center>`;
                 var node = document.createElement("div");
                 node.innerHTML = text;
                 document.getElementById("airlines_ticket").appendChild(node);
@@ -587,7 +580,11 @@ function airline_search(provider,carrier_codes){
                });
                if(check == 0){
                    var node = document.createElement("div");
-                   node.innerHTML = `<div class="checkbox-inline1">
+                   node.innerHTML = `
+                   <hr/>
+                   <h6 style="padding-bottom:10px;">Airline</h6>
+
+                   <div class="checkbox-inline1">
                    <label class="check_box_custom">
                         <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj.segments[0].carrier_code].name+`</span>
                         <input type="checkbox" id="checkbox_airline`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
@@ -598,7 +595,11 @@ function airline_search(provider,carrier_codes){
                    node = document.createElement("div");
 
                    var node2 = document.createElement("div");
-                   node2.innerHTML = `<div class="checkbox-inline1">
+                   node2.innerHTML = `
+                   <hr/>
+                   <h6 style="padding-bottom:10px;">Airline</h6>
+
+                   <div class="checkbox-inline1">
                    <label class="check_box_custom">
                         <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj.segments[0].carrier_code].name+`</span>
                         <input type="checkbox" id="checkbox_airline2`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>

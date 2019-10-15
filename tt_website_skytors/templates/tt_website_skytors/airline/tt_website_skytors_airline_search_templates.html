@@ -5,7 +5,6 @@
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
@@ -1332,10 +1331,17 @@
                     </div>
                 </div>
 
-                <div data-preset="circle" id="barFlightSearch" class="ldBar label-center" style="width:100%;height:90px; margin-bottom:15px;" data-stroke="#f15a22" data-value="0"></div>
-                <div style="text-align:center;" id="waitFlightSearch">
-                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/plane_loading.gif" style="height:50px; width:50px;"/>
+                <div style="text-align:center; padding-top:10px;" id="waitFlightSearch">
+                    <div id="center-div">
+                        <div>
+                            <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+                    </div>
                 </div>
+                <div data-preset="line" id="barFlightSearch" class="ldBar label-center" style="width:100%;height:50px; margin-bottom:15px;" data-stroke="#f15a22" data-value="0"></div>
                 <div id="airlines_error">
 
                 </div>

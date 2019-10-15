@@ -955,9 +955,6 @@ function airline_filter_render(){
             </label><br/>`;
     }
     text+=`
-        <hr/>
-        <h6 style="padding-bottom:10px;">Airline</h6>
-
         <div id="airline_list">
 
         </div>`;
@@ -1080,10 +1077,7 @@ function airline_filter_render(){
             </label><br/>`;
     }
     text+=`
-        <hr/>
-        <h6 style="padding-bottom:10px;">Airline</h6>
-
-        <div id="airline_list2">
+    <div id="airline_list2">
 
     </div>`;
 
@@ -1663,14 +1657,11 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         text += `
-            <div style="padding:5px; margin:10px;">
-                <div style="text-align:center">
-                <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                <br/><br/>
-                <h6>NO FLIGHT AVAILABLE</h6>
-                </div>
-            </div>
-        `;
+        <div style="text-align:center">
+            <img src="/static/tt_website_skytors/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
+            <br/>
+        </div>
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try another another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
@@ -2305,14 +2296,11 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         text += `
-            <div style="padding:5px; margin:10px;">
-                <div style="text-align:center">
-                <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                <br/><br/>
-                <h6>NO FLIGHT AVAILABLE</h6>
-                </div>
-            </div>
-        `;
+        <div style="text-align:center">
+            <img src="/static/tt_website_skytors/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
+            <br/>
+        </div>
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try another another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
