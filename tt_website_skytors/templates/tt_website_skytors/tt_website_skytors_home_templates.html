@@ -3,6 +3,7 @@
 {% load static from staticfiles %}
 {% block content %}
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
@@ -4976,7 +4977,9 @@
 
     }
     {%endif%}
-
+    //get_banner('big_banner','home');
+    //get_banner('small_banner','home');
+    //get_banner('promotion','home');
 </script>
 
 {% endblock %}

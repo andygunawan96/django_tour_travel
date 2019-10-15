@@ -12,6 +12,7 @@ from ..views import tt_webservice_visa_views as VisaWebserviceView
 from ..views import tt_webservice_registration_views as RegisterWebserviceView
 from ..views import tt_webservice_bca_views as BcaWebserviceView
 from ..views import tt_webservice_testing_views as TestWebserviceView
+from ..views import tt_webservice_content_views as ContentWebserviceView
 
 app_name = 'tt_webservice'
 
