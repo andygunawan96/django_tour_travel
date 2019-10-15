@@ -348,8 +348,12 @@ def search2(request):
     try:
         print(res)
         if res['result']['error_code'] == 0:
-            for journey_list in res['result']['response']['journey_list']:
+            for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
+                    if len(journey_list['journey_list']) > 1:
+                        journey['is_combo_price'] = True
+                    else:
+                        journey['is_combo_price'] = False
                     journey.update({
                         'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
                         'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
@@ -462,23 +466,39 @@ def get_price_itinerary(request, boolean, counter):
                 'city': country['city']
             })
         #baru
+        schedules = []
+        journeys = []
         journey_booking = json.loads(request.POST['journeys_booking'])
         for idx, journey in enumerate(journey_booking):
-            if idx != 0:
-                if request.session['airline_request']['direction'] == 'MC':
-                    for idx1, segment in enumerate(journey['segments']):
-                        segment.update({
-                            'journey_type': 'RET'
+            if boolean == True:
+                #NO COMBO
+                journeys.append({'segments': journey['segments']})
+                schedules.append({'journeys': journeys, 'provider': journey['provider']})
+                journeys = []
+            else:
+                #COMBO
+                check = 0
+                journeys.append({'segments': journey['segments']})
+                for schedule in schedules:
+                    if schedule['carrier_code'] == journey['segments'][0]['carrier_code']:
+                        schedule['journeys'].append({
+                            'segments': journey['segments']
                         })
-                journey.update({
-                    "separate_journey": boolean
-                })
+                        check = 1
+                        break
+                if check == 0:
+                    schedules.append({
+                        'journeys': journeys,
+                        'provider': journey['provider'],
+                        'carrier_code': journey['segments'][0]['carrier_code']
+                    })
+                journeys = []
         data = {
             "promotion_code": [],
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
-            "journeys_booking": journey_booking,
+            "schedules": schedules,
         }
         request.session['airline_get_price_request'] = data
         headers = {
@@ -578,11 +598,15 @@ def get_price_itinerary(request, boolean, counter):
             counter += 1
             if counter < 4:
                 res = get_price_itinerary(request, True, counter)
+                boolean = True
     except Exception as e:
         counter += 1
         if counter < 4:
             get_price_itinerary(request, True, counter)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    res['result']['response'].update({
+        'is_combo_price': not boolean
+    })
     return res
 
 def get_fare_rules(request):

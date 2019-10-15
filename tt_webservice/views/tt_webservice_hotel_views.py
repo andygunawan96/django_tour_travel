@@ -393,6 +393,19 @@ def create_booking(request):
             'os_res_no': '',
             'journeys_booking': ''
         }
+
+        # payment
+        try:
+            if request.POST['member'] == 'non_member':
+                member = False
+            else:
+                member = True
+            data.update({
+                'member': member,
+                'seq_id': request.POST['seq_id'],
+            })
+        except:
+            pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
