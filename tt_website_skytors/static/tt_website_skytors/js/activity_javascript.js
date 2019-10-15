@@ -709,7 +709,7 @@ function check_detail(){
 }
 
 function check_passenger(adult, senior, child, infant){
-    $('.loader-airline').fadeIn();
+    $('.loader-rodextrip').fadeIn();
     //booker
     error_log = '';
     //check booker jika teropong
@@ -1295,7 +1295,7 @@ function check_passenger(adult, senior, child, infant){
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
-       $('.loader-airline').fadeOut();
+       $('.loader-rodextrip').fadeOut();
    }
 }
 

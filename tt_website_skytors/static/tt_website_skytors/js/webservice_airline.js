@@ -111,13 +111,13 @@ function airline_signin(data){
            Swal.fire({
                type: 'error',
                title: 'Oops...',
-               text: 'Something went wrong, please try again or check your connection internet',
+               text: 'Something went wrong, please try again or check your internet connection',
            })
            document.getElementById("airlines_error").innerHTML = '';
            text = '';
            text += `
            <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-               <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+               <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your internet connection</span>
            </div>`;
            var node = document.createElement("div");
            node.innerHTML = text;
@@ -132,7 +132,7 @@ function airline_signin(data){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
             })
        },timeout: 30000
     });
@@ -278,7 +278,7 @@ function get_carrier_code_list(type, val){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
           })
 
        },timeout: 30000
@@ -306,7 +306,7 @@ function get_provider_list(){
            Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
             })
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
@@ -314,7 +314,7 @@ function get_provider_list(){
             text = '';
             text += `
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your connection internet</span>
+                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your internet connection</span>
                 </div>
             `;
             var node = document.createElement("div");
@@ -404,7 +404,7 @@ function send_search_to_api(val){
             Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
             })
             $("#barFlightSearch").hide();
             $("#waitFlightSearch").hide();
@@ -412,7 +412,7 @@ function send_search_to_api(val){
             text = '';
             text += `
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your connection internet</span>
+                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
                 </div>
             `;
             var node = document.createElement("div");
@@ -440,7 +440,7 @@ function send_search_to_api(val){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops...',
-                  text: 'Something went wrong, please try again or check your connection internet',
+                  text: 'Something went wrong, please try again or check your internet connection',
                 })
                 $("#barFlightSearch").hide();
                 $("#waitFlightSearch").hide();
@@ -448,7 +448,7 @@ function send_search_to_api(val){
                 text = '';
                 text += `
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your connection internet</span>
+                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
                 </div>`;
                 var node = document.createElement("div");
                 node.innerHTML = text;
@@ -497,7 +497,7 @@ function get_airline_config(type, val){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
             })
        },timeout: 30000
     });
@@ -570,6 +570,16 @@ function airline_search(provider,carrier_codes){
                 document.getElementById("airlines_ticket").appendChild(node);
                 node = document.createElement("div");
            }
+           var node = document.createElement("div");
+           node.innerHTML = `
+           <hr/>
+           <h6 style="padding-bottom:10px;">Airline</h6>`;
+
+           var node2 = document.createElement("div");
+           node2.innerHTML = `
+           <hr/>
+           <h6 style="padding-bottom:10px;">Airline</h6>`;
+
            airline_data.forEach((obj)=> {
                check = 0;
                carrier_code.forEach((obj1)=> {
@@ -579,11 +589,7 @@ function airline_search(provider,carrier_codes){
                        check=1;
                });
                if(check == 0){
-                   var node = document.createElement("div");
-                   node.innerHTML = `
-                   <hr/>
-                   <h6 style="padding-bottom:10px;">Airline</h6>
-
+                   node.innerHTML += `
                    <div class="checkbox-inline1">
                    <label class="check_box_custom">
                         <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj.segments[0].carrier_code].name+`</span>
@@ -594,11 +600,7 @@ function airline_search(provider,carrier_codes){
                    document.getElementById("airline_list").appendChild(node);
                    node = document.createElement("div");
 
-                   var node2 = document.createElement("div");
-                   node2.innerHTML = `
-                   <hr/>
-                   <h6 style="padding-bottom:10px;">Airline</h6>
-
+                   node2.innerHTML += `
                    <div class="checkbox-inline1">
                    <label class="check_box_custom">
                         <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj.segments[0].carrier_code].name+`</span>
@@ -617,7 +619,6 @@ function airline_search(provider,carrier_codes){
                    });
                    airline_list_count++;
                }
-
            });
 //            document.getElementById('train_searchForm').submit();
        },
@@ -634,7 +635,7 @@ function airline_search(provider,carrier_codes){
            Swal.fire({
               type: 'error',
               title: 'Oops '+errorThrown+' ...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
             })
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
@@ -642,7 +643,7 @@ function airline_search(provider,carrier_codes){
             text = '';
             text += `
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops `+errorThrown+`! Something went wrong, please try again or check your connection internet</span>
+                    <span style="font-weight:bold;"> Oops `+errorThrown+`! Something went wrong, please try again or check your internet connection</span>
                 </div>
             `;
             var node = document.createElement("div");
@@ -1150,7 +1151,7 @@ function get_price_itinerary_request(){
                                         text+=`
                                         <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px; padding-top:15px;">
                                             <span style="font-weight:bold; color:#f15a22;"> Term and Condition </span><br/>
-                                            <span style="font-size:16px; font-weight:bold;">PLEASE WAIT </span><img src="/static/tt_website_skytors/img/plane_loading.gif" style="height:50px; width:50px;"/>
+                                            <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span><img src="/static/tt_website_skytors/img/loading-screen.gif" style="height:20px; width:20px;"/>
                                         </div>`;
                                 rules++;
                                 //price
@@ -1388,7 +1389,7 @@ function get_price_itinerary_request(){
            Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -1462,7 +1463,7 @@ function get_fare_rules(){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            try{
                 for(var i=0;i<100;i++)//hardcode
-                    document.getElementById('rules'+i).innerHTML = '<b>Oops! Something went wrong, please choose / change again and check your connection internet</b>';
+                    document.getElementById('rules'+i).innerHTML = '<b>Oops! Something went wrong, please choose / change again and check your internet connection</b>';
             }catch(err){
 
             }
@@ -1471,7 +1472,7 @@ function get_fare_rules(){
 }
 
 function airline_sell_journeys(){
-    $('.loader-airline').fadeIn();
+    $('.loader-rodextrip').fadeIn();
     getToken();
     $.ajax({
        type: "POST",
@@ -1495,18 +1496,18 @@ function airline_sell_journeys(){
                 alert(msg.result.error_msg);
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
-                $('.loader-airline').fadeOut();
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
-           $('.loader-airline').fadeOut();
+           $('.loader-rodextrip').fadeOut();
        },timeout: 30000
     });
 
@@ -1537,7 +1538,7 @@ function get_seat_availability(type){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -1592,7 +1593,7 @@ function get_seat_map_response(){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -1771,7 +1772,7 @@ function get_ssr_availabilty(type){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -1904,7 +1905,7 @@ function airline_update_contact_booker(val){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -1931,7 +1932,7 @@ function airline_set_ssr(val){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        }, timeout: 30000
     });
@@ -1958,7 +1959,7 @@ function airline_assign_seats(val){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -2000,7 +2001,7 @@ function airline_commit_booking(val){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -2022,13 +2023,13 @@ function airline_hold_booking(val){
     }).then((result) => {
       if (result.value) {
         if (val==0){
-            $('.loader-airline').fadeIn();
+            $('.loader-rodextrip').fadeIn();
             $('.next-loading-booking').addClass("running");
             $('.next-loading-booking').prop('disabled', true);
             $('.next-loading-issued').prop('disabled', true);
         }
         else{
-            $('.loader-airline').fadeIn();
+            $('.loader-rodextrip').fadeIn();
             $('.next-loading-booking').prop('disabled', true);
             $('.next-loading-issued').addClass("running");
             $('.next-loading-issued').prop('disabled', true);
@@ -2617,7 +2618,7 @@ function airline_get_booking(data){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 60000
     });
@@ -2847,7 +2848,7 @@ function airline_issued(data){
               Swal.fire({
                   type: 'error',
                   title: 'Oops...',
-                  text: 'Something went wrong, please try again or check your connection internet',
+                  text: 'Something went wrong, please try again or check your internet connection',
                })
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
@@ -2906,7 +2907,7 @@ function update_service_charge(data){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
        },timeout: 30000
     });
@@ -2973,7 +2974,7 @@ function sell_ssrs_after_sales(){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
 
            $('.btn-next').removeClass('running');
@@ -3010,7 +3011,7 @@ function assign_seats_after_sales(){
           Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
+              text: 'Something went wrong, please try again or check your internet connection',
            })
 
            $('.btn-next').removeClass('running');

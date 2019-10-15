@@ -5,7 +5,7 @@
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
@@ -67,7 +67,7 @@
     session_time_limit();
 </script>
 {% include 'tt_website_skytors/logout.html' %}
-<div class="loader-airline"></div>
+{% include 'tt_website_skytors/loading_screen.html' %}
 {%if template == 1%}
 <header id="header">
     <div class="main-menu">
@@ -100,7 +100,6 @@
         </div>
     </div>
 </header>
-{% include 'tt_website_skytors/check_connection.html' %}
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -147,7 +146,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -333,7 +332,7 @@
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                    <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -3943,7 +3942,23 @@
       {% endfor %}
     });
     $(function() {
+      document.getElementById("train_booker_search").addEventListener("keyup", function(event) {
+        if (event.keyCode === 13) {
+         event.preventDefault();
+         document.getElementById("booker_search").click();
+        }
+      });
+
       for (var i = 1; i <= adult; i++){
+          document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             console.log(testing);
+             document.getElementById(adult_enter).click();
+            }
+          });
+
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,

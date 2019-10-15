@@ -3554,12 +3554,12 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log==''){
-       $('.loader-airline').fadeIn();
+       $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('airline_review').submit();
    }
    else{
-       $('.loader-airline').fadeOut();
+       $('.loader-rodextrip').fadeOut();
        document.getElementById('show_error_log').innerHTML = error_log;
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
@@ -3849,14 +3849,14 @@ function update_contact_cp(val){
 }
 
 function next_ssr(){
-    $('.loader-airline').fadeIn();
+    $('.loader-rodextrip').fadeIn();
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
     document.getElementById('airline_booking').submit();
 }
 
 function next_seat_map(){
-    $('.loader-airline').fadeIn();
+    $('.loader-rodextrip').fadeIn();
     document.getElementById('airline_booking').innerHTML += `<input type="hidden" id="passenger" name="passenger" value='`+JSON.stringify(passengers)+`'>`;
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
