@@ -289,29 +289,16 @@
 
                 <div class="row" id="loading-search-hotel">
                     <div class="col-lg-12">
-                        <div class="sk-circle">
-                            <div class="sk-circle1 sk-child"></div>
-                            <div class="sk-circle2 sk-child"></div>
-                            <div class="sk-circle3 sk-child"></div>
-                            <div class="sk-circle4 sk-child"></div>
-                            <div class="sk-circle5 sk-child"></div>
-                            <div class="sk-circle6 sk-child"></div>
-                            <div class="sk-circle7 sk-child"></div>
-                            <div class="sk-circle8 sk-child"></div>
-                            <div class="sk-circle9 sk-child"></div>
-                            <div class="sk-circle10 sk-child"></div>
-                            <div class="sk-circle11 sk-child"></div>
-                            <div class="sk-circle12 sk-child"></div>
+                        <div id="center-div">
+                            <div>
+                                <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                            </div>
                         </div>
                         <div style="text-align:center">
-                            <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/hotel_loading.gif" style="height:50px; width:50px;"/>
+                            <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
                         </div>
                     </div>
                 </div>
-                <div id="hotel_error">
-
-                </div>
-
                 <div class="row">
                     <div class="col-lg-12">
 
@@ -320,17 +307,17 @@
                 <div class="row">
                     <div class="col-lg-12" id="hotel_result"></div>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="pagination-container" style="margin-bottom:10px;"></div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-12" id="hotel_ticket"></div>
                 </div>
+                <div id="hotel_error">
 
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="pagination-container2"></div>
@@ -341,12 +328,19 @@
                     <div class="col-lg-12" id="hotel_result_city"></div>
                 </div>
                 <div class="row style-scrollbar" id="hotel_city" style="margin-bottom:10px; max-height:202px; overflow-y:auto; display:none;">
-                </div>
 
+                </div>
+                <div id="city_error">
+
+                </div>
                 <div class="row">
                     <div class="col-lg-12" id="hotel_result_landmark"></div>
                 </div>
                 <div class="row style-scrollbar" id="hotel_landmark" style="margin-bottom:10px; max-height:215px; overflow-y:auto; display:none;">
+
+                </div>
+                <div id="landmark_error">
+
                 </div>
             </div>
 

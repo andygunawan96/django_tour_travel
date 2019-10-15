@@ -246,11 +246,11 @@ def signin(request):
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
-                    'activity': res_config_activity['result']['response'],
+                    'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
                     # 'tour': res_config_tour['result'],
                     'airline': {
-                        'country': res_country_airline['result']['response'],
-                        'destination': res_destination_airline['result']['response']
+                        'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
+                        'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False
                     },
                 })
 
