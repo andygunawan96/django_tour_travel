@@ -38,13 +38,11 @@ $(document).ready(function(){
     //$("html, body").animate({scrollTop: 0}, 1000);
     $("#myModalPopUp").modal('show');
 
-    $(window).on('load', function(){
-        setTimeout(function(){
-            $('.loader-airline').fadeOut();
-            $('.loader-activity').fadeOut();
-            $('.loader-hotel').fadeOut();
-        }, 2000);
-    });
+    setTimeout(function(){
+        $('.loader-airline').fadeOut();
+        $('.loader-activity').fadeOut();
+        $('.loader-hotel').fadeOut();
+    }, 1000);
 
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {

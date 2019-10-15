@@ -906,26 +906,28 @@ function activity_get_booking(data){
                         </div>
                     </div>
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-4" id="voucher">`;
-               if (msg.result.response.voucher_url)
-               {
-                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
-                                Print Ticket
-                             </button>`;
-               }
-               else
-               {
-                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
-                                Print Ticket
-                            </button>`;
+                        <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
+               if(msg.result.response.status == 'done'){
+                    if (msg.result.response.voucher_url)
+                    {
+                        text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
+                                    Print Ticket
+                                 </button>`;
+                    }
+                    else
+                    {
+                        text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
+                                    Print Ticket
+                                </button>`;
+                    }
                }
                text += `</div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="padding-bottom:10px;">
                             <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/1')" style="width:100%;">
                                 Print Itinerary Form
                             </button>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="padding-bottom:10px;">
                             <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
                                 Print Invoice
                             </button>

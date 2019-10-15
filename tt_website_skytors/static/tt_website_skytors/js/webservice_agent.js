@@ -172,7 +172,7 @@ function get_customer_list(passenger, number, product){
                         $('.loading-booker-train').hide();
                     }else{
                         response = '';
-                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
+                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div></center>`;
                         document.getElementById('search_result').innerHTML = response;
                         $('.loading-booker-train').hide();
                     }
@@ -259,7 +259,7 @@ function get_customer_list(passenger, number, product){
                         $('.loading-pax-train').hide();
                     }else{
                         response = '';
-                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> OOPS! USER NOT FOUND</h6></div></center>`;
+                        response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User nof found!</h6></div></center>`;
                         document.getElementById('search_result_'+passenger+number).innerHTML = response;
                         $('.loading-pax-train').hide();
                     }
