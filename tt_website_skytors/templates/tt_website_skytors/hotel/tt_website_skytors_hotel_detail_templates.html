@@ -25,7 +25,12 @@
     city_id = {{response.location.city_id}};
     time_limit = {{time_limit}};
     session_time_limit();
-    hotel_facility_request();
+    facilities = `{{response.facilities}}`;
+    facilities = facilities.replace(/&#39;/g, '"');
+    facilities = facilities.replace(/&quot;/g, '"');
+    facilities = facilities.replace(/False/g, 'false');
+    facilities = facilities.replace(/True/g, 'true');
+    hotel_facility_request(facilities);
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
@@ -134,15 +139,9 @@
                 <div class="col-lg-12 div-facility-hotel" style="background:#f9f9f9; padding-top:40px; padding-bottom:40px;">
                     <h4>Facility</h4>
                     <hr/>
-                    <div class="row">
-                        {% for facility in response.facilities %}
-                        <div class="col-md-3 col-xs-4" style="width:25%;">
-                            <i class="fas fa-circle"></i>
-                            {{facility.facility_name}}
-                        </div>
-                        {% endfor %}
-                    </div>
+                    <div id="js_image_facility" class="row">
 
+                    </div>
                 </div>
 
                 <div class="col-lg-12 div-location-hotel" style="background:white; padding-top:40px; padding-bottom:40px;">

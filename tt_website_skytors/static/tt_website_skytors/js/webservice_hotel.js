@@ -207,7 +207,7 @@ function get_top_facility(){
                 facility_filter_html += `
                 <label class="check_box_custom">
                     <span class="span-search-ticket" style="color:black;"><img src="`+top_facility[i].image_url+`" style="width:20px; height:20px;"/> `+top_facility[i].facility_name+`</span>
-                    <input type="checkbox" id="fac_filter`+i+`" onclick="change_filter('rating',`+i+`);">
+                    <input type="checkbox" id="fac_filter`+i+`" onclick="change_filter('facility',`+i+`);">
                     <span class="check_box_span_custom"></span>
                 </label><br/>`;
             }
@@ -222,7 +222,7 @@ function get_top_facility(){
     });
 }
 
-function hotel_facility_request(){
+function hotel_facility_request(hotel_facilities){
     getToken();
     $.ajax({
         type: "POST",
@@ -234,8 +234,34 @@ function hotel_facility_request(){
             'signature': signature
         },
         success: function(msg) {
-            console.log(msg);
+            //console.log('start');
             facility_image = msg.result.response;
+            facility_image_html = ``;
+            //console.log(hotel_facilities);
+            //console.log(facility_image);
+            hotel_facilities = $.parseJSON(hotel_facilities);
+            //console.log(hotel_facilities);
+
+            for (rec in hotel_facilities){
+                var new_html = '';
+                for(i in facility_image){
+                    if (facility_image[i].internal_code == hotel_facilities[rec].facility_id){
+                        new_html = `
+                        <div class="col-md-3 col-xs-4" style="width:25%;">
+                            <img src="`+ facility_image[i].facility_image +`" style="width:20px; height:20px;"/> `+ hotel_facilities[rec].facility_name +`
+                        </div>`;
+                        break;
+                    }
+                }
+                if (new_html === '' || facility_image[i].facility_image == false){
+                    new_html = `
+                    <div class="col-md-3 col-xs-4" style="width:25%;">
+                        <img src="http://localhost:8000/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" style="width:20px; height:20px;"/> `+ hotel_facilities[rec].facility_name +`
+                    </div>`;
+                }
+                facility_image_html += new_html;
+            }
+            document.getElementById("js_image_facility").innerHTML = facility_image_html;
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
             alert(errorThrown);
@@ -274,12 +300,12 @@ function hotel_detail_request(id){
         var node = document.createElement("div");
         var node2 = document.createElement("div");
         if(typeof result.prices === "undefined"){
-            alert("There's no room in this hotel!");
+            //alert("There's no room in this hotel!");
             $('#loading-detail-hotel').hide();
             $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
             // window.location.href = "http://localhost:8000";
         }else if(result.prices.length == 0){
-            alert("There's no room in this hotel!");
+            //alert("There's no room in this hotel!");
             $('#loading-detail-hotel').hide();
             $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
         }else{

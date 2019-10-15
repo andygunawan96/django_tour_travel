@@ -25,6 +25,7 @@ var rating_list = [
         status: false
     }
 ]
+var selected_fac = [];
 
 var sorting_list = [
     {
@@ -225,7 +226,7 @@ function filtering(type, update){
                     temp_data.push(obj);
                 } else {
                     // Tambahkan hotel ygy unrated jika *1 nya tercentang
-                    console.log(obj.rating);
+                    // console.log(obj.rating);
                     if(rating_list[0].status == true && obj.rating == false){
                         temp_data.push(obj);
                     }
@@ -246,6 +247,29 @@ function filtering(type, update){
                     }
                 });
                 if(test == 1){
+                    temp_data.push(obj);
+                }
+            });
+            data.hotel_ids = temp_data;
+            hotel_filter = data;
+            temp_data = [];
+            high_price_slider = 0;
+        }
+
+        if (selected_fac != false){
+            console.log('Selected Length: ' + selected_fac.length);
+            data.hotel_ids.forEach((obj)=> {
+                var selected = 0;
+                selected_fac.forEach((obj1)=> {
+                    for( var i = 0; i < obj.facilities.length; i++){
+                        if (obj.facilities[i].facility_id === top_facility[obj1].internal_code){
+                            selected += 1;
+                            break;
+                        }
+                    }
+                });
+
+                if (selected == selected_fac.length){
                     temp_data.push(obj);
                 }
             });
@@ -658,23 +682,26 @@ function sort(response, check_filter){
                                 Facilities:<br/>
                                 <span>`;
                                 try{
+                                    var ava_fac = '';
                                     for(j in top_facility){
                                         var facility_check = 0;
                                         for(k in response.hotel_ids[i].facilities){
                                             if(top_facility[j].internal_code == response.hotel_ids[i].facilities[k].facility_id){
                                                 facility_check = 1;
+                                                ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
                                                 break;
                                             }
                                         }
 
-                                    if(facility_check == 1){
-                                        text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
-                                    }
-                                    else{
-                                        text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
+                                        if(facility_check == 1){
+                                            text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
+                                        }
+                                        else{
+                                            text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
+                                        }
                                     }
                                 }
-                            }catch(err){}
+                            catch(err){}
                             text+=`</span>
                                 </div>
                                 <div class="col-lg-5  col-md-5" style="text-align:right; padding-top:15px;">
@@ -778,7 +805,18 @@ function change_filter(type, value){
     var check = 0;
     if(type == 'rating'){
         rating_list[value].status = !rating_list[value].status;
-    }
+    } else if(type == 'facility'){
+        if (selected_fac.includes(value)){
+            for( var i = 0; i < selected_fac.length; i++){
+               if (selected_fac[i] === value) {
+                 selected_fac.splice(i, 1);
+                 break;
+               }
+            }
+        } else {
+            selected_fac.push(value);
+        }
+    };
     filtering('filter', 1);
 }
 
