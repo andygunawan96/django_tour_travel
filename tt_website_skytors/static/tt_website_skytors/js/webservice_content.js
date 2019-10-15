@@ -140,7 +140,7 @@ function get_banner(type,page){
                     for(i in msg.result.response)
                         text += `
                         <div style="height:220px;margin-bottom:25px;">
-                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto"/>
+                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />
 
                             <div class="row" style="justify-content:space-around">
                                 <div class="checkbox" style="display: block;">
