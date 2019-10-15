@@ -57,6 +57,23 @@ def login(request,func):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+def get_requirement_list_doc(request):
+    try:
+        data = {
+            'provider': 'skytors_agent_registration'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_requirement_list_doc",
+            'signature': request.session['signature']
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+
+    return res
+
 def get_config(request):
     try:
         data = {
