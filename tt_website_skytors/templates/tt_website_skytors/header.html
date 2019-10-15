@@ -110,7 +110,9 @@
 
                         </li>
                         {% else %}
-                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_skytors:login'%}" class="nav-link" style="border: 2px solid #f15a22;">Sign in</a></li>
+                        <li style="font-size:12px;color:black;">
+                            <button onclick="location.href='{% url 'tt_website_skytors:login'%}';" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
+                        </li>
                         {% endif %}
                     </ul>
                 </nav>

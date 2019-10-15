@@ -38,12 +38,11 @@ $(document).ready(function(){
     //$("html, body").animate({scrollTop: 0}, 1000);
     $("#myModalPopUp").modal('show');
 
-    $(window).on('load', function(){
-        setTimeout(function(){
-            $('.loader-rodextrip').fadeOut();
-            $('.loader-airline').fadeOut();
-        }, 2000);
-    });
+    setTimeout(function(){
+        $('.loader-airline').fadeOut();
+        $('.loader-activity').fadeOut();
+        $('.loader-hotel').fadeOut();
+    }, 1000);
 
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
@@ -1625,6 +1624,23 @@ function show_hide_city_hotel(){
     }
 }
 
+function show_hide_advanced(){
+    var advanced_search = document.getElementById("advanced_search");
+    var advanced_down = document.getElementById("advanced_down");
+    var advanced_up = document.getElementById("advanced_up");
+
+    if (advanced_down.style.display === "none") {
+        advanced_up.style.display = "none";
+        advanced_search.style.display = "none";
+        advanced_down.style.display = "block";
+    }
+    else {
+        advanced_up.style.display = "block";
+        advanced_search.style.display = "";
+        advanced_down.style.display = "none";
+    }
+}
+
 function show_hide_landmark_hotel(){
     var hotel_landmark = document.getElementById("hotel_landmark");
     var landmark_hotel_down = document.getElementById("landmark_hotel_down");
@@ -1854,7 +1870,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:activity_search'%}';", "location.href='{% url 'tt_website_skytors:activity_detail'%}';", "location.href='{% url 'tt_website_skytors:activity_passenger'%}';", ""];
     }
     if(breadcrumbs_type == "hotel"){
-        var breadcrumbs = ["Home", "Search", "Rooms", "Passenger", "Review", "Issued"];
+        var breadcrumbs = ["Home", "Search", "Rooms", "Guest", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:hotel_search'%}';", "", "", "", ""];
     }
 

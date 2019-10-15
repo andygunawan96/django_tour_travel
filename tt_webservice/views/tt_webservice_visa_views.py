@@ -101,6 +101,7 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -238,9 +239,23 @@ def sell_visa(request):
 
 def update_contact(request):
     try:
+        booker = request.session['visa_create_passengers']['booker']
+        contacts = request.session['visa_create_passengers']['contact']
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                break
+
+        for pax in contacts:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         data = {
-            'booker': request.session['visa_create_passengers']['booker'],
-            'contacts': request.session['visa_create_passengers']['contact']
+            'booker': booker,
+            'contacts': contacts
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -256,55 +271,50 @@ def update_contact(request):
 def update_passengers(request):
     try:
         passengers = []
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         master_visa_id = json.loads(request.POST['id'])
-        for pax in request.session['visa_create_passengers']['adult']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            if pax['passport_expdate'] != '':
-                try:
-                    pax.update({
-                        'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                    pax['passport_expdate'].split(' ')[0])
-                    })
-                except:
-                    print('no passport exp date')
-            pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
-            pax['required'] = master_visa_id[len(passengers)]['required']
-            passengers.append(pax)
+        for pax_type in request.session['visa_create_passengers']:
+            if pax_type != 'booker' and pax_type != 'contact':
+                for pax in request.session['visa_create_passengers'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
 
-        for pax in request.session['visa_create_passengers']['child']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            if pax['passport_expdate'] != '':
-                try:
+                    if pax['identity_country_of_issued_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['identity_country_of_issued_name'] == country['name']:
+                                pax['identity_country_of_issued_code'] = country['code']
+                                break
                     pax.update({
-                        'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                    pax['passport_expdate'].split(' ')[0])
+                        'birth_date': '%s-%s-%s' % (
+                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                            pax['birth_date'].split(' ')[0]),
                     })
-                except:
-                    print('no passport exp date')
-            pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
-            pax['required'] = master_visa_id[len(passengers)]['required']
-            passengers.append(pax)
+                    if pax['identity_expdate'] != '':
+                        pax.update({
+                            'identity_expdate': '%s-%s-%s' % (
+                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                pax['identity_expdate'].split(' ')[0])
+                        })
+                        pax['identity'] = {
+                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                            "identity_expdate": pax.pop('identity_expdate'),
+                            "identity_number": pax.pop('identity_number'),
+                            "identity_type": pax.pop('identity_type'),
+                        }
 
-        for pax in request.session['visa_create_passengers']['infant']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            if pax['passport_expdate'] != '':
-                try:
-                    pax.update({
-                        'passport_expdate': '%s-%s-%s' % (pax['passport_expdate'].split(' ')[2], month[pax['passport_expdate'].split(' ')[1]],
-                                                    pax['passport_expdate'].split(' ')[0])
-                    })
-                except:
-                    print('no passport exp date')
-            pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
-            pax['required'] = master_visa_id[len(passengers)]['required']
-            passengers.append(pax)
-
+                    else:
+                        pax.pop('identity_country_of_issued_name')
+                        pax.pop('identity_expdate')
+                        pax.pop('identity_number')
+                        pax.pop('identity_type')
+                    pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
+                    pax['required'] = master_visa_id[len(passengers)]['required']
+                    passengers.append(pax)
         data = {
             'passengers': passengers
         }

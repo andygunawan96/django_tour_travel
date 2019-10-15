@@ -17,6 +17,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'get_config':
             res = get_config(request)
+        elif req_data['action'] == 'get_requirement_list_doc':
+            res = get_requirement_list_doc(request)
         elif req_data['action'] == 'agent_registration':
             res = register(request)
         else:
@@ -53,6 +55,23 @@ def login(request,func):
             register(request)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_requirement_list_doc(request):
+    try:
+        data = {
+            'provider': 'skytors_agent_registration'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_requirement_list_doc",
+            'signature': request.session['signature']
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+
     return res
 
 def get_config(request):

@@ -31,6 +31,8 @@
     adult = {{adult_count}};
     child = {{child_count}};
     infant = 0;
+    time_limit = {{time_limit}};
+    session_time_limit();
 </script>
 {% include 'tt_website_skytors/logout.html' %}
 <header id="header">
@@ -44,10 +46,18 @@
 
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                </div>
+            </div>
         </div>
     </div>
 </header>
-
+<div class="loader-hotel"></div>
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -60,7 +70,7 @@
                                 <div id="booker" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <h4>Booker Infomartion</h4>
+                                            <h4>Booker Information</h4>
                                             <hr/>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
@@ -132,6 +142,7 @@
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -231,7 +242,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                            <span style="color:white; text-align:center; font-size:15px;">Guest Adult - {{forloop.counter}}</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -393,7 +404,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
+                                            <span style="color:white; text-align:center; font-size:15px;">Guest Child - {{forloop.counter}}</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -405,7 +416,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
@@ -513,7 +524,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
+                                            <span style="color:white; text-align:center; font-size:15px;">Guest Infant - {{forloop.counter}}</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -526,7 +537,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
@@ -631,15 +642,6 @@
 
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
-                        <div class="row" style="padding-bottom:15px;">
-                            <div class="col-lg-12">
-                                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
-                                    <hr/>
-                                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
-                                </div>
-                            </div>
-                        </div>
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
 
                         </div><br/>
@@ -690,7 +692,7 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                    <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
                 </div>
             </form>
         </div>

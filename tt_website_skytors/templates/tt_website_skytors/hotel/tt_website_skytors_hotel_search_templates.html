@@ -64,6 +64,8 @@
        document.getElementById("guest_child_age").innerHTML = text;
     }
     signature = `{{signature}}`;
+    time_limit = {{time_limit}};
+    session_time_limit();
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
@@ -266,7 +268,9 @@
                         </div>
                     </div>
                 </div>
+                <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="session_timer">
 
+                </div>
                 <div class="filter-search-flight" id="filter-search-flight">
                     <div style="background-color:white; border:1px solid #cdcdcd; padding:10px; margin-top:20px;" id="filter">
 
@@ -285,29 +289,16 @@
 
                 <div class="row" id="loading-search-hotel">
                     <div class="col-lg-12">
-                        <div class="sk-circle">
-                            <div class="sk-circle1 sk-child"></div>
-                            <div class="sk-circle2 sk-child"></div>
-                            <div class="sk-circle3 sk-child"></div>
-                            <div class="sk-circle4 sk-child"></div>
-                            <div class="sk-circle5 sk-child"></div>
-                            <div class="sk-circle6 sk-child"></div>
-                            <div class="sk-circle7 sk-child"></div>
-                            <div class="sk-circle8 sk-child"></div>
-                            <div class="sk-circle9 sk-child"></div>
-                            <div class="sk-circle10 sk-child"></div>
-                            <div class="sk-circle11 sk-child"></div>
-                            <div class="sk-circle12 sk-child"></div>
+                        <div id="center-div">
+                            <div>
+                                <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                            </div>
                         </div>
                         <div style="text-align:center">
-                            <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/hotel_loading.gif" style="height:50px; width:50px;"/>
+                            <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
                         </div>
                     </div>
                 </div>
-                <div id="hotel_error">
-
-                </div>
-
                 <div class="row">
                     <div class="col-lg-12">
 
@@ -316,17 +307,17 @@
                 <div class="row">
                     <div class="col-lg-12" id="hotel_result"></div>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="pagination-container" style="margin-bottom:10px;"></div>
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-lg-12" id="hotel_ticket"></div>
                 </div>
+                <div id="hotel_error">
 
+                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <div id="pagination-container2"></div>
@@ -337,12 +328,19 @@
                     <div class="col-lg-12" id="hotel_result_city"></div>
                 </div>
                 <div class="row style-scrollbar" id="hotel_city" style="margin-bottom:10px; max-height:202px; overflow-y:auto; display:none;">
-                </div>
 
+                </div>
+                <div id="city_error">
+
+                </div>
                 <div class="row">
                     <div class="col-lg-12" id="hotel_result_landmark"></div>
                 </div>
                 <div class="row style-scrollbar" id="hotel_landmark" style="margin-bottom:10px; max-height:215px; overflow-y:auto; display:none;">
+
+                </div>
+                <div id="landmark_error">
+
                 </div>
             </div>
 
@@ -370,6 +368,7 @@
                     </div>
                 </div>
             </div>
+            <input type="hidden" id="time_limit_input" name="time_limit_input" />
         </div>
     </div>
 </section>
@@ -482,6 +481,7 @@
 
     function goto_detail(type, counter){
        document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
+       document.getElementById('hotel'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
        document.getElementById('hotel'+counter).submit();
     }
 </script>

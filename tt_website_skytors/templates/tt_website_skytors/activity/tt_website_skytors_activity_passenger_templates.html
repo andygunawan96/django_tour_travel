@@ -111,7 +111,11 @@
         </div>
     </div>
 </header>
-
+<div class="loader-activity">
+    <svg height="100" stroke="#f15a22" stroke-width="2" class="text-line center-load-screen" width="100%">
+        <text style="font-family: Helvetica,Arial,sans-serif; font-weight: normal; font-style: normal" x="50%" dominant-baseline="middle" text-anchor="middle" y="50%">RODEXTRIP</text>
+    </svg>
+</div>
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -210,6 +214,7 @@
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
+                                                <input type="hidden" class="form-control" name="booker_id_number" id="booker_exp_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_country_of_issued" />
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -229,7 +234,7 @@
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -279,7 +284,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #f15a22;">
-                                    <label>Do you book this trip for you?</label>
+                                    <label>Do you book this ticket for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
                                         <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy','tour');" value="yes"/>
@@ -293,10 +298,10 @@
                                     </label>
 
                                     <br/>
-                                    <label>Passenger Data</label><br/>
+                                    <label>Guest Data</label><br/>
                                     <ul>
-                                        <li>1. Caution: the name of the passenger must be right and appropriate with international passsport, and domestic route can match with KTP/Passport/SIM</li>
-                                        <li>2. Passenger data can't be changed after the passing of this page</li>
+                                        <li>1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM</li>
+                                        <li>2. Guest data can't be changed after the passing of this page</li>
                                     </ul>
                                 </div>
                             </div>
@@ -308,7 +313,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Adult - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
+                                            <h6 style="color:white;">Adult Guest - {{forloop.counter}} - (Ticket: {{adult.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -331,7 +336,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
@@ -412,7 +417,7 @@
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -447,7 +452,7 @@
                                                     <select class="js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -557,7 +562,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('senior', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Senior - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
+                                            <h6 style="color:white;">Senior Guest - {{forloop.counter}} - (Ticket: {{senior.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="senior_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -572,7 +577,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_senior{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_senior{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="senior_clear{{forloop.counter}}" onclick="clear_passenger('Senior', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_senior{{forloop.counter}}" role="dialog">
@@ -653,7 +658,7 @@
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" name="senior_nationality{{forloop.counter}}_id" style="width:100%;" id="senior_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('senior_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -690,7 +695,7 @@
                                                     <select class="js-example-basic-single" name="senior_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="senior_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('senior_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -800,7 +805,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Child - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
+                                            <h6 style="color:white;">Child Guest - {{forloop.counter}} - (Ticket: {{child.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="child_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -815,7 +820,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
@@ -896,7 +901,7 @@
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -933,7 +938,7 @@
                                                     <select class="js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -1013,7 +1018,7 @@
                                 <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <h6 style="color:white;">Passenger Infant - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
+                                            <h6 style="color:white;">Infant Guest - {{forloop.counter}} - (Ticket: {{infant.title}})</h6>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
@@ -1029,7 +1034,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
@@ -1111,7 +1116,7 @@
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -1149,7 +1154,7 @@
                                                     <select class="js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>

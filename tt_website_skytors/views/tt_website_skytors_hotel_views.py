@@ -54,6 +54,7 @@ def search(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
+            'time_limit': 600,
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -67,6 +68,8 @@ def detail(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         template, logo = get_logo_template()
+
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         try:
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -87,6 +90,7 @@ def detail(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
+            'time_limit': request.session['time_limit'],
             'rating': range(request.session['hotel_detail']['rating']),
         }
 
@@ -112,6 +116,8 @@ def passengers(request):
         response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
 
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -130,7 +136,7 @@ def passengers(request):
         for i in range(int(request.session['hotel_request']['child'])):
             child.append()
         request.session['hotel_request'].update({
-            'check_in': request.POST.get('chekin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
+            'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
             'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
@@ -149,6 +155,7 @@ def passengers(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
         }
         return render(request, MODEL_NAME+'/hotel/tt_website_skytors_hotel_passenger_templates.html', values)
@@ -161,50 +168,119 @@ def review(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         adult = []
         child = []
+        contact = []
         booker = {
-            'address': request.session.get('company_details') and request.session['company_details']['address'] or '',
+            'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
             'last_name': request.POST['booker_last_name'],
-            'title': request.POST['booker_title'],
             'email': request.POST['booker_email'],
-            'nationality_code': request.POST['booker_nationality_id'],
-            'country_code': request.POST['booker_nationality_id'],
-            'work_phone': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            "mobile": "0" + request.POST['booker_phone'],
-            'contact_id': request.POST.get('booker_id') and int(request.POST.get('booker_id')) or ''
+            'calling_code': request.POST['booker_phone_code'],
+            'mobile': request.POST['booker_phone'],
+            'nationality_name': request.POST['booker_nationality'],
+            "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
+            'booker_seq_id': request.POST['booker_id']
         }
-        # "city": this.state.city_agent,
-        # "province_state": this.state.state_agent,
-        # "contact_id": "",
-
         for i in range(int(request.session['hotel_request']['adult'])):
             adult.append({
+                "pax_type": "ADT",
                 "first_name": request.POST['adult_first_name' + str(i + 1)],
                 "last_name": request.POST['adult_last_name' + str(i + 1)],
-                "nationality_code": request.POST['adult_nationality' + str(i + 1)],
                 "title": request.POST['adult_title' + str(i + 1)],
-                "room_number": "1",
-                "pax_type": "ADT",
                 "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                "passenger_id": request.POST.get('adult_id') and int(request.POST['adult_id' + str(i + 1)]) or ''
+                "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                "room_number": '1'
             })
+
+            if i == 0:
+                if request.POST['myRadios'] == 'yes':
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': True,
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': False
+                    })
+            else:
+                adult[len(adult) - 1].update({
+                    'is_also_booker': False
+                })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            except:
+                if i == 0 and request.POST['myRadios'] == 'yes':
+                    continue
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    contact.append({
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "email": request.POST['adult_email' + str(i + 1)],
+                        "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                        "mobile": request.POST['adult_phone' + str(i + 1)],
+                        "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                        "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
+                        "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
+                        "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                    })
+                if i == 0:
+                    if request.POST['myRadios'] == 'yes':
+                        contact[len(contact)].update({
+                            'is_also_booker': True
+                        })
+                    else:
+                        contact[len(contact)].update({
+                            'is_also_booker': False
+                        })
+            except:
+                pass
+
+        if len(contact) == 0:
+            contact.append({
+                'title': request.POST['booker_title'],
+                'first_name': request.POST['booker_first_name'],
+                'last_name': request.POST['booker_last_name'],
+                'email': request.POST['booker_email'],
+                'calling_code': request.POST['booker_phone_code'],
+                'mobile': request.POST['booker_phone'],
+                'nationality_name': request.POST['booker_nationality'],
+                'contact_seq_id': request.POST['booker_id'],
+                "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
+                "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
+                'is_also_booker': True
+            })
+
         for i in range(int(request.session['hotel_request']['child'])):
             child.append({
+                "pax_type": "CHD",
                 "first_name": request.POST['child_first_name' + str(i + 1)],
                 "last_name": request.POST['child_last_name' + str(i + 1)],
-                "nationality_code": request.POST['child_nationality' + str(i + 1)],
                 "title": request.POST['child_title' + str(i + 1)],
-                "pax_type": "CHD",
                 "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                "room_number": "1",
-                "passenger_id": request.POST.get('child_id') and int(request.POST['child_id' + str(i + 1)]) or ''
+                "nationality_name": request.POST['child_nationality' + str(i + 1)],
+                "passenger_seq_id": request.POST['child_id' + str(i + 1)],
             })
 
         request.session['hotel_review_pax'] = {
             'booker': booker,
+            'contact': contact,
             'adult': adult,
             'child': child,
         }
@@ -223,6 +299,7 @@ def review(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'logo': logo,
+            'time_limit': request.session['time_limit'],
             'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
 
@@ -237,9 +314,8 @@ def booking(request):
         javascript_version = get_cache_version()
         template, logo = get_logo_template()
 
-        resv_obj = json.loads(request.POST['result'])['result']
-
-        if resv_obj['response']:
+        resv_obj = json.loads(request.POST['result'])['result']['response']
+        if resv_obj:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
@@ -255,6 +331,14 @@ def booking(request):
             }
             return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
         else:
-            return no_session_logout()
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'username': request.session['user_account'],
+                # 'co_uid': request.session['co_user_name'],
+                'javascript_version': javascript_version,
+                'logo': logo,
+                'template': template,
+            }
+            return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
     else:
         return no_session_logout()

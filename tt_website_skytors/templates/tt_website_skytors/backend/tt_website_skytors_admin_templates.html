@@ -8,9 +8,30 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script>
     signature = `{{signature}}`;
 </script>
+<style>
+	#selectedFiles_bigbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	#selectedFiles_smallbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+	#selectedFiles_promotionbanner img {
+		max-width: 125px;
+		max-height: 125px;
+		float: left;
+		margin-bottom:10px;
+	}
+</style>
 {% include 'tt_website_skytors/logout.html' %}
 {% include 'tt_website_skytors/header.html' %}
 {% if template == 1 %}
@@ -27,7 +48,7 @@
 {% endif %}
     <div class="container">
         <div class="banner-right" style="margin-bottom:25px;">
-            <form action="" method="POST" id="" enctype="multipart/form-data">
+            <form action="" method="POST" id="form_admin" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
                     <div class="row" style="text-align:left">
@@ -89,16 +110,115 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
+                            <span>Big Banner</span><br/>
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                  <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:white;">Big Banner</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_bigbanner"></div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <span>Image</span><br/>
+                            <div class="row" id="big_banner">
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top:25px;">
+                            <span>Small Banner</span><br/>
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                  <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:white;">Small Banner</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_smallbanner"></div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <span>Image</span><br/>
+                            <div id="small_banner">
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top:25px;">
+                            <span>Promotion Banner</span><br/>
+                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
+                                <div class="modal-dialog">
+
+                                  <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
+
+                                            <div id="selectedFiles_promotionbanner"></div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <span>Image</span><br/>
+                            <div id="promotion">
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
                             {% if template == 1 %}
-                            <button class="primary-btn">Save</button>
+                            <button type="button" class="primary-btn" onclick="update_banner();">Save</button>
                             {% elif template == 2 %}
-                            <button class="btn roberto-btn" style="margin-top:20px;">Save</button>
+                            <button type="button" class="btn roberto-btn" style="margin-top:20px;" onclick="update_banner();">Save</button>
                             {% elif template == 3 %}
-                            <button class="primary-btn">Save</button>
+                            <button type="button" class="primary-btn" onclick="update_banner();">Save</button>
                             {% elif template == 4 %}
-                            <button class="btn btn-primary rounded">Save</button>
+                            <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save</button>
                             {% elif template == 5 %}
-                            <button class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-primary" onclick="update_banner();">Save</button>
                             {% endif %}
                         </div>
                     </div>
@@ -115,6 +235,25 @@
 {% include 'tt_website_skytors/footer.html' %}
 
 <script>
+
+	var selDiv_bigbanner = "";
+	var selDiv_smallbanner = "";
+	var selDiv_promotionbanner = "";
+
+	document.addEventListener("DOMContentLoaded", init, false);
+
+	function init() {
+		document.querySelector('#files_bigbanner').addEventListener('change', handleFileSelect_bigbanner, false);
+		document.querySelector('#files_smallbanner').addEventListener('change', handleFileSelect_smallbanner, false);
+		document.querySelector('#files_promotionbanner').addEventListener('change', handleFileSelect_promotionbanner, false);
+		selDiv_bigbanner = document.querySelector("#selectedFiles_bigbanner");
+		selDiv_smallbanner = document.querySelector("#selectedFiles_smallbanner");
+		selDiv_promotionbanner = document.querySelector("#selectedFiles_promotionbanner");
+	}
+
+	get_banner('big_banner','admin');
+    //get_banner('small_banner','admin');
+    //get_banner('promotion','admin');
 
 </script>
 

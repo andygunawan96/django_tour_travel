@@ -246,11 +246,11 @@ def signin(request):
                     # 'visa': res_config_visa['result']['response'], #belum di install
                     # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
                     # 'train': res_origin_train['result']['response'],
-                    'activity': res_config_activity['result']['response'],
+                    'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
                     # 'tour': res_config_tour['result'],
                     'airline': {
-                        'country': res_country_airline['result']['response'],
-                        'destination': res_destination_airline['result']['response']
+                        'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
+                        'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False
                     },
                 })
 
@@ -305,8 +305,10 @@ def signin(request):
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    return 'login' in res_user['result']['response']['co_agent_frontend_security']
+    try:
+        return 'login' in res_user['result']['response']['co_agent_frontend_security']
+    except:
+        return False
 
 def get_url():
     return url_web
@@ -317,6 +319,10 @@ def get_customer_list(request):
         lower = 0
         #define per product DEFAULT 0 - 200 / AMBIL SEMUA PASSENGER
         #check jos
+        if request.POST['passenger_type'] == 'booker':
+            passenger = 'book'
+        else:
+            passenger = 'psg'
         if request.POST['product'] == 'airline':
             if request.POST['passenger_type'] == 'adult':
                 upper = 200
@@ -330,7 +336,8 @@ def get_customer_list(request):
         data = {
             'name': request.POST['name'],
             'upper': upper,
-            'lower': lower
+            'lower': lower,
+            'type': passenger
         }
 
         headers = {
@@ -351,24 +358,38 @@ def get_customer_list(request):
                     age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
                     age = age.years
                 else:
-                    age = ''
+                    age = 12
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                    title = 'MRS'
+                    if age > 11:
+                        title = 'MRS'
+                    else:
+                        title = 'MISS'
                 elif pax['gender'] == 'female':
-                    title = 'MS'
+                    if age > 11:
+                        title = 'MRS'
+                    else:
+                        title = 'MISS'
                 else:
-                    title = 'MR'
+                    if age > 11:
+                        title = 'MR'
+                    else:
+                        title = 'MSTR'
                 pax.update({
                     'sequence': counter,
                     'age': age,
                     'title': title
                 })
                 if pax['birth_date'] != '':
-
                     pax.update({
                         'birth_date': '%s %s %s' % (
                             pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
                             pax['birth_date'].split('-')[0]),
+                    })
+                if pax['identities'].get('passport'):
+                    pax['identities']['passport'].update({
+                        'identity_expdate': '%s %s %s' % (
+                            pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                            pax['identities']['passport']['identity_expdate'].split('-')[0]),
                     })
                 counter += 1
             logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])

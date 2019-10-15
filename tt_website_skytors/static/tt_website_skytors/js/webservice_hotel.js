@@ -16,6 +16,8 @@ var month = {
     '11': 'Nov',
     '12': 'Dec',
 }
+high_price_slider = 0;
+step_slider = 0;
 
 function get_hotel_config(){
     getToken();
@@ -114,23 +116,47 @@ function hotel_search(data){
                                     vendor = [];
                                     for(i in msg.result.response.hotel_ids){
                                         check = 0;
-                                        if(vendor.length != 0)
-                                            for(j in msg.result.response.hotel_ids[i].external_code){
-                                                if(vendor.indexOf(j) == -1){
-                                                    vendor.push(j);
-                                                }else{
-                                                    check = 1;
-                                                }
-                                            }
-                                        if(check == 0){
-                                            for(j in msg.result.response.hotel_ids[i].external_code){
-                                                if(vendor.indexOf(j) == -1){
-                                                    vendor.push(j);
-                                                }
-                                            }
-                                        }
+//                                        if(vendor.length != 0){
+//                                            for(j in msg.result.response.hotel_ids[i].prices){
+//                                                if(vendor.indexOf(j) == -1){
+//                                                    vendor.push(j);
+//                                                }else{
+//                                                    check = 1;
+//                                                }
+//                                            }
+//                                        }
+//                                        if(check == 0){
+//                                            for(j in msg.result.response.hotel_ids[i].prices){
+//                                                if(vendor.indexOf(j) == -1){
+//                                                    vendor.push(j);
+//                                                }
+//                                            }
+//                                        }
+                                       for(j in msg.result.response.hotel_ids[i].prices){
+                                           if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
+                                               high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                                           }
+                                       }
                                     }
-                                    filtering('sort');
+                                    if(high_price_slider <= 1000000){
+                                        step_slider = 50000;
+                                    }
+                                    else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                                        step_slider = 100000;
+                                    }
+                                    else{
+                                        step_slider = 200000;
+                                    }
+                                    document.getElementById("price-to").value = high_price_slider;
+
+                                    $(".js-range-slider").data("ionRangeSlider").update({
+                                         from: 0,
+                                         to: high_price_slider,
+                                         min: 0,
+                                         max: high_price_slider,
+                                         step: step_slider
+                                    });
+                                    filtering('filter', 0);
                                 }else{
                                     //kalau error belum
                                 }
@@ -150,8 +176,13 @@ function hotel_search(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          $("#loading-search-hotel").hide();
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+          })
+       },timeout: 120000
     });
 }
 
@@ -164,7 +195,9 @@ function get_top_facility(){
             'action': 'get_top_facility',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
         console.log(msg);
         top_facility = msg.result.response;
@@ -174,7 +207,7 @@ function get_top_facility(){
                 facility_filter_html += `
                 <label class="check_box_custom">
                     <span class="span-search-ticket" style="color:black;"><img src="`+top_facility[i].image_url+`" style="width:20px; height:20px;"/> `+top_facility[i].facility_name+`</span>
-                    <input type="checkbox" id="fac_filter`+i+`" onclick="change_filter('rating',`+i+`);">
+                    <input type="checkbox" id="fac_filter`+i+`" onclick="change_filter('facility',`+i+`);">
                     <span class="check_box_span_custom"></span>
                 </label><br/>`;
             }
@@ -186,6 +219,53 @@ function get_top_facility(){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
+    });
+}
+
+function hotel_facility_request(hotel_facilities){
+    getToken();
+    $.ajax({
+        type: "POST",
+        url: "/webservice/hotel",
+        headers:{
+            'action': 'get_facility_img',
+        },
+        data: {
+            'signature': signature
+        },
+        success: function(msg) {
+            //console.log('start');
+            facility_image = msg.result.response;
+            facility_image_html = ``;
+            //console.log(hotel_facilities);
+            //console.log(facility_image);
+            hotel_facilities = $.parseJSON(hotel_facilities);
+            //console.log(hotel_facilities);
+
+            for (rec in hotel_facilities){
+                var new_html = '';
+                for(i in facility_image){
+                    if (facility_image[i].internal_code == hotel_facilities[rec].facility_id){
+                        new_html = `
+                        <div class="col-md-3 col-xs-4" style="width:25%;">
+                            <img src="`+ facility_image[i].facility_image +`" style="width:20px; height:20px;"/> `+ hotel_facilities[rec].facility_name +`
+                        </div>`;
+                        break;
+                    }
+                }
+                if (new_html === '' || facility_image[i].facility_image == false){
+                    new_html = `
+                    <div class="col-md-3 col-xs-4" style="width:25%;">
+                        <img src="http://localhost:8000/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" style="width:20px; height:20px;"/> `+ hotel_facilities[rec].facility_name +`
+                    </div>`;
+                }
+                facility_image_html += new_html;
+            }
+            document.getElementById("js_image_facility").innerHTML = facility_image_html;
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            alert(errorThrown);
+        }
     });
 }
 
@@ -219,7 +299,16 @@ function hotel_detail_request(id){
         text2='';
         var node = document.createElement("div");
         var node2 = document.createElement("div");
-        if(result.prices.length != 0){
+        if(typeof result.prices === "undefined"){
+            //alert("There's no room in this hotel!");
+            $('#loading-detail-hotel').hide();
+            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
+            // window.location.href = "http://localhost:8000";
+        }else if(result.prices.length == 0){
+            //alert("There's no room in this hotel!");
+            $('#loading-detail-hotel').hide();
+            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
+        }else{
             text2+=`
             <div class="row">
                 <div class="col-lg-6">
@@ -332,11 +421,6 @@ function hotel_detail_request(id){
 //
 //            }
 //            hotel_price = msg.result.prices;
-
-        }else{
-            alert("There's no room in this hotel!");
-            $('#loading-detail-hotel').hide();
-//            window.location.href = "http://localhost:8000";
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -444,6 +528,8 @@ function hotel_issued_booking(){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'special_request': document.getElementById('special_request').value,
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'member': payment_acq2[payment_method][selected].method
        },
        success: function(msg) {
             console.log('Result');
@@ -494,15 +580,13 @@ function get_checked_copy_result_room(){
     var name_hotel = $(".name_hotel").html();
     var rating_hotel = $(".rating_hotel").html();
     var address_hotel = $('.address_hotel').html();
-    $text += ''+name_hotel+'\n';
-    $text += 'Rating: '+rating_hotel+'\n';
+    $text += ''+name_hotel+ ' ' +rating_hotel+ '\n';
     $text += 'Address: '+address_hotel+'\n \n';
 
     node = document.createElement("div");
     text+=`
     <div class="col-lg-12" id="information_hotel">
-        <h6>`+name_hotel+`</h6>
-        <span>Rating: `+rating_hotel+`</span><br/>
+        <h6>`+name_hotel+` `+rating_hotel+ `</h6>
         <span>Address: `+address_hotel+`</span><br/><br/>
         <h6>Room List:</h6><hr/>
     </div>

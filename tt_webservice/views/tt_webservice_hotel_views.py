@@ -60,6 +60,8 @@ def api_models(request):
             res = create_booking(request)
         elif req_data['action'] == 'get_top_facility':
             res = get_top_facility(request)
+        elif req_data['action'] == 'get_facility_img':
+            res = get_facility_img(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -89,6 +91,7 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['hotel_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -262,7 +265,8 @@ def detail(request):
 def get_cancellation_policy(request):
     try:
         data = {
-            "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
+            # "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
+            "hotel_code": request.session['hotel_detail']['id'],
             "price_code": request.POST['price_code'],
             "provider": request.POST['provider']
         }
@@ -301,6 +305,20 @@ def get_top_facility(request):
 
     return res
 
+def get_facility_img(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_facility_img",
+            "signature": request.session['hotel_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    return res
+
 def provision(request):
     try:
         data = {
@@ -327,21 +345,30 @@ def provision(request):
 def create_booking(request):
     try:
         passenger = []
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        for pax_type in request.session['hotel_review_pax']:
+            if pax_type != 'contact' and pax_type != 'booker':
+                for pax in request.session['hotel_review_pax'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
+                    passenger.append(pax)
+        booker = request.session['hotel_review_pax']['booker']
+        contacts = request.session['hotel_review_pax']['contact']
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                booker['country_code'] = country['code']
+                break
 
-        for pax in request.session['hotel_review_pax']['adult']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            passenger.append(pax)
-        for pax in request.session['hotel_review_pax']['child']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0])
-            })
-            passenger.append(pax)
-
+        for pax in contacts:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         data = {
             "passengers": passenger,
             'user_id': request.session.get('co_uid') or '',
@@ -356,7 +383,8 @@ def create_booking(request):
             # }],
             # Must set as list prepare buat issued multi vendor
             'price_codes': [request.session['hotel_room_pick']['price_code'],],
-            "contact": request.session['hotel_review_pax']['booker'],
+            "contact": contacts,
+            "booker": booker,
             'kwargs': {
                 'force_issued': 'False'
             },
@@ -365,6 +393,19 @@ def create_booking(request):
             'os_res_no': '',
             'journeys_booking': ''
         }
+
+        # payment
+        try:
+            if request.POST['member'] == 'non_member':
+                member = False
+            else:
+                member = True
+            data.update({
+                'member': member,
+                'seq_id': request.POST['seq_id'],
+            })
+        except:
+            pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

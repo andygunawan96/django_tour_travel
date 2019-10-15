@@ -48,6 +48,7 @@
         sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
         sub_category_list = [];
     {% endfor %}
+    signature = '{{signature}}';
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -121,23 +122,21 @@
                     <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <span class="span-search-ticket">Activity Name </span>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding:0px;">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" value="{{query}}"/>
-                                        </div>
-                                    </div>
+                            <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-
+                            <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5" style="padding:0px;">
+                                <div class="span-search-ticket"><i class="fas fa-cog"></i> Advanced Search</div>
+                                <div class="input-container-search-ticket">
+                                    <button type="button" class="form-control" id="advanced_down" onclick="show_hide_advanced();" style="background:#bababa; color:#000000;">Advanced Search <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="advanced_up" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; display:none;">Advanced Search <i class="fas fa-caret-up"></i></button>
+                                </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" id="advanced_search" style="display:none;">
                             <div class="col-lg-6">
                                 <div class="row">
                                     <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
@@ -312,24 +311,18 @@
                     </div>
                 </div>
                 <div class="row">
+
                     <div class="col-lg-12">
                         <div id="loading-search-activity" style="margin-bottom:20px;">
                             <div class="col-lg-12">
-                                <div class="sk-circle">
-                                    <div class="sk-circle1 sk-child"></div>
-                                    <div class="sk-circle2 sk-child"></div>
-                                    <div class="sk-circle3 sk-child"></div>
-                                    <div class="sk-circle4 sk-child"></div>
-                                    <div class="sk-circle5 sk-child"></div>
-                                    <div class="sk-circle6 sk-child"></div>
-                                    <div class="sk-circle7 sk-child"></div>
-                                    <div class="sk-circle8 sk-child"></div>
-                                    <div class="sk-circle9 sk-child"></div>
-                                    <div class="sk-circle10 sk-child"></div>
-                                    <div class="sk-circle11 sk-child"></div>
-                                    <div class="sk-circle12 sk-child"></div>
+                                <div id="center-div">
+                                    <div>
+                                        <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                                    </div>
                                 </div>
-                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                <div style="text-align:center">
+                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+                                </div>
                             </div>
                         </div>
                         <div class="row" id="activity_ticket">

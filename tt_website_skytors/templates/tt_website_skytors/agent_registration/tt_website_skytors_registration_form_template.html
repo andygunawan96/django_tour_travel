@@ -255,7 +255,7 @@
                                     <span class="control-label" for="city_id">Agent Type<span class="required-txt">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type')">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type');set_document_requirement();">
 
                                             </select>
                                         </div>
@@ -387,19 +387,8 @@
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                <h4>List of Document Registration</h4><hr/>
-                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_doc();"><i class="fas fa-plus"></i> Add</button>
-                                <button class="primary-btn-ticket" type="button" onclick="delete_table_of_doc();"><i class="fas fa-trash-alt"></i> Delete</button>
-                                <div style="margin-top:15px;">
-                                    <table id="table_of_doc" name="table_of_doc" style="width:100%;" class="list-of-table">
-                                        <tr>
-                                            <th style="width:5%;">No.</th>
-                                            <th style="width:40%;">Type</th>
-                                            <th style="width:35%;">Image</th>
-                                        </tr>
-                                    </table>
-                                </div>
+                            <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;" id="list_of_doc">
+
                             </div>
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important;">
