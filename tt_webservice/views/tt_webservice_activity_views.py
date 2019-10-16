@@ -178,7 +178,7 @@ def get_pricing(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_pricing_provider",
+        "action": "get_pricing",
         "signature": request.session['activity_signature']
     }
 

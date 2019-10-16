@@ -111,8 +111,8 @@ function activity_search(){
                     </div>`;
                }
                for(i in activity_data){
-                   if(high_price_slider < activity_data[i].converted_price){
-                        high_price_slider = activity_data[i].converted_price;
+                   if(high_price_slider < activity_data[i].activity_price){
+                        high_price_slider = activity_data[i].activity_price;
                     }
 
                    if (activity_data[i].images.length > 0)
@@ -152,7 +152,7 @@ function activity_search(){
                                                 <br/><br/>
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].converted_price)+`  </span>
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
                                                     <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
                                                 </div>
                                             </div>
