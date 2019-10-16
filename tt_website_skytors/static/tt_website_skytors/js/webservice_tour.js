@@ -166,6 +166,7 @@ function tour_get_details(package_id){
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.result;
                com_agent = msg.result.response.commission_agent_type;
+               console.log(tour_data)
                for (i in tour_data)
                {
                     package_id = tour_data[i].id;
@@ -324,17 +325,17 @@ function tour_get_details(package_id){
                         flight_details_text += `</table>
                                              </div>`;
                     }
-
+                    console.log('asdasd');
                     for (n in tour_data[i].accommodations)
                     {
+                    console.log(tour_data[i].accommodations[n]);
                         room_list_text += `
                         <tr>
                             <td style="width:30%;">`+tour_data[i].accommodations[n].hotel+`</td>
                             <td style="width:20%;">`+tour_data[i].accommodations[n].name+` `+tour_data[i].accommodations[n].bed_type+`<br/>Max `+tour_data[i].accommodations[n].pax_limit+` persons</td>
                             <td style="width:40%;">`+tour_data[i].accommodations[n].description+`</td>`;
-//                            index                                                                                                                                                                 0                                                          1                                                 2                                                              3                                                   4                                                       5                                                           6                                                       7                                               8                                           9                                               10                                                      11                                                          12                                                      13                                                          14                                                      15
                         room_list_text += `
-                            <td style="width:10%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data[i].accommodations[n].id+`" data-room="`+ String(tour_data[i].accommodations[n].additional_charge) + `~` + tour_data[i].accommodations[n].address + `~` + String(tour_data[i].accommodations[n].adult_limit) + `~` + String(tour_data[i].accommodations[n].adult_surcharge) + `~` + tour_data[i].accommodations[n].bed_type + `~` + String(tour_data[i].accommodations[n].child_surcharge) + `~` + String(tour_data[i].accommodations[n].currency_id) + `~` + tour_data[i].accommodations[n].description + `~` + tour_data[i].accommodations[n].hotel + `~` + tour_data[i].accommodations[n].name + `~` + String(tour_data[i].accommodations[n].pax_limit) + `~` + String(tour_data[i].accommodations[n].pax_minimum) + `~` + String(tour_data[i].accommodations[n].star) + `~` + String(tour_data[i].accommodations[n].single_supplement) + `~` + String(tour_data[i].accommodations[n].id) + `~` + String(tour_data[i].accommodations[n].extra_bed_limit) +`">Add</button></td>
+                            <td style="width:10%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data[i].accommodations[n].id+`" onclick="add_tour_room(`+i+`,`+n+`)">Add</button></td>
                         </tr>
                         `;
                     }
@@ -347,6 +348,7 @@ function tour_get_details(package_id){
                      document.getElementById('infant_commission_hidden').value = tour_data[i].infant_commission;
                }
 
+               document.getElementById('tour_data').value = JSON.stringify(tour_data[0]).replace(/'/g,'');
                document.getElementById('tour_carousel').innerHTML += image_text;
                document.getElementById('country_list_tour').innerHTML += country_text;
                document.getElementById('itinerary').innerHTML += itinerary_text;
@@ -387,30 +389,6 @@ function tour_get_details(package_id){
                {
                    document.getElementById('flight_details').innerHTML += flight_details_text;
                }
-               $('.btn-add-rooms').each(function(){
-                           $(this).click(function(){
-                                index = document.getElementById('room_amount').value;
-                                total_additional_amount = document.getElementById('additional_charge_amount').value;
-                                total_additional_price = parseInt(document.getElementById('additional_charge_total').getAttribute("data-price"));
-                                var id = $(this).val();
-                                var data_hidden = $(this).attr("data-room");
-                                var data_list = data_hidden.split('~');
-                                $('#tour_room_input').append(render_room_tour_field(id, parseInt(index) + 1, data_list, data_hidden));
-                                index++;
-                                document.getElementById("room_amount").value = index;
-                                document.getElementById("total-price-container").classList.remove("hide");
-                                $('select').niceSelect();
-
-                                var additional_charge = parseInt(data_list[0]);
-                                if (additional_charge > 0)
-                                { total_additional_amount++; }
-                                total_additional_price += additional_charge;
-                                document.getElementById("additional_charge_amount").value = total_additional_amount;
-                                document.getElementById("additional_charge_total").setAttribute("data-price", total_additional_price);
-                                document.getElementById("additional_charge_total").value = getrupiah(total_additional_price);
-                                get_price_itinerary(package_id);
-                           });
-                        });
            }else{
                alert(msg.result.error_msg);
            }
@@ -801,7 +779,7 @@ function get_price_itinerary(package_id) {
        success: function(msg) {
             console.log(msg);
             tour_data = msg.result.response.result;
-            tour_data = tour_data[0]
+            tour_data_first = tour_data[0];
             document.getElementById("single_supplement_amount").value = 0;
             document.getElementById("single_supplement_price").value = 0;
             document.getElementById("airport_tax_amount").value = 0;
@@ -813,13 +791,13 @@ function get_price_itinerary(package_id) {
             document.getElementById("tipping_driver_amount").value = 0;
             document.getElementById("tipping_driver_total").value = 0;
 
-            var airport_tax = tour_data.airport_tax;
-            var tipping_guide = tour_data.tipping_guide;
-            var tipping_tour_leader = tour_data.tipping_tour_leader;
-            var tipping_driver = tour_data.tipping_driver;
-            var guiding_days = tour_data.guiding_days;
-            var driving_times = tour_data.driving_times;
-            var duration = tour_data.duration;
+            var airport_tax = tour_data_first.airport_tax;
+            var tipping_guide = tour_data_first.tipping_guide;
+            var tipping_tour_leader = tour_data_first.tipping_tour_leader;
+            var tipping_driver = tour_data_first.tipping_driver;
+            var guiding_days = tour_data_first.guiding_days;
+            var driving_times = tour_data_first.driving_times;
+            var duration = tour_data_first.duration;
 
             var single_supplement_amount = 0;
             var single_supplement_price = 0;
@@ -832,8 +810,8 @@ function get_price_itinerary(package_id) {
             document.getElementById("adult_amount").value = 0;
             document.getElementById("adult_price").value = 0;
             document.getElementById("adult_commission").value = 0;
-            var adult_sale_price = tour_data.adult_sale_price;
-            var adult_commission = tour_data.adult_commission;
+            var adult_sale_price = tour_data_first.adult_sale_price;
+            var adult_commission = tour_data_first.adult_commission;
             var adult_amount = 0;
 
             document.getElementById("adult_surcharge_amount").value = 0;
@@ -844,8 +822,8 @@ function get_price_itinerary(package_id) {
             document.getElementById("child_amount").value = 0;
             document.getElementById("child_price").value = 0;
             document.getElementById("child_commission").value = 0;
-            var child_sale_price = tour_data.child_sale_price;
-            var child_commission = tour_data.child_commission;
+            var child_sale_price = tour_data_first.child_sale_price;
+            var child_commission = tour_data_first.child_commission;
             var child_amount = 0;
 
             document.getElementById("child_surcharge_amount").value = 0;
@@ -856,8 +834,8 @@ function get_price_itinerary(package_id) {
             document.getElementById("infant_amount").value = 0;
             document.getElementById("infant_price").value = 0;
             document.getElementById("infant_commission").value = 0;
-            var infant_sale_price = tour_data.infant_sale_price;
-            var infant_commission = tour_data.infant_commission;
+            var infant_sale_price = tour_data_first.infant_sale_price;
+            var infant_commission = tour_data_first.infant_commission;
             var infant_amount = 0;
 
             var room_amount = document.getElementById("room_amount");
@@ -874,14 +852,14 @@ function get_price_itinerary(package_id) {
 
             for (var i=0; i<room_amount.value; i++)
             {
-                var temp = 'data_per_room_hidden_'+String(i+1);
-                var data_per_room_hidden = document.getElementById(temp).value;
-                var data_per_room_list = data_per_room_hidden.split("~");
-                var pax_minimum = parseInt(data_per_room_list[11]);
-                var extra_bed_limit = parseInt(data_per_room_list[15]);
-                var single_supplement = parseInt(data_per_room_list[13]);
-                var adult_surcharge_price = parseInt(data_per_room_list[3]);
-                var child_surcharge_price = parseInt(data_per_room_list[5]);
+                var key_accomodation = parseInt(document.getElementById("accomodation_index_" + String(i+1)).value);
+                var room_data = tour_data_first.accommodations[key_accomodation];
+
+                var pax_minimum = parseInt(room_data.pax_minimum);
+                var extra_bed_limit = parseInt(room_data.extra_bed_limit);
+                var single_supplement = parseInt(room_data.single_supplement);
+                var adult_surcharge_price = parseInt(room_data.adult_surcharge);
+                var child_surcharge_price = parseInt(room_data.child_surcharge);
 
                 temp = 'adult_tour_room_'+String(i+1);
                 var adult_amount_per_room = parseInt(document.getElementById(temp).value);

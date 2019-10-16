@@ -166,6 +166,7 @@ def passenger(request):
         except:
             print('no infant')
 
+        request.session['tour_data'] = json.loads(request.POST['tour_data'])
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'adult_title': adult_title,
@@ -235,7 +236,7 @@ def passenger(request):
                 'adult': int(request.POST['adult_tour_room_' + temp]),
                 'child': int(request.POST['child_tour_room_' + temp]),
                 'infant': int(request.POST['infant_tour_room_' + temp]),
-                'data': request.POST['data_per_room_hidden_' + temp].split('~'),
+                'data': request.session['tour_data']['accommodations'][idx],
             }
 
             room.update({
