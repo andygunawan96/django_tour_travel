@@ -607,7 +607,7 @@ function sort(response, check_filter){
                     </div>`;
                     if(response.hotel_ids[i].images.length != 0){
                         text+=`
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-3">
                             <div class="img-hotel-search" style="background-image: url(`+response.hotel_ids[i].images[0].url+`);" onclick="goto_detail('hotel',`+i+`)"></div>
                         </div>`;
                     }
@@ -618,7 +618,7 @@ function sort(response, check_filter){
                         </div>`;
                     }
                     text+=`
-                    <div class="col-lg-9" style="padding-left: 0;">
+                    <div class="col-lg-9 name_hotel_search"">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div style="margin-bottom:10px;">
@@ -643,7 +643,7 @@ function sort(response, check_filter){
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
                             text+=`
-                            <div>
+                            <div style="padding-bottom:10px;">
                                 <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
                             if(response.hotel_ids[i].location.address)
                                 text+= response.hotel_ids[i].location.address + '<br/>';
@@ -670,7 +670,11 @@ function sort(response, check_filter){
                                         for(j in response.hotel_ids[i].prices){
                                             check_price += 1;
                                             if(check_price < 4){
-                                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                text += `
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:#f15a22;">Best Price</h6>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
@@ -718,7 +722,7 @@ function sort(response, check_filter){
                                    text += `
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:20px;">
+                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:15px;">
                                 Facilities:<br/>
                                 <span>`;
                                 try{

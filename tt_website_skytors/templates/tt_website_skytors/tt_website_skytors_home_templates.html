@@ -136,9 +136,14 @@
                 <h3 style="color:white;">
                     Hello, {{username.co_user_name}} !
                 </h3>
-                <h4 style="padding-top:5px; padding-bottom:15px; color:white;">
-                    Enjoy your trip with RODEXTRIP
-                </h4>
+                <h3 style="padding-bottom:15px; padding-top:5px; color:white;">
+                    Enjoy your trip with <span class="lamp">RODEXTRIP</span>
+                </h3>
+
+                <!--                <h4 style="padding-top:5px; padding-bottom:15px;">-->
+                <!--                    Get our product-->
+                <!--                    <div class="animate"></div>-->
+                <!--                </h4>-->
                 {% if "ticketing" in username.co_agent_frontend_security %}
                 <div class="banner-right scrollmenu style-scrollbar">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -818,10 +823,9 @@
                 {% endif %}
             </div>
             {% else %}
-            <div class="col-lg-12" style="padding-top:90px; padding-bottom:90px;">
-                <h4 style="color:white;">Already a RODEXTRIP member?</h4>
-                <h5 style="color:white;">Sign in to make booking easier!</h5>
-                <br/>
+            <div class="col-lg-12" style="padding-top:90px; padding-bottom:90px; text-align:center;">
+                <h3 style="color:white;">Already a <span class="lamp">RODEXTRIP</span> member?</h3>
+                <h4 style="color:white; padding-top:5px;">Sign in to make booking easier!</h4>
                 <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
                     Sign in <i class="fas fa-sign-in-alt"></i>
                 </button>
@@ -1304,9 +1308,9 @@
                 <h3>
                     Hello, {{username.agent_name}} !
                 </h3>
-                <h4 style="padding-top:5px; padding-bottom:15px;">
+                <h3 style="padding-top:5px; padding-bottom:15px;">
                     Enjoy your trip with RODEXTRIP
-                </h4>
+                </h3>
 
                 <input type="hidden" id="country_id"/>
                 <input type="hidden" id="start"/>

@@ -1927,6 +1927,8 @@ function airline_set_ssr(val){
            console.log(msg);
            if(seat == 0)
                 airline_assign_seats(val);
+           else
+                airline_commit_booking(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           Swal.fire({
@@ -2039,6 +2041,34 @@ function airline_hold_booking(val){
     })
 }
 
+function reissued_btn(){
+    document.getElementById('reissued').innerHTML = `
+        <select id="cabin_class_flight" name="cabin_class_flight" class="nice-select-default">
+            <option value="Y" selected="">Economy</option>
+            <option value="W">Premium Economy</option>
+            <option value="C">Business</option>
+            <option value="F">First Class</option>
+        </select>
+        <div class="form-group">
+            <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+        </div>
+    `;
+    $('cabin_class_flight').niceSelect('update');
+    airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
+    $('input[name="airline_departure"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: airline_date,
+          minDate: moment(),
+          maxDate: moment().subtract(-1, 'years'),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+    });
+}
+
 function airline_get_booking(data){
     getToken();
     $.ajax({
@@ -2086,8 +2116,18 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
-            if(msg.result.response.state != 'fail_booked' || msg.result.response.state != 'fail_issued')
-                document.getElementById('ssr_request_after_sales').hidden = true;
+            if(msg.result.response.state == 'issued'){
+                document.getElementById('ssr_request_after_sales').hidden = false;
+                document.getElementById('ssr_request_after_sales').innerHTML = `
+                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
+            }
+            if(msg.result.response.state != 'issued'){
+                document.getElementById('reissued').hidden = false;
+                document.getElementById('reissued').innerHTML = `
+                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="reissued_btn();" value="Reissued">`;
+            }
+
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
             $text += 'Hold Date:\n';
             text += `

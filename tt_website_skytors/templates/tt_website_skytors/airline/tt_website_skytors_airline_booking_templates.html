@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
@@ -252,8 +252,11 @@
 
                     </div>
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="ssr_request_after_sales" hidden>
-                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">
+                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="reissued" hidden>
+                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="reissued_btn();" value="Reissued">
                     </div>
                 </div>
                 <div class="modal fade" id="myModalRepricing" role="dialog">

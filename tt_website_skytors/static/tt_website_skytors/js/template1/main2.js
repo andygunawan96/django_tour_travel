@@ -172,11 +172,11 @@ $(document).ready(function() {
                 nav:true
             },
             768:{
-                items:5,
+                items:4,
                 nav:true
             },
             961:{
-                items:5,
+                items:4,
                 nav:true,
             }
         }
@@ -199,7 +199,7 @@ $(document).ready(function() {
         responsive:{
             0:{
                 items:1,
-                nav:true
+                nav:false
             },
             600:{
                 items:1,
@@ -207,7 +207,7 @@ $(document).ready(function() {
             },
             1000:{
                 items:1,
-                nav:true,
+                nav:false,
             }
         }
     });
