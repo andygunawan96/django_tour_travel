@@ -1671,13 +1671,13 @@ function sort(activity_dat, check){
                         activity_dat[j] = temp;
                     }
                 }else if(sorting == 'Lowest Price'){
-                    if(activity_dat[i].basePrice > activity_dat[j].basePrice){
+                    if(activity_dat[i].activity_price > activity_dat[j].activity_price){
                         var temp = activity_dat[i];
                         activity_dat[i] = activity_dat[j];
                         activity_dat[j] = temp;
                     }
                 }else if(sorting == 'Highest Price'){
-                    if(activity_dat[i].basePrice < activity_dat[j].basePrice){
+                    if(activity_dat[i].activity_price < activity_dat[j].activity_price){
                         var temp = activity_dat[i];
                         activity_dat[i] = activity_dat[j];
                         activity_dat[j] = temp;
@@ -1705,7 +1705,7 @@ function sort(activity_dat, check){
         check_available = 0;
         for(i in activity_dat)
         {
-           if (activity_dat[i].converted_price >= $minPrice && activity_dat[i].converted_price <= $maxPrice)
+           if (activity_dat[i].activity_price >= $minPrice && activity_dat[i].activity_price <= $maxPrice)
            {
                if (activity_dat[i].images.length > 0)
                {
@@ -1744,7 +1744,7 @@ function sort(activity_dat, check){
                                             <br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].converted_price)+`  </span>
+                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`  </span>
                                                 <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</a>
                                             </div>
                                         </div>
