@@ -586,17 +586,17 @@
                             <form action="{% url 'tt_website_skytors:activity_search'%}" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-8 col-md-8 col-sm-7 col-xs-7" style="padding:0px;">
+                                    <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activity" autocomplete="off"/>
+                                            <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" autocomplete="off"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-5" style="padding:0px;">
-                                        <div class="span-search-ticket"><i class="fas fa-cog"></i> Advanced Search</div>
+                                    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
+                                        <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
-                                            <button type="button" class="form-control" id="advanced_down" onclick="show_hide_advanced();" style="background:#bababa; color:#000000;">Advanced Search <i class="fas fa-caret-down"></i></button>
-                                            <button type="button" class="form-control" id="advanced_up" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; display:none;">Advanced Search <i class="fas fa-caret-up"></i></button>
+                                            <button type="button" class="form-control" id="advanced_down" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
+                                            <button type="button" class="form-control" id="advanced_up" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
                                         </div>
                                     </div>
                                 </div>
