@@ -328,7 +328,7 @@ function cancel_top_up(name){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.loader-airline').fadeIn();
+        $('.loader-rodextrip').fadeIn();
         getToken();
         $.ajax({
            type: "POST",
@@ -363,7 +363,7 @@ function cancel_top_up(name){
         });
 
       }else{
-        $('.loader-airline').fadeIn();
+        $('.loader-rodextrip').fadeIn();
         $('#submit_top_up').prop('disabled', false);
         $('#submit_top_up').removeClass('running');
       }
@@ -546,12 +546,12 @@ function check_top_up(){
         }).then((result) => {
             console.log(result);
           if (result.value) {
-            $('.loader-airline').fadeIn();
+            $('.loader-rodextrip').fadeIn();
 
             submit_top_up();
 
           }else{
-            $('.loader-airline').fadeIn();
+            $('.loader-rodextrip').fadeIn();
             $('#submit_top_up').prop('disabled', false);
             $('#submit_top_up').removeClass('running');
           }
