@@ -479,6 +479,19 @@
 
     });
 
+    var hotel_autocomplete = new autoComplete({
+        selector: '#hotel_id_destination',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            get_auto_complete(term,suggest);
+        },
+        onSelect: function(e, term, item){
+            $("#hotel_id_destination").trigger("blur");
+        }
+    });
+
     function goto_detail(type, counter){
        document.getElementById('hotel'+counter).innerHTML += `{% csrf_token %}`;
        document.getElementById('hotel'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
