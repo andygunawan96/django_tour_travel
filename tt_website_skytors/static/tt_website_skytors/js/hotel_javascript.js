@@ -645,18 +645,20 @@ function sort(response, check_filter){
                             text+=`
                             <div>
                                 <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                            if(response.hotel_ids[i].location.address)
+                                text+= response.hotel_ids[i].location.address + '<br/>';
+                            if(response.hotel_ids[i].location.district)
+                                text+= response.hotel_ids[i].location.district + ', ';
                             if(response.hotel_ids[i].location.city)
                                 text+= response.hotel_ids[i].location.city;
-                //            if(response.hotel_ids[i].location.address != false)
-                //                text+= ' '+ response.hotel_ids[i].location.address;
-                            if(response.hotel_ids[i].location.district)
-                                text+= ' '+ response.hotel_ids[i].location.district;
                             if(response.hotel_ids[i].location.state)
-                                text+= ' '+ response.hotel_ids[i].location.state;
-                //            if(response.hotel_ids[i].location.kelurahan != false)
-                //                text+= ' '+ response.hotel_ids[i].location.kelurahan;
-                //            if(response.hotel_ids[i].location.zipcode != false)
-                //                text+= ' '+ response.hotel_ids[i].location.zipcode;
+                                text+= ', '+ response.hotel_ids[i].location.state;
+                            // if(response.hotel_ids[i].location.kelurahan != false)
+                            //   text+= ' '+ response.hotel_ids[i].location.kelurahan;
+                            if(response.hotel_ids[i].location.zipcode != false)
+                                text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
+                            // if(response.hotel_ids[i].location.zipcode != false)
+                            //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
                             text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
                                 </div>
                             </div>
