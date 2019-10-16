@@ -139,14 +139,17 @@ function get_banner(type,page){
 //                            <img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" style="height:220px;width:auto"/>
                     for(i in msg.result.response)
                         text += `
-                        <div style="height:220px;margin-bottom:25px;">
+                        <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                             <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />
 
                             <div class="row" style="justify-content:space-around">
                                 <div class="checkbox" style="display: block;">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Active</span>
-                                        <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active" checked> <!--hardcode-->
+                                        <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
+                                        if(msg.result.response[i].active == true)
+                                            text+=` checked`;
+                                        text+=`>
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
@@ -160,7 +163,6 @@ function get_banner(type,page){
                             </div>
                         </div>
                         `;
-                    console.log(text);
                     document.getElementById(type).innerHTML = text;
                 }
             }

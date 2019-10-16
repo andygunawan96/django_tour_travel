@@ -931,16 +931,18 @@ def get_booking(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-
-        # airline
+        file = open("airline_destination.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
         airline_destinations = []
-        for country in response['result']['response']['airline']['destination']:
-            for des in country['destinations']:
-                des.update({
-                    'country': country['code'],
-                    'country_name': country['name']
-                })
-                airline_destinations.append(des)
+        for country in response:
+            airline_destinations.append({
+                'code': country['code'],
+                'name': country['name'],
+                'city': country['city']
+            })
+        # airline
 
         #pax
         for pax in res['result']['response']['passengers']:
