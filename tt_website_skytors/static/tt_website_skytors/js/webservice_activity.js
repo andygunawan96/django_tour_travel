@@ -228,7 +228,7 @@ function activity_search(){
     });
 }
 
-function activity_get_detail(uuid, provider){
+function activity_get_detail(uuid){
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
@@ -240,7 +240,6 @@ function activity_get_detail(uuid, provider){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'uuid': uuid,
-          'provider_id': provider
        },
        success: function(msg) {
            try{
@@ -352,6 +351,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('event').innerHTML = '';
     document.getElementById('timeslot').innerHTML = '';
     document.getElementById('perbooking').innerHTML = '';
+    document.getElementById('instantConfirmation').innerHTML = '';
     $('#loading-detail-activity').show();
     document.getElementById('activity_date_desc').innerHTML = `
                            <small id="departure_date_activity_desc" class="hidden" style="color: black;">Checking Availability...</small>
@@ -544,9 +544,16 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    document.getElementById('timeslot').innerHTML = text;
                    $('select').niceSelect();
 
+                   if(activity_type[activity_type_pick].instantConfirmation){
+                        ins_text = `<span style="font-weight:700;">Instant Confirmation</span>`;
+                   }
+                   else{
+                        ins_text = `<span style="font-weight:700; color:red;">On Request (max 3 working days)</span>`;
+                   }
+                   document.getElementById('instantConfirmation').innerHTML = ins_text;
+
                    for(i in msg.result.response[0]){
                        if(msg.result.response[0][i].available==true){
-
                            activity_date_pick = i;
                            event_pick = 0;
                            if(activity_type[activity_type_pick].provider_code == 'globaltix'){

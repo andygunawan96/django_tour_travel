@@ -262,8 +262,10 @@
 
                                         </div>
                                     </div>
-                                    <div class="row" style="margin-top:15px;">
-                                        <div class="col-lg-6"></div>
+                                    <div class="row" style="margin-top:15px; margin-bottom:25px;">
+                                        <div class="col-lg-6" id="instantConfirmation">
+
+                                        </div>
                                         <div class="col-lg-6">
                                             <div class="for-show-website" id="activity_detail_next_btn">
 
@@ -335,7 +337,7 @@
 <script>
     $( document ).ready(function() {
         breadcrumb_create("activity", 3, 0);
-        activity_get_detail(`{{response.uuid}}`, `{{response.provider_id}}`);
+        activity_get_detail(`{{response.uuid}}`);
 
         $('#product-activity').click(function(e){
             $('html, body').animate({

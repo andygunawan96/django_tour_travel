@@ -109,7 +109,7 @@ function tour_search(){
                                                 <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:12px;font-weight:bold;">IDR `+tour_data[i].adult_sale_price_with_comma+`  </span>
+                                                <span style="font-size:12px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
                                                 <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
                                             </div>
                                         </div>
@@ -187,14 +187,14 @@ function tour_get_details(package_id){
                     {
                         country_text += `<br/><span><i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data[i].duration + ` Days</span>`;
                     }
-                    country_text += `<br/><span><i class="fa fa-tag" aria-hidden="true"></i> Adult @ ` + tour_data[i].adult_sale_price_with_comma + `</span>`;
+                    country_text += `<br/><span><i class="fa fa-tag" aria-hidden="true"></i> Adult @ ` + getrupiah(tour_data[i].adult_sale_price) + `</span>`;
                     if (tour_data[i].child_sale_price > 0)
                     {
-                        country_text += `<span> | Child @ ` + tour_data[i].child_sale_price_with_comma + `</span>`;
+                        country_text += `<span> | Child @ ` + getrupiah(tour_data[i].child_sale_price) + `</span>`;
                     }
                     if (tour_data[i].infant_sale_price > 0)
                     {
-                        country_text += `<span> | Infant @ ` + tour_data[i].infant_sale_price_with_comma + `</span>`;
+                        country_text += `<span> | Infant @ ` + getrupiah(tour_data[i].infant_sale_price) + `</span>`;
                     }
 
                     country_text += `<br/>`;
@@ -771,15 +771,14 @@ function get_price_itinerary(package_id) {
        type: "POST",
        url: "/webservice/tour",
        headers:{
-            'action': 'get_details',
+            'action': 'get_pricing',
        },
        data: {
            'id': package_id
        },
        success: function(msg) {
             console.log(msg);
-            tour_data = msg.result.response.result;
-            tour_data_first = tour_data[0];
+            price_data = msg.result.response;
             document.getElementById("single_supplement_amount").value = 0;
             document.getElementById("single_supplement_price").value = 0;
             document.getElementById("airport_tax_amount").value = 0;

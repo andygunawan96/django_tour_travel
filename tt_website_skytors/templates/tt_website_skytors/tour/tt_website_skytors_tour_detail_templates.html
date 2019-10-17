@@ -11,6 +11,9 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script>
+    signature = '{{signature}}';
+</script>
 
 
 <style>
@@ -29,21 +32,23 @@
 {% include 'tt_website_skytors/header.html' %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
-        <div class="row" style="padding-bottom:10px;">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <ul class="progressbar">
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
-                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                </ul>
+        <div class="row" style="padding-top:15px; padding-bottom:15px;">
+            <div class="col-lg-12" id="breadcrumbs_create">
+
             </div>
         </div>
         <div class="row full_tour_details" style="padding-top: 20px;">
             <div class="col-lg-12" style="padding-left:0px !important;">
                 {% csrf_token %}
-                <div class="row">
+                <div class="row" style="position:sticky;top: 66px;z-index: 814;">
+                    <div class="col-lg-12">
+                        <div class="box-sticky-hotel">
+                            <button class="content-tour primary-btn-sticky-hotel" type="button" id="description-tour">Description</button>
+                            <button class="content-tour primary-btn-sticky-hotel" type="button" id="product-tour">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="div-description-tour">
                     <input type="hidden" id="selected_tour_id" value="{{response.id}}"/>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div id="tour_carousel">
@@ -60,7 +65,37 @@
                     </div>
                 </div>
                 <hr/>
-                <div class="row">
+                <div class="row" style="padding:15px;">
+                    <div class="col-lg-12" id="ticket_detail" style="background-color:white; border:1px solid #cdcdcd; margin-top:5px; padding:0;">
+                        <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
+                            <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                <a class="tab-menu-activity active" data-toggle="tab" href="#itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Itinerary</span></a>
+                            </li>
+                            {% if response.flight == 'include'%}
+                            <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                <a class="tab-menu-activity" data-toggle="tab" href="#flight_details"><i class="fa fa-plane" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Flight Details</span></a>
+                            </li>
+                            {% endif %}
+                            <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                <a class="tab-menu-activity" data-toggle="tab" href="#remarks"><i class="fa fa-check-square" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Remarks</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="itinerary" class="tab-pane fade in active show" style="padding: 0px 15px 15px 15px;">
+
+                            </div>
+                            {% if response.flight == 'include'%}
+                            <div id="flight_details" class="tab-pane fade" style="padding: 0px 15px 15px 15px; overflow: scroll;">
+
+                            </div>
+                            {% endif %}
+                            <div id="remarks" class="tab-pane fade maxwidth100" style="padding: 0px 15px 15px 15px; word-wrap: break-word; overflow:auto;">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="div-product-tour">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="book_now">
                         <div class="col-lg-12" style="background-color: #f15a22; width:100%; height: 37px; padding-top:7px;"><i class="fa fa-shopping-cart" aria-hidden="true" title="details" style="font-size: 18px; color:white;"></i><span class="hidden-xs" style="color:white;"> Book Now</span></div>
                         <div style="width:100%; height: inherit; background-color:white; border:1px solid #cdcdcd; padding: 15px;">
@@ -366,44 +401,44 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="padding:15px;">
-                    <div class="col-lg-12" id="ticket_detail" style="background-color:white; border:1px solid #cdcdcd; margin-top:5px; padding:0;">
-                        <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
-                            <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                <a class="tab-menu-activity active" data-toggle="tab" href="#itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Itinerary</span></a>
-                            </li>
-                            {% if response.flight == 'include'%}
-                            <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                <a class="tab-menu-activity" data-toggle="tab" href="#flight_details"><i class="fa fa-plane" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Flight Details</span></a>
-                            </li>
-                            {% endif %}
-                            <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
-                                <a class="tab-menu-activity" data-toggle="tab" href="#remarks"><i class="fa fa-check-square" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Remarks</span></a>
-                            </li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="itinerary" class="tab-pane fade in active show" style="padding: 0px 15px 15px 15px;">
-
-                            </div>
-                            {% if response.flight == 'include'%}
-                            <div id="flight_details" class="tab-pane fade" style="padding: 0px 15px 15px 15px; overflow: scroll;">
-
-                            </div>
-                            {% endif %}
-                            <div id="remarks" class="tab-pane fade maxwidth100" style="padding: 0px 15px 15px 15px; word-wrap: break-word; overflow:auto;">
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
+{% include 'tt_website_skytors/footer.html' %}
 
 <script>
-    sel_id = document.getElementById('selected_tour_id').value;
-    tour_get_details(sel_id);
+    $(document).ready(function () {
+        breadcrumb_create("tour", 3, 0);
+        sel_id = document.getElementById('selected_tour_id').value;
+        tour_get_details(sel_id);
+
+        $('#product-tour').click(function(e){
+            $('html, body').animate({
+                scrollTop: $("#div-product-tour").offset().top - 90
+            }, 500);
+            active_sticky_tour("product");
+        });
+        $('#description-tour').click(function(e){
+            $('html, body').animate({
+                scrollTop: $("#div-description-tour").offset().top - 110
+            }, 500);
+            active_sticky_tour("description");
+        });
+
+      $(window).scroll(function() {
+        if($(this).scrollTop()>=$('#div-description-tour').position().top-55 && $(this).scrollTop()<$('#div-product-tour').position().top-55){
+            active_sticky_tour("description");
+        }
+        else if($(this).scrollTop()>=$('#div-product-tour').position().top-55){
+            active_sticky_tour("product");
+        }
+        else if($(this).scrollTop() < $('#div-description-tour').position().top){
+            $(".content-tour").removeClass("sticky-tour-active");
+        }
+      });
+    });
+
     $(function() {
         $('#departure_date_tour').daterangepicker({
               singleDatePicker: true,
