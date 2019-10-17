@@ -14,7 +14,6 @@
     signature = `{{signature}}`;
     sorting_value = '';
     //get_hotel_config();
-    get_top_facility();
     airline_country = [];
     {% for key,value in countries.items %}
         airline_country.push({
@@ -378,7 +377,7 @@
 
 <script>
     guest_child_age2();
-    hotel_search('');
+    hotel_signin('');
     hotel_filter_render();
 
     $(function() {
