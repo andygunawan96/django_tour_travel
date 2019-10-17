@@ -368,7 +368,7 @@ function hotel_detail_request(id){
                     text+=`<div class="col-lg-6 col-md-6">`;
                     text+= '<h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span class="qty_room">Qty: '+ result.prices[i].rooms[j].qty +'</span><br/>';
                     text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/><br/>';
-                    text+= 'Cancellation: <ul style="list-style-type:disc;"><li id="js_cancellation_button'+i+'"><button onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');">Show Policy</button></li></ul>';
+                    text+= 'Cancellation: <ul><li id="js_cancellation_button'+i+'"><button onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');">Show Policy</button></li></ul>';
                     text+=`</div>`;
                 }
 

@@ -724,7 +724,7 @@ function sort(response, check_filter){
                                    text += `
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:15px;">
+                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:30px;">
                                 Facilities:<br/>
                                 <span>`;
                                 try{
