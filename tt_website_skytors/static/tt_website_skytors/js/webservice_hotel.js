@@ -494,9 +494,15 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           text += '<ul>';
-           text += '<li>No Cancellation Policy Provided</li></ul>';
-           document.getElementById('cancellation_policy').innerHTML = text;
+           if (view_type == '1'){
+                var text = '<h4>Cancellation Policy</h4>';
+                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li>No Cancellation Policy Provided</li></ul>';
+                document.getElementById('cancellation_policy').innerHTML = text;
+           } else {
+                var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
+                text += '<li>No Cancellation Policy Provided</li></ul>';
+                document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
+           }
        }
     });
 }
