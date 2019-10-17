@@ -2810,26 +2810,13 @@ function airline_detail(type){
         flight_count = 0;
         for(i in price_itinerary.price_itinerary_provider){
             for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
-                if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
-                    text += `<h6>Combo Price</h6>`;
-                    $text +='Combo Price\n';
-                }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].journey_type == 'DEP'){
-                    text += `<h6>Departure</h6>`;
-                    if(airline_request.direction != 'MC')
-                        $text +='Departure\n';
-                    else{
-                        $text +='Flight'+parseInt(flight_count+1)+'\n';
-                        flight_count++;
-                    }
-                }else{
-                    text += `<div class="row"><div class="col-lg-12" style="margin-bottom:5px;margin-top:2px;"><h6>Return</h6>`;
-                    if(airline_request.direction != 'MC')
-                        $text +='Return\n';
-                    else{
-                        $text +='Flight'+parseInt(flight_count+1)+'\n';
-                        flight_count++;
-                    }
+                if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true){
+                    text += `<h6>Special Price</h6>`;
+                    $text +='Special Price\n';
                 }
+                flight_count++;
+                text += `<hr/><h6>Flight `+flight_count+`</h6>`;
+                $text +='Flight '+flight_count+'\n';
                 //logo
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
                     try{
@@ -2840,24 +2827,11 @@ function airline_detail(type){
                 text+=`</div>`;
 
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
-                    if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
-                        text += `<div class="col-lg-12" style="margin-bottom:5px;"><h6>Flight `+parseInt(flight_count+1)+`</h6></div>`;
-                        $text +='Flight'+parseInt(flight_count+1)+'\n';
-                        flight_count++;
-                    }
-                    //datacopy
-                    if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP'){
-                        $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
+                    $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
+                    $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
+                    $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
 
-                    }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
-                        $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
-                    }
                     text+=`
                         <div class="col-lg-12">
                             <div class="row">
@@ -3029,6 +3003,7 @@ function airline_detail(type){
                                 }catch(err){
                                     continue
                                 }
+                                $text += '\n';
                             }
                         }
                         text+=`<br/>`;
@@ -3073,7 +3048,7 @@ function airline_detail(type){
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\nPrices and availability may change at any time';
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
