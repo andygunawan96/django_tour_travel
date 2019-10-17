@@ -122,17 +122,17 @@
                                     <p style="text-align: justify; height:200px; overflow: auto;">
                                         {% if response.description != '' %}
                                         {{response.description}}
-                                        If you’re looking for a charming hotel in Koto, look no further than Sotetsu Fresa Inn Tokyo-Toyocho. While staying at Sotetsu Fresa Inn Tokyo-Toyocho, visitors can check out Susaki Shrine (0.6 mi) and Ogibashi Komon Gate (1.1 mi), some of Koto's top attractions.	You’ll enjoy relaxing rooms that offer a refrigerator and air conditioning, and you can stay connected during your stay as Sotetsu Fresa Inn Tokyo-Toyocho offers guests free wifi.	The hotel features a 24 hour front desk, room service, and newspaper. Plus, Sotetsu Fresa Inn Tokyo-Toyocho offers an on-site restaurant, providing a pleasant respite from your busy day.	If you like Korean restaurants, Sotetsu Fresa Inn Tokyo-Toyocho is conveniently located near Korean cuisine Ourimu, Teppan Dining Teike Ikedaya, and Yakiniku Iki. Looking to explore? Then look no further than Fukagawa Edo Museum (1.2 mi), Museum of Contemporary Art Tokyo (0.9 mi), and Sunamachi Ginza Shopping Street (0.9 mi), which are some popular Koto attractions – all conveniently located within walking distance of the hotel.	The staff at Sotetsu Fresa Inn Tokyo-Toyocho looks forward to serving you during your upcoming visit.
                                         {% else %}
-                                        <!-- <span style="font-weight:500; font-size:14px;">No Description</span>-->
-                                        If you’re looking for a charming hotel in Koto, look no further than Sotetsu Fresa Inn Tokyo-Toyocho. While staying at Sotetsu Fresa Inn Tokyo-Toyocho, visitors can check out Susaki Shrine (0.6 mi) and Ogibashi Komon Gate (1.1 mi), some of Koto's top attractions.	You’ll enjoy relaxing rooms that offer a refrigerator and air conditioning, and you can stay connected during your stay as Sotetsu Fresa Inn Tokyo-Toyocho offers guests free wifi.	The hotel features a 24 hour front desk, room service, and newspaper. Plus, Sotetsu Fresa Inn Tokyo-Toyocho offers an on-site restaurant, providing a pleasant respite from your busy day.	If you like Korean restaurants, Sotetsu Fresa Inn Tokyo-Toyocho is conveniently located near Korean cuisine Ourimu, Teppan Dining Teike Ikedaya, and Yakiniku Iki. Looking to explore? Then look no further than Fukagawa Edo Museum (1.2 mi), Museum of Contemporary Art Tokyo (0.9 mi), and Sunamachi Ginza Shopping Street (0.9 mi), which are some popular Koto attractions – all conveniently located within walking distance of the hotel.	The staff at Sotetsu Fresa Inn Tokyo-Toyocho looks forward to serving you during your upcoming visit.
+                                        <span style="font-weight:500; font-size:14px;">No Description</span>
+                                        <!-- If you’re looking for a charming hotel in Koto, look no further than Sotetsu Fresa Inn Tokyo-Toyocho. While staying at Sotetsu Fresa Inn Tokyo-Toyocho, visitors can check out Susaki Shrine (0.6 mi) and Ogibashi Komon Gate (1.1 mi), some of Koto's top attractions.	You’ll enjoy relaxing rooms that offer a refrigerator and air conditioning, and you can stay connected during your stay as Sotetsu Fresa Inn Tokyo-Toyocho offers guests free wifi.	The hotel features a 24 hour front desk, room service, and newspaper. Plus, Sotetsu Fresa Inn Tokyo-Toyocho offers an on-site restaurant, providing a pleasant respite from your busy day.	If you like Korean restaurants, Sotetsu Fresa Inn Tokyo-Toyocho is conveniently located near Korean cuisine Ourimu, Teppan Dining Teike Ikedaya, and Yakiniku Iki. Looking to explore? Then look no further than Fukagawa Edo Museum (1.2 mi), Museum of Contemporary Art Tokyo (0.9 mi), and Sunamachi Ginza Shopping Street (0.9 mi), which are some popular Koto attractions – all conveniently located within walking distance of the hotel.	The staff at Sotetsu Fresa Inn Tokyo-Toyocho looks forward to serving you during your upcoming visit.-->
 
                                         {% endif %}
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12" style="padding-bottom:5px;">
+                        <!-- Prepare untuk TripAdvisor Cenius Start-->
+                        <!--<div class="col-lg-12" style="padding-bottom:5px;">
                             <h4 style="color:#f15a22;">4.5 Excellent</h4>
                         </div>
                         <div class="col-lg-3">
@@ -154,7 +154,8 @@
                             <span style="font-weight:500;"><i class="fa fa-hand-holding"></i> Value</span>
                             <br/>
                             <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
-                        </div>
+                        </div> -->
+                        <!-- Prepare untuk TripAdvisor Cenius END -->
                     </div>
                 </div>
 
@@ -325,12 +326,9 @@
       hotel_detail_request(`{{response.external_code}}`);
       $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
           $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
-            $("#checkin_date").val(picker.startDate.format('DD MMM YYYY'));
-            $("#checkout_date").val(picker.endDate.format('DD MMM YYYY'));
-
             var oneDay = 24*60*60*1000;
-            var firstDate = new Date($("#checkin_date").val());
-            var secondDate = new Date($("#checkout_date").val());
+            var firstDate = new Date(picker.startDate.format('DD MMM YYYY'));
+            var secondDate = new Date(picker.endDate.format('DD MMM YYYY'));
 
             var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
             $("#total_night_search").text(diffDays);

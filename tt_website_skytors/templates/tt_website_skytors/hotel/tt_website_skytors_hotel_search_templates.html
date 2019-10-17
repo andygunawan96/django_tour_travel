@@ -14,13 +14,6 @@
     signature = `{{signature}}`;
     sorting_value = '';
     //get_hotel_config();
-    airline_country = [];
-    {% for key,value in countries.items %}
-        airline_country.push({
-            'code': `{{value.code}}`,
-            'name': `{{value.name}}`,
-        });
-    {% endfor %}
 
     hotel_search_data_request = {
         'checkin': `{{hotel_search.checkin_date}}`,
@@ -476,6 +469,19 @@
             $("#total_night_search").text(diffDays);
       });
 
+    });
+
+    var hotel_autocomplete = new autoComplete({
+        selector: '#hotel_id_destination',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            get_auto_complete(term,suggest);
+        },
+        onSelect: function(e, term, item){
+            $("#hotel_id_destination").trigger("blur");
+        }
     });
 
     function goto_detail(type, counter){
