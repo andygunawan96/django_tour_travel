@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
+    signature = '{{signature}}';
     filter = {
         'tour_type': 'all',
         'budget': 'all',
@@ -139,15 +140,9 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <div class="row" style="padding-bottom:10px;">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <ul class="progressbar">
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li class="current"><span>Search <i class="fas fa-search"></i></span></li>
-                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
-                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                </ul>
+        <div class="row" style="padding-top:15px; padding-bottom:15px;">
+            <div class="col-lg-12" id="breadcrumbs_create">
+
             </div>
         </div>
         <div class="row">
@@ -231,6 +226,7 @@
         </div>
     </div>
 </section>
+{% include 'tt_website_skytors/footer.html' %}
 
 <script>
     tour_login();
@@ -251,6 +247,7 @@
     }
 
     $(document).ready(function () {
+        breadcrumb_create("tour", 2, 0);
         $('.js-example-basic-single').select2();
         {% if dest_country %}
             auto_complete_tour('tour_countries', {{dest_city}});

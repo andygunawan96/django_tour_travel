@@ -12,6 +12,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
+    signature = '{{signature}}';
     pax_list_js = `{{all_pax}}`;
     pax_list_js = pax_list_js.replace(/'"'/g, "'");
     pax_list_js = pax_list_js.replace(/&#39;/g, '"');

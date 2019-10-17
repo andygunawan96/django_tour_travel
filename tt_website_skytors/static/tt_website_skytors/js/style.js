@@ -1854,6 +1854,17 @@ function active_sticky_activity(type){
     }
 }
 
+function active_sticky_tour(type){
+    if(type == "product"){
+        $(".content-tour").removeClass("sticky-tour-active");
+        $("#product-tour").addClass("sticky-tour-active");
+    }
+    else if(type == "description"){
+        $(".content-tour").removeClass("sticky-tour-active");
+        $("#description-tour").addClass("sticky-tour-active");
+    }
+}
+
 function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     if(breadcrumbs_type == "airline"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
@@ -1870,6 +1881,10 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     if(breadcrumbs_type == "hotel"){
         var breadcrumbs = ["Home", "Search", "Rooms", "Guest", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:hotel_search'%}';", "", "", "", ""];
+    }
+    if(breadcrumbs_type == "tour"){
+        var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_skytors:index'%}';", "location.href='{% url 'tt_website_skytors:tour_search'%}';", "location.href='{% url 'tt_website_skytors:tour_detail'%}';", "location.href='{% url 'tt_website_skytors:tour_passenger'%}';", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
