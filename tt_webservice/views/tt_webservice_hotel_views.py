@@ -48,6 +48,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
+        elif req_data['action'] == 'get_top_facility':
+            res = get_top_facility(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'detail':

@@ -63,8 +63,13 @@ function activity_login(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          $('#loading-search-activity').hide();
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+          })
+       }, timeout: 30000
     });
 }
 
@@ -89,6 +94,7 @@ function activity_search(){
         console.log(msg);
            var text = '';
            var counter = 0;
+           document.getElementById('activity_ticket').innerHTML = "";
            data=[];
            if(msg.result.error_code == 0){
                activity_data = msg.result.response;
@@ -96,24 +102,17 @@ function activity_search(){
                if (activity_data.length == 0)
                {
                     text += `
-                        <div class="col-lg-4">
+                    <div class="col-lg-12">
+                        <div style="text-align:center">
+                            <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                            <br/>
                         </div>
-                        <div class="col-lg-4">
-                            <div style="padding:5px; margin:10px;">
-                                <div style="text-align:center">
-                                    <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                                    <br/><br/>
-                                    <h6>NO ACTIVITY AVAILABLE</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                        </div>
-                    `;
+                        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+                    </div>`;
                }
                for(i in activity_data){
-                   if(high_price_slider < activity_data[i].converted_price){
-                        high_price_slider = activity_data[i].converted_price;
+                   if(high_price_slider < activity_data[i].activity_price){
+                        high_price_slider = activity_data[i].activity_price;
                     }
 
                    if (activity_data[i].images.length > 0)
@@ -153,7 +152,7 @@ function activity_search(){
                                                 <br/><br/>
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].converted_price)+`  </span>
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
                                                     <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
                                                 </div>
                                             </div>
@@ -191,14 +190,41 @@ function activity_search(){
                if(msg.result.response.length!=0)
                    get_new = true;
            }else{
-               alert(msg.result.error_msg);
-            //error
+              $('#loading-search-activity').hide();
+              Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong, please try again or check your connection internet',
+              })
+              text += `
+              <div class="col-lg-12">
+                  <div style="text-align:center">
+                      <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                      <br/>
+                  </div>
+                  <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+              </div>`;
+              document.getElementById('activity_ticket').innerHTML += text;
            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+          $('#loading-search-activity').hide();
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your connection internet',
+          })
+          text += `
+          <div class="col-lg-12">
+              <div style="text-align:center">
+                  <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                  <br/>
+              </div>
+              <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+          </div>`;
+          document.getElementById('activity_ticket').innerHTML += text;
+       },timeout: 120000
     });
 }
 

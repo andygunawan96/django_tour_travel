@@ -709,7 +709,7 @@ function check_detail(){
 }
 
 function check_passenger(adult, senior, child, infant){
-    $('.loader-airline').fadeIn();
+    $('.loader-rodextrip').fadeIn();
     //booker
     error_log = '';
     //check booker jika teropong
@@ -1295,7 +1295,7 @@ function check_passenger(adult, senior, child, infant){
        $("#myModalErrorPassenger").modal('show');
        $('.btn-next').removeClass("running");
        $('.btn-next').prop('disabled', false);
-       $('.loader-airline').fadeOut();
+       $('.loader-rodextrip').fadeOut();
    }
 }
 
@@ -1632,20 +1632,13 @@ function sort(activity_dat, check){
         document.getElementById("activity_ticket").innerHTML = '';
         text = '';
         text += `
-            <div class="col-lg-4">
-            </div>
-            <div class="col-lg-4">
-                <div style="padding:5px; margin:10px;">
-                    <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                        <br/><br/>
-                        <h6>NO ACTIVITY AVAILABLE</h6>
-                    </div>
+            <div class="col-lg-12">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                    <br/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-            </div>
-            `;
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+            </div>`;
         document.getElementById("activity_ticket").innerHTML = text;
     }
     else{
@@ -1678,13 +1671,13 @@ function sort(activity_dat, check){
                         activity_dat[j] = temp;
                     }
                 }else if(sorting == 'Lowest Price'){
-                    if(activity_dat[i].basePrice > activity_dat[j].basePrice){
+                    if(activity_dat[i].activity_price > activity_dat[j].activity_price){
                         var temp = activity_dat[i];
                         activity_dat[i] = activity_dat[j];
                         activity_dat[j] = temp;
                     }
                 }else if(sorting == 'Highest Price'){
-                    if(activity_dat[i].basePrice < activity_dat[j].basePrice){
+                    if(activity_dat[i].activity_price < activity_dat[j].activity_price){
                         var temp = activity_dat[i];
                         activity_dat[i] = activity_dat[j];
                         activity_dat[j] = temp;
@@ -1712,7 +1705,7 @@ function sort(activity_dat, check){
         check_available = 0;
         for(i in activity_dat)
         {
-           if (activity_dat[i].converted_price >= $minPrice && activity_dat[i].converted_price <= $maxPrice)
+           if (activity_dat[i].activity_price >= $minPrice && activity_dat[i].activity_price <= $maxPrice)
            {
                if (activity_dat[i].images.length > 0)
                {
@@ -1751,7 +1744,7 @@ function sort(activity_dat, check){
                                             <br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].converted_price)+`  </span>
+                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`  </span>
                                                 <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</a>
                                             </div>
                                         </div>
@@ -1767,20 +1760,13 @@ function sort(activity_dat, check){
         if (text == '' && check != 0)
         {
             text += `
-            <div class="col-lg-4">
-            </div>
-            <div class="col-lg-4">
-                <div style="padding:5px; margin:10px;">
-                    <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                        <br/><br/>
-                        <h6>NO ACTIVITY AVAILABLE</h6>
-                    </div>
+            <div class="col-lg-12">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                    <br/>
                 </div>
-            </div>
-            <div class="col-lg-4">
-            </div>
-            `;
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
+            </div>`;
         }
         document.getElementById('activity_ticket').innerHTML += text;
     }

@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
@@ -14,14 +14,6 @@
     signature = `{{signature}}`;
     sorting_value = '';
     //get_hotel_config();
-    get_top_facility();
-    airline_country = [];
-    {% for key,value in countries.items %}
-        airline_country.push({
-            'code': `{{value.code}}`,
-            'name': `{{value.name}}`,
-        });
-    {% endfor %}
 
     hotel_search_data_request = {
         'checkin': `{{hotel_search.checkin_date}}`,
@@ -289,7 +281,7 @@
 
                 <div class="row" id="loading-search-hotel">
                     <div class="col-lg-12">
-                        <div id="center-div">
+                        <div class="center-div">
                             <div>
                                 <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
                             </div>
@@ -378,7 +370,7 @@
 
 <script>
     guest_child_age2();
-    hotel_search('');
+    hotel_signin('');
     hotel_filter_render();
 
     $(function() {
@@ -477,6 +469,19 @@
             $("#total_night_search").text(diffDays);
       });
 
+    });
+
+    var hotel_autocomplete = new autoComplete({
+        selector: '#hotel_id_destination',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            get_auto_complete(term,suggest);
+        },
+        onSelect: function(e, term, item){
+            $("#hotel_id_destination").trigger("blur");
+        }
     });
 
     function goto_detail(type, counter){

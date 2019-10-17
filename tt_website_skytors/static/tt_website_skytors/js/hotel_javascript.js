@@ -168,6 +168,8 @@ function hotel_search_validation(){
     text= '';
     if(document.getElementById("hotel_id_destination").value == '')
         text+= 'Please fill destination\n';
+    if(document.getElementById('hotel_id_destination').value.split(' - ').length != 2)
+        text+= 'Please use autocomplete for Destination';
     if(document.getElementById("hotel_id_nationality").value == '')
         text+= 'Please fill nationality\n';
     today = new Date().toString().split(' ');
@@ -607,7 +609,7 @@ function sort(response, check_filter){
                     </div>`;
                     if(response.hotel_ids[i].images.length != 0){
                         text+=`
-                        <div class="col-lg-3 col-md-3">
+                        <div class="col-lg-3">
                             <div class="img-hotel-search" style="background-image: url(`+response.hotel_ids[i].images[0].url+`);" onclick="goto_detail('hotel',`+i+`)"></div>
                         </div>`;
                     }
@@ -618,7 +620,7 @@ function sort(response, check_filter){
                         </div>`;
                     }
                     text+=`
-                    <div class="col-lg-9" style="padding-left: 0;">
+                    <div class="col-lg-9 name_hotel_search"">
                         <div class="row">
                             <div class="col-lg-12">
                                 <div style="margin-bottom:10px;">
@@ -643,20 +645,22 @@ function sort(response, check_filter){
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
                             text+=`
-                            <div>
+                            <div style="padding-bottom:10px;">
                                 <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                            if(response.hotel_ids[i].location.address)
+                                text+= response.hotel_ids[i].location.address + '<br/>';
+                            if(response.hotel_ids[i].location.district)
+                                text+= response.hotel_ids[i].location.district + ', ';
                             if(response.hotel_ids[i].location.city)
                                 text+= response.hotel_ids[i].location.city;
-                //            if(response.hotel_ids[i].location.address != false)
-                //                text+= ' '+ response.hotel_ids[i].location.address;
-                            if(response.hotel_ids[i].location.district)
-                                text+= ' '+ response.hotel_ids[i].location.district;
                             if(response.hotel_ids[i].location.state)
-                                text+= ' '+ response.hotel_ids[i].location.state;
-                //            if(response.hotel_ids[i].location.kelurahan != false)
-                //                text+= ' '+ response.hotel_ids[i].location.kelurahan;
-                //            if(response.hotel_ids[i].location.zipcode != false)
-                //                text+= ' '+ response.hotel_ids[i].location.zipcode;
+                                text+= ', '+ response.hotel_ids[i].location.state;
+                            // if(response.hotel_ids[i].location.kelurahan != false)
+                            //   text+= ' '+ response.hotel_ids[i].location.kelurahan;
+                            if(response.hotel_ids[i].location.zipcode != false)
+                                text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
+                            // if(response.hotel_ids[i].location.zipcode != false)
+                            //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
                             text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
                                 </div>
                             </div>
@@ -668,7 +672,11 @@ function sort(response, check_filter){
                                         for(j in response.hotel_ids[i].prices){
                                             check_price += 1;
                                             if(check_price < 4){
-                                                text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                text += `
+                                                <div class="col-lg-12">
+                                                    <h6 style="color:#f15a22;">Best Price</h6>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
@@ -716,7 +724,7 @@ function sort(response, check_filter){
                                    text += `
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:20px;">
+                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:30px;">
                                 Facilities:<br/>
                                 <span>`;
                                 try{
@@ -1001,6 +1009,15 @@ function hotel_filter_render(){
 //
 //
 //}
+function hotel_cancellation_button(key, price_id){
+    // Icon Loading muter disini
+    document.getElementById('js_cancellation_button'+key).innerHTML = 'Loading';
+    // Tembak Gateway
+    // Olah Response
+    response = hotel_get_cancellation_policy(price_id, key, '2');
+    //console.log('A:' + response);
+
+}
 
 function hotel_room_pick(key){
     document.getElementById('hotel_detail_table').innerHTML = '';

@@ -39,9 +39,7 @@ $(document).ready(function(){
     $("#myModalPopUp").modal('show');
 
     setTimeout(function(){
-        $('.loader-airline').fadeOut();
-        $('.loader-activity').fadeOut();
-        $('.loader-hotel').fadeOut();
+        $('.loader-rodextrip').fadeOut();
     }, 1000);
 
     $(window).click(function(e) {

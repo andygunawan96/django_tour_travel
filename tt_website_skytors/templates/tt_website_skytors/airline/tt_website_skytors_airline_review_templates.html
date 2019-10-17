@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
@@ -52,7 +52,8 @@
     seat = {{seat}};
 </script>
 {% include 'tt_website_skytors/logout.html' %}
-<div class="loader-airline"></div>
+{% include 'tt_website_skytors/loading_screen.html' %}
+
 {%if template == 1%}
 <header id="header">
     <div class="main-menu">

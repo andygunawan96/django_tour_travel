@@ -536,9 +536,10 @@ def ssr(request):
                             "title": pax['title'],
                             "birth_date": pax['birth_date'],
                             "nationality_code": pax['nationality_code'],
-                            "passport_number": pax['passport_number'],
-                            "passport_expdate": pax['passport_expdate'],
-                            "country_of_issued_code": pax['country_of_issued_code'],
+                            "passport_number": pax['identity_number'],
+                            "passport_expdate": pax['identity_expdate'],
+                            "country_of_issued_code": pax['identity_country_of_issued_code'],
+                            "identity_type": pax['identity_type'],
                             "passenger_id": pax['sequence']
                         })
                     else:
@@ -549,9 +550,10 @@ def ssr(request):
                             "title": pax['title'],
                             "birth_date": pax['birth_date'],
                             "nationality_code": pax['nationality_code'],
-                            "passport_number": pax['passport_number'],
-                            "passport_expdate": pax['passport_expdate'],
-                            "country_of_issued_code": pax['country_of_issued_code'],
+                            "passport_number": pax['identity_number'],
+                            "passport_expdate": pax['identity_expdate'],
+                            "country_of_issued_code": pax['identity_country_of_issued_code'],
+                            "identity_type": pax['identity_type'],
                             "passenger_id": pax['sequence']
                         })
                 else:
@@ -562,9 +564,10 @@ def ssr(request):
                         "title": pax['title'],
                         "birth_date": pax['birth_date'],
                         "nationality_code": pax['nationality_code'],
-                        "passport_number": pax['passport_number'],
-                        "passport_expdate": pax['passport_expdate'],
-                        "country_of_issued_code": pax['country_of_issued_code'],
+                        "passport_number": pax['identity_number'],
+                        "passport_expdate": pax['identity_expdate'],
+                        "country_of_issued_code": pax['identity_country_of_issued_code'],
+                        "identity_type": pax['identity_type'],
                         "passenger_id": pax['sequence']
                     })
             title_booker = 'MR'
@@ -846,9 +849,10 @@ def seat_map(request):
                             "title": pax['title'],
                             "birth_date": pax['birth_date'],
                             "nationality_code": pax['nationality_code'],
-                            "passport_number": pax['passport_number'],
-                            "passport_expdate": pax['passport_expdate'],
-                            "country_of_issued_code": pax['country_of_issued_code'],
+                            "passport_number": pax['identity_number'],
+                            "passport_expdate": pax['identity_expdate'],
+                            "country_of_issued_code": pax['identity_country_of_issued_code'],
+                            "identity_type": pax['identity_type'],
                             "passenger_id": pax['sequence']
                         })
                     else:
@@ -859,9 +863,10 @@ def seat_map(request):
                             "title": pax['title'],
                             "birth_date": pax['birth_date'],
                             "nationality_code": pax['nationality_code'],
-                            "passport_number": pax['passport_number'],
-                            "passport_expdate": pax['passport_expdate'],
-                            "country_of_issued_code": pax['country_of_issued_code'],
+                            "passport_number": pax['identity_number'],
+                            "passport_expdate": pax['identity_expdate'],
+                            "country_of_issued_code": pax['identity_country_of_issued_code'],
+                            "identity_type": pax['identity_type'],
                             "passenger_id": pax['sequence']
                         })
                 else:
@@ -872,9 +877,10 @@ def seat_map(request):
                         "title": pax['title'],
                         "birth_date": pax['birth_date'],
                         "nationality_code": pax['nationality_code'],
-                        "passport_number": pax['passport_number'],
-                        "passport_expdate": pax['passport_expdate'],
-                        "country_of_issued_code": pax['country_of_issued_code'],
+                        "passport_number": pax['identity_number'],
+                        "passport_expdate": pax['identity_expdate'],
+                        "country_of_issued_code": pax['identity_country_of_issued_code'],
+                        "identity_type": pax['identity_type'],
                         "passenger_id": pax['sequence']
                     })
             title_booker = 'MR'
@@ -905,12 +911,10 @@ def seat_map(request):
             for pax in child:
                 passenger.append(pax)
 
-            passenger = request.session['airline_create_passengers']['adult'] + \
-                        request.session['airline_create_passengers']['child']
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             for pax in passenger:
                 pax['seat_list'] = []
-                for seat_provider in request.session['airline_get_seat_availability']['result']['response'][
-                    'seat_availability_provider']:
+                for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
                     for segment in seat_provider['segments']:
                         pax['seat_list'].append({
                             'segment_code': segment['segment_code2'],

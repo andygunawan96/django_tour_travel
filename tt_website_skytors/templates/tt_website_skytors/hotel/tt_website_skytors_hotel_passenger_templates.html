@@ -57,7 +57,7 @@
         </div>
     </div>
 </header>
-<div class="loader-hotel"></div>
+{% include 'tt_website_skytors/loading_screen.html' %}
 <section class="destinations-area" style="padding-top:15px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right">
@@ -701,7 +701,7 @@
 
 <script>
     hotel_detail('{{hotel_room_detail_pick.rooms}}');
-    hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
+    hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}', '1')
 
     $( document ).ready(function() {
       breadcrumb_create("hotel", 4, 0);
