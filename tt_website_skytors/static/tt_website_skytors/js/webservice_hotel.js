@@ -368,7 +368,7 @@ function hotel_detail_request(id){
                     text+=`<div class="col-lg-6 col-md-6">`;
                     text+= '<h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span class="qty_room">Qty: '+ result.prices[i].rooms[j].qty +'</span><br/>';
                     text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/><br/>';
-
+                    text+= 'Cancellation: <ul style="list-style-type:disc;"><li id="js_cancellation_button'+i+'"><button onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');">Show Policy</button></li></ul>';
                     text+=`</div>`;
                 }
 
@@ -442,7 +442,7 @@ function hotel_detail_request(id){
     },500);
 }
 
-function hotel_get_cancellation_policy(price_code, provider){
+function hotel_get_cancellation_policy(price_code, provider, view_type){
     getToken();
     $.ajax({
        type: "POST",
@@ -458,23 +458,40 @@ function hotel_get_cancellation_policy(price_code, provider){
             // hotel_provision(price_code, provider);
             console.log(msg);
             var result = msg.result.response;
-            var text = '<h4>Cancellation Policy</h4>';
-            text += '<b>' + result.hotel_name + '</b><hr/>';
-            text += '<ul style="list-style-type: circle; margin: 0 15px;">';
-            if(result.policies.length != 0){
-                for(i in result.policies){
-                    if (result.policies[i].received_amount != 0){
-                        text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
-                    } else {
-                        text += '<li>No Cancellation after: ' + result.policies[i].date;
+            if (view_type == '1'){
+                var text = '<h4>Cancellation Policy</h4>';
+                text += '<b>' + result.hotel_name + '</b><hr/>';
+                text += '<ul style="list-style-type: circle; margin: 0 15px;">';
+                if(result.policies.length != 0){
+                    for(i in result.policies){
+                        if (result.policies[i].received_amount != 0){
+                            text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                        } else {
+                            text += '<li>No Cancellation after: ' + result.policies[i].date;
+                        }
                     }
-                }
+                } else {
+                    text += '<li>No Cancellation Policy Provided</li>';
+                };
+                text += '</ul>';
+                //console.log(text);
+                document.getElementById('cancellation_policy').innerHTML = text;
             } else {
-                text += '<li>No Cancellation Policy Provided</li>';
-            };
-            text += '</ul>';
-            //console.log(text);
-            document.getElementById('cancellation_policy').innerHTML = text;
+                text = '<ul style="list-style-type: circle; margin: 0 15px;">';
+                if(result.policies.length != 0){
+                    for(i in result.policies){
+                        if (result.policies[i].received_amount != 0){
+                            text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                        } else {
+                            text += '<li>No Cancellation after: ' + result.policies[i].date;
+                        }
+                    }
+                } else {
+                    text += '<li>No Cancellation Policy Provided</li>';
+                };
+                text += '</ul>';
+                document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            text += '<ul>';

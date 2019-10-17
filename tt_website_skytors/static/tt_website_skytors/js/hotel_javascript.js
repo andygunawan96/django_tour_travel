@@ -168,6 +168,8 @@ function hotel_search_validation(){
     text= '';
     if(document.getElementById("hotel_id_destination").value == '')
         text+= 'Please fill destination\n';
+    if(document.getElementById('hotel_id_destination').value.split(' - ').length != 2)
+        text+= 'Please use autocomplete for Destination';
     if(document.getElementById("hotel_id_nationality").value == '')
         text+= 'Please fill nationality\n';
     today = new Date().toString().split(' ');
@@ -1007,6 +1009,15 @@ function hotel_filter_render(){
 //
 //
 //}
+function hotel_cancellation_button(key, price_id){
+    // Icon Loading muter disini
+    document.getElementById('js_cancellation_button'+key).innerHTML = 'Loading';
+    // Tembak Gateway
+    // Olah Response
+    response = hotel_get_cancellation_policy(price_id, key, '2');
+    //console.log('A:' + response);
+
+}
 
 function hotel_room_pick(key){
     document.getElementById('hotel_detail_table').innerHTML = '';
