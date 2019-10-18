@@ -45,7 +45,7 @@ def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
-            res = signin(request)
+            res = login(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'get_details':
@@ -69,28 +69,28 @@ def api_models(request):
     return Response(res)
 
 
-def signin(request):
+def login(request):
+    data = {
+        "user": user_global,
+        "password": password_global,
+        "api_key": api_key,
+        "co_user": request.session['username'],
+        "co_password": request.session['password'],
+        "co_uid": ""
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": 'signin'
+    }
+    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        data = {
-            "user": user_global,
-            "password": password_global,
-            "api_key": api_key,
-            "co_user": user_default,  # request.POST['username'],
-            "co_password": password_default,  # request.POST['password'],
-            "co_uid": "",
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "signin",
-            "signature": ''
-        }
+        request.session['tour_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(
+            "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + "session", data=data, headers=headers, method='POST')
-    request.session['tour_signature'] = res['result']['response']['signature']
-
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
