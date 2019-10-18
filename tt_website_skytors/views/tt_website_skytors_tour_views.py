@@ -92,7 +92,7 @@ def search(request):
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,
             'javascript_version': javascript_version,
-            'signature': request.session['tour_signature'],
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }
