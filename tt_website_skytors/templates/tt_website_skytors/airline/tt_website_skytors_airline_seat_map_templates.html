@@ -41,6 +41,7 @@
         price_itinerary = price_itinerary.replace(/True/g, '"true"');
         price_itinerary = price_itinerary.replace(/False/g, '"false"');
         price_itinerary = JSON.parse(price_itinerary);
+        breadcrumb = 2;
     }catch(err){
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
@@ -300,7 +301,6 @@ img {vertical-align: middle;}
     });
 
     get_seat_map_response();
-    set_passenger_seat_map_airline(0);
     //get_airline_review();
 
     function plusSlides(n, no) {
