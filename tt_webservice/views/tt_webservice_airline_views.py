@@ -114,6 +114,8 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
+        elif req_data['action'] == 'reissued':
+            res = reissued(request)
         # elif req_data['action'] == 'get_buy_information':
         #     res = get_buy_information(request)
         # elif req_data['action'] == 'create_passengers':
@@ -956,6 +958,7 @@ def get_booking(request):
             for journey in provider['journeys']:
                 journey.update({
                     'departure_date': convert_string_to_date_to_string_front_end_with_time(journey['departure_date']),
+                    'arrival_date': convert_string_to_date_to_string_front_end_with_time(journey['arrival_date'])
                 })
                 for destination in airline_destinations:
                     if destination['code'] == journey['origin']:
@@ -1059,6 +1062,39 @@ def issued(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def reissued(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+            #BENAHIN LAGI
+        data = {
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "reissued",
             "signature": request.POST['signature'],
         }
     except Exception as e:

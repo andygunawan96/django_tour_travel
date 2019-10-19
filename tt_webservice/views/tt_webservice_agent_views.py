@@ -104,7 +104,7 @@ def signin(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_account",
-                "signature": request.session['signature'],
+                "signature": res['result']['response']['signature']
             }
 
             res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
@@ -124,7 +124,7 @@ def signin(request):
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
-                    logging.getLogger("info_logger").error("USE CACHE IN TXT!")
+                    logging.getLogger("info_logger").error("SUCCESS USE CACHE IN TXT!")
             except:
                 logging.getLogger("info_logger").error("GET NEW CACHE!")
                 # airline
@@ -133,7 +133,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_destinations",
-                    "signature": request.session['signature'],
+                    "signature": res['result']['response']['signature']
                 }
 
                 res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -142,7 +142,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_countries",
-                    "signature": request.session['signature'],
+                    "signature": res['result']['response']['signature']
                 }
 
                 res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -152,7 +152,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "search_autocomplete",
-                    "signature": request.session['signature']
+                    "signature": res['result']['response']['signature']
                 }
 
                 data = {
@@ -217,7 +217,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_config",
-                    "signature": request.session['signature'],
+                    "signature": res['result']['response']['signature']
                 }
                 res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
                                                     method='POST')
@@ -298,7 +298,7 @@ def signin(request):
                 file.close()
                 #cache airline popular
         else:
-            logging.getLogger("info_logger").info("WRONG USERNAME OR PASSWORD MAYBE HACKER!! ")
+            logging.getLogger("info_logger").info(json.dumps(res))
 
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

@@ -1911,6 +1911,16 @@ function sort(airline){
 
                     <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                         for(j in airline[i].segments){
+                            if(airline[i].segments[j].transit_duration != ''){
+                                text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i> Transit Duration`;
+                                if(airline[i].segments[j].transit_duration.split(':')[0] != '0')
+                                    text+= airline[i].segments[j].transit_duration.split(':')[0] + 'd ';
+                                if(airline[i].segments[j].transit_duration.split(':')[1] != '0')
+                                    text+= airline[i].segments[j].transit_duration.split(':')[1] + 'h ';
+                                if(airline[i].segments[j].transit_duration.split(':')[2] != '0')
+                                    text+= airline[i].segments[j].transit_duration.split(':')[2] + 'm ';
+                                text+=`</span></div><br/>`;
+                            }
                             var depart = 0;
                             if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                                 depart = 1;
@@ -2166,6 +2176,16 @@ function sort(airline){
 
                 <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                     for(j in airline[i].segments){
+                    if(airline[i].segments[j].transit_duration != ''){
+                        text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i> Transit Duration`;
+                        if(airline[i].segments[j].transit_duration.split(':')[0] != '0')
+                            text+= airline[i].segments[j].transit_duration.split(':')[0] + 'd ';
+                        if(airline[i].segments[j].transit_duration.split(':')[1] != '0')
+                            text+= airline[i].segments[j].transit_duration.split(':')[1] + 'h ';
+                        if(airline[i].segments[j].transit_duration.split(':')[2] != '0')
+                            text+= airline[i].segments[j].transit_duration.split(':')[2] + 'm ';
+                        text+=`</span></div><br/>`;
+                    }
                     var depart = 0;
                     if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                         depart = 1;
@@ -2495,6 +2515,16 @@ function airline_pick_mc(type){
                 </div>
                 <div id="detail_departjourney_pick`+i+`" class="panel-collapse collapse in" aria-expanded="true">`;
                 for(j in airline_pick_list[i].segments){
+                    if(airline_pick_list[i].segments[j].transit_duration != ''){
+                        text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i> Transit Duration`;
+                        if(airline_pick_list[i].segments[j].transit_duration.split(':')[0] != '0')
+                            text+= airline_pick_list[i].segments[j].transit_duration.split(':')[0] + 'd ';
+                        if(airline_pick_list[i].segments[j].transit_duration.split(':')[1] != '0')
+                            text+= airline_pick_list[i].segments[j].transit_duration.split(':')[1] + 'h ';
+                        if(airline_pick_list[i].segments[j].transit_duration.split(':')[2] != '0')
+                            text+= airline_pick_list[i].segments[j].transit_duration.split(':')[2] + 'm ';
+                        text+=`</span></div><br/>`;
+                    }
                 var depart = 0;
                 if(airline_pick_list[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                     depart = 1;
