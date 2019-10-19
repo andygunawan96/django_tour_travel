@@ -171,32 +171,32 @@ def signin(request):
                     pass
 
                 #visa odoo12
-                # data = {
-                #     'provider': 'skytors_visa'
-                # }
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "signature": request.session['signature'],
-                # }
-                #
-                # res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+                data = {
+                    'provider': 'skytors_visa'
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "signature": request.session['signature'],
+                }
+
+                res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
                 #
 
                 #issuedoffline
-                # data = {
-                #     'provider': 'skytors_issued_offline'
-                # }
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "provider": 'skytors_issued_offline',
-                #     "signature": request.session['signature'],
-                # }
-                #
-                # res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
+                data = {
+                    'provider': 'skytors_issued_offline'
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "provider": 'skytors_issued_offline',
+                    "signature": request.session['signature'],
+                }
+
+                res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
 
                 # return res
 
@@ -238,13 +238,13 @@ def signin(request):
                     logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
                 if res_destination_airline['result']['error_code'] == 0:
                     logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
-                # if res_config_visa['result']['error_code'] == 0:
-                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
-                # if res_config_issued_offline['result']['error_code'] == 0:
-                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
+                if res_config_visa['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
+                if res_config_issued_offline['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
                 res['result']['response'].update({
-                    # 'visa': res_config_visa['result']['response'], #belum di install
-                    # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
+                    'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False, #belum di install
+                    'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False, #belum di install
                     # 'train': res_origin_train['result']['response'],
                     'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
                     # 'tour': res_config_tour['result'],
