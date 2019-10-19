@@ -314,7 +314,10 @@ def booking(request):
         javascript_version = get_cache_version()
         template, logo = get_logo_template()
 
-        resv_obj = json.loads(request.POST['result'])['result']['response']
+        try:
+            resv_obj = json.loads(request.POST['result'])['result']['response']
+        except:
+            resv_obj = False
         if resv_obj:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -331,6 +334,9 @@ def booking(request):
             }
             return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
         else:
+            # TODO Ubah state booking jadi in process
+            # TODO setelah 5 menit cek dari BE
+            # TODO Jika state masih blum DONE get booking from vendor
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
