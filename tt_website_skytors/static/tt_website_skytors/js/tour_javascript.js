@@ -1216,7 +1216,7 @@ function sort(tour_dat){
            }
            else
            {
-               img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
+               img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
            }
 
            if (tour_dat[i].state_tour == 'sold')
@@ -1253,7 +1253,7 @@ function sort(tour_dat){
                                         <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
                                     </div>
                                     <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:12px;font-weight:bold;">IDR `+tour_dat[i].adult_sale_price_with_comma+`  </span>
+                                        <span style="font-size:12px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
                                         <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
                                     </div>
                                 </div>

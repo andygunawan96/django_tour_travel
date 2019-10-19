@@ -1763,11 +1763,11 @@ function sort(airline){
                                     text+=`
                                     <div class="col-lg-12 col-md-4 col-sm-4 col-xs-4">
                                         <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">
                                     </div>`;
                                     }catch(err){
                                         text+=`
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">`;
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">`;
                                     }
                                 }
 
@@ -1911,6 +1911,16 @@ function sort(airline){
 
                     <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                         for(j in airline[i].segments){
+                            if(airline[i].segments[j].transit_duration != ''){
+                                text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i> Transit Duration`;
+                                if(airline[i].segments[j].transit_duration.split(':')[0] != '0')
+                                    text+= airline[i].segments[j].transit_duration.split(':')[0] + 'd ';
+                                if(airline[i].segments[j].transit_duration.split(':')[1] != '0')
+                                    text+= airline[i].segments[j].transit_duration.split(':')[1] + 'h ';
+                                if(airline[i].segments[j].transit_duration.split(':')[2] != '0')
+                                    text+= airline[i].segments[j].transit_duration.split(':')[2] + 'm ';
+                                text+=`</span></div><br/>`;
+                            }
                             var depart = 0;
                             if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                                 depart = 1;
@@ -1935,7 +1945,7 @@ function sort(airline){
                             text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
                                 <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                             }catch(err){
                             text+=`
                                 <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>
@@ -2087,7 +2097,7 @@ function sort(airline){
                             for(j in airline[i].carrier_code_list)
                                 text+=`
                                 <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
                             text+=`
                         </div>
 
@@ -2166,6 +2176,16 @@ function sort(airline){
 
                 <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                     for(j in airline[i].segments){
+                    if(airline[i].segments[j].transit_duration != ''){
+                        text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i> Transit Duration`;
+                        if(airline[i].segments[j].transit_duration.split(':')[0] != '0')
+                            text+= airline[i].segments[j].transit_duration.split(':')[0] + 'd ';
+                        if(airline[i].segments[j].transit_duration.split(':')[1] != '0')
+                            text+= airline[i].segments[j].transit_duration.split(':')[1] + 'h ';
+                        if(airline[i].segments[j].transit_duration.split(':')[2] != '0')
+                            text+= airline[i].segments[j].transit_duration.split(':')[2] + 'm ';
+                        text+=`</span></div><br/>`;
+                    }
                     var depart = 0;
                     if(airline[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                         depart = 1;
@@ -2190,7 +2210,7 @@ function sort(airline){
                             text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
                                 <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                             }catch(err){
                             text+=`
                                 <span style="font-weight: 500;">`+airline[i].segments[j].carrier_code+`</span><br/>
@@ -2392,7 +2412,7 @@ function airline_pick_mc(type){
                                 try{
                                     text+=`
                                         <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`</span><br/>
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
+                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].carrier_code_list[j]].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].carrier_code_list[j]+`.png"><br/>`;
                                 }catch(err){
                                     text+=`
                                         <span style="font-weight:500; font-size:12px;">`+airline_pick_list[i].carrier_code_list[j]+`</span><br/>`;
@@ -2495,6 +2515,16 @@ function airline_pick_mc(type){
                 </div>
                 <div id="detail_departjourney_pick`+i+`" class="panel-collapse collapse in" aria-expanded="true">`;
                 for(j in airline_pick_list[i].segments){
+                    if(airline_pick_list[i].segments[j].transit_duration != ''){
+                        text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i> Transit Duration`;
+                        if(airline_pick_list[i].segments[j].transit_duration.split(':')[0] != '0')
+                            text+= airline_pick_list[i].segments[j].transit_duration.split(':')[0] + 'd ';
+                        if(airline_pick_list[i].segments[j].transit_duration.split(':')[1] != '0')
+                            text+= airline_pick_list[i].segments[j].transit_duration.split(':')[1] + 'h ';
+                        if(airline_pick_list[i].segments[j].transit_duration.split(':')[2] != '0')
+                            text+= airline_pick_list[i].segments[j].transit_duration.split(':')[2] + 'm ';
+                        text+=`</span></div><br/>`;
+                    }
                 var depart = 0;
                 if(airline_pick_list[i].segments[j].origin == airline_request.destination[counter_search-1].split(' - ')[0])
                     depart = 1;
@@ -2525,7 +2555,7 @@ function airline_pick_mc(type){
                         text+=`
                             <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`</span><br/>
                             <span style="color:#f15a22; font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_name+`</span><br/>
-                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
+                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline_pick_list[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick_list[i].segments[j].carrier_code+`.png"><br/>`;
                         }catch(err){
                         text+=`
                             <span style="font-weight: 500;">`+airline_pick_list[i].segments[j].carrier_code+`</span><br/>
@@ -2810,54 +2840,28 @@ function airline_detail(type){
         flight_count = 0;
         for(i in price_itinerary.price_itinerary_provider){
             for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
-                if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
-                    text += `<h6>Combo Price</h6>`;
-                    $text +='Combo Price\n';
-                }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].journey_type == 'DEP'){
-                    text += `<h6>Departure</h6>`;
-                    if(airline_request.direction != 'MC')
-                        $text +='Departure\n';
-                    else{
-                        $text +='Flight'+parseInt(flight_count+1)+'\n';
-                        flight_count++;
-                    }
-                }else{
-                    text += `<div class="row"><div class="col-lg-12" style="margin-bottom:5px;margin-top:2px;"><h6>Return</h6>`;
-                    if(airline_request.direction != 'MC')
-                        $text +='Return\n';
-                    else{
-                        $text +='Flight'+parseInt(flight_count+1)+'\n';
-                        flight_count++;
-                    }
+                if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true){
+                    text += `<h6>Special Price</h6>`;
+                    $text +='Special Price\n';
                 }
+                flight_count++;
+                text += `<hr/><h6>Flight `+flight_count+`</h6>`;
+                $text +='Flight '+flight_count+'\n';
                 //logo
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                     }
                 text+=`</div>`;
 
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
-                    if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].journey_type == 'COM'){
-                        text += `<div class="col-lg-12" style="margin-bottom:5px;"><h6>Flight `+parseInt(flight_count+1)+`</h6></div>`;
-                        $text +='Flight'+parseInt(flight_count+1)+'\n';
-                        flight_count++;
-                    }
-                    //datacopy
-                    if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'DEP'){
-                        $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
+                    $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
+                    $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
+                    $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
 
-                    }else if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].journey_type == 'RET'){
-                        $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
-                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
-                    }
                     text+=`
                         <div class="col-lg-12">
                             <div class="row">
@@ -3029,6 +3033,7 @@ function airline_detail(type){
                                 }catch(err){
                                     continue
                                 }
+                                $text += '\n';
                             }
                         }
                         text+=`<br/>`;
@@ -3073,7 +3078,7 @@ function airline_detail(type){
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\nPrices and availability may change at any time';
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
@@ -3145,9 +3150,9 @@ function airline_detail(type){
                 }
                 for(k in airline_get_booking.provider_bookings[i].journeys[j].segments){
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                     }
                     text+=`</div>`;
                     if(airline_get_booking.provider_bookings[i].journeys[j].journey_type == 'COM'){
@@ -3593,9 +3598,9 @@ function get_airline_review(){
             //logo
             for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }catch(err){
-                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }
             text+=`</div>`;
 
@@ -3739,9 +3744,9 @@ function get_airline_review_after_sales(){
                     flight_count++;
                 }
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }catch(err){
-                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                 }
                 text+=`
                     <div class="row">

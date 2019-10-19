@@ -255,12 +255,24 @@ function hotel_facility_request(hotel_facilities){
             for (rec in hotel_facilities){
                 var new_html = '';
                 for(i in facility_image){
-                    if (facility_image[i].internal_code == hotel_facilities[rec].facility_id){
+                    if (facility_image[i].facility_name == hotel_facilities[rec].facility_name){
+                        //console.log(facility_image[i].facility_name+ ' Similar Name');
                         new_html = `
                         <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
                             <img src="`+ facility_image[i].facility_image +`" style="width:25px; height:25px;"/>
                             <span style="font-weight:500;">`+ hotel_facilities[rec].facility_name +`</span>
                         </div>`;
+                        //console.log(facility_image[i].facility_image);
+                        break;
+                    }
+                    if (facility_image[i].internal_code == hotel_facilities[rec].facility_id){
+                        //console.log(facility_image[i].facility_name+ ' Similar Code');
+                        new_html = `
+                        <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
+                            <img src="`+ facility_image[i].facility_image +`" style="width:25px; height:25px;"/>
+                            <span style="font-weight:500;">`+ hotel_facilities[rec].facility_name +`</span>
+                        </div>`;
+                        //console.log(facility_image[i].facility_image);
                         break;
                     }
                 }
@@ -366,7 +378,7 @@ function hotel_detail_request(id){
                         </div>`;
                     }
                     text+=`<div class="col-lg-6 col-md-6">`;
-                    text+= '<h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span class="qty_room">Qty: '+ result.prices[i].rooms[j].qty +'</span><br/>';
+                    text+= '<h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].category + '>' + result.prices[i].rooms[j].category + '</h4><span>' + result.prices[i].rooms[j].description + '</span><br/><span class="qty_room">'+ result.prices[i].rooms[j].qty +' Room(s)</span><br/>';
                     text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/><br/>';
                     text+= 'Cancellation: <ul><li id="js_cancellation_button'+i+'"><button onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');">Show Policy</button></li></ul>';
                     text+=`</div>`;
@@ -494,9 +506,15 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           text += '<ul>';
-           text += '<li>No Cancellation Policy Provided</li></ul>';
-           document.getElementById('cancellation_policy').innerHTML = text;
+           if (view_type == '1'){
+                var text = '<h4>Cancellation Policy</h4>';
+                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li>No Cancellation Policy Provided</li></ul>';
+                document.getElementById('cancellation_policy').innerHTML = text;
+           } else {
+                var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
+                text += '<li>No Cancellation Policy Provided</li></ul>';
+                document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
+           }
        }
     });
 }
@@ -541,6 +559,7 @@ function hotel_issued_alert(){
         $('.next-loading-booking').prop('disabled', true);
         $('.next-loading-issued').addClass("running");
         $('.next-loading-issued').prop('disabled', true);
+        $('.loader-rodextrip').fadeIn();
         hotel_issued_booking();
       }
     })
@@ -637,7 +656,7 @@ function get_checked_copy_result_room(){
             <div class="row" id="div_list`+id_room+`">
                 <div class="col-lg-8">
                     <h6>`+name_room+` </h6>
-                    <span>Qty: `+qty_room+`</span><br/>
+                    <span>`+qty_room+` Room</span><br/>
                     <span>`+meal_room+`</span><br/>
                     <span style="font-weight:500;">Price: `+price_room+`</span>
                 </div>
@@ -647,6 +666,7 @@ function get_checked_copy_result_room(){
                 <div class="col-lg-12"><hr/></div>
             </div>`;
         });
+    $text += '\n===Price may change at any time===';
     text+=`</div>
     <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;" id="share_result">
         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;

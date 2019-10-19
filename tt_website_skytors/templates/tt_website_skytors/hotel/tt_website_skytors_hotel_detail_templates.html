@@ -14,6 +14,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 
 <script>
+    get_path_url_server();
     signature = `{{signature}}`;
     $(document).ready(function() {
         $('#asdasd').datepicker({
@@ -94,9 +95,6 @@
                                             <img class="img-fluid zoom-img" src="{{i.url}}" style="margin: auto; max-height:400px;" alt="">
                                         </div>
                                         {% endfor %}
-                                        <!--                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">-->
-                                        <!--                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-1.jpg" style="margin: auto; max-height:400px;" alt="">-->
-                                        <!--                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -125,7 +123,6 @@
                                         {% else %}
                                         <span style="font-weight:500; font-size:14px;">No Description</span>
                                         <!-- If you’re looking for a charming hotel in Koto, look no further than Sotetsu Fresa Inn Tokyo-Toyocho. While staying at Sotetsu Fresa Inn Tokyo-Toyocho, visitors can check out Susaki Shrine (0.6 mi) and Ogibashi Komon Gate (1.1 mi), some of Koto's top attractions.	You’ll enjoy relaxing rooms that offer a refrigerator and air conditioning, and you can stay connected during your stay as Sotetsu Fresa Inn Tokyo-Toyocho offers guests free wifi.	The hotel features a 24 hour front desk, room service, and newspaper. Plus, Sotetsu Fresa Inn Tokyo-Toyocho offers an on-site restaurant, providing a pleasant respite from your busy day.	If you like Korean restaurants, Sotetsu Fresa Inn Tokyo-Toyocho is conveniently located near Korean cuisine Ourimu, Teppan Dining Teike Ikedaya, and Yakiniku Iki. Looking to explore? Then look no further than Fukagawa Edo Museum (1.2 mi), Museum of Contemporary Art Tokyo (0.9 mi), and Sunamachi Ginza Shopping Street (0.9 mi), which are some popular Koto attractions – all conveniently located within walking distance of the hotel.	The staff at Sotetsu Fresa Inn Tokyo-Toyocho looks forward to serving you during your upcoming visit.-->
-
                                         {% endif %}
                                     </p>
                                 </div>

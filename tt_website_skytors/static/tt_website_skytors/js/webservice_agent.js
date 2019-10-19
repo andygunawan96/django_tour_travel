@@ -74,6 +74,27 @@ function signin(){
     }
 }
 
+function get_path_url_server(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'static_path_url_server',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+       },
+       success: function(msg) {
+        console.log(msg);
+        static_path_url_server = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
 function triggered_balance(val){
     var timeInterval = setInterval(function() {
         if(time!=0){

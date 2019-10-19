@@ -72,7 +72,7 @@ function tour_search(){
                    }
                    else
                    {
-                       img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
+                       img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                    }
 
                    if (tour_data[i].state_tour == 'sold')
@@ -96,7 +96,7 @@ function tour_search(){
                         <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
                         <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
                             <div class="single-destination relative">
-                                <div class="thumb relative" style="margin: auto; width:100%; background-image: url('https://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                <div class="thumb relative" style="margin: auto; width:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                     <div class="overlay overlay-bg"></div>
                                     <img class="img-fluid" src="`+img_src+`" alt="">
                                 </div>
@@ -109,7 +109,7 @@ function tour_search(){
                                                 <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:12px;font-weight:bold;">IDR `+tour_data[i].adult_sale_price_with_comma+`  </span>
+                                                <span style="font-size:12px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
                                                 <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
                                             </div>
                                         </div>
@@ -187,14 +187,14 @@ function tour_get_details(package_id){
                     {
                         country_text += `<br/><span><i class="fa fa-clock-o" aria-hidden="true"></i> ` + tour_data[i].duration + ` Days</span>`;
                     }
-                    country_text += `<br/><span><i class="fa fa-tag" aria-hidden="true"></i> Adult @ ` + tour_data[i].adult_sale_price_with_comma + `</span>`;
+                    country_text += `<br/><span><i class="fa fa-tag" aria-hidden="true"></i> Adult @ ` + getrupiah(tour_data[i].adult_sale_price) + `</span>`;
                     if (tour_data[i].child_sale_price > 0)
                     {
-                        country_text += `<span> | Child @ ` + tour_data[i].child_sale_price_with_comma + `</span>`;
+                        country_text += `<span> | Child @ ` + getrupiah(tour_data[i].child_sale_price) + `</span>`;
                     }
                     if (tour_data[i].infant_sale_price > 0)
                     {
-                        country_text += `<span> | Infant @ ` + tour_data[i].infant_sale_price_with_comma + `</span>`;
+                        country_text += `<span> | Infant @ ` + getrupiah(tour_data[i].infant_sale_price) + `</span>`;
                     }
 
                     country_text += `<br/>`;
@@ -230,7 +230,7 @@ function tour_get_details(package_id){
                         <div class="item">
                             <div class="single-destination relative">
                                 <div class="thumb relative">
-                                    <img class="img-fluid zoom-img" src="https://static.rodextrip.com/public/tour_packages/not_found.png" alt="">
+                                    <img class="img-fluid zoom-img" src="`+static_path_url_server+`/public/tour_packages/not_found.png" alt="">
                                 </div>
                             </div>
                         </div>`;
@@ -250,7 +250,7 @@ function tour_get_details(package_id){
                             }
                             else
                             {
-                                itinerary_text += `<img src="https://static.rodextrip.com/public/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
+                                itinerary_text += `<img src="`+static_path_url_server+`/public/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
                             }
                             itinerary_text += `</div>`;
 
@@ -290,13 +290,13 @@ function tour_get_details(package_id){
                                     <td class="hidden-xs">`;
                             if (tour_data[i].flight_segment_ids[k].carrier_code)
                             {
-                                flight_details_text += `<img src="https://static.rodextrip.com/public/airline_logo/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" title="`+tour_data[i].flight_segment_ids[k].carrier_id+`" width="50" height="50"/>`;
+                                flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" title="`+tour_data[i].flight_segment_ids[k].carrier_id+`" width="50" height="50"/>`;
                             }
 
 //                            flight_details_text += `</td><td class="hidden-sm hidden-md hidden-lg hidden-xl">`;
 //                            if (tour_data[i].flight_segment_ids[k].carrier_code)
 //                            {
-//                                flight_details_text += `<img src="https://static.rodextrip.com/public/airline_logo/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" width="40" height="40"/>`+tour_data[i].flight_segment_ids[k].carrier_code;
+//                                flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data[i].flight_segment_ids[k].carrier_code + `.png" width="40" height="40"/>`+tour_data[i].flight_segment_ids[k].carrier_code;
 //                            }
 
                             flight_details_text += `</td>`;
@@ -771,15 +771,14 @@ function get_price_itinerary(package_id) {
        type: "POST",
        url: "/webservice/tour",
        headers:{
-            'action': 'get_details',
+            'action': 'get_pricing',
        },
        data: {
            'id': package_id
        },
        success: function(msg) {
             console.log(msg);
-            tour_data = msg.result.response.result;
-            tour_data_first = tour_data[0];
+            price_data = msg.result.response;
             document.getElementById("single_supplement_amount").value = 0;
             document.getElementById("single_supplement_price").value = 0;
             document.getElementById("airport_tax_amount").value = 0;

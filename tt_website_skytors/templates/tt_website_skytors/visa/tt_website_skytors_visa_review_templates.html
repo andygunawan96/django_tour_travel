@@ -14,6 +14,7 @@
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 
 <script>
+    get_path_url_server();
     passenger = `{{passengers}}`;
     passenger = passenger.replace(/&#39;/g, '"');
     passenger = passenger.replace(/True/g, true);

@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script>
+    get_path_url_server();
     visa_request = `{{visa_request}}`;
     signature = `{{signature}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));

@@ -2952,6 +2952,10 @@ body.mobile-nav-active #mobile-nav-toggle {
   background: #f15a22;
   color:white;
 }
+.sticky-tour-active{
+  background: #f15a22;
+  color:white;
+}
 
 
 .sorting-box{

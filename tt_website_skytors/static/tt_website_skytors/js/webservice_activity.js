@@ -121,7 +121,7 @@ function activity_search(){
                    }
                    else
                    {
-                       img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
+                       img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                    }
 
                    text+=`
@@ -133,7 +133,7 @@ function activity_search(){
                             <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
                             <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
                                 <div class="single-destination relative">
-                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('https://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                         <div class="overlay overlay-bg"></div>
                                         <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                     </div>
@@ -228,7 +228,7 @@ function activity_search(){
     });
 }
 
-function activity_get_detail(uuid, provider){
+function activity_get_detail(uuid){
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
@@ -240,7 +240,6 @@ function activity_get_detail(uuid, provider){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'uuid': uuid,
-          'provider_id': provider
        },
        success: function(msg) {
            try{
@@ -352,6 +351,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('event').innerHTML = '';
     document.getElementById('timeslot').innerHTML = '';
     document.getElementById('perbooking').innerHTML = '';
+    document.getElementById('instantConfirmation').innerHTML = '';
     $('#loading-detail-activity').show();
     document.getElementById('activity_date_desc').innerHTML = `
                            <small id="departure_date_activity_desc" class="hidden" style="color: black;">Checking Availability...</small>
@@ -544,9 +544,16 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    document.getElementById('timeslot').innerHTML = text;
                    $('select').niceSelect();
 
+                   if(activity_type[activity_type_pick].instantConfirmation){
+                        ins_text = `<span style="font-weight:700;">Instant Confirmation</span>`;
+                   }
+                   else{
+                        ins_text = `<span style="font-weight:700; color:red;">On Request (max 3 working days)</span>`;
+                   }
+                   document.getElementById('instantConfirmation').innerHTML = ins_text;
+
                    for(i in msg.result.response[0]){
                        if(msg.result.response[0][i].available==true){
-
                            activity_date_pick = i;
                            event_pick = 0;
                            if(activity_type[activity_type_pick].provider_code == 'globaltix'){

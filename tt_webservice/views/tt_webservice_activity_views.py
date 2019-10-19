@@ -137,7 +137,7 @@ def search(request):
 def get_details(request):
     data = {
         'uuid': request.POST['uuid'],
-        'provider_id': request.POST['provider_id']
+        "provider": request.session['activity_pick']['provider'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",

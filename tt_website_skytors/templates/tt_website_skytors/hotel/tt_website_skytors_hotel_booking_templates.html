@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
+    get_path_url_server();
     signature = `{{signature}}`;
     time = 300;
     triggered_balance();
@@ -112,14 +113,14 @@
                                 <th class="">No</th>
                                 <th class="">Nama</th>
                                 <th class="">Tipe</th>
-                                <th class="">Birth Date</th>
+                                <th class="">Tanggal Lahir</th>
                             </tr>
                             {% for psg in passengers %}
                             <tr>
                                 <td>{{forloop.counter}}</td>
                                 <td><span>{{psg.title}} {{psg.first_name}} {{psg.last_name}}</span></td>
                                 <td><span>{{psg.pax_type}}</span></td>
-                                <td>{% if room.hotel %}<span>{{psg.birtyh_date}}</span>{% else %}<span/>{% endif %}</td>
+                                <td><span>{{psg.birth_date}}</span></td>
                             </tr>
                             {% endfor %}
                         </table>

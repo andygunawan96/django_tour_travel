@@ -28,7 +28,11 @@ def open_page(request):
         response = get_cache_data(javascript_version)
 
         template, logo = get_logo_template()
-
+        social_medias = []
+        try:
+            social_medias = response['result']['response']['issued_offline']['social_media_id']
+        except:
+            pass
         values = {
             'countries': response['result']['response']['airline']['country'],
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -36,7 +40,7 @@ def open_page(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
             'signature': request.session['signature'],
-            'social_medias': response['result']['response']['issued_offline']['social_media_id'],
+            'social_medias': social_medias,
             'logo': logo,
             'template': template
             # 'username': request.session['username'],

@@ -47,6 +47,8 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'url':
             res = get_url()
+        elif req_data['action'] == 'static_path_url_server':
+            res = get_url_static_path()
         elif req_data['action'] == 'get_agent_booker':
             res = get_agent_passenger(request)
         elif req_data['action'] == 'get_customer_list':
@@ -104,7 +106,7 @@ def signin(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_account",
-                "signature": request.session['signature'],
+                "signature": res['result']['response']['signature']
             }
 
             res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
@@ -124,7 +126,7 @@ def signin(request):
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
-                    logging.getLogger("info_logger").error("USE CACHE IN TXT!")
+                    logging.getLogger("info_logger").error("SUCCESS USE CACHE IN TXT!")
             except:
                 logging.getLogger("info_logger").error("GET NEW CACHE!")
                 # airline
@@ -133,7 +135,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_destinations",
-                    "signature": request.session['signature'],
+                    "signature": res['result']['response']['signature']
                 }
 
                 res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -142,7 +144,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_countries",
-                    "signature": request.session['signature'],
+                    "signature": res['result']['response']['signature']
                 }
 
                 res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -152,7 +154,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "search_autocomplete",
-                    "signature": request.session['signature']
+                    "signature": res['result']['response']['signature']
                 }
 
                 data = {
@@ -171,32 +173,32 @@ def signin(request):
                     pass
 
                 #visa odoo12
-                # data = {
-                #     'provider': 'skytors_visa'
-                # }
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "signature": request.session['signature'],
-                # }
-                #
-                # res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+                data = {
+                    'provider': 'skytors_visa'
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "signature": request.session['signature'],
+                }
+
+                res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
                 #
 
                 #issuedoffline
-                # data = {
-                #     'provider': 'skytors_issued_offline'
-                # }
-                # headers = {
-                #     "Accept": "application/json,text/html,application/xml",
-                #     "Content-Type": "application/json",
-                #     "action": "get_config",
-                #     "provider": 'skytors_issued_offline',
-                #     "signature": request.session['signature'],
-                # }
-                #
-                # res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
+                data = {
+                    'provider': 'skytors_issued_offline'
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_config",
+                    "provider": 'skytors_issued_offline',
+                    "signature": request.session['signature'],
+                }
+
+                res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST')
 
                 # return res
 
@@ -217,7 +219,7 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_config",
-                    "signature": request.session['signature'],
+                    "signature": res['result']['response']['signature']
                 }
                 res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
                                                     method='POST')
@@ -238,13 +240,13 @@ def signin(request):
                     logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
                 if res_destination_airline['result']['error_code'] == 0:
                     logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
-                # if res_config_visa['result']['error_code'] == 0:
-                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
-                # if res_config_issued_offline['result']['error_code'] == 0:
-                #     logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
+                if res_config_visa['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
+                if res_config_issued_offline['result']['error_code'] == 0:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
                 res['result']['response'].update({
-                    # 'visa': res_config_visa['result']['response'], #belum di install
-                    # 'issued_offline': res_config_issued_offline['result']['response'], #belum di install
+                    'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False, #belum di install
+                    'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False, #belum di install
                     # 'train': res_origin_train['result']['response'],
                     'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
                     # 'tour': res_config_tour['result'],
@@ -298,7 +300,7 @@ def signin(request):
                 file.close()
                 #cache airline popular
         else:
-            logging.getLogger("info_logger").info("WRONG USERNAME OR PASSWORD MAYBE HACKER!! ")
+            logging.getLogger("info_logger").info(json.dumps(res))
 
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -312,6 +314,9 @@ def signin(request):
 
 def get_url():
     return url_web
+
+def get_url_static_path():
+    return static_path_url
 
 def get_customer_list(request):
     try:

@@ -1272,7 +1272,7 @@ function get_checked_copy_result(){
         hotel_number = hotel_number + 1;
         $text += ''+hotel_number+'. '+name_hotel+ ' ' +rating_hotel+'\n';
         $text += 'Location: '+location_hotel+'\n';
-        $text += 'Best Price: '+price_hotel+'\n \n';
+        $text += 'Price start from: '+price_hotel+'\n \n';
         text+=`
             <div class="row" id="div_list`+id_hotel+`">
                 <div class="col-lg-8">
@@ -1286,6 +1286,7 @@ function get_checked_copy_result(){
                 <div class="col-lg-12"><hr/></div>
             </div>`;
         });
+    $text += '\n===Price may change at any time===';
     text+=`</div>
     <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;" id="share_result">
         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;

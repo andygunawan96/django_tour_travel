@@ -92,6 +92,7 @@ def search(request):
             'dest_month': request.POST['tour_dest_month'],
             'dest_month_data': dest_month_data,
             'javascript_version': javascript_version,
+            'signature': request.session['signature'],
             'logo': logo,
             'template': template
         }
@@ -118,6 +119,7 @@ def detail(request):
             'response': request.session['tour_pick'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
+            'signature': request.session['tour_signature'],
             'logo': logo,
             'template': template
         }
@@ -209,6 +211,8 @@ def passenger(request):
                 'commission_total': request.POST.get('commission_total') and int(request.POST['commission_total']) or 0
             },
             'total_itinerary_price': request.POST.get('grand_total_hidden') and int(request.POST['grand_total_hidden']) or 0,
+            'javascript_version': javascript_version,
+            'signature': request.session['tour_signature'],
             'logo': logo,
             'template': template
         }
@@ -315,6 +319,8 @@ def review(request):
             },
             'total_itinerary_price': int(request.POST['grand_total_hidden']),
             'sameBooker': request.POST['myRadios'],
+            'javascript_version': javascript_version,
+            'signature': request.session['tour_signature'],
             'logo': logo,
             'template': template
         }
@@ -432,7 +438,6 @@ def review(request):
             'all_pax': all_pax,
             'contact': contact,
             'total_pax_all': temp_idx,
-            'javascript_version': javascript_version
         })
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_review_templates.html', values)
@@ -454,6 +459,7 @@ def booking(request):
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
+            'signature': request.session['tour_signature'],
             'logo': logo,
             'template': template
         }

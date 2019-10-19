@@ -15,7 +15,7 @@ function table_reservation(data){
             if(data[i].provider.provider_type == 'airline'){
                 text+=`<td>`;
                 for(j in data[i].provider.airline_carrier_codes){
-                    text+=`<img data-toggle="tooltip" title="" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+data[i].provider.airline_carrier_codes[j]+`.png" style="width:60px; height:60px;"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+data[i].provider.airline_carrier_codes[j]+`.png" style="width:60px; height:60px;"><span> </span>`;
                 }
                 text+=`</td>`;
             }else if(data[i].provider.provider_type == 'train')

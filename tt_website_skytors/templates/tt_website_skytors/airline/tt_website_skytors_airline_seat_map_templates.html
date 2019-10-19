@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
+    get_path_url_server();
     var slideIndex = [1,1];
     var slideId = ["mySlides1", "mySlides2"];
     airline_carriers = `{{airline_carriers}}`;
@@ -41,6 +42,7 @@
         price_itinerary = price_itinerary.replace(/True/g, '"true"');
         price_itinerary = price_itinerary.replace(/False/g, '"false"');
         price_itinerary = JSON.parse(price_itinerary);
+        breadcrumb = 2;
     }catch(err){
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
@@ -300,7 +302,6 @@ img {vertical-align: middle;}
     });
 
     get_seat_map_response();
-    set_passenger_seat_map_airline(0);
     //get_airline_review();
 
     function plusSlides(n, no) {

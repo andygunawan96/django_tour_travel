@@ -22,6 +22,7 @@
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
 <script>
     signature = `{{signature}}`;
+    get_path_url_server();
     activity_country = [];
     city = [];
     tour_country = [];
@@ -96,7 +97,7 @@
             //hotel_signin('home');
             get_airline_config('home');
             airline_search_value = 'false';
-            //get_visa_config('home');
+            get_visa_config('home');
             //get_train_config('home');
             //tour_login('');
         }catch(err){

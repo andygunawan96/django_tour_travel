@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script>
+    get_path_url_server();
     //city = [];
     //country_list = [];
     signature = `{{signature}}`;
@@ -303,11 +304,7 @@
                                         <div class="form-select">
                                             <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
                                                 {% for country in countries %}
-                                                    {% if country.name == 'Indonesia' %}
-                                                <option value="{{country.code}}" selected="">{{country.name}}</option>
-                                                    {% else %}
-                                                <option value="{{country.code}}">{{country.name}}</option>
-                                                    {% endif %}
+                                                <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
