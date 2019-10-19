@@ -124,7 +124,7 @@ def signin(request):
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
-                    logging.getLogger("info_logger").error("USE CACHE IN TXT!")
+                    logging.getLogger("info_logger").error("SUCCESS USE CACHE IN TXT!")
             except:
                 logging.getLogger("info_logger").error("GET NEW CACHE!")
                 # airline
