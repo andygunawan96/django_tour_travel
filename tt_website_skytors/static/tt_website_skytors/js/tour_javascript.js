@@ -1216,7 +1216,7 @@ function sort(tour_dat){
            }
            else
            {
-               img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
+               img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
            }
 
            if (tour_dat[i].state_tour == 'sold')

@@ -47,6 +47,8 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'url':
             res = get_url()
+        elif req_data['action'] == 'static_path_url_server':
+            res = get_url_static_path()
         elif req_data['action'] == 'get_agent_booker':
             res = get_agent_passenger(request)
         elif req_data['action'] == 'get_customer_list':
@@ -312,6 +314,9 @@ def signin(request):
 
 def get_url():
     return url_web
+
+def get_url_static_path():
+    return static_path_url
 
 def get_customer_list(request):
     try:

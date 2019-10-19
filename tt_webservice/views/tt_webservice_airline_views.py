@@ -1080,16 +1080,15 @@ def issued(request):
 def reissued(request):
     # nanti ganti ke get_ssr_availability
     try:
-        if request.POST['member'] == 'non_member':
-            member = False
-        else:
-            member = True
-            #BENAHIN LAGI
+        data_request = json.loads(request.POST['data'])
+        for provider in data_request:
+            for journey in provider['journey_list']:
+                journey['departure_date'] = parse_date_time_to_server(journey['departure_date'])
         data = {
             # 'order_number': 'TB.190329533467'
-            'order_number': request.POST['order_number'],
-            'member': member,
-            'seq_id': request.POST['seq_id'],
+            'provider_list': data_request,
+            # 'member': member,
+            # 'seq_id': request.POST['seq_id'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

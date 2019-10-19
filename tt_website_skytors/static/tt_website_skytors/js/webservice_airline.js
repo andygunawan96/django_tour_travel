@@ -1081,9 +1081,9 @@ function get_price_itinerary_request(){
                             try{
                                 text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]].name+`</span><br/>
-                                <img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                                <img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                             }catch(err){
-                                text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="https://static.rodextrip.com/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                                text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                             }
                         }
                         text+=`</div>`;
@@ -2165,7 +2165,7 @@ function airline_get_booking(data){
                                     text+= `
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="https://static.rodextrip.com/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
                                         </div>
                                     </div>`;
                                     text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
@@ -3016,53 +3016,69 @@ function reissued_btn(){
     cabin_class = 1;
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            text+=`<h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
-                    <br/>
-                    <div class="row">
-                        <div class="col-lg-6 col-xs-6">
-                            <table style="width:100%">
-                                <tr>
-                                    <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[1]+`</h5></td>
-                                    <td style="padding-left:15px;">
-                                        <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                    </td>
-                                    <td style="height:30px;padding:0 15px;width:100%">
-                                        <div style="display:inline-block;position:relative;width:100%">
-                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]+`</span><br/>
-                            <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`)</span>
-                        </div>
+            for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
+                text+=`<h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"/>
+                            </div>
+                        </div>`;
+            }
+            text+=`<div class="row">
+                <div class="col-lg-6 col-xs-6">
+                    <table style="width:100%">
+                        <tr>
+                            <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[1]+`</h5></td>
+                            <td style="padding-left:15px;">
+                                <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                            </td>
+                            <td style="height:30px;padding:0 15px;width:100%">
+                                <div style="display:inline-block;position:relative;width:100%">
+                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]+`</span><br/>
+                    <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`)</span>
+                </div>
 
-                        <div class="col-lg-6 col-xs-6" style="padding:0;">
-                            <table style="width:100%; margin-bottom:6px;">
-                                <tr>
-                                    <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[1]+`</h5></td>
-                                    <td></td>
-                                    <td style="height:30px;padding:0 15px;width:100%"></td>
-                                </tr>
-                            </table>
-                            <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[0]+`</span><br/>
-                            <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`)</span>
-                        </div>
-                    </div>
-                    <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default">
-                        <option value="Y" selected="">Economy</option>
-                        <option value="W">Premium Economy</option>
-                        <option value="C">Business</option>
-                        <option value="F">First Class</option>
-                    </select>
-                    <div class="form-group">
-                        <input type="text" style="background:white;" class="form-control" name="airline_departure`+flight+`" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                    </div>`;
+                <div class="col-lg-6 col-xs-6" style="padding:0;">
+                    <table style="width:100%; margin-bottom:6px;">
+                        <tr>
+                            <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[1]+`</h5></td>
+                            <td></td>
+                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                        </tr>
+                    </table>
+                    <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[0]+`</span><br/>
+                    <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`)</span>
+                </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                </div>
+            </div>`;
+            flight++;
         }
-        flight++;
+        text+=`
+            <div class="col-sm-12">
+                <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default">
+                    <option value="Y" selected="">Economy</option>
+                    <option value="W">Premium Economy</option>
+                    <option value="C">Business</option>
+                    <option value="F">First Class</option>
+                </select>
+            </div>`;
+        cabin_class++;
     }
+    text+=`
+        <div class="col-sm-12" style="margin-top:10px;">
+            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">
+        </div>
+    </div>`;
     document.getElementById('reissued').innerHTML = text;
     $('cabin_class_flight').niceSelect('update');
     airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
@@ -3085,7 +3101,7 @@ function airline_reissued(){
     cabin_class = 1;
     provider_list = [];
     journey_list = [];
-    cabin_class_flight
+    cabin_class_flight = 1;
 
     for(i in airline_get_detail.result.response.provider_bookings){
         for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
@@ -3115,7 +3131,8 @@ function airline_reissued(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            data:provider_list
+            'data':JSON.stringify(provider_list),
+            'signature': signature
        },
        success: function(msg) {
            console.log(msg);

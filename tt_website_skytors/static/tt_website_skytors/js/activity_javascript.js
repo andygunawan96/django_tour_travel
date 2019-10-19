@@ -1713,7 +1713,7 @@ function sort(activity_dat, check){
                }
                else
                {
-                   img_src = `https://static.rodextrip.com/public/tour_packages/not_found.png`;
+                   img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                }
 
                text+=`

@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 
 <script>
+    get_path_url_server();
     additional_price = {{additional_price}};
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
