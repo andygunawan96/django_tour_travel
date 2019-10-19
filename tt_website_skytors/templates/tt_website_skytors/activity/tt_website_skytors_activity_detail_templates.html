@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script>
+    get_path_url_server();
     locations = [];
     images = [];
     {% for i in response.locations %}

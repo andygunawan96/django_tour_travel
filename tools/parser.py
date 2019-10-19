@@ -9,6 +9,9 @@ def parse_datetime(date):
 def parse_date_time_front_end(date):
     return date.strftime("%d %b %Y - %H:%M")
 
+def parse_date_time_to_server(date):
+    return datetime.strptime(date, '%d %b %Y').strftime('%Y-%m-%d')
+
 def string_to_datetime(date):
     return datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
 

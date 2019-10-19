@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 
 <script>
+    get_path_url_server();
     train_data = {
         cabin_class:['{{response.cabin_class.0}}', '{{response.cabin_class.1}}'],
         class_of_service: '{{response.class_of_service}}',
