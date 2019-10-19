@@ -2030,33 +2030,7 @@ function airline_hold_booking(val){
     })
 }
 
-function reissued_btn(){
-    document.getElementById('reissued').innerHTML = `
-        <select id="cabin_class_flight" name="cabin_class_flight" class="nice-select-default">
-            <option value="Y" selected="">Economy</option>
-            <option value="W">Premium Economy</option>
-            <option value="C">Business</option>
-            <option value="F">First Class</option>
-        </select>
-        <div class="form-group">
-            <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-        </div>
-    `;
-    $('cabin_class_flight').niceSelect('update');
-    airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
-    $('input[name="airline_departure"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          startDate: airline_date,
-          minDate: moment(),
-          maxDate: moment().subtract(-1, 'years'),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
-              format: 'DD MMM YYYY',
-          }
-    });
-}
+
 
 function airline_get_booking(data){
     getToken();
@@ -2161,23 +2135,10 @@ function airline_get_booking(data){
                     for(i in msg.result.response.provider_bookings){
                         for(j in msg.result.response.provider_bookings[i].journeys){
                             var cabin_class = '';
-
-                            if(msg.result.response.provider_bookings[i].journeys[j].journey_type == 'DEP'){
-                                text+=`
-                                    <h6>Departure</h6>`;
-                                $text += 'Departure\n';
-                                check = 1;
-                            }else if(check == 1 && msg.result.response.provider_bookings[i].journeys[j].journey_type == 'RET'){
-                                text+=`<br/><h6>Return</h6>`;
-                                $text += 'Return\n';
-                                check = 2;
-                            }
+                            text+=`<h6>Flight `+flight_counter+`</h6>`;
+                            $text += 'Flight '+ flight_counter+'\n';
+                            flight_counter++;
                             for(k in msg.result.response.provider_bookings[i].journeys[j].segments){
-                                if(msg.result.response.provider_bookings[i].journeys[j].journey_type == 'COM'){
-                                    text+=`<br/><h6>Flight `+flight_counter+`</h6>`;
-                                    $text += 'Flight '+ flight_counter+'\n';
-                                    flight_counter++;
-                                }
                                 //yang baru harus diganti
                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                     cabin_class = 'Economy Class';
@@ -3046,5 +3007,127 @@ function assign_seats_after_sales(){
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
        },timeout: 30000
+    });
+}
+
+function reissued_btn(){
+    text = '';
+    flight = 1;
+    cabin_class = 1;
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+            text+=`<h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
+                    <br/>
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-6">
+                            <table style="width:100%">
+                                <tr>
+                                    <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[1]+`</h5></td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].departure_date.split('  ')[0]+`</span><br/>
+                            <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].origin+`)</span>
+                        </div>
+
+                        <div class="col-lg-6 col-xs-6" style="padding:0;">
+                            <table style="width:100%; margin-bottom:6px;">
+                                <tr>
+                                    <td><h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[1]+`</h5></td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                            </table>
+                            <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[0]+`</span><br/>
+                            <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`)</span>
+                        </div>
+                    </div>
+                    <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default">
+                        <option value="Y" selected="">Economy</option>
+                        <option value="W">Premium Economy</option>
+                        <option value="C">Business</option>
+                        <option value="F">First Class</option>
+                    </select>
+                    <div class="form-group">
+                        <input type="text" style="background:white;" class="form-control" name="airline_departure`+flight+`" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                    </div>`;
+        }
+        flight++;
+    }
+    document.getElementById('reissued').innerHTML = text;
+    $('cabin_class_flight').niceSelect('update');
+    airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
+    $('input[name="airline_departure"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: airline_date,
+          minDate: moment(),
+          maxDate: moment().subtract(-1, 'years'),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+    });
+}
+
+function airline_reissued(){
+    flight = 1;
+    cabin_class = 1;
+    provider_list = [];
+    journey_list = [];
+    cabin_class_flight
+
+    for(i in airline_get_detail.result.response.provider_bookings){
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
+            journey_list.push({
+                "origin": airline_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                "destination": airline_get_detail.result.response.provider_bookings[i].journeys[j].destination,
+                "departure_date": document.getElementById('airline_departure'+ flight).value
+            });
+            flight++;
+        }
+        provider_list.push({
+            "pnr": airline_get_detail.result.response.provider_bookings[i].pnr,
+            "provider": airline_get_detail.result.response.provider_bookings[i].provider,
+            "journey_list":  journey_list,
+            "cabin_class": document.getElementById('cabin_class_flight'+ cabin_class).value
+        });
+        cabin_class++;
+        journey_list = [];
+    }
+
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'reissued',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            data:provider_list
+       },
+       success: function(msg) {
+           console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          $("#show_loading_booking_airline").hide();
+          $("#show_error_booking_airline").show();
+          Swal.fire({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Something went wrong, please try again or check your internet connection',
+           })
+       },timeout: 60000
     });
 }
