@@ -10,7 +10,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
-    get_path_url_server();
+    static_path_url_server = '{{static_path_url_server}}'
     signature = '{{signature}}';
     filter = {
         'tour_type': 'all',

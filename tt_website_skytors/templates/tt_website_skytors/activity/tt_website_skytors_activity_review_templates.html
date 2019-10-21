@@ -12,7 +12,7 @@
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 
 <script>
-    get_path_url_server();
+    static_path_url_server = '{{static_path_url_server}}'
     price = `{{price}}`;
     price = price.replace(/&#39;/g,'"');
     price = JSON.parse(price.replace(/True/g,'true'));

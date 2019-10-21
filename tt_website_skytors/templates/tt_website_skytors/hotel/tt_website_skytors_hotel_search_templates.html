@@ -11,7 +11,7 @@
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js"></script>
 <script>
-    get_path_url_server();
+    static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
     sorting_value = '';
     //get_hotel_config();

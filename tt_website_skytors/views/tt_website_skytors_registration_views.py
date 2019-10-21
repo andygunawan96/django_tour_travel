@@ -12,6 +12,7 @@ import json
 import base64
 from datetime import *
 from tt_webservice.views.tt_webservice_registration_views import *
+from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_skytors_views import *
 
 
@@ -39,6 +40,7 @@ def open_page(request):
             'javascript_version': javascript_version,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
             'signature': request.session['signature'],
             'social_medias': social_medias,
             'logo': logo,
@@ -50,6 +52,7 @@ def open_page(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'signature': request.session['signature'],
             'logo': logo,
             'template': template
@@ -122,6 +125,7 @@ def register_agent(request):
         'username': request.session['user_account'],
         'static_path': path_util.get_static_path(MODEL_NAME),
         'signature': request.session['signature'],
+        'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
         'logo': logo,
         'template': template

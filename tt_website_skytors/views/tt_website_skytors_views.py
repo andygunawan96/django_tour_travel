@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
+from tt_webservice.views.tt_webservice_agent_views import *
 import logging
 import traceback
 from tools import path_util
@@ -28,6 +29,7 @@ def index(request):
             request.session.delete()
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'logo': logo,
                 'template': template
@@ -38,6 +40,7 @@ def index(request):
                 request.session.delete()
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
+                    'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'template': template
@@ -200,6 +203,7 @@ def index(request):
                         'issued_offline_social_media_id': issued_offline_social_media_id,
                         'javascript_version': javascript_version,
                         'update_data': 'false',
+                        'static_path_url_server': get_url_static_path(),
                         'signature': request.session['signature']
                     }
                 except:
@@ -207,6 +211,7 @@ def index(request):
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'javascript_version': javascript_version,
                         'logo': logo,
+                        'static_path_url_server': get_url_static_path(),
                         'template': template
                     }
                     return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
@@ -215,6 +220,7 @@ def index(request):
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
                     'logo': logo,
+                    'static_path_url_server': get_url_static_path(),
                     'template': template
                 }
         except:
@@ -223,6 +229,7 @@ def index(request):
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
                     'logo': logo,
+                    'static_path_url_server': get_url_static_path(),
                     'template': template,
                     'username': request.session.get('user_account') or '',
                 }
@@ -231,6 +238,7 @@ def index(request):
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
                     'logo': logo,
+                    'static_path_url_server': get_url_static_path(),
                     'template': template,
                 }
     if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -243,6 +251,7 @@ def no_session_logout():
 
 def testing(request):
     values = {
+        'static_path_url_server': get_url_static_path(),
         'static_path': path_util.get_static_path(MODEL_NAME),
     }
     return render(request, MODEL_NAME+'/testing.html', values)
@@ -258,6 +267,7 @@ def login(request):
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
         'logo': logo,
         'template': template,
     }
@@ -265,7 +275,7 @@ def login(request):
 
 def admin(request):
     if 'user_account' in request.session._session:
-        if request.session['user_account']['co_agent_type_name'] == 'HO':
+        if request.session['user_account']['co_agent_type_name'] == 'HO' or request.session['user_account']['co_agent_type_name'] == 'Agent Citra':
             #save
             if request.POST != {}:
                 text = ''
@@ -320,6 +330,7 @@ def admin(request):
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'username': request.session['user_account'],
                 'logo': logo,
+                'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'template': template,
                 'signature': request.session['signature']
@@ -352,6 +363,7 @@ def reservation(request):
             'airline_carriers': new_airline_carriers,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'logo': logo,
@@ -372,6 +384,7 @@ def top_up(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'logo': logo,
@@ -393,6 +406,7 @@ def top_up_history(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'logo': logo,

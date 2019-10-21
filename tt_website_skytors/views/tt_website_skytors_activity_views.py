@@ -74,6 +74,7 @@ def search(request):
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'time_limit': 600,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
         }
@@ -101,6 +102,7 @@ def detail(request):
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
+            'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
             'template': template
         }
@@ -330,6 +332,7 @@ def passenger(request):
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
+            'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
             'template': template
         }
@@ -1142,6 +1145,7 @@ def review(request):
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
+            'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
             'template': template
         }
@@ -1166,6 +1170,7 @@ def booking(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
         }
