@@ -58,6 +58,8 @@ def api_models(request):
             res = update_service_charge(request)
         elif req_data['action'] == 'get_voucher':
             res = get_voucher(request)
+        elif req_data['action'] == 'get_auto_complete':
+            res = get_auto_complete(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -479,3 +481,43 @@ def get_voucher(request):
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     return res
+
+
+def get_auto_complete(request):
+    def find_activity_ilike(search_str, record_cache, limit=10):
+        activity_list = []
+        for rec in record_cache:
+            if len(activity_list) == limit:
+                return activity_list
+            is_true = True
+            name = rec['name'].lower()
+            for list_str in search_str.split(' '):
+                if list_str not in name:
+                    is_true = False
+                    break
+            if is_true:
+                activity_list.append(rec)
+        return activity_list
+
+    limit = 25
+    req = request.POST
+    try:
+        file = open("activity_cache_data.txt", "r")
+        for line in file:
+            record_cache = json.loads(line)
+        file.close()
+
+        record_json = []
+        # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
+        for rec in find_activity_ilike(req['name'].lower(), record_cache, limit):
+            if len(record_json) < limit:
+                record_json.append(rec['name'])
+            else:
+                break
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_autocomplete ACTIVITY SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return record_json

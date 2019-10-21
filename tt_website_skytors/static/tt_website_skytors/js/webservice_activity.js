@@ -1192,6 +1192,36 @@ function activity_get_voucher(order_number){
     });
 }
 
+function activity_search_autocomplete(term,suggest){
+    clearTimeout(activityAutoCompleteVar);
+    term = term.toLowerCase();
+    console.log(term);
+    check = 0;
+    var priority = [];
+
+    getToken();
+    activityAutoCompleteVar = setTimeout(function() {
+        $.ajax({
+           type: "POST",
+           url: "/webservice/activity",
+           headers:{
+                'action': 'get_auto_complete',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name':term
+           },
+           success: function(msg) {
+            activity_choices = msg;
+            suggest(activity_choices);
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
+    }, 150);
+}
+
 function datepicker(val){
     $('#'+val).daterangepicker({
           singleDatePicker: true,

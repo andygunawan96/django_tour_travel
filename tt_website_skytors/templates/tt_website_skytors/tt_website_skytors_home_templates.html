@@ -4786,6 +4786,20 @@
         }
     });
 
+    var activity_autocomplete = new autoComplete({
+        selector: '#activity_query',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            activity_search_autocomplete(term,suggest);
+
+        },
+        onSelect: function(e, term, item){
+            $("#activity_query").trigger("blur");
+        }
+    });
+
     //test
 
     //testing getbooker

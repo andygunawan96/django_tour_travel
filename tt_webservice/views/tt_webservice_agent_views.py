@@ -224,6 +224,29 @@ def signin(request):
                 res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
                                                     method='POST')
 
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "search_autocomplete",
+                    "signature": res['result']['response']['signature']
+                }
+
+                data = {
+                    "name": '',
+                    "limit": 9999
+                }
+
+                res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+                try:
+                    if res_cache_activity['result']['error_code'] == 0:
+                        file = open('activity_cache_data.txt', "w+")
+                        file.write(json.dumps(res_cache_activity['result']['response']))
+                        file.close()
+                except:
+                    logging.getLogger("info_logger").info(
+                        "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity))
+                    pass
+
                 # tour
                 # data = {}
                 # headers = {
