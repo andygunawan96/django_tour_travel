@@ -10,7 +10,7 @@
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
-    get_path_url_server();
+    static_path_url_server = '{{static_path_url_server}}'
     additional_price = {{additional_price}};
     airline_pick = `{{airline_pick}}`;
     airline_pick = airline_pick.replace(/&#39;/g, '"');

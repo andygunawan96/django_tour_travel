@@ -52,6 +52,7 @@ def search(request):
             'hotel_search': request.session['hotel_request'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
             'time_limit': 600,
@@ -87,6 +88,7 @@ def detail(request):
             'response': request.session['hotel_detail'],
             'username': request.session['user_account'],
             'signature': request.session['hotel_signature'],
+            'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
@@ -103,6 +105,7 @@ def detail_static(request):
     javascript_version = get_cache_version()
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
+        'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
         'logo': '/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png',
         'template': 1
@@ -154,6 +157,7 @@ def passengers(request):
             'infant_title': infant_title,
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'time_limit': request.session['time_limit'],
             'template': template
@@ -298,6 +302,7 @@ def review(request):
             'username': request.session['username'],
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'time_limit': request.session['time_limit'],
             'template': template
@@ -330,6 +335,7 @@ def booking(request):
                 'booking_name': resv_obj['booking_name'],
                 'pnrs': resv_obj['pnrs'],
                 'rooms': resv_obj['hotel_rooms'],
+                'static_path_url_server': get_url_static_path(),
                 'passengers': resv_obj['passengers'],
             }
             return render(request, MODEL_NAME + '/hotel/tt_website_skytors_hotel_booking_templates.html', values)
@@ -342,6 +348,7 @@ def booking(request):
                 'username': request.session['user_account'],
                 # 'co_uid': request.session['co_user_name'],
                 'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,
             }

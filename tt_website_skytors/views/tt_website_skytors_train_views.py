@@ -59,6 +59,7 @@ def search(request):
                 'origin': request.POST['train_origin'],
                 'destination': request.POST['train_destination']
             },
+            'static_path_url_server': get_url_static_path(),
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,
@@ -114,6 +115,7 @@ def passenger(request):
             'username': request.session['user_account'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
 
@@ -227,6 +229,7 @@ def review(request):
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
             # 'cookies': json.dumps(res['result']['cookies']),
@@ -251,6 +254,7 @@ def booking(request):
             'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
         }
@@ -275,6 +279,7 @@ def seat_map(request):
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
         }

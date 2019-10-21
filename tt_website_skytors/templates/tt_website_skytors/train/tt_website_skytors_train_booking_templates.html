@@ -9,7 +9,7 @@
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script>
-    get_path_url_server();
+    static_path_url_server = '{{static_path_url_server}}'
     id_types = [];
     cabin_class_types = [];
     {% for id_type in id_types%}
