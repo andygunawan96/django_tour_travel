@@ -172,6 +172,7 @@ def review(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
+        request.session['hotel_request'].update({'special_request': request.POST['special_request']})
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         adult = []
@@ -299,6 +300,7 @@ def review(request):
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
             'adult_count': int(request.session['hotel_request']['adult']),
             'infant_count': int(request.session['hotel_request']['child']),
+            'special_request': request.session['hotel_request']['special_request'],
             'username': request.session['username'],
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
