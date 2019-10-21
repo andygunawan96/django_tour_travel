@@ -9,3 +9,4 @@ get_airline_active_carriers.txt
 get_list_provider.txt
 /static/
 hotel_cache_data.txt
+activity_cache_data.txt
