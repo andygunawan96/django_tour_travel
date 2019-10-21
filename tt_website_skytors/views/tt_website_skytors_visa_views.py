@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tools import path_util
 from .tt_website_skytors_views import *
+from tt_webservice.views.tt_webservice_agent_views import *
 from django.utils import translation
 import json
 from datetime import *
@@ -40,6 +41,7 @@ def search(request):
         'signature': request.session['signature'],
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
+        'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
         'logo': logo,
         'template': template
@@ -133,6 +135,7 @@ def passenger(request):
         'adults': adult,
         'childs': child,
         'infants': infant,
+        'static_path_url_server': get_url_static_path(),
         'adult_title': adult_title,
         'infant_title': infant_title,
         'id_types': id_type,
@@ -314,6 +317,7 @@ def review(request):
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],
             'passengers': pax,
+            'static_path_url_server': get_url_static_path(),
             'signature': request.session['visa_signature'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
@@ -339,6 +343,7 @@ def booking(request):
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
             # 'order_number': 'VS.19072500003',

@@ -43,6 +43,7 @@ def issued_offline(request):
             'issued_offline_data': response['result']['response']['issued_offline'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'static_path_url_server': get_url_static_path(),
             # 'agent': request.session['agent'],
             'airline_destinations': airline_destinations,
             # 'train_destination': train_destination,
@@ -72,6 +73,7 @@ def issued_offline_history(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
