@@ -765,7 +765,7 @@ function tour_get_booking(order_number)
     });
 }
 
-function get_price_itinerary(package_id) {
+function get_price_itinerary(request) {
     getToken();
     $.ajax({
        type: "POST",
@@ -774,7 +774,7 @@ function get_price_itinerary(package_id) {
             'action': 'get_pricing',
        },
        data: {
-           'id': package_id
+           'req': request
        },
        success: function(msg) {
             console.log(msg);
