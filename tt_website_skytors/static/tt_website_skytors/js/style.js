@@ -1837,10 +1837,10 @@ function active_sticky_hotel(type){
         $(".content-hotel").removeClass("sticky-hotel-active");
         $("#select-room-hotel").addClass("sticky-hotel-active");
     }
-    else if(type == "review"){
-        $(".content-hotel").removeClass("sticky-hotel-active");
-        $("#review-hotel").addClass("sticky-hotel-active");
-    }
+    //else if(type == "review"){
+    //    $(".content-hotel").removeClass("sticky-hotel-active");
+    //    $("#review-hotel").addClass("sticky-hotel-active");
+    //}
 }
 
 function active_sticky_activity(type){

@@ -278,6 +278,7 @@ button {
 button:focus {
   /*outline: 1px dotted;
   outline: 5px auto -webkit-focus-ring-color;*/
+  outline: unset !important;
 }
 
 input,
@@ -5057,6 +5058,7 @@ button.close {
 .modal-open .modal {
   overflow-x: hidden;
   overflow-y: auto;
+  background: rgba(0,0,0,0.6);
 }
 
 .modal-dialog {
@@ -5165,7 +5167,7 @@ button.close {
 
 @media (min-width: 576px) {
   .modal-dialog {
-    max-width: 700px;
+    max-width: 800px;
     margin: 1.75rem auto;
   }
   .modal-dialog-centered {

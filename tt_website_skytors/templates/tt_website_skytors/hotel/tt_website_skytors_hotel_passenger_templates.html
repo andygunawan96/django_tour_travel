@@ -643,13 +643,21 @@
 
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
+                        <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
 
                         </div><br/>
-
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                            <div style="background-color:white; padding:10px; border:1px solid #f15a22;">
+                                <h4> Special Request </h4>
+                                <hr/>
+                                <textarea rows="5" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request" name="special_request"></textarea>
+                            </div>
+                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 
                         </div>
+                        <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
                     </div>
 
                     <div class="col-lg-8" style="margin-top:15px;">
@@ -701,7 +709,7 @@
 </section>
 
 <script>
-    hotel_detail('{{hotel_room_detail_pick.rooms}}');
+    hotel_detail('{{hotel_room_detail_pick}}');
     hotel_get_cancellation_policy('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}', '1')
 
     $( document ).ready(function() {
