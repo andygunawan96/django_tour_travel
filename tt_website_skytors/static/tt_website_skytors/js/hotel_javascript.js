@@ -503,12 +503,11 @@ function sort(response, check_filter){
         else{
             text = '';
             text += `
-                <div style="padding:5px; margin:10px;">
-                    <div style="text-align:center">
-                        <img src="/static/tt_website_skytors/images/nofound/no-city.png" style="width:60px; height:60px;" alt="" title="" />
-                        <br/><br/>
-                        <span style="font-size:14px; font-weight:600;">Oops! City not found.</span>
-                    </div>
+            <div style="padding:5px; margin:10px;">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_skytors/images/nofound/no-city.png" style="width:60px; height:60px;" alt="" title="" />
+                    <br/><br/>
+                    <span style="font-size:14px; font-weight:600;">Oops! City not found.</span>
                 </div>
             </div>`;
             var node = document.createElement("div");
@@ -1111,14 +1110,14 @@ function hotel_room_pick_button(){
         }
     text +=`</div>`;
     text += `<div class="col-lg-12">
-        <input class="primary-btn-custom" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+        <input class="primary-btn-standard" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
     </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
-        <input class="primary-btn-custom" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+        <input class="primary-btn-standard" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
     </div>`;
     text += `<div class="col-lg-12">`;
-    text += '<button class="primary-btn-custom" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
+    text += '<button class="primary-btn" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
     text += `</div>`;
 
     document.getElementById('hotel_detail_button').innerHTML = text;
@@ -1215,7 +1214,7 @@ function hotel_detail(hotel_price){
 
     hotel_price = JSON.parse(hotel_price);
 
-    console.log(hotel_price);
+    //console.log(hotel_price);
     text = '';
     text += `
     <div class="row" style="margin-bottom:5px; ">
@@ -1280,11 +1279,11 @@ function hotel_detail(hotel_price){
             }
         text +=`</div>`;
         text += `<div class="col-lg-12">
-            <input class="primary-btn-custom" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            <input class="primary-btn-standard" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;
         text += `
         <div class="col-lg-12" style="padding-top:10px;">
-            <input class="primary-btn-custom" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+            <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
         </div>`;
 
 
