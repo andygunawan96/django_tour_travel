@@ -194,7 +194,6 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_config",
-                    "provider": 'skytors_issued_offline',
                     "signature": request.session['signature'],
                 }
 
@@ -351,8 +350,8 @@ def get_customer_list(request):
             passenger = 'book'
         else:
             passenger = 'psg'
-        if request.POST['product'] == 'airline':
-            if request.POST['passenger_type'] == 'adult':
+        if request.POST['product'] == 'airline' or request.POST['product'] == 'visa' or request.POST['product'] == 'issued_offline':
+            if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
                 upper = 200
                 lower = 12
             elif request.POST['passenger_type'] == 'child':
@@ -361,6 +360,15 @@ def get_customer_list(request):
             elif request.POST['passenger_type'] == 'infant':
                 upper = 2
                 lower = 0
+        if request.POST['product'] == 'hotel':
+            if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
+                upper = 200
+                lower = 12
+            elif request.POST['passenger_type'] == 'child':
+                upper = 11
+                lower = 0
+        # if request.POST['product'] == 'activity': #TAMBAHI ANDY
+
         data = {
             'name': request.POST['name'],
             'upper': upper,
