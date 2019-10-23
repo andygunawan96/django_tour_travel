@@ -151,6 +151,8 @@ def passenger(request):
         senior = []
         child = []
 
+        booker_min_age = 0
+        booker_max_age = 200
         for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
             low_sku_id = temp_sku['sku_id'].lower()
             request.session['activity_request'].update({
@@ -162,31 +164,42 @@ def passenger(request):
             if temp_sku.get('pax_type'):
                 if temp_sku['pax_type'] == 'adult':
                     for i in range(int(pax_count[low_sku_id])):
+                        if i == 0:
+                            booker_min_age = request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0
+                            booker_max_age = request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
                         adult.append({
                             'sku_real_id': temp_sku['id'],
                             'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id']
+                            'sku_id': temp_sku['sku_id'],
+                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
                         })
                 elif temp_sku['pax_type'] == 'senior':
                     for i in range(int(pax_count[low_sku_id])):
                         senior.append({
                             'sku_real_id': temp_sku['id'],
                             'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id']
+                            'sku_id': temp_sku['sku_id'],
+                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
                         })
                 elif temp_sku['pax_type'] == 'child':
                     for i in range(int(pax_count[low_sku_id])):
                         child.append({
                             'sku_real_id': temp_sku['id'],
                             'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id']
+                            'sku_id': temp_sku['sku_id'],
+                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
                         })
                 elif temp_sku['pax_type'] == 'infant':
                     for i in range(int(pax_count[low_sku_id])):
                         infant.append({
                             'sku_real_id': temp_sku['id'],
                             'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id']
+                            'sku_id': temp_sku['sku_id'],
+                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
                         })
 
         perbooking_list = []
@@ -322,6 +335,8 @@ def passenger(request):
             'infant_count': len(infant),
             'child_count': len(child),
             'senior_count': len(senior),
+            'booker_min_age': booker_min_age,
+            'booker_max_age': booker_max_age,
             'adults': adult,
             'infants': infant,
             'seniors': senior,

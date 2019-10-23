@@ -217,6 +217,7 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
     }
     var template = '';
         template += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
+        template += '<input type="hidden" id="room_id_' + idx + '" name="room_id_' + idx + '" value="'+ room_data.id + '"/>';
         template += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '">Room ' +  idx +  ' - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
         template += '<span style="font-size:12px;">' + room_data.description +'</span>';
         template += '<br/><span style="margin: 0px;"><i class="fa fa-building"></i> ' + room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address +'</span>';
@@ -1324,14 +1325,27 @@ function tour_table_detail()
         $('#btnDeleteRooms').addClass("hide");
         $('#total-price-container').addClass("hide");
     }
-    else {
+    else
+    {
+        room_ids_list = [];
         $('#btnDeleteRooms').removeClass("hide");
         $('#total-price-container').removeClass("hide");
         var package_id = parseInt(document.getElementById("tour_id").value);
+        for (i=0; i < room_amount; i++)
+        {
+            temp_room_id = {
+                'id': parseInt(document.getElementById("room_id_"+String(i+1)).value),
+                'adult': parseInt(document.getElementById("adult_tour_room_"+String(i+1)).value),
+                'child': parseInt(document.getElementById("child_tour_room_"+String(i+1)).value),
+                'infant': parseInt(document.getElementById("infant_tour_room_"+String(i+1)).value),
+            }
+            room_ids_list.push(temp_room_id);
+        }
         request = {
             'package_id': package_id,
+            'room_list': room_ids_list,
         };
-        get_price_itinerary(request);
+        get_price_itinerary(JSON.stringify(request));
     }
 }
 

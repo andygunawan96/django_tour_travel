@@ -386,11 +386,21 @@
             low_sku_id_check = String(activity_type[activity_type_pick].skus[pax_check].sku_id).toLowerCase();
             try{
                 if(document.getElementById(low_sku_id_check + '_passenger').value != 0 )
+                {
                     text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_passenger').value+`' name=low_sku_id_check + '_passenger'/>`;
+                    text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_min_age').value+`' name=low_sku_id_check + '_min_age'/>`;
+                    text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_max_age').value+`' name=low_sku_id_check + '_max_age'/>`;
+                }
                 else
+                {
                     text+=`<input type='hidden' value='0' name=low_sku_id_check + '_passenger'/>`;
+                    text+=`<input type='hidden' value='0' name=low_sku_id_check + '_min_age'/>`;
+                    text+=`<input type='hidden' value='200' name=low_sku_id_check + '_max_age'/>`;
+                }
             }catch(err){
                 text+=`<input type='hidden' value='0' name=low_sku_id_check + '_passenger'/>`;
+                text+=`<input type='hidden' value='0' name=low_sku_id_check + '_min_age'/>`;
+                text+=`<input type='hidden' value='200' name=low_sku_id_check + '_max_age'/>`;
             }
         }
 

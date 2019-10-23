@@ -367,7 +367,9 @@ def get_customer_list(request):
             elif request.POST['passenger_type'] == 'child':
                 upper = 11
                 lower = 0
-        # if request.POST['product'] == 'activity': #TAMBAHI ANDY
+        if request.POST['product'] == 'activity':
+            upper = int(request.POST['maxAge'])
+            lower = int(request.POST['minAge'])
 
         data = {
             'name': request.POST['name'],

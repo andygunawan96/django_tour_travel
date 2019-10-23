@@ -161,6 +161,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
+                                                                <input type="hidden" id="booker_min_age" value="{{booker_min_age}}"/>
+                                                                <input type="hidden" id="booker_max_age" value="{{booker_max_age}}"/>
                                                                 <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','activity');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
@@ -376,6 +378,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <input type="hidden" id="train_adult{{forloop.counter}}_min_age" value="{{adult.min_age}}"/>
+                                                                <input type="hidden" id="train_adult{{forloop.counter}}_max_age" value="{{adult.max_age}}"/>
                                                                 <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
@@ -644,6 +648,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
+                                                                <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
                                                                 <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
@@ -914,6 +920,8 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
+                                                                <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
                                                                 <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
@@ -1156,6 +1164,8 @@
                                                         <div class="row" >
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
+                                                                <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
+                                                                <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
                                                                 <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>

@@ -420,9 +420,11 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                     text+=`</select>
                                 </div>
                             </div>`;
-                        if(activity_type[activity_type_pick].skus[i].minAge)
+                        if(activity_type[activity_type_pick].skus[i].minAge != null)
                         {
-                            text+= `<small id="activity_age_range" class="hidden">(`+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old)</small>`;
+                            text+= `<small id="activity_age_range`+i+`" class="hidden">(`+activity_type[activity_type_pick].skus[i].minAge+` - `+activity_type[activity_type_pick].skus[i].maxAge+` years old)</small>
+                                    <input type="hidden" id="`+low_sku_id+`_min_age" name="`+low_sku_id+`_min_age" value="`+activity_type[activity_type_pick].skus[i].minAge+`"/>
+                                    <input type="hidden" id="`+low_sku_id+`_max_age" name="`+low_sku_id+`_max_age" value="`+activity_type[activity_type_pick].skus[i].maxAge+`"/>`;
                         }
                         text+= `</div>`;
                    }
@@ -537,7 +539,17 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                        text += `<option value=''>Please Pick a Timeslot!</option></div>`;
                        for(j in activity_type[activity_type_pick].timeslots)
                        {
-                            text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`">`+activity_type[activity_type_pick].timeslots[j].startTime+` - `+activity_type[activity_type_pick].timeslots[j].endTime+`</option>`;
+                            var newStartTime = activity_type[activity_type_pick].timeslots[j].startTime;
+                            var newEndTime = activity_type[activity_type_pick].timeslots[j].endTime;
+                            if(newStartTime.split(":").length > 2)
+                            {
+                                newStartTime = newStartTime.split(":")[0].toString() + ":" + newStartTime.split(":")[1].toString();
+                            }
+                            if(newEndTime.split(":").length > 2)
+                            {
+                                newEndTime = newEndTime.split(":")[0].toString() + ":" + newEndTime.split(":")[1].toString();
+                            }
+                            text += `<option value="`+activity_type[activity_type_pick].timeslots[j].uuid+`">`+newStartTime+` - `+newEndTime+`</option>`;
                        }
                        text += `</select></div>`;
                    }
