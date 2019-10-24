@@ -1086,17 +1086,10 @@ def review(request):
         all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
 
         search_request = {
-            "activity_uuid": request.session['activity_request']['activity_uuid'],
             "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
-            "product_type_title": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
-            "adult": len(adult),
-            "senior": len(senior),
-            "child": len(child),
-            "infant": len(infant),
             'skus': skus,
-            "name": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
             "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
-            "timeslot": timeslot and timeslot or False,
+            "timeslot": timeslot and timeslot['uuid'] or False,
             "event_seq": event_id,
         }
 
