@@ -1058,12 +1058,12 @@ def review(request):
             all_pax.append(rec)
 
         pax_count = {}
-        no_low_pax_count = {}
         for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
             low_sku_id = temp_sku['sku_id'].lower()
             skus.append({
                 'id': temp_sku['id'],
                 'sku_id': low_sku_id,
+                'raw_sku_id': temp_sku['sku_id'],
                 'pax_type': temp_sku['pax_type'],
                 'title': temp_sku['title'],
                 'amount': int(request.session['activity_request'][low_sku_id+'_passenger']),
@@ -1071,14 +1071,11 @@ def review(request):
             pax_count.update({
                 low_sku_id: int(request.session['activity_request'][low_sku_id+'_passenger'])
             })
-            no_low_pax_count.update({
-                temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id+'_passenger'])
-            })
 
         try:
-            event_id = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][0].get('name') or False
+            event_id = int(request.session['activity_request']['event_pick'])
         except:
-            event_id = False
+            event_id = 0
 
         timeslot = False
         if request.session['activity_request'].get('activity_timeslot'):
@@ -1088,21 +1085,7 @@ def review(request):
 
         all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
 
-        for temp_key, temp_val in no_low_pax_count.items():
-            if temp_val != 0 and temp_key not in ['Infant']:
-                if all_price['prices'][temp_key].get(str(temp_val)):
-                    temp_used_price = copy.deepcopy(all_price['prices'][temp_key][str(temp_val)]['service_charges'])
-                else:
-                    temp_used_price = copy.deepcopy(all_price['prices'][temp_key]['1']['service_charges'])
-
-                for temp_sc in temp_used_price:
-                    temp_sc.update({
-                        'sku_id': str(temp_key)
-                    })
-                used_price.append(temp_used_price)
-
         search_request = {
-            "instantConfirmation": True,
             "activity_uuid": request.session['activity_request']['activity_uuid'],
             "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
             "product_type_title": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
@@ -1114,8 +1097,7 @@ def review(request):
             "name": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
             "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
             "timeslot": timeslot and timeslot or False,
-            "event_id": event_id,
-            "provider": request.session['activity_pick']['provider']
+            "event_seq": event_id,
         }
 
         request.session['activity_review_booking'] = {
@@ -1128,7 +1110,6 @@ def review(request):
             'infant': infant,
             'skus': skus,
             'upload_value': upload,
-            'pricing': used_price,
             'search_request': search_request
         }
 

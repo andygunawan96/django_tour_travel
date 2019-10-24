@@ -243,6 +243,7 @@ function activity_get_detail(uuid){
        },
        success: function(msg) {
            try{
+               console.log(msg);
                if(msg.result.error_code == 0){
                    activity_type = msg.result.response;
                    var counti = 0;

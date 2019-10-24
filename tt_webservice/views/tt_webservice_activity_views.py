@@ -409,7 +409,6 @@ def create_booking(request):
         "transaction_type": "issued_book",
         "provider": request.session['activity_pick']['provider'],
         "upload_value": request.session['activity_review_booking']['upload_value'],
-        "pricing": request.session['activity_review_booking']['pricing'],
         'member': member,
         'seq_id': request.POST['seq_id'],
     }
