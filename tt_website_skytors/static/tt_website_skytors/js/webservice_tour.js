@@ -778,6 +778,7 @@ function get_price_itinerary(request) {
        },
        success: function(msg) {
             console.log(msg);
+            $('#loading-price-tour').hide();
             price_data = msg.result.response;
             document.getElementById("single_supplement_amount").value = 0;
             document.getElementById("single_supplement_price").value = 0;

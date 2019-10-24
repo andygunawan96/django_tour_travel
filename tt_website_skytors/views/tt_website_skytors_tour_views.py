@@ -93,6 +93,7 @@ def search(request):
             'dest_month_data': dest_month_data,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
         }
@@ -120,6 +121,7 @@ def detail(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
+            'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
         }
@@ -266,6 +268,7 @@ def passenger(request):
             'childs': int(request.POST['child_total_pax'].replace(',', '')),
             'infants': int(request.POST['infant_amount'].replace(',', '')),
             'price_itinerary': values['price_itinerary'],
+            'static_path_url_server': get_url_static_path(),
             'tour_data': request.session['tour_pick'],
             'javascript_version': javascript_version
         }
@@ -317,6 +320,7 @@ def review(request):
                 'sub_total_itinerary_price': int(request.POST['sub_total_hidden']),
                 'commission_total': int(request.POST['commission_total'])
             },
+            'static_path_url_server': get_url_static_path(),
             'total_itinerary_price': int(request.POST['grand_total_hidden']),
             'sameBooker': request.POST['myRadios'],
             'javascript_version': javascript_version,
@@ -461,6 +465,7 @@ def booking(request):
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
             'logo': logo,
+            'static_path_url_server': get_url_static_path(),
             'template': template
         }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_booking_templates.html', values)
