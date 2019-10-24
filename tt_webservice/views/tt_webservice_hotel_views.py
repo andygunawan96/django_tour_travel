@@ -390,7 +390,7 @@ def create_booking(request):
             'kwargs': {
                 'force_issued': 'False'
             },
-            'special_request': request.POST['special_request'],
+            'special_request': request.session['hotel_request']['special_request'],
             'resv_name': '',
             'os_res_no': '',
             'journeys_booking': ''

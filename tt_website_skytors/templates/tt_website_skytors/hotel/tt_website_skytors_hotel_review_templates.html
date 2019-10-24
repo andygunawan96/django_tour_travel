@@ -22,7 +22,7 @@
     facilities = facilities.replace(/True/g, 'true');
     hotel = `{{hotel_pick}}`;
     hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true');
-    console.log(hotel);
+    //console.log(hotel);
     hotel_facility_request(facilities);
 </script>
 
@@ -169,7 +169,7 @@
 
                         </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.hotel/AT.2019102153026/1')" style="width:100%;">
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{ printout_rec }}')" style="width:100%;">
                                 Print Itinerary Form
                             </button>
                         </div>

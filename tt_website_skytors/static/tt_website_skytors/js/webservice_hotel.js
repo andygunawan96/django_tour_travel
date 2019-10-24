@@ -599,7 +599,6 @@ function hotel_issued_booking(){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-            'special_request': document.getElementById('special_request').value,
             'seq_id': payment_acq2[payment_method][selected].seq_id,
             'member': payment_acq2[payment_method][selected].method
        },
