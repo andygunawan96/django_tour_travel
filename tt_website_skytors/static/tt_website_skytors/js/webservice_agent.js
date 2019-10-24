@@ -132,6 +132,17 @@ function get_customer_list(passenger, number, product){
     getToken();
     if(passenger == 'booker'){
         $('.loading-booker-train').show();
+
+        var minAge = '';
+        var maxAge = '';
+        try{
+            minAge = document.getElementById('booker_min_age').value;
+            maxAge = document.getElementById('booker_max_age').value;
+        }
+        catch(err){
+
+        }
+
         if(document.getElementById('train_booker_search').value.length >= 2){
             $.ajax({
                type: "POST",
@@ -144,6 +155,8 @@ function get_customer_list(passenger, number, product){
                     'name': document.getElementById('train_booker_search').value,
                     'product': product,
                     'passenger_type': passenger,
+                    'minAge': minAge,
+                    'maxAge': maxAge,
                     'signature': signature
                },
                success: function(msg) {
@@ -219,6 +232,16 @@ function get_customer_list(passenger, number, product){
 
     }else{
         $(".loading-pax-train").show();
+
+        var minAge = '';
+        var maxAge = '';
+        try{
+            minAge = document.getElementById('train_'+passenger+number+'_min_age').value;
+            maxAge = document.getElementById('train_'+passenger+number+'_max_age').value;
+        }
+        catch(err){
+
+        }
         if(document.getElementById('train_'+passenger+number+'_search').value.length >= 2){
             $.ajax({
                type: "POST",
@@ -231,6 +254,8 @@ function get_customer_list(passenger, number, product){
                     'name': document.getElementById('train_'+passenger+number+'_search').value,
                     'product': product,
                     'passenger_type': passenger,
+                    'minAge': minAge,
+                    'maxAge': maxAge,
                     'signature': signature
                },
                success: function(msg) {
@@ -622,7 +647,8 @@ function pick_passenger(type, sequence, product){
             }
             document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
             for(i in document.getElementById('senior_title'+passenger_number).options){
-                document.getElementById('senior_title'+passenger_number).options[i].disabled = true;
+               if(document.getElementById('senior_title'+passenger_number).options[i].selected != true)
+                    document.getElementById('senior_title'+passenger_number).options[i].disabled = true;
             }
             if(template != 4){
                 $('#senior_title'+passenger_number).niceSelect('update');

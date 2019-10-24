@@ -194,7 +194,6 @@ def signin(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_config",
-                    "provider": 'skytors_issued_offline',
                     "signature": request.session['signature'],
                 }
 
@@ -223,6 +222,29 @@ def signin(request):
                 }
                 res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
                                                     method='POST')
+
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "search_autocomplete",
+                    "signature": res['result']['response']['signature']
+                }
+
+                data = {
+                    "name": '',
+                    "limit": 9999
+                }
+
+                res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+                try:
+                    if res_cache_activity['result']['error_code'] == 0:
+                        file = open('activity_cache_data.txt', "w+")
+                        file.write(json.dumps(res_cache_activity['result']['response']))
+                        file.close()
+                except:
+                    logging.getLogger("info_logger").info(
+                        "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity))
+                    pass
 
                 # tour
                 # data = {}
@@ -328,8 +350,8 @@ def get_customer_list(request):
             passenger = 'book'
         else:
             passenger = 'psg'
-        if request.POST['product'] == 'airline':
-            if request.POST['passenger_type'] == 'adult':
+        if request.POST['product'] == 'airline' or request.POST['product'] == 'visa' or request.POST['product'] == 'issued_offline':
+            if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
                 upper = 200
                 lower = 12
             elif request.POST['passenger_type'] == 'child':
@@ -338,6 +360,17 @@ def get_customer_list(request):
             elif request.POST['passenger_type'] == 'infant':
                 upper = 2
                 lower = 0
+        if request.POST['product'] == 'hotel':
+            if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
+                upper = 200
+                lower = 12
+            elif request.POST['passenger_type'] == 'child':
+                upper = 11
+                lower = 0
+        if request.POST['product'] == 'activity':
+            upper = int(request.POST['maxAge'])
+            lower = int(request.POST['minAge'])
+
         data = {
             'name': request.POST['name'],
             'upper': upper,

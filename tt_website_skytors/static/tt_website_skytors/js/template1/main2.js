@@ -1,3 +1,5 @@
+$lengthimg = $("#length-img").val();
+
 $(document).ready(function() {
     "use strict";
     var window_width = $(window).width(),
@@ -182,6 +184,42 @@ $(document).ready(function() {
         }
     });
 
+    $('.owl-carousel-hotel-modal').owlCarousel({
+        loop:false,
+        nav: true,
+        navRewind:true,
+        rewind: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: true,
+        merge: false,
+        lazyLoad:true,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:10000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:2,
+                nav:true
+            },
+            480:{
+                items:3,
+                nav:true
+            },
+            768:{
+                items:5,
+                nav:true
+            },
+            961:{
+                items:5,
+                nav:true,
+            }
+        }
+    });
+
+
     $('.owl-carousel-hotel-img').owlCarousel({
         loop:false,
         nav: true,
@@ -195,19 +233,49 @@ $(document).ready(function() {
         autoplay: false,
         autoplayTimeout:8000,
         autoplayHoverPause:false,
-        //navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
         responsive:{
             0:{
                 items:1,
-                nav:false
+                nav:true
             },
             600:{
                 items:1,
-                nav:false
+                nav:true
             },
             1000:{
                 items:1,
-                nav:false,
+                nav:true,
+            }
+        }
+    });
+
+    $('.owl-carousel-hotel-img-modal').owlCarousel({
+        loop:false,
+        nav: true,
+        rewind: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        lazyLoad:true,
+        merge: false,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:8000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-caret-left owl-wh"/>', '<i class="fa fa-caret-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            600:{
+                items:1,
+                nav:true
+            },
+            1000:{
+                items:1,
+                nav:true,
             }
         }
     });
@@ -343,9 +411,9 @@ $(document).ready(function() {
         }
     });
 
-    $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
+    $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
 
-    $('.owl-carousel-hotel').on("click", ".owl-item", function(e) {
+    $('.owl-carousel-hotel-modal').on("click", ".owl-item", function(e) {
        e.preventDefault();
        check_counter_idx =0;
        $('.owl-item').each(function() {
@@ -353,8 +421,34 @@ $(document).ready(function() {
        });
        var number = $(this).index();
        $('.owl-carousel-hotel-img').data("owl.carousel").to(number, 500, true);
+       $('.owl-carousel-hotel-img-modal').data("owl.carousel").to(number, 500, true);
        $(this).addClass("owl-bg-border");
+       document.getElementById("total_image_hotel").innerHTML = number+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = number+1 + " of " + $lengthimg;
      });
+
+    $('.owl-carousel-hotel-img-modal').on('changed.owl.carousel',function(property){
+       current = property.item.index;
+       var total = property.item.count;
+       var check_index = total - current;
+
+       if(current == total-1){
+            $('.owl-carousel-hotel-modal').data("owl.carousel").to(total-5, 500, true);
+       }
+       else{
+           if(check_index > 4){
+                $('.owl-carousel-hotel-modal').data("owl.carousel").to(current, 500, true);
+           }
+       }
+
+       $('.owl-carousel-hotel-modal').find('.owl-item').each(function() {
+          $(this).removeClass("owl-bg-border");
+       });
+       $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
+       $('.owl-carousel-hotel-img').trigger('to.owl.carousel', current);
+       document.getElementById("total_image_hotel").innerHTML = current+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + " of " + $lengthimg;
+    });
 
     $('.owl-carousel-hotel-img').on('changed.owl.carousel',function(property){
        current = property.item.index;
@@ -362,19 +456,35 @@ $(document).ready(function() {
        var check_index = total - current;
 
        if(current == total-1){
-            $('.owl-carousel-hotel').data("owl.carousel").to(total-5, 500, true);
+            $('.owl-carousel-hotel-modal').data("owl.carousel").to(total-5, 500, true);
        }
        else{
            if(check_index > 4){
-                $('.owl-carousel-hotel').data("owl.carousel").to(current, 500, true);
+                $('.owl-carousel-hotel-modal').data("owl.carousel").to(current, 500, true);
            }
        }
 
-       $('.owl-carousel-hotel').find('.owl-item').each(function() {
+       $('.owl-carousel-hotel-modal').find('.owl-item').each(function() {
           $(this).removeClass("owl-bg-border");
        });
-       $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
+       $('.owl-carousel-hotel-modal').find('.owl-item').eq(current).addClass('owl-bg-border');
+       $('.owl-carousel-hotel-img-modal').trigger('to.owl.carousel', current);
+       document.getElementById("total_image_hotel").innerHTML = current+1 + " of " + $lengthimg;
+       document.getElementById("total_image_hotel-modal").innerHTML = current+1 + " of " + $lengthimg;
     });
+
+    //    $('.owl-carousel-hotel').find('.owl-item').eq(current).addClass('owl-bg-border');
+    //
+    //    $('.owl-carousel-hotel').on("click", ".owl-item", function(e) {
+    //       e.preventDefault();
+    //       check_counter_idx =0;
+    //       $('.owl-item').each(function() {
+    //          $(this).removeClass("owl-bg-border");
+    //       });
+    //       var number = $(this).index();
+    //       $('.owl-carousel-hotel-img').data("owl.carousel").to(number, 500, true);
+    //       $(this).addClass("owl-bg-border");
+    //     });
 
     $('.zoom-img').wrap('<span style="display:inline-block"></span>').css('display', 'block').parent().zoom({ on:'click' });
 
@@ -657,6 +767,27 @@ $(document).ready(function() {
     });
 
 });
+
+function go_to_owl_carousel(counter){
+    $('.owl-carousel-hotel-img').trigger('to.owl.carousel', counter-1);
+    $('.owl-carousel-hotel-img-modal').trigger('to.owl.carousel', counter-1);
+
+    var temp_counter = counter - 1;
+    var check_index = $lengthimg - counter;
+
+    if(temp_counter == $lengthimg-1){
+        $('.owl-carousel-hotel-modal').data("owl.carousel").to($lengthimg-5, 500, true);
+    }
+    else{
+        if(check_index > 4){
+             $('.owl-carousel-hotel-modal').data("owl.carousel").to(temp_counter, 500, true);
+        }
+    }
+
+
+    document.getElementById("total_image_hotel").innerHTML = counter + " of " + $lengthimg;
+    document.getElementById("total_image_hotel_modal").innerHTML = counter + " of " + $lengthimg;
+}
 
 
 //$('#ex1').zoom();

@@ -1,4 +1,6 @@
 sorting_value = '';
+var activityAutoCompleteVar;
+var activity_choices = [];
 
 var sorting_list = [
     {

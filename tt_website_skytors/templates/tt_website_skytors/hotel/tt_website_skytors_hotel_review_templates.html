@@ -15,6 +15,15 @@
     signature = '{{signature}}';
     time_limit = {{time_limit}};
     session_time_limit();
+    facilities = `{{hotel_pick.facilities}}`;
+    facilities = facilities.replace(/&#39;/g, '"');
+    facilities = facilities.replace(/&quot;/g, '"');
+    facilities = facilities.replace(/False/g, 'false');
+    facilities = facilities.replace(/True/g, 'true');
+    hotel = `{{hotel_pick}}`;
+    hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true');
+    console.log(hotel);
+    hotel_facility_request(facilities);
 </script>
 
 {% include 'tt_website_skytors/logout.html' %}
@@ -88,30 +97,26 @@
                                     - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{hotel_pick.lat}}, {{hotel_pick.long}})</a>
                                 </span>
                                 <br/>
-                                <span>Telephone: {{hotel_pick.telephone}}</span><br/><br/>
-                                <span style="text-align:justify; font-weight:bold;">Description: </span>
-                                <span>{{hotel_pick.description}}</span><br/><br/>
-
+                                <span style="text-align:justify; font-weight:bold;">Date: </span>{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}<br/>
                                 <span style="text-align:justify; font-weight:bold;">Room: </span>
                                 {% for room in hotel_room_detail_pick.rooms %}
                                 {% with forloop.counter as counter_room %}
                                 <span>{{room.type}} - {{room.description}}</span>
-                                {% for night in room.nightly_prices%}
-                                {% with forloop.counter as counter_night %}
                                 <br/>
-                                <span style="text-align:justify; font-weight:bold;">Check-In Date: {{night.date}}</span><br/>
-                                {% endwith %}
-                                {% endfor %}
+
+
                                 {% endwith %}
                                 {% endfor %}
                                 <br/>
                                 <span>
-                                    <span style="text-align:justify; font-weight:bold;">Facilities: </span><br/>
-                                    {% for facility in response.facilities %}
-                                    {{facility.description}},
-                                    {% endfor %}
+                                    <span style="text-align:justify; font-weight:bold;">Facilities:</span><br/>
+                                    <div id="js_image_facility" class="row">
+
+                                    </div>
                                 </span>
                                 <br/>
+                                <span style="text-align:justify; font-weight:bold;">Customer Notes: </span><br/>
+                                {{special_request}}<br/>
                             </div>
                         </div>
 
@@ -159,21 +164,27 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.hotel/AT.2019102153026/1')" style="width:100%;">
+                                Print Itinerary Form
+                            </button>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>
+<!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
+                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
                         </div>
 
-                        <div class="col-lg-12" style="margin-top:15px;">
-                            <div style="background-color:white; padding:10px; border:1px solid #f15a22;">
-                                <h4> Special Request </h4>
-                                <hr/>
-                                <textarea rows="5" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request" name="special_request"></textarea>
-                            </div>
-                        </div>
                     </div>
                     <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
 
@@ -199,7 +210,7 @@
 
 
 <script>
-    document.getElementById('price_total').innerHTML = '<h4>Price Detail</h4><hr/>Total Price: IDR ' + getrupiah(parseInt({{hotel_room_detail_pick.price_total}}) + parseInt({{hotel_room_detail_pick.commission}}));
+    hotel_detail('{{hotel_room_detail_pick}}')
     hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
     get_payment_acq('Issued','', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
