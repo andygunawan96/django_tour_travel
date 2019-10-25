@@ -55,6 +55,7 @@ function activity_login(data){
           'offset': offset
        },
        success: function(msg) {
+           activity_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
            if(data == ''){
                activity_search()
@@ -88,7 +89,8 @@ function activity_search(){
        data: {
           'sort': 'price_asc',
           'limit': 20,
-          'offset': offset
+          'offset': offset,
+          'signature': activity_signature
        },
        success: function(msg) {
         console.log(msg);
@@ -241,6 +243,7 @@ function activity_get_detail(uuid){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'uuid': uuid,
+          'signature': activity_signature
        },
        success: function(msg) {
            try{
@@ -421,7 +424,8 @@ function activity_get_price_date(activity_type_pick, pricing_days){
           'product_type_uuid': activity_type[activity_type_pick].uuid,
           'provider': activity_type[activity_type_pick].provider_code,
           'pricing_days': pricing_days,
-          'startingDate': startingDate
+          'startingDate': startingDate,
+          'signature': activity_signature
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
@@ -662,22 +666,175 @@ function activity_pre_create_booking(){
     }).then((result) => {
       if (result.value) {
         show_loading();
-        activity_create_booking();
+        update_sell_activity();
       }
     })
 }
 
-function activity_create_booking(){
+function update_sell_activity(){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
        headers:{
-            'action': 'create_booking',
+            'action': 'sell_activity',
+       },
+       data: {
+           'signature': activity_signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_contact_activity();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update sell activity </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update sell activity </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function update_contact_activity(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'update_contact',
+       },
+       data: {
+           'signature': activity_signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_passengers_activity();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update contact activity </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update contact activity </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function update_passengers_activity(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'update_passengers',
+       },
+       data: {
+           'signature': activity_signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_options_activity();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update passengers activity </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update passengers activity </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function update_options_activity(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'update_options',
+       },
+       data: {
+           'signature': activity_signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            activity_commit_booking();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update options activity </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update options activity </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function activity_commit_booking(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'commit_booking',
        },
        data: {
             'seq_id': payment_acq2[payment_method][selected].seq_id,
             'member': payment_acq2[payment_method][selected].method,
+            'signature': activity_signature
        },
        success: function(msg) {
         console.log(msg);
@@ -802,7 +959,8 @@ function activity_get_booking(data){
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
-           'order_number': data
+           'order_number': data,
+           'signature': activity_signature
        },
        success: function(msg) {
        act_order_number = data;
@@ -1264,7 +1422,8 @@ function activity_get_voucher(order_number){
             'action': 'get_voucher',
        },
        data: {
-            'order_number': order_number
+            'order_number': order_number,
+            'signature': activity_signature
        },
        success: function(msg) {
        console.log(msg)
@@ -1305,7 +1464,8 @@ function activity_search_autocomplete(term,suggest){
            },
     //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: {
-                'name':term
+                'name':term,
+                'signature': activity_signature
            },
            success: function(msg) {
             activity_choices = msg;

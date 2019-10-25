@@ -50,8 +50,16 @@ def api_models(request):
             res = get_details(request)
         elif req_data['action'] == 'get_pricing':
             res = get_pricing(request)
-        elif req_data['action'] == 'create_booking':
-            res = create_booking(request)
+        elif req_data['action'] == 'sell_activity':
+            res = sell_activity(request)
+        elif req_data['action'] == 'update_contact':
+            res = update_contact(request)
+        elif req_data['action'] == 'update_passengers':
+            res = update_passengers(request)
+        elif req_data['action'] == 'update_options':
+            res = update_options(request)
+        elif req_data['action'] == 'commit_booking':
+            res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
@@ -108,7 +116,7 @@ def search(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "search",
-        "signature": request.session['activity_signature']
+        "signature": request.POST['activity_signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -145,7 +153,7 @@ def get_details(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_details",
-        "signature": request.session['activity_signature']
+        "signature": request.POST['activity_signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -181,7 +189,7 @@ def get_pricing(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_pricing",
-        "signature": request.session['activity_signature']
+        "signature": request.POST['activity_signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -189,17 +197,62 @@ def get_pricing(request):
     return res
 
 
-def create_booking(request):
-    if request.POST['member'] == 'non_member':
-        member = False
-    else:
-        member = True
+def sell_activity(request):
+    data = {
+        "promotion_codes_booking": [],
+        "search_request": request.session['activity_review_booking']['search_request'],
+        "provider": request.session['activity_pick']['provider'],
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "sell_activity",
+        "signature": request.POST['activity_signature']
+    }
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_contact(request):
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+
+    booker = request.session['activity_review_booking']['booker']
+    contacts = request.session['activity_review_booking']['contacts']
+    for country in response['result']['response']['airline']['country']:
+        if booker['nationality_name'] == country['name']:
+            booker['nationality_code'] = country['code']
+            break
+
+    for pax in contacts:
+        for country in response['result']['response']['airline']['country']:
+            if pax['nationality_name'] == country['name']:
+                pax['nationality_code'] = country['code']
+                break
+
+    data = {
+        "booker": booker,
+        "contacts": contacts,
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_contact",
+        "signature": request.POST['activity_signature']
+    }
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_passengers(request):
     passenger = []
     javascript_version = get_cache_version()
     response = get_cache_data(javascript_version)
 
     countries = response['result']['response']['airline']['country']
-
+    passenger = []
     for pax in request.session['activity_review_booking']['adult']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
@@ -347,6 +400,26 @@ def create_booking(request):
             pax.pop('identity_type')
         passenger.append(pax)
 
+    data = {
+        "passengers": passenger,
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_passengers",
+        "signature": request.POST['activity_signature']
+    }
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_options(request):
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+
+    countries = response['result']['response']['airline']['country']
+
     perbooking = request.session['activity_perbooking']
     for booking in perbooking:
         if booking['name'] == 'Nationality':
@@ -370,43 +443,42 @@ def create_booking(request):
                         break
             item.pop('name')
 
-    booker = request.session['activity_review_booking']['booker']
-    contacts = request.session['activity_review_booking']['contacts']
-    for country in response['result']['response']['airline']['country']:
-        if booker['nationality_name'] == country['name']:
-            booker['nationality_code'] = country['code']
-            break
-
-    for pax in contacts:
-        for country in response['result']['response']['airline']['country']:
-            if pax['nationality_name'] == country['name']:
-                pax['nationality_code'] = country['code']
-                break
     data = {
-        "passengers": passenger,
         "option": {
             "perBooking": perbooking,
             "perPax": perpax
         },
+        "upload_value": request.session['activity_review_booking']['upload_value'],
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_passengers",
+        "signature": request.POST['activity_signature']
+    }
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    return res
+
+
+def commit_booking(request):
+    if request.POST['member'] == 'non_member':
+        member = False
+    else:
+        member = True
+
+    data = {
         "kwargs": {
             "force_issued": True
         },
-        "promotion_codes_booking": [],
-        "create_booking_type": "issued_book",
-        "booker": booker,
-        "contacts": contacts,
-        "search_request": request.session['activity_review_booking']['search_request'],
-        "transaction_type": "issued_book",
-        "provider": request.session['activity_pick']['provider'],
-        "upload_value": request.session['activity_review_booking']['upload_value'],
-        'member': member,
-        'seq_id': request.POST['seq_id'],
+        "member": member,
+        "seq_id": request.POST['seq_id'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "create_booking",
-        "signature": request.session['activity_signature']
+        "signature": request.POST['activity_signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -423,7 +495,7 @@ def get_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_booking",
-        "signature": request.session['activity_signature']
+        "signature": request.POST['activity_signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -465,7 +537,7 @@ def get_voucher(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_vouchers",
-        "signature": request.session['activity_signature']
+        "signature": request.POST['activity_signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
