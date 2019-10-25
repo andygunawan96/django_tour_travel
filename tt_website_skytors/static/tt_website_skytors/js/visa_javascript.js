@@ -11,29 +11,33 @@ function visa_autocomplete(type){
 
 function get_consulate(type){
     consulate_box = document.getElementById('visa_consulate_id');
-    if(consulate_box.options.length > 1)
-        for(i = consulate_box.options.length - 1 ; i >= 0 ; i--){
-            consulate_box.remove(i);
-        }
-    for(i in visa_config){
-        if(document.getElementById('visa_destination_id_hidden').value == i){
-            for(j in visa_config[i]){
-                var node = document.createElement("option");
-                node.text = visa_config[i][j];
-                node.value = visa_config[i][j];
-                if(j == 0 && type == 'home'){
-                    node.setAttribute('selected', 'selected');
-                    document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
-                }else if(type == 'search'){
-                    if(visa_request['consulate'] == visa_config[i][j]){
+    try{
+        if(consulate_box.options.length > 1)
+            for(i = consulate_box.options.length - 1 ; i >= 0 ; i--){
+                consulate_box.remove(i);
+            }
+        for(i in visa_config){
+            if(document.getElementById('visa_destination_id_hidden').value == i){
+                for(j in visa_config[i]){
+                    var node = document.createElement("option");
+                    node.text = visa_config[i][j];
+                    node.value = visa_config[i][j];
+                    if(j == 0 && type == 'home'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                    }else if(type == 'search'){
+                        if(visa_request['consulate'] == visa_config[i][j]){
+                            node.setAttribute('selected', 'selected');
+                            document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                        }
                     }
+                    consulate_box.add(node);
                 }
-                consulate_box.add(node);
-            }
 
+            }
         }
+    }catch(err){
+
     }
 }
 

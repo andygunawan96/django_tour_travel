@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice_views import *
 import logging
 import traceback
 from tools import path_util
@@ -22,11 +23,12 @@ MODEL_NAME = 'tt_website_skytors'
 
 # Create your views here.
 def index(request):
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
-    airline_country = response['result']['response']['airline']['country']
-    template, logo = get_logo_template()
     try:
+        template, logo = get_logo_template()
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
+
         if request.POST['logout']:
             request.session.delete()
             values = {
@@ -216,8 +218,6 @@ def index(request):
                 except:
                     values = {
                         'static_path': path_util.get_static_path(MODEL_NAME),
-                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                        'countries': airline_country,
                         'javascript_version': javascript_version,
                         'logo': logo,
                         'static_path_url_server': get_url_static_path(),
@@ -238,8 +238,6 @@ def index(request):
             if request.session.get('user_account'):
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                    'countries': airline_country,
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'static_path_url_server': get_url_static_path(),
@@ -302,20 +300,24 @@ def admin(request):
                         text += base64.b64encode(request.FILES['fileToUpload'].read()).decode("utf-8")
                         text += '\n'
                     else:
-                        file = open("data_cache_template.txt", "r")
+                        file = open(var_log_path()+"data_cache_template.txt", "r")
                         for idx, line in enumerate(file):
                             if idx == 0:
                                 text = line
                         file.close()
                 except:
-                    file = open("data_cache_template.txt", "r")
-                    for idx, line in enumerate(file):
-                        if idx == 0:
-                            text = line
-                    file.close()
+                    try:
+                        file = open(var_log_path()+"data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 0:
+                                text = line
+                        file.close()
+                    except:
+                        text += '\n'
+                        pass
 
                 text += request.POST['template']
-                file = open('data_cache_template.txt', "w+")
+                file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
             javascript_version = get_cache_version()
@@ -324,7 +326,7 @@ def admin(request):
 
 
             try:
-                file = open("data_cache_template.txt", "r")
+                file = open(var_log_path()+"data_cache_template.txt", "r")
                 for idx, line in enumerate(file):
                     if idx == 0:
                         if line == '\n':
@@ -366,7 +368,7 @@ def reservation(request):
         response = get_cache_data(javascript_version)
         airline_country = response['result']['response']['airline']['country']
 
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
         file.close()
@@ -448,7 +450,7 @@ def top_up_history(request):
         return no_session_logout()
 
 def get_cache_version():
-    file = open("javascript_version.txt", "r")
+    file = open(var_log_path()+"javascript_version.txt", "r")
     for idx, line in enumerate(file):
         if idx == 0:
             javascript_version = line.split('\n')[0]
@@ -456,7 +458,7 @@ def get_cache_version():
     return javascript_version
 
 def get_cache_data(javascript_version):
-    file = open('version' + str(javascript_version) + ".txt", "r")
+    file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "r")
     for line in file:
         response = json.loads(line)
     file.close()
@@ -464,7 +466,7 @@ def get_cache_data(javascript_version):
 
 def get_logo_template():
     try:
-        file = open("data_cache_template.txt", "r")
+        file = open(var_log_path()+"data_cache_template.txt", "r")
         for idx, line in enumerate(file):
             if idx == 0:
                 if line == '\n':

@@ -563,7 +563,7 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = open("activity_cache_data.txt", "r")
+        file = open(var_log_path()+"activity_cache_data.txt", "r")
         for line in file:
             record_cache = json.loads(line)
         file.close()

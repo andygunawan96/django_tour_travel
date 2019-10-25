@@ -32,13 +32,13 @@ def search(request):
         airline_country = response['result']['response']['airline']['country']
 
         # airline
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             airline_destinations = json.loads(line)
         file.close()
         airline_destinations = []
 
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -259,7 +259,7 @@ def passenger(request):
             response = get_cache_data(javascript_version)
             airline_country = response['result']['response']['airline']['country']
 
-            file = open("get_airline_active_carriers.txt", "r")
+            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
             for line in file:
                 carrier = json.loads(line)
             file.close()
@@ -361,7 +361,7 @@ def ssr(request):
         response = get_cache_data(javascript_version)
         airline_country = response['result']['response']['airline']['country']
 
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             carrier = json.loads(line)
         file.close()
@@ -639,7 +639,7 @@ def seat_map(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         airline_country = response['result']['response']['airline']['country']
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             carrier = json.loads(line)
         file.close()
@@ -1229,7 +1229,7 @@ def review(request):
             for pax in passenger:
                 pax['ssr_list'] = []
 
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
         file.close()
@@ -1367,7 +1367,7 @@ def review_after_sales(request):
         except:
             additional_price_input = 0
 
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
         file.close()
@@ -1404,7 +1404,7 @@ def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
 
-        file = open("get_airline_active_carriers.txt", "r")
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
         file.close()
