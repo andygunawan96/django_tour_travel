@@ -29,6 +29,7 @@ def search(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         # airline
         file = open("airline_destination.txt", "r")
@@ -229,6 +230,8 @@ def search(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'journeys': journeys,
             'airline_request': airline_request,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'airline_destinations': airline_destinations,
             'flight': flight,
             'airline_cabin_class_list': airline_cabin_class_list,
@@ -254,6 +257,7 @@ def passenger(request):
         try:
             javascript_version = get_cache_version()
             response = get_cache_data(javascript_version)
+            airline_country = response['result']['response']['airline']['country']
 
             file = open("get_airline_active_carriers.txt", "r")
             for line in file:
@@ -321,6 +325,8 @@ def passenger(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'ssr': ssr,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'seat_map': seat_map,
             'countries': response['result']['response']['airline']['country'],
             'airline_request': request.session['airline_request'],
@@ -353,6 +359,7 @@ def ssr(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
@@ -484,7 +491,8 @@ def ssr(request):
                     "identity_number": request.POST['infant_passport_number' + str(i + 1)],
                     "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
                     "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
-                    "passenger_seq_id": request.POST['infant_id' + str(i + 1)]
+                    "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
+                    "identity_type": "passport",
 
                 })
 
@@ -506,6 +514,8 @@ def ssr(request):
                 'seat_map': request.session['airline_get_seat_availability']['result']['error_code'],
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
                 'airline_carriers': carrier,
                 # 'airline_destinations': airline_destinations,
                 'airline_pick': request.session['airline_pick'],
@@ -603,6 +613,8 @@ def ssr(request):
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'seat_map': 1,
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
                 'airline_carriers': carrier,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 # 'airline_destinations': airline_destinations,
@@ -626,6 +638,7 @@ def seat_map(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
             carrier = json.loads(line)
@@ -946,6 +959,8 @@ def seat_map(request):
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_carriers': carrier,
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
                 'after_sales': 0,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
@@ -967,6 +982,8 @@ def seat_map(request):
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_carriers': carrier,
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
                 'after_sales': 1,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 'additional_price': float(additional_price_input),
@@ -990,6 +1007,7 @@ def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
         ssr = []
@@ -1224,6 +1242,8 @@ def review(request):
             additional_price_input += i
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'ssr': request.session['airline_get_ssr']['result']['error_code'],
             'seat': request.session['airline_get_seat_availability']['result']['error_code'],
             'airline_request': request.session['airline_request'],
@@ -1254,6 +1274,7 @@ def review_after_sales(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
         goto = 0
         ssr = []
@@ -1355,6 +1376,8 @@ def review_after_sales(request):
             del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'back_page': request.META.get('HTTP_REFERER'),
             'airline_carriers': airline_carriers,
             'goto': goto,
