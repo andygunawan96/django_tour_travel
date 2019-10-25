@@ -183,12 +183,12 @@ def get_carrier_code_list(request):
                 a.set_new_time_out('carrier')
                 a.set_first_time('carrier')
                 res = res['result']['response']
-                file = open("get_airline_active_carriers" + ".txt", "w+")
+                file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
                 logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = open("get_airline_active_carriers.txt", "r")
+                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
                 for line in file:
                     res = json.loads(line)
                 file.close()
@@ -197,7 +197,7 @@ def get_carrier_code_list(request):
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open("get_airline_active_carriers.txt", "r")
+            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
             for line in file:
                 res = json.loads(line)
             file.close()
@@ -227,12 +227,12 @@ def get_provider_list(request):
                 a.set_new_time_out('provider')
                 a.set_first_time('provider')
                 res = json.dumps(res['result']['response'])
-                file = open("get_list_provider.txt", "w+")
+                file = open(var_log_path()+"get_list_provider.txt", "w+")
                 file.write(res)
                 file.close()
                 logging.getLogger("info_logger").info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = open("get_list_provider.txt", "r")
+                file = open(var_log_path()+"get_list_provider.txt", "r")
                 for line in file:
                     res = line
                 file.close()
@@ -241,7 +241,7 @@ def get_provider_list(request):
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open("get_list_provider.txt", "r")
+            file = open(var_log_path()+"get_list_provider.txt", "r")
             for line in file:
                 res = line
             file.close()
@@ -256,7 +256,7 @@ def search2(request):
         javascript_version = get_cache_version()
         # airline
         airline_destinations = []
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -443,7 +443,7 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -460,7 +460,7 @@ def get_price_itinerary(request, boolean, counter):
         #baru
         javascript_version = get_cache_version()
         airline_destinations = []
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -945,7 +945,7 @@ def get_booking(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             response = json.loads(line)
         file.close()
@@ -1115,7 +1115,7 @@ def reissue(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = open("airline_destination.txt", "r")
+            file = open(var_log_path()+"airline_destination.txt", "r")
             for line in file:
                 response = json.loads(line)
             file.close()

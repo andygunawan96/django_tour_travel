@@ -1968,3 +1968,7 @@ function pick_passenger_cache(val){
       })
     }
 }
+
+function modal_help_pax_hide(){
+    $('#myModalHelp_passenger').modal('hide');
+}

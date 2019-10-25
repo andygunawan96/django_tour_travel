@@ -13,10 +13,10 @@
     width: 55px;
     border-radius: 30px;
     padding-left: 0px !important;
-    padding-right: 0px !important;" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="get_passenger_cache();">
+    padding-right: 0px !important;" class="primary-btn" data-toggle="modal" data-target="#myModalPlugin" onclick="get_passenger_cache();">
     <i class="fas fa-address-card"></i>
 </button>
-<div class="modal fade" id="myModal" role="dialog" data-keyboard="false">
+<div class="modal fade" id="myModalPlugin" role="dialog" data-keyboard="false">
     <div class="modal-dialog">
 
         <!-- Modal content-->
@@ -75,7 +75,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <button type="button" class="close" onclick="modal_help_pax_hide();">&times;</button>
                                             </div>
                                             <div class="modal-body">
                                                 <div class="col-sm-12">
@@ -88,7 +88,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" onclick="modal_help_pax_hide();">Close</button>
                                             </div>
                                         </div>
                                     </div>
@@ -211,28 +211,30 @@
 </div>
 
 <script>
-    $('input[name="passenger_birth_date"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          maxDate: moment(),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
-              format: 'DD MMM YYYY',
-          }
+    $( document ).ready(function() {
+        $('input[name="passenger_birth_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="passenger_passport_expired_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              minDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+        });
+        $('input[name="passenger_passport_expired_date"]').val("");
+        $('input[name="passenger_birth_date"]').val("");
     });
-    $('input[name="passenger_passport_expired_date"]').daterangepicker({
-          singleDatePicker: true,
-          autoUpdateInput: true,
-          minDate: moment(),
-          showDropdowns: true,
-          opens: 'center',
-          locale: {
-              format: 'DD MMM YYYY',
-          }
-    });
-    document.getElementById('passenger_passport_expired_date').value = "";
-    document.getElementById('passenger_birth_date').value = "";
     document.getElementById('passenger_nationality').value = document.getElementById('passenger_nationality_id').value;
     document.getElementById('passenger_phone_code').value = document.getElementById('passenger_phone_code_id').value;
 

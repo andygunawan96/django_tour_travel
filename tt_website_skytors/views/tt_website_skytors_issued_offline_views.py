@@ -25,7 +25,7 @@ def issued_offline(request):
 
         template, logo = get_logo_template()
 
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             airline_destinations = json.loads(line)
         file.close()

@@ -174,7 +174,7 @@ def signin(request):
                 res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
                 try:
                     if res_cache_hotel['result']['error_code'] == 0:
-                        file = open('hotel_cache_data.txt', "w+")
+                        file = open(var_log_path()+"hotel_cache_data.txt", "w+")
                         file.write(res_cache_hotel['result']['response'])
                         file.close()
                 except:
@@ -247,7 +247,7 @@ def signin(request):
                 res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
                 try:
                     if res_cache_activity['result']['error_code'] == 0:
-                        file = open('activity_cache_data.txt', "w+")
+                        file = open(var_log_path()+"activity_cache_data.txt", "w+")
                         file.write(json.dumps(res_cache_activity['result']['response']))
                         file.close()
                 except:
@@ -289,12 +289,12 @@ def signin(request):
 
                 javascript_version = get_cache_version()
 
-                file = open('version' + str(javascript_version) + ".txt", "w+")
+                file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
 
                 #cache airline popular
-                file = open("popular_destination_airline_cache.txt", "r")
+                file = open(var_log_path()+"popular_destination_airline_cache.txt", "r")
                 for line in file:
                     popular_airline = json.loads(line)
                 file.close()
@@ -326,7 +326,7 @@ def signin(request):
                             })
                 popular = popular + avarage
 
-                file = open('airline_destination.txt', "w+")
+                file = open(var_log_path()+"airline_destination.txt", "w+")
                 file.write(json.dumps(popular))
                 file.close()
                 #cache airline popular
