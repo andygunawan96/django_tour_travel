@@ -166,7 +166,6 @@ def passengers(request):
     else:
         return no_session_logout()
 
-
 def review(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
@@ -178,6 +177,7 @@ def review(request):
         adult = []
         child = []
         contact = []
+        printout_paxs = []
         booker = {
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
@@ -199,6 +199,14 @@ def review(request):
                 "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                 "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                 "room_number": '1'
+            })
+            printout_paxs.append({
+                "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
+                    'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                'ticket_number': '',
+                'birth_date': request.POST['adult_birth_date' + str(i + 1)],
+                'pax_type': 'Adult',
+                'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
             })
 
             if i == 0:
@@ -245,6 +253,7 @@ def review(request):
                         "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
                         "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                     })
+
                 if i == 0:
                     if request.POST['myRadios'] == 'yes':
                         contact[len(contact)].update({
@@ -282,6 +291,15 @@ def review(request):
                 "nationality_name": request.POST['child_nationality' + str(i + 1)],
                 "passenger_seq_id": request.POST['child_id' + str(i + 1)],
             })
+            printout_paxs.append({
+                "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST[
+                    'child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                'ticket_number': '',
+                'birth_date': request.POST['child_birth_date' + str(i + 1)],
+                'pax_type': 'Child',
+                'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
+            })
+
 
         request.session['hotel_review_pax'] = {
             'booker': booker,
@@ -289,6 +307,29 @@ def review(request):
             'adult': adult,
             'child': child,
         }
+
+        print_json = json.dumps([{
+            "type": "hotel",
+            "agent_id": 1,
+            "passenger": printout_paxs,
+            "price_detail":[{
+                "fare": rec['price_total'],
+                "name": rec['category'] + ' ' + rec['description'],
+                "total": rec['price_total'],
+                "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax']['child_ages'])),
+                "tax": 0
+            } for rec in request.session['hotel_room_pick']['rooms'] ],
+            "line": [
+               {
+                   "resv": "-",
+                   "checkin": request.session['hotel_request']['checkin_date'],
+                   "checkout": request.session['hotel_request']['checkout_date'],
+                   "meal_type": request.session['hotel_room_pick']['meal_type'],
+                   "room_name": rec['category'] + ' ' + rec['description'],
+                   "hotel_name": request.session['hotel_detail'],
+               }
+           for rec in request.session['hotel_room_pick']['rooms']],
+        }])
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -307,7 +348,8 @@ def review(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'time_limit': request.session['time_limit'],
-            'template': template
+            'template': template,
+            'printout_rec': print_json,
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
