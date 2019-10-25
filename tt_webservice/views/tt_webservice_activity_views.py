@@ -116,7 +116,7 @@ def search(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "search",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -153,7 +153,7 @@ def get_details(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_details",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -189,7 +189,7 @@ def get_pricing(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_pricing",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -207,7 +207,7 @@ def sell_activity(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "sell_activity",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -239,7 +239,7 @@ def update_contact(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "update_contact",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -407,7 +407,7 @@ def update_passengers(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "update_passengers",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -453,8 +453,8 @@ def update_options(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "update_passengers",
-        "signature": request.POST['activity_signature']
+        "action": "update_options",
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -478,7 +478,7 @@ def commit_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "create_booking",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -495,7 +495,7 @@ def get_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_booking",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
@@ -537,7 +537,7 @@ def get_voucher(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_vouchers",
-        "signature": request.POST['activity_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
