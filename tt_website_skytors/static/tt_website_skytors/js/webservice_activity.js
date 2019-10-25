@@ -64,12 +64,12 @@ function activity_login(data){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           $('#loading-search-activity').hide();
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
-          })
-       }, timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity login </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -191,11 +191,11 @@ function activity_search(){
                    get_new = true;
            }else{
               $('#loading-search-activity').hide();
-              Swal.fire({
+                Swal.fire({
                   type: 'error',
-                  title: 'Oops...',
-                  text: 'Something went wrong, please try again or check your connection internet',
-              })
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error activity search </span>' + msg.result.error_msg,
+                })
               text += `
               <div class="col-lg-12">
                   <div style="text-align:center">
@@ -210,11 +210,12 @@ function activity_search(){
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           $('#loading-search-activity').hide();
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
-          })
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity search </span>' + errorThrown,
+            })
+
           text += `
           <div class="col-lg-12">
               <div style="text-align:center">
@@ -269,25 +270,74 @@ function activity_get_detail(uuid){
                    activity_get_price(0, true);
                }else{
                    try{
-                       alert(msg.result.error_msg);
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error activity detail </span>' + msg.result.error_msg,
+                        })
+                      var temp = ``;
+                      temp += `
+                      <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                          <span>No product type available</span>
+                      </label>`;
+                      $('#ticket_type').html(temp);
                    }catch(err){
-                       alert(msg.error_msg);
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error customer list </span>' + msg.error_msg,
+                        })
+                      var temp = ``;
+                      temp += `
+                      <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                          <span>No product type available</span>
+                      </label>`;
+                      $('#ticket_type').html(temp);
                    }
                }
            }catch(err){
                try{
-                   console.log('here')
-                   alert(msg.error_msg);
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error customer list </span>' + msg.error_msg,
+                    })
+                  var temp = ``;
+                  temp += `
+                  <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                      <span>No product type available</span>
+                  </label>`;
+                  $('#ticket_type').html(temp);
                }catch(err){
-                   alert(msg.result.error_msg);
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error activity detail </span>' + msg.result.error_msg,
+                    })
+                  var temp = ``;
+                  temp += `
+                  <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+                      <span>No product type available</span>
+                  </label>`;
+                  $('#ticket_type').html(temp);
                }
            }
 
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity detail </span>' + errorThrown,
+            })
+          var temp = ``;
+          temp += `
+          <label class="btn btn-activity active" style="z-index:1 !important; margin: 0px 5px 5px 0px;" title="`+activity_type[i].name+`" onclick="activity_get_price(`+parseInt(i)+`, false);">
+              <span>No product type available</span>
+          </label>`;
+          $('#ticket_type').html(temp);
+       },timeout: 60000
     });
 }
 
@@ -591,9 +641,13 @@ function activity_get_price_date(activity_type_pick, pricing_days){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity price date </span>' + errorThrown,
+            })
            $('#loading-detail-activity').hide();
-       }
+       },timeout: 60000
    });
 }
 
@@ -631,20 +685,25 @@ function activity_create_booking(){
             document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('activity_booking').submit();
         }else{
-           alert(msg.result.error_msg);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error activity create booking </span>' + msg.result.error_msg,
+            })
+
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your connection internet',
-           })
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity create booking </span>' + errorThrown,
+            })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-       }
+       },timeout: 60000
     });
 }
 
@@ -716,12 +775,20 @@ function update_service_charge(data){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error activity update service charge </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity update service charge </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1171,12 +1238,20 @@ function activity_get_booking(data){
             document.getElementById('activity_detail_table').innerHTML = price_text;
             add_repricing();
         }else{
-            alert(msg.result.error_msg);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error activity booking </span>' + msg.result.error_msg,
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity booking </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1196,12 +1271,20 @@ function activity_get_voucher(order_number){
         if(msg.result.error_code == 0){
             window.open(msg.result.response[0].name,'_blank');
         }else{
-            alert(msg.result.error_msg);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error activity voucher </span>' + msg.result.error_msg,
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity voucher </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
