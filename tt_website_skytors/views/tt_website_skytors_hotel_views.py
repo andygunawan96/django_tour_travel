@@ -70,6 +70,7 @@ def search(request):
 def detail(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
         template, logo = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         request.session['time_limit'] = int(request.POST['time_limit_input'])
