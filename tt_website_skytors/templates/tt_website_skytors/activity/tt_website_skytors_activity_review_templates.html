@@ -26,7 +26,7 @@
     passenger = `{{pax_count}}`;
     passenger = passenger.replace(/&#39;/g,'"');
     passenger = JSON.parse(passenger);
-    signature = `{{signature}}`;
+    activity_signature = `{{signature}}`;
     locations = [];
     images = [];
     {% for i in response.locations %}
@@ -261,7 +261,7 @@
     activity_table_detail2('review');
     $(document).ready(function () {
         breadcrumb_create("activity", 5, 0);
-        get_payment_acq('Issued','{{booker.booker_id}}', '', 'billing',signature,'activity', grand_total);
+        get_payment_acq('Issued','{{booker.booker_id}}', '', 'billing',activity_signature,'activity', grand_total);
     });
 </script>
 {% endblock %}

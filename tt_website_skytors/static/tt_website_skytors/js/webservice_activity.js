@@ -1465,7 +1465,6 @@ function activity_search_autocomplete(term,suggest){
     //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: {
                 'name':term,
-                'signature': activity_signature
            },
            success: function(msg) {
             activity_choices = msg;
