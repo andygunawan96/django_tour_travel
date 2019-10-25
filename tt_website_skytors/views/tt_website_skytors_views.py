@@ -216,6 +216,7 @@ def index(request):
                         'signature': request.session['signature']
                     }
                 except:
+                    request.session.delete()
                     values = {
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'javascript_version': javascript_version,
@@ -247,8 +248,6 @@ def index(request):
             else:
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
-                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                    'countries': airline_country,
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'static_path_url_server': get_url_static_path(),
