@@ -116,7 +116,7 @@
                                 </span>
                                 <br/>
                                 <span style="text-align:justify; font-weight:bold;">Customer Notes: </span><br/>
-                                {{special_request}}<br/>
+                                {{special_request}}{% if special_request == '' %} No Special Request {% endif %}<br/>
                             </div>
                         </div>
 

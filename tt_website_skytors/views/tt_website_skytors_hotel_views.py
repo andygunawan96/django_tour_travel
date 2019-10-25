@@ -308,13 +308,14 @@ def review(request):
             'child': child,
         }
 
-        print_json = json.dumps([{
+        print_json = json.dumps({
             "type": "hotel",
             "agent_id": 1,
             "passenger": printout_paxs,
             "price_detail":[{
                 "fare": rec['price_total'],
                 "name": rec['category'] + ' ' + rec['description'],
+                "qty": 1,
                 "total": rec['price_total'],
                 "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax']['child_ages'])),
                 "tax": 0
@@ -326,10 +327,10 @@ def review(request):
                    "checkout": request.session['hotel_request']['checkout_date'],
                    "meal_type": request.session['hotel_room_pick']['meal_type'],
                    "room_name": rec['category'] + ' ' + rec['description'],
-                   "hotel_name": request.session['hotel_detail'],
+                   "hotel_name": request.session['hotel_detail']['name'],
                }
            for rec in request.session['hotel_room_pick']['rooms']],
-        }])
+        })
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
