@@ -23,12 +23,16 @@ MODEL_NAME = 'tt_website_skytors'
 # Create your views here.
 def index(request):
     javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+    airline_country = response['result']['response']['airline']['country']
     template, logo = get_logo_template()
     try:
         if request.POST['logout']:
             request.session.delete()
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'logo': logo,
@@ -40,6 +44,8 @@ def index(request):
                 request.session.delete()
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
+                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                    'countries': airline_country,
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
                     'logo': logo,
@@ -182,11 +188,12 @@ def index(request):
                     values = {
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'cache': json.dumps(cache),
+                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                        'countries': airline_country,
                         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                         'username': request.session['user_account'],
                         # 'co_uid': request.session['co_uid'],
                         'airline_cabin_class_list': airline_cabin_class_list,
-                        'airline_country': airline_country,
                         'logo': logo,
                         'template': template,
                         #activity
@@ -209,6 +216,8 @@ def index(request):
                 except:
                     values = {
                         'static_path': path_util.get_static_path(MODEL_NAME),
+                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                        'countries': airline_country,
                         'javascript_version': javascript_version,
                         'logo': logo,
                         'static_path_url_server': get_url_static_path(),
@@ -218,6 +227,8 @@ def index(request):
             else:
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
+                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                    'countries': airline_country,
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'static_path_url_server': get_url_static_path(),
@@ -227,6 +238,8 @@ def index(request):
             if request.session.get('user_account'):
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
+                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                    'countries': airline_country,
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'static_path_url_server': get_url_static_path(),
@@ -236,6 +249,8 @@ def index(request):
             else:
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
+                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                    'countries': airline_country,
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'static_path_url_server': get_url_static_path(),
@@ -304,6 +319,8 @@ def admin(request):
                 file.write(text)
                 file.close()
             javascript_version = get_cache_version()
+            response = get_cache_data(javascript_version)
+            airline_country = response['result']['response']['airline']['country']
 
 
             try:
@@ -329,6 +346,8 @@ def admin(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'username': request.session['user_account'],
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
                 'logo': logo,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
@@ -344,6 +363,8 @@ def admin(request):
 def reservation(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         file = open("get_airline_active_carriers.txt", "r")
         for line in file:
@@ -361,6 +382,8 @@ def reservation(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'airline_carriers': new_airline_carriers,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
             'static_path_url_server': get_url_static_path(),
@@ -376,6 +399,8 @@ def reservation(request):
 def top_up(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -384,6 +409,8 @@ def top_up(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
@@ -397,6 +424,8 @@ def top_up(request):
 def top_up_history(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -406,6 +435,8 @@ def top_up_history(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],

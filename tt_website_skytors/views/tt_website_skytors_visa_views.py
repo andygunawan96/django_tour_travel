@@ -20,9 +20,10 @@ MODEL_NAME = 'tt_website_skytors'
 # Create your views here.
 
 def search(request):
-    javascript_version = get_cache_version()
     template, logo = get_logo_template()
-
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+    airline_country = response['result']['response']['airline']['country']
     try:
         visa_request = {
             'destination': request.POST['visa_destination_id'],
@@ -38,6 +39,8 @@ def search(request):
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'visa_request': visa_request,
+        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        'countries': airline_country,
         'signature': request.session['signature'],
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
@@ -128,6 +131,8 @@ def passenger(request):
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
+        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        'countries': airline_country,
         'visa': request.session['visa_search']['result']['response'],
         'passengers': pax,
         'signature': request.session['visa_signature'],
@@ -153,6 +158,7 @@ def review(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
         # get_balance(request)
@@ -313,6 +319,8 @@ def review(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'visa': request.session['visa_search']['result']['response'],
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],
@@ -333,9 +341,8 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
         template, logo = get_logo_template()
-
+        javascript_version = get_cache_version()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
