@@ -2480,17 +2480,22 @@ function airline_pick_mc(type){
                 </div>
 
                 <div class="col-lg-8" style="text-align:right;">
-                    <span id="fare_detail_pick`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`;
+                    <span id="fare_detail_pick`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                    price = 0;
                     for(j in airline_pick_list[i].segments){
                         for(k in airline_pick_list[i].segments[j].fares){
                             if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==fare){
-                                for(l in airline_pick_list[i].segments[j].fares[k].service_charges)
-                                    price+= airline_pick_list[i].segments[j].fares[k].service_charges[l].amount;
+                                for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary)
+                                    for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
+                                            currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+                                            price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                        }
                                 break;
                             }
                         }
                     }
-                    text+=`</span>`;
+                    text+= currency+' '+getrupiah(price)+`</span>`;
                     if(type == 'all'){
                         text+=`
                         <input type='button' id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>
@@ -2632,10 +2637,12 @@ function airline_pick_mc(type){
                                         </label>`;
                                         text+=`<br/>`;
                                         var total_price = 0;
-                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary)
+                                        for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
                                             for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                                 if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc')
                                                     total_price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                            break;
+                                        }
                                         text+=`<span id="journeypick`+i+`segment`+j+`fare`+k+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
                                         text+=`</td>
                                         `;
