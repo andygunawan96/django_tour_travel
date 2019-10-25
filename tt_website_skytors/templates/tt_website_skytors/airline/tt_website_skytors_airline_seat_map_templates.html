@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
@@ -106,6 +107,7 @@ img {vertical-align: middle;}
 }
 </style>
 {% include 'tt_website_skytors/logout.html' %}
+{% include 'tt_website_skytors/plugin_passenger.html' %}
 <header>
     {%if template == 1%}
     <div class="main-menu">

@@ -6,6 +6,7 @@
 <script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
@@ -70,6 +71,7 @@
 </style>
 
 {% include 'tt_website_skytors/header.html' %}
+{% include 'tt_website_skytors/plugin_passenger.html' %}
 <div class="destinations-area" style="margin-bottom:25px;">
     <div class="container">
         <div class="row" style="padding-top:15px; padding-bottom:15px;">

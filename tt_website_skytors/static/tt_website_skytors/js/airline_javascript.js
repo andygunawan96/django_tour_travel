@@ -3293,11 +3293,15 @@ function check_passenger(adult, child, infant){
     error_log = '';
     //check booker jika teropong
     try{
-        if(JSON.stringify(booker_pick_passenger) != '{}')
-            if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
-                document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
-                document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
-                error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'booker'){
+                if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
+                    document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
+                    document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
+                    error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                break;
+            }
+        }
     }catch(err){
 
     }

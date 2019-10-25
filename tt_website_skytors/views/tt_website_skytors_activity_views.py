@@ -27,6 +27,7 @@ def search(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -60,6 +61,8 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'activity_sub_categories': activity_sub_categories,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'activity_categories': activity_categories,
             'activity_types': activity_types,
             'activity_countries': activity_countries,
@@ -87,6 +90,7 @@ def detail(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -99,6 +103,8 @@ def detail(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'response': request.session['activity_search'][int(request.POST['sequence'])],
             'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
             'logo': logo,
@@ -327,6 +333,8 @@ def passenger(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'adult_title': adult_title,
             'infant_title': infant_title,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
             'countries': airline_country,
             'response': request.session['activity_pick'],
@@ -378,6 +386,7 @@ def review(request):
 
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -1111,6 +1120,8 @@ def review(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'additional_price': request.POST['additional_price'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'response': request.session['activity_pick'],
             'perBooking': request.session['activity_perbooking'],
             'perPax': request.session['activity_perpax'],
@@ -1146,7 +1157,6 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
 
         template, logo = get_logo_template()
 

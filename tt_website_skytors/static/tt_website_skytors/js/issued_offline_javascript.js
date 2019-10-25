@@ -726,37 +726,6 @@ function table_issued_offline_history(data){
     }
 }
 
-function radio_button(type,val){
-    var radios = ''
-    if(type == 'booker')
-        radios = document.getElementsByName('radio_booker');
-    else if(type == 'passenger'){
-        radios = document.getElementsByName('radio_passenger'+val);
-    }
-    value = '';
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            value = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
-        }
-    }
-    if(value == 'search' && type == 'booker'){
-        document.getElementById('booker_search').hidden = false;
-        document.getElementById('booker_input').hidden = true;
-    }else if(value == 'create' && type == 'booker'){
-        document.getElementById('booker_search').hidden = true;
-        document.getElementById('booker_input').hidden = false;
-    }else if(value == 'search' && type == 'passenger'){
-        document.getElementById('passenger_search'+val).hidden = false;
-        document.getElementById('passenger_input'+val).hidden = true;
-    }else if(value == 'create' && type == 'passenger'){
-        document.getElementById('passenger_search'+val).hidden = true;
-        document.getElementById('passenger_input'+val).hidden = false;
-    }
-}
-
 function update_contact(type,val){
     if(type == 'booker'){
         if(document.getElementById('booker_title').value != '' && document.getElementById('booker_first_name').value != '' && document.getElementById('booker_last_name').value != '')

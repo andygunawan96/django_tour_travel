@@ -41,6 +41,7 @@ def search(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -51,6 +52,8 @@ def search(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             # 'journeys': journeys,
             'train_request': {
                 'adult': request.POST['train_adult'],
@@ -103,6 +106,7 @@ def passenger(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'adults': adult,
             'adult_count': request.session['train_adult'],
@@ -219,6 +223,7 @@ def review(request):
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'booker': booker,
             'adults': adult,
             'infants': infant,
@@ -242,12 +247,16 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'cabin_class_types': cabin_class_type,
             'order_number': request.POST['order_number'],
             'username': request.session['user_account'],
@@ -265,6 +274,8 @@ def booking(request):
 def seat_map(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -275,6 +286,8 @@ def seat_map(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'paxs': passenger,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'username': request.session['user_account'],
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),

@@ -43,7 +43,6 @@
     //airline_pick = airline_pick.replace(/&amp;/g, '&');
     airline_pick = airline_pick.replace('&&&', ',');
     airline_pick = airline_pick.replace('None', '""');
-    console.log(airline_pick);
     airline_pick = JSON.parse(airline_pick);
     price_itinerary = `{{price}}`;
     price_itinerary = price_itinerary.replace(/&#39;/g, '"');
@@ -68,6 +67,7 @@
     session_time_limit();
 </script>
 {% include 'tt_website_skytors/logout.html' %}
+{% include 'tt_website_skytors/plugin_passenger.html' %}
 {% include 'tt_website_skytors/loading_screen.html' %}
 {%if template == 1%}
 <header id="header">

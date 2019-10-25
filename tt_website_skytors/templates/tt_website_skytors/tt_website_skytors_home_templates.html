@@ -12,6 +12,7 @@
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
@@ -123,6 +124,7 @@
 </style>
 
 {% include 'tt_website_skytors/header.html' %}
+{% include 'tt_website_skytors/plugin_passenger.html' %}
 {% include 'tt_website_skytors/logout.html' %}
 <!-- Search Ticket -->
 {%if template == 1%}
