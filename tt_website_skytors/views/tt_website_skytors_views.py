@@ -290,7 +290,7 @@ def login(request):
 
 def admin(request):
     if 'user_account' in request.session._session:
-        if request.session['user_account']['co_agent_type_name'] == 'HO' or request.session['user_account']['co_agent_type_name'] == 'Agent Citra':
+        if request.session['user_account']['co_agent_type_name'] == 'HO':
             #save
             if request.POST != {}:
                 text = ''
