@@ -130,14 +130,21 @@ function get_banner(type,page){
             console.log(msg);
             if(msg.result.error_code == 0){
                 document.getElementById(type).innerHTML = '';
-
+                text = '';
                 if(page == 'home'){
+                    for(i in msg.result.response){
+                            text+=`<img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />`;
+                        if(type == 'big_banner'){
 
+                        }else if(type == 'small_banner'){
+
+                        }else if(type == 'promotion'){
+
+                        }
+                    }
                 }else if(page == 'admin'){
-                    text = ''
-
 //                            <img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" style="height:220px;width:auto"/>
-                    for(i in msg.result.response)
+                    for(i in msg.result.response){
                         text += `
                         <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                             <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />
@@ -163,8 +170,9 @@ function get_banner(type,page){
                             </div>
                         </div>
                         `;
-                    document.getElementById(type).innerHTML = text;
+                    }
                 }
+                document.getElementById(type).innerHTML = text;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -253,6 +261,4 @@ function handleFileSelect_promotionbanner(e) {
         reader.readAsDataURL(f);
 
     });
-
-
 }

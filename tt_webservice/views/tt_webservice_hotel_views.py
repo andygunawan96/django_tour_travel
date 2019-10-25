@@ -121,7 +121,7 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = open("hotel_cache_data.txt", "r")
+        file = open(var_log_path()+"hotel_cache_data.txt", "r")
         for line in file:
             record_cache = json.loads(line)
         file.close()
@@ -390,7 +390,7 @@ def create_booking(request):
             'kwargs': {
                 'force_issued': 'False'
             },
-            'special_request': request.POST['special_request'],
+            'special_request': request.session['hotel_request']['special_request'],
             'resv_name': '',
             'os_res_no': '',
             'journeys_booking': ''

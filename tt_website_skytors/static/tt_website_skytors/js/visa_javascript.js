@@ -11,29 +11,33 @@ function visa_autocomplete(type){
 
 function get_consulate(type){
     consulate_box = document.getElementById('visa_consulate_id');
-    if(consulate_box.options.length > 1)
-        for(i = consulate_box.options.length - 1 ; i >= 0 ; i--){
-            consulate_box.remove(i);
-        }
-    for(i in visa_config){
-        if(document.getElementById('visa_destination_id_hidden').value == i){
-            for(j in visa_config[i]){
-                var node = document.createElement("option");
-                node.text = visa_config[i][j];
-                node.value = visa_config[i][j];
-                if(j == 0 && type == 'home'){
-                    node.setAttribute('selected', 'selected');
-                    document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
-                }else if(type == 'search'){
-                    if(visa_request['consulate'] == visa_config[i][j]){
+    try{
+        if(consulate_box.options.length > 1)
+            for(i = consulate_box.options.length - 1 ; i >= 0 ; i--){
+                consulate_box.remove(i);
+            }
+        for(i in visa_config){
+            if(document.getElementById('visa_destination_id_hidden').value == i){
+                for(j in visa_config[i]){
+                    var node = document.createElement("option");
+                    node.text = visa_config[i][j];
+                    node.value = visa_config[i][j];
+                    if(j == 0 && type == 'home'){
                         node.setAttribute('selected', 'selected');
                         document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                    }else if(type == 'search'){
+                        if(visa_request['consulate'] == visa_config[i][j]){
+                            node.setAttribute('selected', 'selected');
+                            document.getElementById('visa_consulate_id_hidden').value = visa_config[i][j];
+                        }
                     }
+                    consulate_box.add(node);
                 }
-                consulate_box.add(node);
-            }
 
+            }
         }
+    }catch(err){
+
     }
 }
 
@@ -403,6 +407,19 @@ function visa_check_search(){
 function check_passenger(adult, child, infant){
     //booker
     error_log = '';
+    try{
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'booker'){
+                if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
+                    document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
+                    document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
+                    error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                break;
+            }
+        }
+    }catch(err){
+
+    }
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,

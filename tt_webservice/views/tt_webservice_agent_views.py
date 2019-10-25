@@ -53,6 +53,15 @@ def api_models(request):
             res = get_agent_passenger(request)
         elif req_data['action'] == 'get_customer_list':
             res = get_customer_list(request)
+        elif req_data['action'] == 'create_customer':
+            res = create_customer(request)
+        elif req_data['action'] == 'add_passenger_cache':
+            res = add_passenger_cache(request)
+        elif req_data['action'] == 'del_passenger_cache':
+            res = del_passenger_cache(request)
+        elif req_data['action'] == 'get_passenger_cache':
+            res = get_passenger_cache(request)
+
         elif req_data['action'] == 'get_agent_booking':
             res = get_agent_booking(request)
         elif req_data['action'] == 'get_top_up_history':
@@ -165,7 +174,7 @@ def signin(request):
                 res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
                 try:
                     if res_cache_hotel['result']['error_code'] == 0:
-                        file = open('hotel_cache_data.txt', "w+")
+                        file = open(var_log_path()+"hotel_cache_data.txt", "w+")
                         file.write(res_cache_hotel['result']['response'])
                         file.close()
                 except:
@@ -238,7 +247,7 @@ def signin(request):
                 res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
                 try:
                     if res_cache_activity['result']['error_code'] == 0:
-                        file = open('activity_cache_data.txt', "w+")
+                        file = open(var_log_path()+"activity_cache_data.txt", "w+")
                         file.write(json.dumps(res_cache_activity['result']['response']))
                         file.close()
                 except:
@@ -280,12 +289,12 @@ def signin(request):
 
                 javascript_version = get_cache_version()
 
-                file = open('version' + str(javascript_version) + ".txt", "w+")
+                file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
 
                 #cache airline popular
-                file = open("popular_destination_airline_cache.txt", "r")
+                file = open(var_log_path()+"popular_destination_airline_cache.txt", "r")
                 for line in file:
                     popular_airline = json.loads(line)
                 file.close()
@@ -317,7 +326,7 @@ def signin(request):
                             })
                 popular = popular + avarage
 
-                file = open('airline_destination.txt', "w+")
+                file = open(var_log_path()+"airline_destination.txt", "w+")
                 file.write(json.dumps(popular))
                 file.close()
                 #cache airline popular
@@ -437,8 +446,134 @@ def get_customer_list(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def create_customer(request):
+    try:
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        passenger = []
+        pax = json.loads(request.POST['passenger'])
+        if pax['nationality_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
 
+        if pax['identity_country_of_issued_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['identity_country_of_issued_name'] == country['name']:
+                    pax['identity_country_of_issued_code'] = country['code']
+                    break
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                pax['birth_date'].split(' ')[0]),
+        })
+        if pax['identity_expdate'] != '':
+            pax.update({
+                'identity_expdate': '%s-%s-%s' % (
+                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                    pax['identity_expdate'].split(' ')[0])
+            })
+            pax['identity'] = {
+                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                "identity_expdate": pax.pop('identity_expdate'),
+                "identity_number": pax.pop('identity_number'),
+                "identity_type": 'passport',
+            }
+        else:
+            pax.pop('identity_country_of_issued_name')
+            pax.pop('identity_expdate')
+            pax.pop('identity_number')
+        passenger.append(pax)
 
+        data = {
+            'passengers': passenger
+        }
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "create_customer",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+
+            logging.getLogger("info_logger").info("CREATE CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error(str(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def add_passenger_cache(request):
+    check = 0
+    if 'cache_passengers' in request.session._session:
+        passengers = request.session['cache_passengers']
+        add_pax = json.loads(request.POST['passenger'])
+        for pax in passengers:
+            if pax['seq_id'] == add_pax['seq_id']:
+                check = 1
+        if check == 0:
+            passengers.append(add_pax)
+    else:
+        passengers = [json.loads(request.POST['passenger'])]
+    request.session['cache_passengers'] = passengers
+    if check == 0:
+        res = {
+            'result': {
+                'error_msg': 'Success',
+                'error_code': 0,
+                'response': ''
+            }
+        }
+    else:
+        res = {
+            'result': {
+                'error_msg': 'Error, Already add this passenger',
+                'error_code': 1,
+                'response': ''
+            }
+        }
+    return res
+
+def del_passenger_cache(request):
+    passenger = request.session['cache_passengers']
+    passenger.pop(int(request.POST['index']))
+    request.session['cache_passengers'] = passenger
+    res = {
+        'result': {
+            'error_msg': '',
+            'error_code': 0,
+            'response': passenger
+        }
+    }
+    return res
+
+def get_passenger_cache(request):
+    if 'cache_passengers' in request.session._session:
+        res = {
+            'result': {
+                'error_msg': '',
+                'error_code': 0,
+                'response': request.session['cache_passengers']
+            }
+        }
+        return res
+    else:
+        res = {
+            'result': {
+                'error_msg': '',
+                'error_code': 0,
+                'response': []
+            }
+        }
+        return res
 #BACKEND GA PAKE
 
 def get_agent_booking(request):

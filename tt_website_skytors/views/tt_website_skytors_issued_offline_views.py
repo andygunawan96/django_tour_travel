@@ -25,7 +25,7 @@ def issued_offline(request):
 
         template, logo = get_logo_template()
 
-        file = open("airline_destination.txt", "r")
+        file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
             airline_destinations = json.loads(line)
         file.close()
@@ -65,6 +65,7 @@ def issued_offline_history(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -73,6 +74,8 @@ def issued_offline_history(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'logo': logo,

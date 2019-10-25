@@ -12,6 +12,7 @@
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
@@ -123,8 +124,15 @@
 </style>
 
 {% include 'tt_website_skytors/header.html' %}
+{% if username != null %}
+{% include 'tt_website_skytors/plugin_passenger.html' %}
 {% include 'tt_website_skytors/logout.html' %}
+{% endif %}
 <!-- Search Ticket -->
+
+<div id="big_banner"></div>
+<div id="small_banner"></div>
+<div id="promotion"></div>
 {%if template == 1%}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:100px; z-index:1; position:relative;">
     <div class="container">

@@ -50,6 +50,7 @@ def search(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -84,6 +85,8 @@ def search(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'tour_countries': tour_countries,
             'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
             'dest_country': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
@@ -105,6 +108,7 @@ def detail(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
 
@@ -118,6 +122,8 @@ def detail(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
@@ -174,9 +180,10 @@ def passenger(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'adult_title': adult_title,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'infant_title': infant_title,
             'child_title': child_title,
-            'countries': airline_country,
             'username': request.session['user_account'],
             'tour_data': request.session['tour_pick'],
             'adults': adult,
@@ -282,6 +289,7 @@ def review(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
+        airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -289,6 +297,8 @@ def review(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
             'tour_data': request.session['tour_pick'],
             'price_itinerary': {
                 'adult_amount': int(request.POST['adult_amount'].replace(',', '')),
@@ -452,8 +462,6 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
-
         template, logo = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:

@@ -716,11 +716,15 @@ function check_passenger(adult, senior, child, infant){
     error_log = '';
     //check booker jika teropong
     try{
-        if(JSON.stringify(booker_pick_passenger) != '{}')
-            if(document.getElementById('booker_title').value != booker_pick_passenger.title ||
-                document.getElementById('booker_first_name').value != booker_pick_passenger.first_name ||
-                document.getElementById('booker_last_name').value != booker_pick_passenger.last_name)
-                error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence == 'booker'){
+                if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
+                    document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
+                    document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
+                    error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                break;
+            }
+        }
     }catch(err){
 
     }
@@ -1151,7 +1155,7 @@ function check_passenger(adult, senior, child, infant){
                     }
                     //no regex
                     else if(detail.perPax[j].inputType == 1){
-                        if(document.getElementById('adult_perpax'+i+'_'+perpax_count).value=='')
+                        if(document.getElementById('child_perpax'+i+'_'+perpax_count).value=='')
                             error_log+= 'Please check your '+detail.perPax[j].name+' for child guest '+i+'</br>\n';
                     }else if(detail.perPax[j].inputType == 2){
                         k_item_count = 1
@@ -1379,11 +1383,11 @@ function input_type_change_perpax(val, type, inputType){
     else if(type == 'senior')
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
     if(perpax != ''){
-        additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].price;
-        detail.perPax[val-1].price_pick = detail.perPax[val-1].price;
+        additional_price = additional_price - detail.perPax[inputType-1].price_pick + detail.perPax[inputType-1].price;
+        detail.perPax[inputType-1].price_pick = detail.perPax[inputType-1].price;
     }else{
         additional_price = additional_price - detail.perPax.price_pick;
-        detail.perPax[val-1].price_pick = 0;
+        detail.perPax[inputType-1].price_pick = 0;
     }
     activity_table_detail2();
 }
@@ -1400,11 +1404,11 @@ function input_type11_change_perpax(val, type, inputType){
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
 
     if(perpax != ''){
-        additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].price;
-        detail.perPax[val-1].price_pick = detail.perPax[val-1].price;
+        additional_price = additional_price - detail.perPax[inputType-1].price_pick + detail.perPax[inputType-1].price;
+        detail.perPax[inputType-1].price_pick = detail.perPax[inputType-1].price;
     }else{
-        additional_price = additional_price - detail.perPax[val-1].price_pick;
-        detail.perPax[val-1].price_pick = 0;
+        additional_price = additional_price - detail.perPax[inputType-1].price_pick;
+        detail.perPax[inputType-1].price_pick = 0;
     }
     activity_table_detail2();
 }
@@ -1421,9 +1425,9 @@ function input_type5_change_perpax(val, type, inputType){
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).checked;
 
     if(perpax == true){
-        additional_price += detail.perPax[val-1].price;
+        additional_price += detail.perPax[inputType-1].price;
     }else if(perpax == false){
-        additional_price -= detail.perPax[val-1].price;
+        additional_price -= detail.perPax[inputType-1].price;
     }
     activity_table_detail2();
 }
@@ -1439,10 +1443,12 @@ function input_type1_change_perpax(val, type, inputType){
     else if(type == 'senior')
         perpax = document.getElementById('senior_perpax'+val+'_'+inputType).value;
 
-    for(i in detail.perPax[val-1].items){
-        if(perpax == detail.perPax[val-1].items[i].value){
-            additional_price = additional_price - detail.perPax[val-1].price_pick + detail.perPax[val-1].items[i].price;
-            detail.perPax[val-1].price_pick = detail.perPax[val-1].items[i].price;
+    console.log(detail.perPax);
+    console.log(inputType);
+    for(i in detail.perPax[inputType-1].items){
+        if(perpax == detail.perPax[inputType-1].items[i].value){
+            additional_price = additional_price - detail.perPax[inputType-1].price_pick + detail.perPax[inputType-1].items[i].price;
+            detail.perPax[inputType-1].price_pick = detail.perPax[inputType-1].items[i].price;
             break;
         }
     }
@@ -1460,13 +1466,13 @@ function input_type2_change_perpax(val,val1, type, inputType){
     else if(type == 'senior')
         perpax = 'senior_perpax'+val+'_'+inputType;
 
-    additional_price -= detail.perPax[val-1].price_pick;
-    detail.perPax[val-1].price_pick = 0;
-    for(i in detail.perPax[val-1].items){
+    additional_price -= detail.perPax[inputType-1].price_pick;
+    detail.perPax[inputType-1].price_pick = 0;
+    for(i in detail.perPax[inputType-1].items){
         if(document.getElementById(perpax+'_'+val1).checked == true)
-            detail.perPax[val-1].price_pick += detail.perPax[val-1].items[i].price;
+            detail.perPax[inputType-1].price_pick += detail.perPax[inputType-1].items[i].price;
     }
-    additional_price += additional_price - detail.perPax[val-1].price_pick;
+    additional_price += additional_price - detail.perPax[inputType-1].price_pick;
     activity_table_detail2();
 }
 
