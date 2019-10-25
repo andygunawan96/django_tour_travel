@@ -55,7 +55,6 @@ function activity_login(data){
           'offset': offset
        },
        success: function(msg) {
-           activity_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
            if(data == ''){
                activity_search()
@@ -90,7 +89,7 @@ function activity_search(){
           'sort': 'price_asc',
           'limit': 20,
           'offset': offset,
-          'signature': activity_signature
+          'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -243,7 +242,7 @@ function activity_get_detail(uuid){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'uuid': uuid,
-          'signature': activity_signature
+          'signature': signature
        },
        success: function(msg) {
            try{
@@ -425,7 +424,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
           'provider': activity_type[activity_type_pick].provider_code,
           'pricing_days': pricing_days,
           'startingDate': startingDate,
-          'signature': activity_signature
+          'signature': signature
        },
        success: function(msg) {
            if(msg.result.error_code == 0){
@@ -680,7 +679,7 @@ function update_sell_activity(){
             'action': 'sell_activity',
        },
        data: {
-           'signature': activity_signature
+           'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -718,7 +717,7 @@ function update_contact_activity(){
             'action': 'update_contact',
        },
        data: {
-           'signature': activity_signature
+           'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -756,7 +755,7 @@ function update_passengers_activity(){
             'action': 'update_passengers',
        },
        data: {
-           'signature': activity_signature
+           'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -794,7 +793,7 @@ function update_options_activity(){
             'action': 'update_options',
        },
        data: {
-           'signature': activity_signature
+           'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -834,7 +833,7 @@ function activity_commit_booking(){
        data: {
             'seq_id': payment_acq2[payment_method][selected].seq_id,
             'member': payment_acq2[payment_method][selected].method,
-            'signature': activity_signature
+            'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -960,7 +959,7 @@ function activity_get_booking(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            'order_number': data,
-           'signature': activity_signature
+           'signature': signature
        },
        success: function(msg) {
        act_order_number = data;
@@ -1423,7 +1422,7 @@ function activity_get_voucher(order_number){
        },
        data: {
             'order_number': order_number,
-            'signature': activity_signature
+            'signature': signature
        },
        success: function(msg) {
        console.log(msg)
