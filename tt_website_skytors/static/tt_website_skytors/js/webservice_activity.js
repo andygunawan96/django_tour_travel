@@ -530,16 +530,16 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                 text+=`<input type="text" style="margin-bottom: unset;" class="form-control" id="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' name="perbooking`+i+`" />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 7){
                                 //file //pdf
-                                text+=`<input type="file" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name="perbooking`+i+`" id="perbooking`+i+`" style="margin-bottom: unset;"/>`;
+                                text+=`<input type="file" class="form-control" accept="application/JSON, application/pdf" onchange='input_type_change_perbooking(`+i+`)' required="" name="perbooking`+i+`" id="perbooking`+i+`" style="margin-bottom: unset;"/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 8){
                                 //image
-                                text+=`<input type="file" accept="image/*" required="" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' id="perbooking`+i+`" style="margin-bottom: unset;"/>`;
+                                text+=`<input type="file" class="form-control" accept="image/*" required="" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' id="perbooking`+i+`" style="margin-bottom: unset;"/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 9){
                                 //address no validation maybe from bemyguest
                                 text+=`<input class="form-control" type='text' id="perbooking`+i+`" name="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' style='display:block; margin-bottom: unset;'/>`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 10){
                                 //time validation
-                                text+=`<input type="time" style="width:100%;height:20px;" id="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' name="perbooking`+i+`" />`;
+                                text+=`<input type="time" class="form-control" style="margin-bottom: unset;" id="perbooking`+i+`" onchange='input_type_change_perbooking(`+i+`)' name="perbooking`+i+`" />`;
                             }else if(activity_type[activity_type_pick].options.perBooking[i].inputType == 11){
                                 //datetime validation
                                 text+=`<input class="form-control" type="text" id="perbooking`+i+`" onchange='input_type11_change_perbooking(`+i+`)' name="perbooking`+i+`" style="margin-bottom: unset;"/>`;
@@ -1004,6 +1004,15 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                }
+                else if(msg.result.response.status == 'fail_issued'){
+                    conv_status = 'Fail Issued';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
                 }
                 else{
                     conv_status = 'Pending';

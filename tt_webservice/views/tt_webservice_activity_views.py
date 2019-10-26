@@ -443,12 +443,16 @@ def update_options(request):
                         break
             item.pop('name')
 
+    upload_val = request.session['activity_review_booking']['upload_value']
+    for upl in upload_val:
+        upl.pop('name')
+
     data = {
         "option": {
             "perBooking": perbooking,
             "perPax": perpax
         },
-        "upload_value": request.session['activity_review_booking']['upload_value'],
+        "upload_value": upload_val,
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",

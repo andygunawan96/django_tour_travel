@@ -264,7 +264,7 @@ def passenger(request):
                 elif perbooking['inputType'] == 7:
                     upload.append({
                         "uuid": perbooking['uuid'],
-                        "value": base64.b64encode(request.FILES['perbooking' + + str(idx)].read()),
+                        "value": base64.b64encode(request.FILES['perbooking' + str(idx)].read()),
                         "name": perbooking['name'],
                         "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[0]
                     })
@@ -272,7 +272,7 @@ def passenger(request):
                 elif perbooking['inputType'] == 8:
                     upload.append({
                         "uuid": perbooking['uuid'],
-                        "value": base64.b64encode(request.FILES['perbooking' + + str(idx)].read()),
+                        "value": base64.b64encode(request.FILES['perbooking' + str(idx)].read()),
                         "name": perbooking['name'],
                         "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[0]
                     })
@@ -489,24 +489,18 @@ def review(request):
                         # upload
                         upload.append({
                             "uuid": perpax['uuid'],
-                            "value": base64.b64encode(
-                                request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()),
+                            "value": base64.b64encode(request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
                             "name": perpax['name'],
-                            "type":
-                                request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[
-                                    0]
+                            "type":request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[0]
                         })
                         print('a')
                     elif perpax['inputType'] == 8:
                         # upload
                         upload.append({
                             "uuid": perpax['uuid'],
-                            "value": base64.b64encode(
-                                request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()),
+                            "value": base64.b64encode(request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
                             "name": perpax['name'],
-                            "type":
-                                request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[
-                                    0]
+                            "type":request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[0]
                         })
                         print('a')
                     elif perpax['inputType'] == 9:
@@ -747,7 +741,7 @@ def review(request):
                             "uuid": perpax['uuid'],
                             "value": base64.b64encode(request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].read()),
                             "name": perpax['name'],
-                            "type":request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[0]
+                            "type": request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[0]
                         })
                         print('a')
                     elif perpax['inputType'] == 8:
@@ -937,7 +931,7 @@ def review(request):
                             "uuid": perpax['uuid'],
                             "value": base64.b64encode(request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].read()),
                             "name": perpax['name'],
-                            "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[0]
+                            "type":request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[0]
                         })
                         print('a')
                     elif perpax['inputType'] == 9:
