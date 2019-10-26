@@ -47,7 +47,7 @@ def search(request):
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'countries': response['result']['response']['airline']['country'],
+            # 'countries': response['result']['response']['airline']['country'],
             # 'hotel_config': response['result']['response']['hotel_config'],
             'hotel_search': request.session['hotel_request'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -320,7 +320,7 @@ def review(request):
 
         print_json = json.dumps({
             "type": "hotel",
-            "agent_id": 1,
+            "agent_name": request.session._session['user_account']['co_agent_name'],
             "passenger": printout_paxs,
             "price_detail":[{
                 "fare": rec['price_total'],
