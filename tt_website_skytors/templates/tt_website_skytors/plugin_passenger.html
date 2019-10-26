@@ -25,7 +25,7 @@
                 <h4 class="modal-title" style="color:white;">Passenger <i class="fas fa-address-card"></i></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body" style="overflow-y:auto;height:300px;">
+            <div class="modal-body">
                 <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                     <label class="radio-button-custom">
                         <span style="font-size:14px;">Search</span>
@@ -46,11 +46,11 @@
                 <div id="booker_search">
                     <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
                     <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('booker','','cache')">Search</button>
-                    <div id="search_result" style="overflow:auto;height:200px;">
+                    <div id="search_result" style="height:70vh;">
 
                     </div>
                 </div>
-                <div class="col-lg-12" id="booker_input" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                <div class="col-lg-12" id="booker_input" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;">
                         <div class="row">
                             <div class="col-lg-6 col-xs-6">
@@ -68,7 +68,7 @@
                             </div>
                             <div class="col-lg-6" style="margin-top:auto;">
                                 <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_passenger"><i class="fas fa-info-circle"></i></button>
-                                <div class="modal fade" id="myModalHelp_passenger" role="dialog">
+                                <div class="modal fade" id="myModalHelp_passenger">
                                     <div class="modal-dialog">
 
                                         <!-- Modal content-->
@@ -154,7 +154,7 @@
                                     <span>Identity Attachment</span><br/>
                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">Upload Image</button>
                                     <!-- Modal -->
-                                    <div class="modal fade" id="myModal_attachment" role="dialog" data-keyboard="false">
+                                    <div class="modal fade" id="myModal_attachment" data-keyboard="false">
                                         <div class="modal-dialog">
 
                                           <!-- Modal content-->
@@ -248,9 +248,6 @@
                 </div>
                 <div class="col-lg-12" id="booker_chosen" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
