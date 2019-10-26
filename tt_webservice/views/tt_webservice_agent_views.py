@@ -295,9 +295,7 @@ def signin(request):
 
                 #cache airline popular
                 file = open(var_log_path()+"popular_destination_airline_cache.txt", "r")
-                for line in file:
-                    if line != '\n':
-                        popular_airline = json.loads(line)
+                popular_airline = json.loads(file.read())
                 file.close()
                 popular = []
                 average = []
