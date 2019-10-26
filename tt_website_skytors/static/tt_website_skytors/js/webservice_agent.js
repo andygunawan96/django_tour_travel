@@ -271,10 +271,15 @@ function create_new_passenger(){
                                 document.getElementById('passenger_birth_date').value = '';
                                 document.getElementById('passenger_phone').value = '';
                                 document.getElementById('passenger_email').value = '';
-                                document.getElementById('passenger_passport_number').value = '';
-                                document.getElementById('passenger_passport_expired_date').value = '';
-                                document.getElementById('passenger_country_of_issued').value = '';
-                                document.getElementById('passenger_country_of_issued_id').value = '';
+                                document.getElementById('passenger_identity').value = '';
+                                $('#passenger_identity').niceSelect('update');
+                                document.getElementById('passenger_identity_number').value = '';
+                                document.getElementById('passenger_identity_expired_date').value = '';
+                                document.getElementById('passenger_identity_country_of_issued').value = '';
+                                document.getElementById('select2-passenger_identity_country_of_issued_id-container').value = '';
+                                document.getElementById('passenger_identity_country_of_issued_id').value = '';
+                                document.getElementById('files_attachment').value = '';
+                                document.getElementById('selectedFiles_attachment').value = '';
                             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                                 logout();
                             }else{
@@ -1847,8 +1852,8 @@ function get_passenger_cache(){
             if(msg.result.response.length != 0){
                 response+=`
                 <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                <div style="overflow:auto;height:300px;margin-top:10px;">
-                <table style="width:100%" id="list-of-passenger">
+                <div style="overflow:auto;width:60vh;margin-top:10px;">
+                <table style="height:100%" id="list-of-passenger">
                     <tr>
                         <th style="width:10%;">No</th>`;
                         if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
