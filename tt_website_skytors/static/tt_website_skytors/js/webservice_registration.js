@@ -30,13 +30,21 @@ function submit_agent_registration(){
                 text+=getrupiah(msg.result.response.registration_fee)+`</label><br/>`;
                 $("#result_data_id").html(text);
             }else{
-                alert('Oops..', msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error submit agent registration </span>' + msg.result.error_msg,
+                })
             }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error submit agent registration </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -74,8 +82,12 @@ function agent_register_get_config(){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error agent registration config </span>' + errorThrown,
+            })
+       },timeout: 180000
     });
 }
 
@@ -96,8 +108,12 @@ function agent_register_get_requirement_list_doc(){
             requirement_document = msg.result.response;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -252,7 +268,11 @@ function check_registration(){
     if(error_log == ''){
         document.getElementById('agent_registration').submit();
     }else{
-        alert(error_log);
+         Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: #ff9900;">Error </span>' + error_log,
+        })
     }
 }
 

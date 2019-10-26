@@ -63,10 +63,13 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             document.getElementById('payment_acq').hidden = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
-
 }
 
 function set_payment(val, type){
@@ -269,11 +272,19 @@ function testing_bca(){
         if(msg == 0){
             gotoForm();
         }else{
-            alert('Wrong Username or Password !');
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              text: 'Please input correct username or password',
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error bca </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }

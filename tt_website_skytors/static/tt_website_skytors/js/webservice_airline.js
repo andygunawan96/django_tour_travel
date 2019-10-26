@@ -129,12 +129,12 @@ function airline_signin(data){
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
 
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline signin </span>' + errorThrown,
             })
-       },timeout: 30000
+       },timeout: 60000
     });
 
 }
@@ -275,13 +275,12 @@ function get_carrier_code_list(type, val){
                document.getElementById('provider_flight_content'+val).innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-          })
-
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline carrier code list </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 
 }
@@ -303,10 +302,10 @@ function get_provider_list(){
            carrier_to_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline provider list </span>' + errorThrown,
             })
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
@@ -321,7 +320,7 @@ function get_provider_list(){
             node.innerHTML = text;
             document.getElementById("airlines_error").appendChild(node);
             node = document.createElement("div");
-       },timeout: 30000
+       },timeout: 60000
     });
 
 }
@@ -494,12 +493,12 @@ function get_airline_config(type, val){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline config </span>' + errorThrown,
             })
-       },timeout: 30000
+       },timeout: 60000
     });
 }
 
@@ -564,7 +563,7 @@ function airline_search(provider,carrier_codes){
                     <img src="/static/tt_website_skytors/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
                     <br/>
                 </div>
-                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try another another flight. </h6></div></center>`;
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
                 var node = document.createElement("div");
                 node.innerHTML = text;
                 document.getElementById("airlines_ticket").appendChild(node);
@@ -632,10 +631,10 @@ function airline_search(provider,carrier_codes){
           $("#waitFlightSearch").hide();
         }
        if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
-           Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops '+errorThrown+' ...',
-              text: 'Something went wrong, please try again or check your internet connection',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline search </span>' + errorThrown,
             })
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
@@ -1375,12 +1374,12 @@ function get_price_itinerary_request(){
            document.getElementById('airline_detail').innerHTML = text;
            $('#loading-search-flight').hide();
            $('#choose-ticket-flight').hide();
-           Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline price itinerary request </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1456,7 +1455,7 @@ function get_fare_rules(){
             }catch(err){
 
             }
-       },timeout: 30000
+       },timeout: 60000
     });
 }
 
@@ -1482,22 +1481,26 @@ function airline_sell_journeys(){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline sell journeys </span>' + msg.result.error_msg,
+                })
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
                 $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline sell journeys </span>' + errorThrown,
+            })
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
            $('.loader-rodextrip').fadeOut();
-       },timeout: 30000
+       },timeout: 60000
     });
 
 }
@@ -1521,15 +1524,19 @@ function get_seat_availability(type){
             else if(type == 'request_new_seat' && msg.result.error_code == 0)
                 window.location.href='/airline/seat_map';
             else
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline seat availability </span>' + msg.result.error_msg,
+                })
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline seat availability </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1579,12 +1586,12 @@ function get_seat_map_response(){
             show_seat_map(set_seat_show_segments, true)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline seat map response </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1764,15 +1771,19 @@ function get_ssr_availabilty(type){
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';
             else if(type == 'request_new_ssr')
-                alert(msg.result.error_msg);
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline ssr availability </span>' + msg.result.error_msg,
+                    })
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline ssr availability </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1800,12 +1811,20 @@ function airline_update_passenger(val){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline update passenger </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline update passenger </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1828,16 +1847,20 @@ function airline_update_contact_booker(val){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error Error airline update booker </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error Error airline update booker </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1861,12 +1884,12 @@ function airline_set_ssr(val){
                 airline_commit_booking(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       }, timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline seat ssr </span>' + errorThrown,
+            })
+       }, timeout: 60000
     });
 }
 
@@ -1888,12 +1911,12 @@ function airline_assign_seats(val){
                airline_commit_booking(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline assign seats </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1925,17 +1948,21 @@ function airline_commit_booking(val){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                })
                 window.location.href = "/";
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -2589,17 +2616,21 @@ function airline_get_booking(data){
                         `+msg.result.error_msg+`
                     </div>`;
                 document.getElementById('airline_booking').innerHTML = text;
-               alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline booking </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           $("#show_loading_booking_airline").hide();
           $("#show_error_booking_airline").show();
           Swal.fire({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
+            type: 'error',
+            title: 'Oops!',
+            html: '<span style="color: red;">Error airline booking </span>' + errorThrown,
+          })
        },timeout: 60000
     });
 }
@@ -2676,7 +2707,11 @@ function airline_issued(data){
 //                   //$('.issued-booking-train').removeClass("running");
 //                   document.getElementById('payment_acq').innerHTML = '';
                }else if(msg.result.error_code == 4006){
-                    alert(msg.result.error_msg);
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                    })
                     //modal pop up
 
 //                    booking_price_detail(msg);
@@ -2819,17 +2854,22 @@ function airline_issued(data){
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                }else{
-                    alert(msg.result.error_msg);
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                    })
+
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              Swal.fire({
+                Swal.fire({
                   type: 'error',
-                  title: 'Oops...',
-                  text: 'Something went wrong, please try again or check your internet connection',
-               })
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
+                })
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
            },timeout: 60000
@@ -2880,16 +2920,20 @@ function update_service_charge(data){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
-       },timeout: 30000
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 
 }
@@ -2945,21 +2989,25 @@ function sell_ssrs_after_sales(){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline ssr after sales </span>' + msg.result.error_msg,
+                })
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline ssr after sales </span>' + errorThrown,
+            })
 
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
-       },timeout: 30000
+       },timeout: 60000
     });
 }
 
@@ -2982,21 +3030,25 @@ function assign_seats_after_sales(){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
-                alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline seat after sales </span>' + msg.result.error_msg,
+                })
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          Swal.fire({
+            Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
-           })
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline seat after sales </span>' + errorThrown,
+            })
 
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
-       },timeout: 30000
+       },timeout: 60000
     });
 }
 
@@ -3138,8 +3190,8 @@ function airline_reissued(){
           $("#show_error_booking_airline").show();
           Swal.fire({
               type: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error reissued </span>' + errorThrown,
            })
        },timeout: 60000
     });

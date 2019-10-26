@@ -44,8 +44,12 @@ function get_data_issued_offline(){
            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error data issued offline </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -362,7 +366,12 @@ function check_issued_offline(){
         request["counter_line"] = counter_line;
         issued_offline_signin();
     }else{
-        alert(error_log);
+         Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: #ff9900;">Error </span>' + error_log,
+        })
+
     }
 
 }
@@ -383,8 +392,12 @@ function issued_offline_signin(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -574,8 +587,12 @@ function set_data_issued_offline(){
                 update_booker();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error set data issued offline  </span>' + errorThrown,
+            })
+       },timeout: 120000
     });
 }
 
@@ -683,8 +700,12 @@ function update_booker(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error issued offline update booker </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -742,8 +763,12 @@ function update_passenger(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error issued offline update passenger </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -765,7 +790,12 @@ function commit_booking(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-               alert('Issued Offline number booking: '+msg.result.response.id);
+               Swal.fire({
+                 type: 'success',
+                 title: 'Booking!',
+                 html: 'Issued Offline number booking: ' + msg.result.response.id,
+               })
+
                document.getElementById('transaction_type').value = '';
                document.getElementById('sector').value = '';
                document.getElementById('description').value = '';
@@ -793,8 +823,12 @@ function commit_booking(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error issued offline commit booking </span>' + errorThrown,
+            })
+       },timeout: 180000
     });
 }
 
@@ -820,7 +854,11 @@ function get_history_issued_offline(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error history issued offline </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
