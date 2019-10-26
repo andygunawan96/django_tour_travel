@@ -431,7 +431,7 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
-                        <div style="overflow:auto;height:300px;margin-top:10px;">
+                        <div style="overflow-y:auto;height:60vh;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -530,7 +530,7 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
-                        <div style="overflow:auto;height:300px;margin-top:10px;">
+                        <div style="overflow-y:auto;height:100%;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
