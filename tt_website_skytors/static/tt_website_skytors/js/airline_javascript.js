@@ -1665,7 +1665,7 @@ function sort(airline){
             <img src="/static/tt_website_skytors/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
             <br/>
         </div>
-        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try another another flight. </h6></div></center>`;
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
@@ -2324,7 +2324,7 @@ function sort(airline){
             <img src="/static/tt_website_skytors/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
             <br/>
         </div>
-        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try another another flight. </h6></div></center>`;
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);

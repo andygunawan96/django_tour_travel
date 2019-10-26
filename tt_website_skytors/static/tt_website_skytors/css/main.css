@@ -3413,6 +3413,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     background-size: cover;
 }
 
+/*
 .testimonial-area .owl-dots {
   text-align: center;
   bottom: 5px;
@@ -3444,7 +3445,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   transition: all 0.3s ease 0s;
   background: #f8b600;
 }
-
+*/
 .single-testimonial {
   background-color: #fff;
   padding: 25px 30px 12px 30px;
@@ -7556,7 +7557,7 @@ display: block;
   transition: all .575s;
   position:sticky;
   top:67px;
-  z-index:1000;
+  z-index:900;
 }
 
 .status.on {
@@ -7628,7 +7629,6 @@ display: block;
    border: 1px solid #cdcdcd;
    border-radius:3px;
    color:white;
-   background: #f15a22;
 }
 
 .animate:before {
@@ -7669,8 +7669,8 @@ display: block;
    100% {
        content: 'Airline';
    }
-}*/
-
+}
+*/
 
 .lamp {
 /*   text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,

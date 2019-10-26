@@ -18,8 +18,12 @@ function tour_login(){
            tour_search();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour login </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -126,14 +130,22 @@ function tour_search(){
                if(msg.result.response.length != 0)
                    get_new = true;
            }else{
-               alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error tour search </span>' + msg.result.error_msg,
+                })
             //error
            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour search </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -390,12 +402,20 @@ function tour_get_details(package_id){
                    document.getElementById('flight_details').innerHTML += flight_details_text;
                }
            }else{
-               alert(msg.result.error_msg);
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error tour details </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour details </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -432,12 +452,20 @@ function tour_update_passenger(val, pay_method, pax_list_res)
            }
            else
            {
-               alert("Booking process failed, please try again!");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Booking process failed, please try again! </span>',
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour update passenger </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -483,12 +511,20 @@ function tour_commit_booking(val, result_data)
            }
            else
            {
-               alert("Booking process failed, please try again!");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Booking process failed, please try again! </span>',
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour commit booking </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -524,8 +560,12 @@ function get_payment_rules(id)
            document.getElementById('tour_payment_rules').innerHTML += pay_text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour payment rules </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -551,8 +591,12 @@ function tour_issued_booking(order_number)
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -760,8 +804,12 @@ function tour_get_booking(order_number)
            get_payment_rules(tour_package.id);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour update passenger </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1042,7 +1090,11 @@ function get_price_itinerary(request) {
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }

@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
@@ -14,6 +14,7 @@
     static_path_url_server = '{{static_path_url_server}}'
     locations = [];
     images = [];
+    images_first = "";
     {% for i in response.locations %}
         locations.push({
             'country_name': '{{i.country_name}}',
@@ -23,6 +24,9 @@
     {% endfor %}
     signature = '{{signature}}';
     {% for i in response.images %}
+        {% if forloop.first %}
+            images_first = `{{i.url}}{{i.path}}`;
+        {% endif %}
         images.push({
             'url': '{{i.url}}',
             'path': '{{i.path}}',
@@ -118,23 +122,48 @@
                             </span>
                                     <hr/>
                                 </div>
-                                <div class="col-lg-7 col-md-7">
-                                    {% for i in response.videos %}
-                                    <video width="100%" height="360px" style="background:black;" controls autoplay loop>
-                                        <source src="{{i.url}}" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
-                                    {% endfor %}
-                                </div>
-                                <div class="col-lg-5 col-md-5">
-                                    <div id="activity_carousel" style="object-fit: cover;">
+                                <div class="col-lg-12">
+                                    <div id="activity_carousel">
                                         <div class="owl-carousel-activity-img owl-theme">
+                                            {% for i in response.videos %}
+                                            {% if i.url != "" %}
+                                            <div class="item" style="background: rgba(0,0,0,0.9);">
+                                                <video controls id="video_activity" height="350px" width="100%">
+                                                    <source src="{{i.url}}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                            {% endif %}
+                                            {% endfor %}
+
+
                                             {% for i in response.images %}
-                                            <div class="item" style="background:black;">
-                                                <img class="img-fluid" src="{{i.url}}{{i.path}}" alt="" style="display: block; width: 700px; height:360px; object-fit: contain;">
+                                            <div class="item" style="background: rgba(0,0,0,0.9);">
+                                                <img class="img-fluid" src="{{i.url}}{{i.path}}" alt="" style="display: block; width:100%; height:350px; object-fit: contain;">
                                             </div>
                                             {% endfor %}
                                         </div>
+
+                                        <div class="owl-carousel-activity owl-theme" style="padding-top:15px;">
+                                            {% for i in response.videos %}
+                                            {% if i.url != "" %}
+                                            <div class="item" style="text-align:center;">
+                                                <div class="dark-img" style="cursor:pointer;">
+                                                    <img class="img-fluid owl-current-click" id="video_activity2" style="max-width:100%; height:75px;">
+                                                    <span class="text-block-img" id="icon_video_activity" style="cursor:pointer; color:white; font-size:12px; text-align:center;"></span>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% endfor %}
+
+
+                                            {% for i in response.images %}
+                                            <div class="item" style="text-align:center; cursor:pointer;">
+                                                <img class="img-fluid owl-current-click" src="{{i.url}}{{i.path}}" alt="" style="max-width:100%; height:75px;">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -341,6 +370,8 @@
     $( document ).ready(function() {
         breadcrumb_create("activity", 3, 0);
         activity_get_detail(`{{response.uuid}}`);
+        $("#video_activity").attr("poster", images_first);
+        $("#video_activity2").attr("src", images_first);
 
         $('#product-activity').click(function(e){
             $('html, body').animate({

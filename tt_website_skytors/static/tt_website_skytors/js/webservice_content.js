@@ -20,7 +20,11 @@ function update_banner(){
        contentType:false,
        processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+            })
        }
     });
 }
@@ -105,7 +109,11 @@ function set_inactive_delete_banner(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error inactive delete banner </span>' + errorThrown,
+            })
        }
     });
 }
@@ -132,14 +140,46 @@ function get_banner(type,page){
                 document.getElementById(type).innerHTML = '';
                 text = '';
                 if(page == 'home'){
-                    for(i in msg.result.response){
-                            text+=`<img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />`;
-                        if(type == 'big_banner'){
-
-                        }else if(type == 'small_banner'){
-
-                        }else if(type == 'promotion'){
-
+                    if(type == 'big_banner'){
+                        text+=`<div class="owl-carousel-banner owl-theme">`;
+                        for(i in msg.result.response){
+                            text+=`
+                            <div class="item dark-img">
+                                <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-height:360px;"/>
+                            </div>`;
+                        }
+                        text+=`</div>`;
+                    }else if(type == 'small_banner'){
+                        text+=`
+                        <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="menu-content">
+                                            <div class="title text-center">
+                                                <h2>HOT DEALS</h2>
+                                            </div>
+                                            <br/>
+                                        </div>
+                                        <div class="owl-carousel-suggest owl-theme">`;
+                                        for(i in msg.result.response){
+                                            text+=`
+                                            <div class="item">
+                                                <div class="single-destination relative">
+                                                    <div class="thumb relative">
+                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                        }
+                                        text+=`</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>`;
+                    }else if(type == 'promotion'){
+                        for(i in msg.result.response){
+                            text+=`<center><img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/></center>`;
                         }
                     }
                 }else if(page == 'admin'){
@@ -173,10 +213,91 @@ function get_banner(type,page){
                     }
                 }
                 document.getElementById(type).innerHTML = text;
+                if(page == 'home'){
+                    if(type == 'big_banner'){
+                        $('.owl-carousel-banner').owlCarousel({
+                            loop:true,
+                            nav: true,
+                            rewind: true,
+                            margin: 20,
+                            responsiveClass:true,
+                            dots: false,
+                            lazyLoad:true,
+                            merge: false,
+                            smartSpeed:500,
+                            center: true,
+                            autoHeight: true,
+                            autoWidth: false,
+                            autoplay: false,
+                            autoplayTimeout:8000,
+                            autoplayHoverPause:false,
+                            navText: ['<i class="fas fa-chevron-left owl-wh"/>', '<i class="fas fa-chevron-right owl-wh"/>'],
+                            responsive:{
+                                0:{
+                                    items:1,
+                                    nav:true,
+                                    center: false,
+                                    autoWidth: false,
+                                },
+                                600:{
+                                    items:1,
+                                    nav:true,
+                                    center: false,
+                                    autoWidth: false,
+                                },
+                                1000:{
+                                    items:2,
+                                    nav:true,
+                                }
+                            }
+                        });
+                    }
+                    else if(type == 'small_banner'){
+                        $('.owl-carousel-suggest').owlCarousel({
+                            loop:false,
+                            nav: true,
+                            navRewind:true,
+                            rewind: true,
+                            margin: 20,
+                            items:4,
+                            responsiveClass:true,
+                            dots: true,
+                            merge: false,
+                            lazyLoad:true,
+                            smartSpeed:500,
+                            autoplay: false,
+                            autoplayTimeout:10000,
+                            autoplayHoverPause:false,
+                            navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                            responsive:{
+                                0:{
+                                    items:2,
+                                    nav:true
+                                },
+                                480:{
+                                    items:2,
+                                    nav:true
+                                },
+                                768:{
+                                    items:3,
+                                    nav:true
+                                },
+                                961:{
+                                    items:4,
+                                    nav:true,
+                                }
+                            }
+                        });
+                    }
+                }
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error banner </span>' + errorThrown,
+            })
        }
     });
 }
@@ -209,7 +330,6 @@ function handleFileSelect_bigbanner(e) {
             selDiv_bigbanner.innerHTML += html;
         }
         reader.readAsDataURL(f);
-
     });
 }
 

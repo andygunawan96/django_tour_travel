@@ -54,8 +54,12 @@ function get_visa_config(type){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa config </span>' + errorThrown,
+            })
+       },timeout: 120000
     });
 }
 
@@ -78,8 +82,12 @@ function visa_signin(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -193,8 +201,12 @@ function search_visa(){
             update_table('search');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa search </span>' + errorThrown,
+            })
+       },timeout: 120000
     });
 }
 
@@ -214,8 +226,12 @@ function sell_visa(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa sell </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -260,7 +276,11 @@ function check_hold_booking(){
         visa_hold_booking(1);
     }
     else{
-        alert(error_log);
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">Error check hold booking </span>' + error_log,
+        })
         $('.next-loading').removeClass("running");
         $('.next-loading').prop('disabled', false);
         $('.payment_method').prop('disabled', false).niceSelect('update');
@@ -353,8 +373,12 @@ function update_passenger(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa update passenger </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -377,8 +401,12 @@ function update_contact(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa update search </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -409,8 +437,12 @@ function commit_booking(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa commit booking </span>' + errorThrown,
+            })
+       },timeout: 180000
     });
 }
 
@@ -578,7 +610,11 @@ function visa_get_data(data){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa data </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
