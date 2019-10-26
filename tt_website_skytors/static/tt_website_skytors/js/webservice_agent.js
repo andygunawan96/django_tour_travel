@@ -111,7 +111,7 @@ function create_new_passenger(){
            document.getElementById('passenger_last_name').style['border-color'] = '#EFEFEF';
        }if(document.getElementById('passenger_first_name').value == '' || check_word(document.getElementById('passenger_first_name').value) == false){
            if(document.getElementById('passenger_first_name').value == '')
-               error_log+= 'Please input first name of passenger!\n';
+               error_log+= 'Please input first name of passenger!</br>\n';
            else if(check_word(document.getElementById('passenger_first_name').value) == false)
                error_log+= 'Please use alpha characters first name of passenger passenger '+i+'!\n';
            document.getElementById('passenger_first_name').style['border-color'] = 'red';
@@ -119,7 +119,7 @@ function create_new_passenger(){
            document.getElementById('passenger_first_name').style['border-color'] = '#EFEFEF';
        }if(check_word(document.getElementById('passenger_last_name').value) != true){
            if(check_word(document.getElementById('passenger_last_name').value) == false){
-               error_log+= 'Please use alpha characters last name of passenger!\n';
+               error_log+= 'Please use alpha characters last name of passenger!</br>\n';
                document.getElementById('passenger_last_name').style['border-color'] = 'red';
            }
        }else{
@@ -280,10 +280,19 @@ function create_new_passenger(){
                                 document.getElementById('passenger_identity_country_of_issued_id').value = '';
                                 document.getElementById('files_attachment').value = '';
                                 document.getElementById('selectedFiles_attachment').value = '';
+                                Swal.fire({
+                                   type: 'Success',
+                                   title: 'Created',
+                                   text: '',
+                               })
                             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                                 logout();
                             }else{
-                                alert(msg.result.error_msg);
+                                Swal.fire({
+                                   type: 'error',
+                                   title: 'Oops...',
+                                   text: msg.result.error_msg,
+                               })
                             }
                            },
                            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -302,7 +311,11 @@ function create_new_passenger(){
 
 
        }else{
-           alert(error_log);
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               html: error_log,
+           })
        }
 
     }catch(err){
@@ -1753,6 +1766,12 @@ function add_passenger_cache(sequence){
                type: 'error',
                title: 'Oops...',
                text: msg.result.error_msg,
+           })
+        }else{
+            Swal.fire({
+               type: 'success',
+               title: 'Success',
+               text: 'Passenger chosen',
            })
         }
        },

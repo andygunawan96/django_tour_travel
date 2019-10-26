@@ -471,7 +471,6 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             console.log(msg);
             var result = msg.result.response;
             if (view_type == '0'){
-                // each Room Picking
                 text = '<ul style="list-style-type: disc; margin: 0 15px;">';
                 $text2 += 'Cancellation Policy: \n';
                 if(result.policies.length != 0){
@@ -492,7 +491,6 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 document.getElementById('cancellation_policy_choose').innerHTML = text;
                 hotel_room_pick_button();
             } else if (view_type == '1'){
-                // Passenger Page
                 var text = '<h4>Cancellation Policy</h4>';
                 text += '<b id="js_hotel_name">' + result.hotel_name + '</b><hr/>';
                 text += '<ul style="list-style-type: disc; margin: 0 15px;">';
