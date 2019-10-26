@@ -68,15 +68,15 @@ function set_inactive_delete_banner(){
     //promotion banner
     try{
         for(i=0; i<1000; i++){
-            if(document.getElementById('promotion_banner'+i+'_active').checked == false)
+            if(document.getElementById('promotion'+i+'_active').checked == false)
                 img.push({
-                    'seq_id': document.getElementById('promotion_banner'+i+'_image').getAttribute('value'),
+                    'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'active',
                     'type': 'promotion_banner'
                 })
-            if(document.getElementById('promotion_banner'+i+'_delete').checked == true)
+            if(document.getElementById('promotion'+i+'_delete').checked == true)
                 img.push({
-                    'seq_id': document.getElementById('promotion_banner'+i+'_image').getAttribute('value'),
+                    'seq_id': document.getElementById('promotion'+i+'_image').getAttribute('value'),
                     'action': 'delete',
                     'type': 'promotion_banner'
                 })
