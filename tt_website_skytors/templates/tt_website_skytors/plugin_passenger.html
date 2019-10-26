@@ -44,8 +44,8 @@
                     </label>
                 </div>
                 <div id="booker_search">
-                    <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('booker','','cache')">Search</button>
+                    <input type="text" id="train_passenger_search" placeholder="Search" style="padding:5px;"/>
+                    <button type="button" class="primary-btn" id="passenger_btn_click" style="line-height:34px;" onclick="get_customer_list('passenger','','cache')">Search</button>
                     <div id="search_result" style="height:70vh;">
 
                     </div>
@@ -287,4 +287,14 @@
 		document.querySelector('#files_attachment').addEventListener('change', handleFileSelect_attachment, false);
 		selDiv_attachment = document.querySelector("#selectedFiles_attachment");
 	}
+
+	document.getElementById("train_passenger_search").addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("passenger_btn_click").click();
+      }
+    });
 </script>

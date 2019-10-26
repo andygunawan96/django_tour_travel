@@ -412,20 +412,26 @@ function set_passenger_number(val){
 
 function get_customer_list(passenger, number, product){
     getToken();
-    if(passenger == 'booker'){
+    if(passenger == 'booker' || passenger == 'passenger'){
         $('.loading-booker-train').show();
 
         var minAge = '';
         var maxAge = '';
+        var name = '';
+        if(passenger == 'passenger')
+            name = document.getElementById('train_passenger_search').value;
+        else
+            name = document.getElementById('train_booker_search').value;
         try{
+            name = document.getElementById('train_passenger_search').value;
             minAge = document.getElementById('booker_min_age').value;
             maxAge = document.getElementById('booker_max_age').value;
         }
         catch(err){
 
         }
-
-        if(document.getElementById('train_booker_search').value.length >= 2){
+        if(name.length >= 2){
+            document.getElementById('search_result').innerHTML = '';
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -434,7 +440,7 @@ function get_customer_list(passenger, number, product){
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
-                    'name': document.getElementById('train_booker_search').value,
+                    'name': name,
                     'product': product,
                     'passenger_type': passenger,
                     'minAge': minAge,
@@ -445,7 +451,7 @@ function get_customer_list(passenger, number, product){
                 console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
-                    var like_name_booker = document.getElementById('train_booker_search').value;
+                    var like_name_booker = name;
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
@@ -1867,7 +1873,7 @@ function get_passenger_cache(){
             document.getElementById('booker_chosen').innerHTML = '';
             passenger_data_cache = msg.result.response;
             var response = '';
-            var like_name_booker = document.getElementById('train_booker_search').value;
+            var like_name_booker = document.getElementById('train_passenger_search').value;
             if(msg.result.response.length != 0){
                 response+=`
                 <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
