@@ -2002,7 +2002,7 @@ function pick_passenger_cache(val){
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
     check = 0;
     for(i in passenger_data_pick){
-        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+        if(passenger_data_pick[i].seq_id == passenger_data[val].seq_id)
             check = 1;
     }
     if(check == 0){
@@ -2030,7 +2030,7 @@ function pick_passenger_cache(val){
         }
         try{
             document.getElementById(passenger_pick+'_email'+passenger_pick_number).value = passenger_data_cache[val].email;
-            if(passenger_data[sequence].phones.length != 0){
+            if(passenger_data_cache[val].phones.length != 0){
                 document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = passenger_data_cache[val].phones[passenger_data_cache[val].phones.length -1].calling_code;
                 document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = passenger_data_cache[val].phones[passenger_data_cache[val].phones.length -1].calling_number;
             }
@@ -2038,14 +2038,15 @@ function pick_passenger_cache(val){
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).value = passenger_data_cache[val].birth_date;
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).readOnly = true;
         try{
-            if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
+            if(passenger_data_cache[val].identities.hasOwnProperty('passport') == true){
                 document.getElementById(passenger_pick+'_id_number'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_number;
                 document.getElementById(passenger_pick+'_id_number'+passenger_pick_number).readOnly = true;
-                document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
-                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
-                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).readOnly = true;
                 document.getElementById(passenger_pick+'_exp_date'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_expdate;
                 document.getElementById(passenger_pick+'_exp_date'+passenger_pick_number).readOnly = true;
+                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
+                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).readOnly = true;
+                document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
+
 
             }
         }catch(err){
