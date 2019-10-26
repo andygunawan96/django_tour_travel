@@ -296,10 +296,11 @@ def signin(request):
                 #cache airline popular
                 file = open(var_log_path()+"popular_destination_airline_cache.txt", "r")
                 for line in file:
-                    popular_airline = json.loads(line)
+                    if line != '\n':
+                        popular_airline = json.loads(line)
                 file.close()
                 popular = []
-                avarage = []
+                average = []
                 for country in res_destination_airline['result']['response']:
                     for destination in country['destinations']:
                         try:
@@ -311,20 +312,20 @@ def signin(request):
                                     'country': country['name']
                                 })
                             else:
-                                avarage.append({
+                                average.append({
                                     'name': destination['name'],
                                     'code': destination['code'],
                                     'city': destination['city'],
                                     'country': country['name']
                                 })
                         except:
-                            avarage.append({
+                            average.append({
                                 'name': destination['name'],
                                 'code': destination['code'],
                                 'city': destination['city'],
                                 'country': country['name']
                             })
-                popular = popular + avarage
+                popular = popular + average
 
                 file = open(var_log_path()+"airline_destination.txt", "w+")
                 file.write(json.dumps(popular))
