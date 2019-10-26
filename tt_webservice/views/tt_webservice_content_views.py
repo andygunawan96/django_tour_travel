@@ -119,17 +119,32 @@ def upload_file(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    list_img = []
     for img in imgData:
         data = img
         res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        list_img.append([res['result']['response']['seq_id'], 4])
     try:
-        pass
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': list_img
+            }
+        }
         # request.session['signature'] = res['result']['response']['signature']
         # if func == 'get_config':
         #     get_config(request)
         # elif func == 'register':
         #     register(request)
     except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 

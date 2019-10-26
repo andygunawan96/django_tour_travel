@@ -211,8 +211,6 @@ function handleFileSelect_bigbanner(e) {
         reader.readAsDataURL(f);
 
     });
-
-
 }
 
 function handleFileSelect_smallbanner(e) {

@@ -480,6 +480,7 @@ def create_customer(request):
                 "identity_expdate": pax.pop('identity_expdate'),
                 "identity_number": pax.pop('identity_number'),
                 "identity_type": 'passport',
+                "identity_image": json.loads(request.POST['image_list']) #add 4 delete 3
             }
         else:
             pax.pop('identity_country_of_issued_name')
