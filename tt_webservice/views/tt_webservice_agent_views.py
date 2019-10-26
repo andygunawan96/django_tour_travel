@@ -287,14 +287,8 @@ def signin(request):
                     },
                 })
 
-                javascript_version = get_cache_version()
-
-                file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
-
-                #cache airline popular
-                file = open(var_log_path()+"popular_destination_airline_cache.txt", "r")
+                # cache airline popular
+                file = open(var_log_path() + "popular_destination_airline_cache.txt", "r")
                 popular_airline = json.loads(file.read())
                 file.close()
                 popular = []
@@ -325,9 +319,17 @@ def signin(request):
                             })
                 popular = popular + average
 
-                file = open(var_log_path()+"airline_destination.txt", "w+")
+                file = open(var_log_path() + "airline_destination.txt", "w+")
                 file.write(json.dumps(popular))
                 file.close()
+
+                javascript_version = get_cache_version()
+
+                file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+
+
                 #cache airline popular
         else:
             logging.getLogger("info_logger").info(json.dumps(res))
