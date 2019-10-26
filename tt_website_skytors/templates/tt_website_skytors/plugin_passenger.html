@@ -25,8 +25,8 @@
                 <h4 class="modal-title" style="color:white;">Passenger <i class="fas fa-address-card"></i></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <div class="modal-body">
-                <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+            <div class="modal-body" style="overflow-y:auto;height:300px;">
+                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                     <label class="radio-button-custom">
                         <span style="font-size:14px;">Search</span>
                         <input type="radio" checked="checked" name="radio_booker" value="search" onclick="radio_button('booker');">
@@ -133,31 +133,77 @@
                                     <input type="text" class="form-control date-picker-birth" name="passenger_birth_date" id="passenger_birth_date" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <label>Passport Number</label>
+                            <div class="col-lg-6 col-xs-6">
+                                <label style="color:red">*</label>
+                                <label>Identity Type</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="passenger_passport_number" id="passenger_passport_number" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                    <div class="form-select-2">
+                                        <select id="passenger_identity" name="passenger_identity" class="nice-select-default" onchange="change_identity();">
+                                            <optgroup label="Identity"/>
+                                            <option value=""></option>
+                                            <option value="ktp">KTP</option>
+                                            <option value="sim">SIM</option>
+                                            <option value="passport">PASSPORT</option>
+                                            <option value="other">OTHER</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <label>Passport Expired Date</label>
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <form action="" method="POST" id="form_identity_passenger" enctype="multipart/form-data">
+                                    <span>Identity Attachment</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment">Upload Image</button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="myModal_attachment" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                          <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                    <button type="button" class="close" onclick="close_upload_attachment();">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    Files: <input type="file" id="files_attachment" name="files_attachment" multiple="" accept="image/*"><br>
+
+                                                    <div id="selectedFiles_attachment"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-default" onclick="close_upload_attachment();">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-6" id="number" hidden>
+                                <label id="identity_number">Passport Number</label>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control date-picker-passport" name="passenger_passport_expired_date" id="passenger_passport_expired_date" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                    <input type="text" class="form-control" name="passenger_passport_number" id="passenger_identity_number" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6" id="exp_date" hidden>
+                                <label id="identity_expdate">Passport Expired Date</label>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control date-picker-passport" name="passenger_passport_expired_date" id="passenger_identity_expired_date" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                     <button type="button" class="primary-delete-date" onclick="delete_expired_date('passenger', '')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <label>Country of Issued</label>
+                            <div class="col-lg-6" id="country_of_issued" hidden>
+                                <label id="identity_country_of_issued">Country Of Issued</label>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" name="passenger_country_of_issued_id" style="width:100%;" id="passenger_country_of_issued_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_country_of_issued')" class="nice-select-default">
+                                        <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued_id" style="width:100%;" id="passenger_identity_country_of_issued_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued')" class="nice-select-default">
                                             <option value="">Country Of Issued</option>
                                             {% for country in countries %}
                                             <option value="{{country.name}}">{{country.name}}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <input type="hidden" name="passenger_country_of_issued" id="passenger_country_of_issued" />
+                                    <input type="hidden" name="passenger_identity_country_of_issued" id="passenger_identity_country_of_issued" />
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -238,5 +284,11 @@
     document.getElementById('passenger_nationality').value = document.getElementById('passenger_nationality_id').value;
     document.getElementById('passenger_phone_code').value = document.getElementById('passenger_phone_code_id').value;
 
+    var selDiv_attahcment = "";
 
+	document.addEventListener("DOMContentLoaded", init, false);
+	function init() {
+		document.querySelector('#files_attachment').addEventListener('change', handleFileSelect_attachment, false);
+		selDiv_attachment = document.querySelector("#selectedFiles_attachment");
+	}
 </script>

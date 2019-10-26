@@ -43,7 +43,6 @@ def index(request):
     except:
         try:
             if 'login' not in request.session['user_account']['co_agent_frontend_security']:
-                request.session.delete()
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -216,7 +215,6 @@ def index(request):
                         'signature': request.session['signature']
                     }
                 except:
-                    request.session.delete()
                     values = {
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'javascript_version': javascript_version,
