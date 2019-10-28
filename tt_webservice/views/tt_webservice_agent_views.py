@@ -280,7 +280,7 @@ def signin(request):
                     'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False, #belum di install
                     # 'train': res_origin_train['result']['response'],
                     'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
-                    # 'tour': res_config_tour['result'],
+                    # 'tour': res_config_tour['result']['response'],
                     'airline': {
                         'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
                         'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False
