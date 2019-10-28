@@ -253,8 +253,8 @@
 </div>
 
 <script>
-    $( document ).ready(function() {
-        $('input[name="passenger_birth_date"]').daterangepicker({
+    $(function() {
+       $('input[name="passenger_birth_date"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               maxDate: moment(),
@@ -297,4 +297,18 @@
         document.getElementById("passenger_btn_click").click();
       }
     });
+    try{ // buat halaman passenger
+        document.getElementById("train_booker_search").addEventListener("keyup", function(event) {
+            console.log('asdasdasd');
+            if (event.keyCode === 13) {
+                console.log('asdasdasdasd');
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("booker_search").click();
+              }
+          });
+    }catch(err){
+
+    }
 </script>

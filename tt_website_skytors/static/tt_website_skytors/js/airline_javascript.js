@@ -3301,13 +3301,21 @@ function check_passenger(adult, child, infant){
     //check booker jika teropong
     try{
         for(i in passenger_data_pick){
-            if(passenger_data_pick[i].sequence == 'booker'){
+            if(passenger_data_pick[i].sequence != 'booker'){
+                passenger_check = {
+                    'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+                    'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
+                }
+                if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+                   document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+                   document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+                   error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+           }else if(passenger_data_pick[i].sequence == 'booker'){
                 if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
                     document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
                     document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
                     error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
-                break;
-            }
+           }
         }
     }catch(err){
 
@@ -3376,17 +3384,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
            document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
                 error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
-   for(i in passenger_data_pick){
-        passenger_check = {
-            'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
-            'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
-        }
-        if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
-           document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
-           document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
-           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
-
-    }
    //adult
    for(i=1;i<=adult;i++){
 

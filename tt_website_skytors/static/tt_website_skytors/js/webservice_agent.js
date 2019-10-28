@@ -441,7 +441,6 @@ function get_customer_list(passenger, number, product){
 
         }
         if(name.length >= 2){
-            document.getElementById('search_result').innerHTML = '';
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
