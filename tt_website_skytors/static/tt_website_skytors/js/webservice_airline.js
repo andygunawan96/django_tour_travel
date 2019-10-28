@@ -3774,12 +3774,6 @@ function get_price_itinerary_reissue_request(){
             </div>
         </div>
     </div>
-    <div class="col-lg-12">
-        <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
-
-        </div>
-    </div>
-
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -3807,9 +3801,15 @@ function get_price_itinerary_reissue_request(){
             <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-            <button class="primary-btn" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next">
+            <button class="primary-btn" id="next_reissue" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next">
                 Next
             </button>
+        </div>
+
+        <div class="col-lg-12">
+            <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+
+            </div>
         </div>`;
     text+=`</div>`;
 
@@ -3822,7 +3822,6 @@ function get_price_itinerary_reissue_request(){
 }
 
 function sell_journey_reissue_construct(){
-    console.log(journey);
     Swal.fire({
       title: 'Are you sure want to reissue?',
       type: 'warning',
@@ -3834,6 +3833,7 @@ function sell_journey_reissue_construct(){
         console.log(result);
         if (result.value) {
             if (result.value == true){
+                document.getElementById('next_reissue').disabled = true;
                 $.ajax({
                    type: "POST",
                    url: "/webservice/airline",
@@ -3866,7 +3866,7 @@ function sell_journey_reissue_construct(){
                                success: function(msg) {
                                    console.log(msg);
                                    if(msg.result.error_code == 0){
-                                       get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, '', 'billing',signature,'airline');
+                                       get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, '', 'billing',signature,'airline_reissue');
                                    }
                                },
                                error: function(XMLHttpRequest, textStatus, errorThrown) {
