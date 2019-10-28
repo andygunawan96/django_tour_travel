@@ -286,10 +286,11 @@ function create_new_passenger(){
                                 document.getElementById('passenger_identity_number').value = '';
                                 document.getElementById('passenger_identity_expired_date').value = '';
                                 document.getElementById('passenger_identity_country_of_issued').value = '';
-                                document.getElementById('select2-passenger_identity_country_of_issued_id-container').value = '';
                                 document.getElementById('passenger_identity_country_of_issued_id').value = '';
                                 document.getElementById('files_attachment').value = '';
                                 document.getElementById('selectedFiles_attachment').value = '';
+                                document.getElementById('select2-passenger_identity_country_of_issued_id-container').innerHTML= '';
+
                                 Swal.fire({
                                    type: 'Success',
                                    title: 'Created',
@@ -373,6 +374,7 @@ function radio_button(type,val){
         }else{
             document.getElementById('passenger_search').hidden = true;
         }
+        get_passenger_cache();
     }
     else if(value == 'search' && type == 'booker'){
         document.getElementById('booker_search').hidden = false;
@@ -702,8 +704,8 @@ function pick_passenger(type, sequence, product){
     if(product == 'cache'){
         add_passenger_cache(sequence)
 //        document.getElementById('button_choose_'+sequence).innerHTML = 'Chosen';
-        document.getElementById('search_result').innerHTML = '';
-        document.getElementById('train_booker_search').value = '';
+        document.getElementById('search_result_passenger').innerHTML = '';
+        document.getElementById('train_passenger_search').value = '';
     }else if(type == '' || product == 'issued_offline'){
         if(type == 'Booker'){
             document.getElementById('sub_agent').value = passenger_data[sequence].agent_id.name;
@@ -1923,7 +1925,7 @@ function del_passenger_cache(sequence){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            document.getElementById('booker_chosen').innerHTML = '';
+            document.getElementById('passenger_chosen').innerHTML = '';
             var response = '';
             var like_name_booker = document.getElementById('train_booker_search').value;
             if(msg.result.response.length != 0){
@@ -2096,7 +2098,10 @@ function get_passenger_cache(){
                             else
                                 response+=`<td><button type="button" class="primary-btn-custom" disabled>`+passenger_sequence+`</button></td>`;
                         }
-                        response+=`<td><button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button></td>`;
+                        response+=`<td>
+                                        <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>
+
+                                   </td>`;
 
                         text+=`
                     </tr>`;
@@ -2199,22 +2204,27 @@ function modal_help_pax_hide(){
 }
 
 function change_identity(){
-    if(document.getElementById('passenger_identity').value == 'passport'){
-        document.getElementById('identity_expdate').innerHTML = 'Passport Expired Date';
-        document.getElementById('identity_number').innerHTML = 'Passport Number';
-    }else if(document.getElementById('passenger_identity').value == 'sim'){
-        document.getElementById('identity_expdate').innerHTML = 'SIM Expired Date';
-        document.getElementById('identity_number').innerHTML = 'SIM Number';
-    }else if(document.getElementById('passenger_identity').value == 'ktp'){
-        document.getElementById('identity_expdate').innerHTML = 'KTP Expired Date';
-        document.getElementById('identity_number').innerHTML = 'KTP Number';
-    }else if(document.getElementById('passenger_identity').value == 'other'){
-        document.getElementById('identity_expdate').innerHTML = 'Other Expired Date';
-        document.getElementById('identity_number').innerHTML = 'Other Number';
+    if(document.getElementById('passenger_identity').value != ''){
+        if(document.getElementById('passenger_identity').value == 'passport'){
+            document.getElementById('identity_expdate').innerHTML = 'Passport Expired Date';
+            document.getElementById('identity_number').innerHTML = 'Passport Number';
+        }else if(document.getElementById('passenger_identity').value == 'sim'){
+            document.getElementById('identity_expdate').innerHTML = 'SIM Expired Date';
+            document.getElementById('identity_number').innerHTML = 'SIM Number';
+        }else if(document.getElementById('passenger_identity').value == 'ktp'){
+            document.getElementById('identity_expdate').innerHTML = 'KTP Expired Date';
+            document.getElementById('identity_number').innerHTML = 'KTP Number';
+        }else if(document.getElementById('passenger_identity').value == 'other'){
+            document.getElementById('identity_expdate').innerHTML = 'Other Expired Date';
+            document.getElementById('identity_number').innerHTML = 'Other Number';
+        }
+        document.getElementById('number').hidden = false;
+        document.getElementById('exp_date').hidden = false;
+        document.getElementById('country_of_issued').hidden = false;
+        document.getElementById('form_identity_passenger').hidden = false;
+    }else{
+        document.getElementById('form_identity_passenger').hidden = true;
     }
-    document.getElementById('number').hidden = false;
-    document.getElementById('exp_date').hidden = false;
-    document.getElementById('country_of_issued').hidden = false;
 }
 
 function close_upload_attachment(){

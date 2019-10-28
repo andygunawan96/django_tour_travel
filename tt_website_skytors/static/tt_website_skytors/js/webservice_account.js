@@ -47,11 +47,11 @@ function get_balance(val){
                   </div>`;
           document.getElementById("credit_limit").innerHTML = text;
 
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
-            })
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
+//            })
         }
         get_transactions_notification(val);
        },
@@ -67,11 +67,11 @@ function get_balance(val){
                   </div>`;
           document.getElementById("credit_limit").innerHTML = text;
 
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error balance </span>' + errorThrown,
-            })
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: red;">Error balance </span>' + errorThrown,
+//            })
        },timeout: 60000
     });
 }
