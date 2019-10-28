@@ -522,7 +522,10 @@ function get_customer_list(passenger, number, product){
                     }else{
                         response = '';
                         response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div></center>`;
-                        document.getElementById('search_result').innerHTML = response;
+                        if(passenger == 'passenger')
+                            document.getElementById('search_result_passenger').innerHTML = response;
+                        else
+                            document.getElementById('search_result').innerHTML = response;
                         $('.loading-booker-train').hide();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
