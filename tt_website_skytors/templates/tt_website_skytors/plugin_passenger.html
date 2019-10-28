@@ -29,28 +29,28 @@
                 <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                     <label class="radio-button-custom">
                         <span style="font-size:14px;">Search</span>
-                        <input type="radio" checked="checked" name="radio_booker" value="search" onclick="radio_button('booker');">
+                        <input type="radio" checked="checked" name="radio_passenger_cache" value="search" onclick="radio_button('pax_cache');">
                         <span class="checkmark-radio"></span>
                     </label>
                     <label class="radio-button-custom">
                         <span style="font-size:14px;">Create new passenger</span>
-                        <input type="radio" name="radio_booker" value="create" onclick="radio_button('booker');">
+                        <input type="radio" name="radio_passenger_cache" value="create" onclick="radio_button('pax_cache');">
                         <span class="checkmark-radio"></span>
                     </label>
                     <label class="radio-button-custom">
                         <span style="font-size:14px;">Chosen Passenger</span>
-                        <input type="radio" name="radio_booker" value="chosen" onclick="radio_button('booker');">
+                        <input type="radio" name="radio_passenger_cache" value="chosen" onclick="radio_button('pax_cache');">
                         <span class="checkmark-radio"></span>
                     </label>
                 </div>
-                <div id="booker_search">
+                <div id="passenger_search">
                     <input type="text" id="train_passenger_search" placeholder="Search" style="padding:5px;"/>
                     <button type="button" class="primary-btn" id="passenger_btn_click" style="line-height:34px;" onclick="get_customer_list('passenger','','cache')">Search</button>
                     <div id="search_result_passenger" style="height:70vh;">
 
                     </div>
                 </div>
-                <div class="col-lg-12" id="booker_input" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                <div class="col-lg-12" id="passenger_input" style="overflow:auto;height:70vh;background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                     <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;">
                         <div class="row">
                             <div class="col-lg-6 col-xs-6">
@@ -245,7 +245,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12" id="booker_chosen" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
+                <div class="col-lg-12" id="passenger_chosen" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" hidden>
                 </div>
             </div>
         </div>
@@ -253,8 +253,8 @@
 </div>
 
 <script>
-    $( document ).ready(function() {
-        $('input[name="passenger_birth_date"]').daterangepicker({
+    $(function() {
+       $('input[name="passenger_birth_date"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               maxDate: moment(),
@@ -297,4 +297,18 @@
         document.getElementById("passenger_btn_click").click();
       }
     });
+    try{ // buat halaman passenger
+        document.getElementById("train_booker_search").addEventListener("keyup", function(event) {
+            console.log('asdasdasd');
+            if (event.keyCode === 13) {
+                console.log('asdasdasdasd');
+                // Cancel the default action, if needed
+                event.preventDefault();
+                // Trigger the button element with a click
+                document.getElementById("booker_search").click();
+              }
+          });
+    }catch(err){
+
+    }
 </script>

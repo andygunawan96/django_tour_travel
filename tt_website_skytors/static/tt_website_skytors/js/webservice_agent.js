@@ -343,6 +343,8 @@ function radio_button(type,val){
         radios = document.getElementsByName('radio_booker');
     else if(type == 'passenger'){
         radios = document.getElementsByName('radio_passenger'+val);
+    }else if(type == 'pax_cache'){
+        radios = document.getElementsByName('radio_passenger_cache');
     }
     value = '';
     for (var j = 0, length = radios.length; j < length; j++) {
@@ -353,31 +355,34 @@ function radio_button(type,val){
             break;
         }
     }
-    if(value == 'search' && type == 'booker'){
+    if(type == 'pax_cache'){
+        if(value == 'chosen'){
+            document.getElementById('passenger_chosen').hidden = false;
+        }else{
+            document.getElementById('passenger_chosen').hidden = true;
+        }
+
+        if(value == 'create'){
+            document.getElementById('passenger_input').hidden = false;
+        }else{
+            document.getElementById('passenger_input').hidden = true;
+        }
+
+        if(value == 'search'){
+            document.getElementById('passenger_search').hidden = false;
+        }else{
+            document.getElementById('passenger_search').hidden = true;
+        }
+    }
+    else if(value == 'search' && type == 'booker'){
         document.getElementById('booker_search').hidden = false;
         document.getElementById('booker_input').hidden = true;
-        try{
-            document.getElementById('booker_chosen').hidden = true;
-        }catch(err){
-
-        }
     }else if(value == 'create' && type == 'booker'){
         document.getElementById('booker_search').hidden = true;
         document.getElementById('booker_input').hidden = false;
-        try{
-            document.getElementById('booker_chosen').hidden = true;
-        }catch(err){
-
-        }
     }else if(value == 'chosen' && type == 'booker'){
         document.getElementById('booker_search').hidden = true;
         document.getElementById('booker_input').hidden = true;
-        try{
-            document.getElementById('booker_chosen').hidden = false;
-            get_passenger_cache();
-        }catch(err){
-
-        }
     }else if(value == 'search' && type == 'passenger'){
         document.getElementById('passenger_search'+val).hidden = false;
         document.getElementById('passenger_input'+val).hidden = true;
@@ -441,7 +446,6 @@ function get_customer_list(passenger, number, product){
 
         }
         if(name.length >= 2){
-            document.getElementById('search_result').innerHTML = '';
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -523,7 +527,10 @@ function get_customer_list(passenger, number, product){
                     }else{
                         response = '';
                         response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! User not found!</h6></div></center>`;
-                        document.getElementById('search_result').innerHTML = response;
+                        if(passenger == 'passenger')
+                            document.getElementById('search_result_passenger').innerHTML = response;
+                        else
+                            document.getElementById('search_result').innerHTML = response;
                         $('.loading-booker-train').hide();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -1985,7 +1992,7 @@ function get_passenger_cache(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            document.getElementById('booker_chosen').innerHTML = '';
+            document.getElementById('passenger_chosen').innerHTML = '';
             passenger_data_cache = msg.result.response;
             var response = '';
             var like_name_booker = document.getElementById('train_passenger_search').value;
@@ -2095,11 +2102,11 @@ function get_passenger_cache(){
                     </tr>`;
                 }
                 response+=`</table></div>`;
-                document.getElementById('booker_chosen').innerHTML = response;
+                document.getElementById('passenger_chosen').innerHTML = response;
             }else{
                 response = '';
                 response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! Please select passenger first!</h6></div></center>`;
-                document.getElementById('booker_chosen').innerHTML = response;
+                document.getElementById('passenger_chosen').innerHTML = response;
             }
         }
        },
