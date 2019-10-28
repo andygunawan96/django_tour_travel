@@ -63,10 +63,13 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             document.getElementById('payment_acq').hidden = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
-
 }
 
 function set_payment(val, type){
@@ -241,6 +244,8 @@ function set_price(val, type, product_type){
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_hold_booking(1);" style="width:100%;">Issued Booking<div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+    else if(type == 'airline_reissue')
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_commit_booking(1);" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'hotel_review')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="hotel_issued_alert();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'activity')
@@ -269,11 +274,19 @@ function testing_bca(){
         if(msg == 0){
             gotoForm();
         }else{
-            alert('Wrong Username or Password !');
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              text: 'Please input correct username or password',
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error bca </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }

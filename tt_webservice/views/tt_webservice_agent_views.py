@@ -287,19 +287,12 @@ def signin(request):
                     },
                 })
 
-                javascript_version = get_cache_version()
-
-                file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
-
-                #cache airline popular
-                file = open(var_log_path()+"popular_destination_airline_cache.txt", "r")
-                for line in file:
-                    popular_airline = json.loads(line)
+                # cache airline popular
+                file = open(var_log_path() + "popular_destination_airline_cache.txt", "r")
+                popular_airline = json.loads(file.read())
                 file.close()
                 popular = []
-                avarage = []
+                average = []
                 for country in res_destination_airline['result']['response']:
                     for destination in country['destinations']:
                         try:
@@ -311,24 +304,32 @@ def signin(request):
                                     'country': country['name']
                                 })
                             else:
-                                avarage.append({
+                                average.append({
                                     'name': destination['name'],
                                     'code': destination['code'],
                                     'city': destination['city'],
                                     'country': country['name']
                                 })
                         except:
-                            avarage.append({
+                            average.append({
                                 'name': destination['name'],
                                 'code': destination['code'],
                                 'city': destination['city'],
                                 'country': country['name']
                             })
-                popular = popular + avarage
+                popular = popular + average
 
-                file = open(var_log_path()+"airline_destination.txt", "w+")
+                file = open(var_log_path() + "airline_destination.txt", "w+")
                 file.write(json.dumps(popular))
                 file.close()
+
+                javascript_version = get_cache_version()
+
+                file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+
+
                 #cache airline popular
         else:
             logging.getLogger("info_logger").info(json.dumps(res))

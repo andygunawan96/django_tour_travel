@@ -54,22 +54,28 @@ function signin(){
 
                 Swal.fire({
                   type: 'error',
-                  title: 'Oops...',
+                  title: 'Oops!',
                   text: 'Please input correct username or password',
                 })
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
-           }
+            $('.button-login').prop('disabled', false);
+            $('.button-login').removeClass("running");
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error signin </span>' + errorThrown,
+            })
+           },timeout: 60000
         });
     }else{
         $('.button-login').prop('disabled', false);
         $('.button-login').removeClass("running");
         Swal.fire({
           type: 'error',
-          title: 'Oops...',
-          text: 'Please input username or password',
+          title: 'Oops!',
+          text: 'Please input username and password',
         })
     }
 }
@@ -90,8 +96,12 @@ function get_path_url_server(){ //DEPRECATED
         static_path_url_server = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error url server </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -111,7 +121,7 @@ function create_new_passenger(){
            document.getElementById('passenger_last_name').style['border-color'] = '#EFEFEF';
        }if(document.getElementById('passenger_first_name').value == '' || check_word(document.getElementById('passenger_first_name').value) == false){
            if(document.getElementById('passenger_first_name').value == '')
-               error_log+= 'Please input first name of passenger!\n';
+               error_log+= 'Please input first name of passenger!</br>\n';
            else if(check_word(document.getElementById('passenger_first_name').value) == false)
                error_log+= 'Please use alpha characters first name of passenger passenger '+i+'!\n';
            document.getElementById('passenger_first_name').style['border-color'] = 'red';
@@ -119,7 +129,7 @@ function create_new_passenger(){
            document.getElementById('passenger_first_name').style['border-color'] = '#EFEFEF';
        }if(check_word(document.getElementById('passenger_last_name').value) != true){
            if(check_word(document.getElementById('passenger_last_name').value) == false){
-               error_log+= 'Please use alpha characters last name of passenger!\n';
+               error_log+= 'Please use alpha characters last name of passenger!</br>\n';
                document.getElementById('passenger_last_name').style['border-color'] = 'red';
            }
        }else{
@@ -271,14 +281,28 @@ function create_new_passenger(){
                                 document.getElementById('passenger_birth_date').value = '';
                                 document.getElementById('passenger_phone').value = '';
                                 document.getElementById('passenger_email').value = '';
-                                document.getElementById('passenger_passport_number').value = '';
-                                document.getElementById('passenger_passport_expired_date').value = '';
-                                document.getElementById('passenger_country_of_issued').value = '';
-                                document.getElementById('passenger_country_of_issued_id').value = '';
+                                document.getElementById('passenger_identity').value = '';
+                                $('#passenger_identity').niceSelect('update');
+                                document.getElementById('passenger_identity_number').value = '';
+                                document.getElementById('passenger_identity_expired_date').value = '';
+                                document.getElementById('passenger_identity_country_of_issued').value = '';
+                                document.getElementById('select2-passenger_identity_country_of_issued_id-container').value = '';
+                                document.getElementById('passenger_identity_country_of_issued_id').value = '';
+                                document.getElementById('files_attachment').value = '';
+                                document.getElementById('selectedFiles_attachment').value = '';
+                                Swal.fire({
+                                   type: 'Success',
+                                   title: 'Created',
+                                   text: '',
+                               })
                             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                                 logout();
                             }else{
-                                alert(msg.result.error_msg);
+                                Swal.fire({
+                                   type: 'error',
+                                   title: 'Oops...',
+                                   text: msg.result.error_msg,
+                               })
                             }
                            },
                            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -297,7 +321,11 @@ function create_new_passenger(){
 
 
        }else{
-           alert(error_log);
+           Swal.fire({
+               type: 'error',
+               title: 'Oops...',
+               html: error_log,
+           })
        }
 
     }catch(err){
@@ -394,11 +422,17 @@ function set_passenger_number(val){
 
 function get_customer_list(passenger, number, product){
     getToken();
-    if(passenger == 'booker'){
+    if(passenger == 'booker' || passenger == 'passenger'){
         $('.loading-booker-train').show();
 
         var minAge = '';
         var maxAge = '';
+        var name = '';
+        if(passenger == 'passenger')
+            name = document.getElementById('train_passenger_search').value;
+        else{
+            name = document.getElementById('train_booker_search').value;
+        }
         try{
             minAge = document.getElementById('booker_min_age').value;
             maxAge = document.getElementById('booker_max_age').value;
@@ -406,8 +440,8 @@ function get_customer_list(passenger, number, product){
         catch(err){
 
         }
-
-        if(document.getElementById('train_booker_search').value.length >= 2){
+        if(name.length >= 2){
+            document.getElementById('search_result').innerHTML = '';
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -416,7 +450,7 @@ function get_customer_list(passenger, number, product){
                },
         //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
-                    'name': document.getElementById('train_booker_search').value,
+                    'name': name,
                     'product': product,
                     'passenger_type': passenger,
                     'minAge': minAge,
@@ -427,11 +461,11 @@ function get_customer_list(passenger, number, product){
                 console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
-                    var like_name_booker = document.getElementById('train_booker_search').value;
+                    var like_name_booker = name;
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_booker+` "</h6></div>
-                        <div style="overflow:auto;height:300px;margin-top:10px;">
+                        <div style="overflow-y:auto;height:60vh;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -444,7 +478,21 @@ function get_customer_list(passenger, number, product){
                             <tr>
                                 <td>`+(parseInt(i)+1)+`</td>
                                 <td>
-                                    <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
+                                    <div class="row">
+                                        <div class="col-xs-3">`;
+                                            if(msg.result.response[i].title == "MR"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_mr.png" style="width:100%;">`;
+                                            }
+                                            else if(msg.result.response[i].title == "MRS"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_mrs.png" style="width:100%;">`;
+                                            }
+                                            else if(msg.result.response[i].title == "MS"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_ms.png" style="width:100%;">`;
+                                            }
+                                    response+=`
+                                        </div>
+                                        <div class="col-xs-9">
+                                        <span style="font-weight:600; font-size:14px;">`+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+` </span>`;
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0)
@@ -458,6 +506,7 @@ function get_customer_list(passenger, number, product){
                                         else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                             response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
                                     response+=`
+                                    </div>
                                 </td>`;
     //                            <td>`+msg.response.result[i].booker_type+`</td>
     //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
@@ -465,7 +514,10 @@ function get_customer_list(passenger, number, product){
                             </tr>`;
                         }
                         response+=`</table></div>`;
-                        document.getElementById('search_result').innerHTML = response;
+                        if(passenger == 'passenger')
+                            document.getElementById('search_result_passenger').innerHTML = response;
+                        else
+                            document.getElementById('search_result').innerHTML = response;
                         passenger_data = msg.result.response;
                         $('.loading-booker-train').hide();
                     }else{
@@ -478,14 +530,24 @@ function get_customer_list(passenger, number, product){
                     logout();
                     $('.loading-booker-train').hide();
                 }else{
-                    alert(msg.result.error_msg);
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error customer list </span>' + msg.result.error_msg,
+                    })
+
                     $('.loading-booker-train').hide();
                 }
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                   alert(errorThrown);
-                   $('.loading-booker-train').hide();
-               }
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error customer list </span>' + errorThrown,
+                    })
+
+                  $('.loading-booker-train').hide();
+               },timeout: 60000
             });
         }else{
             $('.loading-booker-train').hide();
@@ -530,7 +592,7 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
-                        <div style="overflow:auto;height:300px;margin-top:10px;">
+                        <div style="overflow-y:auto;height:100%;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -543,7 +605,27 @@ function get_customer_list(passenger, number, product){
                             <tr>
                                 <td>`+(parseInt(i)+1)+`</td>
                                 <td>
-                                    <i class="fas fa-user"></i> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
+                                    <div class="row">
+                                        <div class="col-xs-3">`;
+                                            if(msg.result.response[i].title == "MR"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_mr.png" style="width:100%;">`;
+                                            }
+                                            else if(msg.result.response[i].title == "MRS"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_mrs.png" style="width:100%;">`;
+                                            }
+                                            else if(msg.result.response[i].title == "MS"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_ms.png" style="width:100%;">`;
+                                            }
+                                            else if(msg.result.response[i].title == "MSTR"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_mistr.png" style="width:100%;">`;
+                                            }
+                                            else if(msg.result.response[i].title == "MISS"){
+                                                response+=`<img src="/static/tt_website_skytors/img/user_miss.png" style="width:100%;">`;
+                                            }
+                                    response+=`
+                                        </div>
+                                        <div class="col-xs-9">
+                                        <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0)
@@ -557,6 +639,7 @@ function get_customer_list(passenger, number, product){
                                         else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                             response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
                                     response+=`
+                                    </div>
                                 </td>`;
     //                            <td>`+msg.response.result[i].booker_type+`</td>
     //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
@@ -577,15 +660,23 @@ function get_customer_list(passenger, number, product){
                     logout();
                     $('.loading-pax-train').hide();
                 }else{
-                    alert(msg.result.error_msg);
-                    $('.loading-pax-train').hide();
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error customer list </span>' + msg.result.error_msg,
+                    })
+                   $('.loading-pax-train').hide();
                 }
 
                },
                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                   alert(errorThrown);
-                   $('.loading-pax-train').hide();
-               }
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error customer list </span>' + errorThrown,
+                    })
+                  $('.loading-pax-train').hide();
+               },timeout: 60000
             });
         }else{
             $('.loading-pax-train').hide();
@@ -764,7 +855,7 @@ function pick_passenger(type, sequence, product){
         }else{
             Swal.fire({
               type: 'error',
-              title: 'Oops...',
+              title: 'Oops!',
               text: "You can't choose same person in 1 booking",
           })
         }
@@ -840,7 +931,7 @@ function pick_passenger(type, sequence, product){
         }else{
             Swal.fire({
               type: 'error',
-              title: 'Oops...',
+              title: 'Oops!',
               text: "You can't choose same person in 1 booking",
           })
         }
@@ -916,7 +1007,7 @@ function pick_passenger(type, sequence, product){
         }else{
             Swal.fire({
               type: 'error',
-              title: 'Oops...',
+              title: 'Oops!',
               text: "You can't choose same person in 1 booking",
           })
         }
@@ -992,9 +1083,9 @@ function pick_passenger(type, sequence, product){
         }else{
             Swal.fire({
               type: 'error',
-              title: 'Oops...',
+              title: 'Oops!',
               text: "You can't choose same person in 1 booking",
-          })
+            })
         }
     }
 }
@@ -1006,7 +1097,11 @@ function copy_booker_to_passenger(val,type){
                 document.getElementById('adult_title1').value;
             }catch(err){
                 document.getElementsByName('myRadios')[1].checked = true;
-                alert('Please add passenger first!');
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: "Please add passenger first!",
+                })
             }
         }
         for(i in passenger_data_pick){
@@ -1432,12 +1527,20 @@ function get_agent_booking(type){
                 set_notification(msg.result.response.transport_booking);
             }
         }else{
-            alert('Oops, something when wrong please contact HO !');
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              text: "Oops, something when wrong please contact HO !",
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error agent booking </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1465,12 +1568,20 @@ function get_top_up_history(){
                 table_top_up_history(msg.result.response.top_up);
             }
         }else{
-            alert('Oops, something when wrong please contact HO !');
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              text: "Oops, something when wrong please contact HO !",
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error topup history </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1592,8 +1703,12 @@ function create_top_up(amount, unique_amount){ //DEPRECATED
 //        $('#payment_selection').niceSelect('update');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error create topup </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 
 }
@@ -1628,12 +1743,20 @@ function top_up_payment(){
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
-            alert(msg.result.error_msg);
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error topup payment </span>' + msg.result.error_msg,
+            })
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error topup payment </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1655,8 +1778,12 @@ function get_merchant_info(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error merchant info </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1676,8 +1803,12 @@ function request_va(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error request va </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1697,8 +1828,12 @@ function request_inv_va(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error inv va </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1718,8 +1853,12 @@ function get_voucher(){
         console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error voucher </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
@@ -1748,6 +1887,12 @@ function add_passenger_cache(sequence){
                type: 'error',
                title: 'Oops...',
                text: msg.result.error_msg,
+           })
+        }else{
+            Swal.fire({
+               type: 'success',
+               title: 'Success',
+               text: 'Passenger chosen',
            })
         }
        },
@@ -1843,11 +1988,11 @@ function get_passenger_cache(){
             document.getElementById('booker_chosen').innerHTML = '';
             passenger_data_cache = msg.result.response;
             var response = '';
-            var like_name_booker = document.getElementById('train_booker_search').value;
+            var like_name_booker = document.getElementById('train_passenger_search').value;
             if(msg.result.response.length != 0){
                 response+=`
                 <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> Selected Passenger</h6></div>
-                <div style="overflow:auto;height:300px;margin-top:10px;">
+                <div style="overflow:auto;height:60vh;margin-top:10px;">
                 <table style="width:100%" id="list-of-passenger">
                     <tr>
                         <th style="width:10%;">No</th>`;
@@ -1967,11 +2112,9 @@ function get_passenger_cache(){
 function pick_passenger_cache(val){
     var passenger_pick = document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z ]/g,"");
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
-    console.log(passenger_pick + ' ' + passenger_pick_number);
-    console.log(val);
     check = 0;
     for(i in passenger_data_pick){
-        if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+        if(passenger_data_pick[i].seq_id == passenger_data[val].seq_id)
             check = 1;
     }
     if(check == 0){
@@ -1999,7 +2142,7 @@ function pick_passenger_cache(val){
         }
         try{
             document.getElementById(passenger_pick+'_email'+passenger_pick_number).value = passenger_data_cache[val].email;
-            if(passenger_data[sequence].phones.length != 0){
+            if(passenger_data_cache[val].phones.length != 0){
                 document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = passenger_data_cache[val].phones[passenger_data_cache[val].phones.length -1].calling_code;
                 document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = passenger_data_cache[val].phones[passenger_data_cache[val].phones.length -1].calling_number;
             }
@@ -2007,14 +2150,15 @@ function pick_passenger_cache(val){
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).value = passenger_data_cache[val].birth_date;
         document.getElementById(passenger_pick+'_birth_date'+passenger_pick_number).readOnly = true;
         try{
-            if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
+            if(passenger_data_cache[val].identities.hasOwnProperty('passport') == true){
                 document.getElementById(passenger_pick+'_id_number'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_number;
                 document.getElementById(passenger_pick+'_id_number'+passenger_pick_number).readOnly = true;
-                document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
-                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
-                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).readOnly = true;
                 document.getElementById(passenger_pick+'_exp_date'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_expdate;
                 document.getElementById(passenger_pick+'_exp_date'+passenger_pick_number).readOnly = true;
+                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
+                document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).readOnly = true;
+                document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
+
 
             }
         }catch(err){
