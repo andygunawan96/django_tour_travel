@@ -288,7 +288,7 @@ function create_new_passenger(){
                                 document.getElementById('passenger_identity_country_of_issued').value = '';
                                 document.getElementById('passenger_identity_country_of_issued_id').value = '';
                                 document.getElementById('files_attachment').value = '';
-                                document.getElementById('selectedFiles_attachment').value = '';
+                                document.getElementById('selectedFiles_attachment').innerHTML = '';
                                 document.getElementById('select2-passenger_identity_country_of_issued_id-container').innerHTML= '';
 
                                 Swal.fire({
