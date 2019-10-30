@@ -317,6 +317,10 @@ function render_child_infant_selection(adult_select) {
         option.value = i;
         $infant.appendChild(option);
     }
+    $child.value = 0;
+    $infant.value = 0;
+    $('#'+temp).niceSelect('update');
+    $('#'+temp2).niceSelect('update');
     tour_table_detail();
 }
 
@@ -1348,7 +1352,7 @@ function tour_table_detail()
         $('#btnDeleteRooms').removeClass("hide");
         $('#total-price-container').removeClass("hide");
         var package_id = parseInt(document.getElementById("tour_id").value);
-        for (i=0; i < room_amount; i++)
+        for (i=0; i < room_amount.value; i++)
         {
             temp_room_id = {
                 'id': parseInt(document.getElementById("room_id_"+String(i+1)).value),
