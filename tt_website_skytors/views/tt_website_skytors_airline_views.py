@@ -362,160 +362,28 @@ def ssr(request):
         airline_country = response['result']['response']['airline']['country']
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-        for line in file:
-            carrier = json.loads(line)
+        carrier = json.loads(file.read())
         file.close()
 
         template, logo = get_logo_template()
 
         try:
-            adult = []
-            child = []
-            infant = []
-            contact = []
-            booker = {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_phone_code'],
-                'mobile': request.POST['booker_phone'],
-                'nationality_name': request.POST['booker_nationality'],
-                'booker_seq_id': request.POST['booker_id']
-            }
-            for i in range(int(request.session['airline_request']['adult'])):
-                adult.append({
-                    "pax_type": "ADT",
-                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "title": request.POST['adult_title' + str(i + 1)],
-                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
-                    "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                    "identity_number": request.POST['adult_passport_number' + str(i + 1)],
-                    "identity_type": "passport",
-                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
-                })
-
-                if i == 0:
-                    if request.POST['myRadios'] == 'yes':
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': True,
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': False
-                        })
-                else:
-                    adult[len(adult) - 1].update({
-                        'is_also_booker': False
-                    })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                except:
-                    if i == 0 and request.POST['myRadios'] == 'yes':
-                        continue
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        contact.append({
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_code": request.POST['adult_phone_code' + str(i + 1)],
-                            "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                        })
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_also_booker': True
-                            })
-                        else:
-                            contact[len(contact)].update({
-                                'is_also_booker': False
-                            })
-                except:
-                    pass
-
-            if len(contact) == 0:
-                contact.append({
-                    'title': request.POST['booker_title'],
-                    'first_name': request.POST['booker_first_name'],
-                    'last_name': request.POST['booker_last_name'],
-                    'email': request.POST['booker_email'],
-                    'calling_code': request.POST['booker_phone_code'],
-                    'mobile': request.POST['booker_phone'],
-                    'nationality_name': request.POST['booker_nationality'],
-                    'contact_seq_id': request.POST['booker_id'],
-                    'is_also_booker': True
-                })
-
-            for i in range(int(request.session['airline_request']['child'])):
-                child.append({
-                    "pax_type": "CHD",
-                    "first_name": request.POST['child_first_name' + str(i + 1)],
-                    "last_name": request.POST['child_last_name' + str(i + 1)],
-                    "title": request.POST['child_title' + str(i + 1)],
-                    "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['child_nationality' + str(i + 1)],
-                    "identity_number": request.POST['child_passport_number' + str(i + 1)],
-                    "identity_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['child_country_of_issued' + str(i + 1)],
-                    "passenger_seq_id": request.POST['child_id' + str(i + 1)],
-                    "identity_type": "passport",
-                })
-
-            for i in range(int(request.session['airline_request']['infant'])):
-                infant.append({
-                    "pax_type": "INF",
-                    "first_name": request.POST['infant_first_name' + str(i + 1)],
-                    "last_name": request.POST['infant_last_name' + str(i + 1)],
-                    "title": request.POST['infant_title' + str(i + 1)],
-                    "birth_date": request.POST['infant_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['infant_nationality' + str(i + 1)],
-                    "identity_number": request.POST['infant_passport_number' + str(i + 1)],
-                    "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
-                    "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
-                    "identity_type": "passport",
-
-                })
-
-            request.session['airline_create_passengers'] = {
-                'booker': booker,
-                'adult': adult,
-                'child': child,
-                'infant': infant,
-                'contact': contact
-            }
             passenger = []
-            for pax in adult:
+            for pax in request.session['airline_create_passengers']['adult']:
                 passenger.append(pax)
-            for pax in child:
+            for pax in request.session['airline_create_passengers']['child']:
                 passenger.append(pax)
-
+            additional_price_input = ''
+            additional_price = request.POST['additional_price_input'].split(',')
+            for i in additional_price:
+                additional_price_input += i
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'seat_map': request.session['airline_get_seat_availability']['result']['error_code'],
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'additional_price': float(additional_price_input),
                 'airline_carriers': carrier,
                 # 'airline_destinations': airline_destinations,
                 'airline_pick': request.session['airline_pick'],
@@ -648,147 +516,6 @@ def seat_map(request):
 
         ssr = []
 
-        #pax
-        try:
-            adult = []
-            child = []
-            infant = []
-            contact = []
-            booker = {
-                'title': request.POST['booker_title'],
-                'first_name': request.POST['booker_first_name'],
-                'last_name': request.POST['booker_last_name'],
-                'email': request.POST['booker_email'],
-                'calling_code': request.POST['booker_phone_code'],
-                'mobile': request.POST['booker_phone'],
-                'nationality_name': request.POST['booker_nationality'],
-                'booker_seq_id': request.POST['booker_id']
-            }
-            for i in range(int(request.session['airline_request']['adult'])):
-                adult.append({
-                    "pax_type": "ADT",
-                    "first_name": request.POST['adult_first_name' + str(i + 1)],
-                    "last_name": request.POST['adult_last_name' + str(i + 1)],
-                    "title": request.POST['adult_title' + str(i + 1)],
-                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
-                    "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                    "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                    "identity_type": "passport",
-                    "passenger_seq_id": request.POST['adult_id' + str(i + 1)]
-
-                })
-
-                if i == 0:
-                    if request.POST['myRadios'] == 'yes':
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': True,
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_booker': False
-                        })
-                else:
-                    adult[len(adult) - 1].update({
-                        'is_also_booker': False
-                    })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': True
-                        })
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                except:
-                    if i == 0 and request.POST['myRadios'] == 'yes':
-                        continue
-                    else:
-                        adult[len(adult) - 1].update({
-                            'is_also_contact': False
-                        })
-                try:
-                    if request.POST['adult_cp' + str(i + 1)] == 'on':
-                        contact.append({
-                            "first_name": request.POST['adult_first_name' + str(i + 1)],
-                            "last_name": request.POST['adult_last_name' + str(i + 1)],
-                            "title": request.POST['adult_title' + str(i + 1)],
-                            "email": request.POST['adult_email' + str(i + 1)],
-                            "calling_name": request.POST['adult_phone_code' + str(i + 1)],
-                            "mobile": request.POST['adult_phone' + str(i + 1)],
-                            "nationality_name": request.POST['adult_nationality' + str(i + 1)],
-                            "contact_seq_id": request.POST['adult_id' + str(i + 1)]
-                        })
-                    if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_also_booker': True
-                            })
-                        else:
-                            contact[len(contact)].update({
-                                'is_also_booker': False
-                            })
-                except:
-                    pass
-
-            if len(contact) == 0:
-                contact.append({
-                    'title': request.POST['booker_title'],
-                    'first_name': request.POST['booker_first_name'],
-                    'last_name': request.POST['booker_last_name'],
-                    'email': request.POST['booker_email'],
-                    'calling_code': request.POST['booker_phone_code'],
-                    'mobile': request.POST['booker_phone'],
-                    'nationality_name': request.POST['booker_nationality'],
-                    'contact_seq_id': request.POST['booker_id'],
-                    'is_also_booker': True
-                })
-
-            for i in range(int(request.session['airline_request']['child'])):
-                child.append({
-                    "pax_type": "CHD",
-                    "first_name": request.POST['child_first_name' + str(i + 1)],
-                    "last_name": request.POST['child_last_name' + str(i + 1)],
-                    "title": request.POST['child_title' + str(i + 1)],
-                    "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['child_nationality' + str(i + 1)],
-                    "identity_number": request.POST['child_passport_number' + str(i + 1)],
-                    "identity_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['child_country_of_issued' + str(i + 1)],
-                    "identity_type": "passport",
-                    "passenger_seq_id": request.POST['child_id' + str(i + 1)]
-
-
-                })
-
-            for i in range(int(request.session['airline_request']['infant'])):
-                infant.append({
-                    "pax_type": "INF",
-                    "first_name": request.POST['infant_first_name' + str(i + 1)],
-                    "last_name": request.POST['infant_last_name' + str(i + 1)],
-                    "title": request.POST['infant_title' + str(i + 1)],
-                    "birth_date": request.POST['infant_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['infant_nationality' + str(i + 1)],
-                    "identity_number": request.POST['infant_passport_number' + str(i + 1)],
-                    "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
-                    "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
-                    "identity_type": "passport",
-                    "passenger_seq_id": request.POST['infant_id' + str(i + 1)]
-                })
-
-            request.session['airline_create_passengers'] = {
-                'booker': booker,
-                'adult': adult,
-                'child': child,
-                'infant': infant,
-                'contact': contact
-            }
-        except:
-            #pax already in ssr
-            pass
         try:
             passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             sell_ssrs = []
@@ -836,18 +563,19 @@ def seat_map(request):
         try:
             passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             for pax in passenger:
-                pax['seat_list'] = []
-                for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
-                    for segment in seat_provider['segments']:
-                        pax['seat_list'].append({
-                            'segment_code': segment['segment_code2'],
-                            'seat_pick': '',
-                            'seat_code': '',
-                            'seat_name': '',
-                            'description': '',
-                            'currency': '',
-                            'price': ''
-                        })
+                if not 'seat_list' in pax:
+                    pax['seat_list'] = []
+                    for seat_provider in request.session['airline_get_seat_availability']['result']['response']['seat_availability_provider']:
+                        for segment in seat_provider['segments']:
+                            pax['seat_list'].append({
+                                'segment_code': segment['segment_code2'],
+                                'seat_pick': '',
+                                'seat_code': '',
+                                'seat_name': '',
+                                'description': '',
+                                'currency': '',
+                                'price': ''
+                            })
         except:
             #dari getbooking
             #CHECK SINI TEMBAK KO SAM
@@ -942,14 +670,6 @@ def seat_map(request):
                             'currency': '',
                             'price': ''
                         })
-        # agent
-        adult_title = ['MR', 'MRS', 'MS']
-
-        infant_title = ['MSTR', 'MISS']
-
-        # agent
-
-        # get_balance(request)
 
         additional_price_input = ''
         try:
@@ -1011,86 +731,85 @@ def review(request):
         template, logo = get_logo_template()
 
         ssr = []
-
-        try:
-            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
-            sell_ssrs = []
-            sell_ssrs_request = []
-            passengers_list = []
-            for pax in passenger:
-                pax['ssr_list'] = []
-            ssr_response = request.session['airline_get_ssr']['result']['response']
-            for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
-                for ssr_package in ssr_response['ssr_availability_provider']:
-                    for ssr_key in ssr_package['ssr_availability']:
-                        for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
-                            for idx, pax in enumerate(passenger):
-                                try:
-                                    passengers_list.append({
-                                        "passenger_number": idx,
-                                        "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                    })
-                                    for list_ssr in journey_ssr['ssrs']:
-                                        if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                            pax['ssr_list'].append(list_ssr)
-                                            break
-                                except:
-                                    pass
-                            if len(passengers_list) > 0:
-                                sell_ssrs_request.append({
-                                    'journey_code': journey_ssr['journey_code'],
-                                    'passengers': passengers_list,
-                                    'availability_type': ssr_key
-                                })
-                            passengers_list = []
-                if len(sell_ssrs_request) != 0:
-                    sell_ssrs.append({
-                        'sell_ssrs': sell_ssrs_request,
-                        'provider': ssr_package['provider']
-                    })
+        if request.META.get('HTTP_REFERER') == get_url() + 'airline/ssr':
+            try:
+                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                sell_ssrs = []
                 sell_ssrs_request = []
-            if len(sell_ssrs) > 0:
-                request.session['airline_ssr_request'] = sell_ssrs
-            sell_ssrs = []
-        except:
-            print('no ssr')
+                passengers_list = []
+                for pax in passenger:
+                    pax['ssr_list'] = []
+                ssr_response = request.session['airline_get_ssr']['result']['response']
+                for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
+                    for ssr_package in ssr_response['ssr_availability_provider']:
+                        for ssr_key in ssr_package['ssr_availability']:
+                            for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
+                                for idx, pax in enumerate(passenger):
+                                    try:
+                                        passengers_list.append({
+                                            "passenger_number": idx,
+                                            "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                        })
+                                        for list_ssr in journey_ssr['ssrs']:
+                                            if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                                pax['ssr_list'].append(list_ssr)
+                                                break
+                                    except:
+                                        pass
+                                if len(passengers_list) > 0:
+                                    sell_ssrs_request.append({
+                                        'journey_code': journey_ssr['journey_code'],
+                                        'passengers': passengers_list,
+                                        'availability_type': ssr_key
+                                    })
+                                passengers_list = []
+                    if len(sell_ssrs_request) != 0:
+                        sell_ssrs.append({
+                            'sell_ssrs': sell_ssrs_request,
+                            'provider': ssr_package['provider']
+                        })
+                    sell_ssrs_request = []
+                if len(sell_ssrs) > 0:
+                    request.session['airline_ssr_request'] = sell_ssrs
+                sell_ssrs = []
+            except:
+                print('no ssr')
 
         #SEAT
-        try:
-            passengers = json.loads(request.POST['passenger'])
-            seat_map_list = request.session['airline_get_seat_availability']['result']['response']
-            segment_seat_request = []
+        if request.META.get('HTTP_REFERER') == get_url() + 'airline/seat_map':
+            try:
+                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                passengers = json.loads(request.POST['passenger'])
+                #
+                for idx, pax in enumerate(passengers):
+                    passenger[idx]['seat_list'] = passengers[idx]['seat_list']
+                seat_map_list = request.session['airline_get_seat_availability']['result']['response']
+                segment_seat_request = []
 
-            for seat_map_provider in seat_map_list['seat_availability_provider']:
-                for seat_segment in seat_map_provider['segments']:
-                    pax_request = []
-                    for pax in passengers:
-                        for idx, pax_seat in enumerate(pax['seat_list']):
-                            if pax_seat['segment_code'] == seat_segment['segment_code2']:
-                                if pax_seat['seat_code'] != '':
-                                    pax_request.append({
-                                        'passenger_number': idx,
-                                        'seat_code': pax_seat['seat_code']
-                                    })
-                                break
-                    if len(pax_request) != 0:
-                        segment_seat_request.append({
-                            'segment_code': seat_segment['segment_code'],
-                            'provider': seat_segment['provider'],
-                            'passengers': pax_request
-                        })
-                    pax_request = []
-            request.session['airline_seat_request'] = segment_seat_request
-        except:
-            print('no seatmap')
+                for seat_map_provider in seat_map_list['seat_availability_provider']:
+                    for seat_segment in seat_map_provider['segments']:
+                        pax_request = []
+                        for pax in passengers:
+                            for idx, pax_seat in enumerate(pax['seat_list']):
+                                if pax_seat['segment_code'] == seat_segment['segment_code2']:
+                                    if pax_seat['seat_code'] != '':
+                                        pax_request.append({
+                                            'passenger_number': idx,
+                                            'seat_code': pax_seat['seat_code']
+                                        })
+                                    break
+                        if len(pax_request) != 0:
+                            segment_seat_request.append({
+                                'segment_code': seat_segment['segment_code'],
+                                'provider': seat_segment['provider'],
+                                'passengers': pax_request
+                            })
+                        pax_request = []
+                request.session['airline_seat_request'] = segment_seat_request
+            except:
+                print('no seatmap')
 
-        # agent
-        # TODO LIST INTRO SSR sudah list perpassenger --> list per segment --> isi semua ssr tinggal dipisah
-        #tampilkan ssr ke depan & pisah send api
 
-        # get_balance(request)
-
-        request.session['airline_request_ssr'] = ssr
         if request.META.get('HTTP_REFERER') == get_url()+'airline/passenger':
             adult = []
             child = []
@@ -1228,7 +947,8 @@ def review(request):
             passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             for pax in passenger:
                 pax['ssr_list'] = []
-
+        else:
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
@@ -1358,7 +1078,6 @@ def review_after_sales(request):
         # tampilkan ssr ke depan & pisah send api
 
         # get_balance(request)
-        request.session['airline_request_ssr'] = ssr
         try:
             additional_price_input = ''
             additional_price = request.POST['additional_price_input'].split(',')

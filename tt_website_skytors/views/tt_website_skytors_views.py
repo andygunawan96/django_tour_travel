@@ -204,7 +204,6 @@ def index(request):
                         'activity_countries': activity_countries,
                         #tour
                         'tour_countries': tour_countries,
-
                         'issued_offline_transaction_type': issued_offline_transaction_type,
                         'issued_offline_sector_type': issued_offline_sector_type,
                         'issued_offline_carrier_id': issued_offline_carrier_id,

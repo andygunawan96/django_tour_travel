@@ -55,13 +55,14 @@ def api_models(request):
             res = get_customer_list(request)
         elif req_data['action'] == 'create_customer':
             res = create_customer(request)
+        elif req_data['action'] == 'update_customer':
+            res = update_customer(request)
         elif req_data['action'] == 'add_passenger_cache':
             res = add_passenger_cache(request)
         elif req_data['action'] == 'del_passenger_cache':
             res = del_passenger_cache(request)
         elif req_data['action'] == 'get_passenger_cache':
             res = get_passenger_cache(request)
-
         elif req_data['action'] == 'get_agent_booking':
             res = get_agent_booking(request)
         elif req_data['action'] == 'get_top_up_history':
@@ -104,7 +105,7 @@ def signin(request):
         "co_uid": ""
     }
 
-    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
         if res['result']['error_code'] == 0:
             request.session['signature'] = res['result']['response']['signature']
@@ -135,9 +136,9 @@ def signin(request):
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
-                    logging.getLogger("info_logger").error("SUCCESS USE CACHE IN TXT!")
+                    logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
             except:
-                logging.getLogger("info_logger").error("GET NEW CACHE!")
+                logging.getLogger("info_logger").error("ERROR GENERATE NEW CACHE!")
                 # airline
                 data = {'provider_type': 'airline'}
                 headers = {
@@ -177,8 +178,8 @@ def signin(request):
                         file = open(var_log_path()+"hotel_cache_data.txt", "w+")
                         file.write(res_cache_hotel['result']['response'])
                         file.close()
-                except:
-                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel))
+                except Exception as e:
+                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(e) + '\n' + traceback.format_exc())
                     pass
 
                 #visa odoo12
@@ -229,8 +230,7 @@ def signin(request):
                     "action": "get_config",
                     "signature": res['result']['response']['signature']
                 }
-                res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers,
-                                                    method='POST')
+                res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
 
                 headers = {
                     "Accept": "application/json,text/html,application/xml",
@@ -250,9 +250,9 @@ def signin(request):
                         file = open(var_log_path()+"activity_cache_data.txt", "w+")
                         file.write(json.dumps(res_cache_activity['result']['response']))
                         file.close()
-                except:
+                except Exception as e:
                     logging.getLogger("info_logger").info(
-                        "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity))
+                        "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity) + '\n' + str(e) + '\n' + traceback.format_exc())
                     pass
 
                 # tour
@@ -267,14 +267,21 @@ def signin(request):
                 #                                         method='POST')
 
                 #check sebelum masukkan ke cache
-                if res_country_airline['result']['error_code'] == 0:
-                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
-                if res_destination_airline['result']['error_code'] == 0:
-                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
-                if res_config_visa['result']['error_code'] == 0:
-                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
-                if res_config_issued_offline['result']['error_code'] == 0:
-                    logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
+                try:
+                    if res_country_airline['result']['error_code'] == 0:
+                        logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
+
+                    if res_destination_airline['result']['error_code'] == 0:
+                        logging.getLogger("info_logger").info("ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
+                    if res_config_visa['result']['error_code'] == 0:
+                        logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
+                    if res_config_issued_offline['result']['error_code'] == 0:
+                        logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
+                    if res_config_activity['result']['error_code'] == 0:
+                        logging.getLogger("info_logger").info("ERROR GET CACHE FROM ACTIVITY CONFIG GATEWAY" + json.dumps(res_config_activity))
+                except Exception as e:
+                    logging.getLogger("info_logger").info(
+                        "ERROR LOG CACHE \n" + str(e) + '\n' + traceback.format_exc())
                 res['result']['response'].update({
                     'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False, #belum di install
                     'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False, #belum di install
@@ -335,7 +342,7 @@ def signin(request):
             logging.getLogger("info_logger").info(json.dumps(res))
 
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -414,7 +421,7 @@ def get_customer_list(request):
                         title = 'MISS'
                 elif pax['gender'] == 'female':
                     if age > 11:
-                        title = 'MRS'
+                        title = 'MS'
                     else:
                         title = 'MISS'
                 else:
@@ -439,6 +446,24 @@ def get_customer_list(request):
                             pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
                             pax['identities']['passport']['identity_expdate'].split('-')[0]),
                     })
+                if pax['identities'].get('ktp'):
+                    pax['identities']['ktp'].update({
+                        'identity_expdate': '%s %s %s' % (
+                            pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
+                            pax['identities']['ktp']['identity_expdate'].split('-')[0]),
+                    })
+                if pax['identities'].get('sim'):
+                    pax['identities']['sim'].update({
+                        'identity_expdate': '%s %s %s' % (
+                            pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
+                            pax['identities']['sim']['identity_expdate'].split('-')[0]),
+                    })
+                if pax['identities'].get('other'):
+                    pax['identities']['other'].update({
+                        'identity_expdate': '%s %s %s' % (
+                            pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
+                            pax['identities']['other']['identity_expdate'].split('-')[0]),
+                    })
                 counter += 1
             logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
@@ -451,7 +476,6 @@ def create_customer(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        passenger = []
         pax = json.loads(request.POST['passenger'])
         if pax['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
@@ -476,21 +500,25 @@ def create_customer(request):
                     pax['identity_expdate'].split(' ')[0])
             })
             pax['identity'] = {
-                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                "identity_expdate": pax.pop('identity_expdate'),
-                "identity_number": pax.pop('identity_number'),
-                "identity_type": 'passport',
-                "identity_image": json.loads(request.POST['image_list']) #add 4 delete 3
+                'passport': {
+                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                    "identity_expdate": pax.pop('identity_expdate'),
+                    "identity_number": pax.pop('identity_number'),
+                    "identity_type": 'passport',
+                    "identity_image": json.loads(request.POST['image_list']) #add 4 delete 3
+                }
             }
         else:
             pax.pop('identity_country_of_issued_name')
             pax.pop('identity_expdate')
             pax.pop('identity_number')
-        passenger.append(pax)
-
+        pax['phone'] = [{
+            'calling_code': pax.pop('calling_code'),
+            'calling_number': pax.pop('calling_number')
+        }]
         data = {
-            'passengers': passenger
+            'passengers': pax
         }
 
         headers = {
@@ -509,6 +537,67 @@ def create_customer(request):
             logging.getLogger("info_logger").info("CREATE CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error(str(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_customer(request):
+    try:
+        image = {
+            'files_attachment_edit1': 'passport',
+            'files_attachment_edit2': 'ktp',
+            'files_attachment_edit3': 'sim',
+            'files_attachment_edit4': 'other'
+        }
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        passenger = json.loads(request.POST['data'])
+        if passenger['nationality_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if passenger['nationality_name'] == country['name']:
+                    passenger['nationality_code'] = country['code']
+                    break
+        for identity in passenger['identity']:
+            image_list = []
+            for img in passenger['image']:
+                if image[img[2]] == identity:
+                    image_list.append([img[0], img[1]])
+            passenger['identity'][identity].update({
+                'identity_image': image_list
+            })
+            passenger['identity'][identity].update({
+                'identity_expdate': '%s-%s-%s' % (
+                    passenger['identity'][identity]['identity_expdate'].split(' ')[2], month[passenger['identity'][identity]['identity_expdate'].split(' ')[1]],
+                    passenger['identity'][identity]['identity_expdate'].split(' ')[0])
+            })
+            for country in response['result']['response']['airline']['country']:
+                if passenger['identity'][identity]['identity_country_of_issued_name'] == country['name']:
+                    passenger['identity'][identity]['identity_country_of_issued_code'] = country['code']
+                    break
+        passenger.pop('image')
+        data = {
+            'passengers': passenger
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "update_customer",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            for pax in request.session['cache_passengers']:
+                if pax['seq_id'] == res['result']['response']['seq_id']:
+                    pax = res['result']['response']
+                    break
+            logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -723,12 +723,14 @@ function datasearch2(airline){
 function change_fare(journey, segment, fares){
     price = 0;
     for(i in airline_data[journey].segments){
-        var radios = document.getElementsByName('journey'+journey+'segment'+(parseInt(i)+1)+'fare');
+        var radios = document.getElementsByName('journey'+journey+'segment'+i+'fare');
 
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
                 temp = document.getElementById('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(parseInt(j)+1)).innerHTML;
+                console.log('journey'+journey+'segment'+(parseInt(i)+1)+'fare'+(parseInt(j)+1));
+                console.log(temp);
                 price += parseInt(temp.replace( /[^\d.]/g, '' ));
                 airline_data[journey].segments[i].fare_pick = parseInt(j);
                 // only one radio can be logically checked, don't check the rest
@@ -1476,8 +1478,6 @@ function airline_sell_journeys(){
            console.log(msg);
            if(msg.result.error_code == 0){
                get_seat_availability('');
-//               document.getElementById('time_limit_input').value = time_limit
-//               document.getElementById('go_to_passenger').submit();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
            }else{
@@ -1685,15 +1685,11 @@ function show_seat_map(val, checked){
 }
 
 function set_passenger_seat_map_airline(val){
-    additional_price = parseInt(additional_price_fix);
     text='';
     text += `<hr/><h5 style="color:#f15a22;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
     for(i in passengers[val].seat_list){
         text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
         text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+passengers[val].seat_list[i].price+`</span><br/><br/>`;
-        console.log(passengers[val].seat_list[i].price);
-        if(isNaN(parseFloat(passengers[val].seat_list[i].price)) == false)
-            additional_price += parseFloat(passengers[val].seat_list[i].price);
         for(j in passengers[val].seat_list[i].description){
             //if(j == 0)
                 //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
@@ -1718,6 +1714,8 @@ function set_passenger_seat_map_airline(val){
 }
 
 function set_cancel_seat(segment_number){
+    if(isNaN(passengers[passenger_pick].seat_list[i].price) == false)
+        additional_price -= parseFloat(passengers[passenger_pick].seat_list[i].price);
     passengers[passenger_pick].seat_list[segment_number].seat_pick = '';
     passengers[passenger_pick].seat_list[segment_number].seat_code = '';
     passengers[passenger_pick].seat_list[segment_number].seat_name = '';
@@ -1728,26 +1726,37 @@ function set_cancel_seat(segment_number){
 }
 
 function update_seat_passenger(segment, row, column,seat_code,seat_name, currency, amount,description){
-    for(i in passengers[passenger_pick].seat_list){
-        if(passengers[passenger_pick].seat_list[i].segment_code == segment){
-            //lepas passenger seat
-            if(passengers[passenger_pick].seat_list[i].seat_pick != ''){
-                document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.background = '#CACACA';
-                document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.color = 'black';
+    if(isNaN(passenger_pick) == false){
+        for(i in passengers[passenger_pick].seat_list){
+            if(passengers[passenger_pick].seat_list[i].segment_code == segment){
+                //lepas passenger seat
+                if(passengers[passenger_pick].seat_list[i].seat_pick != ''){
+                    document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.background = '#CACACA';
+                    document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.color = 'black';
+                }
+                //pasang passenger seat
+                if(isNaN(passengers[passenger_pick].seat_list[i].price) == false)
+                    additional_price -= parseFloat(passengers[passenger_pick].seat_list[i].price);
+                additional_price += parseFloat(amount);
+                passengers[passenger_pick].seat_list[i].seat_pick = row+column;
+                passengers[passenger_pick].seat_list[i].seat_code = seat_code;
+                passengers[passenger_pick].seat_list[i].seat_name = seat_name;
+                passengers[passenger_pick].seat_list[i].currency = currency;
+                passengers[passenger_pick].seat_list[i].price = amount;
+                passengers[passenger_pick].seat_list[i].description = description.split(',');
+                document.getElementById(segment+'_'+row+'_'+column).style.background = '#f15a22';
+                document.getElementById(segment+'_'+row+'_'+column).style.color = 'white';
+                break;
             }
-            //pasang passenger seat
-            passengers[passenger_pick].seat_list[i].seat_pick = row+column;
-            passengers[passenger_pick].seat_list[i].seat_code = seat_code;
-            passengers[passenger_pick].seat_list[i].seat_name = seat_name;
-            passengers[passenger_pick].seat_list[i].currency = currency;
-            passengers[passenger_pick].seat_list[i].price = amount;
-            passengers[passenger_pick].seat_list[i].description = description.split(',');
-            document.getElementById(segment+'_'+row+'_'+column).style.background = '#f15a22';
-            document.getElementById(segment+'_'+row+'_'+column).style.color = 'white';
-            break;
         }
+        set_passenger_seat_map_airline(passenger_pick);
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          text: 'Please choose passenger first!',
+        })
     }
-    set_passenger_seat_map_airline(passenger_pick);
 }
 
 //SSR
@@ -3908,4 +3917,59 @@ function dismiss_reissue(){
 
 function dismiss_reissue_get_price(){
     $('#myModal_price_itinerary').modal('hide');
+}
+
+function reissue_airline_commit_booking(val){
+    data = {
+        'value': val,
+        'signature': signature
+    }
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+    }catch(err){
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'commit_booking',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: data,
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               //send order number
+               document.getElementById('airline_booking').innerHTML = '';
+               document.getElementById('airline_detail').innerHTML = '';
+               document.getElementById('payment_acq').innerHTML = '';
+               document.getElementById('reissued').innerHTML = '';
+               document.getElementById('ssr_request_after_sales').innerHTML = '';
+               $('.modal').modal('hide') // closes all active pop ups.
+               $('.modal-backdrop').remove() // removes the grey overlay.
+               $("body").removeClass("modal-open");
+               airline_signin(msg.result.response.order_number);
+
+
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                })
+                window.location.href = "/";
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
 }

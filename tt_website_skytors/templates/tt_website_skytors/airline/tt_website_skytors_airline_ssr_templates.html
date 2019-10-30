@@ -53,6 +53,12 @@
         airline_request = `{{airline_request}}`;
         airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
         breadcrumb = 1;
+        additional_price = `{{additional_price}}`;
+        if(additional_price != ''){
+            additional_price_fix = parseInt(additional_price);
+        }else{
+            additional_price_fix = 0;
+        }
     }catch(err){
         //request new
         airline_get_booking = `{{airline_getbooking}}`;
@@ -122,7 +128,7 @@
 <section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
 {%endif%}
     <div class="container">
-        <form method="POST" id="airline_booking" action="{% if seat_map == 0 %} {% url 'tt_website_skytors:airline_seat_map'%} {% elif seat_map == 1 %} {% url 'tt_website_skytors:airline_review_after_sales'%} {% else %} {% url 'tt_website_skytors:airline_review'%} {% endif %}">
+        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_review'%}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">
@@ -150,8 +156,14 @@
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select">
                                         <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                            <option value=""></option>
                                             {% for ssr in values.ssrs %}
-                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
+                                            <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" {% for ssr_list_pax in pax.ssr_list %}
+                                                {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name%}
+                                                    selected {% endif %} {% endfor %}
+                                            >
+                                                {{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}
+                                            </option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -159,6 +171,7 @@
                                 {% elif template == 2 %}
                                 <div class="input-container-search-ticket btn-group">
                                     <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                        <option value=""></option>
                                         {% for ssr in values.ssrs %}
                                         <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
                                         {% endfor %}
@@ -168,6 +181,7 @@
                                 <div class="form-group">
                                     <div class="default-select" id="default-select">
                                         <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                            <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
                                             {% endfor %}
@@ -179,6 +193,7 @@
                                     <span class="span-search-ticket">Class</span><br/>
                                     <span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>
                                     <select class="form-control rounded" id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
+                                        <option value=""></option>
                                         {% for ssr in values.ssrs %}
                                         <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
                                         {% endfor %}
@@ -188,6 +203,7 @@
                                 <div class="input-container-search-ticket" style="display:inline-block !important;">
                                     <div id="default-select">
                                         <select class="app-select form-control" id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
+                                            <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
                                             {% endfor %}
