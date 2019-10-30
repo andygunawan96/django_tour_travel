@@ -3188,7 +3188,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   font-size: 14px;
   display: inline-block;
   clear: both;
-  line-height:30px;
+  line-height:36px;
 }
 
 
@@ -3201,11 +3201,15 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .banner-right .nav-tabs .nav-link {
-  border-radius: 2px !important;
+  /*border-radius: 2px !important;*/
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 .banner-right .tab-content {
-  background: rgba(30, 30, 30, 0.8);
+  background: rgba(30, 30, 30, 0.9);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 .banner-right .form-wrap {
@@ -3399,10 +3403,10 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*--------- start testimonial area  -------------*/
 .testimonial-area {
     background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_7.jpg");
-    background-attachment: fixed;
+    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: auto;
 }
 
 .apps-area {
@@ -3587,6 +3591,8 @@ body.mobile-nav-active #mobile-nav-toggle {
     top: -15px;
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
     z-index:10;
+    cursor:pointer;
+    transform: translateY(-1em);
 }
 
 .recent-blog-area .single-recent-blog-post .thumb {
@@ -5184,6 +5190,8 @@ div.scrollmenu {
   overflow-y: hidden;
   white-space: nowrap;
   min-height:44px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 div.scrollmenu li {
@@ -7072,19 +7080,12 @@ th input {
 }
 
 .image-rounded-icon {
-  background: #C04B21;
   border-radius: 20px;
   font-size: 18px;
   text-align: center;
   border-radius:50%;
-  border: 2px solid #cdcdcd;
-  padding:4px 9px 4px 9px;
+  padding:4px 9px 6px 7px;
 }
-.image-rounded-icon:hover{
-    background:white;
-    border: 2px solid #f15a22;
-}
-
 .breadcrumb-header{
     padding-right:0px;
 }
@@ -7759,4 +7760,38 @@ display: block;
 
 .hover_name:hover{
     color: #f15a22;
+}
+
+.link_popular{
+    font-size:14px;
+    padding-left:10px;
+    padding-right:10px;
+    font-weight:500;
+    cursor:pointer;
+}
+
+.link_popular.popular_activities.active{
+    color:#f15a22;
+    border-bottom: 2px solid #f15a22;
+}
+
+.our-partner{
+    width: auto;
+    height:40px;
+    padding-left:10px;
+    padding-right:10px;
+}
+
+#overlay-search-box {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
 }

@@ -106,6 +106,14 @@ $(document).ready(function(){
         }, 500);
     });
 
+    $('#div-search-overlay').click(function() {      // When arrow is clicked
+        document.getElementById("overlay-search-box").style.display = "block";
+        document.getElementById("div-search-overlay").style.zIndex = "3";
+        $('html, body').animate({
+            scrollTop: $("#div-search-overlay").offset().top - 125
+        }, 500);
+    });
+
     $('ul.tabs li').click(function(){
 		var tab_id = $(this).attr('data-tab');
 
@@ -2010,4 +2018,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     node.innerHTML = text;
     document.getElementById("breadcrumbs_create").appendChild(node);
     node = document.createElement("div");
+}
+
+function off_overlay() {
+    document.getElementById("overlay-search-box").style.display = "none";
+    document.getElementById("div-search-overlay").style.zIndex = "1";
 }
