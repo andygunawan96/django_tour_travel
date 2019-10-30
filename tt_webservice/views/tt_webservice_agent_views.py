@@ -477,46 +477,46 @@ def create_customer(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         pax = json.loads(request.POST['passenger'])
+        image = {
+            'files_attachment': 'avatar',
+            'files_attachment_edit1': 'passport',
+            'files_attachment_edit2': 'ktp',
+            'files_attachment_edit3': 'sim',
+            'files_attachment_edit4': 'other'
+        }
+        image_list = json.loads(request.POST['image_list'])
         if pax['nationality_name'] != '':
             for country in response['result']['response']['airline']['country']:
                 if pax['nationality_name'] == country['name']:
                     pax['nationality_code'] = country['code']
-                    break
-
-        if pax['identity_country_of_issued_name'] != '':
-            for country in response['result']['response']['airline']['country']:
-                if pax['identity_country_of_issued_name'] == country['name']:
-                    pax['identity_country_of_issued_code'] = country['code']
                     break
         pax.update({
             'birth_date': '%s-%s-%s' % (
                 pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                 pax['birth_date'].split(' ')[0]),
         })
-        if pax['identity_expdate'] != '':
-            pax.update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                    pax['identity_expdate'].split(' ')[0])
+        for img in image_list:
+            if img[2] == 'files_attachment':
+                pax.update({
+                    'face_image': [img[0], img[1]]
+                })
+        for identity in pax['identity']:
+            image_selected = []
+            for img in image_list:
+                if image[img[2]] == identity:
+                    image_selected.append([img[0], img[1]])
+            pax['identity'][identity].update({
+                'identity_image': image_selected
             })
-            pax['identity'] = {
-                'passport': {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                    "identity_expdate": pax.pop('identity_expdate'),
-                    "identity_number": pax.pop('identity_number'),
-                    "identity_type": 'passport',
-                    "identity_image": json.loads(request.POST['image_list']) #add 4 delete 3
-                }
-            }
-        else:
-            pax.pop('identity_country_of_issued_name')
-            pax.pop('identity_expdate')
-            pax.pop('identity_number')
-        pax['phone'] = [{
-            'calling_code': pax.pop('calling_code'),
-            'calling_number': pax.pop('calling_number')
-        }]
+            pax['identity'][identity].update({
+                'identity_expdate': '%s-%s-%s' % (
+                    pax['identity'][identity]['identity_expdate'].split(' ')[2], month[pax['identity'][identity]['identity_expdate'].split(' ')[1]],
+                    pax['identity'][identity]['identity_expdate'].split(' ')[0])
+            })
+            for country in response['result']['response']['airline']['country']:
+                if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
+                    pax['identity'][identity]['identity_country_of_issued_code'] = country['code']
+                    break
         data = {
             'passengers': pax
         }
@@ -544,6 +544,7 @@ def create_customer(request):
 def update_customer(request):
     try:
         image = {
+            'files_attachment_edit': 'avatar',
             'files_attachment_edit1': 'passport',
             'files_attachment_edit2': 'ktp',
             'files_attachment_edit3': 'sim',
@@ -557,11 +558,27 @@ def update_customer(request):
                 if passenger['nationality_name'] == country['name']:
                     passenger['nationality_code'] = country['code']
                     break
+
+        for img in passenger['image']:
+            if img[2] == 'files_attachment_edit':
+                if 'face_image' in passenger and img[1] == 4:
+                    passenger.update({
+                        'face_image': [img[0], img[1]]
+                    })
+                else:
+                    passenger.update({
+                        'face_image': [img[0], img[1]]
+                    })
+
         for identity in passenger['identity']:
             image_list = []
             for img in passenger['image']:
                 if image[img[2]] == identity:
                     image_list.append([img[0], img[1]])
+                elif image[img[2]] == 'files_attachment_edit':
+                    passenger.update({
+                        'face_image': [[img[0], img[1]]]
+                    })
             passenger['identity'][identity].update({
                 'identity_image': image_list
             })
