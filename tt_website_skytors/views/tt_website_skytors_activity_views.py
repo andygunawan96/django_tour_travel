@@ -382,6 +382,7 @@ def review(request):
         upload = []
         skus = []
         all_pax = []
+        printout_paxs = []
         used_price = []
 
         javascript_version = get_cache_version()
@@ -428,6 +429,13 @@ def review(request):
                 "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
                 "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                 "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+            })
+            printout_paxs.append({
+                "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                'ticket_number': request.POST['adult_sku_id' + str(i + 1)],
+                'birth_date': request.POST['adult_birth_date' + str(i + 1)],
+                'pax_type': 'Adult',
+                'additional_info': [],
             })
 
             # perpax
@@ -683,6 +691,13 @@ def review(request):
                 "sku_title": request.POST['senior_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['senior_sku_real_id' + str(i + 1)],
             })
+            printout_paxs.append({
+                "name": request.POST['senior_title' + str(i + 1)] + ' ' + request.POST['senior_first_name' + str(i + 1)] + ' ' + request.POST['senior_last_name' + str(i + 1)],
+                'ticket_number': request.POST['senior_sku_id' + str(i + 1)],
+                'birth_date': request.POST['senior_birth_date' + str(i + 1)],
+                'pax_type': 'Senior',
+                'additional_info': [],
+            })
 
             # perpax
             for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
@@ -864,6 +879,13 @@ def review(request):
                 "sku_real_id": request.POST['child_sku_real_id' + str(i + 1)],
 
             })
+            printout_paxs.append({
+                "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                'ticket_number': request.POST['child_sku_id' + str(i + 1)],
+                'birth_date': request.POST['child_birth_date' + str(i + 1)],
+                'pax_type': 'Child',
+                'additional_info': [],
+            })
 
             # perpax
             for idx, perpax in enumerate(request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['options']['perPax']):
@@ -1044,6 +1066,13 @@ def review(request):
                 "sku_title": request.POST['infant_sku_title' + str(i + 1)],
                 "sku_real_id": request.POST['infant_sku_real_id' + str(i + 1)],
             })
+            printout_paxs.append({
+                "name": request.POST['infant_title'+str(i+1)] + ' ' + request.POST['infant_first_name'+str(i+1)] + ' ' + request.POST['infant_last_name'+str(i+1)],
+                'ticket_number': request.POST['infant_sku_id' + str(i + 1)],
+                'birth_date': request.POST['infant_birth_date'+str(i+1)],
+                'pax_type': 'Infant',
+                'additional_info': [],
+            })
 
             if perpax_list_temp:
                 perpax_list.append(perpax_list_temp)
@@ -1061,6 +1090,7 @@ def review(request):
             all_pax.append(rec)
 
         pax_count = {}
+        no_low_pax_count = {}
         for temp_sku in request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['skus']:
             low_sku_id = temp_sku['sku_id'].lower()
             skus.append({
@@ -1073,6 +1103,9 @@ def review(request):
             })
             pax_count.update({
                 low_sku_id: int(request.session['activity_request'][low_sku_id+'_passenger'])
+            })
+            no_low_pax_count.update({
+                temp_sku['sku_id']: int(request.session['activity_request'][low_sku_id + '_passenger'])
             })
 
         try:
@@ -1087,6 +1120,42 @@ def review(request):
                     timeslot = time
 
         all_price = request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]
+
+        for temp_key, temp_val in no_low_pax_count.items():
+            if temp_val != 0 and temp_key not in ['Infant']:
+                if all_price['prices'][temp_key].get(str(temp_val)):
+                    temp_used_price = copy.deepcopy(all_price['prices'][temp_key][str(temp_val)]['service_charges'])
+                else:
+                    temp_used_price = copy.deepcopy(all_price['prices'][temp_key]['1']['service_charges'])
+
+                for temp_sc in temp_used_price:
+                    temp_sc.update({
+                        'sku_id': str(temp_key)
+                    })
+                used_price.append(temp_used_price)
+
+        printout_prices = []
+        for usdp in used_price:
+            total_amount = 0
+            total_price = 0
+            temp_pax_count = 0
+            temp_pax_type = 'ADT'
+            temp_sku_id = ''
+            for usdp2 in usdp:
+                if usdp2['charge_type'] in ['FARE', 'ROC']:
+                    total_amount += usdp2['amount']
+                    total_price += usdp2['total']
+                    temp_pax_count = usdp2['pax_count']
+                    temp_pax_type = usdp2['pax_type']
+                    temp_sku_id = str(usdp2['sku_id'])
+            printout_prices.append({
+                "fare": total_amount,
+                "name": temp_sku_id,
+                "qty": temp_pax_count,
+                "total": total_price,
+                "pax_type": temp_pax_type,
+                "tax": 0
+            })
 
         search_request = {
             "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
@@ -1106,6 +1175,22 @@ def review(request):
             'skus': skus,
             'upload_value': upload,
             'search_request': search_request
+        }
+
+        printout_rec = {
+            "type": "activity",
+            "agent_name": request.session._session['user_account']['co_agent_name'],
+            "passenger": printout_paxs,
+            "price_detail": printout_prices,
+            "line": [
+                {
+                    "resv": "-",
+                    "checkin": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
+                    "time_slot": str(timeslot['startTime']) + ' - ' + str(timeslot['endTime']),
+                    "activity_title": request.session['activity_pick']['name'],
+                    "product_type": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
+                }
+            ],
         }
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -1134,6 +1219,7 @@ def review(request):
             "timeslot": timeslot and timeslot or False,
             'price': all_price,
             'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],
+            'printout_rec': json.dumps(printout_rec),
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
