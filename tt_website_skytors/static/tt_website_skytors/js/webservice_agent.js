@@ -106,6 +106,7 @@ function get_path_url_server(){ //DEPRECATED
 }
 
 function create_new_passenger(){
+    document.getElementById('create_new_passenger_btn').disabled = true;
     var passenger = {};
     var error_log = '';
     try{
@@ -241,8 +242,8 @@ function create_new_passenger(){
            passenger.last_name = document.getElementById('passenger_last_name').value;
            passenger.birth_date = document.getElementById('passenger_birth_date').value;
            passenger.nationality_name = document.getElementById('passenger_nationality').value;
-           passenger.phone = document.getElementById('passenger_phone').value;
-           passenger.phone_id = document.getElementById('select2-passenger_phone_code_id-container').innerHTML;
+           passenger.calling_number = document.getElementById('passenger_phone').value;
+           passenger.calling_code = document.getElementById('select2-passenger_phone_code_id-container').innerHTML;
            passenger.email = document.getElementById('passenger_email').value;
            passenger.identity = document.getElementById('passenger_identity').value;
            passenger.identity_number = document.getElementById('passenger_identity_number').value;
@@ -290,7 +291,7 @@ function create_new_passenger(){
                                 document.getElementById('files_attachment').value = '';
                                 document.getElementById('selectedFiles_attachment').innerHTML = '';
                                 document.getElementById('select2-passenger_identity_country_of_issued_id-container').innerHTML= '';
-
+                                document.getElementById('create_new_passenger_btn').disabled = false;
                                 Swal.fire({
                                    type: 'Success',
                                    title: 'Created',
@@ -304,11 +305,13 @@ function create_new_passenger(){
                                    title: 'Oops...',
                                    text: msg.result.error_msg,
                                })
+                               document.getElementById('create_new_passenger_btn').disabled = false;
                             }
                            },
                            error: function(XMLHttpRequest, textStatus, errorThrown) {
                                alert(errorThrown);
                                $('.loading-booker-train').hide();
+                               document.getElementById('create_new_passenger_btn').disabled = false;
                            }
                         });
                     }
@@ -331,6 +334,7 @@ function create_new_passenger(){
 
     }catch(err){
         console.log(err);
+        document.getElementById('create_new_passenger_btn').disabled = false;
     }
 }
 
@@ -339,6 +343,7 @@ function set_passenger_cache(){
 }
 
 function radio_button(type,val){
+    document.getElementById('passenger_update').hidden = true;
     var radios = ''
     if(type == 'booker')
         radios = document.getElementsByName('radio_booker');
@@ -2100,7 +2105,7 @@ function get_passenger_cache(){
                         }
                         response+=`<td>
                                         <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>
-
+                                        <button type="button" class="primary-btn-custom" onclick="edit_passenger_cache(`+i+`);">Edit</button>
                                    </td>`;
 
                         text+=`
@@ -2118,6 +2123,223 @@ function get_passenger_cache(){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
+    });
+}
+
+function edit_passenger_cache(val){
+    passenger_data_phone = 0;
+    passenger_cache_pick = val;
+    document.getElementById('passenger_edit_title').innerHTML = passenger_data_cache[val].title;
+    document.getElementById('passenger_edit_first_name').innerHTML = passenger_data_cache[val].first_name;
+    document.getElementById('passenger_edit_last_name').innerHTML = passenger_data_cache[val].last_name;
+    document.getElementById('passenger_edit_birth_date').innerHTML = passenger_data_cache[val].birth_date;
+    document.getElementById('passenger_edit_email').value = passenger_data_cache[val].email;
+    document.getElementById('passenger_edit_nationality').value = passenger_data_cache[val].nationality_name;
+    document.getElementById('passenger_edit_nationality_id').value = passenger_data_cache[val].nationality_name;
+    document.getElementById('select2-passenger_edit_nationality_id-container').innerHTML = passenger_data_cache[val].nationality_name;
+    text = '';
+    if(passenger_data_cache[val].phones.length != 0){
+        for(i in passenger_data_cache[val].phones){
+            text+=`
+                <div class='row' id="phone_cache`+parseInt(i+1)+`_id">
+                    <div class="col-sm-5">
+                        <label>Phone Id</label><br/>
+                        <div class="form-select">
+                            <select class="form-control js-example-basic-single" name="passenger_edit_phone_code`+parseInt(i+1)+`_id" style="width:100%;" id="passenger_edit_phone_code`+parseInt(i+1)+`_id" placeholder="Nationality" onchange="auto_complete('passenger_edit_phone_code`+parseInt(i+1)+`')" class="nice-select-default">`;
+                                for(j in country_cache){
+                                    text += `<option value="`+country_cache[j].phone_code+`"`;
+                                    if(passenger_data_cache[val].phones[i].calling_code == country_cache[j].phone_code)
+                                        text += `selected`;
+                                    text += `>`+country_cache[j].phone_code+`</option>`;
+                                }
+                            text+=`</select>
+                        </div>
+                        <input type="hidden" name="passenger_edit_phone_code`+parseInt(i+1)+`" id="passenger_edit_phone_code`+parseInt(i+1)+`" value="`+passenger_data_cache[val].phones[i].calling_code+`" />
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Phone Number</label><br/>
+                        <div class="form-select">
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="passenger_edit_phone_number`+parseInt(i+1)+`" id="passenger_edit_phone_number`+parseInt(i+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" value="`+passenger_data_cache[val].phones[i].calling_number+`">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1" style="margin-top:25px;">
+                        <button type="button" class="primary-delete-date" onclick="delete_phone_passenger_cache(`+parseInt(i+1)+`)">
+                            <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                        </button>
+                    </div>
+                </div>`;
+            passenger_data_phone = parseInt(i + 1)
+        }
+        document.getElementById('passenger_edit_phone_table').innerHTML = text;
+        for(i in passenger_data_cache[val].phones){
+            $('#passenger_edit_phone_code'+parseInt(i+1)+'_id').select2();
+        }
+    }
+    document.getElementById('attachment1').innerHTML = '';
+    document.getElementById('attachment2').innerHTML = '';
+    document.getElementById('attachment3').innerHTML = '';
+    document.getElementById('attachment4').innerHTML = '';
+    for(i in passenger_data_cache[val].identities){
+        text = '';
+        if(i == 'passport'){
+            document.getElementById('passenger_edit_identity_number1').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_expired_date1').value = passenger_data_cache[val].identities[i].identity_expdate;
+            document.getElementById('select2-passenger_identity_country_of_issued1_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            document.getElementById('passenger_identity_country_of_issued1').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            for(j in passenger_data_cache[val].identities[i].identity_images)
+                text+= `
+                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                        <img src="`+static_path_url_server+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+
+                        <div class="row" style="justify-content:space-around">
+                            <div class="checkbox" style="display: block;">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;">Delete</span>
+                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+                </div>`;
+            document.getElementById('attachment1').innerHTML = text;
+        }else if(i == 'ktp'){
+            document.getElementById('passenger_edit_identity_number2').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_expired_date2').value = passenger_data_cache[val].identities[i].identity_expdate;
+            document.getElementById('select2-passenger_identity_country_of_issued2_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            document.getElementById('passenger_identity_country_of_issued2').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            for(j in passenger_data_cache[val].identities[i].identity_images)
+                text+= `
+                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                        <img src="`+static_path_url_server+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+
+                        <div class="row" style="justify-content:space-around">
+                            <div class="checkbox" style="display: block;">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;">Delete</span>
+                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+                </div>`;
+            document.getElementById('attachment2').innerHTML = text;
+        }else if(i == 'sim'){
+            document.getElementById('passenger_edit_identity_number3').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_expired_date3').value = passenger_data_cache[val].identities[i].identity_expdate;
+            document.getElementById('select2-passenger_identity_country_of_issued3_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            document.getElementById('passenger_identity_country_of_issued3').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            for(j in passenger_data_cache[val].identities.identity_images)
+                text+= `
+                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                        <img src="`+static_path_url_server+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+
+                        <div class="row" style="justify-content:space-around">
+                            <div class="checkbox" style="display: block;">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;">Delete</span>
+                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+                </div>`;
+
+            document.getElementById('attachment3').innerHTML = text;
+        }else if(i == 'other'){
+            document.getElementById('passenger_edit_identity_number4').value = passenger_data_cache[val].identities[i].identity_number;
+            document.getElementById('passenger_edit_identity_expired_date4').value = passenger_data_cache[val].identities[i].identity_expdate;
+            document.getElementById('select2-passenger_identity_country_of_issued4_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            document.getElementById('passenger_identity_country_of_issued4').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
+            for(j in passenger_data_cache[val].identities.identity_images)
+                text+= `
+                    <div style="height:220px;margin-bottom:25px;margin-right:10px;">
+                        <img src="`+static_path_url_server+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+
+                        <div class="row" style="justify-content:space-around">
+                            <div class="checkbox" style="display: block;">
+                                <label class="check_box_custom">
+                                    <span style="font-size:13px;">Delete</span>
+                                    <input type="checkbox" value="" id="`+i+j+`_delete" name="`+i+j+`_delete">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+                </div>`;
+            document.getElementById('attachment4').innerHTML = text;
+        }
+    }
+    document.getElementById('passenger_chosen').hidden = true;
+    document.getElementById('passenger_update').hidden = false;
+}
+
+function delete_phone_passenger_cache(val){
+    document.getElementById(`phone_cache`+val+`_id`).remove();
+}
+
+function delete_country_of_issued_cache(val){
+    document.getElementById(`phone_cache`+val+`_id`).remove();
+}
+
+function add_phone_passenger_cache(){
+    text = '';
+    passenger_data_phone = passenger_data_phone + 1;
+    text+=`
+        <div class='row' id="phone_cache`+passenger_data_phone+`_id">
+            <div class="col-sm-5">
+                <label>Phone Id</label><br/>
+                <div class="form-select">
+                    <select class="form-control js-example-basic-single" name="passenger_edit_phone_code`+passenger_data_phone+`_id" style="width:100%;" id="passenger_edit_phone_code`+passenger_data_phone+`_id" placeholder="Nationality" onchange="auto_complete('passenger_edit_phone_code`+passenger_data_phone+`')" class="nice-select-default">`;
+                        for(j in country_cache){
+                            text += `<option value="`+country_cache[j].phone_code+`"`;
+                            if('62' == country_cache[j].phone_code)
+                                text += `selected`;
+                            text += `>`+country_cache[j].phone_code+`</option>`;
+                        }
+                    text+=`</select>
+                </div>
+                <input type="hidden" name="passenger_edit_phone_code`+passenger_data_phone+`" id="passenger_edit_phone_code`+passenger_data_phone+`" />
+            </div>
+            <div class="col-sm-6">
+                <label>Phone Number</label><br/>
+                <div class="form-select">
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="passenger_edit_phone_number`+passenger_data_phone+`" id="passenger_edit_phone_number`+passenger_data_phone+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" value="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1" style="margin-top:25px;">
+                <button type="button" class="primary-delete-date" onclick="delete_phone_passenger_cache(`+passenger_data_phone+`)">
+                    <i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i>
+                </button>
+            </div>
+        </div>`;
+    document.getElementById('passenger_edit_phone_table').innerHTML += text;
+    document.getElementById('passenger_edit_phone_code'+passenger_data_phone).value = '62';
+    $('#passenger_edit_phone_code'+passenger_data_phone+'_id').select2();
+}
+
+function get_countries(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_country',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {},
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            country_cache = msg.result.response;
+        }else{
+
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
     });
 }
 
@@ -2170,8 +2392,6 @@ function pick_passenger_cache(val){
                 document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).value = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
                 document.getElementById(passenger_pick+'_country_of_issued'+passenger_pick_number).readOnly = true;
                 document.getElementById('select2-'+passenger_pick+'_country_of_issued'+passenger_pick_number+'_id-container').innerHTML = passenger_data_cache[val].identities.passport.identity_country_of_issued_name;
-
-
             }
         }catch(err){
 
@@ -2203,6 +2423,15 @@ function modal_help_pax_hide(){
     $('#myModalHelp_passenger').modal('hide');
 }
 
+function delete_country_of_issued_passenger_cache(val){
+    document.getElementById('passenger_identity_country_of_issued'+val).value = '';
+    document.getElementById('select2-passenger_identity_country_of_issued_id'+val+'-container').innerHTML = '';
+}
+
+function delete_identity_expired_date(type, id){
+    document.getElementById(type+'_identity_expired_date'+id).value = "";
+}
+
 function change_identity(){
     if(document.getElementById('passenger_identity').value != ''){
         if(document.getElementById('passenger_identity').value == 'passport'){
@@ -2227,8 +2456,11 @@ function change_identity(){
     }
 }
 
-function close_upload_attachment(){
-    $('#myModal_attachment').modal('hide');
+function close_upload_attachment(val){
+    if(val == '')
+        $('#myModal_attachment').modal('hide');
+    else
+        $('#myModal_attachment_edit'+val).modal('hide');
 }
 
 function handleFileSelect_attachment(e) {
@@ -2252,4 +2484,278 @@ function handleFileSelect_attachment(e) {
         reader.readAsDataURL(f);
 
     });
+}
+
+function handleFileSelect_attachment1(e) {
+    console.log(e);
+    if(!e.target.files || !window.FileReader) return;
+
+    selDiv_attachment1.innerHTML = "";
+
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+        if(!f.type.match("image.*")) {
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            selDiv_attachment1.innerHTML += html;
+        }
+        reader.readAsDataURL(f);
+
+    });
+}
+
+function handleFileSelect_attachment2(e) {
+    console.log(e);
+    if(!e.target.files || !window.FileReader) return;
+
+    selDiv_attachment2.innerHTML = "";
+
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+        if(!f.type.match("image.*")) {
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            selDiv_attachment2.innerHTML += html;
+        }
+        reader.readAsDataURL(f);
+
+    });
+}
+
+function handleFileSelect_attachment3(e) {
+    console.log(e);
+    if(!e.target.files || !window.FileReader) return;
+
+    selDiv_attachment3.innerHTML = "";
+
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+        if(!f.type.match("image.*")) {
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            selDiv_attachment3.innerHTML += html;
+        }
+        reader.readAsDataURL(f);
+
+    });
+}
+
+function handleFileSelect_attachment4(e) {
+    console.log(e);
+    if(!e.target.files || !window.FileReader) return;
+
+    selDiv_attachment4.innerHTML = "";
+
+    var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+    filesArr.forEach(function(f) {
+        if(!f.type.match("image.*")) {
+            return;
+        }
+
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var html = "<img src=\"" + e.target.result + "\">" + f.name + "<br clear=\"left\"/>";
+            selDiv_attachment4.innerHTML += html;
+        }
+        reader.readAsDataURL(f);
+
+    });
+}
+
+function update_passenger_backend(){
+    //check
+    error_log = '';
+    console.log(document.getElementById('passenger_edit_nationality').value);
+    if(document.getElementById('passenger_edit_nationality').value == ''){
+        error_log+= 'Please fill Nationality!</br>\n';
+        document.getElementById('passenger_edit_nationality').style['border-color'] = 'red';
+        document.getElementById('passenger_edit_nationality').style['border-color'] = 'red';
+    }else{
+        document.getElementById('passenger_edit_nationality').style['border-color'] = '#EFEFEF';
+        document.getElementById('passenger_edit_nationality').style['border-color'] = '#EFEFEF';
+    }
+    if(check_email(document.getElementById('passenger_edit_email').value) == false){
+        error_log+= 'Please fill Email!</br>\n';
+        document.getElementById('passenger_edit_email').style['border-color'] = 'red';
+        document.getElementById('passenger_edit_email').style['border-color'] = 'red';
+    }else{
+        document.getElementById('passenger_edit_email').style['border-color'] = '#EFEFEF';
+        document.getElementById('passenger_edit_email').style['border-color'] = '#EFEFEF';
+    }
+    var identity_type = '';
+    for(i = 1 ; i <= 4 ; i++){
+        if(i == 1)
+            identity_type = 'passport';
+        else if(i == 2)
+            identity_type = 'ktp';
+        else if(i == 3)
+            identity_type = 'sim';
+        else if(i == 4)
+            identity_type = 'other';
+        if(document.getElementById('passenger_edit_identity_number'+i).value != '' ||
+           document.getElementById('passenger_edit_identity_expired_date'+i).value != '' ||
+           document.getElementById('passenger_identity_country_of_issued'+i).value != ''){
+           if(document.getElementById('passenger_edit_identity_number'+i).value == ''){
+               error_log+= 'Please fill '+identity_type+' number !</br>\n';
+               document.getElementById('passenger_edit_identity_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_edit_identity_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('passenger_edit_identity_expired_date'+i).value == ''){
+               error_log+= 'Please fill '+identity_type+' expired date !</br>\n';
+               document.getElementById('passenger_edit_identity_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_edit_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('passenger_identity_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill '+identity_type+' country of issued !</br>\n';
+               document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+        }
+    }
+    for(i = 1; i<= passenger_data_phone ; i++){
+        try{
+            if(document.getElementById('passenger_edit_phone_code'+i).value == '' && check_phone_number(document.getElementById('passenger_edit_phone_number'+i).value) == false){
+                error_log+= 'Phone number only contain number 8 - 12 digits for phone '+i+'!</br>\n';
+                document.getElementById('passenger_edit_phone_number'+i).style['border-color'] = 'red';
+            }else
+                document.getElementById('passenger_edit_phone_number'+i).style['border-color'] = '#EFEFEF';
+        }catch(err){
+
+        }
+    }
+    if(error_log == ''){
+        var formData = new FormData($('#form_identity_passenger_edit').get(0));
+        formData.append('signature', signature)
+        console.log(formData);
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'update_image_passenger',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: formData,
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    identity_type_dict = {
+                        'passport': 'files_attachment_edit1',
+                        'ktp': 'files_attachment_edit2',
+                        'sim': 'files_attachment_edit3',
+                        'other': 'files_attachment_edit4'
+                    }
+                    img_list = [];
+                    for(i in msg.result.response)
+                        img_list.push([msg.result.response[i][0], 4, msg.result.response[i][2]])
+                    for(i in passenger_data_cache[passenger_cache_pick].identities){
+                        for(j in passenger_data_cache[passenger_cache_pick].identities[i].identity_images){
+                            if(document.getElementById(i+j+'_delete').checked == true)
+                                img_list.push([passenger_data_cache[passenger_cache_pick].identities[i].identity_images[j][1], 2, identity_type_dict[i]]);
+                        }
+                    }
+                    phone = [];
+                    identity = {};
+                    for(i = 1; i<= passenger_data_phone ; i++){
+                        try{
+                            phone.push({
+                                'calling_code': document.getElementById('passenger_edit_phone_code'+i).value,
+                                'calling_number': document.getElementById('passenger_edit_phone_number'+i).value
+                            })
+                        }catch(err){
+
+                        }
+                    }
+                    for(i = 1 ; i <= 4 ; i++){
+                        if(document.getElementById('passenger_edit_identity_number'+i).value != ''){
+                            if(i == 1)
+                                identity_type = 'passport';
+                            else if(i == 2)
+                                identity_type = 'ktp';
+                            else if(i == 3)
+                                identity_type = 'sim';
+                            else if(i == 4)
+                                identity_type = 'other';
+                            identity[identity_type] = {
+                                'identity_type': identity_type,
+                                'identity_number': document.getElementById('passenger_edit_identity_number'+i).value,
+                                'identity_expdate': document.getElementById('passenger_edit_identity_expired_date'+i).value,
+                                'identity_country_of_issued_name': document.getElementById('passenger_identity_country_of_issued'+i).value
+                            };
+                        }
+                    }
+                    update_passenger_dict = {
+                        'nationality_name': document.getElementById('passenger_edit_nationality').value,
+                        'email': document.getElementById('passenger_edit_email').value,
+                        'phone': phone,
+                        'identity': identity,
+                        'image': img_list,
+                        'seq_id': passenger_data_cache[passenger_cache_pick].seq_id
+                    }
+                    console.log(JSON.stringify(update_passenger_dict));
+                    $.ajax({
+                       type: "POST",
+                       url: "/webservice/agent",
+                       headers:{
+                            'action': 'update_customer',
+                       },
+                       data: {
+                            'data': JSON.stringify(update_passenger_dict),
+                            'signature': signature
+                       },
+                       success: function(msg) {
+                            console.log(msg);
+                            if(msg.result.error_code == 0){
+
+                                document.getElementById('passenger_chosen').hidden = false;
+                                document.getElementById('passenger_update').hidden = true;
+                                //document.getElementById('form_admin').submit();
+                            }
+                       },
+                       error: function(XMLHttpRequest, textStatus, errorThrown) {
+                            Swal.fire({
+                              type: 'error',
+                              title: 'Oops!',
+                              html: '<span style="color: red;">Error update passenger </span>' + errorThrown,
+                            })
+                       }
+                    });
+
+                    //document.getElementById('form_admin').submit();
+                }
+           },
+           contentType:false,
+           processData:false,
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update passenger </span>' + errorThrown,
+                })
+           }
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: #ff9900;">Error </span>' + error_log,
+        })
+    }
 }

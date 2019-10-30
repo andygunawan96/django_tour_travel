@@ -75,6 +75,10 @@ def api_models(request):
             res = get_banner(request)
         elif req_data['action'] == 'set_inactive_delete_banner':
             res = set_inactive_delete_banner(request)
+        elif req_data['action'] == 'get_country':
+            res = get_country()
+        elif req_data['action'] == 'update_image_passenger':
+            res = update_image_passenger(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -148,6 +152,76 @@ def upload_file(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+def update_image_passenger(request):
+    try:
+        imgData = []
+
+        for i in request.FILES:
+            for img in request.FILES.getlist(i):
+                imgData.append({
+                    'filename': img.name,
+                    'file_reference': img.name,
+                    'file': base64.b64encode(img.file.read()).decode('ascii'),
+                    'type': i
+                })
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "upload_file",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    list_img = []
+    for img in imgData:
+        data = img
+        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        list_img.append([res['result']['response']['seq_id'], 4, img['type']])
+    try:
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': list_img
+            }
+        }
+        # request.session['signature'] = res['result']['response']['signature']
+        # if func == 'get_config':
+        #     get_config(request)
+        # elif func == 'register':
+        #     register(request)
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_country():
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+    try:
+        airline_country = response['result']['response']['airline']['country']
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': airline_country
+            }
+        }
+    except:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': 'No Cache',
+                'response': ''
+            }
+        }
+    return res
 
 def add_banner(request):
     try:

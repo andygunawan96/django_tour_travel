@@ -3074,10 +3074,10 @@ function airline_detail(type){
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+parseFloat(additional_price))+`</b></span><br/>`;
             else
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+additional_price)+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+parseFloat(additional_price))+`</b></span><br/>`;
             text+=`
             </div>
         </div>
@@ -3709,6 +3709,8 @@ function get_airline_review(){
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list)
                                     text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
+                                for(j in passengers_ssr[i].seat_list)
+                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` Seat `+passengers_ssr[i].seat_list[j].seat_pick+`</label>`;
                                 text+=`</td>
                                </tr>`;
                         count_pax++;
@@ -3882,4 +3884,12 @@ function set_new_request_ssr(){
 
 function set_new_request_seat(){
     get_seat_availability('request_new_seat');
+}
+
+function send_request_link(val){
+    console.log(time_limit);
+    document.getElementById('time_limit_input').value = time_limit;
+    document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
+    document.getElementById('airline_request_send2').action = val;
+    document.getElementById('airline_request_send2').submit();
 }
