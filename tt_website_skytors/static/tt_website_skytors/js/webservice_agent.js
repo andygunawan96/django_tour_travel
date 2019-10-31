@@ -600,7 +600,7 @@ function get_customer_list(passenger, number, product){
                     if(msg.result.response.length != 0){
                         response+=`
                         <div class="alert alert-success" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search"></i> We found `+msg.result.response.length+` user(s) with name like " `+like_name_paxs+` "</h6></div>
-                        <div style="overflow-y:auto;height:100%;margin-top:10px;">
+                        <div style="overflow-y:auto;height:50vh;margin-top:10px;">
                         <table style="width:100%" id="list-of-passenger">
                             <tr>
                                 <th style="width:10%;">No</th>
@@ -2071,8 +2071,11 @@ function get_passenger_cache(){
 //                            <td>Rp. `+getrupiah(msg.response.result[i].agent_id.credit_limit+ msg.response.result[i].agent_id.balance)+`</td>
                         if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
                             response+=`<td><select id="selection_type`+i+`" style="width:100%;">`;
-                            response+=`<optgroup label="Booker">`;
-                            response+=`<option value="booker">Booker</option>`;
+                            if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
+                                response+=`<optgroup label="Booker">`;
+                                response+=`<option value="booker">Booker</option>`;
+                            }
+
                             try{
                                 if(adult > 0)
                                     response+=`<optgroup label="Adult">`;
