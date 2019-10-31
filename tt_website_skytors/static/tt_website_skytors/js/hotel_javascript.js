@@ -593,17 +593,7 @@ function sort(response, check_filter){
                 text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
                 //msg.result.response.city_ids[i].sequence
                 text+=`
-                <div class="row">
-                    <div class="col-lg-12" style="margin-bottom:25px;">
-                        <div style="top:0px; right:10px; position:absolute;">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket"></span>
-                                <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                            <span class="id_copy_result" hidden>`+i+`</span>
-                        </div>
-                    </div>`;
+                <div class="row">`;
                     if(response.hotel_ids[i].images.length != 0){
                         text+=`
                         <div class="col-lg-3">
@@ -619,25 +609,32 @@ function sort(response, check_filter){
                     text+=`
                     <div class="col-lg-9 name_hotel_search"">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div style="margin-bottom:10px;">
-                                    <h4 class="name_hotel hover_name" title="`+response.hotel_ids[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h4>
+                            <div class="col-lg-7 col-md-7">
+                                <div>
+                                    <h5 class="name_hotel hover_name" title="`+response.hotel_ids[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:5px; font-size:18px; font-weight:bold;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h5>
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7">
-                                <div style="margin-bottom:10px;">
-                                <span>
-                                    <span style="border: 2px solid #f15a22; border-radius:7px; padding-left:10px; padding-right:10px; margin-right:5px; font-weight: bold;"> Hotel </span>`;
+                            <div class="col-lg-4 col-md-4 col-sm-11 col-xs-11">`;
                                 if(response.hotel_ids[i].rating != false){
                                     for (co=0; co < parseInt(response.hotel_ids[i].rating); co++){
-                                        text+=`<i class="fas fa-star" style="color:#FFC44D;"></i>`;
+                                        text+=`<i class="fas fa-star" style="color:#FFC44D; font-size:16px;"></i>`;
                                     }
                                     text+=`<span class="rating_hotel" hidden>*`+response.hotel_ids[i].rating+`</span>`;
                                 }
                                 else{
                                     text+=`<span class="rating_hotel" hidden>Unrated</span>`;
                                 }
-                            text+=`</span></div>`;
+                            text+=`
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 checkbox_search_hotel" style="text-align:right;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket"></span>
+                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                                <span class="id_copy_result" hidden>`+i+`</span>
+                            </div>
+                            <div class="col-lg-7 col-md-7" style="padding-top:5px;">`;
                             detail = JSON.stringify(response.hotel_ids[i]);
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
@@ -658,26 +655,73 @@ function sort(response, check_filter){
                                 text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
                             // if(response.hotel_ids[i].location.zipcode != false)
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
-                            text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
+                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
+                                </div>
+
+                                <div style="padding-bottom:5px;">
+                                Facilities
+                                <span>`;
+                                    try{
+                                        var ava_fac = '';
+                                        for(j in top_facility){
+                                            var facility_check = 0;
+                                            for(k in response.hotel_ids[i].facilities){
+                                                if(top_facility[j].internal_code == response.hotel_ids[i].facilities[k].facility_id){
+                                                    facility_check = 1;
+                                                    ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
+                                                    break;
+                                                }
+                                            }
+
+                                            if(facility_check == 1){
+                                                text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
+                                            }
+                                            else{
+                                                text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
+                                            }
+                                        }
+                                    }
+                                catch(err){}
+                                text+=`</span>
+                                </div>
+
+                                <div style="padding-top:10px;">`;
+                                    var idx_img = 1;
+                                    if(response.hotel_ids[i].images.length != 0){
+                                        for(idx_img; idx_img < response.hotel_ids[i].images.length; idx_img++){
+                                            if(idx_img < 5){
+                                                text+=`<img class="img_hotel_smallbot" src="`+response.hotel_ids[i].images[idx_img].url+`" width="50" height="50" onclick="viewImageHotel('`+response.hotel_ids[i].images[idx_img].url+`');">`;
+                                            }
+                                            else{
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else{
+                                        text+=`<img src="/static/tt_website_skytors/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+                                    }
+                                    text+=`
                                 </div>
                             </div>
-                            <div class="col-lg-5 col-md-5">
-                                <div class="row">`;
+                            <div class="col-lg-5 col-md-5" style="padding-top:5px;">
+                                <div class="row" style="padding:0px;">`;
                                     if(Object.keys(response.hotel_ids[i].prices).length > 0){
                                         var best_price = [];
                                         var check_price = 0;
+                                        var more_price = 0;
                                         for(j in response.hotel_ids[i].prices){
                                             check_price += 1;
                                             if(check_price < 4){
-                                                text += `
-                                                <div class="col-lg-12">
-                                                    <h6 style="color:#f15a22;">Best Price</h6>
+                                                text+=`
+                                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
+                                                if(check_price == 1){
+                                                    text += `<i class="fas fa-thumbs-up" style="color:#f15a22;"></i>`;
+                                                }
+                                                text +=`
                                                 </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <span style="font-size:13px; font-weight: 700; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
+                                                <div class="col-lg-10 col-md-10 col-sm-11 col-xs-11 search_hotel_vendor" style="padding-left:5px; padding-right:5px;">
+                                                    <span style="font-size:13px; font-weight: 700;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
+                                                    <span style="font-size:13px; font-weight: 500; float:right;">` + j +`</span>
                                                 </div>`;
                                             }
                                             if(response.hotel_ids[i].prices[j]['price'] != 0 && response.hotel_ids[i].prices[j]['price'] != false && response.hotel_ids[i].prices[j]['price'] != "-")
@@ -685,16 +729,23 @@ function sort(response, check_filter){
                                         }
 
                                         if (check_price > 3){
-                                            text += `<div class="col-lg-12">
+                                            text += `
+                                            <div class="col-lg-12">
                                                 <span style="font-size:13px; font-weight:700; text-align:left; cursor:pointer;" data-toggle="dropdown"> View all `+ check_price +` <i class="fas fa-caret-down"></i></span>
                                                 <ul class="dropdown-menu" role="menu" style="top:-10px !important; border:1px solid black;">
-                                                    <div class="row" style="padding:10px;">`;
+                                                    <div class="row" style="padding:0px;">`;
                                                     for(j in response.hotel_ids[i].prices){
-                                                        text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <span style="font-size:13px; font-weight: 500; text-align:left;">` + j +`</span>
+                                                        more_price += 1;
+                                                        text+=`
+                                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
+                                                        if(more_price == 1){
+                                                            text += `<i class="fas fa-thumbs-up" style="color:#f15a22;"></i>`;
+                                                        }
+                                                        text +=`
                                                         </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                            <span style="font-size:13px; font-weight: 700; text-align:right;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
+                                                        <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11">
+                                                            <span style="font-size:13px; font-weight: 700; float:left;">IDR ` + getrupiah(response.hotel_ids[i].prices[j]['price']) + `</span>
+                                                            <span style="font-size:13px; font-weight: 500; float:right;">` + j +`</span>
                                                         </div>`;
                                                     }
                                                     text+=`</div>
@@ -706,7 +757,7 @@ function sort(response, check_filter){
                                         if(best_price[0] != undefined)
                                             text+=`<span class="price_hotel" hidden>IDR ` + getrupiah(best_price[0]) + `</span>`;
                                         else
-                                            text+=`<span class="price_hotel" hidden>Waiting price from vendor</span>`;
+                                            text+=`<span class="price_hotel" hidden>Waiting price</span>`;
                                     } else {
                                         for(j in response.hotel_ids[i].external_code){
                                             text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
@@ -716,42 +767,16 @@ function sort(response, check_filter){
                                             <span style="font-size:13px; font-weight: 700; text-align:right;">-</span>
                                         </div>`;
                                         }
-                                        text+=`<span class="price_hotel" hidden>Waiting price from vendor</span>`;
+                                        text+=`<span class="price_hotel" hidden>Waiting price</span>`;
                                     }
-                                   text += `
+                                    text += `
+                                    </div>
+                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
+                                        <span style="font-size:12px; margin-top:10px; font-weight:500;"> For 1 Night(s) </span>
+                                        <br/>
+                                        <button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7" style="text-align:left; padding-top:30px;">
-                                Facilities:<br/>
-                                <span>`;
-                                try{
-                                    var ava_fac = '';
-                                    for(j in top_facility){
-                                        var facility_check = 0;
-                                        for(k in response.hotel_ids[i].facilities){
-                                            if(top_facility[j].internal_code == response.hotel_ids[i].facilities[k].facility_id){
-                                                facility_check = 1;
-                                                ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
-                                                break;
-                                            }
-                                        }
-
-                                        if(facility_check == 1){
-                                            text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
-                                        }
-                                        else{
-                                            text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
-                                        }
-                                    }
-                                }
-                            catch(err){}
-                            text+=`</span>
-                                </div>
-                                <div class="col-lg-5  col-md-5" style="text-align:right; padding-top:15px;">
-                                   <button type="button" class="primary-btn-custom" onclick="goto_detail('hotel',`+i+`)">Select</button>
-                                   <br/>
-                                   <span style="font-size:11px; margin-top:10px; font-weight:400;"> For 1 Night(s) </span>
-                               </div>
                             </div>
                         </div>
                     </div>
@@ -918,7 +943,7 @@ function hotel_filter_render(){
         </div>
     </div>
     <hr/>
-    <h6 style="padding-bottom:10px;">Rating</h6>`;
+    <h6 style="padding-bottom:10px;">Star Rating</h6>`;
     for(i in rating_list){
         if(i == 0)
             text += `
@@ -1609,4 +1634,10 @@ function price_update(){
         max: high_price_slider,
         step: step_slider
    });
+}
+
+function viewImageHotel(urlImage){
+    var modalImg = document.getElementById("viewImageHotel");
+    modalImg.src = urlImage;
+    $("#openImage").modal('show');
 }
