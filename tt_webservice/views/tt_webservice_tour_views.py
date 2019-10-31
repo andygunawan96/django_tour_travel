@@ -177,6 +177,15 @@ def get_pricing(request):
     return res
 
 
+def get_pricing_cache(request):
+    try:
+        res = request.session['tour_price']
+    except Exception as e:
+        res = {}
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
 def update_passenger(request):
     try:
         temp_booking_data = request.session['booking_data']
