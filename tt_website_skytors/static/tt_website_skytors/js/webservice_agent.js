@@ -2055,14 +2055,16 @@ function get_passenger_cache(){
                                         response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                     }
                                     response+=`</select></div>`;
+                                }else{
+                                    response+=`<br/>`;
                                 }
                                 if(msg.result.response[i].nationality_name != '')
                                     response+=`<span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
                                 if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
                                     response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
-                                else if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
+                                if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
                                     response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
-                                else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
+                                if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                     response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
                             response+=`
                             </div>
@@ -2223,6 +2225,7 @@ function edit_passenger_cache(val){
     document.getElementById('attachment4').innerHTML = '';
 
     //avatar
+    if(passenger_data_cache[val].face_image.length != 0)
     text+= `
             <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                 <img src="`+passenger_data_cache[val].face_image[0]+`" value="`+passenger_data_cache[val].face_image[1]+`" id="avatar_image" style="height:220px;width:auto" />
@@ -2770,6 +2773,7 @@ function handleFileSelect_attachment_edit4(e) {
 }
 
 function update_passenger_backend(){
+    document.getElementById('update_passenger_customer').disabled = true;
     //check
     error_log = '';
     console.log(document.getElementById('passenger_edit_nationality').value);
@@ -2859,8 +2863,10 @@ function update_passenger_backend(){
                     img_list = [];
                     for(i in msg.result.response)
                         img_list.push([msg.result.response[i][0], 4, msg.result.response[i][2]])
+                    try{
                     if(document.getElementById('avatar_delete').checked == true)
                         img_list.push([passenger_data_cache[passenger_cache_pick].face_image[0][1], 2, 'files_attachment']);
+                    }catch(err){}
                     for(i in passenger_data_cache[passenger_cache_pick].identities){
                         for(j in passenger_data_cache[passenger_cache_pick].identities[i].identity_images){
                             if(document.getElementById(i+j+'_delete').checked == true)
@@ -2928,6 +2934,8 @@ function update_passenger_backend(){
 
                                 document.getElementById('passenger_chosen').hidden = false;
                                 document.getElementById('passenger_update').hidden = true;
+                                get_passenger_cache();
+                                document.getElementById('update_passenger_customer').disabled = false;
                                 //document.getElementById('form_admin').submit();
                             }
                        },
@@ -2951,6 +2959,7 @@ function update_passenger_backend(){
                   title: 'Oops!',
                   html: '<span style="color: red;">Error update passenger </span>' + errorThrown,
                 })
+                document.getElementById('update_passenger_customer').disabled = false;
            }
         });
     }else{
@@ -2959,5 +2968,7 @@ function update_passenger_backend(){
           title: 'Oops!',
           html: '<span style="color: #ff9900;">Error </span>' + error_log,
         })
+        document.getElementById('update_passenger_customer').disabled = false;
     }
+    document.getElementById('update_passenger_customer').disabled = false;
 }
