@@ -376,6 +376,8 @@ function carrier_to_provider(){
         }
     }
     send_search_to_api();
+    document.getElementById('airline_list').innerHTML = '';
+    document.getElementById('airline_list2').innerHTML = '';
 }
 
 function send_search_to_api(val){
@@ -570,14 +572,16 @@ function airline_search(provider,carrier_codes){
                 node = document.createElement("div");
            }
            var node = document.createElement("div");
-           node.innerHTML = `
-           <hr/>
-           <h6 style="padding-bottom:10px;">Airline</h6>`;
-
            var node2 = document.createElement("div");
-           node2.innerHTML = `
-           <hr/>
-           <h6 style="padding-bottom:10px;">Airline</h6>`;
+           if(document.getElementById("airline_list").innerHTML == ''){
+               node.innerHTML += `
+               <hr/>
+               <h6 style="padding-bottom:10px;">Airline</h6>`;
+
+               node2.innerHTML += `
+               <hr/>
+               <h6 style="padding-bottom:10px;">Airline</h6>`;
+           }
 
            airline_data.forEach((obj)=> {
                check = 0;
@@ -1962,7 +1966,6 @@ function airline_commit_booking(val){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
                 })
-                window.location.href = "/";
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
