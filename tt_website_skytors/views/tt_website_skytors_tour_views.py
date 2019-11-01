@@ -189,37 +189,6 @@ def passenger(request):
             'adults': adult,
             'infants': infant,
             'childs': child,
-            'price_itinerary': {
-                'adult_amount': request.POST.get('adult_amount') and int(request.POST['adult_amount'].replace(',', '')) or 0,
-                'adult_total_pax': request.POST.get('adult_total_pax') and int(request.POST['adult_total_pax'].replace(',', '')) or 0,
-                'adult_price': request.POST.get('adult_price') and int(request.POST['adult_price'].replace(',', '')) or 0,
-                'adult_surcharge_amount': request.POST.get('adult_surcharge_amount') and int(request.POST['adult_surcharge_amount'].replace(',', '')) or 0,
-                'adult_surcharge_price': request.POST.get('adult_surcharge_price') and int(request.POST['adult_surcharge_price'].replace(',', '')) or 0,
-                'child_amount': request.POST.get('child_amount') and int(request.POST['child_amount'].replace(',', '')) or 0,
-                'child_total_pax': request.POST.get('child_total_pax') and int(request.POST['child_total_pax'].replace(',', '')) or 0,
-                'child_price': request.POST.get('child_price') and int(request.POST['child_price'].replace(',', '')) or 0,
-                'child_surcharge_amount': request.POST.get('child_surcharge_amount') and int(request.POST['child_surcharge_amount'].replace(',', '')) or 0,
-                'child_surcharge_price': request.POST.get('child_surcharge_price') and int(request.POST['child_surcharge_price'].replace(',', '')) or 0,
-                'infant_amount': request.POST.get('infant_amount') and int(request.POST['infant_amount'].replace(',', '')) or 0,
-                'infant_price': request.POST.get('infant_price') and int(request.POST['infant_price'].replace(',', '')) or 0,
-                'single_supplement_amount': request.POST.get('single_supplement_amount') and int(request.POST['single_supplement_amount'].replace(',', '')) or 0,
-                'single_supplement_price': request.POST.get('single_supplement_price') and int(request.POST['single_supplement_price'].replace(',', '')) or 0,
-                'airport_tax_amount': request.POST.get('airport_tax_amount') and int(request.POST['airport_tax_amount'].replace(',', '')) or 0,
-                'airport_tax_total': request.POST.get('airport_tax_total') and int(request.POST['airport_tax_total'].replace(',', '')) or 0,
-                'tipping_guide_amount': request.POST.get('tipping_guide_amount') and int(request.POST['tipping_guide_amount'].replace(',', '')) or 0,
-                'tipping_guide_total': request.POST.get('tipping_guide_total') and int(request.POST['tipping_guide_total'].replace(',', '')) or 0,
-                'tipping_tour_leader_amount': request.POST.get('tipping_tour_leader_amount') and int(request.POST['tipping_tour_leader_amount'].replace(',', '')) or 0,
-                'tipping_tour_leader_total': request.POST.get('tipping_tour_leader_total') and int(request.POST['tipping_tour_leader_total'].replace(',', '')) or 0,
-                'tipping_driver_amount': request.POST.get('tipping_driver_amount') and int(request.POST['tipping_driver_amount'].replace(',', '')) or 0,
-                'tipping_driver_total': request.POST.get('tipping_driver_total') and int(request.POST['tipping_driver_total'].replace(',', '')) or 0,
-                'additional_charge_amount': request.POST.get('additional_charge_amount') and int(request.POST['additional_charge_amount'].replace(',', '')) or 0,
-                'additional_charge_total': request.POST.get('additional_charge_total') and int(request.POST['additional_charge_total'].replace(',', '')) or 0,
-                'total_itinerary_price': request.POST.get('grand_total_hidden') and int(request.POST['grand_total_hidden']) or 0,
-                'discount_total_itinerary_price': request.POST.get('discount_total_hidden') and int(request.POST['discount_total_hidden']) or 0,
-                'sub_total_itinerary_price': request.POST.get('sub_total_hidden') and int(request.POST['sub_total_hidden']) or 0,
-                'commission_total': request.POST.get('commission_total') and int(request.POST['commission_total']) or 0
-            },
-            'total_itinerary_price': request.POST.get('grand_total_hidden') and int(request.POST['grand_total_hidden']) or 0,
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
             'logo': logo,
@@ -253,15 +222,16 @@ def passenger(request):
             }
 
             room.update({
-                'address': room['data'][1],
-                'bed_type': room['data'][4].title(),
-                'description': room['data'][7],
-                'hotel': room['data'][8],
-                'name': room['data'][9].title(),
-                'star': room['data'][12],
-                'id': room['data'][14],
+                'address': room['data']['address'],
+                'bed_type': room['data']['bed_type'],
+                'description': room['data']['description'],
+                'hotel': room['data']['hotel'],
+                'name': room['data']['name'],
+                'star': room['data']['star'],
+                'id': room['data']['id'],
                 'notes': request.POST.get(note) and request.POST[note] or '',
             })
+            room.pop('data')
             render_pax_per_room.append(room)
 
         values.update({
@@ -274,7 +244,6 @@ def passenger(request):
             'adults': int(request.POST['adult_total_pax'].replace(',', '')),
             'childs': int(request.POST['child_total_pax'].replace(',', '')),
             'infants': int(request.POST['infant_amount'].replace(',', '')),
-            'price_itinerary': values['price_itinerary'],
             'static_path_url_server': get_url_static_path(),
             'tour_data': request.session['tour_pick'],
             'javascript_version': javascript_version
