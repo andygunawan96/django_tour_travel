@@ -29,6 +29,8 @@
     passengers = JSON.parse(passengers.replace(/False/g, '"false"'));
     console.log(passengers);
     signature = `{{signature}}`;
+    additional_price = `{{additional_price}}`;
+    additional_price = parseFloat(additional_price);
     try{
         time_limit = '{{time_limit}}';
         if(time_limit != ''){
@@ -44,6 +46,8 @@
         price_itinerary = price_itinerary.replace(/False/g, '"false"');
         price_itinerary = JSON.parse(price_itinerary);
         breadcrumb = 2;
+        type = '';
+        additional_price_fix = parseFloat(additional_price);
     }catch(err){
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
@@ -52,18 +56,11 @@
         console.log(airline_get_booking);
         airline_get_booking = JSON.parse(airline_get_booking);
         breadcrumb = 2;
-    }
-    passenger_pick = '';
-    additional_price = `{{additional_price}}`;
-    if(additional_price != ''){
-        type = '';
-        additional_price_fix = parseInt(additional_price);
-        console.log(additional_price_fix);
-    }else{
         type = 'request_new';
         additional_price_fix = 0;
-
     }
+    passenger_pick = '';
+
 
 </script>
 <style>
@@ -186,15 +183,9 @@ img {vertical-align: middle;}
                                         <h5 style="padding-top:10px; padding-bottom:10px;">Passenger</h5>
                                         <div class="row">
                                             {% for pax in passengers%}
-                                            {% if forloop.counter == 1%}
-                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
-                                                <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:#f15a22;padding:10px;margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:white;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
-                                            </div>
-                                            {% else %}
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
                                                 <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
                                             </div>
-                                            {% endif %}
                                             {% endfor %}
                                         </div>
                                         <div id="airline_passenger_detail_seat">

@@ -22,12 +22,15 @@
     len_passenger = {{passengers|length}};
     ssr_keys = [];
     {% for ssr_availability_provider in airline_ssrs.ssr_availability_provider %}
+        {% with forloop.counter as counter_provider%}
         {% for key, value in ssr_availability_provider.ssr_availability.items %}
             ssr_keys.push({
                 'key': '{{key}}',
-                'len': {{value|length}}
+                'len': {{value|length}},
+                'provider': {{counter_provider}}
             });
         {% endfor %}
+        {% endwith %}
     {% endfor %}
     console.log(ssr_keys);
     signature = `{{signature}}`;
@@ -145,6 +148,11 @@
                                     <hr/>
                                 </div>
                                 {% for ssr_provider in airline_ssrs.ssr_availability_provider %}
+                                    {% with forloop.counter as counter_provider%}
+                                    {% for img in ssr_provider.airline_list %}
+                                    <img data-toggle="tooltip" style="width:50px; height:50px;" src="{{static_path_url_server}}/public/airline_logo/{{img}}.png">
+                                    {% endfor %}
+                                    <br/>
                                     {% for key, ssr_values in ssr_provider.ssr_availability.items %}
 
                                         {% for values in ssr_values %}
@@ -155,7 +163,7 @@
                                 {%if template == 1%}
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select">
-                                        <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" {% for ssr_list_pax in pax.ssr_list %}
@@ -170,7 +178,7 @@
                                 </div>
                                 {% elif template == 2 %}
                                 <div class="input-container-search-ticket btn-group">
-                                    <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                    <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
                                         <option value=""></option>
                                         {% for ssr in values.ssrs %}
                                         <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -180,7 +188,7 @@
                                 {% elif template == 3 %}
                                 <div class="form-group">
                                     <div class="default-select" id="default-select">
-                                        <select id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -192,7 +200,7 @@
                                 <div class="select-wrap">
                                     <span class="span-search-ticket">Class</span><br/>
                                     <span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>
-                                    <select class="form-control rounded" id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
+                                    <select class="form-control rounded" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
                                         <option value=""></option>
                                         {% for ssr in values.ssrs %}
                                         <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -202,7 +210,7 @@
                                 {% elif template == 5 %}
                                 <div class="input-container-search-ticket" style="display:inline-block !important;">
                                     <div id="default-select">
-                                        <select class="app-select form-control" id="{{key}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
+                                        <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -213,6 +221,7 @@
                                 {%endif%}
                                             {% endfor %}
                                         {% endfor %}
+                                        {% endwith %}
                                     {% endfor %}
                                     {% endwith %}
                                 {% endfor %}
