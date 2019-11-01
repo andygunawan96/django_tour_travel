@@ -2,7 +2,7 @@ import json
 
 def get_cache_version():
     file = open(var_log_path()+"cache_version.txt", "r")
-    cache_version = file.read()
+    cache_version = int(file.read())
     file.close()
     return cache_version
 
