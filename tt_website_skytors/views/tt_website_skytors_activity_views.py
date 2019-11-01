@@ -1186,7 +1186,7 @@ def review(request):
                 {
                     "resv": "-",
                     "checkin": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
-                    "time_slot": str(timeslot['startTime']) + ' - ' + str(timeslot['endTime']),
+                    "time_slot": timeslot and str(timeslot['startTime']) + ' - ' + str(timeslot['endTime']) or '-',
                     "activity_title": request.session['activity_pick']['name'],
                     "product_type": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['name'],
                 }

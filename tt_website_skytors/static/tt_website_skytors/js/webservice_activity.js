@@ -971,7 +971,7 @@ function activity_get_booking(data){
                 voucher_text = ``;
             }
             else{
-                if(msg.result.response.status == 'done'){
+                if(msg.result.response.status == 'issued'){
                     conv_status = 'Confirmed';
                     console.log(msg.result.response);
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -1186,7 +1186,7 @@ function activity_get_booking(data){
                     </div>
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
-               if(msg.result.response.status == 'done'){
+               if(msg.result.response.status == 'issued'){
                     if (msg.result.response.voucher_url)
                     {
                         text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
