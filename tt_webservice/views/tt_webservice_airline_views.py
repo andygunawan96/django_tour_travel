@@ -845,8 +845,15 @@ def sell_ssrs(request):
         if request.session['airline_ssr_request'] == {}:
             logging.getLogger("error_logger").error("NO SSR")
             res = {
-                'result':{
-                    'error_code': 0
+                'result': {
+                    'error_code': 0,
+                    'response': {
+                        'sell_ssr_provider': [
+                            {
+                                'status': 'SUCCESS'
+                            }
+                        ]
+                    }
                 }
             }
         else:
@@ -879,7 +886,14 @@ def assign_seats(request):
             logging.getLogger("error_logger").error("NO seat")
             res = {
                 'result': {
-                    'error_code': 0
+                    'error_code': 0,
+                    'response': {
+                        'seat_provider': [
+                            {
+                                'status': 'SUCCESS'
+                            }
+                        ]
+                    }
                 }
             }
         else:
