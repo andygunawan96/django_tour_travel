@@ -27,8 +27,9 @@ def can_book(now, dep):
 
 def search(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         # airline
@@ -255,8 +256,9 @@ def search(request):
 def passenger(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         try:
-            javascript_version = get_cache_version()
-            response = get_cache_data(javascript_version)
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
 
             file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
@@ -357,8 +359,9 @@ def passenger(request):
 
 def ssr(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
@@ -377,6 +380,18 @@ def ssr(request):
             additional_price = request.POST['additional_price_input'].split(',')
             for i in additional_price:
                 additional_price_input += i
+            airline_ssr = request.session['airline_get_ssr']['result']['response']
+            airline_list = []
+            for ssr_provider in airline_ssr['ssr_availability_provider']:
+                for available in ssr_provider['ssr_availability']:
+                    for journey in ssr_provider['ssr_availability'][available]:
+                        for segment in journey['segments']:
+                            airline_list.append(segment['carrier_code'])
+                    break
+                ssr_provider.update({
+                    'airline_list': airline_list
+                })
+                airline_list = []
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_request': request.session['airline_request'],
@@ -387,7 +402,7 @@ def ssr(request):
                 'airline_carriers': carrier,
                 # 'airline_destinations': airline_destinations,
                 'airline_pick': request.session['airline_pick'],
-                'airline_ssrs': request.session['airline_get_ssr']['result']['response'],
+                'airline_ssrs': airline_ssr,
                 'passengers': passenger,
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
@@ -478,6 +493,19 @@ def ssr(request):
                 passenger.append(pax)
             for pax in child:
                 passenger.append(pax)
+
+            airline_ssr = request.session['airline_get_ssr']['result']['response']
+            airline_list = []
+            for ssr_provider in airline_ssr['ssr_availability_provider']:
+                for available in ssr_provider['ssr_availability']:
+                    for journey in ssr_provider['ssr_availability'][available]:
+                        for segment in journey['segments']:
+                            airline_list.append(segment['carrier_code'])
+                    break
+                ssr_provider.update({
+                    'airline_list': airline_list
+                })
+                airline_list = []
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'seat_map': 1,
@@ -487,7 +515,7 @@ def ssr(request):
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 # 'airline_destinations': airline_destinations,
                 # 'airline_pick': request.session['airline_pick'],
-                'airline_ssrs': request.session['airline_get_ssr']['result']['response'],
+                'airline_ssrs': airline_ssr,
                 'passengers': passenger,
                 'username': request.session['user_account'],
                 'static_path_url_server': get_url_static_path(),
@@ -504,8 +532,9 @@ def ssr(request):
 
 def seat_map(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
@@ -725,13 +754,14 @@ def seat_map(request):
 
 def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
         ssr = []
-        if request.META.get('HTTP_REFERER') == get_url() + 'airline/ssr':
+        if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
             try:
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
                 sell_ssrs = []
@@ -740,29 +770,28 @@ def review(request):
                 for pax in passenger:
                     pax['ssr_list'] = []
                 ssr_response = request.session['airline_get_ssr']['result']['response']
-                for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
-                    for ssr_package in ssr_response['ssr_availability_provider']:
-                        for ssr_key in ssr_package['ssr_availability']:
-                            for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
-                                for idx, pax in enumerate(passenger):
-                                    try:
-                                        passengers_list.append({
-                                            "passenger_number": idx,
-                                            "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                        })
-                                        for list_ssr in journey_ssr['ssrs']:
-                                            if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                                pax['ssr_list'].append(list_ssr)
-                                                break
-                                    except:
-                                        pass
-                                if len(passengers_list) > 0:
-                                    sell_ssrs_request.append({
-                                        'journey_code': journey_ssr['journey_code'],
-                                        'passengers': passengers_list,
-                                        'availability_type': ssr_key
+                for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
+                    for ssr_key in ssr_package['ssr_availability']:
+                        for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
+                            for idx, pax in enumerate(passenger):
+                                try:
+                                    passengers_list.append({
+                                        "passenger_number": idx,
+                                        "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
                                     })
-                                passengers_list = []
+                                    for list_ssr in journey_ssr['ssrs']:
+                                        if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                            pax['ssr_list'].append(list_ssr)
+                                            break
+                                except:
+                                    pass
+                            if len(passengers_list) > 0:
+                                sell_ssrs_request.append({
+                                    'journey_code': journey_ssr['journey_code'],
+                                    'passengers': passengers_list,
+                                    'availability_type': ssr_key
+                                })
+                            passengers_list = []
                     if len(sell_ssrs_request) != 0:
                         sell_ssrs.append({
                             'sell_ssrs': sell_ssrs_request,
@@ -776,7 +805,7 @@ def review(request):
                 print('no ssr')
 
         #SEAT
-        if request.META.get('HTTP_REFERER') == get_url() + 'airline/seat_map':
+        if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'seat_map':
             try:
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
                 passengers = json.loads(request.POST['passenger'])
@@ -992,8 +1021,9 @@ def review(request):
 
 def review_after_sales(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
         goto = 0
@@ -1121,7 +1151,7 @@ def review_after_sales(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
+        javascript_version = get_javascript_version()
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:

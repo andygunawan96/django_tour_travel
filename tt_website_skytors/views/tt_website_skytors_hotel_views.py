@@ -20,8 +20,9 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         template, logo = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -69,8 +70,9 @@ def search(request):
 
 def detail(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         template, logo = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -107,8 +109,9 @@ def detail(request):
 
 
 def detail_static(request):
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    javascript_version = get_javascript_version()
+    cache_version = get_cache_version()
+    response = get_cache_data(cache_version)
     airline_country = response['result']['response']['airline']['country']
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
@@ -124,8 +127,9 @@ def detail_static(request):
 
 def passengers(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         template, logo = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -178,8 +182,9 @@ def passengers(request):
 
 def review(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         template, logo = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         request.session['hotel_request'].update({'special_request': request.POST['special_request']})
@@ -373,7 +378,7 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
+        javascript_version = get_javascript_version()
         template, logo = get_logo_template()
 
         try:

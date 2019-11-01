@@ -20,8 +20,9 @@ MODEL_NAME = 'tt_website_skytors'
 def issued_offline(request):
     if 'user_account' in request.session._session:
 
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
 
         template, logo = get_logo_template()
 
@@ -63,8 +64,9 @@ def issued_offline(request):
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()

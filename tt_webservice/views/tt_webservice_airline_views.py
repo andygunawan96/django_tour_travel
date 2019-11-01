@@ -253,7 +253,6 @@ def get_provider_list(request):
 def search2(request):
     # get_data_awal
     try:
-        javascript_version = get_cache_version()
         # airline
         airline_destinations = []
         file = open(var_log_path()+"airline_destination.txt", "r")
@@ -458,7 +457,6 @@ def get_data(request):
 def get_price_itinerary(request, boolean, counter):
     try:
         #baru
-        javascript_version = get_cache_version()
         airline_destinations = []
         file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
