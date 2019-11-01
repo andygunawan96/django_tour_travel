@@ -99,6 +99,11 @@ body {
   line-height: 1.625em;
   position: relative;
 }
+@media (max-width: 767px) {
+  #mybuttonsticky {
+    top:110px !important;
+  }
+}
 
 @media (min-width: 992px) {
   .primary-myticket {
@@ -2295,7 +2300,6 @@ h1, h2, h3, h4, h5, h6 {
 
 
 #header {
-  position: sticky;
   left: 0;
   top: 0;
   right: 0;
@@ -4916,8 +4920,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*  Footer Styles
 /* =================================== */
 .footer-area {
-  background: #04091e;
-  padding-top: 100px;
+  background: white;
+  padding-top: 40px;
+  border-top: 1px solid #cdcdcd;
 }
 
 .footer-area .footer-nav li {
@@ -5000,7 +5005,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 .footer-area h6 {
   text-transform: uppercase;
   color: #fff;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   font-size: 16px;
   font-weight: 600;
 }
@@ -5163,7 +5168,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .single-footer-widget ul li a {
-  color: #777777;
+  color: #000;
+  font-weight:300;
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
@@ -5171,11 +5177,12 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .single-footer-widget ul li a:hover {
-  color: #f8b600;
+  color: #f15a22;
+  text-decoration:unset;
 }
 
 .footer-bottom {
-  padding-top: 40px;
+  padding-top: 10px;
   margin-top: 20px;
   border-top: 1px solid #333;
 }
@@ -6570,7 +6577,7 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 
 .img-hotel-search {
     width: auto;
-    height: 188px;
+    height: 164px;
     background-size:cover;
     background-position:50% 50%;
     border-radius: 3px;
@@ -7780,6 +7787,8 @@ display: block;
     height:40px;
     padding-left:10px;
     padding-right:10px;
+    border: 1px solid #cdcdcd;
+    border-radius: 7px;
 }
 
 #overlay-search-box {
@@ -7794,4 +7803,64 @@ display: block;
   background-color: rgba(0,0,0,0.5);
   z-index: 2;
   cursor: pointer;
+}
+
+.boxHolder {
+  display: block;
+  width: 400px;
+  height: 104px;
+  margin-right: auto;
+  margin-left:  auto;
+  margin-bottom: 24px;
+}
+
+.animationHolder {
+    -webkit-animation-duration: 1s;
+    -webkit-animation-fill-mode: forwards;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-name: placeHolderShimmer;
+    -webkit-animation-timing-function: linear;
+    background: #f6f7f8;
+    background-image: -webkit-gradient(linear, left center, right center, from(#f6f7f8), color-stop(.2, #edeef1), color-stop(.4, #f6f7f8), to(#f6f7f8));
+    background-image: -webkit-linear-gradient(left, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 104px;
+    height: inherit;
+    position: relative;
+}
+
+@-webkit-keyframes placeHolderShimmer {
+    0% {
+        background-position: -468px 0
+    }
+
+    100% {
+        background-position: 468px 0
+    }
+}
+
+@media (max-width: 767px) {
+    .search_hotel_button{
+        position:unset !important;
+        padding:0px !important;
+    }
+
+    .checkbox_search_hotel{
+        padding-left:5px !important;
+    }
+
+    .search_hotel_vendor{
+        padding-right:15px !important;
+    }
+}
+
+.img_hotel_smallbot{
+    margin-right:15px;
+    border-radius:4px;
+    cursor:pointer;
+    border:1px solid #cdcdcd;
+}
+
+.img_hotel_smallbot:hover{
+    border:1px solid #f15a22;
 }
