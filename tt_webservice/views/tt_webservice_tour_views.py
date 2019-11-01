@@ -173,6 +173,14 @@ def get_pricing(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    if res.get('result'):
+        res['result'].update({
+            'tour_info': {
+                'name': request.session['tour_pick']['name'],
+                'departure_date': request.session['tour_pick']['departure_date'],
+                'return_date': request.session['tour_pick']['return_date'],
+            }
+        })
     request.session['tour_price'] = res
     return res
 

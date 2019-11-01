@@ -435,7 +435,7 @@ def review(request):
                 'ticket_number': request.POST['adult_sku_id' + str(i + 1)],
                 'birth_date': request.POST['adult_birth_date' + str(i + 1)],
                 'pax_type': 'Adult',
-                'additional_info': [],
+                'additional_info': ["Ticket:" + request.POST['adult_sku_title' + str(i + 1)]],
             })
 
             # perpax
@@ -696,7 +696,7 @@ def review(request):
                 'ticket_number': request.POST['senior_sku_id' + str(i + 1)],
                 'birth_date': request.POST['senior_birth_date' + str(i + 1)],
                 'pax_type': 'Senior',
-                'additional_info': [],
+                'additional_info': ["Ticket:" + request.POST['senior_sku_title' + str(i + 1)]],
             })
 
             # perpax
@@ -884,7 +884,7 @@ def review(request):
                 'ticket_number': request.POST['child_sku_id' + str(i + 1)],
                 'birth_date': request.POST['child_birth_date' + str(i + 1)],
                 'pax_type': 'Child',
-                'additional_info': [],
+                'additional_info': ["Ticket:" + request.POST['child_sku_title' + str(i + 1)]],
             })
 
             # perpax
@@ -1071,7 +1071,7 @@ def review(request):
                 'ticket_number': request.POST['infant_sku_id' + str(i + 1)],
                 'birth_date': request.POST['infant_birth_date'+str(i+1)],
                 'pax_type': 'Infant',
-                'additional_info': [],
+                'additional_info': ["Ticket:" + request.POST['infant_sku_title' + str(i + 1)]],
             })
 
             if perpax_list_temp:

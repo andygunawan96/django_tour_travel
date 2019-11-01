@@ -808,6 +808,8 @@ function get_price_itinerary(request) {
     var grand_total = 0;
     var grand_commission = 0;
     $test = '';
+    temp_copy = '';
+    temp_copy2 = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -821,6 +823,9 @@ function get_price_itinerary(request) {
        success: function(msg) {
             console.log(msg);
             $('#loading-price-tour').hide();
+            price_tour_info = msg.result.tour_info;
+            $test += price_tour_info.name + '\n';
+            $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
             price_data = msg.result.response.service_charges;
             price_txt1 = ``;
             price_txt2 = ``;
@@ -888,6 +893,7 @@ function get_price_itinerary(request) {
                                             <div class="col-xs-2"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
+                            temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
                         }
                         else
                         {
@@ -898,6 +904,7 @@ function get_price_itinerary(request) {
                                             <div class="col-xs-2"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
+                            temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
                         }
                         grand_total += price_data[i].total;
                     }
@@ -913,7 +920,8 @@ function get_price_itinerary(request) {
             }
             for(var j=0; j<room_amount; j++)
             {
-                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><h6>Room `+String(j+1)+`</h6></div></div>`;
+                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room `+String(j+1)+`</span></div></div>`;
+                temp_copy2 += '\nRoom ' + String(j+1) + '\n';
                 found_room_price = false;
                 for(var k=0; k<room_prices.length; k++)
                 {
@@ -945,6 +953,7 @@ function get_price_itinerary(request) {
                                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
                                        </div>`;
                         grand_total += room_prices[k].total;
+                        temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
                     }
                 }
                 if (!found_room_price)
@@ -968,6 +977,7 @@ function get_price_itinerary(request) {
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
                                </div>`;
                 grand_total += adt_price;
+                temp_copy += 'Adult Price IDR ' + getrupiah(adt_price) + '\n';
             }
             if(chd_amt > 0)
             {
@@ -979,6 +989,7 @@ function get_price_itinerary(request) {
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
                                </div>`;
                 grand_total += chd_price;
+                temp_copy += 'Child Price IDR ' + getrupiah(chd_price) + '\n';
             }
             if(inf_amt > 0)
             {
@@ -990,8 +1001,12 @@ function get_price_itinerary(request) {
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
                                </div>`;
                 grand_total += inf_price;
+                temp_copy += 'Infant Price IDR ' + getrupiah(inf_price) + '\n';
             }
             price_txt = price_txt1 + price_txt2;
+            $test += temp_copy + temp_copy2;
+            $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
+           '\nPrices and availability may change at any time';
             price_txt += `<hr style="padding:0px;">
                            <div class="row">
                                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
@@ -1062,6 +1077,8 @@ function get_price_itinerary_cache() {
     var grand_total = 0;
     var grand_commission = 0;
     $test = '';
+    temp_copy = '';
+    temp_copy2 = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -1075,6 +1092,9 @@ function get_price_itinerary_cache() {
        success: function(msg) {
             console.log(msg);
             $('#loading-price-tour').hide();
+            price_tour_info = msg.result.tour_info;
+            $test += price_tour_info.name + '\n';
+            $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
             price_data = msg.result.response.service_charges;
             price_txt1 = ``;
             price_txt2 = ``;
@@ -1142,6 +1162,7 @@ function get_price_itinerary_cache() {
                                             <div class="col-xs-2"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
+                            temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
                         }
                         else
                         {
@@ -1152,6 +1173,7 @@ function get_price_itinerary_cache() {
                                             <div class="col-xs-2"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
+                            temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
                         }
                         grand_total += price_data[i].total;
                     }
@@ -1167,7 +1189,8 @@ function get_price_itinerary_cache() {
             }
             for(var j=0; j<room_amount; j++)
             {
-                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><h6>Room `+String(j+1)+`</h6></div></div>`;
+                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room `+String(j+1)+`</span></div></div>`;
+                temp_copy2 += '\nRoom ' + String(j+1) + '\n';
                 found_room_price = false;
                 for(var k=0; k<room_prices.length; k++)
                 {
@@ -1199,6 +1222,7 @@ function get_price_itinerary_cache() {
                                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
                                        </div>`;
                         grand_total += room_prices[k].total;
+                        temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
                     }
                 }
                 if (!found_room_price)
@@ -1222,6 +1246,7 @@ function get_price_itinerary_cache() {
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
                                </div>`;
                 grand_total += adt_price;
+                temp_copy += 'Adult Price IDR ' + getrupiah(adt_price) + '\n';
             }
             if(chd_amt > 0)
             {
@@ -1233,6 +1258,7 @@ function get_price_itinerary_cache() {
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
                                </div>`;
                 grand_total += chd_price;
+                temp_copy += 'Child Price IDR ' + getrupiah(chd_price) + '\n';
             }
             if(inf_amt > 0)
             {
@@ -1244,8 +1270,12 @@ function get_price_itinerary_cache() {
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
                                </div>`;
                 grand_total += inf_price;
+                temp_copy += 'Infant Price IDR ' + getrupiah(inf_price) + '\n';
             }
             price_txt = price_txt1 + price_txt2;
+            $test += temp_copy + temp_copy2;
+            $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
+           '\nPrices and availability may change at any time';
             price_txt += `<hr style="padding:0px;">
                            <div class="row">
                                 <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
@@ -1294,7 +1324,7 @@ function get_price_itinerary_cache() {
                            </div>`;
 
             next_btn_txt = `<center>
-                                <button type="submit" class="primary-btn-ticket" value="Next" style="width:100%;">
+                                <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
                                     Next
                                     <i class="fas fa-angle-right"></i>
                                 </button>
