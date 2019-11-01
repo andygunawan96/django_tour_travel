@@ -173,6 +173,16 @@ def get_pricing(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    request.session['tour_price'] = res
+    return res
+
+
+def get_pricing_cache(request):
+    try:
+        res = request.session['tour_price']
+    except Exception as e:
+        res = {}
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 

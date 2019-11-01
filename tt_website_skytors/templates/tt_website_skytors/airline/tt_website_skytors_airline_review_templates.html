@@ -298,6 +298,25 @@
 
                             </div>
                         </div>
+                        <form method="POST" id="">
+                            <div class="col-lg-6" style="padding-bottom:15px;">
+                                {% if ssr == 0 %}
+                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_skytors:airline_ssr'%}`,2)" style="width:100%;">
+                                    SSR
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-6">
+                                {% if seat == 0 %}
+                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_skytors:airline_seat_map'%}`,2)" style="width:100%;">
+                                    Seat
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                                {% endif %}
+                            </div>
+                        </form>
+
                         <div class="col-lg-4">
                             <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 Hold Booking
@@ -323,6 +342,29 @@
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
                 <div class="col-lg-12 for-show-mobile">
+                    <div class="row" style="padding-top:5px;">
+                        <form method="POST" id="airline_request_send2" action="">
+                            {% csrf_token %}
+                            <div class="col-lg-6" style="padding-bottom:15px;">
+                                {% if ssr == 0 %}
+                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_skytors:airline_ssr'%}`,2)" style="width:100%;">
+                                    SSR
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-6">
+                                {% if seat == 0 %}
+                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_skytors:airline_seat_map'%}`,2)" style="width:100%;">
+                                    Seat
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                                {% endif %}
+                            </div>
+                            <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
+                            <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                        </form>
+                    </div>
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
                             <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">

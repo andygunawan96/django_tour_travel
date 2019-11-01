@@ -132,35 +132,29 @@
 
 {%if template == 1%}
 {% if username != null %}
-<section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:20px; padding-bottom:40px; z-index:1; position:relative;">
+<section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
 {% else %}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:150px; z-index:1; position:relative;">
 {% endif %}
-    <div id="big_banner" style="padding-bottom:15px;">
-
-    </div>
-
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:1;margin-top:-50px;"></div>
     <div class="container">
         <div class="row">
             {% if username != null %}
-            <input type="hidden" id="country_id"/>
-            <input type="hidden" id="start"/>
-            <input type="hidden" id="end"/>
+            <div id="overlay-search-box" onclick="off_overlay()"></div>
             <div class="col-lg-12">
-                <h3 style="color:white;">
-                    Hello, {{username.co_user_name}} !
-                </h3>
-                <h4 style="padding-bottom:15px; padding-top:5px; color:white;">
-                    Enjoy your trip with <span class="lamp">RODEXTRIP</span>
-                </h4>
-                <!--                <h4 style="padding-top:5px; padding-bottom:15px; color:white;">-->
+                <h5 style="color:white; padding-bottom:20px;">
+                    Hello, {{username.co_user_name}}!
+                    Grow your business with <span class="lamp">RODEXTRIP</span>
+                </h5>
+
+                <!--                <h4 style="padding-top:5px; padding-bottom:15px;">-->
                 <!--                    Get our product-->
                 <!--                    <div class="animate"></div>-->
                 <!--                </h4>-->
             </div>
             {% else %};
             <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
-                <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:28px;">
+                <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
                     <h3 style="color:white;">Already a <span class="lamp">RODEXTRIP</span> member?</h3>
                     <h4 style="color:white; padding-top:5px;">Sign in to make booking easier!</h4>
                     <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_skytors:login'%}';">
@@ -171,48 +165,60 @@
             {% endif %}
 
             {% if username != null %}
-            <div class="col-lg-12">
+            <input type="hidden" id="country_id"/>
+            <input type="hidden" id="start"/>
+            <input type="hidden" id="end"/>
+
+            <div class="col-lg-12" id="div-search-overlay">
                 {% if "ticketing" in username.co_agent_frontend_security %}
                 <div class="banner-right scrollmenu style-scrollbar">
                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="airline-tab" data-toggle="tab" href="#airline" role="tab" aria-controls="airline" aria-selected="true">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/> AIRLINE </span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/train.png"/> TRAIN </span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/> HOTEL </span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/> ACTIVITY </span>
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> AIRLINE </span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="tour-tab" data-toggle="tab" href="#tour" role="tab" aria-controls="tour" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/> TOUR </span>
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> TOUR </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> HOTEL </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> ACTIVITY </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> TRAIN </span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/> VISA </span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/> PASSPORT </span>
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> VISA </span>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="groupbooking-tab" data-toggle="tab" href="#groupbooking" role="tab" aria-controls="groupbooking" aria-selected="false">
-                                <span><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/> GROUP BOOKING </span>
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-group.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> GROUP </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
+                                <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-passport.png"/></i>
+                                <span style="padding-left:5px; font-weight:bold;"> PASSPORT </span>
                             </a>
                         </li>
                     </ul>
@@ -224,17 +230,17 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
                                             <span style="font-size:13px; color:white;">One Way</span>
                                             <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                             <span class="checkmark-radio"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
                                             <span style="font-size:13px; color:white;">Round-trip</span>
                                             <input type="radio" name="radio_airline_type" value="roundtrip">
                                             <span class="checkmark-radio"></span>
                                         </label>
-                                        <label class="radio-button-custom">
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
                                             <span style="font-size:13px; color:white;">Multi-City</span>
                                             <input type="radio" name="radio_airline_type" value="multicity">
                                             <span class="checkmark-radio"></span>
@@ -242,7 +248,7 @@
                                     </div>
                                     <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                            <label class="check_box_custom">
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:white;">Is Combo Price</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                 <span class="check_box_span_custom"></span>
@@ -401,100 +407,107 @@
                             </form>
                         </div>
                         <div class="tab-pane fade" id="train" role="tabpanel" aria-labelledby="train-tab">
-                            <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
-                                {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
-                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
-                                                    <datalist id="train_origin_name"/>
-                                                </div>
-                                            </div>
-                                            <div class="image-change-route-vertical2">
-                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            </div>
-                                            <div class="image-change-route-horizontal2">
-                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
-                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width:20px; height: 20px;"/> To</span>
-                                                <div class="input-container-search-ticket">
-                                                    <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
-                                                    <datalist id="train_destination_name"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
-                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
-                                        <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                        <div class="input-container-search-ticket btn-group">
-                                            <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                            <ul class="dropdown-menu" role="menu">
-                                                <div class="row" style="padding:10px;">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Age 3+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
-                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">Infant<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Age < 3)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" readonly>
-                                                            <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </ul>
-                                        </div>
-                                    </div>
+                            <center>
+                                <div style="padding:15px;">
+                                    <img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>
+                                    <h1 style="color:white !important;">Train under construction</h1>
                                 </div>
-                                <br/>
+                            </center>
 
-                                <input type="hidden" id="train_response" name="response"/>
+<!--                            <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">-->
+<!--                                {% csrf_token %}-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-lg-6">-->
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">-->
+<!--                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>-->
+<!--                                                <div class="input-container-search-ticket">-->
+<!--                                                    <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
+<!--                                                    <datalist id="train_origin_name"/>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <div class="image-change-route-vertical2">-->
+<!--                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>-->
+<!--                                            </div>-->
+<!--                                            <div class="image-change-route-horizontal2">-->
+<!--                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>-->
+<!--                                            </div>-->
 
-                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                    Search
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </form>
+<!--                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">-->
+<!--                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width:20px; height: 20px;"/> To</span>-->
+<!--                                                <div class="input-container-search-ticket">-->
+<!--                                                    <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
+<!--                                                    <datalist id="train_destination_name"/>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">-->
+<!--                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>-->
+<!--                                        <div class="input-container-search-ticket">-->
+<!--                                            <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">-->
+<!--                                        <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
+<!--                                        <div class="input-container-search-ticket btn-group">-->
+<!--                                            <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+<!--                                            <ul class="dropdown-menu" role="menu">-->
+<!--                                                <div class="row" style="padding:10px;">-->
+<!--                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+<!--                                                        <div style="float:left;">-->
+<!--                                                            <label>-->
+<!--                                                                <span style="color:black; font-size:13px;">Adult<br/></span>-->
+<!--                                                                <span style="color:gray; font-size:11px;">(Age 3+)</span>-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+<!--                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+<!--                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>-->
+<!--                                                                <i class="fas fa-minus"></i>-->
+<!--                                                            </button>-->
+<!--                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>-->
+<!--                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">-->
+<!--                                                                <i class="fas fa-plus"></i>-->
+<!--                                                            </button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+
+<!--                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
+<!--                                                        <div style="float:left;">-->
+<!--                                                            <label>-->
+<!--                                                                <span style="color:black; font-size:13px;">Infant<br/></span>-->
+<!--                                                                <span style="color:gray; font-size:11px;">(Age < 3)</span>-->
+<!--                                                            </label>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
+<!--                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
+<!--                                                            <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>-->
+<!--                                                                <i class="fas fa-minus"></i>-->
+<!--                                                            </button>-->
+<!--                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" readonly>-->
+<!--                                                            <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">-->
+<!--                                                                <i class="fas fa-plus"></i>-->
+<!--                                                            </button>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </ul>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <br/>-->
+
+<!--                                <input type="hidden" id="train_response" name="response"/>-->
+
+<!--                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">-->
+<!--                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>-->
+<!--                                    Search-->
+<!--                                    <div class="ld ld-ring ld-cycle"></div>-->
+<!--                                </button>-->
+<!--                            </form>-->
                         </div>
                         <div class="tab-pane fade" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
                             <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
@@ -710,9 +723,6 @@
                                 </button>
                             </form>
                         </div>
-
-                        <!--tour-->
-
                         <div class="tab-pane fade" id="tour" role="tabpanel" aria-labelledby="tour-tab">
                             <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
                                 {% csrf_token %}
@@ -802,8 +812,6 @@
                                 </button>
                             </form>
                         </div>
-
-                        <!--VISA-->
                         <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
                             <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post">
                                 {% csrf_token %}
@@ -846,6 +854,22 @@
                                 </button>
                             </form>
                         </div>
+                        <div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">
+                            <center>
+                                <div style="padding:15px;">
+                                    <img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>
+                                    <h1 style="color:white !important;">Group booking under construction</h1>
+                                </div>
+                            </center>
+                        </div>
+                        <div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">
+                            <center>
+                                <div style="padding:15px;">
+                                    <img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>
+                                    <h1 style="color:white !important;">Passport under construction</h1>
+                                </div>
+                            </center>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
@@ -880,176 +904,147 @@
 <!--    </div>-->
 <!--</section>-->
 
-<div id="small_banner">
+<!--<div id="small_banner">-->
 
-</div>
-<!--<section class="destinations-area section-gap" style="z-index:0; position:relative;">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-12">-->
-<!--                <div class="menu-content">-->
-<!--                    <div class="title text-center">-->
-<!--                        <h2>POPULAR DESTINATIONS</h2>-->
-<!--                    </div>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-12">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}img/bg/pop1.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>Japan</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}img/bg/pop2.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>Indonesian</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}img/bg/pop3.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>England</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}img/bg/pop4.jpeg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>Thailand</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
+<!--</div>-->
+{% if username != null %}
 <!--<section class="popular-destination-area section-gap" style="z-index:0; position:relative;">-->
 <!--    <div class="container">-->
 <!--        <div class="row">-->
 <!--            <div class="col-lg-12">-->
 <!--                <div class="menu-content">-->
 <!--                    <div class="title text-center">-->
-<!--                        <h2>RECOMMENDED HOTELS</h2>-->
+<!--                        <h2>POPULAR ACTIVITIES</h2>-->
 <!--                    </div>-->
 <!--                    <br/>-->
+<!--                    <div class="text-center" style="padding-bottom:20px;">-->
+<!--                        <a class="link_popular popular_activities active">Singapore</a>-->
+<!--                        <a class="link_popular popular_activities">Japan</a>-->
+<!--                        <a class="link_popular popular_activities">Korean</a>-->
+<!--                        <a class="link_popular popular_activities">Indonesian</a>-->
+<!--                        <a class="link_popular popular_activities">Malaysia</a>-->
+<!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="col-lg-12">-->
 <!--                <div class="row">-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                    <div class="overlay overlay-bg"></div>-->
+<!--                                    <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/027e6e75-a368-4c5e-8eb9-2d58d7794c93.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                </div>-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="row details">-->
+<!--                                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-Ticket (Senior Category)</h6>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 <!--                            </div>-->
-<!--                            <h4>Park Central Hotel NewYork</h4>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" alt="">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Singapore Zoo with FREE and UNLIMITED Tram Ride">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                    <div class="overlay overlay-bg"></div>-->
+<!--                                    <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/114ba07f-0a32-4bf8-963a-36acfddbf653.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                </div>-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="row details">-->
+<!--                                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Singapore Zoo with FREE and UNLIMITED Tram Ride</h6>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> 4.5 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (32 reviews)</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 <!--                            </div>-->
-<!--                            <h4>New York Marriott Downtown</h4>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-ticket">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                    <div class="overlay overlay-bg"></div>-->
+<!--                                    <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7b15b4a0-c1a6-423f-9447-f6ae7be3bbea.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                </div>-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="row details">-->
+<!--                                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-ticket</h6>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> 4.3 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (3 reviews)</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 <!--                            </div>-->
-<!--                            <h4>Boro Hotel</h4>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" alt="">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher ">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                    <div class="overlay overlay-bg"></div>-->
+<!--                                    <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/cff642df-7b4c-42ea-b0c0-0f7bc6e22c62.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                </div>-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <div class="row details">-->
+<!--                                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher </h6>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 <!--                            </div>-->
-<!--                            <h4>New York Hilton Midtown</h4>-->
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-lg-12" style="padding-top:15px; text-align:right;">-->
+<!--                <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
+<!--                    More <i class="fas fa-angle-right"></i>-->
+<!--                    <div class="ld ld-ring ld-cycle"></div>-->
+<!--                </button>-->
 <!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
 <!--</section>-->
 
-<!--<section class="destinations-area section-gap" style="z-index:0; position:relative;">-->
+<!--<section class="destinations-area section-gap">-->
 <!--    <div class="container">-->
 <!--        <div class="row">-->
 <!--            <div class="col-lg-12">-->
 <!--                <div class="menu-content">-->
 <!--                    <div class="title text-center">-->
-<!--                        <h2>POPULAR ATTRACTIONS</h2>-->
+<!--                        <h2>POPULAR TOUR PACKAGE</h2>-->
 <!--                    </div>-->
 <!--                    <br/>-->
+<!--                    <div class="text-center" style="padding-bottom:20px;">-->
+<!--                        <a class="link_popular popular_activities active">Thailand</a>-->
+<!--                        <a class="link_popular popular_activities">Japan</a>-->
+<!--                        <a class="link_popular popular_activities">Korean</a>-->
+<!--                        <a class="link_popular popular_activities">Singapore</a>-->
+<!--                        <a class="link_popular popular_activities">Hongkong</a>-->
+<!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
 <!--            <div class="col-lg-12">-->
 <!--                <div class="row">-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>Park Central Hotel NewYork</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>New York Marriott Downtown</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>Boro Hotel</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">-->
-<!--                        <div class="single-other-issue">-->
-<!--                            <div class="thumb">-->
-<!--                                <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" alt="">-->
-<!--                            </div>-->
-<!--                            <h4>New York Hilton Midtown</h4>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!--<section class="popular-destination-area section-gap">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-12">-->
-<!--                <div class="menu-content">-->
-<!--                    <div class="title text-center">-->
-<!--                        <h2>TOUR PACKAGE</h2>-->
-<!--                    </div>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="col-lg-12">-->
-<!--                <div class="row">-->
-<!--                    <div class="col-lg-3 col-md-6">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
 <!--                        <div class="single-recent-blog-post item">-->
 <!--                            <div class="single-destination relative">-->
 <!--                                <div class="thumb relative">-->
@@ -1061,11 +1056,11 @@
 <!--                                        <div class="row details">-->
 <!--                                            <div class="col-lg-12" style="text-align:left;">-->
 <!--                                                <h6>5 Days - Thailand</h6>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Qty: 13/25</span>-->
+<!--                                                <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                                <span style="font-size:12px;">Qty: 13/25</span>-->
 <!--                                            </div>-->
 <!--                                            <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                <a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                <span style="font-weight:700; font-size:14px;">IDR 5.750.000 </span><a href="#" class="btn btn-primary"> BOOK </a>-->
 <!--                                            </div>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
@@ -1073,55 +1068,7 @@
 <!--                            </div>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-6">-->
-<!--                        <div class="single-recent-blog-post item">-->
-<!--                            <div class="single-destination relative">-->
-<!--                                <div class="thumb relative">-->
-<!--                                    <div class="overlay overlay-bg"></div>-->
-<!--                                    <img class="img-fluid" src="{{static_path}}img/bg/tour2.jpg" alt="">-->
-<!--                                </div>-->
-<!--                                <div class="card card-effect-promotion">-->
-<!--                                    <div class="card-body">-->
-<!--                                        <div class="row details">-->
-<!--                                            <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                <h6>6 Days - Dubai</h6>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>-->
-<!--                                            </div>-->
-<!--                                            <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                <a href="#" class="btn btn-primary">BOOK</a>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-6">-->
-<!--                        <div class="single-recent-blog-post item">-->
-<!--                            <div class="single-destination relative">-->
-<!--                                <div class="thumb relative">-->
-<!--                                    <div class="overlay overlay-bg"></div>-->
-<!--                                    <img class="img-fluid" src="{{static_path}}img/bg/tour3.jpg" alt="">-->
-<!--                                </div>-->
-<!--                                <div class="card card-effect-promotion">-->
-<!--                                    <div class="card-body">-->
-<!--                                        <div class="row details">-->
-<!--                                            <div class="col-lg-12" style="text-align:left;">-->
-<!--                                                <h6>5 Days - Taiwan + Alishan</h6>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>-->
-<!--                                            </div>-->
-<!--                                            <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                <a href="#" class="btn btn-primary">BOOK</a>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-6">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
 <!--                        <div class="single-recent-blog-post item">-->
 <!--                            <div class="single-destination relative">-->
 <!--                                <div class="thumb relative">-->
@@ -1133,11 +1080,11 @@
 <!--                                        <div class="row details">-->
 <!--                                            <div class="col-lg-12" style="text-align:left;">-->
 <!--                                                <h6>7 Days - Japan</h6>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>-->
+<!--                                                <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                <span style="font-size:12px;">Qty: 10/20</span>-->
 <!--                                            </div>-->
 <!--                                            <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                <a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                <span style="font-weight:700; font-size:14px;">IDR 20.500.000 </span> <a href="#" class="btn btn-primary"> BOOK</a>-->
 <!--                                            </div>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
@@ -1145,7 +1092,7 @@
 <!--                            </div>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-6">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
 <!--                        <div class="single-recent-blog-post item">-->
 <!--                            <div class="single-destination relative">-->
 <!--                                <div class="thumb relative">-->
@@ -1157,11 +1104,11 @@
 <!--                                        <div class="row details">-->
 <!--                                            <div class="col-lg-12" style="text-align:left;">-->
 <!--                                                <h6>4 Days - Singapore</h6>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>-->
+<!--                                                <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                <span style="font-size:12px;">Qty: 10/20</span>-->
 <!--                                            </div>-->
 <!--                                            <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                <a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                <span style="font-weight:700; font-size:14px;">IDR 3.950.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
 <!--                                            </div>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
@@ -1169,7 +1116,7 @@
 <!--                            </div>-->
 <!--                        </div>-->
 <!--                    </div>-->
-<!--                    <div class="col-lg-3 col-md-6">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
 <!--                        <div class="single-recent-blog-post item">-->
 <!--                            <div class="single-destination relative">-->
 <!--                                <div class="thumb relative">-->
@@ -1181,11 +1128,11 @@
 <!--                                        <div class="row details">-->
 <!--                                            <div class="col-lg-12" style="text-align:left;">-->
 <!--                                                <h6>6 Days - Korean + Hongkong</h6>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
-<!--                                                <span style="font-size:11px;font-weight:bold;">Qty: 10/20</span>-->
+<!--                                                <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                <span style="font-size:12px;">Qty: 10/20</span>-->
 <!--                                            </div>-->
 <!--                                            <div class="col-lg-12" style="text-align:right;">-->
-<!--                                                <a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                <span style="font-weight:700; font-size:14px;">IDR 8.990.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
 <!--                                            </div>-->
 <!--                                        </div>-->
 <!--                                    </div>-->
@@ -1195,11 +1142,169 @@
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
+<!--            <div class="col-lg-12" style="padding-top:15px; text-align:right;">-->
+<!--                <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
+<!--                    More <i class="fas fa-angle-right"></i>-->
+<!--                    <div class="ld ld-ring ld-cycle"></div>-->
+<!--                </button>-->
+<!--            </div>-->
 <!--        </div>-->
 <!--    </div>-->
 <!--</section>-->
 
-<!--<section class="apps-area" style="background-color:#f15a22;">-->
+<!--<section class="popular-destination-area section-gap" style="z-index:0; position:relative;">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12">-->
+<!--                <div class="menu-content">-->
+<!--                    <div class="title text-center">-->
+<!--                        <h2>TOP FLIGHT DEALS</h2>-->
+<!--                    </div>-->
+<!--                    <br/>-->
+<!--                    <div class="text-center" style="padding-bottom:20px;">-->
+<!--                        <a class="link_popular popular_activities active">Surabaya</a>-->
+<!--                        <a class="link_popular popular_activities">Jakarta</a>-->
+<!--                        <a class="link_popular popular_activities">Bali</a>-->
+<!--                        <a class="link_popular popular_activities">Semarang</a>-->
+<!--                        <a class="link_popular popular_activities">Bandung</a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-lg-12">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                        <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                            <div class="single-destination relative">-->
+<!--                                <div class="card card-effect-promotion">-->
+<!--                                    <div class="card-body">-->
+<!--                                        <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                        <h5>Surabaya <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                        <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                        <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                        <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="col-lg-12" style="padding-top:15px; text-align:right;">-->
+<!--                <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
+<!--                    More <i class="fas fa-angle-right"></i>-->
+<!--                    <div class="ld ld-ring ld-cycle"></div>-->
+<!--                </button>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+{% endif %}
+<!--<section class="destinations-area">-->
 <!--    <div class="container">-->
 <!--        <div class="row">-->
 <!--            <div class="col-lg-6">-->
@@ -1208,7 +1313,7 @@
 <!--                </center>-->
 <!--            </div>-->
 <!--            <div class="col-lg-6" style="padding-top:50px; padding-bottom:20px;">-->
-<!--                <h4 style="color:white;">Easy to use and easy to access with application RODEXTRIP!</h4>-->
+<!--                <h4>Easy to use and easy to access with application RODEXTRIP!</h4>-->
 <!--                <br/>-->
 <!--                <a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>-->
 <!--                <a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>-->
@@ -1216,34 +1321,60 @@
 <!--        </div>-->
 <!--    </div>-->
 <!--</section>-->
-{% if username != null %}
-<div class="modal fade" id="myModalPopUp" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <center>
-                            <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> HOT DEALS TODAY! </h2>
-                        </center>
-                    </div>
-                    <div class="col-lg-12">
-                        <center>
-                            <span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>
-                        </center>
-                    </div>
-                    <div class="col-lg-12">
-                        <div id="promotion">
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-{% endif %}
+<!--<section class="popular-destination-area section-gap">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-12">-->
+<!--                <div class="menu-content">-->
+<!--                    <div class="title text-center">-->
+<!--                        <h2>OUR PARTNER</h2>-->
+<!--                    </div>-->
+<!--                    <br/>-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4" style="padding-bottom:15px;">-->
+<!--                            <img src="/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.png" class="our-partner" title="RODEXTRIP">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
 {% elif template == 2 %}
 <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url({{static_path}}images/bg_8.jpg);">
     <div class="container h-100">
@@ -4946,10 +5077,9 @@
 
     }
     {%endif%}
-    get_banner('big_banner','home');
-    get_banner('small_banner','home');
-    get_banner('promotion','home');
-
+    //get_banner('big_banner','home');
+    //get_banner('small_banner','home');
+    //get_banner('promotion','home');
 </script>
 
 {% endblock %}

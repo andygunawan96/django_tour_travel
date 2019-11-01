@@ -63,20 +63,16 @@
 
 {% include 'tt_website_skytors/header.html' %}
 {% include 'tt_website_skytors/plugin_passenger.html' %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div id="hotel_search_params" class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                <span style="text-transform: capitalize;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span style="text-transform: capitalize;"><i class="fas fa-globe-asia"></i> Guest: {{hotel_search.guest_nationality}}</span>
-            </div>
-            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                <span style="text-transform: capitalize;"><i class="fas fa-calendar-alt"></i> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}</span><br/>
-                <span style="text-transform: capitalize;"><i class="fas fa-users"></i> {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span>
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
             </div>
 
-            <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn" type="button" onclick="show_hide_change_search();">
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                     Change Search
                 </button>
@@ -84,6 +80,7 @@
         </div>
     </div>
 </section>
+
 <section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
     <div class="container">
         <div class="row">
@@ -217,7 +214,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:67px; z-index:997; display:none;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:73px; z-index:997; display:none;" id="mybuttonsticky">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:2px;">
                         <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
@@ -225,8 +222,8 @@
                         </button>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:2px;">
-                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
-                            <span style="color:white; font-size:12px;"> List Copy Hotel </span>
+                        <button class="primary-btn-custom" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
+                            <span style="color:white; font-size:12px;"> List Copy </span>
                             <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
                         </button>
                     </div>
@@ -294,11 +291,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
-
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-lg-12" id="hotel_result"></div>
                 </div>
                 <div class="row">
@@ -333,6 +325,25 @@
             </div>
 
             <div class="col-lg-12">
+                <div class="modal fade" id="openImage" role="dialog" style="background:rgba(40,40,40,0.8);">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content" style="background-color:transparent; border:unset;">
+                            <div class="modal-header" style="background-color:transparent; border-bottom:unset;">
+                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-lg-12">
+                                    <center>
+                                        <img id="viewImageHotel" style="width:auto; height:500px;">
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="modal fade" id="myModalCopyHotel" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->

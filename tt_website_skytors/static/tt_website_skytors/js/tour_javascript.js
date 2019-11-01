@@ -1,5 +1,6 @@
 $test = '';
 sorting_value = '';
+room_amount = 0;
 
 var tour_type_list = [
     {
@@ -165,6 +166,27 @@ function getrupiah(price){
     return priceshow;
 }
 
+function copy_data(){
+    const el = document.createElement('textarea');
+    el.value = $test;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+}
+
 function show_commission(){
     var sc = document.getElementById("show_commission");
     var scs = document.getElementById("show_commission_button");
@@ -178,39 +200,19 @@ function show_commission(){
     }
 }
 
-function copy_data(){
-    const el = document.createElement('textarea');
-    el.value = $test;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-}
-
 function add_tour_room(i,key_accomodation){
     room_data = tour_data[i].accommodations[key_accomodation];
     console.log(room_data);
-    index = document.getElementById('room_amount').value;
-    total_additional_amount = document.getElementById('additional_charge_amount').value;
-    total_additional_price = parseInt(document.getElementById('additional_charge_total').getAttribute("data-price"));
-    $('#tour_room_input').append(render_room_tour_field(parseInt(index) + 1, room_data, key_accomodation));
-    index++;
-    document.getElementById("room_amount").value = index;
+    $('#tour_room_input').append(render_room_tour_field(parseInt(room_amount) + 1, room_data, key_accomodation));
+    room_amount += 1;
     document.getElementById("total-price-container").classList.remove("hide");
     $('select').niceSelect();
     console.log(room_data);
-    var additional_charge = parseInt(room_data.additional_charge);
-    if (additional_charge > 0)
-    { total_additional_amount++; }
-    total_additional_price += additional_charge;
-    document.getElementById("additional_charge_amount").value = total_additional_amount;
-    document.getElementById("additional_charge_total").setAttribute("data-price", total_additional_price);
-    document.getElementById("additional_charge_total").value = getrupiah(total_additional_price);
     tour_table_detail();
 }
 
 function render_room_tour_field(idx, room_data, key_accomodation) {
-    var package_id = parseInt(document.getElementById("tour_id").value);
+    var package_id = tour_id;
     var room_lib = {
         'double': 'Double/Twin',
         'triple': 'Triple'
@@ -224,36 +226,39 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         template += '<div class="row" style="margin-top:15px;">';
         template += '<div class="col-lg-4 col-md-4 col-sm-4">';
         template += '<span>Adult</span>';
-        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-male icon-search-ticket" style="font-size:14px;"></i><div class="form-select" id="default-select"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+        template += '<div class="input-container-search-ticket btn-group"><div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
         for (var i=1; i<=parseInt(room_data.adult_limit); i++)
         {
             if (i == 1) {template += '<option selected value="' + i + '">' + i + '</option>';}
             else {template += '<option value="' + i + '">' + i + '</option>';}
         }
         template += '</select></div></div>';
+        template += '<small id="tour_child_age_range' + i + '" class="hidden">(12-120 years old)</small>';
         template += '</div>';
         template += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template += '<span>Child</span><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="2-11 years old" style="padding-left:5px;"></i>';
-        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-child icon-search-ticket" style="font-size:14px;"></i><div class="form-select"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        template += '<span>Child</span>';
+        template += '<div class="input-container-search-ticket btn-group"><div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
         {
             if (i == 0) {template += '<option selected value="' + i + '">' + i + '</option>';}
             else {template += '<option value="' + i + '">' + i + '</option>';}
         }
         template += '</select></div></div>';
+        template += '<small id="tour_child_age_range' + i + '" class="hidden">(2-11 years old)</small>';
         template += '</div>';
         template += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template += '<span>Infant</span><i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="below 2 years old" style="padding-left:5px;"></i>';
-        template += '<div class="input-container-search-ticket btn-group"><i class="fas fa-baby icon-search-ticket" style="font-size:14px;"></i><div class="form-select"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        template += '<span>Infant</span>';
+        template += '<div class="input-container-search-ticket btn-group"><div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         template += '<option selected value="0">0</option>';
         template += '<option value="1">1</option>';
         template += '</select></div></div>';
+        template += '<small id="tour_child_age_range' + i + '" class="hidden">(0-1 years old)</small>';
         template += '</div>';
 
         if (room_data.bed_type=="double")
         {
             template += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
-            template += '<textarea class="form-control" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes"/>';
+            template += '<textarea class="form-control" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" style="margin-bottom:5px;"/>';
             template += '<small style="color: #787878; margin-left: 2px;">Ex: king size, twin, non smoking, etc.</small>';
             template += '</div>';
         }
@@ -268,23 +273,9 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
 }
 
 function delete_tour_room(){
-    var index = document.getElementById('room_amount').value;
-    var key_accomodation = parseInt(document.getElementById("accomodation_index_" + String(index)).value);
-    var room_data = tour_data[i].accommodations[key_accomodation];
-    var temp = '#room_field_' + String(index);
-    var total_additional_amount = parseInt(document.getElementById("additional_charge_amount").value);
-    var total_additional_price = parseInt(document.getElementById("additional_charge_total").getAttribute("data-price"))
-    var additional_charge = parseInt(room_data.additional_charge);
-    if (additional_charge > 0) {
-        total_additional_price -= additional_charge;
-        total_additional_amount -= 1;
-        document.getElementById("additional_charge_amount").value = total_additional_amount;
-        document.getElementById("additional_charge_total").setAttribute("data-price", total_additional_price);
-        document.getElementById("additional_charge_total").value = getrupiah(total_additional_price);
-    }
+    var temp = '#room_field_' + String(room_amount);
     $(temp).remove();
-    index--;
-    document.getElementById('room_amount').value = index;
+    room_amount -= 1;
     tour_table_detail();
 }
 
@@ -317,6 +308,10 @@ function render_child_infant_selection(adult_select) {
         option.value = i;
         $infant.appendChild(option);
     }
+    $child.value = 0;
+    $infant.value = 0;
+    $('#'+temp).niceSelect('update');
+    $('#'+temp2).niceSelect('update');
     tour_table_detail();
 }
 
@@ -360,21 +355,30 @@ function get_total_price(discount_total) {
     }
 }
 
+function check_detail(){
+    document.getElementById('room_amount').value = room_amount;
+    document.getElementById('go_to_pax').submit();
+}
+
 function check_passenger(adult, child, infant){
     //booker
     error_log = '';
-    try{
-        for(i in passenger_data_pick){
-            if(passenger_data_pick[i].sequence == 'booker'){
-                if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
-                    document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
-                    document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
-                    error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
-                break;
+    for(i in passenger_data_pick){
+        if(passenger_data_pick[i].sequence != 'booker'){
+            passenger_check = {
+                'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+                'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
             }
-        }
-    }catch(err){
-
+            if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+               document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+               document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+               error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+       }else if(passenger_data_pick[i].sequence == 'booker'){
+            if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
+                document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
+                document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
+                error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+       }
     }
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
@@ -598,7 +602,6 @@ function update_contact_cp(val){
 }
 
 function refresh_room_availability(seq){
-    var room_amount = document.getElementById('room_amount').value;
     var total_pax = document.getElementById('total_pax_all').value;
     var disabled_rooms_adt = []
     var disabled_rooms_chd = []
@@ -1327,13 +1330,22 @@ function tour_set_city(country_id, current_city_id=0){
     $('#tour_cities').niceSelect('update');
 }
 
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $test;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($test);
+}
+
 function tour_table_detail()
 {
     document.getElementById('tour_detail_table').innerHTML = '';
     document.getElementById('tour_detail_next_btn').innerHTML = '';
     $('#loading-price-tour').show();
-    var room_amount = document.getElementById("room_amount");
-    if (room_amount.value <= 0)
+    if (room_amount <= 0)
     {
         $('#btnDeleteRooms').addClass("hide");
         $('#total-price-container').addClass("hide");
@@ -1343,7 +1355,7 @@ function tour_table_detail()
         room_ids_list = [];
         $('#btnDeleteRooms').removeClass("hide");
         $('#total-price-container').removeClass("hide");
-        var package_id = parseInt(document.getElementById("tour_id").value);
+        var package_id = tour_id;
         for (i=0; i < room_amount; i++)
         {
             temp_room_id = {

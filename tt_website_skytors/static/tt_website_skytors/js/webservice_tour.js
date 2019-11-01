@@ -337,7 +337,6 @@ function tour_get_details(package_id){
                         flight_details_text += `</table>
                                              </div>`;
                     }
-                    console.log('asdasd');
                     for (n in tour_data[i].accommodations)
                     {
                     console.log(tour_data[i].accommodations[n]);
@@ -351,13 +350,6 @@ function tour_get_details(package_id){
                         </tr>
                         `;
                     }
-
-                     document.getElementById('adult_sale_price_hidden').value = tour_data[i].adult_sale_price;
-                     document.getElementById('adult_commission_hidden').value = tour_data[i].adult_commission;
-                     document.getElementById('child_sale_price_hidden').value = tour_data[i].child_sale_price;
-                     document.getElementById('child_commission_hidden').value = tour_data[i].child_commission;
-                     document.getElementById('infant_sale_price_hidden').value = tour_data[i].infant_sale_price;
-                     document.getElementById('infant_commission_hidden').value = tour_data[i].infant_commission;
                }
 
                document.getElementById('tour_data').value = JSON.stringify(tour_data[0]).replace(/'/g,'');
@@ -366,7 +358,6 @@ function tour_get_details(package_id){
                document.getElementById('itinerary').innerHTML += itinerary_text;
                document.getElementById('remarks').innerHTML += remarks_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
-               document.getElementById('commission_agent_type').value = com_agent;
 
                $('.owl-carousel-tour-img').owlCarousel({
                     loop:true,
@@ -814,6 +805,9 @@ function tour_get_booking(order_number)
 }
 
 function get_price_itinerary(request) {
+    var grand_total = 0;
+    var grand_commission = 0;
+    $test = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -827,267 +821,486 @@ function get_price_itinerary(request) {
        success: function(msg) {
             console.log(msg);
             $('#loading-price-tour').hide();
-            price_data = msg.result.response;
-            document.getElementById("single_supplement_amount").value = 0;
-            document.getElementById("single_supplement_price").value = 0;
-            document.getElementById("airport_tax_amount").value = 0;
-            document.getElementById("airport_tax_total").value = 0;
-            document.getElementById("tipping_guide_amount").value = 0;
-            document.getElementById("tipping_guide_total").value = 0;
-            document.getElementById("tipping_tour_leader_amount").value = 0;
-            document.getElementById("tipping_tour_leader_total").value = 0;
-            document.getElementById("tipping_driver_amount").value = 0;
-            document.getElementById("tipping_driver_total").value = 0;
-
-            var airport_tax = tour_data_first.airport_tax;
-            var tipping_guide = tour_data_first.tipping_guide;
-            var tipping_tour_leader = tour_data_first.tipping_tour_leader;
-            var tipping_driver = tour_data_first.tipping_driver;
-            var guiding_days = tour_data_first.guiding_days;
-            var driving_times = tour_data_first.driving_times;
-            var duration = tour_data_first.duration;
-
-            var single_supplement_amount = 0;
-            var single_supplement_price = 0;
-            var grand_total_pax = 0;
-            var grand_total_pax_no_infant = 0;
-            var adult_total_pax = 0;
-            var child_total_pax = 0;
-            var infant_total_pax = 0;
-
-            document.getElementById("adult_amount").value = 0;
-            document.getElementById("adult_price").value = 0;
-            document.getElementById("adult_commission").value = 0;
-            var adult_sale_price = tour_data_first.adult_sale_price;
-            var adult_commission = tour_data_first.adult_commission;
-            var adult_amount = 0;
-
-            document.getElementById("adult_surcharge_amount").value = 0;
-            document.getElementById("adult_surcharge_price").value = 0;
-            var adult_surcharge_total = 0;
-            var adult_surcharge_amount = 0;
-
-            document.getElementById("child_amount").value = 0;
-            document.getElementById("child_price").value = 0;
-            document.getElementById("child_commission").value = 0;
-            var child_sale_price = tour_data_first.child_sale_price;
-            var child_commission = tour_data_first.child_commission;
-            var child_amount = 0;
-
-            document.getElementById("child_surcharge_amount").value = 0;
-            document.getElementById("child_surcharge_price").value = 0;
-            var child_surcharge_total = 0;
-            var child_surcharge_amount = 0;
-
-            document.getElementById("infant_amount").value = 0;
-            document.getElementById("infant_price").value = 0;
-            document.getElementById("infant_commission").value = 0;
-            var infant_sale_price = tour_data_first.infant_sale_price;
-            var infant_commission = tour_data_first.infant_commission;
-            var infant_amount = 0;
-
-            var room_amount = document.getElementById("room_amount");
-
-            if (room_amount.value <= 0)
+            price_data = msg.result.response.service_charges;
+            price_txt1 = ``;
+            price_txt2 = ``;
+            grand_total = 0;
+            total_commission = 0;
+            adt_price = 0;
+            chd_price = 0;
+            inf_price = 0;
+            adt_amt = 0;
+            chd_amt = 0;
+            inf_amt = 0;
+            room_prices = [];
+            for (i in price_data)
             {
-                $('#btnDeleteRooms').addClass("hide");
-                $('#total-price-container').addClass("hide");
-            }
-            else {
-                $('#btnDeleteRooms').removeClass("hide");
-                $('#total-price-container').removeClass("hide");
-            }
-
-            for (var i=0; i<room_amount.value; i++)
-            {
-                var key_accomodation = parseInt(document.getElementById("accomodation_index_" + String(i+1)).value);
-                var room_data = tour_data_first.accommodations[key_accomodation];
-
-                var pax_minimum = parseInt(room_data.pax_minimum);
-                var extra_bed_limit = parseInt(room_data.extra_bed_limit);
-                var single_supplement = parseInt(room_data.single_supplement);
-                var adult_surcharge_price = parseInt(room_data.adult_surcharge);
-                var child_surcharge_price = parseInt(room_data.child_surcharge);
-
-                temp = 'adult_tour_room_'+String(i+1);
-                var adult_amount_per_room = parseInt(document.getElementById(temp).value);
-                temp = 'child_tour_room_'+String(i+1);
-                var child_amount_per_room = parseInt(document.getElementById(temp).value);
-                temp = 'infant_tour_room_'+String(i+1);
-                var infant_amount_per_room = parseInt(document.getElementById(temp).value);
-
-                var total_amount = adult_amount_per_room + child_amount_per_room + infant_amount_per_room;
-                var total_amount_no_infant = adult_amount_per_room + child_amount_per_room;
-
-                grand_total_pax += total_amount;
-                grand_total_pax_no_infant += total_amount_no_infant;
-                adult_total_pax += adult_amount_per_room;
-                child_total_pax += child_amount_per_room;
-                infant_total_pax += infant_amount_per_room;
-
-                if (total_amount_no_infant < pax_minimum) {
-                    var single_sup = pax_minimum - total_amount_no_infant;
-                    single_supplement_amount += single_sup;
-                    single_supplement_price += single_sup * single_supplement;
-                    adult_amount += total_amount_no_infant
-                    infant_amount += infant_amount_per_room
-                }
-                else {
-                    if (adult_amount_per_room >= pax_minimum) {
-                        adult_amount += adult_amount_per_room;
-                        if (adult_amount_per_room - pax_minimum <= extra_bed_limit) {
-                            adult_surcharge_amount += adult_amount_per_room - pax_minimum;
-                            adult_surcharge_total += (adult_amount_per_room - pax_minimum) * adult_surcharge_price;
-                            extra_bed_limit -= adult_amount_per_room - pax_minimum;
-                            if (child_amount_per_room <= extra_bed_limit) {
-                                child_amount += child_amount_per_room;
-                                child_surcharge_amount += child_amount_per_room;
-                                child_surcharge_total += child_amount_per_room * child_surcharge_price;
-                            }
-                            else {
-                                child_amount += child_amount_per_room;
-                                child_surcharge_amount += child_amount_per_room - extra_bed_limit;
-                                child_surcharge_total += (child_amount_per_room - extra_bed_limit) * child_surcharge_price;
-                            }
-                        } else {
-                            adult_surcharge_amount += adult_amount_per_room - pax_minimum - extra_bed_limit;
-                            adult_surcharge_total += (adult_amount_per_room - pax_minimum - extra_bed_limit) * adult_surcharge_price;
-                            child_amount += child_amount_per_room;
+                if(!price_data[i].charge_code.split('.').includes('room'))
+                {
+                    if(['fare', 'roc'].includes(price_data[i].charge_code))
+                    {
+                        if(price_data[i].pax_type == 'ADT')
+                        {
+                            adt_price += price_data[i].total;
+                            adt_amt = price_data[i].pax_count;
                         }
-        //                child_amount += child_amount_per_room;
-        //                child_surcharge_amount += child_amount_per_room;
-        //                child_surcharge_total += child_amount_per_room * child_surcharge_price;
-                        infant_amount += infant_amount_per_room;
-                    }
-                    else {
-                        adult_amount += pax_minimum;
-                        if (child_amount_per_room > 0) {
-                            if (Math.max(child_amount_per_room - (pax_minimum - adult_amount_per_room), 0) != 0) {
-                                if ((child_amount_per_room - (pax_minimum - adult_amount_per_room)) > extra_bed_limit) {
-                                    child_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
-                                    child_surcharge_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room) - extra_bed_limit;
-                                    child_surcharge_total += (child_amount_per_room - (pax_minimum - adult_amount_per_room) - extra_bed_limit) * child_surcharge_price;
-                                } else {
-                                    child_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
-                                    child_surcharge_amount += child_amount_per_room - (pax_minimum - adult_amount_per_room);
-                                    child_surcharge_total += (child_amount_per_room - (pax_minimum - adult_amount_per_room)) * child_surcharge_price;
-                                }
-                            }
+                        else if(price_data[i].pax_type == 'CHD')
+                        {
+                            chd_price += price_data[i].total;
+                            chd_amt = price_data[i].pax_count;
                         }
-                        if (infant_amount_per_room > 0) {
-                            if (adult_amount_per_room + child_amount_per_room < pax_minimum) {
-                                infant_amount += Math.max(infant_amount_per_room - (pax_minimum - adult_amount_per_room - child_amount_per_room), 0);
-                            }
-                            else {
-                                infant_amount += infant_amount_per_room;
-                            }
+                        else if(price_data[i].pax_type == 'INF')
+                        {
+                            inf_price += price_data[i].total;
+                            inf_amt = price_data[i].pax_count;
                         }
                     }
-                }
-            }
+                    else if(price_data[i].charge_type != 'RAC')
+                    {
+                        var pax_type_dict ={
+                            'ADT': 'Adult',
+                            'CHD': 'Child',
+                            'INF': 'Infant'
+                        }
+                        var desc_type_dict ={
+                            'air.tax': 'Airport Tax',
+                            'tip.guide': 'Tipping Guide',
+                            'tip.tl': 'Tipping Tour Leader',
+                            'tip.driver': 'Tipping Driver',
+                        }
+                        pax_type_str = '';
+                        if(price_data[i].pax_type in pax_type_dict)
+                        {
+                            pax_type_str = pax_type_dict[price_data[i].pax_type];
+                        }
 
-            document.getElementById('adult_total_pax').value = adult_total_pax;
-            document.getElementById('child_total_pax').value = child_total_pax;
-
-            var discount_total = 0;
-            var tour_type = tour_data.tour_type;
-            if (tour_type == 'sic')
-            {
-                var discount = JSON.parse(document.getElementById("discount").value);
-                for (var i=0; i < discount.length; i++) {
-                    var min_pax = discount[i]['min_pax'];
-                    var max_pax = discount[i]['max_pax'];
-                    var discount_per_pax = discount[i]['discount_per_pax'];
-                    if ((grand_total_pax_no_infant >= min_pax) && (grand_total_pax_no_infant <= max_pax)) {
-                        adult_sale_price = parseInt(tour_data.adult_sale_price) - discount_per_pax;
-                        child_sale_price = parseInt(tour_data.child_sale_price) - discount_per_pax;
-                        adult_commission *= 0.5;
-                        child_commission *= 0.5;
-                        infant_commission *= 0.5;
-                        discount_total = discount[i]['discount_total'];
-                        break;
+                        desc_str = ''
+                        if(price_data[i].charge_code in desc_type_dict)
+                        {
+                            desc_str = desc_type_dict[price_data[i].charge_code];
+                        }
+                        if(pax_type_str)
+                        {
+                            price_txt2 += `<div class="row">
+                                            <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
+                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                           </div>`;
+                        }
+                        else
+                        {
+                            price_txt2 += `<div class="row">
+                                            <div class="col-xs-4">`+desc_str+`</div>
+                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                           </div>`;
+                        }
+                        grand_total += price_data[i].total;
+                    }
+                    else if(price_data[i].charge_code == 'rac')
+                    {
+                        grand_commission += (price_data[i].total * -1);
                     }
                 }
+                else
+                {
+                    room_prices.push(price_data[i]);
+                }
             }
-
-            document.getElementById("single_supplement_amount").value = single_supplement_amount;
-            document.getElementById("single_supplement_price").setAttribute("data-price", single_supplement_price);
-            document.getElementById("single_supplement_price").value = getrupiah(single_supplement_price);
-
-            document.getElementById("adult_amount").value = adult_amount;
-            document.getElementById("adult_price").setAttribute("data-price", adult_amount * adult_sale_price);
-            document.getElementById("adult_price").value = getrupiah(adult_amount * adult_sale_price);
-            document.getElementById("adult_commission").setAttribute("data-price", adult_amount * adult_commission);
-            document.getElementById("adult_commission").value = getrupiah(adult_amount * adult_commission);
-            document.getElementById("adult_surcharge_amount").value = adult_surcharge_amount;
-            document.getElementById("adult_surcharge_price").setAttribute("data-price", adult_surcharge_total);
-            document.getElementById("adult_surcharge_price").value = getrupiah(adult_surcharge_total);
-
-            document.getElementById("child_amount").value = child_amount;
-            document.getElementById("child_price").setAttribute("data-price", child_amount * child_sale_price);
-            document.getElementById("child_price").value = getrupiah(child_amount * child_sale_price);
-            document.getElementById("child_commission").setAttribute("data-price", child_amount * child_commission);
-            document.getElementById("child_commission").value = getrupiah(child_amount * child_commission);
-            document.getElementById("child_surcharge_amount").value = child_surcharge_amount;
-            document.getElementById("child_surcharge_price").setAttribute("data-price", child_surcharge_total);
-            document.getElementById("child_surcharge_price").value = getrupiah(child_surcharge_total);
-
-            document.getElementById("infant_amount").value = infant_amount;
-            document.getElementById("infant_price").setAttribute("data-price", infant_amount * infant_sale_price);
-            document.getElementById("infant_price").value = getrupiah(infant_amount * infant_sale_price);
-            document.getElementById("infant_commission").setAttribute("data-price", infant_amount * infant_commission);
-            document.getElementById("infant_commission").value = getrupiah(infant_amount * infant_commission);
-
-            var airport_tax = grand_total_pax * airport_tax;
-            document.getElementById("airport_tax_amount").value = grand_total_pax;
-            document.getElementById("airport_tax_total").setAttribute("data-price", airport_tax);
-            document.getElementById("airport_tax_total").value = getrupiah(airport_tax);
-
-            var am_tipping_guide = adult_total_pax;
-            var am_tipping_tour_leader = adult_total_pax;
-            var am_tipping_driver = adult_total_pax;
-
-            if(tour_data.tipping_guide_child){
-                am_tipping_guide += child_total_pax;
-            }
-            if(tour_data.tipping_guide_infant){
-                am_tipping_guide += infant_total_pax;
-            }
-            if(tour_data.tipping_tour_leader_child){
-                am_tipping_tour_leader += child_total_pax;
-            }
-            if(tour_data.tipping_tour_leader_infant){
-                am_tipping_tour_leader += infant_total_pax;
-            }
-            if(tour_data.tipping_driver_child){
-                am_tipping_driver += child_total_pax;
-            }
-            if(tour_data.tipping_driver_infant){
-                am_tipping_driver += infant_total_pax;
-            }
-
-            var tipping_guide_total = am_tipping_guide * tipping_guide * guiding_days;
-            var tipping_tour_leader_total = am_tipping_tour_leader * tipping_tour_leader * duration;
-            var tipping_driver_total = am_tipping_driver * tipping_driver * driving_times;
-
-            document.getElementById("tipping_guide_amount").value = am_tipping_guide;
-            document.getElementById("tipping_guide_total").setAttribute("data-price", tipping_guide_total);
-            document.getElementById("tipping_guide_total").value = getrupiah(tipping_guide_total);
-
-            document.getElementById("tipping_tour_leader_amount").value = am_tipping_tour_leader;
-            document.getElementById("tipping_tour_leader_total").setAttribute("data-price", tipping_tour_leader_total);
-            document.getElementById("tipping_tour_leader_total").value = getrupiah(tipping_tour_leader_total);
-
-            document.getElementById("tipping_driver_amount").value = am_tipping_driver;
-            document.getElementById("tipping_driver_total").setAttribute("data-price", tipping_driver_total);
-            document.getElementById("tipping_driver_total").value = getrupiah(tipping_driver_total);
-            get_total_price(discount_total);
-            for (var i=0; i<room_amount.value; i++)
+            for(var j=0; j<room_amount; j++)
             {
-                $('#adult_tour_room_'+String(i+1)).niceSelect('update');
-                $('#child_tour_room_'+String(i+1)).niceSelect('update');
-                $('#infant_tour_room_'+String(i+1)).niceSelect('update');
+                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><h6>Room `+String(j+1)+`</h6></div></div>`;
+                found_room_price = false;
+                for(var k=0; k<room_prices.length; k++)
+                {
+                    if(room_prices[k].charge_code.split('.').includes(String(j+1)))
+                    {
+                        var pax_type_dict ={
+                            'ADT': 'Adult',
+                            'CHD': 'Child',
+                            'INF': 'Infant'
+                        }
+                        if(room_prices[k].charge_code.split('.').includes('sur'))
+                        {
+                            desc_str = pax_type_dict[room_prices[k].pax_type] + ' Extra Bed';
+                        }
+                        else if(room_prices[k].charge_code.split('.').includes('sing'))
+                        {
+                            desc_str = 'Single Supplement';
+                        }
+                        else if(room_prices[k].charge_code.split('.').includes('charge'))
+                        {
+                            desc_str = 'Additional Charge';
+                        }
+                        found_room_price = true;
+                        price_txt2 += `<div class="row">
+                                        <div class="col-xs-4">`+desc_str+`</div>
+                                        <div class="col-xs-1">X</div>
+                                        <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
+                                        <div class="col-xs-2"></div>
+                                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
+                                       </div>`;
+                        grand_total += room_prices[k].total;
+                    }
+                }
+                if (!found_room_price)
+                {
+                    price_txt2 += `<div class="row">
+                                    <div class="col-xs-4">(No Charge)</div>
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-1">N/A</div>
+                                    <div class="col-xs-2"></div>
+                                    <div class="col-xs-4" style="text-align: right;">N/A</div>
+                                   </div>`;
+                }
             }
+            if(adt_amt > 0)
+            {
+                price_txt1 += `<div class="row">
+                                <div class="col-xs-4">Adult Price</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+adt_amt+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
+                               </div>`;
+                grand_total += adt_price;
+            }
+            if(chd_amt > 0)
+            {
+                price_txt1 += `<div class="row">
+                                <div class="col-xs-4">Child Price</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+chd_amt+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
+                               </div>`;
+                grand_total += chd_price;
+            }
+            if(inf_amt > 0)
+            {
+                price_txt1 += `<div class="row">
+                                <div class="col-xs-4">Infant Price</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+inf_amt+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
+                               </div>`;
+                grand_total += inf_price;
+            }
+            price_txt = price_txt1 + price_txt2;
+            price_txt += `<hr style="padding:0px;">
+                           <div class="row">
+                                <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
+                           </div>
+                           <div class="row">
+                                <div class="col-lg-12" style="padding-bottom:10px;">
+                                    <hr/>
+                                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                                    share_data();
+                                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                    if (isMobile) {
+                                        price_txt+=`
+                                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                    } else {
+                                        price_txt+=`
+                                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                    }
+
+                                price_txt+=`
+                                </div>
+                           </div>
+                           <div class="row" id="show_commission" style="display:none;">
+                                <div class="col-lg-12" style="margin-top:10px; text-align:center;">
+                                    <div class="alert alert-success">
+                                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                                    </div>
+                                </div>
+                           </div>
+
+                           <div class="row" style="margin-top:10px; text-align:center;">
+                               <div class="col-lg-12">
+                                   <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                               </div>
+                           </div>
+                           <div class="row" style="margin-top:10px; text-align:center;">
+                               <div class="col-lg-12">
+                                    <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                               </div>
+                           </div>`;
+
+            next_btn_txt = `<center>
+                                <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
+                                    Next
+                                    <i class="fas fa-angle-right"></i>
+                                </button>
+                            </center>`;
+            document.getElementById('tour_detail_table').innerHTML = price_txt;
+            document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
+function get_price_itinerary_cache() {
+    var grand_total = 0;
+    var grand_commission = 0;
+    $test = '';
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_pricing_cache',
+       },
+       data: {
+
+       },
+       success: function(msg) {
+            console.log(msg);
+            $('#loading-price-tour').hide();
+            price_data = msg.result.response.service_charges;
+            price_txt1 = ``;
+            price_txt2 = ``;
+            grand_total = 0;
+            total_commission = 0;
+            adt_price = 0;
+            chd_price = 0;
+            inf_price = 0;
+            adt_amt = 0;
+            chd_amt = 0;
+            inf_amt = 0;
+            room_prices = [];
+            for (i in price_data)
+            {
+                if(!price_data[i].charge_code.split('.').includes('room'))
+                {
+                    if(['fare', 'roc'].includes(price_data[i].charge_code))
+                    {
+                        if(price_data[i].pax_type == 'ADT')
+                        {
+                            adt_price += price_data[i].total;
+                            adt_amt = price_data[i].pax_count;
+                        }
+                        else if(price_data[i].pax_type == 'CHD')
+                        {
+                            chd_price += price_data[i].total;
+                            chd_amt = price_data[i].pax_count;
+                        }
+                        else if(price_data[i].pax_type == 'INF')
+                        {
+                            inf_price += price_data[i].total;
+                            inf_amt = price_data[i].pax_count;
+                        }
+                    }
+                    else if(price_data[i].charge_type != 'RAC')
+                    {
+                        var pax_type_dict ={
+                            'ADT': 'Adult',
+                            'CHD': 'Child',
+                            'INF': 'Infant'
+                        }
+                        var desc_type_dict ={
+                            'air.tax': 'Airport Tax',
+                            'tip.guide': 'Tipping Guide',
+                            'tip.tl': 'Tipping Tour Leader',
+                            'tip.driver': 'Tipping Driver',
+                        }
+                        pax_type_str = '';
+                        if(price_data[i].pax_type in pax_type_dict)
+                        {
+                            pax_type_str = pax_type_dict[price_data[i].pax_type];
+                        }
+
+                        desc_str = ''
+                        if(price_data[i].charge_code in desc_type_dict)
+                        {
+                            desc_str = desc_type_dict[price_data[i].charge_code];
+                        }
+                        if(pax_type_str)
+                        {
+                            price_txt2 += `<div class="row">
+                                            <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
+                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                           </div>`;
+                        }
+                        else
+                        {
+                            price_txt2 += `<div class="row">
+                                            <div class="col-xs-4">`+desc_str+`</div>
+                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
+                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                           </div>`;
+                        }
+                        grand_total += price_data[i].total;
+                    }
+                    else if(price_data[i].charge_code == 'rac')
+                    {
+                        grand_commission += (price_data[i].total * -1);
+                    }
+                }
+                else
+                {
+                    room_prices.push(price_data[i]);
+                }
+            }
+            for(var j=0; j<room_amount; j++)
+            {
+                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><h6>Room `+String(j+1)+`</h6></div></div>`;
+                found_room_price = false;
+                for(var k=0; k<room_prices.length; k++)
+                {
+                    if(room_prices[k].charge_code.split('.').includes(String(j+1)))
+                    {
+                        var pax_type_dict ={
+                            'ADT': 'Adult',
+                            'CHD': 'Child',
+                            'INF': 'Infant'
+                        }
+                        if(room_prices[k].charge_code.split('.').includes('sur'))
+                        {
+                            desc_str = pax_type_dict[room_prices[k].pax_type] + ' Extra Bed';
+                        }
+                        else if(room_prices[k].charge_code.split('.').includes('sing'))
+                        {
+                            desc_str = 'Single Supplement';
+                        }
+                        else if(room_prices[k].charge_code.split('.').includes('charge'))
+                        {
+                            desc_str = 'Additional Charge';
+                        }
+                        found_room_price = true;
+                        price_txt2 += `<div class="row">
+                                        <div class="col-xs-4">`+desc_str+`</div>
+                                        <div class="col-xs-1">X</div>
+                                        <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
+                                        <div class="col-xs-2"></div>
+                                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
+                                       </div>`;
+                        grand_total += room_prices[k].total;
+                    }
+                }
+                if (!found_room_price)
+                {
+                    price_txt2 += `<div class="row">
+                                    <div class="col-xs-4">(No Charge)</div>
+                                    <div class="col-xs-1"></div>
+                                    <div class="col-xs-1">N/A</div>
+                                    <div class="col-xs-2"></div>
+                                    <div class="col-xs-4" style="text-align: right;">N/A</div>
+                                   </div>`;
+                }
+            }
+            if(adt_amt > 0)
+            {
+                price_txt1 += `<div class="row">
+                                <div class="col-xs-4">Adult Price</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+adt_amt+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
+                               </div>`;
+                grand_total += adt_price;
+            }
+            if(chd_amt > 0)
+            {
+                price_txt1 += `<div class="row">
+                                <div class="col-xs-4">Child Price</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+chd_amt+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
+                               </div>`;
+                grand_total += chd_price;
+            }
+            if(inf_amt > 0)
+            {
+                price_txt1 += `<div class="row">
+                                <div class="col-xs-4">Infant Price</div>
+                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">`+inf_amt+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
+                               </div>`;
+                grand_total += inf_price;
+            }
+            price_txt = price_txt1 + price_txt2;
+            price_txt += `<hr style="padding:0px;">
+                           <div class="row">
+                                <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
+                           </div>
+                           <div class="row">
+                                <div class="col-lg-12" style="padding-bottom:10px;">
+                                    <hr/>
+                                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                                    share_data();
+                                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                                    if (isMobile) {
+                                        price_txt+=`
+                                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                    } else {
+                                        price_txt+=`
+                                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                    }
+
+                                price_txt+=`
+                                </div>
+                           </div>
+                           <div class="row" id="show_commission" style="display:none;">
+                                <div class="col-lg-12" style="margin-top:10px; text-align:center;">
+                                    <div class="alert alert-success">
+                                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                                    </div>
+                                </div>
+                           </div>
+
+                           <div class="row" style="margin-top:10px; text-align:center;">
+                               <div class="col-lg-12">
+                                   <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                               </div>
+                           </div>
+                           <div class="row" style="margin-top:10px; text-align:center;">
+                               <div class="col-lg-12">
+                                    <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                               </div>
+                           </div>`;
+
+            next_btn_txt = `<center>
+                                <button type="submit" class="primary-btn-ticket" value="Next" style="width:100%;">
+                                    Next
+                                    <i class="fas fa-angle-right"></i>
+                                </button>
+                            </center>`;
+            document.getElementById('tour_detail_table').innerHTML = price_txt;
+            document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

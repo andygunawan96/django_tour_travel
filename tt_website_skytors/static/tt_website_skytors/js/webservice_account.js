@@ -47,11 +47,11 @@ function get_balance(val){
                   </div>`;
           document.getElementById("credit_limit").innerHTML = text;
 
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
-            })
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
+//            })
         }
         get_transactions_notification(val);
        },
@@ -67,11 +67,11 @@ function get_balance(val){
                   </div>`;
           document.getElementById("credit_limit").innerHTML = text;
 
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error balance </span>' + errorThrown,
-            })
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: red;">Error balance </span>' + errorThrown,
+//            })
        },timeout: 60000
     });
 }
@@ -137,18 +137,63 @@ function get_transactions_notification(val){
        console.log(msg);
         if(msg.result.error_code == 0){
             text = '';
-
+            var hold_date = '';
+            var date = '';
+            var check_notif = 0;
+            var timeout_notif = 5000;
+            var today = new Date();
             for(i in msg.result.response){
+                hold_date = '';
+                if(msg.result.response[i].hold_date != ''){
+                    date = moment.utc(msg.result.response[i].hold_date).format('YYYY-MM-DD HH:mm:ss');
+                    var localTime  = moment.utc(date).toDate();
+                    if(today >= moment(localTime) && msg.result.response[i].state_description == 'Expired'){
+                        hold_date = 'Expired';
+                    }else if(today >= moment(localTime) && msg.result.response[i].state_description == 'Issued'){
+                        hold_date = 'Issued';
+                    }else{
+
+                        hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        if(window.location.href.split('/')[window.location.href.split('/').length-1] == ""){
+                            document.getElementById('notification_div').innerHTML +=`
+                                <div class="row" id="alert`+check_notif+`">
+                                    <div class="col-sm-6">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="alert alert-warning" role="alert">
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                          <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' - ' + hold_date+`
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                }else{
+                    hold_date = 'Error booked';
+                }
                 number = parseInt(i)+1;
                 if(msg.result.response[i].provider.provider_type == 'airline'){
                     text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
                     text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                    text+=`<div class="row">
+                            <div class="col-sm-6">`;
                     text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
+                    text+=` </div>
+                            <div class="col-sm-6" style="text-align:right">
+                            <span style="font-weight:500;"> `+hold_date+`</span>`;
+                    text+=` </div>
+                           </div>`;
                     text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
                     text+=`<hr/></form>`;
                     text+=`</div>`;
                 }
             }
+            setTimeout(function() {
+                $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
+                    $(this).remove();
+                });
+            }, timeout_notif);
             document.getElementById('notification_detail').innerHTML = text;
 //            document.getElementById('notification_detail2').innerHTML = text;
 
@@ -230,6 +275,17 @@ function get_transactions(type){
                     table_reservation(msg.result.response);
                     load_more = true;
                 }else{
+                    var date = '';
+                    var localTime = '';
+                    for(i in msg.result.response){
+                        date = moment.utc(msg.result.response[i].hold_date).format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(date).toDate();
+                        msg.result.response[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+
+                        date = moment.utc(msg.result.response[i].booked_date).format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(date).toDate();
+                        msg.result.response[i].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    }
                     table_reservation(msg.result.response);
                 }
             }catch(err){

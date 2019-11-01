@@ -159,6 +159,11 @@ def get_transactions(request):
         res = request.session['get_transactions_session']
     try:
         if res['result']['error_code'] == 0:
+            for response in res['result']['response']:
+                if response['hold_date'] != '':
+                    response.update({
+                        'hold_date': '%s-%s-%s %s' % (response['hold_date'].split(' ')[0].split('-')[2], response['hold_date'].split(' ')[0].split('-')[1], response['hold_date'].split(' ')[0].split('-')[0], response['hold_date'].split(' ')[1])
+                    })
             logging.getLogger("info_logger").info("get_transactions SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

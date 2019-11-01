@@ -349,7 +349,7 @@ def search2(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=60)
     try:
         print(res)
         if res['result']['error_code'] == 0:

@@ -148,8 +148,7 @@ span.ellipse.clickable {
 
 .light-theme .ellipse {
 	background: none;
-	border: none;
-	border-radius: 28px;
+	border: 1px solid #cdcdcd;
 	box-shadow: none;
 	font-weight: bold;
 	cursor: default;

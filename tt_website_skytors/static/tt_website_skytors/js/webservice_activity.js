@@ -132,7 +132,7 @@ function activity_search(){
                             <input type='hidden' value='`+JSON.stringify(activity_data[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
                             <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
-                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
+                            <div class="single-recent-blog-post item" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
                                 <div class="single-destination relative">
                                     <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                         <div class="overlay overlay-bg"></div>
@@ -149,7 +149,7 @@ function activity_search(){
                                                             <br/>`;
                                                     }
                                                 text+=`
-                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+`)</span>
+                                                <span class="span-activity-desc" style="font-size:13px;"> `+activity_data[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_data[i].reviewCount+` reviews)</span>
                                                 <br/><br/>
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">

@@ -2329,8 +2329,13 @@ function sort(airline){
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
         node = document.createElement("div");
-        alert('Sorry no ticket for flight '+ parseInt(counter_search+1).toString());
-        window.location.href="/";
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search+1).toString()+' </span>',
+        });
+        if(ticket_count == 0 && airline.length == 0)
+            window.location.href="/";
    }
 }
 
@@ -3074,10 +3079,10 @@ function airline_detail(type){
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+parseFloat(additional_price))+`</b></span><br/>`;
             else
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+additional_price)+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+parseFloat(additional_price))+`</b></span><br/>`;
             text+=`
             </div>
         </div>
@@ -3301,13 +3306,21 @@ function check_passenger(adult, child, infant){
     //check booker jika teropong
     try{
         for(i in passenger_data_pick){
-            if(passenger_data_pick[i].sequence == 'booker'){
+            if(passenger_data_pick[i].sequence != 'booker'){
+                passenger_check = {
+                    'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+                    'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
+                }
+                if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+                   document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+                   document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+                   error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+           }else if(passenger_data_pick[i].sequence == 'booker'){
                 if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
                     document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
                     document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
                     error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
-                break;
-            }
+           }
         }
     }catch(err){
 
@@ -3376,17 +3389,6 @@ function check_passenger(adult, child, infant){
            document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
            document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
                 error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
-   for(i in passenger_data_pick){
-        passenger_check = {
-            'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
-            'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
-        }
-        if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
-           document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
-           document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
-           error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
-
-    }
    //adult
    for(i=1;i<=adult;i++){
 
@@ -3712,6 +3714,8 @@ function get_airline_review(){
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list)
                                     text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
+                                for(j in passengers_ssr[i].seat_list)
+                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` Seat `+passengers_ssr[i].seat_list[j].seat_pick+`</label>`;
                                 text+=`</td>
                                </tr>`;
                         count_pax++;
@@ -3885,4 +3889,12 @@ function set_new_request_ssr(){
 
 function set_new_request_seat(){
     get_seat_availability('request_new_seat');
+}
+
+function send_request_link(val){
+    console.log(time_limit);
+    document.getElementById('time_limit_input').value = time_limit;
+    document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
+    document.getElementById('airline_request_send2').action = val;
+    document.getElementById('airline_request_send2').submit();
 }
