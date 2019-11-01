@@ -157,24 +157,33 @@ def passenger(request):
         airline_country = response['result']['response']['airline']['country']
 
         # pax
+        room_amount = request.POST['room_amount']
+        adult_amt = 0
+        child_amt = 0
+        infant_amt = 0
         adult = []
         infant = []
         child = []
 
+        for r in range(int(room_amount)):
+            adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
+            child_amt += int(request.POST['child_tour_room_' + str(r+1)])
+            infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
+
         try:
-            for i in range(int(request.POST['adult_total_pax'].replace(',', ''))):
+            for i in range(adult_amt):
                 adult.append('')
         except:
             print('no adult')
 
         try:
-            for i in range(int(request.POST['child_total_pax'].replace(',', ''))):
+            for i in range(child_amt):
                 child.append('')
         except:
             print('no children')
 
         try:
-            for i in range(int(request.POST['infant_amount'].replace(',', ''))):
+            for i in range(infant_amt):
                 infant.append('')
         except:
             print('no infant')
@@ -215,12 +224,11 @@ def passenger(request):
         room_amount = int(request.POST['room_amount'])
         render_pax_per_room = []
         for idx in range(room_amount):
-            temp = str(idx + 1)
             note = 'notes_' + str(idx + 1)
             room = {
-                'adult': int(request.POST['adult_tour_room_' + temp]),
-                'child': int(request.POST['child_tour_room_' + temp]),
-                'infant': int(request.POST['infant_tour_room_' + temp]),
+                'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
+                'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
+                'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
                 'data': request.session['tour_data']['accommodations'][idx],
             }
 
@@ -244,9 +252,9 @@ def passenger(request):
         request.session['booking_data'] = {
             'room_list': render_pax_per_room,
             'room_amount': room_amount,
-            'adults': int(request.POST['adult_total_pax'].replace(',', '')),
-            'childs': int(request.POST['child_total_pax'].replace(',', '')),
-            'infants': int(request.POST['infant_amount'].replace(',', '')),
+            'adults': adult_amt,
+            'childs': child_amt,
+            'infants': infant_amt,
             'static_path_url_server': get_url_static_path(),
             'tour_data': request.session['tour_pick'],
             'javascript_version': javascript_version
