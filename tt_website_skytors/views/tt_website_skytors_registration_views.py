@@ -25,8 +25,9 @@ infant_title = ['MSTR', 'MISS']
 
 def open_page(request):
     try:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
 
         template, logo = get_logo_template()
         social_medias = []
@@ -65,7 +66,7 @@ def register_agent(request):
     pic = []
     check = True
     counter = 1
-    javascript_version = get_cache_version()
+    javascript_version = get_javascript_version()
 
     template, logo = get_logo_template()
 

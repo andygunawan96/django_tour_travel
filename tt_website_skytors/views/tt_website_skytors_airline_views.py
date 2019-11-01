@@ -27,8 +27,9 @@ def can_book(now, dep):
 
 def search(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         # airline
@@ -255,8 +256,9 @@ def search(request):
 def passenger(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         try:
-            javascript_version = get_cache_version()
-            response = get_cache_data(javascript_version)
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
 
             file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
@@ -357,8 +359,9 @@ def passenger(request):
 
 def ssr(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
@@ -529,8 +532,9 @@ def ssr(request):
 
 def seat_map(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
@@ -750,8 +754,9 @@ def seat_map(request):
 
 def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
@@ -1016,8 +1021,9 @@ def review(request):
 
 def review_after_sales(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
         goto = 0
@@ -1145,7 +1151,7 @@ def review_after_sales(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
+        javascript_version = get_javascript_version()
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:

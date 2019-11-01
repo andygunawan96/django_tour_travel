@@ -21,8 +21,9 @@ MODEL_NAME = 'tt_website_skytors'
 
 def search(request):
     template, logo = get_logo_template()
-    javascript_version = get_cache_version()
-    response = get_cache_data(javascript_version)
+    javascript_version = get_javascript_version()
+    cache_version = get_cache_version()
+    response = get_cache_data(cache_version)
     airline_country = response['result']['response']['airline']['country']
     try:
         visa_request = {
@@ -52,7 +53,9 @@ def search(request):
     return render(request, MODEL_NAME+'/visa/tt_website_skytors_visa_search_templates.html', values)
 
 def passenger(request):
-    javascript_version = get_cache_version()
+    javascript_version = get_javascript_version()
+    cache_version = get_cache_version()
+    response = get_cache_data(cache_version)
     template, logo = get_logo_template()
 
     list_visa = request.session['visa_search']
@@ -64,8 +67,6 @@ def passenger(request):
         'infant': 0,
         'elder': 0
     }
-    response = get_cache_data(javascript_version)
-
     # agent
     adult_title = ['MR', 'MRS', 'MS']
 
@@ -156,8 +157,9 @@ def passenger(request):
 
 def review(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
@@ -342,7 +344,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         template, logo = get_logo_template()
-        javascript_version = get_cache_version()
+        javascript_version = get_javascript_version()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
