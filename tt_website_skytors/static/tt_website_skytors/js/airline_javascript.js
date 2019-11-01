@@ -3053,7 +3053,7 @@ function airline_detail(type){
                     text+=`
                     </div>`;
                 }
-                text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
+//                text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
             }
         }
         text+=`
@@ -3292,8 +3292,8 @@ function on_change_srr(){
     for(i=1;i<=len_passenger;i++){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
-                if(document.getElementById(ssr_keys[j].key+'_'+i+'_'+k).value != '')
-                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+i+'_'+k).value.split('_')[1])
+                if(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value != '')
+                    additional_price += parseInt(document.getElementById(ssr_keys[j].key+'_'+ssr_keys[j].provider+'_'+i+'_'+k).value.split('_')[1])
             }
         }
     }
@@ -3713,9 +3713,9 @@ function get_airline_review(){
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list)
-                                    text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
+                                    text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 for(j in passengers_ssr[i].seat_list)
-                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` Seat `+passengers_ssr[i].seat_list[j].seat_pick+`</label>`;
+                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` Seat `+passengers_ssr[i].seat_list[j].seat_pick+`</label><br/>`;
                                 text+=`</td>
                                </tr>`;
                         count_pax++;

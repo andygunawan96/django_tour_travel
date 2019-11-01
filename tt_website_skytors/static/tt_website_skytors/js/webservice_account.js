@@ -149,7 +149,7 @@ function get_transactions_notification(val){
                     var localTime  = moment.utc(date).toDate();
                     if(today >= moment(localTime) && msg.result.response[i].state_description == 'Expired'){
                         hold_date = 'Expired';
-                    }else if(today >= moment(localTime) && msg.result.response[i].state_description == 'Issued'){
+                    }else if(msg.result.response[i].state_description == 'Issued'){
                         hold_date = 'Issued';
                     }else{
 
