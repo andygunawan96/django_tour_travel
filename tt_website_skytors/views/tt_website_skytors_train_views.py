@@ -39,8 +39,9 @@ def can_book(now, dep):
 
 def search(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
@@ -76,8 +77,9 @@ def search(request):
 
 def passenger(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
 
         template, logo = get_logo_template()
 
@@ -130,7 +132,9 @@ def passenger(request):
 
 def review(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
 
         template, logo = get_logo_template()
 
@@ -246,8 +250,9 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
@@ -273,8 +278,9 @@ def booking(request):
 
 def seat_map(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()

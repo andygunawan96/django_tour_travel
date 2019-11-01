@@ -2972,3 +2972,41 @@ function update_passenger_backend(){
     }
     document.getElementById('update_passenger_customer').disabled = false;
 }
+
+function update_cache_version_func(){
+    document.getElementById('update_cache_version').disabled = true;
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'update_cache',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                Swal.fire({
+                     type: 'success',
+                     title: 'Success!',
+                     html: 'Success update cache'
+               })
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update cache </span>' + errorThrown,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update cache </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}

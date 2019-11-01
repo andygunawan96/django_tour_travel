@@ -25,8 +25,9 @@ MODEL_NAME = 'tt_website_skytors'
 def index(request):
     try:
         template, logo = get_logo_template()
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         if request.POST['logout']:
@@ -57,8 +58,9 @@ def index(request):
 
                 #get_data_awal
                 try:
-                    javascript_version = get_cache_version()
-                    response = get_cache_data(javascript_version)
+                    javascript_version = get_javascript_version()
+                    cache_version = get_cache_version()
+                    response = get_cache_data(cache_version)
 
                     try:
                         airline_country = response['result']['response']['airline']['country']
@@ -268,7 +270,7 @@ def testing(request):
 
 
 def login(request):
-    javascript_version = get_cache_version()
+    javascript_version = get_javascript_version()
     template, logo = get_logo_template()
 
     if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -316,8 +318,9 @@ def admin(request):
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
-            javascript_version = get_cache_version()
-            response = get_cache_data(javascript_version)
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
 
 
@@ -360,8 +363,9 @@ def admin(request):
 
 def reservation(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
@@ -396,8 +400,9 @@ def reservation(request):
 
 def top_up(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
 
@@ -421,8 +426,9 @@ def top_up(request):
 
 def top_up_history(request):
     if 'user_account' in request.session._session:
-        javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
@@ -445,13 +451,17 @@ def top_up_history(request):
     else:
         return no_session_logout()
 
-def get_cache_version():
+def get_javascript_version():
     file = open(var_log_path()+"javascript_version.txt", "r")
-    for idx, line in enumerate(file):
-        if idx == 0:
-            javascript_version = line.split('\n')[0]
+    javascript_version = file.read()
     file.close()
     return javascript_version
+
+def get_cache_version():
+    file = open(var_log_path()+"cache_version.txt", "r")
+    cache_version = file.read()
+    file.close()
+    return cache_version
 
 def get_cache_data(javascript_version):
     file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "r")
