@@ -2332,9 +2332,9 @@ function sort(airline){
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search+1).toString()+' </span>',
+          html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search).toString()+' </span>',
         });
-        if(ticket_count == 0 && airline.length == 0)
+        if(ticket_count == 0 && airline_data.length == 0)
             window.location.href="/";
    }
 }
