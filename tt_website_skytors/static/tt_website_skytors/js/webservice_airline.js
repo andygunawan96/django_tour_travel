@@ -1731,29 +1731,37 @@ function set_cancel_seat(segment_number){
 
 function update_seat_passenger(segment, row, column,seat_code,seat_name, currency, amount,description){
     if(isNaN(passenger_pick) == false){
-        for(i in passengers[passenger_pick].seat_list){
-            if(passengers[passenger_pick].seat_list[i].segment_code == segment){
-                //lepas passenger seat
-                if(passengers[passenger_pick].seat_list[i].seat_pick != ''){
-                    document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.background = '#CACACA';
-                    document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.color = 'black';
+        try{
+            for(i in passengers[passenger_pick].seat_list){
+                if(passengers[passenger_pick].seat_list[i].segment_code == segment){
+                    //lepas passenger seat
+                    if(passengers[passenger_pick].seat_list[i].seat_pick != ''){
+                        document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.background = '#CACACA';
+                        document.getElementById(segment+'_'+parseInt(passengers[passenger_pick].seat_list[i].seat_pick)+'_'+passengers[passenger_pick].seat_list[i].seat_pick[passengers[passenger_pick].seat_list[i].seat_pick.length-1]).style.color = 'black';
+                    }
+                    //pasang passenger seat
+                    if(passengers[passenger_pick].seat_list[i].price != '')
+                        additional_price -= parseFloat(passengers[passenger_pick].seat_list[i].price);
+                    additional_price += parseFloat(amount);
+                    passengers[passenger_pick].seat_list[i].seat_pick = row+column;
+                    passengers[passenger_pick].seat_list[i].seat_code = seat_code;
+                    passengers[passenger_pick].seat_list[i].seat_name = seat_name;
+                    passengers[passenger_pick].seat_list[i].currency = currency;
+                    passengers[passenger_pick].seat_list[i].price = amount;
+                    passengers[passenger_pick].seat_list[i].description = description.split(',');
+                    document.getElementById(segment+'_'+row+'_'+column).style.background = '#f15a22';
+                    document.getElementById(segment+'_'+row+'_'+column).style.color = 'white';
+                    break;
                 }
-                //pasang passenger seat
-                if(isNaN(passengers[passenger_pick].seat_list[i].price) == false)
-                    additional_price -= parseFloat(passengers[passenger_pick].seat_list[i].price);
-                additional_price += parseFloat(amount);
-                passengers[passenger_pick].seat_list[i].seat_pick = row+column;
-                passengers[passenger_pick].seat_list[i].seat_code = seat_code;
-                passengers[passenger_pick].seat_list[i].seat_name = seat_name;
-                passengers[passenger_pick].seat_list[i].currency = currency;
-                passengers[passenger_pick].seat_list[i].price = amount;
-                passengers[passenger_pick].seat_list[i].description = description.split(',');
-                document.getElementById(segment+'_'+row+'_'+column).style.background = '#f15a22';
-                document.getElementById(segment+'_'+row+'_'+column).style.color = 'white';
-                break;
             }
+            set_passenger_seat_map_airline(passenger_pick);
+        }catch(err){
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              text: 'Please choose passenger first!',
+            })
         }
-        set_passenger_seat_map_airline(passenger_pick);
     }else{
         Swal.fire({
           type: 'error',
@@ -1891,10 +1899,59 @@ function airline_set_ssr(val){
        },
        success: function(msg) {
            console.log(msg);
-           if(seat == 0)
-                airline_assign_seats(val);
-           else
-                airline_commit_booking(val);
+           if(msg.result.error_code == 0){
+                for(i in msg.result.response.sell_ssr_provider){
+                    error_log = '';
+                    if(msg.result.response.sell_ssr_provider[i].status == "FAILED"){
+                        error_log += msg.result.response.sell_ssr_provider[i].error_msg+'\n';
+                    }
+                }
+                if(error_log != ''){
+                    Swal.fire({
+                      title: msg.result.error_msg,
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes'
+                    }).then((result) => {
+                      if (result.value) {
+                        if(seat == 0)
+                            airline_assign_seats(val);
+                        else
+                            airline_commit_booking(val);
+
+                      }else{
+                           window.location.href="/";
+                      }
+
+                    })
+                }else{
+                    if(seat == 0)
+                        airline_assign_seats(val);
+                    else
+                        airline_commit_booking(val);
+                }
+           }else{
+                Swal.fire({
+                  title: msg.result.error_msg,
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  if (result.value) {
+                    if(seat == 0)
+                        airline_assign_seats(val);
+                    else
+                        airline_commit_booking(val);
+                  }else{
+                       window.location.href="/";
+                  }
+                })
+           }
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -1920,8 +1977,47 @@ function airline_assign_seats(val){
        },
        success: function(msg) {
            console.log(msg);
-           if(msg.result.error_code == 0)
-               airline_commit_booking(val);
+           if(msg.result.error_code == 0){
+                error_log = '';
+                for(i in msg.result.response.seat_provider){
+                    if(msg.result.response.seat_provider[i].status == 'FAILED')
+                        error_log += msg.result.response.seat_provider[i].error_msg + '\n';
+                }
+                if(error_log == '')
+                    airline_commit_booking(val);
+                else{
+                    Swal.fire({
+                      title: error_log,
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes'
+                    }).then((result) => {
+                      if (result.value)
+                            airline_commit_booking(val);
+                      else{
+                           window.location.href="/";
+                      }
+                    })
+                }
+           }else{
+                Swal.fire({
+                  title: msg.result.error_msg,
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  if (result.value)
+                        airline_commit_booking(val);
+                  else{
+                       window.location.href="/";
+                  }
+                })
+           }
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
