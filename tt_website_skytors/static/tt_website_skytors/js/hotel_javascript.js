@@ -609,32 +609,25 @@ function sort(response, check_filter){
                     text+=`
                     <div class="col-lg-9 name_hotel_search"">
                         <div class="row">
-                            <div class="col-lg-7 col-md-7">
-                                <div>
-                                    <h5 class="name_hotel hover_name" title="`+response.hotel_ids[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:5px; font-size:18px; font-weight:bold;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h5>
+                            <div class="col-lg-12">
+                                <div style="margin-bottom:10px;">
+                                    <h4 class="name_hotel hover_name" title="`+response.hotel_ids[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h4>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-11 col-xs-11">`;
+                            <div class="col-lg-7 col-md-7">
+                                <div style="margin-bottom:10px;">
+                                <span>
+                                    <span style="border: 2px solid #f15a22; border-radius:7px; padding-left:10px; padding-right:10px; margin-right:5px; font-weight: bold;"> Hotel </span>`;
                                 if(response.hotel_ids[i].rating != false){
                                     for (co=0; co < parseInt(response.hotel_ids[i].rating); co++){
-                                        text+=`<i class="fas fa-star" style="color:#FFC44D; font-size:16px;"></i>`;
+                                        text+=`<i class="fas fa-star" style="color:#FFC44D;"></i>`;
                                     }
                                     text+=`<span class="rating_hotel" hidden>*`+response.hotel_ids[i].rating+`</span>`;
                                 }
                                 else{
                                     text+=`<span class="rating_hotel" hidden>Unrated</span>`;
                                 }
-                            text+=`
-                            </div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 checkbox_search_hotel" style="text-align:right;">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket"></span>
-                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                                <span class="id_copy_result" hidden>`+i+`</span>
-                            </div>
-                            <div class="col-lg-7 col-md-7" style="padding-top:5px;">`;
+                            text+=`</span></div>`;
                             detail = JSON.stringify(response.hotel_ids[i]);
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
@@ -655,7 +648,7 @@ function sort(response, check_filter){
                                 text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
                             // if(response.hotel_ids[i].location.zipcode != false)
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
-                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
+                            text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
                                 </div>
 
                                 <div style="padding-bottom:5px;">

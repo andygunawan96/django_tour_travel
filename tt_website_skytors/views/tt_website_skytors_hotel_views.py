@@ -165,6 +165,7 @@ def passengers(request):
             'username': request.session['username'],
             'childs': child,
             'adults': adult,
+            'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
             'adult_count': int(request.session['hotel_request']['adult']),
             'child_count': int(request.session['hotel_request']['child']),
             'adult_title': adult_title,
@@ -187,7 +188,14 @@ def review(request):
         response = get_cache_data(cache_version)
         template, logo = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
-        request.session['hotel_request'].update({'special_request': request.POST['special_request']})
+        spc_req = ''
+        for rec in request.POST.keys():
+            if 'special_request' in rec:
+                spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
+        spc_req += request.POST['late_ci'] and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
+        spc_req += request.POST['late_co'] and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
+
+        request.session['hotel_request'].update({'special_request': spc_req})
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         adult = []
