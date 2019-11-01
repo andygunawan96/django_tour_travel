@@ -52,6 +52,8 @@ def api_models(request):
             res = get_details(request)
         elif req_data['action'] == 'get_pricing':
             res = get_pricing(request)
+        elif req_data['action'] == 'get_pricing_cache':
+            res = get_pricing_cache(request)
         elif req_data['action'] == 'update_passenger':
             res = update_passenger(request)
         elif req_data['action'] == 'get_booking':
@@ -188,6 +190,14 @@ def get_pricing(request):
 def get_pricing_cache(request):
     try:
         res = request.session['tour_price']
+        if res.get('result'):
+            res['result'].update({
+                'tour_info': {
+                    'name': request.session['tour_pick']['name'],
+                    'departure_date': request.session['tour_pick']['departure_date'],
+                    'return_date': request.session['tour_pick']['return_date'],
+                }
+            })
     except Exception as e:
         res = {}
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

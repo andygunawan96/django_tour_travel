@@ -201,6 +201,9 @@ def passenger(request):
             'adults': adult,
             'infants': infant,
             'childs': child,
+            'adult_amt': adult_amt,
+            'infant_amt': infant_amt,
+            'child_amt': child_amt,
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
             'logo': logo,
@@ -252,9 +255,9 @@ def passenger(request):
         request.session['booking_data'] = {
             'room_list': render_pax_per_room,
             'room_amount': room_amount,
-            'adults': adult_amt,
-            'childs': child_amt,
-            'infants': infant_amt,
+            'adults': adult,
+            'childs': child,
+            'infants': infant,
             'static_path_url_server': get_url_static_path(),
             'tour_data': request.session['tour_pick'],
             'javascript_version': javascript_version
