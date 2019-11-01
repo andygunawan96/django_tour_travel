@@ -2329,8 +2329,13 @@ function sort(airline){
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
         node = document.createElement("div");
-        alert('Sorry no ticket for flight '+ parseInt(counter_search+1).toString());
-        window.location.href="/";
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search+1).toString()+' </span>',
+        });
+        if(ticket_count == 0 && airline.length == 0)
+            window.location.href="/";
    }
 }
 
