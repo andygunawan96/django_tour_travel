@@ -79,6 +79,8 @@ def api_models(request):
             res = get_country()
         elif req_data['action'] == 'update_image_passenger':
             res = update_image_passenger(request)
+        elif req_data['action'] == 'get_public_holiday':
+            res = get_public_holiday(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -263,6 +265,7 @@ def add_banner(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
+
 def get_banner(request):
     try:
         headers = {
@@ -320,5 +323,32 @@ def set_inactive_delete_banner(request):
         # elif func == 'register':
         #     register(request)
     except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def get_public_holiday(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_public_holiday",
+            "signature": request.POST['signature'],
+        }
+        data = {
+            'country_id': request.POST['country_id'],
+            'start_date': request.POST['start_date'],
+            'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
+        }
+
+        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

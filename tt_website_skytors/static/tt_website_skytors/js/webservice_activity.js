@@ -132,7 +132,7 @@ function activity_search(){
                             <input type='hidden' value='`+JSON.stringify(activity_data[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
                             <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>
-                            <div class="single-recent-blog-post item" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
+                            <div class="single-recent-blog-post item activity_box" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
                                 <div class="single-destination relative">
                                     <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                         <div class="overlay overlay-bg"></div>
@@ -162,8 +162,7 @@ function activity_search(){
                                 </div>
                             </div>
                        </form>
-                   </div>
-                   `;
+                   </div>`;
                }
 
                if(high_price_slider <= 1000000){
@@ -188,6 +187,38 @@ function activity_search(){
 
                offset++;
                document.getElementById('activity_ticket').innerHTML += text;
+
+               var items = $(".activity_box");
+               var numItems = items.length;
+               var perPage = 21;
+               items.slice(perPage).hide();
+               $('#pagination-container').pagination({
+                   items: numItems,
+                   itemsOnPage: perPage,
+                   prevText: "<i class='fas fa-angle-left'/>",
+                   nextText: "<i class='fas fa-angle-right'/>",
+                   onPageClick: function (pageNumber) {
+                       var showFrom = perPage * (pageNumber - 1);
+                       var showTo = showFrom + perPage;
+                       items.hide().slice(showFrom, showTo).show();
+                       $('#pagination-container2').pagination('drawPage', pageNumber);
+                   }
+               });
+
+               $('#pagination-container2').pagination({
+                   items: numItems,
+                   itemsOnPage: perPage,
+                   prevText: "<i class='fas fa-angle-left'/>",
+                   nextText: "<i class='fas fa-angle-right'/>",
+                   onPageClick: function (pageNumber) {
+                       var showFrom = perPage * (pageNumber - 1);
+                       var showTo = showFrom + perPage;
+                        items.hide().slice(showFrom, showTo).show();
+                       $('#pagination-container').pagination('drawPage', pageNumber);
+                   }
+               });
+               $('#pagination-container').show();
+               $('#pagination-container2').show();
                if(msg.result.response.length!=0)
                    get_new = true;
            }else{
@@ -206,6 +237,8 @@ function activity_search(){
                   <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
               </div>`;
               document.getElementById('activity_ticket').innerHTML += text;
+              $('#pagination-container').hide();
+              $('#pagination-container2').hide();
            }
 
        },

@@ -6,6 +6,41 @@
 * @website: http://www.daterangepicker.com/
 */
 // Following the UMD template https://github.com/umdjs/umd/blob/master/templates/returnExportsGlobal.js
+
+var date_api = {};
+
+function get_public_holiday(start_date, end_date, country_id){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_public_holiday',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+            'start_date': start_date,
+            'end_date': end_date,
+            'country_id': country_id,
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                date_api = msg;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error calendar </span>' + errorThrown,
+            })
+       }
+    });
+}
+
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Make globaly available as well
@@ -636,6 +671,9 @@
             var daysInLastMonth = moment([lastYear, lastMonth]).daysInMonth();
             var dayOfWeek = firstDay.day();
 
+            //public holiday footer
+            var footer = '<hr/>';
+
             //initialize a 6 rows x 7 columns array for the calendar
             var calendar = [];
             calendar.firstDay = firstDay;
@@ -782,19 +820,55 @@
                 for (var col = 0; col < 7; col++) {
 
                     var classes = [];
-                    var tempDateRender = year+'-'+(month+1)+'-'+calendar[row][col].date();
 
-                    if(tempDateRender == "2019-6-17"){
-                        classes.push('weekend');
+                    //public holiday
+                    var tempMonth="";
+                    var stringMonth="";
+                    var tempDate="";
+
+                    if ((month+1) < 10){
+                        tempMonth="0"+(month+1);
                     }
+                    else{
+                        tempMonth=""+(month+1);
+                    }
+
+                    if (calendar[row][col].date() < 10){
+                        tempDate="0"+calendar[row][col].date();
+                    }
+                    else{
+                        tempDate=""+calendar[row][col].date();
+                    }
+
+                    var tempDateRender = year+'-'+tempMonth+'-'+tempDate;
+                    var tempDateRender2 = tempDate;
+
+                    try{
+                        for (i in date_api.result.response){
+                            var stringDateRender="";
+                            var stringMonth="";
+
+                            if(date_api.result.response[i].date == tempDateRender){
+                                if (calendar[row][col].month() == calendar[1][1].month()){
+                                    footer += '<div style="margin-bottom:10px;"><span style="font-size:12px; color:red; padding:3px; border:1px solid black; background:#f7f7f7;"> ' + tempDateRender2 + '</span> <span style="font-size:12px;"> '+ date_api.result.response[i].name +' </span></div>';
+                                    classes.push('holiday');
+                                }
+                            }
+                        }
+                    }
+                    catch(err){}
+
 
                     //highlight today's date
                     if (calendar[row][col].isSame(new Date(), "day"))
                         classes.push('today');
 
                     //highlight weekends
-                    if (calendar[row][col].isoWeekday() > 6)
-                        classes.push('weekend');
+                    if (calendar[row][col].isoWeekday() > 6){
+                        if (calendar[row][col].month() == calendar[1][1].month()){
+                            classes.push('weekend');
+                        }
+                    }
 
                     //grey out the dates in other months displayed at beginning and end of this calendar
                     if (calendar[row][col].month() != calendar[1][1].month())
@@ -849,9 +923,8 @@
             }
             html += '</tbody>';
             html += '</table>';
-            if ((month+1) == 7){
 
-            }
+            html += footer
 
             this.container.find('.drp-calendar.' + side + ' .calendar-table').html(html);
 
