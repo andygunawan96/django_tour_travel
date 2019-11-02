@@ -447,7 +447,8 @@ def get_customer_list(request):
             'name': request.POST['name'],
             'upper': upper,
             'lower': lower,
-            'type': passenger
+            'type': passenger,
+            'mode': 'btb'
         }
 
         headers = {
