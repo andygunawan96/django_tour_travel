@@ -829,8 +829,6 @@ function get_price_itinerary(request) {
             price_data = msg.result.response.service_charges;
             price_txt1 = ``;
             price_txt2 = ``;
-            grand_total = 0;
-            total_commission = 0;
             adt_price = 0;
             chd_price = 0;
             inf_price = 0;
@@ -1074,7 +1072,7 @@ function get_price_itinerary(request) {
 }
 
 function get_price_itinerary_cache() {
-    var grand_total = 0;
+    grand_total = 0;
     var grand_commission = 0;
     $test = '';
     temp_copy = '';
@@ -1098,8 +1096,6 @@ function get_price_itinerary_cache() {
             price_data = msg.result.response.service_charges;
             price_txt1 = ``;
             price_txt2 = ``;
-            grand_total = 0;
-            total_commission = 0;
             adt_price = 0;
             chd_price = 0;
             inf_price = 0;
@@ -1323,12 +1319,6 @@ function get_price_itinerary_cache() {
                                </div>
                            </div>`;
 
-            next_btn_txt = `<center>
-                                <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
-                                    Next
-                                    <i class="fas fa-angle-right"></i>
-                                </button>
-                            </center>`;
             document.getElementById('tour_detail_table').innerHTML = price_txt;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

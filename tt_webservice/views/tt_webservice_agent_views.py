@@ -422,7 +422,7 @@ def get_customer_list(request):
             passenger = 'book'
         else:
             passenger = 'psg'
-        if request.POST['product'] == 'airline' or request.POST['product'] == 'visa' or request.POST['product'] == 'issued_offline':
+        if request.POST['product'] == 'airline' or request.POST['product'] == 'visa' or request.POST['product'] == 'issued_offline' or request.POST['product'] == 'tour':
             if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
                 upper = 200
                 lower = 12

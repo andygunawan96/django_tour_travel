@@ -763,7 +763,7 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('booker_id_type').readOnly = true;
                 document.getElementById('booker_id_number').value = passenger_data[sequence].identity_number;
                 document.getElementById('booker_id_number').readOnly = true;
-            }else if(product == 'airline' || product == 'visa' || product == 'activity'){
+            }else if(product == 'airline' || product == 'visa' || product == 'activity' || product == 'tour'){
                 if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                     document.getElementById('booker_id_number').value = passenger_data[sequence].identities.passport.identity_number;
                     document.getElementById('booker_id_number').readOnly = true;
@@ -827,7 +827,7 @@ function pick_passenger(type, sequence, product){
     //                document.getElementById('adult_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
                 }
             }
-            if(product=='airline' || product == 'activity' || product == 'visa'){
+            if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
                 if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                     document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                     document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
@@ -909,7 +909,7 @@ function pick_passenger(type, sequence, product){
     ////                document.getElementById('adult_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
     //            }
     //        }
-            if(product=='airline' || product == 'activity' || product == 'visa'){
+            if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
                 if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                     document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                     document.getElementById('child_passport_number'+passenger_number).readOnly = true;
@@ -985,7 +985,7 @@ function pick_passenger(type, sequence, product){
     ////                document.getElementById('adult_id_number'+passenger_number).value = passenger_data[sequence].identity_number;
     //            }
     //        }
-            if(product=='airline' || product == 'activity' || product == 'visa'){
+            if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
                 if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                     document.getElementById('infant_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                     document.getElementById('infant_passport_number'+passenger_number).readOnly = true;
