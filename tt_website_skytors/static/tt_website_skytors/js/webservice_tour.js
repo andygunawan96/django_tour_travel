@@ -1159,7 +1159,7 @@ function get_price_itinerary_cache() {
                                             <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
                                             <div class="col-xs-1">X</div>
                                             <div class="col-xs-1">`+price_data[i].pax_count+`</div>
-                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-1"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
                             temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
@@ -1170,7 +1170,7 @@ function get_price_itinerary_cache() {
                                             <div class="col-xs-4">`+desc_str+`</div>
                                             <div class="col-xs-1">X</div>
                                             <div class="col-xs-1">`+price_data[i].pax_count+`</div>
-                                            <div class="col-xs-2"></div>
+                                            <div class="col-xs-1"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
                             temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
@@ -1218,7 +1218,7 @@ function get_price_itinerary_cache() {
                                         <div class="col-xs-4">`+desc_str+`</div>
                                         <div class="col-xs-1">X</div>
                                         <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
-                                        <div class="col-xs-2"></div>
+                                        <div class="col-xs-1"></div>
                                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
                                        </div>`;
                         grand_total += room_prices[k].total;
@@ -1231,7 +1231,7 @@ function get_price_itinerary_cache() {
                                     <div class="col-xs-4">(No Charge)</div>
                                     <div class="col-xs-1"></div>
                                     <div class="col-xs-1">N/A</div>
-                                    <div class="col-xs-2"></div>
+                                    <div class="col-xs-1"></div>
                                     <div class="col-xs-4" style="text-align: right;">N/A</div>
                                    </div>`;
                 }
@@ -1242,7 +1242,7 @@ function get_price_itinerary_cache() {
                                 <div class="col-xs-4">Adult Price</div>
                                 <div class="col-xs-1">X</div>
                                 <div class="col-xs-1">`+adt_amt+`</div>
-                                <div class="col-xs-2"></div>
+                                <div class="col-xs-1"></div>
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
                                </div>`;
                 grand_total += adt_price;
@@ -1254,7 +1254,7 @@ function get_price_itinerary_cache() {
                                 <div class="col-xs-4">Child Price</div>
                                 <div class="col-xs-1">X</div>
                                 <div class="col-xs-1">`+chd_amt+`</div>
-                                <div class="col-xs-2"></div>
+                                <div class="col-xs-1"></div>
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
                                </div>`;
                 grand_total += chd_price;
@@ -1266,7 +1266,7 @@ function get_price_itinerary_cache() {
                                 <div class="col-xs-4">Infant Price</div>
                                 <div class="col-xs-1">X</div>
                                 <div class="col-xs-1">`+inf_amt+`</div>
-                                <div class="col-xs-2"></div>
+                                <div class="col-xs-1"></div>
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
                                </div>`;
                 grand_total += inf_price;
@@ -1330,7 +1330,6 @@ function get_price_itinerary_cache() {
                                 </button>
                             </center>`;
             document.getElementById('tour_detail_table').innerHTML = price_txt;
-            document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
