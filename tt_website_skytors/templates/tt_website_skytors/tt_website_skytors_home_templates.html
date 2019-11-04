@@ -5069,10 +5069,10 @@
         }
     }
     try{
-        document.getElementById("country_id").value = 101;
-        document.getElementById("start").value = "2019-01-01";
-        document.getElementById("end").value = "2020-12-31";
-        get_dept_year();
+        document.getElementById("country_id").value = 100;
+        document.getElementById("start").value = moment().format('YYYY-MM-DD');
+        document.getElementById("end").value = moment().subtract(-1, 'years').format('YYYY-MM-DD');
+        get_public_holiday(document.getElementById("start").value, document.getElementById("end").value, document.getElementById("country_id").value, );
     }catch(err){
 
     }

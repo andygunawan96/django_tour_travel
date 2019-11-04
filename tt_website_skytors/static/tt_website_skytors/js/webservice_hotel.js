@@ -118,7 +118,7 @@ function hotel_signin(data){
 //signin jadi 1 sama search
 function hotel_search(){
     getToken();
-    document.getElementById('hotel_ticket').innerHTML = ``;
+    //document.getElementById('hotel_ticket').innerHTML = ``;
     child_age = '';
     for(i=0; i<parseInt($('#hotel_child').val());i++){
        child_age+=parseInt($('#hotel_child_age'+(i+1).toString()).val());
@@ -228,7 +228,8 @@ function get_top_facility(){
         console.log(msg);
         top_facility = msg.result.response;
         if (top_facility){
-            facility_filter_html = `<hr><h6 style="padding-bottom:10px;">Facilities:</h6>`;
+            facility_filter_html = `<hr><h6 class="filter_general" onclick="show_hide_general('hotelFacilities');">Facilities <i class="fas fa-chevron-down" id="hotelFacilities_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelFacilities_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="hotelFacilities_generalShow" style="display:inline-block;">`;
             for(i in top_facility){
                 facility_filter_html += `
                 <label class="check_box_custom">
@@ -237,6 +238,7 @@ function get_top_facility(){
                     <span class="check_box_span_custom"></span>
                 </label><br/>`;
             }
+            facility_filter_html+=`</div>`;
             var node = document.createElement("div");
             node.innerHTML = facility_filter_html;
             document.getElementById("filter").appendChild(node);
