@@ -118,7 +118,7 @@ function hotel_signin(data){
 //signin jadi 1 sama search
 function hotel_search(){
     getToken();
-    document.getElementById('hotel_ticket').innerHTML = ``;
+    //document.getElementById('hotel_ticket').innerHTML = ``;
     child_age = '';
     for(i=0; i<parseInt($('#hotel_child').val());i++){
        child_age+=parseInt($('#hotel_child_age'+(i+1).toString()).val());
@@ -228,7 +228,8 @@ function get_top_facility(){
         console.log(msg);
         top_facility = msg.result.response;
         if (top_facility){
-            facility_filter_html = `<hr><h6 style="padding-bottom:10px;">Facilities:</h6>`;
+            facility_filter_html = `<hr><h6 class="filter_general" onclick="show_hide_general('hotelFacilities');">Facilities <i class="fas fa-chevron-down" id="hotelFacilities_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelFacilities_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="hotelFacilities_generalShow" style="display:inline-block;">`;
             for(i in top_facility){
                 facility_filter_html += `
                 <label class="check_box_custom">
@@ -237,6 +238,7 @@ function get_top_facility(){
                     <span class="check_box_span_custom"></span>
                 </label><br/>`;
             }
+            facility_filter_html+=`</div>`;
             var node = document.createElement("div");
             node.innerHTML = facility_filter_html;
             document.getElementById("filter").appendChild(node);
@@ -320,6 +322,9 @@ function hotel_facility_request(hotel_facilities){
 function hotel_detail_request(id){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
+    // Remove Copy dan Next button waktu ganti tanggal START
+    document.getElementById("hotel_detail_button").innerHTML = '';
+    // Remove Copy dan Next button waktu ganti tanggal END
     document.getElementById("detail_room_pick").innerHTML = '';
     document.getElementById('hotel_detail_table').innerHTML = '';
     document.getElementById("select_copy_all").innerHTML = '';
@@ -499,6 +504,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             console.log(msg);
             var result = msg.result.response;
             if (view_type == '0'){
+                // each Room Picking
                 text = '<ul style="list-style-type: disc; margin: 0 15px;">';
                 $text2 += 'Cancellation Policy: \n';
                 if(result.policies.length != 0){
@@ -519,6 +525,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 document.getElementById('cancellation_policy_choose').innerHTML = text;
                 hotel_room_pick_button();
             } else if (view_type == '1'){
+                // Passenger Page
                 var text = '<h4>Cancellation Policy</h4>';
                 text += '<b id="js_hotel_name">' + result.hotel_name + '</b><hr/>';
                 text += '<ul style="list-style-type: disc; margin: 0 15px;">';
@@ -691,14 +698,17 @@ function get_checked_copy_result_room(){
     var name_hotel = $(".name_hotel").html();
     var rating_hotel = $(".rating_hotel").html();
     var address_hotel = $('.address_hotel').html();
-    $text += ''+name_hotel+ ' ' +rating_hotel+ '\n';
-    $text += 'Address: '+address_hotel+'\n \n';
+    var datecico = $('#hotel_checkin_checkout').val();
+    $text += ''+name_hotel+ ' *' +rating_hotel+ '\n';
+    $text += 'Address: '+address_hotel+'\n';
+    $text += 'Date: '+datecico+'\n \n';
 
     node = document.createElement("div");
     text+=`
     <div class="col-lg-12" id="information_hotel">
         <h6>`+name_hotel+` `+rating_hotel+ `</h6>
-        <span>Address: `+address_hotel+`</span><br/><br/>
+        <span>Address: `+address_hotel+`</span><br/>
+        <span>Date: `+datecico+`</span><br/><br/>
         <h6>Room List:</h6><hr/>
     </div>
     <div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;

@@ -67,7 +67,7 @@
 {% include 'tt_website_skytors/plugin_passenger.html' %}
 {% include 'tt_website_skytors/logout.html' %}
 {%if template == 1%}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
+<section class="destinations-area" style="padding:7px 0px 7px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -99,16 +99,17 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="primary-btn" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
-                    Change Search
+                    <span id="change_search_text">Change Search</span>
                 </button>
             </div>
         </div>
     </div>
 </section>
+<div id="overlay-search-box" onclick="off_overlay()"></div>
 <section class="price-area" id="change_search_box" style="padding-top:5px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none;">
-    <div class="container">
+    <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
                 <div class="banner-right">

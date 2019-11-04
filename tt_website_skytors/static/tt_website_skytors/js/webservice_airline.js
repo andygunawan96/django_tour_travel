@@ -2337,10 +2337,11 @@ function airline_get_booking(data){
                 <hr/>
                 <table style="width:100%" id="list-of-passenger">
                     <tr>
-                        <th style="width:10%;" class="list-of-passenger-left">No</th>
-                        <th style="width:40%;">Name</th>
-                        <th style="width:30%;">Birth Date</th>
-                        <th style="width:30%;">Ticket Number</th>
+                        <th style="width:5%;" class="list-of-passenger-left">No</th>
+                        <th style="width:30%;">Name</th>
+                        <th style="width:20%;">Birth Date</th>
+                        <th style="width:25%;">Ticket Number</th>
+                        <th style="width:20%;">SSR</th>
                     </tr>`;
                     for(pax in msg.result.response.passengers){
                         ticket = '';
@@ -2358,6 +2359,23 @@ function airline_get_booking(data){
                             <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                             <td>`+msg.result.response.passengers[pax].birth_date+`</td>
                             <td id="passenger_ticket_`+parseInt(pax)+`">`+ticket+`</td>
+                            <td>`;
+                                  try{
+                                      for(i in msg.result.response.passengers[pax].fees){
+                                        text+=`<div class="popover__wrapper">
+                                                  <a href="#">
+                                                    `+msg.result.response.passengers[pax].fees[i].fee_name+`
+                                                  </a>
+                                                  <div class="popover__content">`;
+                                        text+= msg.result.response.passengers[pax].fees[i].fee_value + '<br>';
+                                        for(j in msg.result.response.passengers[pax].fees[i].description)
+                                            text += msg.result.response.passengers[pax].fees[i].description[j] + '<br>';
+                                        text+=`</p></div></div><br/>`;
+                                      }
+                                  }catch(err){}
+                                  text+=`
+                                </div>
+                            </td>
                         </tr>`;
                     }
 
@@ -2426,7 +2444,7 @@ function airline_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('airline_booking').innerHTML = text;
-
+            $('#popoverOption').popover({ trigger: "hover" });
             //detail
             text = '';
             tax = 0;
@@ -2777,43 +2795,6 @@ function airline_issued(data){
                    document.getElementById('airline_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
                    airline_get_booking(msg.result.response.order_number);
-//                   text_error = ''
-//                   for(pax in msg.result.response.passengers){
-//                        ticket = '';
-//                        for(provider in msg.result.response.provider_bookings){
-//                            if(msg.result.response.provider_bookings[i].error_msg.length != 0)
-//                   text_error+=`<div class="alert alert-danger">
-//                                    Invalid PNR or Order Number or Name
-//                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
-//                                </div>`;
-//                            ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
-//                            if(provider != msg.result.response.provider_bookings.length - 1)
-//                                ticket += ', ';
-//                        }
-//                        document.getElementById('passenger_ticket_'+pax).innerHTML = ticket;
-//                        document.getElementById('airline_booking').innerHTML = text_error + document.getElementById('airline_booking').innerHTML;
-//                    }
-//
-//                   //document.getElementById('issued-breadcrumb').classList.add("active");
-//                   //document.getElementById('issued-breadcrumb').classList.remove("current");
-//                   document.getElementById('issued-breadcrumb').classList.add("br-active");
-//                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-//                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-//                   document.getElementById('success-issued').style.display = "block";
-//                   document.getElementById('button-choose-print').value = "Print Ticket";
-//                   document.getElementById('button-choose-print').type = "button";
-//                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+'/1';
-//                   document.getElementById('button-print-print').value = "Print Ticket (with Price)";
-//                   document.getElementById('button-print-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/"+msg.result.response.order_number+"/2";
-//                   document.getElementById('button-issued-print').value = "Print Invoice";
-//                   document.getElementById('button-choose-print').onclick = "window.location.href=https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/"+msg.result.response.order_number+'/4';
-//                   document.getElementById('seat-map-link').href="#";
-//                   document.getElementById('seat-map-link').hidden=false;
-//                   document.getElementById('print_invoice').href="#";
-//                   document.getElementById('print_invoice').hidden=false;
-//                   document.getElementById('pnr').innerHTML="Issued";
-//                   //$('.issued-booking-train').removeClass("running");
-//                   document.getElementById('payment_acq').innerHTML = '';
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
                       type: 'error',

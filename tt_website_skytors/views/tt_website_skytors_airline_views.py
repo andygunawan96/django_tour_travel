@@ -839,7 +839,9 @@ def review(request):
                 print('no seatmap')
 
 
-        if request.META.get('HTTP_REFERER') == get_url()+'airline/passenger':
+        if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'passenger':
+            request.session['airline_ssr_request'] = {}
+            request.session['airline_seat_request'] = {}
             adult = []
             child = []
             infant = []

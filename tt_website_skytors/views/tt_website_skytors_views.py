@@ -453,13 +453,13 @@ def top_up_history(request):
 
 def get_javascript_version():
     file = open(var_log_path()+"javascript_version.txt", "r")
-    javascript_version = file.read()
+    javascript_version = int(file.read())
     file.close()
     return javascript_version
 
 def get_cache_version():
     file = open(var_log_path()+"cache_version.txt", "r")
-    cache_version = file.read()
+    cache_version = int(file.read())
     file.close()
     return cache_version
 

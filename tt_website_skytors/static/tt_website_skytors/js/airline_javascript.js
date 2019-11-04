@@ -917,7 +917,8 @@ function airline_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
     <hr/>
-    <h6 style="padding-bottom:10px;">Departure Time</h6>`;
+    <h6 class="filter_general" onclick="show_hide_general('airlineDeparture');">Departure Time <i class="fas fa-chevron-down" id="airlineDeparture_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineDeparture_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="airlineDeparture_generalShow" style="display:inline-block;">`;
     for(i in departure_list){
         if(i == 0)
             text += `
@@ -934,6 +935,7 @@ function airline_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
+    text+=`</div>`;
     node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -941,7 +943,8 @@ function airline_filter_render(){
 
     text=`
         <hr/>
-        <h6 style="padding-bottom:10px;">Arrival Time</h6>`;
+        <h6 class="filter_general" onclick="show_hide_general('airlineArrival');">Arrival Time <i class="fas fa-chevron-down" id="airlineArrival_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineArrival_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="airlineArrival_generalShow" style="display:inline-block;">`;
     for(i in arrival_list){
         if(i == 0)
             text+=`
@@ -958,6 +961,7 @@ function airline_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
+    text+=`</div>`;
     text+=`
         <div id="airline_list">
 
@@ -970,7 +974,8 @@ function airline_filter_render(){
 
     text = `
             <hr/>
-            <h6 style="padding-bottom:10px;">Transit</h6>`;
+            <h6 class="filter_general" onclick="show_hide_general('airlineTransit');">Transit <i class="fas fa-chevron-down" id="airlineTransit_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineTransit_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="airlineTransit_generalShow" style="display:inline-block;">`;
     for(i in transit_list){
         text+=`
         <label class="check_box_custom">
@@ -979,6 +984,7 @@ function airline_filter_render(){
             <span class="check_box_span_custom"></span>
         </label><br/>`;
     }
+    text+=`</div>`;
     node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -986,7 +992,8 @@ function airline_filter_render(){
 
     text = `
             <hr/>
-            <h6 style="padding-bottom:10px;">Transit Duration</h6>`;
+            <h6 class="filter_general" onclick="show_hide_general('airlineDuration');">Transit Duration <i class="fas fa-chevron-down" id="airlineDuration_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineDuration_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="airlineDuration_generalShow" style="display:inline-block;">`;
     for(i in transit_duration_list){
         text+=`
         <label class="check_box_custom">
@@ -995,7 +1002,7 @@ function airline_filter_render(){
             <span class="check_box_span_custom"></span>
         </label><br/>`;
     }
-
+    text+=`</div>`;
     node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -2332,9 +2339,9 @@ function sort(airline){
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search+1).toString()+' </span>',
+          html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search).toString()+' </span>',
         });
-        if(ticket_count == 0 && airline.length == 0)
+        if(ticket_count == 0 && airline_data.length == 0)
             window.location.href="/";
    }
 }

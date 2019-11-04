@@ -110,7 +110,7 @@ $(document).ready(function(){
         document.getElementById("overlay-search-box").style.display = "block";
         document.getElementById("div-search-overlay").style.zIndex = "3";
         $('html, body').animate({
-            scrollTop: $("#div-search-overlay").offset().top - 125
+            scrollTop: $("#div-search-overlay").offset().top - 75
         }, 500);
     });
 
@@ -1605,11 +1605,16 @@ function show_hide_change_search(){
 
     if (change_search_box.style.display === "none") {
         change_search_box.style.display = "block";
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+        document.getElementById("overlay-search-box").style.display = "block";
+        $('html, body').animate({
+            scrollTop: $("#change_search_box").offset().top - 60
+        }, 500);
+        document.getElementById("change_search_text").innerHTML = "Hide Search";
     }
     else {
         change_search_box.style.display = "none";
+        document.getElementById("overlay-search-box").style.display = "none";
+        document.getElementById("change_search_text").innerHTML = "Change Search";
     }
 }
 
@@ -2023,4 +2028,21 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
 function off_overlay() {
     document.getElementById("overlay-search-box").style.display = "none";
     document.getElementById("div-search-overlay").style.zIndex = "1";
+}
+
+function show_hide_general(type){
+    var general_down = document.getElementById(type+'_generalDown');
+    var general_up = document.getElementById(type+'_generalUp');
+    var general_show = document.getElementById(type+'_generalShow');
+
+    if (general_down.style.display === "none") {
+        general_up.style.display = "none";
+        general_down.style.display = "block";
+        general_show.style.display = "none";
+    }
+    else {
+        general_up.style.display = "block";
+        general_down.style.display = "none";
+        general_show.style.display = "inline-block";
+    }
 }

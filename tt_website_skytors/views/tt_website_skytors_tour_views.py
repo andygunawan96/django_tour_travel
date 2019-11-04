@@ -157,24 +157,33 @@ def passenger(request):
         airline_country = response['result']['response']['airline']['country']
 
         # pax
+        room_amount = request.POST['room_amount']
+        adult_amt = 0
+        child_amt = 0
+        infant_amt = 0
         adult = []
         infant = []
         child = []
 
+        for r in range(int(room_amount)):
+            adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
+            child_amt += int(request.POST['child_tour_room_' + str(r+1)])
+            infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
+
         try:
-            for i in range(int(request.POST['adult_total_pax'].replace(',', ''))):
+            for i in range(adult_amt):
                 adult.append('')
         except:
             print('no adult')
 
         try:
-            for i in range(int(request.POST['child_total_pax'].replace(',', ''))):
+            for i in range(child_amt):
                 child.append('')
         except:
             print('no children')
 
         try:
-            for i in range(int(request.POST['infant_amount'].replace(',', ''))):
+            for i in range(infant_amt):
                 infant.append('')
         except:
             print('no infant')
@@ -192,6 +201,10 @@ def passenger(request):
             'adults': adult,
             'infants': infant,
             'childs': child,
+            'adult_amt': adult_amt,
+            'infant_amt': infant_amt,
+            'child_amt': child_amt,
+            'room_amount': room_amount,
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
             'logo': logo,
@@ -215,12 +228,11 @@ def passenger(request):
         room_amount = int(request.POST['room_amount'])
         render_pax_per_room = []
         for idx in range(room_amount):
-            temp = str(idx + 1)
             note = 'notes_' + str(idx + 1)
             room = {
-                'adult': int(request.POST['adult_tour_room_' + temp]),
-                'child': int(request.POST['child_tour_room_' + temp]),
-                'infant': int(request.POST['infant_tour_room_' + temp]),
+                'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
+                'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
+                'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
                 'data': request.session['tour_data']['accommodations'][idx],
             }
 
@@ -244,9 +256,9 @@ def passenger(request):
         request.session['booking_data'] = {
             'room_list': render_pax_per_room,
             'room_amount': room_amount,
-            'adults': int(request.POST['adult_total_pax'].replace(',', '')),
-            'childs': int(request.POST['child_total_pax'].replace(',', '')),
-            'infants': int(request.POST['infant_amount'].replace(',', '')),
+            'adult': adult_amt,
+            'child': child_amt,
+            'infant': infant_amt,
             'static_path_url_server': get_url_static_path(),
             'tour_data': request.session['tour_pick'],
             'javascript_version': javascript_version
@@ -267,50 +279,6 @@ def review(request):
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
-            'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['user_account'],
-            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-            'countries': airline_country,
-            'tour_data': request.session['tour_pick'],
-            'price_itinerary': {
-                'adult_amount': int(request.POST['adult_amount'].replace(',', '')),
-                'adult_total_pax': int(request.POST['adult_total_pax'].replace(',', '')),
-                'adult_price': int(request.POST['adult_price'].replace(',', '')),
-                'adult_surcharge_amount': int(request.POST['adult_surcharge_amount'].replace(',', '')),
-                'adult_surcharge_price': int(request.POST['adult_surcharge_price'].replace(',', '')),
-                'child_amount': int(request.POST['child_amount'].replace(',', '')),
-                'child_total_pax': int(request.POST['child_total_pax'].replace(',', '')),
-                'child_price': int(request.POST['child_price'].replace(',', '')),
-                'child_surcharge_amount': int(request.POST['child_surcharge_amount'].replace(',', '')),
-                'child_surcharge_price': int(request.POST['child_surcharge_price'].replace(',', '')),
-                'infant_amount': int(request.POST['infant_amount'].replace(',', '')),
-                'infant_price': int(request.POST['infant_price'].replace(',', '')),
-                'single_supplement_amount': int(request.POST['single_supplement_amount'].replace(',', '')),
-                'single_supplement_price': int(request.POST['single_supplement_price'].replace(',', '')),
-                'airport_tax_amount': int(request.POST['airport_tax_amount'].replace(',', '')),
-                'airport_tax_total': int(request.POST['airport_tax_total'].replace(',', '')),
-                'tipping_guide_amount': int(request.POST['tipping_guide_amount'].replace(',', '')),
-                'tipping_guide_total': int(request.POST['tipping_guide_total'].replace(',', '')),
-                'tipping_tour_leader_amount': int(request.POST['tipping_tour_leader_amount'].replace(',', '')),
-                'tipping_tour_leader_total': int(request.POST['tipping_tour_leader_total'].replace(',', '')),
-                'tipping_driver_amount': int(request.POST['tipping_driver_amount'].replace(',', '')),
-                'tipping_driver_total': int(request.POST['tipping_driver_total'].replace(',', '')),
-                'additional_charge_amount': int(request.POST['additional_charge_amount'].replace(',', '')),
-                'additional_charge_total': int(request.POST['additional_charge_total'].replace(',', '')),
-                'total_itinerary_price': int(request.POST['grand_total_hidden']),
-                'discount_total_itinerary_price': int(request.POST['discount_total_hidden']),
-                'sub_total_itinerary_price': int(request.POST['sub_total_hidden']),
-                'commission_total': int(request.POST['commission_total'])
-            },
-            'static_path_url_server': get_url_static_path(),
-            'total_itinerary_price': int(request.POST['grand_total_hidden']),
-            'sameBooker': request.POST['myRadios'],
-            'javascript_version': javascript_version,
-            'signature': request.session['tour_signature'],
-            'logo': logo,
-            'template': template
-        }
 
         adult = []
         child = []
@@ -328,64 +296,127 @@ def review(request):
             'booker_id': request.POST['booker_id']
         }
 
-        for i in range(int(request.session['booking_data']['adults'])):
+        for i in range(int(request.session['booking_data']['adult'])):
             adult.append({
                 "first_name": request.POST['adult_first_name' + str(i + 1)],
                 "last_name": request.POST['adult_last_name' + str(i + 1)],
-                "name": request.POST['adult_first_name' + str(i + 1)] + " " + request.POST['adult_last_name' + str(i + 1)],
-                "nationality_code": request.POST['adult_nationality' + str(i + 1)],
+                "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                 "title": request.POST['adult_title' + str(i + 1)],
                 "pax_type": "ADT",
+                "pax_type_str": "Adult",
                 "birth_date": request.POST['adult_birth_date' + str(i + 1)],
-                "birth_date_f": '%s-%s-%s' % (request.POST['adult_birth_date' + str(i + 1)].split(' ')[2], month[request.POST['adult_birth_date' + str(i + 1)].split(' ')[1]], request.POST['adult_birth_date' + str(i + 1)].split(' ')[0]),
-                "passport_number": request.POST['adult_passport_number' + str(i + 1)],
-                "passport_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
-                "passport_expdate_f": '%s-%s-%s' % (request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['adult_passport_expired_date' + str(i + 1)].split(' ')[0]),
-                "country_of_issued_code": request.POST['adult_country_of_issued' + str(i + 1)],
-                "passenger_id": request.POST['adult_id' + str(i + 1)],
-                "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)] + request.POST['adult_phone' + str(i + 1)] or ' - ',
+                "identity_number": request.POST.get('adult_passport_number' + str(i + 1)) and request.POST['adult_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('adult_passport_expired_date' + str(i + 1)) and request.POST['adult_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('adult_country_of_issued' + str(i + 1)) and request.POST['adult_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                "identity_type": "passport",
+                "calling_code": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone_code' + str(i + 1)],
+                "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
                 "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                 "is_cp": request.POST.get('adult_cp' + str(i + 1)),
             })
 
-        for i in range(int(request.session['booking_data']['childs'])):
-            child.append({
-                "first_name": request.POST['child_first_name' + str(i + 1)],
-                "last_name": request.POST['child_last_name' + str(i + 1)],
-                "name": request.POST['child_first_name' + str(i + 1)] + " " + request.POST['child_last_name' + str(i + 1)],
-                "nationality_code": request.POST['child_nationality' + str(i + 1)],
-                "title": request.POST['child_title' + str(i + 1)],
-                "pax_type": "CHD",
-                "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                "birth_date_f": '%s-%s-%s' % (request.POST['child_birth_date' + str(i + 1)].split(' ')[2],month[request.POST['child_birth_date' + str(i + 1)].split(' ')[1]],request.POST['child_birth_date' + str(i + 1)].split(' ')[0]),
-                "passport_number": request.POST['child_passport_number' + str(i + 1)],
-                "passport_expdate": request.POST['child_passport_expired_date' + str(i + 1)],
-                "passport_expdate_f": '%s-%s-%s' % (request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['child_passport_expired_date' + str(i + 1)].split(' ')[0]),
-                "country_of_issued_code": request.POST['child_country_of_issued' + str(i + 1)],
-                "passenger_id": request.POST['child_id' + str(i + 1)],
+            if i == 0:
+                if request.POST['myRadios'] == 'yes':
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': True,
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': False
+                    })
+            else:
+                adult[len(adult) - 1].update({
+                    'is_also_booker': False
+                })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            except:
+                if i == 0 and request.POST['myRadios'] == 'yes':
+                    continue
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    contact.append({
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "email": request.POST['adult_email' + str(i + 1)],
+                        "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                        "mobile": request.POST['adult_phone' + str(i + 1)],
+                        "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                        "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                    })
+                if i == 0:
+                    if request.POST['myRadios'] == 'yes':
+                        contact[len(contact)].update({
+                            'is_also_booker': True
+                        })
+                    else:
+                        contact[len(contact)].update({
+                            'is_also_booker': False
+                        })
+            except:
+                pass
+
+        if len(contact) == 0:
+            contact.append({
+                'title': request.POST['booker_title'],
+                'first_name': request.POST['booker_first_name'],
+                'last_name': request.POST['booker_last_name'],
+                'email': request.POST['booker_email'],
+                'calling_code': request.POST['booker_phone_code'],
+                'mobile': request.POST['booker_phone'],
+                'nationality_name': request.POST['booker_nationality'],
+                'contact_seq_id': request.POST['booker_id'],
+                'is_also_booker': True
             })
 
-        for i in range(int(request.session['booking_data']['infants'])):
+        for i in range(int(request.session['booking_data']['child'])):
+            child.append({
+                "first_name": request.POST['child_first_name'+str(i+1)],
+                "last_name": request.POST['child_last_name'+str(i+1)],
+                "nationality_name": request.POST['child_nationality'+str(i+1)],
+                "title": request.POST['child_title'+str(i+1)],
+                "pax_type": "CHD",
+                "pax_type_str": "Child",
+                "birth_date": request.POST['child_birth_date'+str(i+1)],
+                "identity_number": request.POST.get('child_passport_number' + str(i + 1)) and request.POST['child_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('child_passport_expired_date' + str(i + 1)) and request.POST['child_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('child_country_of_issued' + str(i + 1)) and request.POST['child_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['child_id'+str(i+1)],
+                "identity_type": "passport",
+            })
+
+        for i in range(int(request.session['booking_data']['infant'])):
             infant.append({
-                "first_name": request.POST['infant_first_name' + str(i + 1)],
-                "last_name": request.POST['infant_last_name' + str(i + 1)],
-                "name": request.POST['infant_first_name' + str(i + 1)] + " " + request.POST['infant_last_name' + str(i + 1)],
-                "nationality_code": request.POST['infant_nationality' + str(i + 1)],
-                "title": request.POST['infant_title' + str(i + 1)],
+                "first_name": request.POST['infant_first_name'+str(i+1)],
+                "last_name": request.POST['infant_last_name'+str(i+1)],
+                "nationality_name": request.POST['infant_nationality'+str(i+1)],
+                "title": request.POST['infant_title'+str(i+1)],
                 "pax_type": "INF",
-                "birth_date": request.POST['infant_birth_date' + str(i + 1)],
-                "birth_date_f": '%s-%s-%s' % (request.POST['infant_birth_date' + str(i + 1)].split(' ')[2],month[request.POST['infant_birth_date' + str(i + 1)].split(' ')[1]],request.POST['infant_birth_date' + str(i + 1)].split(' ')[0]),
-                "passport_number": request.POST['infant_passport_number' + str(i + 1)],
-                "passport_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
-                "passport_expdate_f": '%s-%s-%s' % (request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[2], month[request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[1]], request.POST['infant_passport_expired_date' + str(i + 1)].split(' ')[0]),
-                "country_of_issued_code": request.POST['infant_country_of_issued' + str(i + 1)],
-                "passenger_id": request.POST['infant_id' + str(i + 1)],
+                "pax_type_str": "Infant",
+                "birth_date": request.POST['infant_birth_date'+str(i+1)],
+                "identity_number": request.POST.get('infant_passport_number' + str(i + 1)) and request.POST['infant_passport_number' + str(i + 1)] or '',
+                "identity_expdate": request.POST.get('infant_passport_expired_date' + str(i + 1)) and request.POST['infant_passport_expired_date' + str(i + 1)] or '',
+                "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
+                "passenger_seq_id": request.POST['infant_id'+str(i+1)],
+                "identity_type": "passport",
             })
 
         for rec in adult:
             all_pax.append(rec)
-            if rec.get('is_cp'):
-                contact.append(rec)
         for rec in child:
             all_pax.append(rec)
         for rec in infant:
@@ -415,17 +446,30 @@ def review(request):
 
         request.session['booking_data'] = temp_booking_data
 
-        values.update({
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
+            'tour_data': request.session['tour_pick'],
+            'adult': request.session['booking_data']['adult'],
+            'child': request.session['booking_data']['child'],
+            'infant': request.session['booking_data']['infant'],
             'booker': booker,
             'room_list': request.session['booking_data']['room_list'],
-            'room_amount': request.session['booking_data']['room_amount'],
+            'room_amount': int(request.session['booking_data']['room_amount']),
             'adult_pax': adult,
             'child_pax': child,
             'infant_pax': infant,
             'all_pax': all_pax,
             'contact': contact,
             'total_pax_all': temp_idx,
-        })
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'signature': request.session['tour_signature'],
+            'logo': logo,
+            'template': template
+        }
 
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_review_templates.html', values)
     else:

@@ -108,10 +108,11 @@ def get_auto_complete(request):
                 return hotel_list
             is_true = True
             name = rec['name'].lower()
+            alias = rec.get('alias') and rec['alias'].lower() or ''
             for list_str in search_str.split(' '):
-                if list_str in ['hotel', 'hotels']:
+                if list_str in ['hotel', 'hotels', '']:
                     pass
-                if list_str not in name:
+                if list_str not in name and list_str not in alias:
                     is_true = False
                     break
             if is_true:
