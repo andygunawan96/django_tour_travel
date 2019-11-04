@@ -22,8 +22,6 @@
             birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='infant')
             birth_date = moment(document.getElementById('infant_birth_date'+sequence).value, 'DD MMM YYYY');
-        if(type =='senior')
-            birth_date = moment(document.getElementById('senior_birth_date'+sequence).value, 'DD MMM YYYY');
         if(type =='child')
             birth_date = moment(document.getElementById('child_birth_date'+sequence).value, 'DD MMM YYYY');
 
@@ -33,25 +31,26 @@
     adult = {{adult_amt}};
     child = {{child_amt}};
     infant = {{infant_amt}};
+    room_amount = {{room_amount}};
 </script>
 
 <header id="header">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
-                    <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
-                    </center>
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-12">
-                    <ul class="progressbar">
-                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:tour_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>
-                        <li class="current"><span>Passenger <i class="fas fa-users"></i></span></li>
-                        <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                    </ul>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                 </div>
             </div>
         </div>
@@ -105,7 +104,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','tour');">Search <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','tour');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -146,7 +145,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_skytors/img/id_card.png" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>1. Please fill passenger name like in your ID card. If there's chinese word in your name please use chinese word.</p>
+                                                                <p>2. Maximum 30 characters for title, first name, and last name. If more than 30 characters you can put 30 first characters like in your ID card. </p>
+                                                                <p>3. Please use character such as "," or "." same like in your id card.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label style="color:red">*</label>
@@ -276,7 +302,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
 
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
@@ -291,7 +317,7 @@
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                    <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'tour')">Search</button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'tour')">Search</button>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -332,7 +358,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
+                                        <div class="col-lg-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_skytors/img/id_card.png" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>1. Please fill passenger name like in your ID card. If there's chinese word in your name please use chinese word.</p>
+                                                                <p>2. Maximum 30 characters for title, first name, and last name. If more than 30 characters you can put 30 first characters like in your ID card. </p>
+                                                                <p>3. Please use character such as "," or "." same like in your id card.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <br/>
                                             <label style="color:red">*</label>
@@ -358,7 +411,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -369,7 +422,7 @@
                                             <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'adult')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -394,7 +447,7 @@
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -460,7 +513,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_child{{forloop.counter}}" role="dialog">
@@ -475,7 +528,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'tour')">Search</button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'tour')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -515,7 +568,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_skytors/img/id_card.png" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>1. Please fill passenger name like in your ID card. If there's chinese word in your name please use chinese word.</p>
+                                                                <p>2. Maximum 30 characters for title, first name, and last name. If more than 30 characters you can put 30 first characters like in your ID card. </p>
+                                                                <p>3. Please use character such as "," or "." same like in your id card.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label style="color:red">*</label>
@@ -541,7 +621,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="child_nationality{{forloop.counter}}_id" style="width:100%;" id="child_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('child_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -552,7 +632,7 @@
                                             <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'child')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
@@ -576,7 +656,7 @@
                                                     <select class="form-control js-example-basic-single" name="child_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="child_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('child_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -610,7 +690,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
+                                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         </div>
                                         <div class="modal fade" id="myModal_infant{{forloop.counter}}" role="dialog">
@@ -626,7 +706,7 @@
                                                         <div class="row" >
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'tour')">Search</button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'tour')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -666,7 +746,34 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6"></div>
+                                        <div class="col-lg-6" style="margin-top:auto;">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="col-sm-12">
+                                                                <center><img src="/static/tt_website_skytors/img/id_card.png" style="width:50%;"></center>
+                                                            </div>
+                                                            <div>
+                                                                <p>1. Please fill passenger name like in your ID card. If there's chinese word in your name please use chinese word.</p>
+                                                                <p>2. Maximum 30 characters for title, first name, and last name. If more than 30 characters you can put 30 first characters like in your ID card. </p>
+                                                                <p>3. Please use character such as "," or "." same like in your id card.</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div class="col-lg-6">
                                             <br/>
                                             <label style="color:red">*</label>
@@ -692,7 +799,7 @@
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="Nationality" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -704,7 +811,8 @@
                                             <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}}, 'infant')" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="hidden" class="form-control" name="infant_years_old{{forloop.counter}}" id="infant_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -727,7 +835,7 @@
                                                     <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
-                                                        <option value="{{country.code}}">{{country.name}}</option>
+                                                        <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
@@ -746,7 +854,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{price_itinerary.adult_total_pax}}, {{price_itinerary.child_total_pax}}, {{price_itinerary.infant_amount}});">
+                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{adult_amt}}, {{child_amt}}, {{infant_amt}});">
                                     Next
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -789,34 +897,60 @@
         </div>
     </div>
 </div>
+{% include 'tt_website_skytors/footer.html' %}
 
 <script>
     $( document ).ready(function() {
+      get_price_itinerary_cache();
+      breadcrumb_create("tour", 4, 0);
+      $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
+
       {% for adult in adults%}
           auto_complete('adult_nationality{{forloop.counter}}');
-          auto_complete('adult_country_of_issued{{forloop.counter}}');
+          //auto_complete('adult_country_of_issued{{forloop.counter}}');
           auto_complete('adult_phone_code{{forloop.counter}}');
       {% endfor %}
       {% for child in childs%}
           auto_complete('child_nationality{{forloop.counter}}');
-          auto_complete('child_country_of_issued{{forloop.counter}}');
+          //auto_complete('child_country_of_issued{{forloop.counter}}');
       {% endfor %}
       {% for infant in infants%}
           auto_complete('infant_nationality{{forloop.counter}}');
-          auto_complete('infant_country_of_issued{{forloop.counter}}');
+          //auto_complete('infant_country_of_issued{{forloop.counter}}');
       {% endfor %}
-      get_price_itinerary_cache();
     });
+
     $(function() {
+      $('.perPaxDate').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'YYYY-MM-DD',
+          }
+      });
+      $('.perPaxDateTime').daterangepicker({
+          timePicker: true,
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'YYYY-MM-DD hh:mm',
+          }
+      });
       for (var i = 1; i <= adult; i++){
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(17, 'years'),
-              minDate: moment().subtract(100, 'years'),
+              startDate: moment().subtract(20, 'years'),
+              minDate: moment().subtract(59, 'years').subtract(365, 'days'),
               maxDate: moment().subtract(12, 'years'),
               showDropdowns: true,
               opens: 'center',
