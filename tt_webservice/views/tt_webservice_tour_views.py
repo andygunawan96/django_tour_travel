@@ -204,24 +204,201 @@ def get_pricing_cache(request):
     return res
 
 
-def update_passenger(request):
-    try:
-        temp_booking_data = request.session['booking_data']
+def sell_tour(request):
+    data = {
+        "promotion_codes_booking": [],
+        "search_request": request.session['activity_review_booking']['search_request'],
+        'provider': request.session['tour_pick']['provider'],
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "sell_tour",
+        "signature": request.POST['signature']
+    }
 
-        temp_booking_data.update({
-            'all_pax': json.loads(request.POST['pax_list_js']),
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_contact(request):
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+
+    booker = request.session['tour_booking_data']['booker']
+    contacts = request.session['tour_booking_data']['contact']
+    for country in response['result']['response']['airline']['country']:
+        if booker['nationality_name'] == country['name']:
+            booker['nationality_code'] = country['code']
+            break
+
+    for pax in contacts:
+        for country in response['result']['response']['airline']['country']:
+            if pax['nationality_name'] == country['name']:
+                pax['nationality_code'] = country['code']
+                break
+
+    data = {
+        "booker": booker,
+        "contacts": contacts,
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_contact",
+        "signature": request.POST['signature']
+    }
+
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_passengers(request):
+    passenger = []
+    javascript_version = get_cache_version()
+    response = get_cache_data(javascript_version)
+
+    countries = response['result']['response']['airline']['country']
+    passenger = []
+    for pax in request.session['tour_booking_data']['adult_pax']:
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0]),
         })
+        if pax['nationality_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
 
-        request.session['booking_data'] = temp_booking_data
+        if pax['identity_country_of_issued_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['identity_country_of_issued_code'] = country['code']
+                    break
+        if pax['identity_expdate'] != '':
+            pax.update({
+                'identity_expdate': '%s-%s-%s' % (
+                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                    pax['identity_expdate'].split(' ')[0])
+            })
+            pax['identity'] = {
+                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                "identity_expdate": pax.pop('identity_expdate'),
+                "identity_number": pax.pop('identity_number'),
+                "identity_type": pax.pop('identity_type'),
+            }
+        else:
+            pax.pop('identity_country_of_issued_name')
+            pax.pop('identity_expdate')
+            pax.pop('identity_number')
+            pax.pop('identity_type')
+        passenger.append(pax)
 
+    for pax in request.session['tour_booking_data']['child_pax']:
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                pax['birth_date'].split(' ')[0]),
+        })
+        if pax['nationality_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
+
+        if pax['identity_country_of_issued_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['identity_country_of_issued_code'] = country['code']
+                    break
+        if pax['identity_expdate'] != '':
+            pax.update({
+                'identity_expdate': '%s-%s-%s' % (
+                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                    pax['identity_expdate'].split(' ')[0])
+            })
+            pax['identity'] = {
+                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                "identity_expdate": pax.pop('identity_expdate'),
+                "identity_number": pax.pop('identity_number'),
+                "identity_type": pax.pop('identity_type'),
+            }
+        else:
+            pax.pop('identity_country_of_issued_name')
+            pax.pop('identity_expdate')
+            pax.pop('identity_number')
+            pax.pop('identity_type')
+        passenger.append(pax)
+
+    for pax in request.session['tour_booking_data']['infant_pax']:
+        pax.update({
+            'birth_date': '%s-%s-%s' % (
+                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                pax['birth_date'].split(' ')[0]),
+        })
+        if pax['nationality_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
+
+        if pax['identity_country_of_issued_name'] != '':
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['identity_country_of_issued_code'] = country['code']
+                    break
+        if pax['identity_expdate'] != '':
+            pax.update({
+                'identity_expdate': '%s-%s-%s' % (
+                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                    pax['identity_expdate'].split(' ')[0])
+            })
+            pax['identity'] = {
+                "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                "identity_expdate": pax.pop('identity_expdate'),
+                "identity_number": pax.pop('identity_number'),
+                "identity_type": pax.pop('identity_type'),
+            }
+        else:
+            pax.pop('identity_country_of_issued_name')
+            pax.pop('identity_expdate')
+            pax.pop('identity_number')
+            pax.pop('identity_type')
+        passenger.append(pax)
+
+    data = {
+        "passengers": passenger,
+    }
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "update_passengers",
+        "signature": request.POST['signature']
+    }
+
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    return res
+
+
+def commit_booking(request):
+    try:
         data = {
             'provider': request.session['tour_pick']['provider'],
-            'booking_data': request.session['booking_data'],
+            'force_issued': request.POST['value'],
+            'booker_id': request.POST['booker_id'],
+            'pax_ids': request.POST['pax_ids'],
+            'payment_method': request.POST['payment_method'],
+            'book_line_ids': request.POST['book_line_ids'],
+            'tour_booking_data': request.session['tour_booking_data'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "update_passenger",
+            "action": "commit_booking",
             "signature": request.session['tour_signature']
         }
     except Exception as e:
@@ -247,30 +424,6 @@ def get_booking(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
-    return res
-
-
-def commit_booking(request):
-    try:
-        data = {
-            'provider': request.session['tour_pick']['provider'],
-            'force_issued': request.POST['value'],
-            'booker_id': request.POST['booker_id'],
-            'pax_ids': request.POST['pax_ids'],
-            'payment_method': request.POST['payment_method'],
-            'book_line_ids': request.POST['book_line_ids'],
-            'booking_data': request.session['booking_data'],
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "commit_booking",
-            "signature": request.session['tour_signature']
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
 
 
