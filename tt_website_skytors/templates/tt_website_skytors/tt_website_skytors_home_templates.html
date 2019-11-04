@@ -96,6 +96,7 @@
     {% if username != undefined %}
         try{
             //hotel_signin('home');
+            get_train_config('home');
             get_airline_config('home');
             airline_search_value = 'false';
             get_visa_config('home');
@@ -407,107 +408,117 @@
                             </form>
                         </div>
                         <div class="tab-pane fade" id="train" role="tabpanel" aria-labelledby="train-tab">
-                            <center>
-                                <div style="padding:15px;">
-                                    <img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>
-                                    <h1 style="color:white !important;">Train under construction</h1>
+                            <!--<center>-->
+                                <!--<div style="padding:15px;">-->
+                                    <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                    <!--<h1 style="color:white !important;">Train under construction</h1>-->
+                                <!--</div>-->
+                            <!--</center>-->
+
+                            <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px; color:white;">One Way</span>
+                                            <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px; color:white;">Round-trip</span>
+                                            <input type="radio" name="radio_train_type" value="roundtrip">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
+                                                </div>
+                                            </div>
+                                            <div class="image-change-route-vertical2">
+                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+                                            <div class="image-change-route-horizontal2">
+                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width:20px; height: 20px;"/> To</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="train_date_search">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">
+                                        <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <div class="row" style="padding:10px;">
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
+                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                        <div style="float:left;">
+                                                            <label>
+                                                                <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                                <span style="color:gray; font-size:11px;">(Age < 3)</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                            <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                                <i class="fas fa-minus"></i>
+                                                            </button>
+                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" readonly>
+                                                            <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                                <i class="fas fa-plus"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                            </center>
+                                <br/>
 
-<!--                            <form action="{% url 'tt_website_skytors:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">-->
-<!--                                {% csrf_token %}-->
-<!--                                <div class="row">-->
-<!--                                    <div class="col-lg-6">-->
-<!--                                        <div class="row">-->
-<!--                                            <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">-->
-<!--                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>-->
-<!--                                                <div class="input-container-search-ticket">-->
-<!--                                                    <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
-<!--                                                    <datalist id="train_origin_name"/>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                            <div class="image-change-route-vertical2">-->
-<!--                                                <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>-->
-<!--                                            </div>-->
-<!--                                            <div class="image-change-route-horizontal2">-->
-<!--                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>-->
-<!--                                            </div>-->
+                                <input type="hidden" id="train_response" name="response"/>
 
-<!--                                            <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">-->
-<!--                                                <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width:20px; height: 20px;"/> To</span>-->
-<!--                                                <div class="input-container-search-ticket">-->
-<!--                                                    <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
-<!--                                                    <datalist id="train_destination_name"/>-->
-<!--                                                </div>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">-->
-<!--                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>-->
-<!--                                        <div class="input-container-search-ticket">-->
-<!--                                            <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                    <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;">-->
-<!--                                        <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>-->
-<!--                                        <div class="input-container-search-ticket btn-group">-->
-<!--                                            <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
-<!--                                            <ul class="dropdown-menu" role="menu">-->
-<!--                                                <div class="row" style="padding:10px;">-->
-<!--                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
-<!--                                                        <div style="float:left;">-->
-<!--                                                            <label>-->
-<!--                                                                <span style="color:black; font-size:13px;">Adult<br/></span>-->
-<!--                                                                <span style="color:gray; font-size:11px;">(Age 3+)</span>-->
-<!--                                                            </label>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
-<!--                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
-<!--                                                            <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>-->
-<!--                                                                <i class="fas fa-minus"></i>-->
-<!--                                                            </button>-->
-<!--                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>-->
-<!--                                                            <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">-->
-<!--                                                                <i class="fas fa-plus"></i>-->
-<!--                                                            </button>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-
-<!--                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">-->
-<!--                                                        <div style="float:left;">-->
-<!--                                                            <label>-->
-<!--                                                                <span style="color:black; font-size:13px;">Infant<br/></span>-->
-<!--                                                                <span style="color:gray; font-size:11px;">(Age < 3)</span>-->
-<!--                                                            </label>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">-->
-<!--                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">-->
-<!--                                                            <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>-->
-<!--                                                                <i class="fas fa-minus"></i>-->
-<!--                                                            </button>-->
-<!--                                                            <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" readonly>-->
-<!--                                                            <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">-->
-<!--                                                                <i class="fas fa-plus"></i>-->
-<!--                                                            </button>-->
-<!--                                                        </div>-->
-<!--                                                    </div>-->
-<!--                                                </div>-->
-<!--                                            </ul>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                                <br/>-->
-
-<!--                                <input type="hidden" id="train_response" name="response"/>-->
-
-<!--                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">-->
-<!--                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>-->
-<!--                                    Search-->
-<!--                                    <div class="ld ld-ring ld-cycle"></div>-->
-<!--                                </button>-->
-<!--                            </form>-->
+                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                    Search
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </form>
                         </div>
                         <div class="tab-pane fade" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
                             <form action="{% url 'tt_website_skytors:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
@@ -4820,7 +4831,7 @@
 <script>
     {% if username != null %}
     //test
-    var origin = new autoComplete({
+    var airline_origin = new autoComplete({
         selector: '#origin_id_flight',
         minChars: 1,
         cache: false,
@@ -4836,7 +4847,7 @@
             set_airline_search_value_to_true();
         }
     });
-    var destination = new autoComplete({
+    var airline_destination = new autoComplete({
         selector: '#destination_id_flight',
         minChars: 0,
         cache: false,
@@ -4850,6 +4861,39 @@
         onSelect: function(e, term, item){
             $("#destination_id_flight").trigger("blur");
             set_airline_search_value_to_true();
+        }
+    });
+
+    var train_origin = new autoComplete({
+        selector: '#train_origin',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 2)
+                    term = ''
+            if(term.length > 1)
+                suggest(train_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#train_origin").trigger("blur");
+            set_train_search_value_to_true();
+        }
+    });
+    var train_destination = new autoComplete({
+        selector: '#train_destination',
+        minChars: 0,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 4)
+                term = ''
+            if(term.length > 1)
+                suggest(train_search_autocomplete(term));
+        },
+        onSelect: function(e, term, item){
+            $("#train_destination").trigger("blur");
+            set_train_search_value_to_true();
         }
     });
 
@@ -4955,7 +4999,16 @@
         }catch(err){
             airline_date = now;
         }
-
+        try{
+            document.getElementById('train_origin').value = cache.train.origin;
+        }catch(err){
+            document.getElementById('train_origin').value = 'GMR - Gambir';
+        }
+        try{
+            document.getElementById('train_destination').value = cache.train.destination;
+        }catch(err){
+            document.getElementById('train_destination').value = 'BD - Bandung';
+        }
         try{
             train_date = cache.train.departure;
         }catch(err){

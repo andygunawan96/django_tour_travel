@@ -762,6 +762,150 @@ $(document).ready(function(){
         }, 500)
     });
 
+    $('#radio_train_search').change(function(){
+        selected_value = $("input[name='radio_train_type']:checked").val();
+        if (selected_value == "oneway"){
+            if(template == 1 || template == 2 || template == 3){
+                document.getElementById("train_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="airline_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("train_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 4){
+                document.getElementById("train_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control rounded" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("airline_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 5){
+                document.getElementById("train_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket">Departure</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                    <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("train_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            $("#train_departure").val(moment().format('DD MMM YYYY'));
+            $("#train_return").val($("#airline_departure").val());
+
+            $('input[name="train_departure"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+        }
+        else if(selected_value == "roundtrip"){
+            if(template == 1 || template == 2 || template == 3){
+                document.getElementById("train_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+
+                <input type="hidden" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("train_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 4){
+                document.getElementById("train_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <input type="text" class="form-control rounded" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+
+                <input type="hidden" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("train_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+            else if(template == 5){
+                document.getElementById("train_date_search").innerHTML = '';
+                text='';
+                var node = document.createElement("div");
+                text+=`
+                <span class="span-search-ticket">Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
+                    <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                </div>
+                <input type="hidden" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                <input type="hidden" class="form-control" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+                node.innerHTML = text;
+                document.getElementById("train_date_search").appendChild(node);
+                node = document.createElement("div");
+            }
+
+            $("#train_departure").val(moment().format('DD MMM YYYY'));
+            $("#train_return").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
+
+            $('input[name="train_departure_return"]').daterangepicker({
+              singleDatePicker: false,
+              autoUpdateInput: true,
+              opens: 'center',
+              startDate: moment(),
+              endDate: moment().subtract(-1, 'days'),
+              minDate: moment(),
+              maxDate: moment().subtract(-365, 'days'),
+              showDropdowns: true,
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+
+            });
+
+            $('input[name="train_departure_return"]').on('apply.daterangepicker', function(ev, picker) {
+              $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+                $("#train_departure").val(picker.startDate.format('DD MMM YYYY'));
+                $("#train_return").val(picker.endDate.format('DD MMM YYYY'));
+            });
+        }
+    });
+
     $('#radio_airline_search').change(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
         if (selected_value == "oneway"){

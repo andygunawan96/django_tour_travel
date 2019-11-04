@@ -754,10 +754,8 @@ function check_passenger(adult, senior, child, infant){
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-    }if(check_phone_number(document.getElementById('booker_phone').value)==false || check_word(document.getElementById('booker_last_name').value) == false){
-        if(check_word(document.getElementById('booker_last_name').value) == false)
-            error_log+= 'Please use alpha characters for booker last name!</br>\n';
-        else if(check_word(document.getElementById('booker_last_name').value) == false)
+    }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+        if(check_phone_number(document.getElementById('booker_phone').value) == false)
             error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{

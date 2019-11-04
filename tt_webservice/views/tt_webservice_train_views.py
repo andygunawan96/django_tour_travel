@@ -45,8 +45,10 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
-        elif req_data['action'] == 'search2':
-            res = search2(request)
+        elif req_data['action'] == 'get_data':
+            res = get_data(request)
+        elif req_data['action'] == 'search':
+            res = search(request)
         elif req_data['action'] == 'create_booking':
             res = create_booking(request)
         elif req_data['action'] == 'get_booking':
@@ -66,10 +68,12 @@ def api_models(request):
 def login(request):
     try:
         data = {
-            # "user": user,
-            # "password": password,
-            # 'api_key': api_key_train,
-            # 'co_uid': int(request.session['co_uid'])
+            "user": user_global,
+            "password": password_global,
+            "api_key": api_key,
+            "co_user": request.session['username'],
+            "co_password": request.session['password'],
+            "co_uid": ""
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -79,58 +83,98 @@ def login(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "train/session", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "session", data=data, headers=headers, method='POST')
     try:
-        request.session['train_sid'] = res['result']['sid']
-        request.session['train_cookie'] = res['result']['cookies']
+        request.session['train_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info("SIGNIN TRAIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
-def search2(request):
+def get_data(request):
+    try:
+        file = open(var_log_path()+"train_cache_data.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_data TRAIN SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return response
+
+def search(request):
     #train
     try:
-        date = '%s-%s-%s' % (request.POST['departure'].split(' ')[2],
-                             month[request.POST['departure'].split(' ')[1]],
-                             request.POST['departure'].split(' ')[0])
+        train_destinations = []
+        file = open(var_log_path() + "train_cache_data.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response:
+            train_destinations.append({
+                'code': country['code'],
+                'name': country['name'],
+            })
+
+        journey_list = []
+        for idx, request_train in enumerate(request.session['train_request']['departure']):
+            departure_date = '%s-%s-%s' % (
+                request.session['train_request']['departure'][idx].split(' ')[2],
+                month[request.session['train_request']['departure'][idx].split(' ')[1]],
+                request.session['train_request']['departure'][idx].split(' ')[0])
+            journey_list.append({
+                'origin': request.session['train_request']['origin'][idx].split(' - ')[0],
+                'destination': request.session['train_request']['destination'][idx].split(' - ')[0],
+                'departure_date': departure_date
+            })
 
         data = {
-            "origin": request.POST['origin'].split(' - ')[0],
-            "destination": request.POST['destination'].split(' - ')[0],
-            "departure_date": date,
-            "direction": 'RT',
-            "return_date": date,
-            "adult": int(request.POST['adult']),
-            "child": 0,
-            "infant": int(request.POST['infant']),
+            "journey_list": journey_list,
+            "direction": request.session['train_request']['direction'],
+            "adult": int(request.session['train_request']['adult']),
+            "infant": int(request.session['train_request']['infant']),
             "provider": provider_kai
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "search2",
+            "action": "search",
             "signature": request.session['train_signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers, cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
     try:
-        request.session['train_adult'] = request.POST['adult']
-        request.session['train_infant'] = request.POST['infant']
+        if res['result']['error_code'] == 0:
+            for journey_list in res['result']['response']['schedules']:
+                for journey in journey_list['journeys']:
+                    journey.update({
+                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
+                    })
+                    check = 0
+                    for destination in train_destinations:
+                        if destination['code'] == journey['origin']:
+                            journey.update({
+                                'origin_name': destination['name'],
+                            })
+                            check = check + 1
+                        if destination['code'] == journey['destination']:
+                            journey.update({
+                                'destination_name': destination['name'],
+                            })
+                            check = check + 1
+                        if check == 2:
+                            break
+        pass
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    # if res_origin_train['result']['error_code'] == 0:
-    #     res['result'].update({
-    #         'response': res_origin_train['result']['response']
-    #     })
-    # else:
-    #     res['result'].update({
-    #         'error_code': res_origin_train['result']['error_code'],
-    #         'response': res_origin_train['result']['error_msg']
-    #     })
 
     return res
 
