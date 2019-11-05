@@ -1,3 +1,4 @@
+var div_overlay_checked=0;
 
 $(document).ready(function(){
 
@@ -107,11 +108,14 @@ $(document).ready(function(){
     });
 
     $('#div-search-overlay').click(function() {      // When arrow is clicked
+        div_overlay_checked += 1;
         document.getElementById("overlay-search-box").style.display = "block";
         document.getElementById("div-search-overlay").style.zIndex = "3";
-        $('html, body').animate({
-            scrollTop: $("#div-search-overlay").offset().top - 75
-        }, 500);
+        if(div_overlay_checked == 1){
+            $('html, body').animate({
+                scrollTop: $("#div-search-overlay").offset().top - 75
+            }, 500);
+        }
     });
 
     $('ul.tabs li').click(function(){
@@ -2172,6 +2176,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
 function off_overlay() {
     document.getElementById("overlay-search-box").style.display = "none";
     document.getElementById("div-search-overlay").style.zIndex = "1";
+    div_overlay_checked = 0;
 }
 
 function show_hide_general(type){
@@ -2188,5 +2193,36 @@ function show_hide_general(type){
         general_up.style.display = "block";
         general_down.style.display = "none";
         general_show.style.display = "inline-block";
+    }
+}
+
+function show_hide_itinerary_tour(index){
+    var itinerary_down = document.getElementById('itinerary_day'+index+'_down');
+    var itinerary_up = document.getElementById('itinerary_day'+index+'_up');
+    var itinerary_div = document.getElementById('div_itinerary_day'+index);
+
+    if (itinerary_down.style.display === "none") {
+        itinerary_up.style.display = "none";
+        itinerary_down.style.display = "inline-block";
+        itinerary_div.style.display = "none";
+    }
+    else {
+        itinerary_up.style.display = "inline-block";
+        itinerary_down.style.display = "none";
+        itinerary_div.style.display = "block";
+    }
+}
+
+function showImageItinerary(index, idx){
+    var show_image = document.getElementById('show_image_itinerary'+index+idx);
+    var image_itinerary = document.getElementById('image_itinerary'+index+idx);
+
+    if (image_itinerary.style.display === "none") {
+        show_image.innerHTML = "Hide image";
+        image_itinerary.style.display = "block";
+    }
+    else {
+        show_image.innerHTML = "Show image";
+        image_itinerary.style.display = "none";
     }
 }

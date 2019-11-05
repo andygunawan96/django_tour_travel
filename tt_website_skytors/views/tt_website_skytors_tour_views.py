@@ -292,8 +292,10 @@ def review(request):
             'booker_id': request.POST['booker_id']
         }
 
+        temp_pax_id = 0
         for i in range(int(request.session['tour_booking_data']['adult'])):
             adult.append({
+                "temp_pax_id": temp_pax_id,
                 "first_name": request.POST['adult_first_name' + str(i + 1)],
                 "last_name": request.POST['adult_last_name' + str(i + 1)],
                 "nationality_name": request.POST['adult_nationality' + str(i + 1)],
@@ -366,6 +368,8 @@ def review(request):
             except:
                 pass
 
+            temp_pax_id += 1
+
         if len(contact) == 0:
             contact.append({
                 'title': request.POST['booker_title'],
@@ -381,6 +385,7 @@ def review(request):
 
         for i in range(int(request.session['tour_booking_data']['child'])):
             child.append({
+                "temp_pax_id": temp_pax_id,
                 "first_name": request.POST['child_first_name'+str(i+1)],
                 "last_name": request.POST['child_last_name'+str(i+1)],
                 "nationality_name": request.POST['child_nationality'+str(i+1)],
@@ -394,9 +399,11 @@ def review(request):
                 "passenger_seq_id": request.POST['child_id'+str(i+1)],
                 "identity_type": "passport",
             })
+            temp_pax_id += 1
 
         for i in range(int(request.session['tour_booking_data']['infant'])):
             infant.append({
+                "temp_pax_id": temp_pax_id,
                 "first_name": request.POST['infant_first_name'+str(i+1)],
                 "last_name": request.POST['infant_last_name'+str(i+1)],
                 "nationality_name": request.POST['infant_nationality'+str(i+1)],
@@ -410,6 +417,7 @@ def review(request):
                 "passenger_seq_id": request.POST['infant_id'+str(i+1)],
                 "identity_type": "passport",
             })
+            temp_pax_id += 1
 
         for rec in adult:
             all_pax.append(rec)
@@ -433,7 +441,6 @@ def review(request):
             'adult_pax': adult,
             'child_pax': child,
             'infant_pax': infant,
-            'all_pax': all_pax,
             'contact': contact,
             'booker': booker,
             'total_pax_all': temp_idx,
