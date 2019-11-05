@@ -102,7 +102,59 @@ var cabin_list = [
 //        alert(error_log);
 //}
 
+function set_train_search_value_to_false(){
+    train_search_value = 'false';
+}
+function set_train_search_value_to_true(){
+    train_search_value = 'true';
+}
+
+function train_search_autocomplete(term){
+    term = term.toLowerCase();
+    console.log(term);
+    var choices = new_train_destination;
+    var suggestions = [];
+    var priority = [];
+    if(term.split(' - ').length == 4)
+        term = '';
+    for (i=0;i<choices.length;i++){
+        if(choices[i].toLowerCase().split(' - ')[0].search(term) !== -1){
+            priority.push(choices[i]);
+        }else if(choices[i].toLowerCase().search(term) !== -1)
+            suggestions.push(choices[i]);
+    }
+    return priority.concat(suggestions).slice(0,100);
+}
+
 function train_check_search_values(){
+    type = '';
+    error_log = '';
+
+    var radios = document.getElementsByName('radio_train_type');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            type = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+
+    if(document.getElementById('train_origin').value.split(' - ').length != 2)
+        error_log+= 'Please use autocomplete for origin\n';
+    if(document.getElementById('train_destination').value.split(' - ').length != 2)
+        error_log+= 'Please use autocomplete for destination\n';
+
+//    error_log = ''; //DEV GARUDA
+    if(error_log == ''){
+        $('.button-search').addClass("running");
+        document.getElementById('train_searchForm').submit();
+    }else{
+        $('.button-search').removeClass("running");
+        alert(error_log);
+    }
+
+    //check here
     error_log = '';
     if(document.getElementById('train_origin').value.split(' - ').length != 2)
         error_log += 'Please use autocomplete for From field';

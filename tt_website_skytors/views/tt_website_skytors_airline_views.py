@@ -398,6 +398,7 @@ def ssr(request):
                 'price': request.session['airline_price_itinerary'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'after_sales': 0,
                 'additional_price': float(additional_price_input),
                 'airline_carriers': carrier,
                 # 'airline_destinations': airline_destinations,
@@ -508,7 +509,7 @@ def ssr(request):
                 airline_list = []
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'seat_map': 1,
+                'after_sales': 1,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'airline_carriers': carrier,
@@ -544,50 +545,6 @@ def seat_map(request):
         template, logo = get_logo_template()
 
         ssr = []
-
-        try:
-            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
-            sell_ssrs = []
-            sell_ssrs_request = []
-            passengers_list = []
-            for pax in passenger:
-                pax['ssr_list'] = []
-            ssr_response = request.session['airline_get_ssr']['result']['response']
-            for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
-                for ssr_package in ssr_response['ssr_availability_provider']:
-                    for ssr_key in ssr_package['ssr_availability']:
-                        for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
-                            for idx, pax in enumerate(passenger):
-                                try:
-                                    passengers_list.append({
-                                        "passenger_number": idx,
-                                        "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
-                                    })
-                                    for list_ssr in journey_ssr['ssrs']:
-                                        if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
-                                            pax['ssr_list'].append(list_ssr)
-                                            break
-                                except:
-                                    pass
-                            if len(passengers_list) > 0:
-                                sell_ssrs_request.append({
-                                    'journey_code': journey_ssr['journey_code'],
-                                    'passengers': passengers_list,
-                                    'availability_type': ssr_key
-                                })
-                            passengers_list = []
-                if len(sell_ssrs_request) != 0:
-                    sell_ssrs.append({
-                        'sell_ssrs': sell_ssrs_request,
-                        'provider': ssr_package['provider']
-                    })
-                sell_ssrs_request = []
-            if len(sell_ssrs) > 0:
-                request.session['airline_ssr_request'] = sell_ssrs
-            sell_ssrs = []
-        except:
-            request.session['airline_ssr_request'] = {}
-            print('no ssr')
 
         try:
             passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
@@ -1031,26 +988,26 @@ def review_after_sales(request):
         goto = 0
         ssr = []
 
-        try:
-            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
-            sell_ssrs = []
-            sell_ssrs_request = []
-            passengers_list = []
-            for pax in passenger:
-                pax['ssr_list'] = []
-            ssr_response = request.session['airline_get_ssr']['result']['response']
-            for counter_ssr_availability_provider, ssr_availability_provider in enumerate(ssr_response):
-                for ssr_package in ssr_response['ssr_availability_provider']:
+        if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
+            try:
+                passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                sell_ssrs = []
+                sell_ssrs_request = []
+                passengers_list = []
+                for pax in passenger:
+                    pax['ssr_list'] = []
+                ssr_response = request.session['airline_get_ssr']['result']['response']
+                for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                     for ssr_key in ssr_package['ssr_availability']:
                         for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
                             for idx, pax in enumerate(passenger):
                                 try:
                                     passengers_list.append({
                                         "passenger_number": idx,
-                                        "ssr_code": request.POST[ssr_key+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
+                                        "ssr_code": request.POST[ssr_key+'_'+str(counter_ssr_availability_provider+1)+'_'+str(idx+1)+'_'+str(counter_journey+1)].split('_')[0]
                                     })
                                     for list_ssr in journey_ssr['ssrs']:
-                                        if request.POST[ssr_key + '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
+                                        if request.POST[ssr_key +'_'+str(counter_ssr_availability_provider+1)+ '_' + str(idx + 1) + '_' + str(counter_journey + 1)].split('_')[0] == list_ssr['ssr_code']:
                                             pax['ssr_list'].append(list_ssr)
                                             break
                                 except:
@@ -1062,48 +1019,52 @@ def review_after_sales(request):
                                     'availability_type': ssr_key
                                 })
                             passengers_list = []
-                if len(sell_ssrs_request) != 0:
-                    sell_ssrs.append({
-                        'sell_ssrs': sell_ssrs_request,
-                        'provider': ssr_package['provider']
-                    })
-                sell_ssrs_request = []
-            if len(sell_ssrs) > 0:
-                request.session['airline_ssr_request'] = sell_ssrs
-            sell_ssrs = []
-            goto = 0 #ssr
-        except:
-            print('no ssr')
-            goto = 1 #seat
+                    if len(sell_ssrs_request) != 0:
+                        sell_ssrs.append({
+                            'sell_ssrs': sell_ssrs_request,
+                            'provider': ssr_package['provider']
+                        })
+                    sell_ssrs_request = []
+                if len(sell_ssrs) > 0:
+                    request.session['airline_ssr_request'] = sell_ssrs
+                sell_ssrs = []
+            except:
+                print('no ssr')
 
         # SEAT
-        try:
-            passenger = json.loads(request.POST['passenger'])
-            seat_map_list = request.session['airline_get_seat_availability']['result']['response']
-            segment_seat_request = []
+        if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'seat_map':
+            try:
+                passenger = request.session['airline_create_passengers']['adult'] + \
+                            request.session['airline_create_passengers']['child']
+                passengers = json.loads(request.POST['passenger'])
+                #
+                for idx, pax in enumerate(passengers):
+                    passenger[idx]['seat_list'] = passengers[idx]['seat_list']
+                seat_map_list = request.session['airline_get_seat_availability']['result']['response']
+                segment_seat_request = []
 
-            for seat_map_provider in seat_map_list['seat_availability_provider']:
-                for seat_segment in seat_map_provider['segments']:
-                    pax_request = []
-                    for pax in passenger:
-                        for idx, pax_seat in enumerate(pax['seat_list']):
-                            if pax_seat['segment_code'] == seat_segment['segment_code2']:
-                                if pax_seat['seat_code'] != '':
-                                    pax_request.append({
-                                        'passenger_number': idx,
-                                        'seat_code': pax_seat['seat_code']
-                                    })
-                                break
-                    if len(pax_request) != 0:
-                        segment_seat_request.append({
-                            'segment_code': seat_segment['segment_code'],
-                            'provider': seat_segment['provider'],
-                            'passengers': pax_request
-                        })
-                    pax_request = []
-            request.session['airline_seat_request'] = segment_seat_request
-        except:
-            print('no seatmap')
+                for seat_map_provider in seat_map_list['seat_availability_provider']:
+                    for seat_segment in seat_map_provider['segments']:
+                        pax_request = []
+                        for pax in passengers:
+                            for idx, pax_seat in enumerate(pax['seat_list']):
+                                if pax_seat['segment_code'] == seat_segment['segment_code2']:
+                                    if pax_seat['seat_code'] != '':
+                                        pax_request.append({
+                                            'passenger_number': idx,
+                                            'seat_code': pax_seat['seat_code']
+                                        })
+                                    break
+                        if len(pax_request) != 0:
+                            segment_seat_request.append({
+                                'segment_code': seat_segment['segment_code'],
+                                'provider': seat_segment['provider'],
+                                'passengers': pax_request
+                            })
+                        pax_request = []
+                request.session['airline_seat_request'] = segment_seat_request
+            except:
+                print('no seatmap')
 
         # agent
         # TODO LIST INTRO SSR sudah list perpassenger --> list per segment --> isi semua ssr tinggal dipisah
@@ -1154,7 +1115,8 @@ def review_after_sales(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-
+        if 'airline_create_passengers' in request.session._session:
+            del request.session['airline_create_passengers']
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)

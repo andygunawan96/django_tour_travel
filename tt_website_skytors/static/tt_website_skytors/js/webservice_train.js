@@ -74,8 +74,11 @@ function train_signin(data){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+            console.log(msg);
+            signature = msg.result.response.signature;
+            console.log(data);
             if(data == '')
-                document.getElementById('train_searchForm').submit();
+                train_search(msg.result.response.signature);
             else if(data != '')
                 train_get_booking(data);
        },
@@ -101,20 +104,19 @@ function get_train_config(){
        data: {},
        success: function(msg) {
         console.log(msg);
-        train_destination = msg
+        new_train_destination = [];
+        for(i in msg){
+            new_train_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].country);
+        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train config </span>' + errorThrown,
-            })
-        },timeout: 180000
+           alert(errorThrown);
+       }
     });
 }
 
 //signin jadi 1 sama search
-function train_search(co_uid){
+function train_search(signature){
     document.getElementById('train_ticket').innerHTML = ``;
     document.getElementById('train_detail').innerHTML = ``;
 
@@ -123,197 +125,42 @@ function train_search(co_uid){
        type: "POST",
        url: "/webservice/train",
        headers:{
-            'action': 'signin',
+            'action': 'search',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
-           if(msg.result.error_code == 0){
-               $.ajax({
-               type: "POST",
-               url: "/webservice/train",
-               headers:{
-                    'action': 'search2',
-               },
-        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-               data: {
-                'origin': $('#train_origin').val(),
-                'destination': $('#train_destination').val(),
-                'departure': $('#train_departure').val(),
-                'adult': $('#train_adult').val(),
-                'infant': $('#train_infant').val(),
-
-               },
-               success: function(msg) {
-                   console.log(msg);
-                   try{
-                        if(msg.result.error_code==0){
-                            var counter = 0;
-                            var train = [];
-                            var fare = 0;
-                            var commission = 0;
-                            var departure = '';
-                            var arrival = '';
-                            var book = '';
-                            var elapse = '';
-                            var cabin_class = '';
-                            for(i in msg.result.response.journeys){
-                                for(j in msg.result.response.journeys[i].segments){
-                                    for(k in msg.result.response.journeys[i].segments[j].fares){
-                                        fare = 0;
-                                        commission = 0;
-                                        cabin_class = '';
-                                        departure = msg.result.response.journeys[i].segments[j].departure_date.split(' ');
-                                        departure = [departure[0].split('-')[2]+' '+month[departure[0].split('-')[1]]+' '+departure[0].split('-')[0], departure[1].split(':')[0]+':'+departure[1].split(':')[1]];
-                                        arrival = msg.result.response.journeys[i].segments[j].arrival_date.split(' ');
-                                        arrival = [arrival[0].split('-')[2]+' '+month[arrival[0].split('-')[1]]+' '+arrival[0].split('-')[0], arrival[1].split(':')[0]+':'+arrival[1].split(':')[1]];
-                                        for(l in msg.result.response.journeys[i].segments[j].fares[k].service_charges){
-                                            if(msg.result.response.journeys[i].segments[j].fares[k].service_charges[l].charge_code == 'fare'){
-                                                fare = msg.result.response.journeys[i].segments[j].fares[k].service_charges[l].amount;
-                                            }else{
-                                                commission = msg.result.response.journeys[i].segments[j].fares[k].service_charges[l].amount;
-                                            }
-                                        }
-                                        if(msg.result.response.journeys[i].segments[j].fares[k].cabin_class == 'E'){
-                                            cabin_class = "Executive";
-                                        }else if(msg.result.response.journeys[i].segments[j].fares[k].cabin_class == 'K'){
-                                            cabin_class = "Economy";
-                                        }else if(msg.result.response.journeys[i].segments[j].fares[k].cabin_class == 'B'){
-                                            cabin_class = "Business";
-                                        }
-                                        train.push({
-                                             'cabin_class': [msg.result.response.journeys[i].segments[j].fares[k].cabin_class,cabin_class],
-                                             'class_of_service': msg.result.response.journeys[i].segments[j].fares[k].class_of_service,
-                                             'currency': msg.result.response.journeys[i].segments[j].fares[k].currency,
-                                             'available_count': msg.result.response.journeys[i].segments[j].fares[k].available_count,
-                                             'service_charges': msg.result.response.journeys[i].segments[j].fares[k].service_charges,
-                                             'fare': fare,
-                                             'fare_code': msg.result.response.journeys[i].segments[j].fares[k].fare_code,
-                                             'commission': commission,
-                                             'origin': $('#train_origin').val().split(' - '),
-                                             'segment_code': msg.result.response.journeys[i].segments[j].segment_code,
-                                             'destination': $('#train_destination').val().split(' - '),
-                                             'departure': departure,
-                                             'journey_code': msg.result.response.journeys[i].journey_code,
-                                             'carrier_number': msg.result.response.journeys[i].segments[j].carrier_number,
-                                             'carrier_code': msg.result.response.journeys[i].segments[j].carrier_code,
-                                             'carrier_name': msg.result.response.journeys[i].segments[j].carrier_name,
-                                             'transit_count': msg.result.response.journeys[i].segments[j].transit_count,
-                                             'arrival': arrival,
-                                             'provider': msg.result.response.journeys[i].segments[j].provider,
-                                             'sequence': counter,
-                                             'time_lapse': elapse_time(departure, arrival),
-                                             'can_book': can_book(departure, arrival),
-                                        });
-                                        counter++;
-
-                                    }
-                                }
-                            }
-                            var response = '';
-                            for(i in train){
-                                if(train[i].available_count > 0)
-                                    response+=`<div style="background-color:white; padding:5px; margin-bottom:15px;">`;
-                                else
-                                    response+=`<div style="background-color:#E5E5E5; padding:5px; margin-bottom:15px;">`;
-                                response +=`
-                                    <div class="row" style="padding:10px;">
-                                        <div class="col-lg-12">
-                                            <h4>`+train[i].carrier_name+` - (`+train[i].carrier_number+`) - `+train[i].cabin_class[1]+`</h5>
-                                        </div>
-                                        <div class="col-lg-4 col-xs-6">
-                                            <table style="width:100%">
-                                                <tr>
-                                                    <td><h5>`+train[i].origin[0]+`</h5></td>
-                                                    <td style="padding-left:15px;">
-                                                        <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;"/>
-                                                    </td>
-                                                    <td style="height:30px;padding:0 15px;width:100%">
-                                                        <div style="display:inline-block;position:relative;width:100%">
-                                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                            <span>`+train[i].origin[1]+`</span><br/>
-                                            <span>`+train[i].departure[0]+` `+train[i].departure[1]+`</span><br/>
-                                        </div>
-                                        <div class="col-lg-4 col-xs-6" style="padding:0;">
-                                            <table style="width:100%; margin-bottom:6px;">
-                                                <tr>
-                                                    <td><h5>`+train[i].destination[0]+`</h5></td>
-                                                    <td></td>
-                                                    <td style="height:30px;padding:0 15px;width:100%"></td>
-                                                </tr>
-                                            </table>
-                                            <span>`+train[i].destination[1]+`</span><br/>
-                                            <span>`+train[i].arrival[0]+` `+train[i].arrival[1]+`</span><br/>
-                                        </div>
-
-                                        <div class="col-lg-4 col-xs-12">
-                                            <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
-                                            if(train[i].can_book == true && train[i].available_count>0)
-                                                response+=`
-                                                <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(train[i].fare)+`</span>
-                                                <input class="primary-btn-custom" type="button" onclick="choose_train(`+train[i].sequence+`,`+$('#train_adult').val()+`,`+$('#train_infant').val()+`)"  id="train_choose`+train[i].sequence+`" value="Choose">`;
-                                            else if(train[i].can_book == false && train[i].available_count>0)
-                                                response+=`
-                                                <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(train[i].fare)+`</span>
-                                                <input class="primary-btn-custom" type="button" onclick="onclick=alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+train[i].sequence+`" value="Choose">`;
-                                            else
-                                                response+=`
-                                                <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(train[i].fare)+`</span>
-                                                <input class="disabled-btn" type="button" id="train_choose`+train[i].sequence+`" value="Sold" disabled>`
-                                            response+=`</div>
-                                        </div>`;
-
-                                        if(train[i].available_count<50)
-                                            response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+train[i].available_count+` seat(s) left</span></div>`;
-                                        response+=`
-                                    </div>
-                                </div>
-                                `;
-                            }
-                            train_data = train;
-                            train_data_filter = train;
-                            train_cookie = msg.result.cookies;
-                            train_sid = msg.result.sid;
-                            document.getElementById('train_ticket').innerHTML = response;
-                            loadingTrain();
-                        }else{
-                            loadingTrain();
-                            var response = '';
-                            response +=`
-                                <div style="padding:5px; margin:10px;">
-                                    <div style="text-align:center">
-                                        <img src="/static/tt_website_skytors/img/icon/no-train.png" style="width:80px; height:80px;" alt="" title="" />
-                                        <br/><br/>
-                                        <h6>NO TRAIN AVAILABLE</h6>
-                                    </div>
-                                </div>
-                            `;
-                            document.getElementById('train_ticket').innerHTML = response;
-                        }
-                   }catch(err){
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: #ff9900;">Error train search </span>' + msg.result.error_msg,
-                        })
-                   }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
+           console.log(msg);
+           try{
+                if(msg.result.error_code==0){
+                    datasearch2(msg.result.response)
+                }else{
+                    loadingTrain();
+                    var response = '';
+                    response +=`
+                        <div style="padding:5px; margin:10px;">
+                            <div style="text-align:center">
+                                <img src="/static/tt_website_skytors/img/icon/no-train.png" style="width:80px; height:80px;" alt="" title="" />
+                                <br/><br/>
+                                <h6>NO TRAIN AVAILABLE</h6>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('train_ticket').innerHTML = response;
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: red;">Error train search </span>' + errorThrown,
                     })
-               },timeout: 180000
-            });
-           }else{
-
+               }
+           }catch(err){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error train search </span>' + msg.result.error_msg,
+                })
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -324,6 +171,42 @@ function train_search(co_uid){
             })
        },timeout: 180000
     });
+}
+
+function datasearch2(train){
+    var counter = 0;
+    data = [];
+    console.log(train);
+    for(i in train.schedules){
+        for(j in train.schedules[i].journeys){
+           train.schedules[i].journeys[j].sequence = counter;
+           price = 0;
+           currency = '';
+           if(train.schedules[i].journeys[j].cabin_class == 'E')
+                train.schedules[i].journeys[j].cabin_class = ['E', 'Executive']
+           else if(train.schedules[i].journeys[j].cabin_class == 'K')
+                train.schedules[i].journeys[j].cabin_class = ['K', 'Economy']
+           else if(train.schedules[i].journeys[j].cabin_class == 'B')
+                train.schedules[i].journeys[j].cabin_class = ['B', 'Business']
+           for(k in train.schedules[i].journeys[j].fares){
+                for(l in train.schedules[i].journeys[j].fares[k].service_charge_summary){
+                    for(m in train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges){
+                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare'){
+                            train.schedules[i].journeys[j].currency = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+                            train.schedules[i].journeys[j].price = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                            break;
+                        }
+                    }
+                    break;
+                }
+                break;
+           }
+           data.push(train.schedules[i].journeys[j]);
+       }
+    }
+    train_data = data;
+    console.log(data);
+    filtering('sort');
 }
 
 

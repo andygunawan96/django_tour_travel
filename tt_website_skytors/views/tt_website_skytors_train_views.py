@@ -45,9 +45,32 @@ def search(request):
         airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
-
-        request.session['train_adult'] = request.POST['train_adult']
-        request.session['train_infant'] = request.POST['train_infant']
+        try:
+            origin = []
+            destination = []
+            departure = []
+            if request.POST['radio_train_type'] == 'roundtrip':
+                direction = 'RT'
+                departure.append(request.POST['train_departure'].split(' - ')[1])
+                origin.append(request.POST['train_origin'])
+                origin.append(request.POST['train_destination'])
+                destination.append(request.POST['train_destination'])
+                destination.append(request.POST['train_origin'])
+            elif request.POST['radio_train_type'] == 'oneway':
+                direction = 'OW'
+                departure.append(request.POST['train_departure'])
+                origin.append(request.POST['train_origin'])
+                destination.append(request.POST['train_destination'])
+            request.session['train_request'] = {
+                'direction': direction,
+                'adult': request.POST['train_adult'],
+                'infant': request.POST['train_infant'],
+                'departure': departure,
+                'origin': origin,
+                'destination': destination
+            }
+        except:
+            pass
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -55,20 +78,13 @@ def search(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
-            # 'journeys': journeys,
-            'train_request': {
-                'adult': request.POST['train_adult'],
-                'infant': request.POST['train_infant'],
-                'departure': request.POST['train_departure'],
-                'origin': request.POST['train_origin'],
-                'destination': request.POST['train_destination']
-            },
+            'signature': request.session['signature'],
+            'train_request': request.session['train_request'],
             'static_path_url_server': get_url_static_path(),
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template
-            # 'cookies': json.dumps(res['result']['cookies']),
 
         }
         return render(request, MODEL_NAME+'/train/tt_website_skytors_train_search_templates.html', values)

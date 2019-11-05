@@ -167,6 +167,33 @@ def get_new_cache(signature):
         }
 
         res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+
+        data = {'provider_type': 'train'}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_destinations",
+            "signature": signature
+        }
+
+        res_destination_train = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        try:
+            destination_train = []
+            if res_destination_train['result']['error_code'] == 0:
+                for country in res_destination_train['result']['response']:
+                    for destination in country['destinations']:
+                        destination_train.append({
+                            'name': destination['name'],
+                            'code': destination['code'],
+                            'country': country['name']
+                        })
+            file = open(var_log_path() + "train_cache_data.txt", "w+")
+            file.write(json.dumps(destination_train))
+            file.close()
+        except Exception as e:
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
+            pass
+
         data = {}
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -283,7 +310,7 @@ def get_new_cache(signature):
         #     "Accept": "application/json,text/html,application/xml",
         #     "Content-Type": "application/json",
         #     "action": "get_config",
-        #     "signature": request.session['signature'],
+        #     "signature": signature,
         # }
         # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
         #                                         method='POST')
@@ -314,17 +341,13 @@ def get_new_cache(signature):
                 'response': {
                     'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False,
                 # belum di install
-                    'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result'][
-                        'response'] or False,  # belum di install
+                    'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False,  # belum di install
                     # 'train': res_origin_train['result']['response'],
-                    'activity': res_config_activity.get('result') and res_config_activity['result'][
-                        'response'] or False,
+                    'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
                     # 'tour': res_config_tour['result']['response'],
                     'airline': {
-                        'country': res_country_airline.get('result') and res_country_airline['result'][
-                            'response'] or False,
-                        'destination': res_destination_airline.get('result') and res_destination_airline['result'][
-                            'response'] or False
+                        'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
+                        'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False
                     },
                 }
             }
