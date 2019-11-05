@@ -375,15 +375,14 @@ function carrier_to_provider(){
             }
         }
     }
+    airline_choose = 0;
+    count_progress_bar_airline = 0;
     send_search_to_api();
     document.getElementById('airline_list').innerHTML = '';
     document.getElementById('airline_list2').innerHTML = '';
 }
 
 function send_search_to_api(val){
-    airline_choose = 0;
-
-    count_progress_bar_airline = 0;
     if(airline_request.direction == 'RT' && counter_search == 0){
         document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-long-arrow-alt-right"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
