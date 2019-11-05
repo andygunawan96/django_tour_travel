@@ -8,37 +8,23 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    adult = {{adult_count}};
-    infant = {{infant_count}};
-
-    train_data = {
-        cabin_class:['{{response.cabin_class.0}}', '{{response.cabin_class.1}}'],
-        class_of_service: '{{response.class_of_service}}',
-        currency: '{{response.currency}}',
-        available_count: {{response.available_count}},
-        fare: {{response.fare}},
-        fare_code: '{{response.fare_code}}',
-        commission: {{response.commission}},
-        origin: ['{{response.origin.0}}', '{{response.origin.1}}'],
-        segment_code: '{{response.segment_code}}',
-        destination: ['{{response.destination.0}}','{{response.destination.1}}'],
-        departure: ['{{response.departure.0}}', '{{response.departure.1}}'],
-        journey_code: '{{response.journey_code}}',
-        carrier_number: '{{response.carrier_number}}',
-        carrier_code: '{{response.carrier_code}}',
-        carrier_name: '{{response.carrier_name}}',
-        transit_count: '{{response.transit_count}}',
-        arrival: ['{{response.arrival.0}}', '{{response.arrival.1}}'],
-        provider: '{{response.provider}}',
-        sequence: '{{response.sequence}}',
-        time_lapse: '{{response.time_lapse}}',
-        can_book: '{{response.can_book}}',
-    };
-
+    train_data = `{{response}}`;
+    train_data = JSON.parse(train_data.replace(/&#39;/g, '"'));
+    console.log(train_data);
+    train_request = `{{train_request}}`;
+    train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
+    console.log(train_request);
+    adult = {{train_request.adult}};
+    infant = {{train_request.infant}};
+    child = 0;
+    time_limit = {{time_limit}};
+    session_time_limit();
+    signature = `{{signature}}`;
     function check_years_old(sequence, type){
         var birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD-MMM-YYYY');
         var departure_date = moment(train_data.departure[0],'DD-MMM-YYYY');

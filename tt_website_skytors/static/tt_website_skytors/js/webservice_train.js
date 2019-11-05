@@ -76,7 +76,6 @@ function train_signin(data){
        success: function(msg) {
             console.log(msg);
             signature = msg.result.response.signature;
-            console.log(data);
             if(data == '')
                 train_search(msg.result.response.signature);
             else if(data != '')
@@ -176,7 +175,6 @@ function train_search(signature){
 function datasearch2(train){
     var counter = 0;
     data = [];
-    console.log(train);
     for(i in train.schedules){
         for(j in train.schedules[i].journeys){
            train.schedules[i].journeys[j].sequence = counter;
@@ -202,11 +200,11 @@ function datasearch2(train){
                 break;
            }
            data.push(train.schedules[i].journeys[j]);
+           counter++;
        }
     }
     train_data = data;
-    console.log(data);
-    filtering('sort');
+    filtering('filter');
 }
 
 

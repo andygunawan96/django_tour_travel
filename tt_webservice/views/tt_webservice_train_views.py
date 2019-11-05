@@ -155,8 +155,8 @@ def search(request):
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
                     journey.update({
-                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
-                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
+                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date']+':00')),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']+':00'))
                     })
                     check = 0
                     for destination in train_destinations:
