@@ -15,13 +15,6 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = '{{signature}}';
-
-    pax_list_js = `{{all_pax}}`;
-    pax_list_js = pax_list_js.replace(/'"'/g, "'");
-    pax_list_js = pax_list_js.replace(/&#39;/g, '"');
-    pax_list_js = JSON.parse(pax_list_js.replace(/None/g, false));
-    total_pax_js = `{{total_pax_all}}`;
-    total_pax_js = parseInt(total_pax_js);
     room_amount = {{room_amount}};
 </script>
 
@@ -199,6 +192,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4">
+                            <input class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="tour_hold_booking(0);" style="width:100%;"/>
+                        </div>
+                        <div align="center" class="col-lg-4">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Print Itinerary Form" style="width:100%;"/>
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
+                    <div style="text-align:left;" class="modal fade" id="myModalErrorReview" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div style="max-height:300px; overflow-y:auto;">
+                                                <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> We found a mistake in your data.</h5>
+                                                <br/>
+                                                <span id="show_error_log" style="font-size:15px;">
+
+                                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
                     <div class="row">
@@ -235,19 +266,6 @@
                     <div class="row">
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
 
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8" style="margin-top: 20px;">
-                    <div class="row">
-                        <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="tour_hold_booking(0);" style="width:100%;"/>
-                        </div>
-                        <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Print Itinerary Form" style="width:100%;"/>
-                        </div>
-                        <div class="col-lg-4" style="padding-bottom:15px;">
-                            <input class="primary-btn hold-seat-booking-train" type="button" value="Issued" data-toggle="modal" data-target="#issuedModal" style="width:100%;"/>
                         </div>
                     </div>
                 </div>
@@ -290,8 +308,8 @@
 <script>
     $(document).ready(function () {
         breadcrumb_create("tour", 5, 0);
-        get_payment_rules('{{tour_data.id}}');
         get_price_itinerary_cache();
+        get_payment_rules('{{tour_data.id}}');
         get_payment_acq('Issued','{{booker.booker_id}}', '', 'billing',signature,'tour', grand_total);
     });
 </script>

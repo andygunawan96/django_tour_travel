@@ -574,10 +574,14 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log=='')
+   {
        document.getElementById('tour_review').submit();
+   }
    else
-       alert(error_log);
-
+   {
+       document.getElementById('show_error_log').innerHTML = error_log;
+       $("#myModalErrorPassenger").modal('show');
+   }
 }
 
 function update_contact_cp(val){
@@ -757,7 +761,7 @@ function tour_check_rooms()
 function tour_hold_booking(val){
     var check_rooms = tour_check_rooms();
     var radios = document.getElementsByName('payment_opt');
-    var pay_method = 'cash';
+    var pay_method = '';
 
     for (var i = 0; i < radios.length; i++)
     {
@@ -770,34 +774,47 @@ function tour_hold_booking(val){
 
     if (check_rooms == true)
     {
-        for (var i=0; i < total_pax_js; i++)
-        {
-            var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
-            pax_list_js[i].room_id = document.getElementById("room_id_"+String(temp_room_seq)).value;
-            pax_list_js[i].room_seq = parseInt(temp_room_seq);
-        }
-        tour_update_passenger(val, pay_method, pax_list_js);
+        title = '';
+        if(val == 0)
+            title = 'Are you sure want to Hold Booking?';
+        else if(val == 1)
+            title = 'Are you sure want to Force Issued this booking?';
+        Swal.fire({
+          title: title,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.value) {
+            if (val==0){
+                $('.loader-rodextrip').fadeIn();
+                $('.next-loading-booking').addClass("running");
+                $('.next-loading-booking').prop('disabled', true);
+                $('.next-loading-issued').prop('disabled', true);
+            }
+            else{
+                $('.loader-rodextrip').fadeIn();
+                $('.next-loading-booking').prop('disabled', true);
+                $('.next-loading-issued').addClass("running");
+                $('.next-loading-issued').prop('disabled', true);
+            }
+            update_sell_tour();
+          }
+        })
     }
     else
     {
-        alert("Please assign a room to each passengers.");
+        $("#issuedModal").modal('hide');
+        document.getElementById('show_error_log').innerHTML = "Please assign a room to each passengers.";
+        $("#myModalErrorReview").modal('show');
     }
 }
 
-function check_before_calculate(){
-    check = 0;
-    if(check == 0)
-        calculate('tour');
-    else
-        alert('Please re-check all the tour datas!');
-}
-
-function check_before_add_repricing(){
-    check = 0;
-    if(check == 0)
-        add_table_of_equation();
-    else
-        alert('Please re-check all the tour datas!');
+function tour_pre_create_booking()
+{
+    $("#issuedModal").modal('show');
 }
 
 function tour_filter_render(){

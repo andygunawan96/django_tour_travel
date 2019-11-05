@@ -410,6 +410,127 @@ function tour_get_details(package_id){
     });
 }
 
+
+function update_sell_tour(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'sell_tour',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_contact_tour();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update sell tour </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update sell tour </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function update_contact_tour(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'update_contact',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_passengers_tour();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update contact tour </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update contact tour </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function update_passengers_tour(){
+    for (var i=0; i < total_pax_js; i++)
+    {
+        var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
+        pax_list_js[i].room_id = document.getElementById("room_id_"+String(temp_room_seq)).value;
+        pax_list_js[i].room_seq = parseInt(temp_room_seq);
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'update_passengers',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            commit_booking_tour();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update passengers tour </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update passengers tour </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
 function tour_update_passenger(val, pay_method, pax_list_res)
 {
     getToken();
@@ -536,13 +657,12 @@ function get_payment_rules(id)
            payment = msg.result.response.payment_rules;
            pay_text = '';
            var idx = 1;
-           var tot_price = parseInt(document.getElementById("grand_total_hidden").value);
            for (i in payment)
            {
                pay_text += `
                 <tr>
                     <td>` +payment[i].name+ `</td>
-                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">` + (parseInt(payment[i].payment_percentage) / 100) * tot_price+ `</td>
+                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">` + (parseInt(payment[i].payment_percentage) / 100) * grand_total+ `</td>
                     <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
                 </tr>
                `;
@@ -1089,6 +1209,7 @@ function get_price_itinerary_cache() {
        },
        success: function(msg) {
             console.log(msg);
+            console.log(room_amount);
             $('#loading-price-tour').hide();
             price_tour_info = msg.result.tour_info;
             $test += price_tour_info.name + '\n';

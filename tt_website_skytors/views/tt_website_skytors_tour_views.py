@@ -189,27 +189,7 @@ def passenger(request):
             print('no infant')
 
         request.session['tour_data'] = json.loads(request.POST['tour_data'])
-        values = {
-            'static_path': path_util.get_static_path(MODEL_NAME),
-            'adult_title': adult_title,
-            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-            'countries': airline_country,
-            'infant_title': infant_title,
-            'child_title': child_title,
-            'username': request.session['user_account'],
-            'tour_data': request.session['tour_pick'],
-            'adults': adult,
-            'infants': infant,
-            'childs': child,
-            'adult_amt': adult_amt,
-            'infant_amt': infant_amt,
-            'child_amt': child_amt,
-            'room_amount': room_amount,
-            'javascript_version': javascript_version,
-            'signature': request.session['tour_signature'],
-            'logo': logo,
-            'template': template
-        }
+
         if request.POST.get('departure_date_tour2'):
             dept = request.POST['departure_date_tour2']
         else:
@@ -249,21 +229,37 @@ def passenger(request):
             room.pop('data')
             render_pax_per_room.append(room)
 
-        values.update({
-            'room_list': render_pax_per_room,
-            'room_amount': room_amount,
-        })
-        request.session['booking_data'] = {
+        request.session['tour_booking_data'] = {
             'room_list': render_pax_per_room,
             'room_amount': room_amount,
             'adult': adult_amt,
             'child': child_amt,
             'infant': infant_amt,
-            'static_path_url_server': get_url_static_path(),
             'tour_data': request.session['tour_pick'],
-            'javascript_version': javascript_version
         }
 
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'adult_title': adult_title,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
+            'infant_title': infant_title,
+            'child_title': child_title,
+            'username': request.session['user_account'],
+            'tour_data': request.session['tour_pick'],
+            'adults': adult,
+            'infants': infant,
+            'childs': child,
+            'adult_amt': adult_amt,
+            'infant_amt': infant_amt,
+            'child_amt': child_amt,
+            'room_list': render_pax_per_room,
+            'room_amount': room_amount,
+            'javascript_version': javascript_version,
+            'signature': request.session['tour_signature'],
+            'logo': logo,
+            'template': template,
+        }
         return render(request, MODEL_NAME+'/tour/tt_website_skytors_tour_passenger_templates.html', values)
     else:
         return no_session_logout()
@@ -296,7 +292,7 @@ def review(request):
             'booker_id': request.POST['booker_id']
         }
 
-        for i in range(int(request.session['booking_data']['adult'])):
+        for i in range(int(request.session['tour_booking_data']['adult'])):
             adult.append({
                 "first_name": request.POST['adult_first_name' + str(i + 1)],
                 "last_name": request.POST['adult_last_name' + str(i + 1)],
@@ -383,7 +379,7 @@ def review(request):
                 'is_also_booker': True
             })
 
-        for i in range(int(request.session['booking_data']['child'])):
+        for i in range(int(request.session['tour_booking_data']['child'])):
             child.append({
                 "first_name": request.POST['child_first_name'+str(i+1)],
                 "last_name": request.POST['child_last_name'+str(i+1)],
@@ -399,7 +395,7 @@ def review(request):
                 "identity_type": "passport",
             })
 
-        for i in range(int(request.session['booking_data']['infant'])):
+        for i in range(int(request.session['tour_booking_data']['infant'])):
             infant.append({
                 "first_name": request.POST['infant_first_name'+str(i+1)],
                 "last_name": request.POST['infant_last_name'+str(i+1)],
@@ -431,7 +427,7 @@ def review(request):
             })
             temp_idx += 1
 
-        temp_booking_data = request.session['booking_data']
+        temp_booking_data = request.session['tour_booking_data']
 
         temp_booking_data.update({
             'adult_pax': adult,
@@ -439,12 +435,11 @@ def review(request):
             'infant_pax': infant,
             'all_pax': all_pax,
             'contact': contact,
-            'sameBooker': request.POST['myRadios'],
             'booker': booker,
             'total_pax_all': temp_idx,
         })
 
-        request.session['booking_data'] = temp_booking_data
+        request.session['tour_booking_data'] = temp_booking_data
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -452,17 +447,17 @@ def review(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'tour_data': request.session['tour_pick'],
-            'adult': request.session['booking_data']['adult'],
-            'child': request.session['booking_data']['child'],
-            'infant': request.session['booking_data']['infant'],
+            'adult': request.session['tour_booking_data']['adult'],
+            'child': request.session['tour_booking_data']['child'],
+            'infant': request.session['tour_booking_data']['infant'],
+            'room_list': request.session['tour_booking_data']['room_list'],
+            'room_amount': int(request.session['tour_booking_data']['room_amount']),
             'booker': booker,
-            'room_list': request.session['booking_data']['room_list'],
-            'room_amount': int(request.session['booking_data']['room_amount']),
             'adult_pax': adult,
             'child_pax': child,
             'infant_pax': infant,
             'all_pax': all_pax,
-            'contact': contact,
+            'contact_person': contact,
             'total_pax_all': temp_idx,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
