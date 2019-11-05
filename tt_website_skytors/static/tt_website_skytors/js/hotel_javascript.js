@@ -609,25 +609,32 @@ function sort(response, check_filter){
                     text+=`
                     <div class="col-lg-9 name_hotel_search"">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <div style="margin-bottom:10px;">
-                                    <h4 class="name_hotel hover_name" title="`+response.hotel_ids[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:20px;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h4>
+                            <div class="col-lg-7 col-md-7">
+                                <div>
+                                    <h5 class="name_hotel hover_name" title="`+response.hotel_ids[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:5px; font-size:18px; font-weight:bold;" onclick="goto_detail('hotel',`+i+`)">`+response.hotel_ids[i].name+`</h5>
                                 </div>
                             </div>
-                            <div class="col-lg-7 col-md-7">
-                                <div style="margin-bottom:10px;">
-                                <span>
-                                    <span style="border: 2px solid #f15a22; border-radius:7px; padding-left:10px; padding-right:10px; margin-right:5px; font-weight: bold;"> Hotel </span>`;
+                            <div class="col-lg-4 col-md-4 col-sm-11 col-xs-11">`;
                                 if(response.hotel_ids[i].rating != false){
                                     for (co=0; co < parseInt(response.hotel_ids[i].rating); co++){
-                                        text+=`<i class="fas fa-star" style="color:#FFC44D;"></i>`;
+                                        text+=`<i class="fas fa-star" style="color:#FFC44D; font-size:16px;"></i>`;
                                     }
                                     text+=`<span class="rating_hotel" hidden>*`+response.hotel_ids[i].rating+`</span>`;
                                 }
                                 else{
                                     text+=`<span class="rating_hotel" hidden>Unrated</span>`;
                                 }
-                            text+=`</span></div>`;
+                            text+=`
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 checkbox_search_hotel" style="text-align:right;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket"></span>
+                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                                <span class="id_copy_result" hidden>`+i+`</span>
+                            </div>
+                            <div class="col-lg-7 col-md-7" style="padding-top:5px;">`;
                             detail = JSON.stringify(response.hotel_ids[i]);
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
@@ -648,11 +655,11 @@ function sort(response, check_filter){
                                 text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
                             // if(response.hotel_ids[i].location.zipcode != false)
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
-                            text+=`</span> - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a>
+                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
                                 </div>
 
                                 <div style="padding-bottom:5px;">
-                                Facilities
+                                <span style="margin-right:8px;">Facilities</span>
                                 <span>`;
                                     try{
                                         var ava_fac = '';
@@ -765,8 +772,6 @@ function sort(response, check_filter){
                                     text += `
                                     </div>
                                     <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
-                                        <span style="font-size:12px; margin-top:10px; font-weight:500;"> For 1 Night(s) </span>
-                                        <br/>
                                         <button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>
                                     </div>
                                 </div>
@@ -916,27 +921,30 @@ function hotel_filter_render(){
     <hr/>
     <div class="banner-right">
         <div class="form-wrap" style="padding:0px; text-align:left;">
-            <h6 style="padding-bottom:10px;">Hotel Name</h6>
-            <input type="text" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name();"/>
+            <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="hotelName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name();"/>
+            </div>
             <hr/>
-            <h6 style="padding-bottom:10px;">Price Range</h6>
-            <div class="wrapper">
+            <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
+            <div class="wrapper" id="hotelPrice_generalShow" style="display:inline-block;">
                 <div class="range-slider">
                     <input type="text" class="js-range-slider"/>
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <input type="text" class="js-input-from form-control" id="price-from" value="0" />
+                        <input type="text" style="margin-bottom:unset;" class="js-input-from form-control" id="price-from" value="0" />
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" />
+                        <input type="text" style="margin-bottom:unset;" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" />
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <hr/>
-    <h6 style="padding-bottom:10px;">Star Rating</h6>`;
+    <h6 class="filter_general" onclick="show_hide_general('hotelRating');">Star Rating <i class="fas fa-chevron-down" id="hotelRating_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelRating_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="hotelRating_generalShow" style="display:inline-block;">`;
     for(i in rating_list){
         if(i == 0)
             text += `
@@ -974,7 +982,7 @@ function hotel_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
-
+    text+=`</div>`;
     var node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -1549,7 +1557,7 @@ function copy_data2(){
     var obj_hotel_name = document.getElementById('js_hotel_name');
     if (obj_hotel_name){
         obj_hotel_name = obj_hotel_name.innerHTML;
-        $text2 = obj_hotel_name+'\n' + $text2;
+        $text2 = obj_hotel_name+'\n' + $text2+'\n===Price may change at any time===';
     }
 
     document.getElementById('data_copy2').innerHTML = $text2;
