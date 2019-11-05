@@ -79,6 +79,7 @@ def search(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'signature': request.session['signature'],
+            'time_limit': 600,
             'train_request': request.session['train_request'],
             'static_path_url_server': get_url_static_path(),
             'username': request.session['user_account'],
@@ -111,14 +112,18 @@ def passenger(request):
         airline_country = response['result']['response']['airline']['country']
 
 
-        request.session['train_pick'] = json.loads(request.POST['response'])
 
+        try:
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            request.session['train_pick'] = json.loads(request.POST['response'])
+        except:
+            pass
         #pax
         adult = []
         infant = []
-        for i in range(int(request.session['train_adult'])):
+        for i in range(int(request.session['train_request']['adult'])):
             adult.append('')
-        for i in range(int(request.session['train_infant'])):
+        for i in range(int(request.session['train_request']['infant'])):
             infant.append('')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -127,12 +132,12 @@ def passenger(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'adults': adult,
-            'adult_count': request.session['train_adult'],
-            'infant_count': request.session['train_infant'],
             'infants': infant,
             'adult_title': adult_title,
             'infant_title': infant_title,
+            'train_request': request.session['train_request'],
             'id_types': id_type,
+            'time_limit': request.session['time_limit'],
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
             # 'cookies': json.dumps(res['result']['cookies']),

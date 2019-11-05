@@ -330,7 +330,6 @@ def passenger(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'seat_map': seat_map,
-            'countries': response['result']['response']['airline']['country'],
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
             'airline_carriers': carrier,

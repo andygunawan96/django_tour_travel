@@ -378,7 +378,7 @@ function carrier_to_provider(){
     airline_choose = 0;
     count_progress_bar_airline = 0;
     send_search_to_api();
-    document.getElementById('airline_list').innerHTML = '';
+//    document.getElementById('airline_list').innerHTML = '';
     document.getElementById('airline_list2').innerHTML = '';
 }
 
@@ -572,14 +572,9 @@ function airline_search(provider,carrier_codes){
            }
            var node = document.createElement("div");
            var node2 = document.createElement("div");
-           if(document.getElementById("airline_list").innerHTML == ''){
-               node.innerHTML += `
-               <hr/>
-               <h6 style="padding-bottom:10px;">Airline</h6>`;
-
-               node2.innerHTML += `
-               <hr/>
-               <h6 style="padding-bottom:10px;">Airline</h6>`;
+           if(document.getElementById("filter_airline_span").innerHTML == '' && airline_data.length > 0){
+               document.getElementById('filter_airline_span').innerHTML = " Airline"+ '<i class="fas fa-chevron-down" id="airlineAirline_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineAirline_generalUp" style="float:right; display:block;"></i>';
+               document.getElementById('filter_airline_span').parentNode.insertBefore(document.createElement('hr'), document.getElementById('filter_airline_span'));
            }
 
            airline_data.forEach((obj)=> {
@@ -599,7 +594,7 @@ function airline_search(provider,carrier_codes){
                         <span class="check_box_span_custom"></span>
                     </label><br/>
                    </div>`;
-                   document.getElementById("airline_list").appendChild(node);
+                   document.getElementById("airlineAirline_generalShow").appendChild(node);
                    node = document.createElement("div");
 
                    node2.innerHTML += `

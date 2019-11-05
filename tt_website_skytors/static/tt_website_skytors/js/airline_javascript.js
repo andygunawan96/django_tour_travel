@@ -963,9 +963,12 @@ function airline_filter_render(){
     }
     text+=`</div>`;
     text+=`
-        <div id="airline_list">
-
+            <h6 class="filter_general" onclick="show_hide_general('airlineAirline');" id="filter_airline_span"></h6>
+        <div id="airlineAirline_generalShow" style="display:inline-block;">
         </div>`;
+//        <div id="airline_list">
+//
+//        </div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
