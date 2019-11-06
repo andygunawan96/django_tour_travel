@@ -4141,7 +4141,7 @@
               autoUpdateInput: true,
               startDate: moment().subtract(1, 'years'),
               minDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY').subtract(1, 'years').subtract(364, 'days'),
-              maxDate: moment(airline_request.departure[airline_request.departure.length-1],'DD MMM YYYY'),
+              maxDate: moment(),
               showDropdowns: true,
               opens: 'center',
               locale: {

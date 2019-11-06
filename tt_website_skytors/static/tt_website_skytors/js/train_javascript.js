@@ -640,7 +640,7 @@ function choose_train(data,key){
                             $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
                         }
                     }
-                $text += '1x Service charge '+price['currency']+' '+ train_data[data].fares[0].service_charge_summary[0].total_tax + '\n\n';
+                $text += '1x Convenience fee'+price['currency']+' '+ train_data[data].fares[0].service_charge_summary[0].total_tax + '\n\n';
                 $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(train_data[data].fares[0].service_charge_summary[0].total_tax)));
                 console.log($text);
                 }
@@ -648,7 +648,7 @@ function choose_train(data,key){
 
             train_detail_text+=`
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">Service Charge</span>
+                <span style="font-size:13px;">Convenience fee</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data[data].fares[0].service_charge_summary[0].total_tax)+`</span>
@@ -705,7 +705,6 @@ function train_detail(){
         train_data.carrier_name+`-`+train_data.carrier_number+`(`+train_data.cabin_class[1]+`)\n`+
         train_data.origin_name+` (`+train_data.origin+`) - `+train_data.destination_name+` (`+train_data.destination+`) `+train_data.departure_date+`-`+train_data.arrival_date+`\n\n`;
 
-        //adult+` Adult Fare @IDR `+train_data.fare+`\n1 Service Charge @IDR `+getrupiah(7500)+`\n\nGrand Total: IDR `+getrupiah((train_data.fare*adult)+7500);
     text = '';
     text += `
 
@@ -785,13 +784,13 @@ function train_detail(){
                             $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
                         }
                     }
-                $text += '1x Service charge '+price['currency']+' '+ train_data.fares[0].service_charge_summary[0].total_tax + '\n\n';
+                $text += '1x Convenience fee '+price['currency']+' '+ train_data.fares[0].service_charge_summary[0].total_tax + '\n\n';
                 $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(train_data.fares[0].service_charge_summary[0].total_tax)));
                 console.log($text);
                 }
             }
         text+=`<div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">1x Service Charge</span>
+                <span style="font-size:13px;">1x Convenience fee</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data.fares[0].service_charge_summary[0].total_tax)+`</span>
@@ -1059,7 +1058,7 @@ function check_passenger(adult, infant){
    if(error_log==''){
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
-       document.getElementById('airline_review').submit();
+       document.getElementById('train_review').submit();
    }
    else{
        $('.loader-rodextrip').fadeOut();

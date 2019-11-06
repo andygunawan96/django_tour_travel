@@ -774,8 +774,8 @@ def review(request):
                 for seat_map_provider in seat_map_list['seat_availability_provider']:
                     for seat_segment in seat_map_provider['segments']:
                         pax_request = []
-                        for pax in passengers:
-                            for idx, pax_seat in enumerate(pax['seat_list']):
+                        for idx, pax in enumerate(passengers):
+                            for pax_seat in pax['seat_list']:
                                 if pax_seat['segment_code'] == seat_segment['segment_code2']:
                                     if pax_seat['seat_code'] != '':
                                         pax_request.append({
