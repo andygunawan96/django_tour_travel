@@ -12,7 +12,7 @@ function get_visa_config(type){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
-
+        console.log(msg);
         if(type == 'search')
             visa_signin('');
         visa_config = msg;
@@ -37,10 +37,9 @@ function get_visa_config(type){
                         document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }catch(err){
-                    if('Albania' == i){
-                        node.setAttribute('selected', 'selected');
-                        document.getElementById('visa_destination_id_hidden').value = i;
-                    }
+                    node.setAttribute('selected', 'selected');
+                    document.getElementById('visa_destination_id_hidden').value = i;
+
                 }
             }
             destination.add(node);

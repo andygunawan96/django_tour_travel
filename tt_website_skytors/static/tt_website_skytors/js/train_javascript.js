@@ -1,5 +1,5 @@
 sorting_value = '';
-$sequence = '';
+journeys = [];
 var sorting_list = [
     {
         value:'Lowest Price',
