@@ -51,7 +51,8 @@ def search(request):
             departure = []
             if request.POST['radio_train_type'] == 'roundtrip':
                 direction = 'RT'
-                departure.append(request.POST['train_departure'].split(' - ')[1])
+                departure.append(request.POST['train_departure_return'].split(' - ')[0])
+                departure.append(request.POST['train_departure_return'].split(' - ')[1])
                 origin.append(request.POST['train_origin'])
                 origin.append(request.POST['train_destination'])
                 destination.append(request.POST['train_destination'])
@@ -159,83 +160,135 @@ def review(request):
 
         template, logo = get_logo_template()
 
-        #adult
         adult = []
         infant = []
+        contact = []
         booker = {
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
             'last_name': request.POST['booker_last_name'],
-            'nationality_code': request.POST['booker_nationality'],
-            'country_code': request.POST['booker_nationality'],
             'email': request.POST['booker_email'],
-            'work_phone': request.POST['booker_phone_code']+request.POST['booker_phone'],
-            'home_phone': request.POST['booker_phone_code']+request.POST['booker_phone'],
-            'other_phone': request.POST['booker_phone_code']+request.POST['booker_phone'],
-            'postal_code': 0,
-            "city": request.session._session['company_details']['city'],
-            "province_state": request.session._session['company_details']['state'],
-            'address': request.session['company_details']['address'],
-            'mobile': request.POST['booker_phone_code']+request.POST['booker_phone'],
-            'agent_id': int(request.session['agent']['id']),
-            'booker_id': request.POST['booker_id']
+            'calling_code': request.POST['booker_phone_code'],
+            'mobile': request.POST['booker_phone'],
+            'nationality_name': request.POST['booker_nationality'],
+            'booker_seq_id': request.POST['booker_id']
         }
-        # "city": this.state.city_agent,
-        # "province_state": this.state.state_agent,
-        # "contact_id": "",
-
-        for i in range(int(request.session['train_adult'])):
-            print(request.POST['adult_title'+str(i+1)])
-            if int(request.POST['adult_years_old'+str(i+1)]) >= 17:
-                id_number = request.POST['adult_id_number'+str(i+1)]
-                identity_type = request.POST['adult_id_type'+str(i+1)]
-            else:
-                id_number = 'A'+str(random.randint(0, 9))+str(random.randint(0, 9))+str(random.randint(0, 9))+str(random.randint(0, 9))+str(random.randint(0, 9))
-                identity_type = 'pas'
-
+        for i in range(int(request.session['train_request']['adult'])):
             adult.append({
-                "first_name": request.POST['adult_first_name'+str(i+1)],
-                "last_name": request.POST['adult_last_name'+str(i+1)],
-                "name": request.POST['adult_first_name'+str(i+1)] + " " + request.POST['adult_last_name'+str(i+1)],
-                "nationality_code": request.POST['adult_nationality'+str(i+1)],
-                "title": request.POST['adult_title'+str(i+1)],
-                "seat_numbers": "",
-                "mobile": request.POST['adult_phone_code'+str(i+1)] + request.POST['adult_phone'+str(i+1)],
                 "pax_type": "ADT",
-                "birth_date": request.POST['adult_birth_date'+str(i+1)],
-                'years_old': request.POST['adult_years_old'+str(i+1)],
-                "identity_number": id_number,
-                "identity_type": identity_type,
-                "passenger_id": request.POST['adult_id'+str(i+1)]
-            })
-        for i in range(int(request.session['train_infant'])):
-            infant.append({
-                "first_name": request.POST['infant_first_name'+str(i+1)],
-                "last_name": request.POST['infant_last_name'+str(i+1)],
-                "name": request.POST['infant_first_name'+str(i+1)] + " " + request.POST['infant_last_name'+str(i+1)],
-                "nationality_code": request.POST['infant_nationality'+str(i+1)],
-                "title": request.POST['infant_title'+str(i+1)],
-                "seat_numbers": "",
-                "identity_number": "",
-                "mobile": "",
-                "identity_type_str": "",
-                "pax_type": "INF",
-                "birth_date": request.POST['infant_birth_date'+str(i+1)],
-                "identity_type": "",
-                "passenger_id": request.POST['infant_id'+str(i+1)]
+                "first_name": request.POST['adult_first_name' + str(i + 1)],
+                "last_name": request.POST['adult_last_name' + str(i + 1)],
+                "title": request.POST['adult_title' + str(i + 1)],
+                "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
+                "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
+                "identity_number": request.POST['adult_passport_number' + str(i + 1)],
+                "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
+                "identity_type": "passport",
             })
 
-        journeys_booking = [{
-            'segments': [{
-                "segment_code": request.session._session['train_pick']['segment_code'],
-                "carrier_number": request.session._session['train_pick']['carrier_number'],
-                "cabin_class": request.session._session['train_pick']['cabin_class'][0],
-                "provider": "kai_outlet",
-                "fare_code": request.session._session['train_pick']['fare_code'],
-                "class_of_service": request.session._session['train_pick']['class_of_service']
-            }],
-            'journey_type': "DP"
-        }]
+            if i == 0:
+                if request.POST['myRadios'] == 'yes':
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': True,
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_booker': False
+                    })
+            else:
+                adult[len(adult) - 1].update({
+                    'is_also_booker': False
+                })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': True
+                    })
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            except:
+                if i == 0 and request.POST['myRadios'] == 'yes':
+                    continue
+                else:
+                    adult[len(adult) - 1].update({
+                        'is_also_contact': False
+                    })
+            try:
+                if request.POST['adult_cp' + str(i + 1)] == 'on':
+                    contact.append({
+                        "first_name": request.POST['adult_first_name' + str(i + 1)],
+                        "last_name": request.POST['adult_last_name' + str(i + 1)],
+                        "title": request.POST['adult_title' + str(i + 1)],
+                        "email": request.POST['adult_email' + str(i + 1)],
+                        "calling_code": request.POST['adult_phone_code' + str(i + 1)],
+                        "mobile": request.POST['adult_phone' + str(i + 1)],
+                        "nationality_name": request.POST['adult_nationality' + str(i + 1)],
+                        "contact_seq_id": request.POST['adult_id' + str(i + 1)]
+                    })
+                if i == 0:
+                    if request.POST['myRadios'] == 'yes':
+                        contact[len(contact)].update({
+                            'is_also_booker': True
+                        })
+                    else:
+                        contact[len(contact)].update({
+                            'is_also_booker': False
+                        })
+            except:
+                pass
+
+        if len(contact) == 0:
+            contact.append({
+                'title': request.POST['booker_title'],
+                'first_name': request.POST['booker_first_name'],
+                'last_name': request.POST['booker_last_name'],
+                'email': request.POST['booker_email'],
+                'calling_code': request.POST['booker_phone_code'],
+                'mobile': request.POST['booker_phone'],
+                'nationality_name': request.POST['booker_nationality'],
+                'contact_seq_id': request.POST['booker_id'],
+                'is_also_booker': True
+            })
+
+        for i in range(int(request.session['train_request']['infant'])):
+            infant.append({
+                "pax_type": "INF",
+                "first_name": request.POST['infant_first_name' + str(i + 1)],
+                "last_name": request.POST['infant_last_name' + str(i + 1)],
+                "title": request.POST['infant_title' + str(i + 1)],
+                "birth_date": request.POST['infant_birth_date' + str(i + 1)],
+                "nationality_name": request.POST['infant_nationality' + str(i + 1)],
+                "identity_number": request.POST['infant_passport_number' + str(i + 1)],
+                "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
+                "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
+                "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
+                "identity_type": "passport",
+            })
+
+        request.session['train_create_passengers'] = {
+            'booker': booker,
+            'adult': adult,
+            'infant': infant,
+            'contact': contact
+        }
+        for journey in request.session['train_pick']:
+
+            journeys_booking = [{
+                'segments': [{
+                    "segment_code": journey['segment_code'],
+                    "carrier_number": journey['carrier_number'],
+                    "cabin_class": journey['cabin_class'][0],
+                    "provider": journey['provider'],
+                    "fare_code": journey['fare'][0]['fare_code'],
+                    "class_of_service": journey['class_of_service']
+                }],
+                'journey_type': "DP"
+            }]
 
         request.session['train_review_booking'] = {
             'booker': booker,

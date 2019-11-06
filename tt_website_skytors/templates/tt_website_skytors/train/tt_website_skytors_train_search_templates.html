@@ -16,6 +16,10 @@
         'arrival_time': 'all',
         'cabin_class': 'all'
     };
+    train_request = `{{train_request}}`;
+    train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
+    train_request_pick = 0;
+    console.log(train_request);
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
@@ -41,12 +45,12 @@
                                 <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                     <label class="radio-button-custom" style="margin-bottom:0px;">
                                         <span style="font-size:13px; color:white;">One Way</span>
-                                        <input type="radio" checked="checked" name="radio_train_type" value="oneway">
+                                        <input type="radio" {% if train_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_train_type" value="oneway">
                                         <span class="checkmark-radio"></span>
                                     </label>
                                     <label class="radio-button-custom" style="margin-bottom:0px;">
                                         <span style="font-size:13px; color:white;">Round-trip</span>
-                                        <input type="radio" name="radio_train_type" value="roundtrip">
+                                        <input type="radio" {% if train_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_train_type" value="roundtrip">
                                         <span class="checkmark-radio"></span>
                                     </label>
                                 </div>
@@ -261,8 +265,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3" style="margin-top:10px;">
-                <div class="row" style="padding-top:15px; padding-bottom:10px;">
+            <div class="col-lg-3">
+                <div class="row" style="padding-bottom:10px;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
                             <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
@@ -308,7 +312,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-9" style="margin-top:10px;">
+            <div class="col-lg-9" style="">
                 <div class="row" class="sorting-search-train" id="sorting-search-train">
                     <div class="col-lg-12">
                         <div id="sorting-train" style="margin-bottom:15px;">

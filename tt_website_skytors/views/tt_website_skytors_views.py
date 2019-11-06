@@ -151,9 +151,9 @@ def index(request):
 
                     try:
                         cache['train'] = {
-                                'origin': request.session['train_request']['origin'],
-                                'destination': request.session['train_request']['destination'],
-                                'departure': request.session['train_request']['departure'],
+                                'origin': request.session['train_request']['origin'][0],
+                                'destination': request.session['train_request']['destination'][0],
+                                'departure': request.session['train_request']['departure'][0],
                             }
                     except:
                         pass
