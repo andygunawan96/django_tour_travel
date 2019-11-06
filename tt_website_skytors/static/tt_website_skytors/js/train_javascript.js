@@ -1,5 +1,5 @@
 sorting_value = '';
-
+$sequence = '';
 var sorting_list = [
     {
         value:'Lowest Price',
@@ -102,7 +102,59 @@ var cabin_list = [
 //        alert(error_log);
 //}
 
+function set_train_search_value_to_false(){
+    train_search_value = 'false';
+}
+function set_train_search_value_to_true(){
+    train_search_value = 'true';
+}
+
+function train_search_autocomplete(term){
+    term = term.toLowerCase();
+    console.log(term);
+    var choices = new_train_destination;
+    var suggestions = [];
+    var priority = [];
+    if(term.split(' - ').length == 4)
+        term = '';
+    for (i=0;i<choices.length;i++){
+        if(choices[i].toLowerCase().split(' - ')[0].search(term) !== -1){
+            priority.push(choices[i]);
+        }else if(choices[i].toLowerCase().search(term) !== -1)
+            suggestions.push(choices[i]);
+    }
+    return priority.concat(suggestions).slice(0,100);
+}
+
 function train_check_search_values(){
+    type = '';
+    error_log = '';
+
+    var radios = document.getElementsByName('radio_train_type');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            type = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+
+    if(document.getElementById('train_origin').value.split(' - ').length != 2)
+        error_log+= 'Please use autocomplete for origin\n';
+    if(document.getElementById('train_destination').value.split(' - ').length != 2)
+        error_log+= 'Please use autocomplete for destination\n';
+
+//    error_log = ''; //DEV GARUDA
+    if(error_log == ''){
+        $('.button-search').addClass("running");
+        document.getElementById('train_searchForm').submit();
+    }else{
+        $('.button-search').removeClass("running");
+        alert(error_log);
+    }
+
+    //check here
     error_log = '';
     if(document.getElementById('train_origin').value.split(' - ').length != 2)
         error_log += 'Please use autocomplete for From field';
@@ -477,7 +529,7 @@ function getrupiah(price){
 
 }
 
-function choose_train(data,adult,infant){
+function choose_train(data,key){
     try{
         var x = document.getElementById("show-cart");
         $("#show-cart").addClass("minus");
@@ -499,25 +551,24 @@ function choose_train(data,adult,infant){
         document.getElementById('train_choose'+train_data[data].sequence).classList.add("primary-btn-custom-un");
         document.getElementById('train_choose'+train_data[data].sequence).disabled = true;
 
-        $sequence = train_data[data].sequence;
+        $sequence = train_data[key].sequence;
     }catch(err){
-        $sequence = train_data[data].sequence;
+        $sequence = train_data[key].sequence;
 
-        document.getElementById('train_choose'+train_data[data].sequence).value = 'Chosen';
-        document.getElementById('train_choose'+train_data[data].sequence).classList.remove("primary-btn-custom");
-        document.getElementById('train_choose'+train_data[data].sequence).classList.add("primary-btn-custom-un");
-        document.getElementById('train_choose'+train_data[data].sequence).disabled = true;
+        document.getElementById('train_choose'+data).value = 'Chosen';
+        document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
+        document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
+        document.getElementById('train_choose'+data).disabled = true;
     }
     $text =
-        train_data[data].departure[0]+` `+train_data[data].carrier_name+`-`+train_data[data].carrier_number+`(`+train_data[data].cabin_class[1]+`)\n`+
-        train_data[data].origin[1]+` (`+train_data[data].origin[0]+`) - `+train_data[data].destination[1]+` (`+train_data[data].destination[0]+`) `+train_data[data].departure[1]+`-`+train_data[data].arrival[1]+`\n\n`+
-        adult+` Adult Fare @IDR `+train_data[data].fare+`\n1 Service Charge @IDR `+getrupiah(7500)+`\n\nGrand Total: IDR `+getrupiah((train_data[data].fare*adult)+7500);
+        train_data[data].departure_date+` `+train_data[data].carrier_name+`-`+train_data[data].carrier_number+`(`+train_data[data].cabin_class[1]+`)\n`+
+        train_data[data].origin_name+` (`+train_data[data].origin+`) - `+train_data[data].destination_name+` (`+train_data[data].destination+`) `+train_data[data].departure_date+`-`+train_data[data].arrival_date+`\n\n`;
     train_detail_text = `
         <div class="row">
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+train_data[data].origin[0]+`</h6></td>
+                        <td><h6>`+train_data[data].origin+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -531,46 +582,76 @@ function choose_train(data,adult,infant){
                         </td>
                     </tr>
                 </table>
-                <span>`+train_data[data].origin[1]+`</span><br>
-                <span>`+train_data[data].departure[1]+`</span><br>
-                <span>`+train_data[data].departure[0]+`</span><br>
+                <span>`+train_data[data].origin_name+`</span><br>
+                <span>`+train_data[data].departure_date+`</span><br>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+train_data[data].destination[0]+`</h6></td>
+                        <td><h6>`+train_data[data].destination+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+train_data[data].destination[1]+`</span><br>
-                <span>`+train_data[data].arrival[1]+`</span><br>
-                <span>`+train_data[data].arrival[0]+`</span>
+                <span>`+train_data[data].destination_name+`</span><br>
+                <span>`+train_data[data].arrival_date+`</span><br>
             </div>
         </div>
         <hr/>
-        <div class="row">
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">`+adult+` Adult(s) x Rp `+getrupiah(train_data[data].fare)+`</span>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">Rp `+getrupiah(train_data[data].fare*adult)+`</span>
-            </div>`;
-            if(infant !=0)
+        <div class="row">`;
+            if(parseInt(passengers.adult) > 0){
+                total_price = 0;
+                for(i in train_data[data].fares){
+                    for(j in train_data[data].fares[i].service_charge_summary){
+                        price = {
+                            'fare': 0,
+                            'tax': 0
+                        };
+                        for(k in train_data[data].fares[i].service_charge_summary[j].service_charges){
+                            if(k == 0)
+                                price['currency'] = train_data[data].fares[i].service_charge_summary[j].service_charges[k].currency;
+                            if(train_data[data].fares[i].service_charge_summary[j].service_charges[k].charge_code != 'tax' && train_data[data].fares[i].service_charge_summary[j].service_charges[k].charge_code != 'roc')
+                                price[train_data[data].fares[i].service_charge_summary[j].service_charges[k].charge_code] = train_data[data].fares[i].service_charge_summary[j].service_charges[k].amount;
+                            else
+                                price['tax'] += train_data[data].fares[i].service_charge_summary[j].service_charges[k].amount;
+                        }
+                        if(train_data[data].fares[i].service_charge_summary[j].pax_type == 'ADT')
+                            total_price += price['fare'] * parseInt(passengers.adult);
+                        else
+                            total_price += price['fare'] * parseInt(passengers.infant);
+                        if(train_data[data].fares[i].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
+                            train_detail_text+=`
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.adult))+`</span>
+                                </div>`;
+                            $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
+                        }else if(train_data[data].fares[i].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
+                            train_detail_text+=`
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.infant))+`</span>
+                                </div>`;
+                            $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                        }
+                    }
+                $text += '1x Service charge '+price['currency']+' '+ train_data[data].fares[0].service_charge_summary[0].total_tax + '\n\n';
+                $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(train_data[data].fares[0].service_charge_summary[0].total_tax)));
+                console.log($text);
+                }
+            }
+
             train_detail_text+=`
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">`+infant+` Infant(s) x Rp 0</span>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">Rp 0</span>
-            </div>`;
-
-            train_detail_text+=`<div class="col-lg-6 col-xs-6" style="text-align:left;">
                 <span style="font-size:13px;">Service Charge</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">Rp `+getrupiah(7500)+`</span>
+                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data[data].fares[0].service_charge_summary[0].total_tax)+`</span>
             </div>
         </div>
         <hr/>
@@ -579,14 +660,14 @@ function choose_train(data,adult,infant){
                 <span style="color:white;font-size:13px;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;"><b>Rp `+getrupiah((train_data[data].fare*adult)+7500)+`</b></span><br>
+                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+train_data[data].fares[0].service_charge_summary[0].total_tax)+`</b></span><br>
             </div>
         </div>
 
         <div class="row" id="show_commission" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                 <div class="alert alert-success">
-                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(train_data[data].commission*-1)+`</span><br>
+                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(train_data[data].fares[0].service_charge_summary[0].total_rac*-1)+`</span><br>
                 </div>
             </div>
         </div>
@@ -599,32 +680,40 @@ function choose_train(data,adult,infant){
                 <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <button class="primary-btn-ticket next-search-train ld-ext-right" style="width:100%;" onclick="show_loading();" type="submit" value="Next">
+                <button class="primary-btn-ticket next-search-train ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
                     Next
                     <i class="fas fa-angle-right"></i>
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>
             </div>
         </div>
-
-        <input type="hidden" id="response" name="response"
-        value='`+JSON.stringify(train_data[data])+`'>
         `;
     document.getElementById('train_detail').innerHTML = train_detail_text;
 }
 
-function train_detail(adult,infant){
+function goto_passenger(){
+    show_loading();
+    document.getElementById('train_detail').innerHTML +=
+        `<input type="hidden" id="response" name="response"
+        value='`+JSON.stringify(train_data[$sequence])+`'>
+        <input type="hidden" id="time_limit_input" name="time_limit_input" value="`+time_limit+`" />`;
+    document.getElementById('train_passenger').submit();
+}
+
+function train_detail(){
     $text =
-        train_data.departure[0]+` `+train_data.carrier_name+`-`+train_data.carrier_number+`(`+train_data.cabin_class[1]+`)\n`+
-        train_data.origin[1]+` (`+train_data.origin[0]+`) - `+train_data.destination[1]+` (`+train_data.destination[0]+`) `+train_data.departure[1]+`-`+train_data.arrival[1]+`\n\n`+
-        adult+` Adult Fare @IDR `+train_data.fare+`\n1 Service Charge @IDR `+getrupiah(7500)+`\n\nGrand Total: IDR `+getrupiah((train_data.fare*adult)+7500);
-    document.getElementById('train_detail').innerHTML = `
+        train_data.carrier_name+`-`+train_data.carrier_number+`(`+train_data.cabin_class[1]+`)\n`+
+        train_data.origin_name+` (`+train_data.origin+`) - `+train_data.destination_name+` (`+train_data.destination+`) `+train_data.departure_date+`-`+train_data.arrival_date+`\n\n`;
+
+        //adult+` Adult Fare @IDR `+train_data.fare+`\n1 Service Charge @IDR `+getrupiah(7500)+`\n\nGrand Total: IDR `+getrupiah((train_data.fare*adult)+7500);
+    text = '';
+    text += `
 
         <div class="row" style:"background-color:white; padding:5px;">
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+train_data.origin[0]+`</h6></td>
+                        <td><h6>`+train_data.origin+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -638,37 +727,74 @@ function train_detail(adult,infant){
                         </td>
                     </tr>
                 </table>
-                <span>`+train_data.origin[1]+`</span><br>
-                <span>`+train_data.departure[1]+`</span><br>
-                <span>`+train_data.departure[0]+`</span><br>
+                <span>`+train_data.origin_name+`</span><br>
+                <span>`+train_data.departure_date+`</span><br>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+train_data.destination[0]+`</h6></td>
+                        <td><h6>`+train_data.destination+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+train_data.destination[1]+`</span><br>
-                <span>`+train_data.arrival[1]+`</span><br>
-                <span>`+train_data.arrival[0]+`</span>
+                <span>`+train_data.destination_name+`</span><br>
+                <span>`+train_data.arrival_date+`</span><br>
             </div>
         </div>
         <hr/>
-        <div class="row">
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">`+adult+` Adult(s) x Rp `+getrupiah(train_data.fare)+`</span>
+        <div class="row">`;
+            if(parseInt(adult) > 0){
+                total_price = 0;
+                for(i in train_data.fares){
+                    for(j in train_data.fares[i].service_charge_summary){
+                        price = {
+                            'fare': 0,
+                            'tax': 0
+                        };
+                        for(k in train_data.fares[i].service_charge_summary[j].service_charges){
+                            if(k == 0)
+                                price['currency'] = train_data.fares[i].service_charge_summary[j].service_charges[k].currency;
+                            if(train_data.fares[i].service_charge_summary[j].service_charges[k].charge_code != 'tax' && train_data.fares[i].service_charge_summary[j].service_charges[k].charge_code != 'roc')
+                                price[train_data.fares[i].service_charge_summary[j].service_charges[k].charge_code] = train_data.fares[i].service_charge_summary[j].service_charges[k].amount;
+                            else
+                                price['tax'] += train_data.fares[i].service_charge_summary[j].service_charges[k].amount;
+                        }
+                        if(train_data.fares[i].service_charge_summary[j].pax_type == 'ADT')
+                            total_price += price['fare'] * parseInt(adult);
+                        else
+                            total_price += price['fare'] * parseInt(infant);
+                        if(train_data.fares[i].service_charge_summary[j].pax_type == 'ADT' && parseInt(adult) > 0){
+                            text+=`
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px;">`+parseInt(adult)+` Adult(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
+                                </div>`;
+                            $text += adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
+                        }else if(train_data.fares[i].service_charge_summary[j].pax_type == 'INF' && parseInt(infant) > 0){
+                            text+=`
+                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                </div>
+                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(infant))+`</span>
+                                </div>`;
+                            $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                        }
+                    }
+                $text += '1x Service charge '+price['currency']+' '+ train_data.fares[0].service_charge_summary[0].total_tax + '\n\n';
+                $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(train_data.fares[0].service_charge_summary[0].total_tax)));
+                console.log($text);
+                }
+            }
+        text+=`<div class="col-lg-6 col-xs-6" style="text-align:left;">
+                <span style="font-size:13px;">1x Service Charge</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">Rp `+getrupiah(train_data.fare*adult)+`</span>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="font-size:13px;">Service Charge</span>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">Rp `+getrupiah(7500)+`</span>
+                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data.fares[0].service_charge_summary[0].total_tax)+`</span>
             </div>
         </div>
         <hr/>
@@ -677,28 +803,28 @@ function train_detail(adult,infant){
                 <span style="color:white;font-size:13px;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;"><b>Rp `+getrupiah((train_data.fare*adult)+7500)+`<b></span><br>
+                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+train_data.fares[0].service_charge_summary[0].total_tax)+`</b></span><br>
             </div>
         </div>
 
         <div class="row" id="show_commission" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                 <div class="alert alert-success">
-                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(train_data.commission*-1)+`</span><br>
+                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(train_data.fares[0].service_charge_summary[0].total_rac*-1)+`</span><br>
                 </div>
             </div>
         </div>
 
-        <div style="padding-bottom:10px;">
-            <center>
-                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-            </center>
-        </div>
-        <div style="padding-bottom:10px;">
-            <center>
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-            </center>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+            </div>
         </div>`;
+
+    document.getElementById('train_detail').innerHTML = text;
 }
 
 function copy_data(){
@@ -739,115 +865,209 @@ function triggered(){
 }
 
 function check_passenger(adult, infant){
-    var check_next = 0;
     //booker
     error_log = '';
-    if(document.getElementById('booker_title').value!= '' &&
-       document.getElementById('booker_first_name').value!= '' &&
-       document.getElementById('booker_last_name').value!='' &&
-       document.getElementById('booker_nationality').value!='' &&
-       document.getElementById('booker_email').value!='' &&
-       document.getElementById('booker_phone_code').value!='' &&
-       document.getElementById('booker_phone').value!= ''){
+    //check booker jika teropong
+    try{
+        for(i in passenger_data_pick){
+            if(passenger_data_pick[i].sequence != 'booker'){
+                passenger_check = {
+                    'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
+                    'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
+                }
+                if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+                   document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+                   document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+                   error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+           }else if(passenger_data_pick[i].sequence == 'booker'){
+                if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
+                    document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||
+                    document.getElementById('booker_last_name').value != passenger_data_pick[i].last_name)
+                    error_log += "Search booker doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+           }
+        }
+    }catch(err){
 
-        if(check_name(document.getElementById('booker_title').value,
-                        document.getElementById('booker_first_name').value,
-                        document.getElementById('booker_last_name').value,
-                        25) == false){
-            error_log+= 'Total of Booker name maximum 25 characters!\n';
-            check_next = 1;
+    }
+    if(check_name(document.getElementById('booker_title').value,
+                    document.getElementById('booker_first_name').value,
+                    document.getElementById('booker_last_name').value,
+                    25) == false){
+        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+        document.getElementById('booker_last_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+        document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
+    }if(document.getElementById('booker_first_name').value == '' || check_word(document.getElementById('booker_first_name').value) == false){
+        if(document.getElementById('booker_first_name').value == '')
+            error_log+= 'Please fill booker first name!</br>\n';
+        else if(check_word(document.getElementById('booker_first_name').value) == false)
+            error_log+= 'Please use alpha characters for booker first name!</br>\n';
+        document.getElementById('booker_first_name').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
+    }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+        if(check_phone_number(document.getElementById('booker_phone').value) == false)
+            error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
+        document.getElementById('booker_phone').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
+    }if(check_email(document.getElementById('booker_email').value)==false){
+        error_log+= 'Invalid Booker email!</br>\n';
+        document.getElementById('booker_email').style['border-color'] = 'red';
+    }else{
+        document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
+    }
+    length_name = 25;
+
+    var radios = document.getElementsByName('myRadios');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            booker_copy = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
         }
-        if(check_phone_number(document.getElementById('booker_phone').value)==false){
-            error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
-            check_next = 1;
-        }
-        if(check_email(document.getElementById('booker_email').value)==false){
-            error_log+= 'Invalid Booker email!\n';
-            check_next = 1;
-        }
-       //adult
-       for(i=1;i<=adult;i++){
-           if(document.getElementById('adult_title'+i).value != '' &&
-           document.getElementById('adult_first_name'+i).value != '' &&
-           document.getElementById('adult_last_name'+i).value != '' &&
-           document.getElementById('adult_nationality'+i).value != '' &&
-           document.getElementById('adult_phone_code'+i).value != '' &&
-           document.getElementById('adult_phone'+i).value != ''){
-               if(check_name(document.getElementById('adult_title'+i).value,
-               document.getElementById('adult_first_name'+i).value,
-               document.getElementById('adult_last_name'+i).value,
-               25) == false){
-                   error_log+= 'Total of adult '+i+' name maximum 25 characters!\n';
-                   check_next = 1;
-               }
-               if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-                   error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
-                   check_next = 1;
-               }
-               if(parseInt(check_date(document.getElementById('adult_years_old'+i).value)) >= 17){
-                    if(document.getElementById('adult_id_type'+i).value ==""){
-                        error_log+="Please select ID type for adult passanger "+i+'!\n';
-                        check_next = 1;
-                        break;
-                    }else if(document.getElementById('adult_id_type'+i).value=="pas" && check_passport(document.getElementById('adult_id_number'+i).value) == false){
-                        error_log+="Passport must contain more than 5 or more for adult passenger "+i+'!\n';
-                        check_next = 1;
-                        break;
-                    }else if(document.getElementById('adult_id_type'+i).value=="ktp" && check_ktp(document.getElementById('adult_id_number'+i).value) == false){
-                        error_log+="KTP only contain number and contain 16 digits for adult passenger "+i+'!\n';
-                        check_next = 1;
-                        break;
-                    }else if(document.getElementById('adult_id_type'+i).value=="sim" && check_sim(document.getElementById('adult_id_number'+i).value) == false){
-                        error_log+="SIM only contain number and contain 12 digits for adult passenger "+i+'!\n';
-                        check_next = 1;
-                        break;
-                    }
-               }else if(document.getElementById('adult_years_old'+i).value == ''){
-                    error_log+='Please input birth date for adult passanger '+i+'!\n';
-                    check_next = 1;
-               }
+    }
+    if(booker_copy == 'yes')
+        if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+           document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+           document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
+   //adult
+   for(i=1;i<=adult;i++){
+
+       if(check_name(document.getElementById('adult_title'+i).value,
+            document.getElementById('adult_first_name'+i).value,
+            document.getElementById('adult_last_name'+i).value,
+            length_name) == false){
+           error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
+           if(document.getElementById('adult_first_name'+i).value == '')
+               error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
+               error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_last_name'+i).value != ''){
+           if(check_word(document.getElementById('adult_last_name'+i).value) == false){
+               error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
+               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
+           }
+       }else{
+           document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_passport_number'+i).value != '' ||
+          document.getElementById('adult_passport_expired_date'+i).value != '' ||
+          document.getElementById('adult_country_of_issued'+i).value != ''){
+           if(document.getElementById('adult_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
-               error_log+= 'Please fill all the blank for Adult passenger '+i+'!\n';
-               check_next = 1;
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
-       //infant
-       for(i=1;i<=infant;i++){
-           if(document.getElementById('infant_title'+i).value != '' &&
-           document.getElementById('infant_first_name'+i).value != '' &&
-           document.getElementById('infant_last_name'+i).value != '' &&
-           document.getElementById('infant_nationality'+i).value != ''){
-//           document.getElementById('infant_phone_code'+i).value != '' &&
-//           document.getElementById('infant_phone'+i).value != ''
-               if(check_name(document.getElementById('infant_title'+i).value,
-               document.getElementById('infant_first_name'+i).value,
-               document.getElementById('infant_last_name'+i).value, 25) == false){
-                   error_log+= 'Total of infant '+i+' name maximum 25 characters!\n';
-                   check_next = 1;
-               }
-               if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
-                   error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
-                   check_next = 1;
-               }
+   }
+   //infant
+   for(i=1;i<=infant;i++){
+       if(check_name(document.getElementById('infant_title'+i).value,
+       document.getElementById('infant_first_name'+i).value,
+       document.getElementById('infant_last_name'+i).value,
+       length_name) == false){
+           error_log+= 'Total of infant '+i+' name maximum '+length_name+' characters!</br>\n';
+           document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_first_name'+i).value == '' || check_word(document.getElementById('infant_first_name'+i).value) == false){
+           if(document.getElementById('infant_first_name'+i).value == '')
+               error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
+           else if(check_word(document.getElementById('infant_first_name'+i).value) == false){
+               error_log+= 'Please use alpha characters first name of infant passenger '+i+'!</br>\n';
+               document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
+           }
+       }else{
+           document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_last_name'+i).value != ''){
+           if(check_word(document.getElementById('infant_last_name'+i).value) == false){
+               error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
+               document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
+           }
+       }else{
+           document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
+       }
+       if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
+           error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
+           document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_nationality'+i).value == ''){
+           error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
+           document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('infant_passport_number'+i).value != '' ||
+          document.getElementById('infant_passport_expired_date'+i).value != '' ||
+          document.getElementById('infant_country_of_issued'+i).value != ''){
+           if(document.getElementById('infant_passport_number'+i).value == ''){
+               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
+               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
            }else{
-                error_log+= 'Please fill all the blank for Infant passenger '+i+'!\n';
-                check_next = 1;
+               document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('infant_country_of_issued'+i).value == ''){
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
        }
-       if(error_log=='')
-           document.getElementById('train_review').submit();
-       else{
-           alert(error_log);
-       }
 
-       if (check_next == 0){
-        $('.next-passenger-train').addClass("running");
-       }
-
-     }else{
-        alert('Please Fill all the blank !');
-     }
-
+   }
+   if(error_log==''){
+       $('.loader-rodextrip').fadeIn();
+       document.getElementById('time_limit_input').value = time_limit;
+       document.getElementById('airline_review').submit();
+   }
+   else{
+       $('.loader-rodextrip').fadeOut();
+       document.getElementById('show_error_log').innerHTML = error_log;
+       $("#myModalErrorPassenger").modal('show');
+       $('.btn-next').removeClass("running");
+       $('.btn-next').prop('disabled', false);
+   }
 }
 
 function plusSlides(n, no) {
@@ -905,8 +1125,8 @@ function time_check(data){
                 time = obj.value.split(' - ');
                 for(i in time)
                     time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
-                data_time = obj1.departure[1].split(':');
-                data_time = parseInt(data_time[0])*3600 + parseInt(data_time[1])*60;
+                data_time = obj1.departure_date.split(' - ');
+                data_time = data_time[1].split(':')[0]*3600 + data_time[1].split(':')[1]*60;
                 if(time[0]<=data_time && time[1]>=data_time){
                     check = 1;
                 }
@@ -921,8 +1141,8 @@ function time_check(data){
                     time = obj.value.split(' - ');
                     for(i in time)
                         time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
-                    data_time = obj1.arrival[1].split(':');
-                    data_time = parseInt(data_time[0])*3600 + parseInt(data_time[1])*60;
+                    data_time = obj1.arrival_date.split(' - ');
+                    data_time = data_time[1].split(':')[0]*3600 + data_time[1].split(':')[1]*60;
                     if(time[0]<=data_time && time[1]>=data_time){
                         temp_data.push(obj1);
                         check = 2;
@@ -935,8 +1155,6 @@ function time_check(data){
     });
     return temp_data;
 }
-
-
 
 function filtering(type){
 
@@ -973,10 +1191,11 @@ function filtering(type){
 function sort(value){
     var data_filter = value;
     var temp = '';
+    console.log(sorting_value);
     if(sorting_value == 'Lowest Price'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j < data_filter.length; j++) {
-                if (data_filter[i].fare > data_filter[j].fare){
+                if (data_filter[i].fare > data_filter[j].price){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -986,7 +1205,7 @@ function sort(value){
     }else if(sorting_value == 'Highest Price'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j < data_filter.length; j++) {
-                if (data_filter[i].fare < data_filter[j].fare){
+                if (data_filter[i].fare < data_filter[j].price){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -996,7 +1215,7 @@ function sort(value){
     }else if(sorting_value == 'Earliest Arrival'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].arrival > data_filter[j].arrival){
+                if (data_filter[i].arrival > data_filter[j].arrival_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -1006,7 +1225,7 @@ function sort(value){
     }else if(sorting_value == 'Latest Arrival'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].arrival < data_filter[j].arrival){
+                if (data_filter[i].arrival < data_filter[j].arrival_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -1016,7 +1235,7 @@ function sort(value){
     }else if(sorting_value == 'Earliest Departure'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].departure > data_filter[j].departure){
+                if (data_filter[i].departure > data_filter[j].departure_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -1026,7 +1245,7 @@ function sort(value){
     }else if(sorting_value == 'Latest Departure'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j <data_filter.length; j++) {
-                if (data_filter[i].departure < data_filter[j].departure){
+                if (data_filter[i].departure < data_filter[j].departure_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
@@ -1034,7 +1253,6 @@ function sort(value){
             }
         }
     }
-
     //set
     var response = '';
     for(i in data_filter){
@@ -1050,7 +1268,7 @@ function sort(value){
                 <div class="col-lg-4 col-xs-6">
                     <table style="width:100%">
                         <tr>
-                            <td><h5>`+data_filter[i].origin[0]+`</h5></td>
+                            <td><h5>`+data_filter[i].origin+`</h5></td>
                             <td style="padding-left:15px;">
                                 <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;"/>
                             </td>
@@ -1063,35 +1281,43 @@ function sort(value){
                             </td>
                         </tr>
                     </table>
-                    <span>`+data_filter[i].departure[1]+`</span><br/>
-                    <span>`+data_filter[i].departure[0]+` `+data_filter[i].departure[1]+`</span><br/>
+                    <span>`+data_filter[i].origin_name+`</span><br/>
+                    <span>`+data_filter[i].departure_date+`</span><br/>
                 </div>
                 <div class="col-lg-4 col-xs-6" style="padding:0;">
                     <table style="width:100%; margin-bottom:6px;">
                         <tr>
-                            <td><h5>`+data_filter[i].destination[0]+`</h5></td>
+                            <td><h5>`+data_filter[i].destination+`</h5></td>
                             <td></td>
                             <td style="height:30px;padding:0 15px;width:100%"></td>
                         </tr>
                     </table>
-                    <span>`+data_filter[i].destination[1]+`</span><br/>
-                    <span>`+data_filter[i].arrival[0]+` `+data_filter[i].arrival[1]+`</span><br/>
+                    <span>`+data_filter[i].destination_name+`</span><br/>
+                    <span>`+data_filter[i].arrival_date+`</span><br/>
                 </div>
 
                 <div class="col-lg-4 col-xs-12">
                     <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
-                    if(data_filter[i].can_book == true && data_filter[i].available_count>0)
-                        response+=`
-                        <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].fare)+`</span>
-                        <input class="primary-btn-custom" type="button" onclick="choose_train(`+data_filter[i].sequence+`,`+$('#train_adult').val()+`,`+$('#train_infant').val()+`)"  id="train_choose`+data_filter[i].sequence+`" value="Choose">`;
-                    else if(data_filter[i].available_count>0)
-                        response+=`
-                        <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].fare)+`</span>
-                        <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+data_filter[i].sequence+`" value="Choose">`;
-                    else
-                        response+=`
-                        <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].fare)+`</span>
-                        <input class="disabled-btn" type="button" id="train_choose`+data_filter[i].sequence+`" value="Sold" disabled>`
+                    try{
+                        if($sequence == data_filter[i].sequence && $sequence!= ''){
+                            response+=`
+                            <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                            <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
+                        }else if(data_filter[i].available_count > parseInt(passengers.adult))
+                            response+=`
+                            <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                            <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
+                        else if(data_filter[i].available_count > parseInt(passengers.adult))
+                            response+=`
+                            <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                            <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+i+`" value="Choose">`;
+                        else
+                            response+=`
+                            <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                            <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
+                    }catch(err){
+
+                    }
                     response+=`</div>
                 </div>`;
 
@@ -1103,7 +1329,7 @@ function sort(value){
             </div>
         </div>`;
     }
-
     train_data_filter = data_filter;
     document.getElementById('train_ticket').innerHTML = response;
+    document.getElementById('loading-search-train').hidden = true;
 }

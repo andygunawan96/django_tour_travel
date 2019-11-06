@@ -963,9 +963,12 @@ function airline_filter_render(){
     }
     text+=`</div>`;
     text+=`
-        <div id="airline_list">
-
+            <h6 class="filter_general" onclick="show_hide_general('airlineAirline');" id="filter_airline_span"></h6>
+        <div id="airlineAirline_generalShow" style="display:inline-block;">
         </div>`;
+//        <div id="airline_list">
+//
+//        </div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -3145,9 +3148,6 @@ function airline_detail(type){
                <hr/>
             </div>
         </div>`;
-        text += `
-                <div class="row">
-                    <div class="col-lg-12">`;
         flight_count = 0;
         for(i in airline_get_booking.provider_bookings){
             for(j in airline_get_booking.provider_bookings[i].journeys){
@@ -3165,9 +3165,14 @@ function airline_detail(type){
                                     <div class="col-lg-12" style="margin-bottom:5px;margin-top:2px;">
                                         <h6>Return</h6>`;
                         $text +='Return\n';
+                    }else{
+                        text += `<h6>Flight `+parseInt(flight_count+1)+`</h6>`
                     }
                 }
                 for(k in airline_get_booking.provider_bookings[i].journeys[j].segments){
+                    text += `
+                    <div class="row">
+                        <div class="col-lg-12">`;
                     try{
                         text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].carrier_code+`.png"><span> </span>`;
                     }catch(err){
@@ -3227,7 +3232,8 @@ function airline_detail(type){
                                 </div>
                             </div>
                             <hr/>
-                        </div>`;
+                        </div>
+                    </div>`;
                 }
             }
         }
@@ -3236,7 +3242,8 @@ function airline_detail(type){
         total_price = 0;
         currency = ''
         for(i in airline_get_booking.passengers[0].sale_service_charges){
-            text += `<div class="col-lg-12">
+            text += `<div class="row">
+                        <div class="col-lg-12">
                         <center>`+i+`</center>
             `;
             for(j in airline_get_booking.passengers){
@@ -3261,9 +3268,9 @@ function airline_detail(type){
 
 
             }
+            text+=`</div>`;
         }
         text += `
-        <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:13px;font-weight:500;">Additional Price</span><br/>
             </div>
@@ -3287,8 +3294,7 @@ function airline_detail(type){
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+additional_price)+`</b></span><br/>`;
             text+=`
-            </div>
-        </div>`;
+            </div>`;
     }
     document.getElementById('airline_detail').innerHTML = text;
 
@@ -3350,10 +3356,8 @@ function check_passenger(adult, child, infant){
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
-    }if(check_phone_number(document.getElementById('booker_phone').value)==false || check_word(document.getElementById('booker_last_name').value) == false){
-        if(check_word(document.getElementById('booker_last_name').value) == false)
-            error_log+= 'Please use alpha characters for booker last name!</br>\n';
-        else if(check_word(document.getElementById('booker_last_name').value) == false)
+    }if(check_phone_number(document.getElementById('booker_phone').value)==false){
+        if(check_phone_number(document.getElementById('booker_phone').value) == false)
             error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{
@@ -3719,10 +3723,33 @@ function get_airline_review(){
                                 <td>Adult</td>
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
-                                for(j in passengers_ssr[i].ssr_list)
-                                    text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
-                                for(j in passengers_ssr[i].seat_list)
-                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` Seat `+passengers_ssr[i].seat_list[j].seat_pick+`</label><br/>`;
+                                for(j in passengers_ssr[i].ssr_list){
+                                    try{
+                                        text+=`<div class="popover__wrapper">
+                                                  <a href="#">
+                                                    `+passengers_ssr[i].ssr_list[j].availability_type+`
+                                                  </a>
+                                                  <div class="popover__content">`;
+                                        text+= passengers_ssr[i].ssr_list[j].name + '<br>';
+                                        text+=`</p></div></div><br/>`;
+                                  }catch(err){}
+                                  text+=`
+                                </div>`;
+                                }
+                                for(j in passengers_ssr[i].seat_list){
+                                    try{
+                                        if(passengers_ssr[i].seat_list[j].seat_pick != ''){
+                                            text+=`<div class="popover__wrapper">
+                                                      <a href="#">
+                                                        Seat `+passengers_ssr[i].seat_list[j].segment_code+`
+                                                      </a>
+                                                      <div class="popover__content">`;
+                                            text+= passengers_ssr[i].seat_list[j].seat_pick + '<br>';
+                                            text+=`</p></div></div><br/></div>`;
+                                        }
+                                  }catch(err){}
+
+                                }
                                 text+=`</td>
                                </tr>`;
                         count_pax++;
@@ -3819,7 +3846,8 @@ function get_airline_review_after_sales(){
                         <th style="width:28%;">Name</th>
                         <th style="width:7%;">Type</th>
                         <th style="width:18%;">Birth Date</th>
-                        <th style="width:18%;">Special Service Request</th>
+                        <th style="width:18%;">SSR Old</th>
+                        <th style="width:18%;">SSR New</th>
                     </tr>`;
                     count_pax = 0
                     for(i in passengers_ssr){
@@ -3829,10 +3857,50 @@ function get_airline_review_after_sales(){
                                 <td>Adult</td>
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
-                                for(j in passengers_ssr[i].ssr_list)
-                                    text+=`<label>`+passengers_ssr[i].ssr_list[j].name+`</label>`;
-                                for(j in passengers_ssr[i].seat_list)
-                                    text+=`<label>`+passengers_ssr[i].seat_list[j].segment_code+` `+passengers_ssr[i].seat_list[j].seat_pick+`</label>`;
+                                  try{
+                                      for(j in airline_get_booking.passengers[i]){
+                                        text+=`<div class="popover__wrapper">
+                                                  <a href="#">
+                                                    `+msg.result.response.passengers[i].fees[j].fee_name+`
+                                                  </a>
+                                                  <div class="popover__content">`;
+                                        text+= msg.result.response.passengers[i].fees[j].fee_value + '<br>';
+                                        for(k in msg.result.response.passengers[i].fees[j].description)
+                                            text += msg.result.response.passengers[i].fees[j].description[k] + '<br>';
+                                        text+=`</p></div></div><br/>`;
+                                      }
+                                  }catch(err){}
+                                  text+=`
+                                </div>
+                                </td>
+                                <td>`;
+                                for(j in passengers_ssr[i].ssr_list){
+                                    try{
+                                        text+=`<div class="popover__wrapper">
+                                                  <a href="#">
+                                                    `+passengers_ssr[i].ssr_list[j].availability_type+`
+                                                  </a>
+                                                  <div class="popover__content">`;
+                                        text+= passengers_ssr[i].ssr_list[j].name + '<br>';
+                                        text+=`</p></div></div><br/>`;
+                                  }catch(err){}
+                                  text+=`
+                                </div>`;
+                                }
+                                for(j in passengers_ssr[i].seat_list){
+                                    try{
+                                        if(passengers_ssr[i].seat_list[j].seat_pick != ''){
+                                            text+=`<div class="popover__wrapper">
+                                                      <a href="#">
+                                                        Seat `+passengers_ssr[i].seat_list[j].segment_code+`
+                                                      </a>
+                                                      <div class="popover__content">`;
+                                            text+= passengers_ssr[i].seat_list[j].seat_pick + '<br>';
+                                            text+=`</p></div></div><br/></div>`;
+                                        }
+                                  }catch(err){}
+
+                                }
                                 text+=`</td>
                                </tr>`;
                         count_pax++;
@@ -3853,6 +3921,9 @@ function get_airline_review_after_sales(){
 
     text+=`</div>`;
     document.getElementById('airline_review').innerHTML = text;
+    try{
+        $('#popoverOption').popover({ trigger: "hover" });
+    }catch(err){}
 }
 
 function update_contact_cp(val){

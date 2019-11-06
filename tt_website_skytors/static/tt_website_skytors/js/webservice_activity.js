@@ -698,7 +698,7 @@ function activity_pre_create_booking(){
     }).then((result) => {
       if (result.value) {
         show_loading();
-        update_sell_activity();
+        activity_commit_booking();
       }
     })
 }
@@ -724,9 +724,6 @@ function update_sell_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update sell activity </span>' + msg.result.error_msg,
             })
-
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -735,8 +732,6 @@ function update_sell_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update sell activity </span>' + errorThrown,
             })
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -762,9 +757,6 @@ function update_contact_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update contact activity </span>' + msg.result.error_msg,
             })
-
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -773,8 +765,6 @@ function update_contact_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update contact activity </span>' + errorThrown,
             })
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -800,9 +790,6 @@ function update_passengers_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update passengers activity </span>' + msg.result.error_msg,
             })
-
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -811,8 +798,6 @@ function update_passengers_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update passengers activity </span>' + errorThrown,
             })
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -831,16 +816,17 @@ function update_options_activity(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            activity_commit_booking();
+            if (!act_booker_id)
+            {
+                act_booker_id = '';
+            }
+            get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity');
         }else{
             Swal.fire({
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update options activity </span>' + msg.result.error_msg,
             })
-
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -849,8 +835,6 @@ function update_options_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update options activity </span>' + errorThrown,
             })
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
@@ -1184,7 +1168,7 @@ function activity_get_booking(data){
                         <div class="col-lg-12">
                             <div id="activity_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
                                 <div style="padding:10px;">
-                                    <h4> List of Passenger(s) </h4>
+                                    <h4> List of Guest(s) </h4>
                                     <hr/>
                                     <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
                                         <tr>

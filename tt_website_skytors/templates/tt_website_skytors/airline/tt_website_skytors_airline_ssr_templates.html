@@ -131,7 +131,7 @@
 <section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
 {%endif%}
     <div class="container">
-        <form method="POST" id="airline_booking" action="{% url 'tt_website_skytors:airline_review'%}">
+        <form method="POST" id="airline_booking" action="{% if after_sales == 0 %}{% url 'tt_website_skytors:airline_review'%}{% else %}{% url 'tt_website_skytors:airline_review_after_sales'%}{%endif%}">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">
@@ -238,7 +238,7 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;" >
-                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:10px;" id="airline_detail">
 
                     </div>
                 </div>

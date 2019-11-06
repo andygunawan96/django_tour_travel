@@ -81,47 +81,48 @@ function tour_search(){
 
                    if (tour_data[i].state_tour == 'sold')
                    {
-                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].return_date;
+                       dat_content1 = ``+tour_data[i].departure_date+` - `+tour_data[i].return_date;
                        dat_content2 = `Sold Out`
                    }
                    else
                    {
-                       dat_content1 = `Date: `+tour_data[i].departure_date+` - `+tour_data[i].return_date;
-                       dat_content2 = `Availability: `+tour_data[i].seat+`/`+tour_data[i].quota;
+                       dat_content1 = ``+tour_data[i].departure_date+` - `+tour_data[i].return_date;
+                       var count_quota = tour_data[i].quota - tour_data[i].seat;
+                       dat_content2 = ``+count_quota+`/`+tour_data[i].quota;
                    }
 
                    text+=`
 
                    <div class="col-lg-4 col-md-6">
                         <form action='/tour/detail' method='POST' id='myForm`+tour_data[i].sequence+`'>
-                        <div id='csrf`+tour_data[i].sequence+`'></div>
-                        <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
-                        <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
-                        <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
-                        <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
-                            <div class="single-destination relative">
-                                <div class="thumb relative" style="margin: auto; width:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                    <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="`+img_src+`" alt="">
-                                </div>
-                                <div class="card card-effect-promotion">
-                                    <div class="card-body">
-                                        <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                <span style="font-size:12px;">`+dat_content1+`</span><br/>
-                                                <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
-                                            </div>
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:12px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                            <div id='csrf`+tour_data[i].sequence+`'></div>
+                            <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
+                            <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
+                            <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
+                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
+                                <div class="single-destination relative">
+                                    <div class="thumb relative" style="margin: auto; width:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
+                                                    <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
                    `;
                }
@@ -218,9 +219,9 @@ function tour_get_details(package_id){
                         country_text += `<br/><span>` + String(idx) + `. ` + tour_data[i].hotel_names[k] + `</span>`;
                         idx += 1;
                     }
-                    country_text += `<div style="position: absolute; bottom: 30px; right: 30px;">
+                    country_text += `<div style="position: absolute; bottom: 10px; right: 15px;">
                                         <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="#">
-                                            <i class="fa fa-print" aria-hidden="true"></i>
+                                            <i class="fa fa-print" aria-hidden="true"></i> Print Itinerary
                                         </a>
                                     </div>`;
 
@@ -249,38 +250,51 @@ function tour_get_details(package_id){
                     }
                     image_text += `</div>`;
 
+                    itinerary_text += `<div class="row">`;
                     for (it_idx in tour_data[i].itinerary_ids)
                     {
-                        itinerary_text += `<h4> Day `+tour_data[i].itinerary_ids[it_idx].day+` - `+tour_data[i].itinerary_ids[it_idx].name+`</h4><hr/>`;
-                        itinerary_text += `<div class="row">`;
-                        for(it_item in tour_data[i].itinerary_ids[it_idx].items)
-                        {
-                            itinerary_text += `<div class="col-lg-3" style="padding-bottom: 15px;"><div style="border: 1px solid #cdcdcd;"><div style="object-fit: cover;">`;
-                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].image)
-                            {
-                                itinerary_text += `<img src="`+tour_data[i].itinerary_ids[it_idx].items[it_item].image+`" style="width:100%; height: 200px;"/>`;
-                            }
-                            else
-                            {
-                                itinerary_text += `<img src="`+static_path_url_server+`/public/tour_packages/not_found.png" style="width:100%; height: 200px;"/>`;
-                            }
-                            itinerary_text += `</div>`;
-
-                            itinerary_text += `<div style="padding:10px;"><span style="font-size: 15px; font-weight: bold;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].name+`</span><br/>`;
-                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].description)
-                            {
-                                itinerary_text += `<span style="font-size: 14px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].description+`</span><br/>`;
-                            }
-                            if (tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot)
-                            {
-                                itinerary_text += `<span style="font-size: 14px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot+`</span>`;
-                            }
-
-                            itinerary_text += `</div></div></div>`;
-                        }
-                        itinerary_text += `</div>`;
-                        itinerary_text += `<br/><br/>`;
+                        itinerary_text += `
+                        <div class="col-lg-12" style="margin-bottom:10px;">
+                            <div class="row">
+                                <div class="col-lg-4" style="margin-bottom:10px;">
+                                    <h5 style="border:1px solid #cdcdcd; padding:10px; cursor:pointer;" onclick="show_hide_itinerary_tour(`+it_idx+`)"> Day `+tour_data[i].itinerary_ids[it_idx].day+` - `+tour_data[i].itinerary_ids[it_idx].name+` <i class="fas fa-chevron-right" id="itinerary_day`+it_idx+`_down" style="float:right; color:#f15a22; display:none;"></i><i class="fas fa-chevron-left" id="itinerary_day`+it_idx+`_up" style="float:right; color:#f15a22; display:inline-block;"></i></h5>
+                                </div>
+                                <div class="col-lg-8" style="display:block;" id="div_itinerary_day`+it_idx+`">
+                                    <div style="border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
+                                    <div class="row">
+                                    <div class="col-lg-12">
+                                        <h5>Day `+tour_data[i].itinerary_ids[it_idx].day+` - `+tour_data[i].itinerary_ids[it_idx].name+`</h5>
+                                        <hr/>
+                                    </div>`;
+                                    for(it_item in tour_data[i].itinerary_ids[it_idx].items)
+                                    {
+                                        itinerary_text += `<div class="col-lg-3">`;
+                                        if (tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot){
+                                            itinerary_text += `<h5>`+tour_data[i].itinerary_ids[it_idx].items[it_item].timeslot+`</h5>`;
+                                        }
+                                        itinerary_text += `</div>
+                                        <div class="col-lg-9" style="padding-bottom:15px;">
+                                            <h5>`+tour_data[i].itinerary_ids[it_idx].items[it_item].name+`</h5>`;
+                                        if (tour_data[i].itinerary_ids[it_idx].items[it_item].description){
+                                            itinerary_text += `<span style="font-size: 13px;">`+tour_data[i].itinerary_ids[it_idx].items[it_item].description+`</span><br/>`;
+                                        }
+                                        if (tour_data[i].itinerary_ids[it_idx].items[it_item].image){
+                                            itinerary_text += `
+                                            <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:#f15a22; font-weight:700; cursor:pointer;">Show image</span>
+                                            <img id="image_itinerary`+it_idx+``+it_item+`" src="`+tour_data[i].itinerary_ids[it_idx].items[it_item].image+`" style="width: 150px; height: 150px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+                                        }
+                                        //else{
+                                        //    itinerary_text += `<img src="`+static_path_url_server+`/public/tour_packages/not_found.png" style="width:150px;  height:150px; border:1px solid #cdcdcd; object-fit: cover;"/>`;
+                                        //}
+                                        itinerary_text += `</div>`;
+                                    }
+                                itinerary_text += `</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
                     }
+                    itinerary_text += `</div>`;
 
                     remarks_text += tour_data[i].requirements;
                     if (tour_data[i].flight == 'include')
@@ -410,75 +424,136 @@ function tour_get_details(package_id){
     });
 }
 
-function tour_update_passenger(val, pay_method, pax_list_res)
-{
+
+function update_sell_tour(){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
        headers:{
-            'action': 'update_passenger',
+            'action': 'sell_tour',
        },
        data: {
-            'pax_list_js': JSON.stringify(pax_list_res)
+           'signature': signature
        },
        success: function(msg) {
-           console.log(msg);
-           var pax_list = [];
-           var booker_data = msg.result.response.booker_data;
-           var book_line = msg.result.response.book_line;
-           var results = msg.result.response.pax_list;
-           for(i in results){
-               pax_list.push(parseInt(results[i]));
-           }
-           var result_data = {
-               'pax_ids': pax_list,
-               'booker_id': booker_data,
-               'book_line_ids': book_line,
-               'pay_method': pay_method
-           }
-           if (result_data)
-           {
-               tour_commit_booking(val, result_data);
-           }
-           else
-           {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Booking process failed, please try again! </span>',
-                })
-           }
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_contact_tour();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update sell tour </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error tour update passenger </span>' + errorThrown,
+              html: '<span style="color: red;">Error update sell tour </span>' + errorThrown,
             })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
        },timeout: 60000
     });
 }
 
-function tour_commit_booking(val, result_data)
+function update_contact_tour(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'update_contact',
+       },
+       data: {
+           'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            update_passengers_tour();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update contact tour </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update contact tour </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function update_passengers_tour(){
+    room_choice_dict = {};
+    for (var i=0; i < total_pax_amount; i++)
+    {
+        var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
+        var temp_pax_id = document.getElementById("temp_pax_id"+String(i+1)).value;
+        temp_dict = {
+            'room_id': document.getElementById("room_id_"+String(temp_room_seq)).value,
+            'room_seq': parseInt(temp_room_seq)
+        }
+        room_choice_dict[temp_pax_id] = temp_dict;
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'update_passengers',
+       },
+       data: {
+           'room_choice': JSON.stringify(room_choice_dict),
+           'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            commit_booking_tour();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error update passengers tour </span>' + msg.result.error_msg,
+            })
+
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update passengers tour </span>' + errorThrown,
+            })
+           $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
+    });
+}
+
+function commit_booking_tour()
 {
     getToken();
-    var booker_id = result_data.booker_id;
-    var pax_ids = result_data.pax_ids;
-    var pax_ids_str = '';
-    var book_line_ids = result_data.book_line_ids;
-    var book_line_ids_str = '';
-
-    for (i in pax_ids)
-    {
-        pax_ids_str += String(pax_ids[i]) + '|';
-    }
-
-    for (i in book_line_ids)
-    {
-        book_line_ids_str += String(book_line_ids[i]) + '|';
-    }
-
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -486,11 +561,8 @@ function tour_commit_booking(val, result_data)
             'action': 'commit_booking',
        },
        data: {
-           'value': val,
-           'booker_id': booker_id,
-           'pax_ids': pax_ids_str,
-           'payment_method': result_data.pay_method,
-           'book_line_ids': book_line_ids_str
+           'force_issued': document.getElementById('force_issued_opt').value,
+           'payment_method': document.getElementById('chosen_pay_method').value,
        },
        success: function(msg) {
            console.log(msg);
@@ -533,16 +605,34 @@ function get_payment_rules(id)
        },
        success: function(msg) {
            console.log(msg);
+           var today = new Date();
+           var dd = String(today.getDate()).padStart(2, '0');
+           var mm = String(today.getMonth() + 1).padStart(2, '0');
+           var yyyy = today.getFullYear();
+           date_today = yyyy + '-' + mm + '-' + dd;
+           if(msg.result.response.dp_type == 'amount')
+           {
+               dp_amt = parseInt(msg.result.response.dp_val);
+           }
+           else
+           {
+               dp_amt = (parseInt(msg.result.response.dp_val) / 100) * grand_total;
+           }
+           pay_text = `
+                <tr>
+                    <td>Down Payment</td>
+                    <td id="payment_dp" name="payment_dp">IDR ` + getrupiah(dp_amt) + `</td>
+                    <td id="payment_date_dp" name="payment_date_dp">` +date_today+ `</td>
+                </tr>
+           `;
            payment = msg.result.response.payment_rules;
-           pay_text = '';
            var idx = 1;
-           var tot_price = parseInt(document.getElementById("grand_total_hidden").value);
            for (i in payment)
            {
                pay_text += `
                 <tr>
                     <td>` +payment[i].name+ `</td>
-                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">` + (parseInt(payment[i].payment_percentage) / 100) * tot_price+ `</td>
+                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil((parseInt(payment[i].payment_percentage) / 100) * grand_total))+ `</td>
                     <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
                 </tr>
                `;
@@ -886,7 +976,7 @@ function get_price_itinerary(request) {
                         {
                             price_txt2 += `<div class="row">
                                             <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
-                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">x</div>
                                             <div class="col-xs-1">`+price_data[i].pax_count+`</div>
                                             <div class="col-xs-2"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
@@ -897,7 +987,7 @@ function get_price_itinerary(request) {
                         {
                             price_txt2 += `<div class="row">
                                             <div class="col-xs-4">`+desc_str+`</div>
-                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">x</div>
                                             <div class="col-xs-1">`+price_data[i].pax_count+`</div>
                                             <div class="col-xs-2"></div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
@@ -945,7 +1035,7 @@ function get_price_itinerary(request) {
                         found_room_price = true;
                         price_txt2 += `<div class="row">
                                         <div class="col-xs-4">`+desc_str+`</div>
-                                        <div class="col-xs-1">X</div>
+                                        <div class="col-xs-1">x</div>
                                         <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
                                         <div class="col-xs-2"></div>
                                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
@@ -969,7 +1059,7 @@ function get_price_itinerary(request) {
             {
                 price_txt1 += `<div class="row">
                                 <div class="col-xs-4">Adult Price</div>
-                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">x</div>
                                 <div class="col-xs-1">`+adt_amt+`</div>
                                 <div class="col-xs-2"></div>
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
@@ -981,7 +1071,7 @@ function get_price_itinerary(request) {
             {
                 price_txt1 += `<div class="row">
                                 <div class="col-xs-4">Child Price</div>
-                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">x</div>
                                 <div class="col-xs-1">`+chd_amt+`</div>
                                 <div class="col-xs-2"></div>
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
@@ -993,7 +1083,7 @@ function get_price_itinerary(request) {
             {
                 price_txt1 += `<div class="row">
                                 <div class="col-xs-4">Infant Price</div>
-                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">x</div>
                                 <div class="col-xs-1">`+inf_amt+`</div>
                                 <div class="col-xs-2"></div>
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
@@ -1021,13 +1111,13 @@ function get_price_itinerary(request) {
                                             <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
                                             <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
                                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                                     } else {
                                         price_txt+=`
                                             <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
                                             <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
                                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                                     }
 
                                 price_txt+=`
@@ -1089,6 +1179,7 @@ function get_price_itinerary_cache() {
        },
        success: function(msg) {
             console.log(msg);
+            console.log(room_amount);
             $('#loading-price-tour').hide();
             price_tour_info = msg.result.tour_info;
             $test += price_tour_info.name + '\n';
@@ -1153,10 +1244,10 @@ function get_price_itinerary_cache() {
                         {
                             price_txt2 += `<div class="row">
                                             <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
-                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">x</div>
                                             <div class="col-xs-1">`+price_data[i].pax_count+`</div>
                                             <div class="col-xs-1"></div>
-                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                            <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
                             temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
                         }
@@ -1164,10 +1255,10 @@ function get_price_itinerary_cache() {
                         {
                             price_txt2 += `<div class="row">
                                             <div class="col-xs-4">`+desc_str+`</div>
-                                            <div class="col-xs-1">X</div>
+                                            <div class="col-xs-1">x</div>
                                             <div class="col-xs-1">`+price_data[i].pax_count+`</div>
                                             <div class="col-xs-1"></div>
-                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                            <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
                             temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
                         }
@@ -1212,10 +1303,10 @@ function get_price_itinerary_cache() {
                         found_room_price = true;
                         price_txt2 += `<div class="row">
                                         <div class="col-xs-4">`+desc_str+`</div>
-                                        <div class="col-xs-1">X</div>
+                                        <div class="col-xs-1">x</div>
                                         <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
                                         <div class="col-xs-1"></div>
-                                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
+                                        <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
                                        </div>`;
                         grand_total += room_prices[k].total;
                         temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
@@ -1228,7 +1319,7 @@ function get_price_itinerary_cache() {
                                     <div class="col-xs-1"></div>
                                     <div class="col-xs-1">N/A</div>
                                     <div class="col-xs-1"></div>
-                                    <div class="col-xs-4" style="text-align: right;">N/A</div>
+                                    <div class="col-xs-5" style="text-align: right;">N/A</div>
                                    </div>`;
                 }
             }
@@ -1236,10 +1327,10 @@ function get_price_itinerary_cache() {
             {
                 price_txt1 += `<div class="row">
                                 <div class="col-xs-4">Adult Price</div>
-                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">x</div>
                                 <div class="col-xs-1">`+adt_amt+`</div>
                                 <div class="col-xs-1"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
+                                <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
                                </div>`;
                 grand_total += adt_price;
                 temp_copy += 'Adult Price IDR ' + getrupiah(adt_price) + '\n';
@@ -1248,10 +1339,10 @@ function get_price_itinerary_cache() {
             {
                 price_txt1 += `<div class="row">
                                 <div class="col-xs-4">Child Price</div>
-                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">x</div>
                                 <div class="col-xs-1">`+chd_amt+`</div>
                                 <div class="col-xs-1"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
+                                <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
                                </div>`;
                 grand_total += chd_price;
                 temp_copy += 'Child Price IDR ' + getrupiah(chd_price) + '\n';
@@ -1260,10 +1351,10 @@ function get_price_itinerary_cache() {
             {
                 price_txt1 += `<div class="row">
                                 <div class="col-xs-4">Infant Price</div>
-                                <div class="col-xs-1">X</div>
+                                <div class="col-xs-1">x</div>
                                 <div class="col-xs-1">`+inf_amt+`</div>
                                 <div class="col-xs-1"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
+                                <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
                                </div>`;
                 grand_total += inf_price;
                 temp_copy += 'Infant Price IDR ' + getrupiah(inf_price) + '\n';
@@ -1288,13 +1379,13 @@ function get_price_itinerary_cache() {
                                             <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
                                             <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
                                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                                     } else {
                                         price_txt+=`
                                             <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
                                             <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
                                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                                     }
 
                                 price_txt+=`
@@ -1320,6 +1411,11 @@ function get_price_itinerary_cache() {
                            </div>`;
 
             document.getElementById('tour_detail_table').innerHTML = price_txt;
+            full_pay_opt = document.getElementById('full_payment_amt');
+            if (full_pay_opt)
+            {
+                full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
