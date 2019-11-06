@@ -286,10 +286,11 @@ def review(request):
             'title': request.POST['booker_title'],
             'first_name': request.POST['booker_first_name'],
             'last_name': request.POST['booker_last_name'],
-            'nationality_code': request.POST['booker_nationality'],
+            'nationality_name': request.POST['booker_nationality'],
             'email': request.POST['booker_email'],
-            'mobile': request.POST['booker_phone_code'] + request.POST['booker_phone'],
-            'booker_id': request.POST['booker_id']
+            'calling_code': request.POST['booker_phone_code'],
+            'mobile': request.POST['booker_phone'],
+            'booker_seq_id': request.POST['booker_id']
         }
 
         temp_pax_id = 0
