@@ -1027,6 +1027,7 @@ def review_after_sales(request):
                 if len(sell_ssrs) > 0:
                     request.session['airline_ssr_request'] = sell_ssrs
                 sell_ssrs = []
+                after_sales_type = 'ssr'
             except:
                 print('no ssr')
 
@@ -1045,8 +1046,8 @@ def review_after_sales(request):
                 for seat_map_provider in seat_map_list['seat_availability_provider']:
                     for seat_segment in seat_map_provider['segments']:
                         pax_request = []
-                        for pax in passengers:
-                            for idx, pax_seat in enumerate(pax['seat_list']):
+                        for idx, pax in enumerate(passengers):
+                            for pax_seat in pax['seat_list']:
                                 if pax_seat['segment_code'] == seat_segment['segment_code2']:
                                     if pax_seat['seat_code'] != '':
                                         pax_request.append({
@@ -1062,6 +1063,7 @@ def review_after_sales(request):
                             })
                         pax_request = []
                 request.session['airline_seat_request'] = segment_seat_request
+                after_sales_type = 'seat'
             except:
                 print('no seatmap')
 
@@ -1091,6 +1093,7 @@ def review_after_sales(request):
             'countries': airline_country,
             'back_page': request.META.get('HTTP_REFERER'),
             'airline_carriers': airline_carriers,
+            'after_sales_type': after_sales_type,
             'goto': goto,
             'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
             'additional_price': request.POST['additional_price_input'],
@@ -1125,11 +1128,16 @@ def booking(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        try:
+            order_number = request.POST['order_number']
+            request.session['airline_order_number'] = request.POST['order_number']
+        except:
+            order_number = request.session['airline_order_number']
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'airline_carriers': airline_carriers,
-            'order_number': request.POST['order_number'],
+            'order_number': order_number,
             'static_path_url_server': get_url_static_path(),
             # 'order_number': 'AL.19081332140',
             'javascript_version': javascript_version,

@@ -25,51 +25,7 @@
     time_limit = {{time_limit}};
     session_time_limit();
     signature = `{{signature}}`;
-    function check_years_old(sequence, type){
 
-        var birth_date = '';
-        if(type =='adult'){
-            var departure_date = moment(train_data.departure[0],'DD-MMM-YYYY');
-            birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');
-
-            var years_old = parseInt(Math.abs(departure_date - birth_date)/31536000000);
-            document.getElementById('adult_years_old'+sequence).value = years_old;
-            if(parseInt(Math.abs(years_old)) >= 17){
-            document.getElementById('adult_div'+sequence).innerHTML = `
-            <br/>
-            <label>ID Type</label>
-            <div class="input-container-search-ticket">
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-select-2" id="default-select">
-                            <select id='adult_id_type`+sequence+`' name='adult_id_type`+sequence+`'>
-                                {% for id_type in id_types%}
-                                <option value="{{id_type.0}}">{{id_type.1}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-8">
-                        <input type="text" class="form-control" name='adult_id_number`+sequence+`' id='adult_id_number`+sequence+`' placeholder="Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Number '">
-                    </div>
-                </div>
-            </div>
-            `;
-        }
-        }if(type =='infant'){
-            birth_date = moment(document.getElementById('infant_birth_date'+sequence).value, 'DD MMM YYYY');
-            document.getElementById('infant_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
-        }if(type =='senior'){
-            birth_date = moment(document.getElementById('senior_birth_date'+sequence).value, 'DD MMM YYYY');
-            document.getElementById('senior_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
-        }if(type =='child'){
-            birth_date = moment(document.getElementById('child_birth_date'+sequence).value, 'DD MMM YYYY');
-            document.getElementById('child_years_old'+sequence).value = parseInt(Math.abs(moment(new Date()) - birth_date)/31536000000);
-        }
-        if (document.getElementById("default-select")) {
-            $('select').niceSelect();
-        }
-    }
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -130,7 +86,7 @@
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','train');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -282,13 +238,13 @@
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
-                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy','airline');" value="yes"/>
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('copy','train');" value="yes"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
                                     <label class="radio-button-custom">
                                         No
-                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','airline');" value="no" checked="checked"/>
+                                        <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','train');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
 
@@ -343,7 +299,7 @@
                                                             <div class="row">
                                                                 <div class="col-lg-12">
                                                                     <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                                    <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'train')">Search</button>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -448,18 +404,33 @@
                                             <label style="color:red">*</label>
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label>Passport Number</label>
+                                            <label style="color:red">*</label>
+                                            <label>ID Type</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select" id="default-select">
+                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                        {% for id_type in id_types%}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
+                                            <label>ID Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label>Passport Expired Date</label>
+                                            <label style="color:red">*</label>
+                                            <label>ID Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
@@ -467,6 +438,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:red">*</label>
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -556,7 +528,7 @@
                                                         <div class="row" >
                                                             <div class="col-lg-12">
                                                                 <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'train')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -662,33 +634,6 @@
                                             <label>Birth Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label>Passport Number</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label>Passport Expired Date</label>
-                                            <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
-                                                <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label>Country of Issued</label>
-                                            <div class="input-container-search-ticket">
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="infant_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="infant_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('infant_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                        <option value="">Country Of Issued</option>
-                                                        {% for country in countries %}
-                                                        <option value="{{country.name}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-                                                <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
                                     </div>

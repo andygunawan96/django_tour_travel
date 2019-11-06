@@ -11,29 +11,18 @@
 
 <script>
     static_path_url_server = '{{static_path_url_server}}'
-    train_data = {
-        cabin_class:['{{response.cabin_class.0}}', '{{response.cabin_class.1}}'],
-        class_of_service: '{{response.class_of_service}}',
-        currency: '{{response.currency}}',
-        available_count: {{response.available_count}},
-        fare: {{response.fare}},
-        fare_code: '{{response.fare_code}}',
-        commission: {{response.commission}},
-        origin: ['{{response.origin.0}}', '{{response.origin.1}}'],
-        segment_code: '{{response.segment_code}}',
-        destination: ['{{response.destination.0}}','{{response.destination.1}}'],
-        departure: ['{{response.departure.0}}', '{{response.departure.1}}'],
-        journey_code: '{{response.journey_code}}',
-        carrier_number: '{{response.carrier_number}}',
-        carrier_code: '{{response.carrier_code}}',
-        carrier_name: '{{response.carrier_name}}',
-        transit_count: '{{response.transit_count}}',
-        arrival: ['{{response.arrival.0}}', '{{response.arrival.1}}'],
-        provider: '{{response.provider}}',
-        sequence: '{{response.sequence}}',
-        time_lapse: '{{response.time_lapse}}',
-        can_book: '{{response.can_book}}',
-    };
+    train_data = `{{response}}`;
+    train_data = JSON.parse(train_data.replace(/&#39;/g, '"'));
+    console.log(train_data);
+    train_request = `{{train_request}}`;
+    train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
+    console.log(train_request);
+    adult = {{train_request.adult}};
+    infant = {{train_request.infant}};
+    child = 0;
+    time_limit = {{time_limit}};
+    session_time_limit();
+    signature = `{{signature}}`;
 </script>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
@@ -69,14 +58,19 @@
                         </div>
                         <div class="col-lg-12">
                             <div style="padding:10px; background-color:white; border:1px solid #f15a22;">
+                                {% for data in response %}
+                                {% if forloop.counter == 1 %}
                                 <h5>Departure</h5><br/>
-                                <h4>{{response.carrier_name}} {{response.carrier_number}}</h4>
-                                <span>Class {{response.carrier_name}} {{response.class_of_service}} ({{response.cabin_class.1}})</span><br/>
+                                {% else %}
+                                <h5>Return</h5><br/>
+                                {% endif %}
+                                <h4>{{data.carrier_name}} {{data.carrier_number}}</h4>
+                                <span>Class {{data.cabin_class.1}} ({{data.class_of_service}})</span><br/>
                                 <div class="row">
                                     <div class="col-lg-6 col-xs-6">
                                         <table style="width:100%">
                                             <tr>
-                                                <td>{{response.origin.0}}</td>
+                                                <td>{{data.origin_name}}</td>
                                                 <td style="padding-left:15px;">
                                                     <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;"/>
                                                 </td>
@@ -89,25 +83,25 @@
                                                 </td>
                                             </tr>
                                         </table>
-                                        <span>{{response.origin.1}}</span><br/>
+                                        <span>{{data.origin}}</span><br/>
                                         <span>Schedule departure</span><br>
-                                        <span>{{response.departure.1}}</span><br>
-                                        <span>{{response.departure.0}}</span>
+                                        <span>{{data.departure_date}}</span>
                                     </div>
                                     <div class="col-lg-6 col-xs-6" style="padding:0;">
                                         <table style="width:100%; margin-bottom:6px;">
                                             <tr>
-                                                <td>{{response.destination.0}}</td>
+                                                <td>{{data.destination_name}}</td>
                                                 <td></td>
                                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                                             </tr>
                                         </table>
-                                        <span>{{response.destination.1}}</span><br/>
+                                        <span>{{data.destination}}</span><br/>
                                         <span>Schedule arrival</span><br>
-                                        <span>{{response.arrival.1}}</span><br>
-                                        <span>{{response.arrival.0}}</span>
+                                        <span>{{data.arrival_date}}</span>
                                     </div>
                                 </div>
+                                <hr/>
+                                {% endfor %}
                             </div>
                             <br/>
                         </div>
@@ -132,7 +126,7 @@
                                     {% for adult in adults%}
                                     <tr>
                                         <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
-                                        <td>{{adult.birth_date}} 182812812</td>
+                                        <td>{{adult.birth_date}}</td>
                                         <td>
                                             {% for id_type in id_types %}
                                             {% if id_type.0 == adult.identity_type %}
@@ -149,11 +143,6 @@
                                         <td>{{infant.title}} {{infant.first_name}} {{infant.last_name}}</td>
                                         <td>{{infant.birth_date}}</td>
                                         <td>
-                                            {% for id_type in id_types %}
-                                            {% if id_type.0 == infant.identity_type %}
-                                            {{id_type.1}}
-                                            {% endif %}
-                                            {% endfor%}
                                         </td>
                                         <td>{{infant.identity_number}}</td>
                                     </tr>
@@ -164,6 +153,15 @@
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div class="row" style="padding-bottom:10px;">
+                        <div class="col-lg-12">
+                            <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                                <hr/>
+                                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                            </div>
+                        </div>
+                    </div>
                     <div style="background-color:#f15a22;">
                         <center>
                             <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
@@ -278,7 +276,7 @@
 
 
 <script>
-    train_detail({{adult_count}}, {{infant_count}});
+    train_detail();
 </script>
 
 {% endblock %}

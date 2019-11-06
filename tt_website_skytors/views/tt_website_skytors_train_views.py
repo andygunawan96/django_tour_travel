@@ -27,7 +27,7 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
-id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
+id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport'], ['other', 'Other']]
 
 def elapse_time(dep, arr):
     elapse = arr - dep
@@ -106,8 +106,6 @@ def passenger(request):
 
         infant_title = ['MSTR', 'MISS']
 
-        id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport']]
-
         # agent
 
         airline_country = response['result']['response']['airline']['country']
@@ -141,6 +139,7 @@ def passenger(request):
             'time_limit': request.session['time_limit'],
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
+            'signature': request.session['train_signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
@@ -185,7 +184,7 @@ def review(request):
                 "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
                 "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                 "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                "identity_type": "passport",
+                "identity_type": request.POST['adult_id_type' + str(i + 1)]
             })
 
             if i == 0:
@@ -276,27 +275,25 @@ def review(request):
             'infant': infant,
             'contact': contact
         }
+        schedules = []
+        journeys = []
         for journey in request.session['train_pick']:
+            journeys.append({
+                'journey_code': journey['journey_code'],
+                'fare_code': journey['fares'][0]['fare_code']
+            })
+            schedules.append({
+                'journeys': journeys,
+                'provider': journey['provider'],
+            })
+            journeys = []
 
-            journeys_booking = [{
-                'segments': [{
-                    "segment_code": journey['segment_code'],
-                    "carrier_number": journey['carrier_number'],
-                    "cabin_class": journey['cabin_class'][0],
-                    "provider": journey['provider'],
-                    "fare_code": journey['fare'][0]['fare_code'],
-                    "class_of_service": journey['class_of_service']
-                }],
-                'journey_type': "DP"
-            }]
-
-        request.session['train_review_booking'] = {
-            'booker': booker,
-            'adult': adult,
-            'infant': infant,
-            'journeys_booking': journeys_booking
-        }
-
+        request.session['train_booking'] = schedules
+        try:
+            request.session['time_limit'] = request.POST['time_limit_input']
+        except:
+            pass
+        time_limit = request.session['time_limit']
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
@@ -304,14 +301,14 @@ def review(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'booker': booker,
             'adults': adult,
+            'time_limit': time_limit,
             'infants': infant,
             'id_types': id_type,
-            'adult_count': request.session['train_adult'],
-            'infant_count': request.session['train_infant'],
-            'journeys_booking': journeys_booking,
+            'train_request': request.session['train_request'],
             'response': request.session['train_pick'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
+            'signature': request.session['train_signature'],
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template

@@ -62,7 +62,7 @@
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
-
+    after_sales_type = '{{after_sales_type}}';
     passengers = `{{passengers}}`;
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, true);
@@ -174,7 +174,7 @@
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="{% if goto == 0 %} sell_ssrs_after_sales(); {% else %}assign_seats_after_sales(); {% endif %}" style="width:100%;">
+                            <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="sell_after_sales();" style="width:100%;">
                                 Proceed
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>

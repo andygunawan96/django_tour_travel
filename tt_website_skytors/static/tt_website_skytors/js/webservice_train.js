@@ -207,6 +207,32 @@ function datasearch2(train){
     filtering('filter');
 }
 
+function hold_booking(){
+    Swal.fire({
+      title: title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        if (val==0){
+            $('.loader-rodextrip').fadeIn();
+            $('.next-loading-booking').addClass("running");
+            $('.next-loading-booking').prop('disabled', true);
+            $('.next-loading-issued').prop('disabled', true);
+        }
+        else{
+            $('.loader-rodextrip').fadeIn();
+            $('.next-loading-booking').prop('disabled', true);
+            $('.next-loading-issued').addClass("running");
+            $('.next-loading-issued').prop('disabled', true);
+        }
+        train_commit_booking();
+      }
+    });
+}
 
 function train_create_booking(){
     getToken();
@@ -214,10 +240,12 @@ function train_create_booking(){
        type: "POST",
        url: "/webservice/train",
        headers:{
-            'action': 'create_booking',
+            'action': 'commit_booking',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
        console.log(msg);
         if(msg.result.error_code == 0){

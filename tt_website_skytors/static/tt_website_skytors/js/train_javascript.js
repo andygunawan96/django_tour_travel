@@ -130,22 +130,11 @@ function train_check_search_values(){
     type = '';
     error_log = '';
 
-    var radios = document.getElementsByName('radio_train_type');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            type = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
-        }
-    }
-
-    if(document.getElementById('train_origin').value.split(' - ').length != 2)
+    if(document.getElementById('train_origin').value.split(' - ').length != 3)
         error_log+= 'Please use autocomplete for origin\n';
-    if(document.getElementById('train_destination').value.split(' - ').length != 2)
+    if(document.getElementById('train_destination').value.split(' - ').length != 3)
         error_log+= 'Please use autocomplete for destination\n';
 
-//    error_log = ''; //DEV GARUDA
     if(error_log == ''){
         $('.button-search').addClass("running");
         document.getElementById('train_searchForm').submit();
@@ -153,17 +142,6 @@ function train_check_search_values(){
         $('.button-search').removeClass("running");
         alert(error_log);
     }
-
-    //check here
-    error_log = '';
-    if(document.getElementById('train_origin').value.split(' - ').length != 2)
-        error_log += 'Please use autocomplete for From field';
-    if(document.getElementById('train_destination').value.split(' - ').length != 2)
-        error_log += 'Please use autocomplete for To field';
-    if(error_log == '')
-        document.getElementById('train_searchForm').submit();
-    else
-        alert(error_log);
 }
 
 function search_train_validation(){
@@ -530,45 +508,62 @@ function getrupiah(price){
 }
 
 function choose_train(data,key){
-    try{
-        var x = document.getElementById("show-cart");
-        $("#show-cart").addClass("minus");
-        $(".img-plus-ticket").hide();
-        $(".img-min-ticket").show();
-        document.getElementById("badge-train-notif").innerHTML = "1";
-        $("#badge-train-notif").addClass("infinite");
-        $("#myModalTicketTrain").modal('show');
-
+    var x = document.getElementById("show-cart");
+    $("#show-cart").addClass("minus");
+    $(".img-plus-ticket").hide();
+    $(".img-min-ticket").show();
 //        document.getElementById("show-cart").style.display = "block";
+    journeys.push(train_data[key]);
 
-        document.getElementById('train_choose'+$sequence).value = 'Choose';
-        document.getElementById('train_choose'+$sequence).classList.remove("primary-btn-custom-un");
-        document.getElementById('train_choose'+$sequence).classList.add("primary-btn-custom");
-        document.getElementById('train_choose'+$sequence).disabled = false;
-
-        document.getElementById('train_choose'+train_data[data].sequence).value = 'Chosen';
-        document.getElementById('train_choose'+train_data[data].sequence).classList.remove("primary-btn-custom");
-        document.getElementById('train_choose'+train_data[data].sequence).classList.add("primary-btn-custom-un");
-        document.getElementById('train_choose'+train_data[data].sequence).disabled = true;
-
-        $sequence = train_data[key].sequence;
-    }catch(err){
-        $sequence = train_data[key].sequence;
+    if(journeys.length < train_request.departure.length){
+        train_request_pick++;
+        filtering('filter');
+    }else if(journeys.length == train_request.departure.length){
+        document.getElementById('train_choose'+data).value = 'Chosen';
+        document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
+        document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
+        document.getElementById('train_choose'+data).disabled = true;
+        train_get_detail();
+    }else{
+        for(i in train_data){
+            try{
+                document.getElementById('train_choose'+train_data[i].sequence).value = 'Choose';
+                document.getElementById('train_choose'+train_data[i].sequence).classList.remove("primary-btn-custom-un");
+                document.getElementById('train_choose'+train_data[i].sequence).classList.add("primary-btn-custom");
+                document.getElementById('train_choose'+train_data[i].sequence).disabled = false;
+            }catch(err){
+                console.log(err);
+            }
+        }
+        journeys.pop(journeys.length-2);
 
         document.getElementById('train_choose'+data).value = 'Chosen';
         document.getElementById('train_choose'+data).classList.remove("primary-btn-custom");
         document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('train_choose'+data).disabled = true;
+        train_get_detail();
     }
-    $text =
-        train_data[data].departure_date+` `+train_data[data].carrier_name+`-`+train_data[data].carrier_number+`(`+train_data[data].cabin_class[1]+`)\n`+
-        train_data[data].origin_name+` (`+train_data[data].origin+`) - `+train_data[data].destination_name+` (`+train_data[data].destination+`) `+train_data[data].departure_date+`-`+train_data[data].arrival_date+`\n\n`;
-    train_detail_text = `
+    console.log(journeys);
+}
+
+function train_get_detail(){
+    document.getElementById("badge-train-notif").innerHTML = "1";
+    $("#badge-train-notif").addClass("infinite");
+    $("#myModalTicketTrain").modal('show');
+    train_detail_text = '';
+    total_price = 0;
+    total_commission = 0;
+    total_tax = 0;
+    for(i in journeys){
+        $text =
+            journeys[i].departure_date+` `+journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
+            journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date+`-`+journeys[i].arrival_date+`\n\n`;
+        train_detail_text += `
         <div class="row">
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+train_data[data].origin+`</h6></td>
+                        <td><h6>`+journeys[i].origin+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -582,45 +577,47 @@ function choose_train(data,key){
                         </td>
                     </tr>
                 </table>
-                <span>`+train_data[data].origin_name+`</span><br>
-                <span>`+train_data[data].departure_date+`</span><br>
+                <span>`+journeys[i].origin_name+`</span><br>
+                <span>`+journeys[i].departure_date+`</span><br>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+train_data[data].destination+`</h6></td>
+                        <td><h6>`+journeys[i].destination+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+train_data[data].destination_name+`</span><br>
-                <span>`+train_data[data].arrival_date+`</span><br>
+                <span>`+journeys[i].destination_name+`</span><br>
+                <span>`+journeys[i].arrival_date+`</span><br>
             </div>
         </div>
         <hr/>
         <div class="row">`;
             if(parseInt(passengers.adult) > 0){
-                total_price = 0;
-                for(i in train_data[data].fares){
-                    for(j in train_data[data].fares[i].service_charge_summary){
+                for(i in journeys[i].fares){
+                    total_commission += journeys[i].fares[0].service_charge_summary[0].total_rac*-1;
+                    total_tax += journeys[i].fares[0].service_charge_summary[0].total_tax;
+                    for(j in journeys[i].fares[i].service_charge_summary){
+
                         price = {
                             'fare': 0,
                             'tax': 0
                         };
-                        for(k in train_data[data].fares[i].service_charge_summary[j].service_charges){
+                        for(k in journeys[i].fares[i].service_charge_summary[j].service_charges){
                             if(k == 0)
-                                price['currency'] = train_data[data].fares[i].service_charge_summary[j].service_charges[k].currency;
-                            if(train_data[data].fares[i].service_charge_summary[j].service_charges[k].charge_code != 'tax' && train_data[data].fares[i].service_charge_summary[j].service_charges[k].charge_code != 'roc')
-                                price[train_data[data].fares[i].service_charge_summary[j].service_charges[k].charge_code] = train_data[data].fares[i].service_charge_summary[j].service_charges[k].amount;
+                                price['currency'] = journeys[i].fares[i].service_charge_summary[j].service_charges[k].currency;
+                            if(journeys[i].fares[i].service_charge_summary[j].service_charges[k].charge_code != 'tax' && journeys[i].fares[i].service_charge_summary[j].service_charges[k].charge_code != 'roc')
+                                price[journeys[i].fares[i].service_charge_summary[j].service_charges[k].charge_code] = journeys[i].fares[i].service_charge_summary[j].service_charges[k].amount;
                             else
-                                price['tax'] += train_data[data].fares[i].service_charge_summary[j].service_charges[k].amount;
+                                price['tax'] += journeys[i].fares[i].service_charge_summary[j].service_charges[k].amount;
                         }
-                        if(train_data[data].fares[i].service_charge_summary[j].pax_type == 'ADT')
+                        if(journeys[i].fares[i].service_charge_summary[j].pax_type == 'ADT')
                             total_price += price['fare'] * parseInt(passengers.adult);
                         else
                             total_price += price['fare'] * parseInt(passengers.infant);
-                        if(train_data[data].fares[i].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
+                        if(journeys[i].fares[i].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
                             train_detail_text+=`
                                 <div class="col-lg-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px;">`+parseInt(passengers.adult)+` Adult(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
@@ -629,7 +626,7 @@ function choose_train(data,key){
                                     <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.adult))+`</span>
                                 </div>`;
                             $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
-                        }else if(train_data[data].fares[i].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
+                        }else if(journeys[i].fares[i].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
                             train_detail_text+=`
                                 <div class="col-lg-6 col-xs-6" style="text-align:left;">
                                     <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
@@ -640,9 +637,6 @@ function choose_train(data,key){
                             $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
                         }
                     }
-                $text += '1x Convenience fee'+price['currency']+' '+ train_data[data].fares[0].service_charge_summary[0].total_tax + '\n\n';
-                $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(train_data[data].fares[0].service_charge_summary[0].total_tax)));
-                console.log($text);
                 }
             }
 
@@ -651,23 +645,25 @@ function choose_train(data,key){
                 <span style="font-size:13px;">Convenience fee</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data[data].fares[0].service_charge_summary[0].total_tax)+`</span>
+                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax)+`</span>
             </div>
         </div>
-        <hr/>
+        `;
+    }
+    train_detail_text += `<hr/>
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
                 <span style="color:white;font-size:13px;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+train_data[data].fares[0].service_charge_summary[0].total_tax)+`</b></span><br>
+                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
             </div>
         </div>
 
         <div class="row" id="show_commission" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                 <div class="alert alert-success">
-                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(train_data[data].fares[0].service_charge_summary[0].total_rac*-1)+`</span><br>
+                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
                 </div>
             </div>
         </div>
@@ -686,8 +682,10 @@ function choose_train(data,key){
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>
             </div>
-        </div>
-        `;
+        </div>`
+    $text += '1x Convenience fee'+price['currency']+' '+ journeys[i].fares[0].service_charge_summary[0].total_tax + '\n\n';
+    $text += 'Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
+    console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
 }
 
@@ -695,24 +693,28 @@ function goto_passenger(){
     show_loading();
     document.getElementById('train_detail').innerHTML +=
         `<input type="hidden" id="response" name="response"
-        value='`+JSON.stringify(train_data[$sequence])+`'>
+        value='`+JSON.stringify(journeys)+`'>
         <input type="hidden" id="time_limit_input" name="time_limit_input" value="`+time_limit+`" />`;
     document.getElementById('train_passenger').submit();
 }
 
 function train_detail(){
-    $text =
-        train_data.carrier_name+`-`+train_data.carrier_number+`(`+train_data.cabin_class[1]+`)\n`+
-        train_data.origin_name+` (`+train_data.origin+`) - `+train_data.destination_name+` (`+train_data.destination+`) `+train_data.departure_date+`-`+train_data.arrival_date+`\n\n`;
-
+    total_price = 0;
+    total_commission = 0;
+    total_tax = 0;
     text = '';
+    $text = '';
+    for(i in train_data){
+    $text +=
+        train_data[i].carrier_name+`-`+train_data[i].carrier_number+`(`+train_data[i].cabin_class[1]+`)\n`+
+        train_data[i].origin_name+` (`+train_data[i].origin+`) - `+train_data[i].destination_name+` (`+train_data[i].destination+`) `+train_data[i].departure_date+`-`+train_data[i].arrival_date+`\n\n`;
     text += `
 
         <div class="row" style:"background-color:white; padding:5px;">
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+train_data.origin+`</h6></td>
+                        <td><h6>`+train_data[i].origin+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -726,102 +728,104 @@ function train_detail(){
                         </td>
                     </tr>
                 </table>
-                <span>`+train_data.origin_name+`</span><br>
-                <span>`+train_data.departure_date+`</span><br>
+                <span>`+train_data[i].origin_name+`</span><br>
+                <span>`+train_data[i].departure_date+`</span><br>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+train_data.destination+`</h6></td>
+                        <td><h6>`+train_data[i].destination+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+train_data.destination_name+`</span><br>
-                <span>`+train_data.arrival_date+`</span><br>
+                <span>`+train_data[i].destination_name+`</span><br>
+                <span>`+train_data[i].arrival_date+`</span><br>
             </div>
         </div>
         <hr/>
         <div class="row">`;
-            if(parseInt(adult) > 0){
-                total_price = 0;
-                for(i in train_data.fares){
-                    for(j in train_data.fares[i].service_charge_summary){
-                        price = {
-                            'fare': 0,
-                            'tax': 0
-                        };
-                        for(k in train_data.fares[i].service_charge_summary[j].service_charges){
-                            if(k == 0)
-                                price['currency'] = train_data.fares[i].service_charge_summary[j].service_charges[k].currency;
-                            if(train_data.fares[i].service_charge_summary[j].service_charges[k].charge_code != 'tax' && train_data.fares[i].service_charge_summary[j].service_charges[k].charge_code != 'roc')
-                                price[train_data.fares[i].service_charge_summary[j].service_charges[k].charge_code] = train_data.fares[i].service_charge_summary[j].service_charges[k].amount;
-                            else
-                                price['tax'] += train_data.fares[i].service_charge_summary[j].service_charges[k].amount;
-                        }
-                        if(train_data.fares[i].service_charge_summary[j].pax_type == 'ADT')
-                            total_price += price['fare'] * parseInt(adult);
+        price = {
+            'fare': 0,
+            'tax': 0
+        };
+        if(parseInt(adult) > 0){
+            for(j in train_data[i].fares){
+                total_tax += train_data[i].fares[0].service_charge_summary[0].total_tax;
+                total_commission += train_data[i].fares[0].service_charge_summary[0].total_rac*-1;
+                for(k in train_data[i].fares[j].service_charge_summary){
+                    for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
+                        if(l == 0)
+                            price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                        if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'tax' && train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'roc')
+                            price[train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
                         else
-                            total_price += price['fare'] * parseInt(infant);
-                        if(train_data.fares[i].service_charge_summary[j].pax_type == 'ADT' && parseInt(adult) > 0){
-                            text+=`
-                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px;">`+parseInt(adult)+` Adult(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                                </div>
-                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
-                                </div>`;
-                            $text += adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
-                        }else if(train_data.fares[i].service_charge_summary[j].pax_type == 'INF' && parseInt(infant) > 0){
-                            text+=`
-                                <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                    <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                                </div>
-                                <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(infant))+`</span>
-                                </div>`;
-                            $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
-                        }
+                            price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
                     }
-                $text += '1x Convenience fee '+price['currency']+' '+ train_data.fares[0].service_charge_summary[0].total_tax + '\n\n';
-                $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(train_data.fares[0].service_charge_summary[0].total_tax)));
-                console.log($text);
+                    if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
+                        total_price += price['fare'] * parseInt(adult);
+                    else
+                        total_price += price['fare'] * parseInt(infant);
+                    if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT' && parseInt(adult) > 0){
+                        text+=`
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px;">`+parseInt(adult)+` Adult(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
+                            </div>`;
+                        $text += adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
+                    }else if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
+                        text+=`
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(infant))+`</span>
+                            </div>`;
+                        $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                    }
                 }
             }
+        }
         text+=`<div class="col-lg-6 col-xs-6" style="text-align:left;">
                 <span style="font-size:13px;">1x Convenience fee</span>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data.fares[0].service_charge_summary[0].total_tax)+`</span>
-            </div>
-        </div>
-        <hr/>
-        <div class="row" style="margin-bottom:5px;">
-            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="color:white;font-size:13px;"><b>Total</b></span><br>
-            </div>
-            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+train_data.fares[0].service_charge_summary[0].total_tax)+`</b></span><br>
-            </div>
-        </div>
-
-        <div class="row" id="show_commission" style="display:none;">
-            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                <div class="alert alert-success">
-                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(train_data.fares[0].service_charge_summary[0].total_rac*-1)+`</span><br>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(train_data[i].fares[0].service_charge_summary[0].total_tax)+`</span>
             </div>
         </div>`;
+    }
+    text+=`
+    <hr/>
+    <div class="row" style="margin-bottom:5px;">
+        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+            <span style="color:white;font-size:13px;"><b>Total</b></span><br>
+        </div>
+        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+            <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+        </div>
+    </div>
+
+    <div class="row" id="show_commission" style="display:none;">
+        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+            <div class="alert alert-success">
+                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+        </div>
+    </div>`;
+    $text += '1x Convenience fee '+price['currency']+' '+ total_tax + '\n\n';
+    $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
 
     document.getElementById('train_detail').innerHTML = text;
 }
@@ -973,25 +977,56 @@ function check_passenger(adult, infant){
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_passport_number'+i).value != '' ||
-          document.getElementById('adult_passport_expired_date'+i).value != '' ||
-          document.getElementById('adult_country_of_issued'+i).value != ''){
-           if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
+       }
+       if(document.getElementById('adult_id_type'+i).value == ''){
+           error_log+= 'Please fill id type for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_id_type'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_id_type'+i).style['border-color'] = '#EFEFEF';
+           if(document.getElementById('adult_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
+               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
+
+           if(document.getElementById('adult_id_type'+i).value == 'sim' && check_sim(document.getElementById('adult_passport_number'+i).value) == false){
+               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }
+
+           if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
+               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }
+           if(document.getElementById('adult_id_type'+i).value == 'other' && document.getElementById('adult_passport_number'+i).value.length < 6){
+               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           }
+       }
+       if(document.getElementById('adult_passport_number'+i).value == ''){
+           error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+       }
+
+       if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+           error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+           document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+       }else{
+           document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
        }
    }
    //infant
@@ -1255,80 +1290,105 @@ function sort(value){
     //set
     var response = '';
     for(i in data_filter){
-        if(data_filter[i].available_count > 0)
-            response+=`<div style="background-color:white; padding:5px; margin-bottom:15px;">`;
-        else
-            response+=`<div style="background-color:#E5E5E5; padding:5px; margin-bottom:15px;">`;
-        response += `
-            <div class="row" style="padding:10px;">
-                <div class="col-lg-12">
-                    <h4>`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+`</h4>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <table style="width:100%">
-                        <tr>
-                            <td><h5>`+data_filter[i].origin+`</h5></td>
-                            <td style="padding-left:15px;">
-                                <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;"/>
-                            </td>
-                            <td style="height:30px;padding:0 15px;width:100%">
-                                <div style="display:inline-block;position:relative;width:100%">
-                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <span>`+data_filter[i].origin_name+`</span><br/>
-                    <span>`+data_filter[i].departure_date+`</span><br/>
-                </div>
-                <div class="col-lg-4 col-xs-6" style="padding:0;">
-                    <table style="width:100%; margin-bottom:6px;">
-                        <tr>
-                            <td><h5>`+data_filter[i].destination+`</h5></td>
-                            <td></td>
-                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                        </tr>
-                    </table>
-                    <span>`+data_filter[i].destination_name+`</span><br/>
-                    <span>`+data_filter[i].arrival_date+`</span><br/>
-                </div>
+        if(train_request.departure[train_request_pick] == data_filter[i].departure_date.split(' - ')[0]){
+            if(data_filter[i].available_count > 0)
+                response+=`<div style="background-color:white; padding:5px; margin-bottom:15px;">`;
+            else
+                response+=`<div style="background-color:#E5E5E5; padding:5px; margin-bottom:15px;">`;
+            response += `
+                <div class="row" style="padding:10px;">
+                    <div class="col-lg-12">
+                        <h4>`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+`</h4>
+                    </div>
+                    <div class="col-lg-4 col-xs-6">
+                        <table style="width:100%">
+                            <tr>
+                                <td><h5>`+data_filter[i].origin+`</h5></td>
+                                <td style="padding-left:15px;">
+                                    <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;"/>
+                                </td>
+                                <td style="height:30px;padding:0 15px;width:100%">
+                                    <div style="display:inline-block;position:relative;width:100%">
+                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <span>`+data_filter[i].origin_name+`</span><br/>
+                        <span>`+data_filter[i].departure_date+`</span><br/>
+                    </div>
+                    <div class="col-lg-4 col-xs-6" style="padding:0;">
+                        <table style="width:100%; margin-bottom:6px;">
+                            <tr>
+                                <td><h5>`+data_filter[i].destination+`</h5></td>
+                                <td></td>
+                                <td style="height:30px;padding:0 15px;width:100%"></td>
+                            </tr>
+                        </table>
+                        <span>`+data_filter[i].destination_name+`</span><br/>
+                        <span>`+data_filter[i].arrival_date+`</span><br/>
+                    </div>
 
-                <div class="col-lg-4 col-xs-12">
-                    <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
-                    try{
-                        if($sequence == data_filter[i].sequence && $sequence!= ''){
-                            response+=`
+                    <div class="col-lg-4 col-xs-12">
+                        <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
+                        check = 0;
+                        for(j in journeys){
+                            if(journeys[j].sequence == data_filter[i].sequence){
+                                response+=`
                             <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                             <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
-                        }else if(data_filter[i].available_count > parseInt(passengers.adult))
-                            response+=`
-                            <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                            <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
-                        else if(data_filter[i].available_count > parseInt(passengers.adult))
-                            response+=`
-                            <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                            <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+i+`" value="Choose">`;
-                        else
-                            response+=`
-                            <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                            <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
-                    }catch(err){
+                                check = 1;
+                            }
+                        }
+                        if(check == 0){
+                            if(data_filter[i].available_count > parseInt(passengers.adult))
+                                response+=`
+                                <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
+                            else if(data_filter[i].available_count > parseInt(passengers.adult))
+                                response+=`
+                                <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+i+`" value="Choose">`;
+                            else
+                                response+=`
+                                <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
+                        }
+                        response+=`</div>
+                    </div>`;
 
-                    }
-                    response+=`</div>
-                </div>`;
-
-                if(data_filter[i].available_count<50)
-                    response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span></div>`;
-                else if(data_filter[i].available_count<=1 )
-                    response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span></div>`;
-                response+=`
-            </div>
-        </div>`;
+                    if(data_filter[i].available_count<50)
+                        response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span></div>`;
+                    else if(data_filter[i].available_count<=1 )
+                        response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span></div>`;
+                    response+=`
+                </div>
+            </div>`;
+        }
     }
     train_data_filter = data_filter;
     document.getElementById('train_ticket').innerHTML = response;
     document.getElementById('loading-search-train').hidden = true;
+}
+
+function update_contact_cp(val){
+    temp = 1;
+    while(temp != train_request.adult){
+        if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
+            document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
+            document.getElementById('adult_cp'+temp.toString()).checked = false;
+            alert('Contact Person has been changed!');
+        }
+        temp++;
+    }
+    if(document.getElementById('adult_cp'+val.toString()).checked == true){
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = false;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = false;
+    }else{
+        document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
+        document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
+    }
 }
