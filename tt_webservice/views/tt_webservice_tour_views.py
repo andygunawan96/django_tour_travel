@@ -207,7 +207,10 @@ def get_pricing_cache(request):
 def sell_tour(request):
     data = {
         "promotion_codes_booking": [],
-        "search_request": request.session['activity_review_booking']['search_request'],
+        "tour_id": request.session['tour_pick']['id'],
+        "adult": request.session['tour_booking_data']['adult'],
+        "child": request.session['tour_booking_data']['child'],
+        "infant": request.session['tour_booking_data']['infant'],
         'provider': request.session['tour_pick']['provider'],
     }
     headers = {
@@ -257,9 +260,8 @@ def update_passengers(request):
     passenger = []
     javascript_version = get_cache_version()
     response = get_cache_data(javascript_version)
+    room_choices = json.loads(request.POST['room_choice'])
 
-    countries = response['result']['response']['airline']['country']
-    passenger = []
     for pax in request.session['tour_booking_data']['adult_pax']:
         pax.update({
             'birth_date': '%s-%s-%s' % (
@@ -370,6 +372,10 @@ def update_passengers(request):
             pax.pop('identity_type')
         passenger.append(pax)
 
+    for rec in passenger:
+        for rec2 in room_choices:
+            pass
+
     data = {
         "passengers": passenger,
     }
@@ -387,13 +393,8 @@ def update_passengers(request):
 def commit_booking(request):
     try:
         data = {
-            'provider': request.session['tour_pick']['provider'],
             'force_issued': request.POST['value'],
-            'booker_id': request.POST['booker_id'],
-            'pax_ids': request.POST['pax_ids'],
             'payment_method': request.POST['payment_method'],
-            'book_line_ids': request.POST['book_line_ids'],
-            'tour_booking_data': request.session['tour_booking_data'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

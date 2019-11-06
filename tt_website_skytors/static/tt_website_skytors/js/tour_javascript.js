@@ -761,19 +761,22 @@ function tour_check_rooms()
 function tour_hold_booking(val){
     var check_rooms = tour_check_rooms();
     var radios = document.getElementsByName('payment_opt');
-    var pay_method = '';
+    payment_method_choice = '';
+    paymethod_txt = ``;
 
     for (var i = 0; i < radios.length; i++)
     {
         if (radios[i].checked)
         {
-            pay_method = radios[i].value;
+            payment_method_choice = radios[i].value;
             break;
         }
     }
 
     if (check_rooms == true)
     {
+        paymethod_txt += `<input type="hidden" id="chosen_pay_method" name="chosen_pay_method" value="`+payment_method_choice+`"/>`;
+        paymethod_txt += `<input type="hidden" id="force_issued_opt" name="force_issued_opt" value="`+val+`"/>`;
         title = '';
         if(val == 0)
             title = 'Are you sure want to Hold Booking?';
@@ -800,6 +803,7 @@ function tour_hold_booking(val){
                 $('.next-loading-issued').addClass("running");
                 $('.next-loading-issued').prop('disabled', true);
             }
+            document.getElementById('commit_booking_setup').innerHTML = paymethod_txt;
             update_sell_tour();
           }
         })
@@ -847,23 +851,39 @@ function tour_filter_render(){
 
     text=`
         <hr/>
-        <h6 style="padding-bottom:10px;">Price (Rupiah)</h6>`;
-    for(i in budget_list){
-        if(i == 0)
-            text+=`
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
-                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)" checked />
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else
-            text+=`
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
-                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)"/>
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-    }
+        <h6 style="padding-bottom:10px;">Price Range</h6>
+        <div class="wrapper">
+            <div class="range-slider">
+                <input type="text" class="js-range-slider"/>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <span>Min</span><br/>
+                    <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <span>Max</span><br/>
+                    <input type="text" class="js-input-to form-control-custom" id="price-to" value="0"/>
+                </div>
+            </div>
+        </div>`;
+        //    for(i in budget_list){
+        //        text+=``;
+        //        if(i == 0)
+        //            text+=`
+        //            <label class="check_box_custom">
+        //                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
+        //                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)" checked />
+        //                <span class="check_box_span_custom"></span>
+        //            </label><br/>`;
+        //        else
+        //            text+=`
+        //            <label class="check_box_custom">
+        //                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
+        //                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)"/>
+        //                <span class="check_box_span_custom"></span>
+        //            </label><br/>`;
+        //    }
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -1026,28 +1046,8 @@ function change_filter(type, value){
             tour_type_list[value].status = !tour_type_list[value].status;
         document.getElementById("checkbox_tour_type"+value).checked = tour_type_list[value].status;
         document.getElementById("checkbox_tour_type2"+value).checked = tour_type_list[value].status;
-    }else if(type == 'budget'){
-        if(value == 0)
-            for(i in budget_list){
-                budget_list[i].status = false
-                document.getElementById("checkbox_budget"+i).checked = budget_list[i].status;
-                document.getElementById("checkbox_budget2"+i).checked = budget_list[i].status;
-            }
-        else{
-            budget_list[0].status = false;
-            document.getElementById("checkbox_budget0").checked = false;
-            document.getElementById("checkbox_budget20").checked = false;
-        }
-        budget_list[value].status = !budget_list[value].status;
-        for(i in budget_list){
-            if(budget_list[i].status == true)
-                check = 1;
-        }
-        if(check == 0)
-            budget_list[value].status = !budget_list[value].status;
-        document.getElementById("checkbox_budget"+value).checked = budget_list[value].status;
-        document.getElementById("checkbox_budget2"+value).checked = budget_list[value].status;
     }
+
     filtering('filter');
 }
 
@@ -1252,13 +1252,14 @@ function sort(tour_dat){
 
            if (tour_dat[i].state_tour == 'sold')
            {
-               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
+               dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
                dat_content2 = `Sold Out`
            }
            else
            {
-               dat_content1 = `Date: `+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
-               dat_content2 = `Availability: `+tour_dat[i].seat+`/`+tour_dat[i].quota;
+               dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
+               var count_quota = tour_data[i].quota - tour_data[i].seat;
+               dat_content2 = ``+count_quota+`/`+tour_dat[i].quota;
            }
 
            text+=`
@@ -1280,11 +1281,11 @@ function sort(tour_dat){
                                 <div class="row details">
                                     <div class="col-lg-12" style="text-align:left;">
                                         <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                        <span style="font-size:12px;">`+dat_content1+`</span><br/>
-                                        <span style="font-size:12px;">`+dat_content2+`</span><br/><br/>
+                                        <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                        <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
                                     </div>
                                     <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:12px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
+                                        <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
                                         <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
                                     </div>
                                 </div>
