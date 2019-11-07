@@ -54,7 +54,7 @@ def api_models(request):
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'issued':
-            res = issued_booking(request)
+            res = issued(request)
         elif req_data['action'] == 'get_seat_map':
             res = seat_map(request)
         elif req_data['action'] == 'manual_seat':
@@ -259,6 +259,16 @@ def commit_booking(request):
 
 def get_booking(request):
     try:
+        train_destinations = []
+        file = open(var_log_path() + "train_cache_data.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response:
+            train_destinations.append({
+                'code': country['code'],
+                'name': country['name'],
+            })
         data = {
             'order_number': request.POST['order_number']
         }
@@ -270,54 +280,64 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            request.session['train_pick'] = {
-                'origin': res['result']['response']['journeys'][0]['origin']['code'],
-                'destination': res['result']['response']['journeys'][0]['destination']['code'],
-                'departure_date': str(datetime.strptime('30-Mar-2019', '%d-%b-%Y'))[:10],
-                'carrier_code': res['result']['response']['journeys'][0]['segments'][0]['carrier']['code'],
-                'class_of_service': res['result']['response']['journeys'][0]['segments'][0]['class_of_service'],
-                'pnr': res['result']['response']['pnrs'][0]['pnr']
-            }
-            request.session['train_pnr'] = res['result']['response']['pnrs'][0]['pnr']
-            passenger = []
-            for pax in res['result']['response']['journeys'][0]['segments'][0]['seats']:
-                passenger.append(pax)
-            request.session['train_pax'] = passenger
-        #     pax
-            for pnr in res['result']['response']['pnrs']:
-                hold_date = to_date_now(pnr['hold_date'])
-                pnr.update({
-                    'date': '%s %s %s %s:%s' % (pnr['departure_date'].split(' ')[0].split('-')[2],
-                                                month[pnr['departure_date'].split(' ')[0].split('-')[1]],
-                                                pnr['departure_date'].split(' ')[0].split('-')[0],
-                                                pnr['departure_date'].split(' ')[1].split(':')[0],
-                                                pnr['departure_date'].split(' ')[1].split(':')[1]),
-                    'hold_date': '%s %s %s %s:%s' % (hold_date.split(' ')[0].split('-')[2],
-                                                     month[hold_date.split(' ')[0].split('-')[
-                                                         1]],
-                                                     hold_date.split(' ')[0].split('-')[0],
-                                                     hold_date.split(' ')[1].split(':')[0],
-                                                     hold_date.split(' ')[1].split(':')[1]),
-                    'status': pnr['status'].capitalize()
-                })
-            for journey in res['result']['response']['journeys']:
-                for segment in journey['segments']:
-                    segment.update({
-                        'departure_date': '%s %s %s' % (segment['departure_date'].split('-')[0], segment['departure_date'].split('-')[1], segment['departure_date'].split('-')[2]),
-                        'arrival_date': '%s %s %s' % (segment['arrival_date'].split('-')[0], segment['arrival_date'].split('-')[1], segment['arrival_date'].split('-')[2])
+            for provider_booking in res['result']['response']['provider_bookings']:
+                for journey in provider_booking['journeys']:
+                    journey.update({
+                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'] + ':00')),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date'] + ':00'))
                     })
-                    for seat in segment['seats']:
-                        seat['passenger'].update({
-                            'birth_date': '%s %s %s' % (
-                            seat['passenger']['birth_date'].split('-')[2], month[seat['passenger']['birth_date'].split('-')[1]],
-                            seat['passenger']['birth_date'].split('-')[0])
-                        })
+                    check = 0
+                    for destination in train_destinations:
+                        if destination['code'] == journey['origin']:
+                            journey.update({
+                                'origin_name': destination['name'],
+                            })
+                            check = check + 1
+                        if destination['code'] == journey['destination']:
+                            journey.update({
+                                'destination_name': destination['name'],
+                            })
+                            check = check + 1
+                        if check == 2:
+                            break
+            for pax in res['result']['response']['passengers']:
+                pax.update({
+                    'birth_date': '%s %s %s' % (
+                        pax['birth_date'].split(' ')[0].split('-')[2],
+                        month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                        pax['birth_date'].split(' ')[0].split('-')[0])
+                })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def seat_map(request):
@@ -344,23 +364,36 @@ def seat_map(request):
 
     return res
 
-def issued_booking(request):
+def issued(request):
+    # nanti ganti ke get_ssr_availability
     try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
         data = {
-            "order_number": request.session['train_order_number'],
-
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
-            "signature": request.session['train_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def manual_seat(request):

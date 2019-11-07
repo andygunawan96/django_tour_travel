@@ -176,6 +176,16 @@ function calculate(type){
         }
         text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
         document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
+    }else if(type == 'train'){
+        console.log(price_duplication);
+        for(i in price_duplication){
+
+            document.getElementById(i+'_price').innerHTML = getrupiah(price_duplication[i].Fare + price_duplication[i].Tax);
+            document.getElementById(i+'_repricing').innerHTML = getrupiah(price_duplication[i].Repricing);
+            document.getElementById(i+'_total').innerHTML = getrupiah(price_duplication[i].total);
+        }
+        text = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
+        document.getElementById('repricing_button').innerHTML = `<input class="primary-btn-ticket" type="button" onclick="update_service_charge();" value="Set Upsell Downsell">`;
     }else if(type == 'activity'){
         console.log(price_duplication);
         for(i in price_duplication){

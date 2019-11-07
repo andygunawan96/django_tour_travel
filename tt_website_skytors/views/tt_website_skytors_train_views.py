@@ -323,20 +323,19 @@ def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
-        airline_country = response['result']['response']['airline']['country']
 
         template, logo = get_logo_template()
-
+        try:
+            request.session['train_order_number'] = request.POST['order_number']
+        except:
+            pass
+        order_number = request.session['train_order_number']
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
-            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-            'countries': airline_country,
             'cabin_class_types': cabin_class_type,
-            'order_number': request.POST['order_number'],
+            'order_number': order_number,
             'username': request.session['user_account'],
-            'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),

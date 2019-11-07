@@ -93,19 +93,7 @@
         tour_city = [];
     {% endfor %}
 
-    {% if username != undefined %}
-        try{
-            //hotel_signin('home');
-            get_train_config('home');
-            get_airline_config('home');
-            airline_search_value = 'false';
-            get_visa_config('home');
-            //get_train_config('home');
-            //tour_login('');
-        }catch(err){
 
-        }
-    {% endif %}
 </script>
 
 <style>
@@ -137,7 +125,7 @@
 {% else %}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:150px; z-index:1; position:relative;">
 {% endif %}
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:1;margin-top:-50px;"></div>
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
     <div class="container">
         <div class="row">
             {% if username != null %}
@@ -4829,6 +4817,19 @@
 {%endif%}
 {% include 'tt_website_skytors/footer.html' %}
 <script>
+    {% if username != undefined %}
+        try{
+            //hotel_signin('home');
+            get_train_config('home');
+            get_airline_config('home');
+            airline_search_value = 'false';
+            get_visa_config('home');
+            //get_train_config('home');
+            //tour_login('');
+        }catch(err){
+
+        }
+    {% endif %}
     {% if username != null %}
     //test
     var airline_origin = new autoComplete({

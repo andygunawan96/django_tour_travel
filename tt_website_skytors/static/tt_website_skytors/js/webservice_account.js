@@ -152,9 +152,8 @@ function get_transactions_notification(val){
                     }else if(msg.result.response[i].state_description == 'Issued'){
                         hold_date = 'Issued';
                     }else{
-
                         hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                        if(window.location.href.split('/')[window.location.href.split('/').length-1] == ""){
+                        if(window.location.href.split('/')[window.location.href.split('/').length-1] == "" && check_notif < 5){
                             document.getElementById('notification_div').innerHTML +=`
                                 <div class="row" id="alert`+check_notif+`">
                                     <div class="col-sm-6">
@@ -167,6 +166,7 @@ function get_transactions_notification(val){
                                     </div>
                                 </div>
                             `;
+                            check_notif++;
                         }
                     }
                 }else{
