@@ -760,23 +760,11 @@ function tour_check_rooms()
 
 function tour_hold_booking(val){
     var check_rooms = tour_check_rooms();
-    var radios = document.getElementsByName('payment_opt');
-    payment_method_choice = '';
-    paymethod_txt = ``;
-
-    for (var i = 0; i < radios.length; i++)
-    {
-        if (radios[i].checked)
-        {
-            payment_method_choice = radios[i].value;
-            break;
-        }
-    }
+    book_setup_txt = ``;
 
     if (check_rooms == true)
     {
-        paymethod_txt += `<input type="hidden" id="chosen_pay_method" name="chosen_pay_method" value="`+payment_method_choice+`"/>`;
-        paymethod_txt += `<input type="hidden" id="force_issued_opt" name="force_issued_opt" value="`+val+`"/>`;
+        book_setup_txt += `<input type="hidden" id="force_issued_opt" name="force_issued_opt" value="`+val+`"/>`;
         title = '';
         if(val == 0)
             title = 'Are you sure want to Hold Booking?';
@@ -803,7 +791,7 @@ function tour_hold_booking(val){
                 $('.next-loading-issued').addClass("running");
                 $('.next-loading-issued').prop('disabled', true);
             }
-            document.getElementById('commit_booking_setup').innerHTML = paymethod_txt;
+            document.getElementById('commit_booking_setup').innerHTML = book_setup_txt;
             update_sell_tour();
           }
         })

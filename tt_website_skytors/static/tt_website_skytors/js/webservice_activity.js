@@ -687,7 +687,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
    });
 }
 
-function activity_pre_create_booking(){
+function activity_pre_create_booking(value){
     Swal.fire({
       title: 'Are you sure you want to issued this order?',
       type: 'warning',
@@ -698,7 +698,7 @@ function activity_pre_create_booking(){
     }).then((result) => {
       if (result.value) {
         show_loading();
-        activity_commit_booking();
+        activity_commit_booking(value);
       }
     })
 }
@@ -839,7 +839,16 @@ function update_options_activity(){
     });
 }
 
-function activity_commit_booking(){
+function activity_commit_booking(val){
+    data = {
+        'value': val,
+        'signature': signature
+    }
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+    }catch(err){
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -847,11 +856,7 @@ function activity_commit_booking(){
        headers:{
             'action': 'commit_booking',
        },
-       data: {
-            'seq_id': payment_acq2[payment_method][selected].seq_id,
-            'member': payment_acq2[payment_method][selected].method,
-            'signature': signature
-       },
+       data: data,
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){

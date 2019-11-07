@@ -508,8 +508,7 @@ function update_passengers_tour(){
         var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
         var temp_pax_id = document.getElementById("temp_pax_id"+String(i+1)).value;
         temp_dict = {
-            'room_id': document.getElementById("room_id_"+String(temp_room_seq)).value,
-            'room_seq': parseInt(temp_room_seq)
+            'room_id': document.getElementById("room_id_"+String(temp_room_seq)).value
         }
         room_choice_dict[temp_pax_id] = temp_dict;
     }
@@ -553,6 +552,30 @@ function update_passengers_tour(){
 
 function commit_booking_tour()
 {
+    force_issued_val = document.getElementById('force_issued_opt').value;
+    if(force_issued_val == 1)
+    {
+        payment_method_choice = '';
+        var radios = document.getElementsByName('payment_opt');
+        for (var i = 0; i < radios.length; i++)
+        {
+            if (radios[i].checked)
+            {
+                payment_method_choice = radios[i].value;
+                break;
+            }
+        }
+    }
+    data = {
+        'value': force_issued_val,
+        'signature': signature
+    }
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+        data['payment_method'] = payment_method_choice;
+    }catch(err){
+    }
     getToken();
     $.ajax({
        type: "POST",
@@ -560,13 +583,10 @@ function commit_booking_tour()
        headers:{
             'action': 'commit_booking',
        },
-       data: {
-           'force_issued': document.getElementById('force_issued_opt').value,
-           'payment_method': document.getElementById('chosen_pay_method').value,
-       },
+       data: data,
        success: function(msg) {
            console.log(msg);
-           var booking_num = msg.result.response.booking_num;
+           var booking_num = msg.result.response.order_number;
            if (booking_num)
            {
                document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
@@ -650,17 +670,30 @@ function get_payment_rules(id)
     });
 }
 
-function tour_issued_booking(order_number)
+function issued_booking_tour(order_number)
 {
+    payment_method_choice = '';
+    var radios = document.getElementsByName('payment_opt');
+    for (var i = 0; i < radios.length; i++)
+    {
+        if (radios[i].checked)
+        {
+            payment_method_choice = radios[i].value;
+            break;
+        }
+    }
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
        headers:{
-            'action': 'issued',
+            'action': 'issued_booking',
        },
        data: {
            'order_number': order_number,
+           'payment_method': payment_method_choice,
+           'seq_id': payment_acq2[payment_method][selected].seq_id,
+           'member': payment_acq2[payment_method][selected].method,
        },
        success: function(msg) {
            console.log(msg);
