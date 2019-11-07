@@ -49,8 +49,8 @@ def api_models(request):
             res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
-        elif req_data['action'] == 'create_booking':
-            res = create_booking(request)
+        elif req_data['action'] == 'commit_booking':
+            res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'issued':
@@ -178,44 +178,77 @@ def search(request):
 
     return res
 
-def create_booking(request):
+def commit_booking(request):
     try:
+        booker = request.session['train_create_passengers']['booker']
+        contacts = request.session['train_create_passengers']['contact']
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                break
+
+        for pax in contacts:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         passenger = []
+        for pax_type in request.session['train_create_passengers']:
+            if pax_type != 'booker' and pax_type != 'contact':
+                for pax in request.session['train_create_passengers'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
 
-        for pax in request.session['train_review_booking']['adult']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            passenger.append(pax)
-        for pax in request.session['train_review_booking']['infant']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            passenger.append(pax)
+                    if pax['identity_country_of_issued_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['identity_country_of_issued_name'] == country['name']:
+                                pax['identity_country_of_issued_code'] = country['code']
+                                break
+                    pax.update({
+                        'birth_date': '%s-%s-%s' % (
+                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                            pax['birth_date'].split(' ')[0]),
+                    })
+                    if pax['identity_expdate'] != '':
+                        pax.update({
+                            'identity_expdate': '%s-%s-%s' % (
+                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                pax['identity_expdate'].split(' ')[0])
+                        })
+                        pax['identity'] = {
+                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                            "identity_expdate": pax.pop('identity_expdate'),
+                            "identity_number": pax.pop('identity_number'),
+                            "identity_type": pax.pop('identity_type'),
+                        }
+                    else:
+                        pax.pop('identity_country_of_issued_name')
+                        pax.pop('identity_expdate')
+                        pax.pop('identity_number')
+                        pax.pop('identity_type')
+                    passenger.append(pax)
         data = {
-            "contact": request.session['train_review_booking']['booker'],
+            "contacts": contacts,
             "passengers": passenger,
-            "journeys_booking": request.session['train_review_booking']['journeys_booking'],
-            "promotion_codes_booking": [],
-            "transaction_type": "hold_book",
-            "create_booking_type": "hold_book",
-            "kwargs": {
-                "force_issued": 0
-            },
-
+            "schedules": request.session['train_booking'],
+            "booker": booker
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "create_booking",
-            "signature": request.session['train_signature'],
+            "action": "commit_booking",
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
             request.session['train_order_number'] = res['result']['response']['order_number']
@@ -307,8 +340,7 @@ def seat_map(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'train/booking', data=data, headers=headers, method='POST')
 
     return res
 

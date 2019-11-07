@@ -2132,7 +2132,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail`;
-            }else if(msg.result.response.state != 'issued'){
+            }else if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'){
                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                //document.getElementById('issued-breadcrumb').classList.remove("active");
                //document.getElementById('issued-breadcrumb').classList.add("current");
@@ -3056,6 +3056,14 @@ function gotoForm(){
 
 function show_repricing(){
     $("#myModalRepricing").modal();
+}
+
+function sell_after_sales(){
+    if(after_sales_type == 'ssr'){
+        sell_ssrs_after_sales();
+    }else if(after_sales_type == 'seat'){
+        assign_seats_after_sales();
+    }
 }
 
 function sell_ssrs_after_sales(){
