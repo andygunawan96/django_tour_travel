@@ -100,6 +100,7 @@ def passenger(request):
             except:
                 pass
         visa['total_pax'] = pax_count
+        visa['pax_count'] = pax_count
         if visa['pax_type'][0] == 'ADT':
             pax.update({
                 'adult': pax['adult']+pax_count
@@ -252,7 +253,7 @@ def review(request):
                 'first_name': request.POST['booker_first_name'],
                 'last_name': request.POST['booker_last_name'],
                 'email': request.POST['booker_email'],
-                'calling_name': request.POST['booker_phone_code'],
+                'calling_code': request.POST['booker_phone_code'],
                 'mobile': request.POST['booker_phone'],
                 'nationality_name': request.POST['booker_nationality'],
                 'contact_seq_id': request.POST['booker_id'],
