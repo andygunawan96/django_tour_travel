@@ -1,7 +1,7 @@
 var tour_data = [];
 offset = 0;
 
-function tour_login(){
+function tour_login(data){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
     $.ajax({
@@ -15,7 +15,11 @@ function tour_login(){
 
        },
        success: function(msg) {
-           tour_search();
+           if(data == ''){
+               tour_search();
+           }else if(data != ''){
+               tour_get_booking(data);
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

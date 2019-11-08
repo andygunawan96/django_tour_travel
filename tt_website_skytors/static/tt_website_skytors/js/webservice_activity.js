@@ -1211,7 +1211,7 @@ function activity_get_booking(data){
                if(msg.result.response.status == 'issued'){
                     if (msg.result.response.voucher_url)
                     {
-                        text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url+`');" style="width:100%;">
+                        text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url[0]+`');" style="width:100%;">
                                     Print Ticket
                                  </button>`;
                     }
