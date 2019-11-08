@@ -35,7 +35,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
-                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:40px;" alt="" title="" /></a>
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
@@ -59,27 +59,18 @@
                                 <li><a href="#">Search Registration</a></li>
                             </ul>
                         </li>
-                        <li class="menu-has-children pt5"><a href="#">User Guide</a>
-                            <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
                         {% if username != null %}
-                        <li class="menu-has-children pt5"><a href="#">Setting</a>
-                            <ul>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
-                            </ul>
-                        </li>
+                        <li class="pt5"><a id="balance" style="color:black;"></a></li>
+                        <li class="pt5"><a id="credit_limit" style="color:black;"></a></li>
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
                             <ul>
                                 <li><a id="username" title="{{username.co_user_login}}"> {{username.co_user_login}}</a></li>
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_skytors:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
                                         <form action="{% url 'tt_website_skytors:index'%}" method="POST">
@@ -306,7 +297,7 @@
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="index.html">Home</a></li>
                         {% if username != null %}
-s                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
+                        <li><a href="{% url 'tt_website_skytors:reservation'%}">Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children"><a href="#">Top Up</a>
                             <ul>

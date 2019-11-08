@@ -1,4 +1,6 @@
 list_passenger = [];
+count_price_detail = [];
+
 function visa_autocomplete(type){
     if(type == 'consulate'){
         document.getElementById('visa_consulate_id_hidden').value = document.getElementById('select2-visa_consulate_id-container').innerHTML;
@@ -67,27 +69,56 @@ function set_commission_price_visa(){
 }
 
 function update_table(type){
-    text = ''
+    text = '';
+    $text = '';
+    var check_price_detail = 0;
     if(type == 'search'){
         text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                 <h4>Price detail</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
         commission = 0;
+        count_i = 0;
         for(i in visa){
             pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
-            if(isNaN(pax_count))
+            if(isNaN(pax_count)){
                 pax_count = 0;
+            }
 
-            text+=`
-                    <tr>
-                        <td>`+pax_count+` `+visa[i].pax_type[1]+`</td>
-                        <td>x</td>
-                        <td>`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+` </td>
-                        <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</td>
-                    </tr>`;
+            if(pax_count != 0){
+                count_price_detail[i] = 1;
+                text+=`
+                <tr>
+                    <td>`+pax_count+` `+visa[i].pax_type[1]+` <br/> `+visa[i].visa_type[1]+`, `+visa[i].entry_type[1]+`</td>
+                    <td>x</td>
+                    <td>`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price)+` </td>
+                    <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</td>
+                </tr>`;
+                count_i = count_i+1;
+                $text += count_i + '. \n'
+                $text += 'Visa '+ country +'('+visa[i].sale_price.currency+ ' ' +getrupiah(visa[i].sale_price.total_price)+')\n';
+                $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
+                $text += 'Consulate Address :\n';
+                $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
+                if(visa[i].requirements.length != 0){
+                    $text += 'Visa Requirement:\n';
+
+                    for(j in visa[i].requirements){
+                        $text += '- ' + visa[i].requirements[j].name;
+                        if(visa[i].requirements[j].description){
+                            if(visa[i].requirements[j].description != "-"){
+                                $text += ': ' + visa[i].requirements[j].description;
+                            }
+                        }
+                        $text += '\n';
+                    }
+                    $text += '\n';
+                }
+            }
+            else{
+                count_price_detail[i] = 0;
+            }
             try{
-
                 price += pax_count * visa[i].sale_price.total_price;
                 commission += pax_count * visa[i].sale_price.commission;
             }catch(err){
@@ -96,69 +127,156 @@ function update_table(type){
         }
 
         text+=`</table>`;
-        text+=`
-            <div class="row" style="padding-bottom:15px;">
+
+        for(i in count_price_detail){
+            if(count_price_detail[i] == 1){
+                check_price_detail = 1;
+                break;
+            }
+            else{
+                check_price_detail = 0;
+            }
+        }
+
+        if(check_price_detail == 0){
+            text+=`<div class="row">
                 <div class="col-lg-12">
-                    <hr/>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                    <h6>Grand Total</h6>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                    <h6>Please choose your visa first!<h6>
                 </div>
             </div>`;
-        try{
-            display = document.getElementById('show_commission').style.display;
-        }catch(err){
-            display = 'none';
         }
-        text+=`
-            <div class="row" id="show_commission" style="display: `+display+`;">
-                <div class="col-lg-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+        else{
+            $text += 'Price\n';
+            for(i in visa){
+                pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
+                if(isNaN(pax_count)){
+                    pax_count = 0;
+                }
+
+                if(pax_count != 0){
+                    $text += pax_count + ' ' + visa[i].pax_type[1] + ' ' + visa[i].visa_type[1] + ',' + visa[i].entry_type[1];
+                    $text += ' @'+ visa[i].sale_price.currency + ' ' +getrupiah(visa[i].sale_price.total_price);
+                    $text += '\n';
+                }
+            }
+
+            text+=`
+                <div class="row" style="padding-bottom:15px;">
+                    <div class="col-lg-12">
+                        <hr/>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                        <h6>Grand Total</h6>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                        <h6>`+visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                    </div>
+                </div>`;
+            $text += '\n';
+            $text += 'Grand Total: '+visa[0].sale_price.currency + ' '+getrupiah(price);
+            try{
+                display = document.getElementById('show_commission').style.display;
+            }catch(err){
+                display = 'none';
+            }
+            text+=`
+                <div class="row" id="show_commission" style="display: `+display+`;">
+                    <div class="col-lg-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                <div class="row">
+                    <div class="col-lg-12" style="padding-bottom:15px;">
+                        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
+                    text +=`</div>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                    </div>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
+                    </div>
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
+                            Next
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
                 </div>
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
-                </div>
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
-                        Next
-                        <div class="ld ld-ring ld-cycle"></div>
-                    </button>
-                </div>
-            </div>
-        </div>`;
+            </div>`;
+        }
     }else if(type == 'passenger'){
         text += `<h4>Price detail</h4><hr/>
-                <table style="width:100%; margin-bottom:10px;">`;
+                <table style="width:100%;">`;
         price = 0;
         commission = 0;
+        count_i = 0;
         for(i in visa.list_of_visa){
-            text+=`
-                    <tr>
-                        <td>`+visa.list_of_visa[i].total_pax+`x `+visa.list_of_visa[i].pax_type[1]+`</td>
-                        <td>x</td>
-                        <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
-                        <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</td>
-                    </tr>`;
-            try{
+            if(visa.list_of_visa[i].total_pax != 0){
+                count_price_detail[i] = 1;
+                text+=`
+                <tr>
+                    <td>`+visa.list_of_visa[i].total_pax+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+`</td>
+                    <td>x</td>
+                    <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                    <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].total_pax)+`</td>
+                </tr>`;
 
+                count_i = count_i+1;
+                $text += count_i + '. \n'
+                $text += 'Visa '+ visa_request.country +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
+                $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
+                $text += 'Consulate Address :\n';
+                $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
+
+                if(visa.list_of_visa[i].requirements.length != 0){
+                    $text += 'Visa Requirement:\n';
+
+                    for(j in visa.list_of_visa[i].requirements){
+                        $text += visa.list_of_visa[i].requirements[j].name;
+                        if(visa.list_of_visa[i].requirements[j].description){
+                            if(visa.list_of_visa[i].requirements[j].description == "-"){
+                                $text += ': ' + visa.list_of_visa[i].requirements[j].description;
+                            }
+                        }
+                        $text += '\n';
+                    }
+                    $text += '\n';
+                }
+
+            }
+            try{
                 price += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price;
                 commission += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.commission;
             }catch(err){
 
             }
         }
-
         text+=`</table>`;
+
+        $text += 'Price\n';
+        for(i in visa.list_of_visa){
+            if(visa.list_of_visa[i].total_pax != 0){
+                $text += visa.list_of_visa[i].total_pax + ' ' + visa.list_of_visa[i].pax_type[1];
+                $text += ' @'+ visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price) + '\n';
+            }
+        }
 
         text+=`
             <div class="row" style="padding-bottom:15px;">
@@ -172,6 +290,8 @@ function update_table(type){
                     <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
+        $text += '\n';
+        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(price);
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -186,6 +306,25 @@ function update_table(type){
                 </div>
             </div>
             <div class="row">
+                <div class="col-lg-12" style="padding-bottom:15px;">
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                share_data();
+                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                    text+=`
+                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                } else {
+                    text+=`
+                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                }
+                text +=`</div>
+
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                 </div>
@@ -331,44 +470,44 @@ function show_commission(){
 }
 
 function copy_data(type){
-    $text = '';
-    if(type == 'search'){
-        for(i in visa){
-            $text += 'Visa '+ country +'('+visa[i].sale_price.currency+ ' ' +getrupiah(visa[i].sale_price.total_price)+')\n';
-            $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
-            $text += 'Consulate Address :\n';
-            $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
-            if(visa[i].requirements.length == 0){
-                $text += 'Visa Requirement:\n';
-
-                for(j in visa[i].requirements){
-                    $text += visa[i].requirements[j].name;
-                    if(visa[i].requirements[j].description)
-                        $text += ': ' + visa[i].requirements[j].description;
-                    $text += '\n';
-                }
-                $text += '\n';
-            }
-        }
-    }else{
-        for(i in visa.list_of_visa){
-            $text += 'Visa '+ visa_request.country +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
-            $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
-            $text += 'Consulate Address :\n';
-            $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
-            if(visa.list_of_visa[i].requirements.length == 0){
-                $text += 'Visa Requirement:\n';
-
-                for(j in visa.list_of_visa[i].requirements){
-                    $text += visa.list_of_visa[i].requirements[j].name;
-                    if(visa.list_of_visa[i].requirements[j].description)
-                        $text += ': ' + visa.list_of_visa[i].requirements[j].description;
-                    $text += '\n';
-                }
-                $text += '\n';
-            }
-        }
-    }
+//    $text = '';
+//    if(type == 'search'){
+//        for(i in visa){
+//            $text += 'Visa '+ country +'('+visa[i].sale_price.currency+ ' ' +getrupiah(visa[i].sale_price.total_price)+')\n';
+//            $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
+//            $text += 'Consulate Address :\n';
+//            $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
+//            if(visa[i].requirements.length == 0){
+//                $text += 'Visa Requirement:\n';
+//
+//                for(j in visa[i].requirements){
+//                    $text += visa[i].requirements[j].name;
+//                    if(visa[i].requirements[j].description)
+//                        $text += ': ' + visa[i].requirements[j].description;
+//                    $text += '\n';
+//                }
+//                $text += '\n';
+//            }
+//        }
+//    }else{
+//        for(i in visa.list_of_visa){
+//            $text += 'Visa '+ visa_request.country +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
+//            $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
+//            $text += 'Consulate Address :\n';
+//            $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
+//            if(visa.list_of_visa[i].requirements.length == 0){
+//                $text += 'Visa Requirement:\n';
+//
+//                for(j in visa.list_of_visa[i].requirements){
+//                    $text += visa.list_of_visa[i].requirements[j].name;
+//                    if(visa.list_of_visa[i].requirements[j].description)
+//                        $text += ': ' + visa.list_of_visa[i].requirements[j].description;
+//                    $text += '\n';
+//                }
+//                $text += '\n';
+//            }
+//        }
+//    }
     const el = document.createElement('textarea');
     el.value = $text;
     document.body.appendChild(el);
@@ -1003,4 +1142,14 @@ function check_before_add_repricing(){
 
 function show_repricing(){
     $("#myModalRepricing").modal();
+}
+
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($text);
 }

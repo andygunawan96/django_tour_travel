@@ -3,7 +3,7 @@
 {% load static from staticfiles %}
 {% block content %}
 <!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
-<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
@@ -48,24 +48,25 @@
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
-                <div id="logo" class="col-lg-12" style="margin-bottom:15px;">
-                    <center>
-                        <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
-                    </center>
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                 </div>
-                <div class="col-lg-12">
-                    <ul class="progressbar">
-                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span class="breadcrumb-text">Home </span><i class="fas fa-home"></i></li>
-                        <li class="active" onclick="location.href='{% url 'tt_website_skytors:visa_search'%}';" style="cursor:pointer;"><span class="breadcrumb-text">Search </span><i class="fas fa-search"></i></li>
-                        <li class="current"><span class="breadcrumb-text">Passenger </span><i class="fas fa-users"></i></li>
-                        <li><span class="breadcrumb-text">Book </span><i class="fas fa-book-open"></i></li>
-                        <li><span class="breadcrumb-text">Issued </span><i class="fas fa-check-circle"></i></li>
-                    </ul>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                 </div>
             </div>
         </div>
     </div>
 </header>
+{% include 'tt_website_skytors/loading_screen.html' %}
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -843,7 +844,7 @@
 
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd; position:sticky; top:173px;" id="detail">
+                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
 
                         </div>
                     </div>
@@ -869,6 +870,7 @@
 <script>
     update_table('passenger');
     $( document ).ready(function() {
+        breadcrumb_create("visa", 3, 0);
         $('.js-example-basic-single').select2();
         auto_complete('booker_nationality');
         auto_complete('booker_phone_code');
