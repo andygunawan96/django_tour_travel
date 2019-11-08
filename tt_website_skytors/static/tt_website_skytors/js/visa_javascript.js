@@ -697,6 +697,11 @@ function check_on_off_radio(pax_type,number,value){
         pax_price.innerHTML = '-';
         //check max pax
     }else if(value == 'entry'){
+        if(pax_check.value != 'false'){
+            visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
+            pax_required.innerHTML = '';
+            pax_check.value = 'false';
+        }
         var radios = pax_visa;
         visa_type = '';
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -790,33 +795,9 @@ function check_on_off_radio(pax_type,number,value){
                         'name': list_of_name,
                         'Fare': visa.list_of_visa[i].sale_price.total_price,
                         'currency':visa.list_of_visa[i].sale_price.currency,
-                        'commission':visa.list_of_visa[i].sale_price.commission
+                        'commission':visa.list_of_visa[i].sale_price.commission,
                     });
-
                 update_table('review');
-                //price detail
-//                type_amount_repricing = ['Fare']; // --> list of string ['Fare', 'Commission']
-//                pax_type_repricing = []; // --> list of list ex : [['nama pax key','nama pax tampil'],['CHD','Child']]
-//                price_arr_repricing = {}; // --> dict of dict ex : {'nama pax tampil':{'total_price':50,'commission':20}} -- di tambah total
-//
-
-//
-//                check = 0;
-//                for(j in pax_type_repricing){
-//                    if(pax_type_repricing[j][0] == list_of_name)
-//                        check = 1;
-//                }
-//                if(check == 0){
-//                    pax_type_repricing.push([list_of_name,list_of_name]);
-//                }
-//                price_arr_repricing[list_of_name] = {};
-//                price_arr_repricing[list_of_name] = {
-//                    'Fare': visa.list_of_visa[i].sale_price.total_price,
-//                    'currency':visa.list_of_visa[i].sale_price.currency
-//                }
-//                add_repricing();
-//
-//                console.log(price_arr_repricing);
 
 
             }
