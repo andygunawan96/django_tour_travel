@@ -22,29 +22,19 @@ function get_balance(val){
         if(msg.result.error_code == 0){
             balance = parseInt(msg.result.response.balance);
             credit_limit = parseInt(msg.result.response.credit_limit);
-            text = `<div class="row">
-                        <div class="col-lg-6">Balance: </div>
-                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code + ' ' + getrupiah(balance)+`</div>
-                    </div>`;
+            text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
             document.getElementById("balance").innerHTML = text;
-            text = `<div class="row">
-                        <div class="col-lg-6">Credit Limit: </div>
-                        <div class="col-lg-6" style="text-align:right;">`+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+`</div>
-                    </div>`;
-            document.getElementById("credit_limit").innerHTML = text;
+            if(credit_limit != 0){
+                text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
+                document.getElementById("credit_limit").innerHTML = text;
+            }
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
-          text = `<div class="row">
-                      <div class="col-lg-6">Balance: </div>
-                      <div class="col-lg-6" style="text-align:right;"> Timeout</div>
-                 </div>`;
+          text = `Balance: Timeout`;
           document.getElementById("balance").innerHTML = text;
-          text = `<div class="row">
-                      <div class="col-lg-6">Credit Limit: </div>
-                      <div class="col-lg-6" style="text-align:right;"> Timeout</div>
-                  </div>`;
+          text = `Credit Limit: Timeout`;
           document.getElementById("credit_limit").innerHTML = text;
 
 //            Swal.fire({
@@ -56,15 +46,9 @@ function get_balance(val){
         get_transactions_notification(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          text = `<div class="row">
-               <div class="col-lg-6">Balance: </div>
-               <div class="col-lg-6" style="text-align:right;"> Try again</div>
-          </div>`;
+          text = `Balance: Failed`;
           document.getElementById("balance").innerHTML = text;
-          text = `<div class="row">
-                      <div class="col-lg-6">Credit Limit: </div>
-                      <div class="col-lg-6" style="text-align:right;"> Try again</div>
-                  </div>`;
+          text = `Credit Limit: Failed`;
           document.getElementById("credit_limit").innerHTML = text;
 
 //            Swal.fire({

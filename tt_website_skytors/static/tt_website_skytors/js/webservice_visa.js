@@ -114,68 +114,67 @@ function search_visa(){
                     node = document.createElement("div");
 
                     text= `
-                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding-top:15px; padding-left:15px;" id="journey`+i+`">
+                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">
                             <div class="row">
-                                <div class="col-lg-9">
+                                <div class="col-lg-12">
                                     <table style="width:100%" id="list-of-passenger">
                                         <tr>
-                                            <th>Pax Type</th>
-                                            <th>Visa Type</th>
-                                            <th>Entry Type</th>
-                                            <th>Regular Type</th>
+                                            <th style="width:15%;">Pax Type</th>
+                                            <th style="width:15%;">Visa Type</th>
+                                            <th style="width:15%;">Entry Type</th>
+                                            <th style="width:30%;">Regular Type</th>
+                                            <th style="width:25%;">Input Qty</th>
                                         </tr>
                                         <tr>
                                             <td>`+msg.result.response.list_of_visa[i].pax_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].visa_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].entry_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
+                                            <td>
+                                            <div class="banner-right">
+                                                <div class="form-wrap" style="padding:0px;">
+                                                    <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
+                                                </div>
+                                            </div>
+                                            </td>
                                         </tr>
                                     </table>
-                                    <div style="margin-top:10px; margin-bottom:10px;">
-                                        <label>Qty : </label>
-                                        <div class="banner-right">
-                                            <div class="form-wrap" style="padding:0px;">
-                                                <input class="form-control" type="text" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div class="col-lg-3">
+                                <div class="col-lg-12" style="margin-top:15px;">
                                     <div class="row">
-                                        <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
-                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050; padding:10px;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
-
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                                <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="text-align:right; padding:0px 15px 10px 0px;">
-                                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
-                                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                        <span style="text-align:right; margin-right:10px; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                    </a>
+                            </div>
+                            <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
+                                <hr/>
+                                <div id="journey0segment0" style="background-color:white;">
+                                    <h6>Consulate Address</h6>
+                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>
+                                    <h6>Visa Required</h6>`;
+                                    for(j in msg.result.response.list_of_visa[i].requirements){
+                                        text+=`<span>`+parseInt(parseInt(j)+1)+` `+msg.result.response.list_of_visa[i].requirements[j].name;
+                                        if(msg.result.response.list_of_visa[i].requirements[j].description != '')
+                                            text+=
+                                            `, `+msg.result.response.list_of_visa[i].requirements[j].description+`</span><br/>
+                                        `;
+                                        else
+                                            text+='<span> - </span><br/>';
+                                    }
+
+                                    text+=`
+
                                 </div>
                             </div>
-                        </div>
-                        <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-bottom: 15px; border-top: 1px solid rgb(241, 90, 34); display: none;">
-                            <div id="journey0segment0" style="padding:10px; background-color:white; border-left:1px solid #cdcdcd; border-right:1px solid #cdcdcd; border-bottom:1px solid #cdcdcd;">
-                                <h6>Consulate Address</h6>
-                                <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>
-                                <h6>Visa Required</h6>`;
-                                for(j in msg.result.response.list_of_visa[i].requirements){
-                                    text+=`<span>`+parseInt(parseInt(j)+1)+` `+msg.result.response.list_of_visa[i].requirements[j].name;
-                                    if(msg.result.response.list_of_visa[i].requirements[j].description != '')
-                                        text+=
-                                        `, `+msg.result.response.list_of_visa[i].requirements[j].description+`</span><br/>
-                                    `;
-                                    else
-                                        text+='<span> - </span><br/>';
-                                }
-
-                                text+=`
-
-                            </div>
-                        </div>
-                    `;
+                        </div>`;
                     node.innerHTML = text;
                     document.getElementById("visa_ticket").appendChild(node);
                 }

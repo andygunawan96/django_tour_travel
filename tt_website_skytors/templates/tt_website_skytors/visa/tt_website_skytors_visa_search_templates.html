@@ -17,55 +17,71 @@
 </script>
 {% include 'tt_website_skytors/header.html' %}
 {% include 'tt_website_skytors/plugin_passenger.html' %}
-<section class="price-area" data-aos="fade-up" style="padding-top:50px; padding-bottom:5px; background-color: black;">
-    <div class="animated fadeInDown delay-1s">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12" style="padding:0;">
-                    <div class="banner-right">
-                        <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post" id="visa_searchForm">
-                            {% csrf_token %}
-                            <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+            </div>
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                                    <div class="form-group">
-                                        <div class="input-container-search-ticket">
-                                            <input type="text" style="cursor:pointer;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="overlay-search-box" onclick="off_overlay()"></div>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12" style="padding:0;">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_skytors:visa_search'%}" class="form-wrap" method="post" id="visa_searchForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
 
-                                            </select>
-                                        </div>
+                                        </select>
                                     </div>
-                                    <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                </div>
+                                <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <div class="form-group">
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" style="cursor:pointer;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                    </div>
                                 </div>
                             </div>
-                            <br/>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
 
-                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                Change Search
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </button>
-                        </form>
-                    </div>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                            </div>
+                        </div>
+                        <br/>
+
+                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                            Change Search
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -74,16 +90,9 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-
         <div class="row" style="padding-bottom:10px;">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <ul class="progressbar">
-                    <li class="active" onclick="location.href='{% url 'tt_website_skytors:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>
-                    <li><span>Search <i class="fas fa-search"></i></span></li>
-                    <li><span>Passenger <i class="fas fa-users"></i></span></li>
-                    <li><span>Book <i class="fas fa-book-open"></i></span></li>
-                    <li><span>Issued <i class="fas fa-check-circle"></i></span></li>
-                </ul>
+            <div class="col-lg-12" id="breadcrumbs_create">
+
             </div>
         </div>
         <form action="{% url 'tt_website_skytors:visa_passenger'%}" method="POST" id="visa_passenger">
@@ -111,14 +120,14 @@
                 <div class="col-lg-12" id="show-visa-search">
                 </div>
 
-                <div class="col-lg-7 col-md-7" style="margin-top:10px;">
+                <div class="col-lg-8 col-md-8" style="margin-top:10px;">
                     <div class="row" id="show-search-train">
                         <div class="col-lg-12" id="visa_ticket">
 
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-5" style="margin-top:10px;">
+                <div class="col-lg-4 col-md-4" style="margin-top:10px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="detail">
@@ -135,6 +144,7 @@
 
 <script>
     $( document ).ready(function() {
+        breadcrumb_create("visa", 2, 0);
         $('.js-example-basic-single').select2();
         $('input[name="visa_departure"]').daterangepicker({
             singleDatePicker: true,
