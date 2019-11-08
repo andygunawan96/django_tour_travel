@@ -209,9 +209,18 @@ def get_pricing_cache(request):
 
 
 def sell_tour(request):
+    room_list = request.session['tour_booking_data']['room_list']
+    final_room_list = []
+    for room in room_list:
+        final_room_list.append({
+            'room_id': room['id'],
+            'notes': room['notes'],
+        })
+
     data = {
         "promotion_codes_booking": [],
         "tour_id": request.session['tour_pick']['id'],
+        'room_list': final_room_list,
         "adult": request.session['tour_booking_data']['adult'],
         "child": request.session['tour_booking_data']['child'],
         "infant": request.session['tour_booking_data']['infant'],
@@ -425,7 +434,7 @@ def commit_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "commit_booking",
-        "signature": request.session['tour_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
@@ -445,7 +454,7 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": request.session['tour_signature']
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -496,7 +505,7 @@ def get_payment_rules(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_payment_rules_provider",
-        "signature": request.session['tour_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
