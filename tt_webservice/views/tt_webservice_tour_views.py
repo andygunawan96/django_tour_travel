@@ -66,6 +66,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'issued_booking':
             res = issued_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         elif req_data['action'] == 'get_payment_rules':
             res = get_payment_rules(request)
         else:
@@ -209,9 +211,18 @@ def get_pricing_cache(request):
 
 
 def sell_tour(request):
+    room_list = request.session['tour_booking_data']['room_list']
+    final_room_list = []
+    for room in room_list:
+        final_room_list.append({
+            'room_id': room['id'],
+            'notes': room['notes'],
+        })
+
     data = {
         "promotion_codes_booking": [],
         "tour_id": request.session['tour_pick']['id'],
+        'room_list': final_room_list,
         "adult": request.session['tour_booking_data']['adult'],
         "child": request.session['tour_booking_data']['child'],
         "infant": request.session['tour_booking_data']['infant'],
@@ -425,7 +436,7 @@ def commit_booking(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "commit_booking",
-        "signature": request.session['tour_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
@@ -445,7 +456,7 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": request.session['tour_signature']
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -496,10 +507,37 @@ def get_payment_rules(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_payment_rules_provider",
-        "signature": request.session['tour_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    return res
+
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 

@@ -15,6 +15,7 @@ function tour_login(data){
 
        },
        success: function(msg) {
+           signature = msg.result.response.signature;
            if(data == ''){
                tour_search();
            }else if(data != ''){
@@ -45,7 +46,8 @@ function tour_search(){
             'action': 'search',
        },
        data: {
-           'offset': offset
+           'offset': offset,
+           'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -163,7 +165,8 @@ function tour_get_details(package_id){
             'action': 'get_details',
        },
        data: {
-           'id': package_id
+           'id': package_id,
+           'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -626,6 +629,7 @@ function get_payment_rules(id)
        },
        data: {
            'id': id,
+           'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -698,6 +702,7 @@ function issued_booking_tour(order_number)
            'payment_method': payment_method_choice,
            'seq_id': payment_acq2[payment_method][selected].seq_id,
            'member': payment_acq2[payment_method][selected].method,
+           'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -718,6 +723,70 @@ function issued_booking_tour(order_number)
     });
 }
 
+function show_repricing(){
+    $("#myModalRepricing").modal();
+}
+
+function update_service_charge(data){
+    upsell = []
+    for(i in tr_get_booking.result.response.passengers){
+        for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
+            currency = tr_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+        }
+        list_price = []
+        for(j in list){
+            if(tr_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        console.log(tr_get_booking.result.response.passengers[i]);
+        upsell.push({
+            'sequence': tr_get_booking.result.response.passengers[i].sequence,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'update_service_charge',
+       },
+//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+       data: {
+           'order_number': JSON.stringify(tour_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                tour_get_booking(tour_order_number);
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error tour update service charge </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour update service charge </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 function tour_get_booking(order_number)
 {
     getToken();
@@ -729,197 +798,448 @@ function tour_get_booking(order_number)
        },
        data: {
            'order_number': order_number,
+           'signature': signature
        },
        success: function(msg) {
            console.log(msg);
-           var book_obj = msg.result.response.result;
-           var tour_package = msg.result.response.tour_package;
+           tour_order_number = order_number;
+           tr_get_booking = msg;
+           $('#loading-search-tour').hide();
+           var book_obj = msg.result.response;
+           var tour_package = msg.result.response.tour_details;
            var passengers = msg.result.response.passengers;
            var rooms = msg.result.response.rooms;
-           var price_itinerary = msg.result.response.price_itinerary;
-           var cur_state = '';
-           updownsell_txt = '';
-           pax_txt = '';
-           room_txt = '';
-           booker_txt = '';
-           order_detail_txt = '';
-           breadcrumb_txt = `
-                    <ul class="progressbar">
-                        <li class="active"><span>Home <i class="fas fa-home"></i></span></li>
-                        <li class="active"><span>Search <i class="fas fa-search"></i></span></li>
-                        <li class="active"><span>Passenger <i class="fas fa-users"></i></span></li>
-                        <li class="active"><span>Book <i class="fas fa-book-open"></i></span></li>
+           var contact = msg.result.response.contacts;
+           var cur_state = msg.result.response.state;
+           if(cur_state == 'booked'){
+                conv_status = 'Booked';
+                document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+            }
+            else if(cur_state == 'issued'){
+                conv_status = 'Issued';
+                document.getElementById('issued-breadcrumb').classList.add("br-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+            }
+            else if(cur_state == 'cancel'){
+                conv_status = 'Cancelled';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+            }
+            else if(cur_state == 'cancel2'){
+                conv_status = 'Expired';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+            }
+            else if(cur_state == 'fail_issued'){
+                conv_status = 'Fail Issued';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+            }
+            else{
+                conv_status = 'Pending';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-pending");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
+                document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
+            }
 
-           `;
-
-           order_detail_txt += `
-           <h4>Order Detail</h4>
-           <hr/>
-           <h4>`+ book_obj.name +`</h4>
-           <span style="font-size: 15px; font-weight: bold;" aria-hidden="true">Status:
-           `;
-           if (book_obj.state == 'issued')
-           {
-                breadcrumb_txt += `<li class="active"><span>Issued <i class="fas fa-check-circle"></i></span></li>`;
-                cur_state = 'Issued';
-                order_detail_txt += `Issued`;
-           }
-           else
-           {
-                breadcrumb_txt += `<li class="current"><span>Issued <i class="fas fa-check-circle"></i></span></li>`;
-                cur_state = 'Booked';
-                order_detail_txt += `Booked`;
-                document.getElementById('issued_btn_place').innerHTML += '<input class="primary-btn hold-seat-booking-train" type="button" value="Issued" data-toggle="modal" data-target="#issuedModal" style="width:100%;"/>';
-                document.getElementById('upsell_downsell_opt').innerHTML += `
-                    <div id="pricing">
-                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white;">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h4 style="padding-top:10px;">Pricing</h4>
-                                    <hr/>
-                                </div>
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <button class="primary-btn-ticket" type="button" onclick="check_before_add_repricing();"><i class="fas fa-plus-circle"></i></button>
-                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                                    <br/>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div style="padding:10px;" id="table_of_equation">
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                                    <hr/>
-                                    <center>
-                                        <input class="primary-btn-ticket" type="button" onclick="check_before_calculate();" value="Calculate">
-                                    </center>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.getElementById('upsell_downsell_opt2').innerHTML += `
+           text = `
                     <div class="row">
-                        <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                            <h4>Result Pricing</h4>
-                            <hr/>
-                            <div class="row" id="repricing_div">
-
+                        <div class="col-lg-12">
+                            <div id="tour_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
+                                <h6>Order Number : `+book_obj.order_number+`</h6><br/>
+                                 <table style="width:100%;">
+                                    <tr>
+                                        <th>PNR</th>
+                                        <th>Hold Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                    <tr>
+                                        <td>`+book_obj.pnr+`</td>
+                                        <td>`+book_obj.hold_date+`</td>
+                                        <td>`+conv_status+`</td>
+                                    </tr>
+                                 </table>
                             </div>
                         </div>
                     </div>
-                `;
-           }
-           breadcrumb_txt += `
-                    </ul>
-           `;
-           order_detail_txt += `</span>
-           `;
-           if (book_obj.state != 'issued')
-           {
-                order_detail_txt += `<span style="font-size: 15px; font-weight: bold; float:right;" aria-hidden="true">Hold Date: `+ book_obj.hold_date +`</span>`;
-           }
+            `;
+            text += `
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                <h4> Tour Information </h4>
+                                <hr/>
+                                <h4>`+tour_package.name+`</h4>
+                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                `+tour_package.departure_date_f+` - `+tour_package.return_date_f+`
+                                </span>
+                                <br/>
+                                <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
+                                <br/>
+                                <span>`+tour_package.flight+` Flight, `+tour_package.visa+` Visa</span>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>`;
+            text += `
+                   <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="tour_review_rooms" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> List of Room(s) </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:15%;">Name</th>
+                                            <th style="width:15%;">Type</th>
+                                            <th style="width:15%;">Hotel</th>
+                                            <th style="width:25%;">Description</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Notes</th>
+                                        </tr>
+               `;
 
-           for (i in rooms)
-           {
-                room_txt += `
+            for(i in rooms)
+            {
+                text += `
                     <tr>
-                        <td>`+rooms[i].room_number+`</td>
+                        <td>`+rooms[i].room_index+`</td>
                         <td>`+rooms[i].room_name+`</td>
                         <td>`+rooms[i].room_bed_type+`</td>
                         <td>`+rooms[i].room_hotel+`</td>
+                        <td>`+rooms[i].room_desc+`</td>
                         <td>`+rooms[i].room_notes+`</td>
                     </tr>
                 `;
-           }
-
-           var idx = 1;
-           for (i in passengers)
-           {
-                pax_txt += `
-                    <div class="row">
-                        <div class="col-lg-6" style="margin-bottom:10px;">
-                            <h6>`+ idx +`. `+ passengers[i].title +`. `+ passengers[i].first_name +` `+ passengers[i].last_name +`</h6>
-                            <span>`;
-
-                if(passengers[i].pax_type == 'ADT')
-                {
-                    pax_txt += `Adult`;
-                }
-                else if(passengers[i].pax_type == 'CHD')
-                {
-                    pax_txt += `Child`;
-                }
-                else
-                {
-                    pax_txt += `Infant`;
-                }
-
-                pax_txt += `- Birth Date: `+ passengers[i].birth_date +`
-                            </span>
-                        </div>
-                        <div class="col-lg-6">
-                            <div id="div_select_pax`+ idx +`" style="padding: 2px 2px 4px 2px;">
-                                Room `+ passengers[i].room_number +` ; `+ passengers[i].room_name +`/`+ passengers[i].room_bed_type +` ; `+ passengers[i].room_hotel +`
+            }
+            text += `
+                                 </table>
                             </div>
                         </div>
                     </div>
+                </div>`;
+
+            if(contact.gender == 'female' && contact.marital_status == 'married')
+               {
+                    title = 'MRS';
+               }
+               else if(contact.gender == 'female' && contact.marital_status != 'married')
+               {
+                    title = 'MS';
+               }
+               else
+               {
+                    title = 'MR';
+               }
+
+               text += `
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="tour_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> Contact Information </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:25%;">Email</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Mobile Phone</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>`+title+`. `+contact.name+`</td>
+                                            <td>`+contact.email+`</td>
+                                            <td>`+contact.phone+`</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               `;
+
+               text += `
+                   <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="tour_review_passenger" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> List of Guest(s) </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-passengers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:10%;">Type</th>
+                                            <th style="width:25%;">Birth Date</th>
+                                            <th style="width:15%;" class="list-of-passenger-right">Room No</th>
+                                        </tr>
+               `;
+
+               temp_pax_seq = 1
+               for(i in passengers)
+               {
+                    text += `
+                        <tr>
+                            <td>`+temp_pax_seq+`</td>
+                            <td>`+passengers[i].title+`. `+msg.result.response.passengers[i].name+`</td>
+                            <td>`+passengers[i].pax_type+`</td>
+                            <td>`+passengers[i].birth_date+`</td>
+                            <td>`+passengers[i].tour_room_index+`</td>
+                        </tr>
+                    `;
+                    temp_pax_seq += 1;
+               }
+               text += `
+                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
+               if(book_obj.state == 'issued'){
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="" style="width:100%;">
+                                Print Ticket
+                             </button>`;
+               }
+               text += `</div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.tour/`+book_obj.order_number+`/1')" style="width:100%;">
+                                Print Itinerary Form
+                            </button>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">`;
+
+               if(book_obj.state == 'issued'){
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.tour/`+book_obj.order_number+`/4')" style="width:100%;">
+                                Print Invoice
+                             </button>`;
+               }
+               text += `</div>
+                    </div>
+               `;
+            document.getElementById('tour_final_info').innerHTML = text;
+            document.getElementById('product_title').innerHTML = tour_package.name;
+            document.getElementById('product_type_title').innerHTML = tour_package.departure_date_f+' - '+tour_package.return_date_f;
+            price_text = '';
+            $test = tour_package.name+'\n'+tour_package.departure_date_f+' - '+tour_package.return_date_f+'\n\n';
+
+            //detail
+            text = '';
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+
+            //repricing
+            type_amount_repricing = ['Repricing'];
+            //repricing
+            counter_service_charge = 0;
+            $test += '\nPrice:\n';
+            for(i in msg.result.response.passengers[0].sale_service_charges){
+                price_text+=`
+                    <div style="text-align:left">
+                        <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
+                    </div>`;
+                for(j in msg.result.response.passengers){
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                    for(k in msg.result.response.passengers[j].sale_service_charges[i]){
+                        price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
+                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
+                    }
+                    try{
+                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+
+                    }catch(err){
+
+                    }
+                    //repricing
+                    check = 0;
+                    for(k in pax_type_repricing){
+                        if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                            check = 1;
+                    }
+                    if(check == 0){
+                        pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price['FARE'],
+                            'Tax': price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }else{
+                        price_arr_repricing[msg.result.response.passengers[j].name] = {
+                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                            'Repricing': price['CSC']
+                        }
+                    }
+                    text_repricing = `
+                    <div class="col-lg-12">
+                        <div style="padding:5px;" class="row">
+                            <div class="col-lg-3"></div>
+                            <div class="col-lg-3">Price</div>
+                            <div class="col-lg-3">Repricing</div>
+                            <div class="col-lg-3">Total</div>
+                        </div>
+                    </div>`;
+                    for(k in price_arr_repricing){
+                       text_repricing += `
+                       <div class="col-lg-12">
+                            <div style="padding:5px;" class="row" id="adult">
+                                <div class="col-lg-3" id="`+k+`_`+i+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                if(price_arr_repricing[k].Repricing == 0)
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                else
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                            </div>
+                        </div>`;
+                    }
+                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                    //repricing
+
+                    price_text+=`
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom:5px;">
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                        price_text+=`</div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
+
+                        $test += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
+                        if(counter_service_charge == 0){
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
+                        price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                        }else{
+                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
+                            price_text+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                        }
+                        price_text+=`
+                        </div>
+                    </div>`;
+                    if(counter_service_charge == 0)
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                    else
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    commission += parseInt(price.RAC);
+                }
+                counter_service_charge++;
+            }
+
+//           if(msg.result.response.price_itinerary.additional_charge_total)
+//           {
+//                price_text+= `
+//                    <div class="row">
+//                        <div class="col-xs-8">Additional Charge</div>
+//                        <div class="col-xs-3" style="padding-right: 0; text-align: right;" id='additional_price'>`+msg.result.response.price_itinerary.additional_charge_total+`</div>
+//                    </div>
+//                `;
+//                $test += 'Additional price IDR '+getrupiah(msg.result.response.price_itinerary.additional_charge_total)+'\n';
+//           }
+
+           price_text+= `
+             <hr style="padding:0px;">
+             <div class="row">
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                       <span style="font-weight:bold">Grand Total</span>
+                  </div>
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                       <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
+                  </div>
+             </div>
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+             <div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
-                `;
-                idx += 1;
-           }
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        price_text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    } else {
+                        price_text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                    }
 
-           booker_txt += `
-                     <tr>
-                        <td>1</td>
-                        <td>`+book_obj.contact_title+`. `+book_obj.contact_first_name+` `+book_obj.contact_last_name+`</td>
-                        <td>`+book_obj.contact_email+`</td>
-                        <td>`+book_obj.contact_phone+`</td>
-                     </tr>
+                price_text+=`
+                </div>
+             </div>
+             <div class="row" id="show_commission" style="display:none;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                    </div>
+                </div>
+             </div>
+
+             <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-xs-12">
+                    <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+               </div>
+             </div>
+             <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-xs-12">
+                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+               </div>
+             </div>
            `;
+            $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
+            document.getElementById('tour_detail_table').innerHTML = price_text;
+            add_repricing();
 
-           document.getElementById('tour_book_breadcrumb').innerHTML += breadcrumb_txt;
-           document.getElementById('state_title').innerHTML += 'Your Order Has Been ' + cur_state + '!';
-           document.getElementById('tour_data_name').innerHTML += tour_package.name;
-           document.getElementById('tour_data_dates').innerHTML += ' ' + tour_package.departure_date_f + ' - ' + tour_package.return_date_f;
-           document.getElementById('tour_data_duration').innerHTML += ' ' + tour_package.duration + ' Days';
-           document.getElementById('tour_data_flight_visa').innerHTML += tour_package.flight + ' Flight, ' + tour_package.visa + ' Visa';
-           document.getElementById('tour_order_detail').innerHTML += order_detail_txt;
-           document.getElementById('list-of-rooms').innerHTML += room_txt;
-           document.getElementById('list-of-bookers').innerHTML += booker_txt;
-           document.getElementById('pax_list_table').innerHTML += pax_txt;
-           document.getElementById('full_payment_val').innerHTML += String(price_itinerary.total_itinerary_price);
-           document.getElementById('grand_total_hidden').value = parseInt(price_itinerary.total_itinerary_price);
-
-           document.getElementById("commission_total_content").innerHTML = getrupiah(price_itinerary.commission_total);
-           document.getElementById("adult_price").value = getrupiah(price_itinerary.adult_price);
-           document.getElementById("adult_amount").value = getrupiah(price_itinerary.adult_amount);
-           document.getElementById("adult_surcharge_price").value = getrupiah(price_itinerary.adult_surcharge_price);
-           document.getElementById("adult_surcharge_amount").value = getrupiah(price_itinerary.adult_surcharge_amount);
-           document.getElementById("child_price").value = getrupiah(price_itinerary.child_price);
-           document.getElementById("child_amount").value = getrupiah(price_itinerary.child_amount);
-           document.getElementById("child_surcharge_price").value = getrupiah(price_itinerary.child_surcharge_price);
-           document.getElementById("child_surcharge_amount").value = getrupiah(price_itinerary.child_surcharge_amount);
-           document.getElementById("infant_price").value = getrupiah(price_itinerary.infant_price);
-           document.getElementById("infant_amount").value = getrupiah(price_itinerary.infant_amount);
-           document.getElementById("single_supplement_price").value = getrupiah(price_itinerary.single_supplement_price);
-           document.getElementById("single_supplement_amount").value = getrupiah(price_itinerary.single_supplement_amount);
-           document.getElementById("airport_tax_total").value = getrupiah(price_itinerary.airport_tax_total);
-           document.getElementById("airport_tax_amount").value = getrupiah(price_itinerary.airport_tax_amount);
-           document.getElementById("tipping_guide_total").value = getrupiah(price_itinerary.tipping_guide_total);
-           document.getElementById("tipping_guide_amount").value = getrupiah(price_itinerary.tipping_guide_amount);
-           document.getElementById("tipping_tour_leader_total").value = getrupiah(price_itinerary.tipping_tour_leader_total);
-           document.getElementById("tipping_tour_leader_amount").value = getrupiah(price_itinerary.tipping_tour_leader_amount);
-           document.getElementById("tipping_driver_total").value = getrupiah(price_itinerary.tipping_driver_total);
-           document.getElementById("tipping_driver_amount").value = getrupiah(price_itinerary.tipping_driver_amount);
-           document.getElementById("additional_charge_total").value = getrupiah(price_itinerary.additional_charge_total);
-           document.getElementById("additional_charge_amount").value = getrupiah(price_itinerary.additional_charge_amount);
-           document.getElementById("sub_total").value = getrupiah(price_itinerary.sub_total_itinerary_price);
-           document.getElementById("discount_total").value = getrupiah(price_itinerary.discount_total_itinerary_price);
-           document.getElementById("grand_total").value = getrupiah(price_itinerary.total_itinerary_price);
-
-
-           get_payment_rules(tour_package.id);
+           if(cur_state == 'booked')
+           {
+               grand_total = total_price;
+               full_pay_opt = document.getElementById('full_payment_amt');
+               if (full_pay_opt)
+               {
+                   full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
+               }
+               get_payment_rules(tour_package.id);
+               get_payment_acq('Issued', book_obj.booker_seq_id, '', 'billing',signature,'tour');
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

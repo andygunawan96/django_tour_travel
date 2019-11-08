@@ -56,7 +56,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="tour_review_detail" style="background-color: white; padding:10px; border: 1px solid #cdcdcd;">
-                                <h4> Tour Detail </h4>
+                                <h4> Tour Information </h4>
                                 <hr/>
                                 <h4>{{tour_data.name}}</h4>
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i>
@@ -79,11 +79,12 @@
                                     <hr/>
                                     <table style="width:100%;" id="list-of-rooms" class="list-of-passenger-class">
                                         <tr>
-                                            <th style="width:10%;" class="list-of-passenger-left">Number</th>
-                                            <th style="width:20%;">Name</th>
-                                            <th style="width:20%;">Type</th>
-                                            <th style="width:20%;">Hotel</th>
-                                            <th style="width:30%;" class="list-of-passenger-right">Notes</th>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:15%;">Name</th>
+                                            <th style="width:15%;">Type</th>
+                                            <th style="width:15%;">Hotel</th>
+                                            <th style="width:25%;">Description</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Notes</th>
                                         </tr>
                                         {% for room in room_list %}
                                         <tr>
@@ -101,6 +102,7 @@
                                             <td>{{room.name}}</td>
                                             <td>{{room.bed_type}}</td>
                                             <td>{% if room.hotel %}{{room.hotel}}{% else %} - {% endif %}</td>
+                                            <td>{% if room.description %}{{room.description}}{% else %} - {% endif %}</td>
                                             <td>{% if room.notes %}{{room.notes}}{% else %} - {% endif %}</td>
                                         </tr>
                                         {% endfor %}
@@ -149,7 +151,7 @@
                             <input type="hidden" id="total_pax_all" value="{{total_pax_all}}"/>
                             <div id="tour_review_passengers" style="background-color: white; border: 1px solid #cdcdcd;">
                                 <div style="padding:10px">
-                                    <h4> List of Passenger(s) </h4>
+                                    <h4> List of Guest(s) </h4>
                                     <hr/>
                                     {% for pax in all_pax %}
                                     <div class="row">
@@ -313,7 +315,7 @@
         breadcrumb_create("tour", 5, 0);
         get_price_itinerary_cache();
         get_payment_rules('{{tour_data.id}}');
-        get_payment_acq('Issued','{{booker.booker_id}}', '', 'billing',signature,'tour');
+        get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });
 </script>
 {% endblock %}

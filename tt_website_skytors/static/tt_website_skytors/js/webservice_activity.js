@@ -1209,7 +1209,7 @@ function activity_get_booking(data){
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
                if(msg.result.response.status == 'issued'){
-                    if (msg.result.response.voucher_url)
+                    if (msg.result.response.voucher_url.length > 0)
                     {
                         text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('`+msg.result.response.voucher_url[0]+`');" style="width:100%;">
                                     Print Ticket
@@ -1228,11 +1228,14 @@ function activity_get_booking(data){
                                 Print Itinerary Form
                             </button>
                         </div>
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
+                        <div class="col-lg-4" style="padding-bottom:10px;">`;
+
+               if(msg.result.response.status == 'issued'){
+                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
                                 Print Invoice
-                            </button>
-                        </div>
+                             </button>`;
+               }
+               text += `</div>
                     </div>
                `;
             }

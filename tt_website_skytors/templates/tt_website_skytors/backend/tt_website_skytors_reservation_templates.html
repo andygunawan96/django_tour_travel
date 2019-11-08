@@ -137,6 +137,8 @@
             document.getElementById('gotobooking'+key).action = '/hotel/booking';
         }else if(data_search[key].provider.provider_type == 'visa'){
             document.getElementById('gotobooking'+key).action = '/visa/booking';
+        }else if(data_search[key].provider.provider_type == 'tour'){
+            document.getElementById('gotobooking'+key).action = '/tour/booking';
         }
         document.getElementById('gotobooking'+key).submit();
 
