@@ -39,7 +39,6 @@ def open_page(request):
             'countries': response['result']['response']['airline']['country'],
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
-            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'username': request.session['user_account'],
             'static_path_url_server': get_url_static_path(),
             'signature': request.session['signature'],

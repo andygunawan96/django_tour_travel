@@ -187,9 +187,9 @@ def get_new_cache(signature):
                             'code': destination['code'],
                             'country': country['name']
                         })
-            file = open(var_log_path() + "train_cache_data.txt", "w+")
-            file.write(json.dumps(destination_train))
-            file.close()
+                file = open(var_log_path() + "train_cache_data.txt", "w+")
+                file.write(json.dumps(destination_train))
+                file.close()
         except Exception as e:
             logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass

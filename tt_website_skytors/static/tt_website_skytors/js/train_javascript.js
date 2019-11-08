@@ -1392,3 +1392,18 @@ function update_contact_cp(val){
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
 }
+
+function show_repricing(){
+    $("#myModalRepricing").modal();
+}
+
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($text);
+}
+
