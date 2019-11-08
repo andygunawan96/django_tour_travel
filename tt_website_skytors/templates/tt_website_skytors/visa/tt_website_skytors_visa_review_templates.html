@@ -72,6 +72,27 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+                                        <h4>Booker</h4>
+                                        <hr/>
+                                        <div style="overflow:auto;">
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:7%;">Email</th>
+                                                    <th style="width:18%;">Phone Number</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>{{passengers.booker.title}} {{passengers.booker.first_name}} {{passengers.booker.last_name}}</td>
+                                                    <td>{{passengers.booker.email}}</td>
+                                                    <td>{{passengers.booker.calling_code}} - {{passengers.booker.mobile}}</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="padding-top:20px;">
+                                    <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                                         <h4>List of Contact(s)</h4>
                                         <hr/>
                                         <div style="overflow:auto;">
@@ -155,7 +176,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <hr/>
                                         {% endwith %}
                                         {% endfor %}
@@ -296,8 +316,6 @@
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
-                </div>
-                <div class="col-lg-8" style="padding-bottom:15px;">
                     <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px;" id="payment_acq" hidden>
 
                     </div>
@@ -368,8 +386,6 @@
     for(i in passenger.elder)
         set_value_radio_first('elder',parseInt(i)+1);
     get_payment_acq('Issued','{{passenger.booker.booker_id}}', '', 'billing',signature,'visa');
-    //get_payment_acq('Create Booking');
-    //testing_bca();
 </script>
 <!-- loader -->
 {% endblock %}
