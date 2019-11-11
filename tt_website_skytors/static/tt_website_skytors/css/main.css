@@ -3326,7 +3326,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*-------- start price Area ------------*/
 .price-area {
   /*background: url(../img/price-bg.png) no-repeat center center;*/
-  background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url(../images/bg_8.jpg);
+  background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url(../images/christmas-wallpaper2.jpg);
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -3406,7 +3406,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*-------- end other-issue Area ------------*/
 /*--------- start testimonial area  -------------*/
 .testimonial-area {
-    background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_7.jpg");
+    background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/christmas-wallpaper3.jpg");
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;

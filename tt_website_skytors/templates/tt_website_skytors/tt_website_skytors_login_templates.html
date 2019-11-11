@@ -2,42 +2,88 @@
 {% load i18n %}
 {% load static from staticfiles %}
 {% block content %}
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/bootstrap/css/bootstrap.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/animate/animate.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/animate/animate.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/css-hamburgers/hamburgers.min.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/css-hamburgers/hamburgers.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/animsition/css/animsition.min.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/animsition/css/animsition.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/select2/select2.min.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/select2/select2.min.css">
 <!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/daterangepicker/daterangepicker.css">
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/util.css">
-	<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/main.css">
-	<!--loadingbar-->
-    <link rel="stylesheet" href="{{ static_path }}css/loading.css">
-    <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css">
-    <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css">
-	<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-	<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ static_path }}vendor/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/util.css">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/main.css">
+<!--loadingbar-->
+<link rel="stylesheet" href="{{ static_path }}css/loading.css">
+<link rel="stylesheet" href="{{ static_path }}css/loading-btn.css">
+<link rel="stylesheet" href="{{ static_path }}css/loading-bar.css">
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 
-	<div class="limiter">
-		<div class="container-login100" style="background-image: url('{{static_path}}images/image_2.jpg');">
-			<div class="wrap-login100 p-t-30 p-b-50">
-				<span class="login100-form-title p-b-41">
-					Account Login
-				</span>
-				<div id="testing">
+<header id="header-login" style="height:7.5vh;">
+	<div class="main-menu" style="border-top:unset; border-bottom:unset;">
+		<div class="container">
+			<div class="row align-items-center justify-content-between d-flex">
+				<div class="col-lg-4 col-md-4">
+					<a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:40px;" alt="" title="" /></a>
 				</div>
+				<div class="col-lg-8 col-md-8" id="login-form-pc">
+					<form id="myForm2" class="login100-form validate-form" action="{% url 'tt_website_skytors:index'%}" method="POST">
+						{% csrf_token %}
+						<div class="row" id="login-form-header" style="float:right;">
+							<div class="col-lg-9 col-md-9" style="padding:0px;">
+								<div class="input-container-login">
+									<i class="fas fa-user icon-login"></i>
+									<input type="text" class="form-login-control" id="username2" name="username" placeholder="Username"/>
+									<i class="fas fa-lock icon-login"></i>
+									<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-3" style="text-align:right;">
+								<input type="hidden" id="response2" name="response2">
+								<button id="login-form-home2" class="primary-btn button-login ld-ext-right" style="line-height:40px;">
+									LOGIN
+									<div class="ld ld-ring ld-cycle"></div>
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<div class="limiter" style="height:92.5vh;">
+	<div class="container-login100" style="background-image: url('{{static_path}}images/christmas-wallpaper1.jpg');">
+		<div class="wrap-login100 rodextrip-login">
+			<span class="login100-form-title p-b-41">
+				<span class="lamp" style="font-size:50px;">RODEXTRIP</span>
+			</span>
+			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px; ">
+				<span style="color:white; font-weight:700;">Follow us</span>
+				<br/>
+				<a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
+				<a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
+			</div>
+		</div>
+		<div class="wrap-login100 p-t-30 p-b-50 form-box-login" style="display:none;">
+			<span class="login100-form-title p-b-41">
+				<span class="lamp" style="font-size:50px;">RODEXTRIP</span>
+			</span>
+			<div id="testing">
+			</div>
+			<div id="login-form-mobile">
 				<form id="myForm" class="login100-form validate-form p-b-33 p-t-5" action="{% url 'tt_website_skytors:index'%}" method="POST">
 					{% csrf_token %}
-					<div class="wrap-input100 validate-input"  data-validate = "Enter username">
-						<input class="input100" type="text" id="username" name="username" autofocus="" placeholder="User name">
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" id="username" name="username" autofocus="" placeholder="Username">
 						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
@@ -53,29 +99,46 @@
 					</div>
 				</form>
 			</div>
+			<div style="text-align:center; margin-top:30px;">
+				<span style="color:white; font-weight:700;">Follow us</span>
+				<br/>
+				<a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
+				<a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
+			</div>
 		</div>
 	</div>
+</div>
 
+<div id="dropDownSelect1"></div>
 
-	<div id="dropDownSelect1"></div>
+<!--<footer style="height:7vh;">-->
+<!--	<div class="container">-->
+<!--		<div class="row">-->
+<!--			<div class="col-lg-12" style="text-align:center;">-->
+<!--				<a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:30px; margin-top:15px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>-->
+<!--				<a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:30px; margin-top:15px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</footer>-->
 
 <!--===============================================================================================-->
-	<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <!--===============================================================================================-->
-	<script src="{{ static_path }}vendor/animsition/js/animsition.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/animsition/js/animsition.min.js?version={{javascript_version}}"></script>
 <!--===============================================================================================-->
-	<script src="{{ static_path }}vendor/bootstrap/js/popper.js?version={{javascript_version}}"></script>
-	<script src="{{ static_path }}vendor/bootstrap/js/bootstrap.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/bootstrap/js/popper.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/bootstrap/js/bootstrap.min.js?version={{javascript_version}}"></script>
 <!--===============================================================================================-->
-	<script src="{{ static_path }}vendor/select2/select2.min.js"></script>
+<script src="{{ static_path }}vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-	<script src="{{ static_path }}vendor/daterangepicker/moment.min.js?version={{javascript_version}}"></script>
-	<script src="{{ static_path }}vendor/daterangepicker/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/daterangepicker/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/daterangepicker/daterangepicker.js?version={{javascript_version}}"></script>
 <!--===============================================================================================-->
-	<script src="{{ static_path }}vendor/countdowntime/countdowntime.js?version={{javascript_version}}"></script>
-	<script src="{{ static_path }}js/main1.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/countdowntime/countdowntime.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/main1.js?version={{javascript_version}}"></script>
 <!--===============================================================================================-->
-	<!--loading-bar-->
-	<script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
+<!--loading-bar-->
+<script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
 
 {% endblock %}

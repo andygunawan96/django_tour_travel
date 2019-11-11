@@ -5,78 +5,155 @@ passenger_number = 0;
 agent_offside = 0;
 load_more = true;
 function signin(){
-    if($('#username').val() != '' && $('#password').val() != ''){
-        $('.button-login').addClass("running");
-        $('.button-login').prop('disabled', true);
+    if( $(window).width() > 767){
+        if($('#username2').val() != '' && $('#password2').val() != ''){
+            $('.button-login').addClass("running");
+            $('.button-login').prop('disabled', true);
 
-        getToken();
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'signin',
-           },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-           data: {
-            'username':$('#username').val(),
-            'password':$('#password').val()
-           },
-           success: function(msg) {
-            console.log(msg);
-            if(msg == true){
-                let timerInterval
-                Swal.fire({
-                  type: 'success',
-                  title: 'Login Success!',
-                  html: 'Please Wait ...',
-                  timer: 2000,
-                  onBeforeOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                      Swal.getContent().querySelector('strong')
-                        .textContent = Swal.getTimerLeft()
-                    }, 100)
-                  },
-                  onClose: () => {
-                    clearInterval(timerInterval)
-                  }
-                }).then((result) => {
-                  if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.timer
-                  ) {
-                    gotoForm();
-                  }
-                })
-            }else{
+            getToken();
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'signin',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                'username':$('#username2').val(),
+                'password':$('#password2').val()
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg == true){
+                    let timerInterval
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Login Success!',
+                      html: 'Please Wait ...',
+                      timer: 2000,
+                      onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                          Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                        }, 100)
+                      },
+                      onClose: () => {
+                        clearInterval(timerInterval)
+                      }
+                    }).then((result) => {
+                      if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.timer
+                      ) {
+                        gotoForm();
+                      }
+                    })
+                }else{
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: 'Please input correct username or password',
+                    })
+                }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
-
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  text: 'Please input correct username or password',
+                  html: '<span style="color: red;">Error signin </span>' + errorThrown,
                 })
-            }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               },timeout: 60000
+            });
+        }else{
             $('.button-login').prop('disabled', false);
             $('.button-login').removeClass("running");
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error signin </span>' + errorThrown,
+              text: 'Please input username and password',
             })
-           },timeout: 60000
-        });
-    }else{
-        $('.button-login').prop('disabled', false);
-        $('.button-login').removeClass("running");
-        Swal.fire({
-          type: 'error',
-          title: 'Oops!',
-          text: 'Please input username and password',
-        })
+        }
+    }
+    else{
+        if($('#username').val() != '' && $('#password').val() != ''){
+            $('.button-login').addClass("running");
+            $('.button-login').prop('disabled', true);
+
+            getToken();
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'signin',
+               },
+        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+               data: {
+                'username':$('#username').val(),
+                'password':$('#password').val()
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg == true){
+                    let timerInterval
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Login Success!',
+                      html: 'Please Wait ...',
+                      timer: 2000,
+                      onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                          Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                        }, 100)
+                      },
+                      onClose: () => {
+                        clearInterval(timerInterval)
+                      }
+                    }).then((result) => {
+                      if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.timer
+                      ) {
+                        gotoForm();
+                      }
+                    })
+                }else{
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: 'Please input correct username or password',
+                    })
+                }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error signin </span>' + errorThrown,
+                })
+               },timeout: 60000
+            });
+        }else{
+            $('.button-login').prop('disabled', false);
+            $('.button-login').removeClass("running");
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              text: 'Please input username and password',
+            })
+        }
     }
 }
 
@@ -715,6 +792,7 @@ function get_customer_list(passenger, number, product){
 
 function gotoForm(){
     document.getElementById('myForm').submit();
+    document.getElementById('myForm2').submit();
 }
 
 function pick_passenger(type, sequence, product){
