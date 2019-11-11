@@ -466,7 +466,6 @@ def get_booking(request):
 
 
 def issued_booking(request):
-    # nanti ganti ke get_ssr_availability
     try:
         if request.POST['member'] == 'non_member':
             member = False
@@ -539,5 +538,44 @@ def update_service_charge(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
+
+def get_auto_complete(request):
+    def find_tour_ilike(search_str, record_cache, limit=10):
+        tour_list = []
+        for rec in record_cache:
+            if len(tour_list) == limit:
+                return tour_list
+            is_true = True
+            name = rec['name'].lower()
+            for list_str in search_str.split(' '):
+                if list_str not in name:
+                    is_true = False
+                    break
+            if is_true:
+                tour_list.append(rec)
+        return tour_list
+
+    limit = 25
+    req = request.POST
+    try:
+        file = open(var_log_path()+"tour_cache_data.txt", "r")
+        for line in file:
+            record_cache = json.loads(line)
+        file.close()
+
+        record_json = []
+        # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
+        for rec in find_tour_ilike(req['name'].lower(), record_cache, limit):
+            if len(record_json) < limit:
+                record_json.append(rec['name'])
+            else:
+                break
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_autocomplete TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return record_json
 
 

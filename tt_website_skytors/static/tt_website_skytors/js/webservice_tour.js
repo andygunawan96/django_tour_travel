@@ -678,7 +678,26 @@ function get_payment_rules(id)
     });
 }
 
-function issued_booking_tour(order_number)
+function tour_pre_issued_booking(order_number)
+{
+    Swal.fire({
+      title: 'Are you sure want to Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        $('.loader-rodextrip').fadeIn();
+        $('.next-loading-issued').addClass("running");
+        $('.next-loading-issued').prop('disabled', true);
+        tour_issued_booking(order_number);
+      }
+    })
+}
+
+function tour_issued_booking(order_number)
 {
     payment_method_choice = '';
     var radios = document.getElementsByName('payment_opt');
@@ -709,8 +728,10 @@ function issued_booking_tour(order_number)
            var booking_num = msg.result.response.order_number;
            if (booking_num)
            {
-               document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
-               document.getElementById('tour_booking').submit();
+               tour_get_booking(booking_num);
+               document.getElementById('payment_acq').innerHTML = '';
+               document.getElementById('payment_acq').hidden = true;
+               $("#issuedModal").modal('hide');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1238,14 +1259,14 @@ function tour_get_booking(order_number)
                    full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
                }
                get_payment_rules(tour_package.id);
-               get_payment_acq('Issued', book_obj.booker_seq_id, '', 'billing',signature,'tour');
+               get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error tour update passenger </span>' + errorThrown,
+              html: '<span style="color: red;">Error tour get booking </span>' + errorThrown,
             })
        },timeout: 60000
     });
@@ -1782,4 +1803,34 @@ function get_price_itinerary_cache() {
             })
        },timeout: 60000
     });
+}
+
+function tour_search_autocomplete(term,suggest){
+    clearTimeout(tourAutoCompleteVar);
+    term = term.toLowerCase();
+    console.log(term);
+    check = 0;
+    var priority = [];
+
+    getToken();
+    tourAutoCompleteVar = setTimeout(function() {
+        $.ajax({
+           type: "POST",
+           url: "/webservice/tour",
+           headers:{
+                'action': 'get_auto_complete',
+           },
+    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
+           data: {
+                'name':term,
+           },
+           success: function(msg) {
+            tour_choices = msg;
+            suggest(tour_choices);
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+               alert(errorThrown);
+           }
+        });
+    }, 150);
 }
