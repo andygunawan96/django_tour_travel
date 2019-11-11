@@ -13,11 +13,8 @@ function visa_autocomplete(type){
 
 function get_consulate(type){
     consulate_box = document.getElementById('visa_consulate_id');
+    consulate_box.innerHTML = '';
     try{
-        if(consulate_box.options.length > 1)
-            for(i = consulate_box.options.length - 1 ; i >= 0 ; i--){
-                consulate_box.remove(i);
-            }
         for(i in visa_config){
             if(document.getElementById('visa_destination_id_hidden').value == i){
                 for(j in visa_config[i]){
