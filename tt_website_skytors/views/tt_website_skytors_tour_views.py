@@ -89,7 +89,7 @@ def search(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'tour_countries': tour_countries,
-            'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
+            'query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
             'dest_country': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
             'dest_city': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
             'dest_year': request.POST['tour_dest_year'],

@@ -134,7 +134,7 @@ def signin(request):
                         # 'issued_offline': response['result']['response']['issued_offline'],
                         # 'train': response['result']['response']['train'],
                         'activity': response['result']['response']['activity'],
-                        # 'tour': response['result']['response']['tour'],
+                        'tour': response['result']['response']['tour'],
                         'airline': response['result']['response']['airline'],
                         # 'hotel_config': response['result']['response']['hotel_config'],
                     })
@@ -305,15 +305,39 @@ def get_new_cache(signature):
             pass
 
         # tour
-        # data = {}
-        # headers = {
-        #     "Accept": "application/json,text/html,application/xml",
-        #     "Content-Type": "application/json",
-        #     "action": "get_config",
-        #     "signature": signature,
-        # }
-        # res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
-        #                                         method='POST')
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_config",
+            "signature": signature,
+        }
+        res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
+                                                method='POST')
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search_autocomplete",
+            "signature": signature
+        }
+
+        data = {
+            "name": '',
+            "limit": 9999
+        }
+
+        res_cache_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+        try:
+            if res_cache_tour['result']['error_code'] == 0:
+                file = open(var_log_path() + "tour_cache_data.txt", "w+")
+                file.write(json.dumps(res_cache_tour['result']['response']))
+                file.close()
+        except Exception as e:
+            logging.getLogger("info_logger").info(
+                "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res_cache_tour) + '\n' + str(
+                    e) + '\n' + traceback.format_exc())
+            pass
 
         # check sebelum masukkan ke cache
         try:
@@ -333,6 +357,9 @@ def get_new_cache(signature):
             if res_config_activity['result']['error_code'] == 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM ACTIVITY CONFIG GATEWAY" + json.dumps(res_config_activity))
+            if res_config_tour['result']['error_code'] == 0:
+                logging.getLogger("info_logger").info(
+                    "ERROR GET CACHE FROM TOUR CONFIG GATEWAY" + json.dumps(res_config_tour))
         except Exception as e:
             logging.getLogger("info_logger").info(
                 "ERROR LOG CACHE \n" + str(e) + '\n' + traceback.format_exc())
@@ -344,7 +371,7 @@ def get_new_cache(signature):
                     'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False,  # belum di install
                     # 'train': res_origin_train['result']['response'],
                     'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
-                    # 'tour': res_config_tour['result']['response'],
+                    'tour': res_config_tour.get('result') and res_config_tour['result']['response'] or False,
                     'airline': {
                         'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
                         'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False

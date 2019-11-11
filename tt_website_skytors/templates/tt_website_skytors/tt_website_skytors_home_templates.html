@@ -4875,6 +4875,20 @@
         }
     });
 
+    var tour_autocomplete = new autoComplete({
+        selector: '#tour_query',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            tour_search_autocomplete(term,suggest);
+
+        },
+        onSelect: function(e, term, item){
+            $("#tour_query").trigger("blur");
+        }
+    });
+
     //test
 
     //testing getbooker

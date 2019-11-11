@@ -39,8 +39,44 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Tour Search: {% if query %}{{query}}{% else %}All Tours{% endif %}</span><br/>
+                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                    <span id="search_country_name">
+                        {% if not dest_country %}
+                        All Countries
+                        {% else %}
+                        {% for country in tour_countries %}
+                        {% if dest_country == country.id %}
+                        {{country.name}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_city_name">
+                        All Cities
+                    </span>
+                </span>
+                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
+                    <span id="search_month_name">
+                        {% if not dest_month or dest_month == '00' %}
+                        All Months
+                        {% else %}
+                        {% for month_data in dest_month_data %}
+                        {% if month_data.value == dest_month %}
+                        {{month_data.string}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_year_name">
+                        {% if not dest_year or dest_year == '0000' %}
+                        All Years
+                        {% else %}
+                        {{dest_year}}
+                        {% endif %}
+                    </span>
+                </span>
+                <br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
@@ -64,7 +100,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{tour_query}}"/>
+                                    <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -269,6 +305,21 @@
         {% if dest_country %}
             auto_complete_tour('tour_countries', {{dest_city}});
         {% endif %}
+        tour_get_city_search_name({{dest_city}});
+
+        var tour_autocomplete = new autoComplete({
+            selector: '#tour_query',
+            minChars: 1,
+            cache: false,
+            delay:0,
+            source: function(term, suggest){
+                tour_search_autocomplete(term,suggest);
+
+            },
+            onSelect: function(e, term, item){
+                $("#tour_query").trigger("blur");
+            }
+        });
     });
 </script>
 
