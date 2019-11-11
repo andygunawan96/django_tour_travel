@@ -215,6 +215,7 @@ def index(request):
                         'static_path_url_server': get_url_static_path(),
                         'signature': request.session['signature']
                     }
+                    return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
                 except:
                     values = {
                         'static_path': path_util.get_static_path(MODEL_NAME),
@@ -223,7 +224,6 @@ def index(request):
                         'static_path_url_server': get_url_static_path(),
                         'template': template
                     }
-                    return render(request, MODEL_NAME + '/tt_website_skytors_home_templates.html', values)
             else:
                 values = {
                     'static_path': path_util.get_static_path(MODEL_NAME),
@@ -255,7 +255,7 @@ def index(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-    return render(request, MODEL_NAME+'/tt_website_skytors_home_templates.html', values)
+    return no_session_logout()
 
 def no_session_logout():
     return redirect('/')

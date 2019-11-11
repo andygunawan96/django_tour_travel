@@ -261,36 +261,3 @@ function set_price(val, type, product_type){
     document.getElementById('set_price').innerHTML = text;
 }
 
-function testing_bca(){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/bca",
-       headers:{
-            'action': 'signin',
-       },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {
-        'username':$('#username').val(),
-        'password':$('#password').val()
-       },
-       success: function(msg) {
-        if(msg == 0){
-            gotoForm();
-        }else{
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: 'Please input correct username or password',
-            })
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error bca </span>' + errorThrown,
-            })
-       },timeout: 60000
-    });
-}
