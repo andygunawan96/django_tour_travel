@@ -94,6 +94,7 @@ def search(request):
             'dest_month_data': dest_month_data,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
+            'time_limit': 600,
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
@@ -111,6 +112,8 @@ def detail(request):
 
         template, logo = get_logo_template()
 
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
@@ -126,6 +129,7 @@ def detail(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
+            'time_limit': request.session['time_limit'],
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template
@@ -146,6 +150,7 @@ def passenger(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
         # agent
         adult_title = ['MR', 'MRS', 'MS']
         infant_title = ['MSTR', 'MISS']
@@ -252,6 +257,7 @@ def passenger(request):
             'child_amt': child_amt,
             'room_list': render_pax_per_room,
             'room_amount': room_amount,
+            'time_limit': request.session['time_limit'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
             'logo': logo,
@@ -273,6 +279,7 @@ def review(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
         adult = []
         child = []
         infant = []
@@ -464,6 +471,7 @@ def review(request):
             'all_pax': all_pax,
             'contact_person': contact,
             'total_pax_all': temp_idx,
+            'time_limit': request.session['time_limit'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
