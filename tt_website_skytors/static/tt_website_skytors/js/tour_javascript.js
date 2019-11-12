@@ -1,4 +1,5 @@
 $test = '';
+var tourAutoCompleteVar;
 var tour_choices = [];
 sorting_value = '';
 room_amount = 0;

@@ -44,6 +44,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'login':
             res = login(request)
+        elif req_data['action'] == 'get_data':
+            res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'get_details':
@@ -98,6 +100,33 @@ def login(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
+
+
+def get_data(request):
+    try:
+        cache_version = get_cache_version()
+        temp_data = get_cache_data(cache_version)
+
+        response = {
+            'activity_countries': temp_data['result']['response']['activity']['countries'],
+            'activity_types': temp_data['result']['response']['activity']['types'],
+            'activity_categories': temp_data['result']['response']['activity']['categories'],
+            'activity_sub_categories': temp_data['result']['response']['activity']['sub_categories'],
+        }
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_data ACTIVITY SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        response = {
+            'activity_countries': [],
+            'activity_types': [],
+            'activity_categories': [],
+            'activity_sub_categories': [],
+        }
+
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return response
 
 
 def search(request):

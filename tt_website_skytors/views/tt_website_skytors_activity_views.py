@@ -32,49 +32,31 @@ def search(request):
 
         template, logo = get_logo_template()
 
-        # activity
-        activity_sub_categories = response['result']['response']['activity']['sub_categories']
-        activity_categories = response['result']['response']['activity']['categories']
-        activity_types = response['result']['response']['activity']['types']
-        activity_countries = response['result']['response']['activity']['countries']
-        # activity
-
         request.session['activity_request'] = {
             'query': request.POST['activity_query'],
-            'country': request.POST['activity_countries'],
-            'city': request.POST['activity_cities'],
+            'country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
+            'city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
             'sort': 'price_asc',
-            'type_id': request.POST['activity_type'],
-            'category': request.POST['activity_category'],
-            'sub_category': request.POST['activity_sub_category'],
+            'type_id': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
+            'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
+            'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
             'limit': 25,
             'offset': 0,
-
         }
-        parsed_country_name = ''
-        if request.POST['activity_countries']:
-            for rec in activity_countries:
-                if rec['id'] == int(request.POST['activity_countries']):
-                    parsed_country_name = rec['name']
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'activity_sub_categories': activity_sub_categories,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
-            'activity_categories': activity_categories,
-            'activity_types': activity_types,
-            'activity_countries': activity_countries,
             'username': request.session['user_account'],
             'query': request.POST['activity_query'],
-            'parsed_country': request.POST['activity_countries'] and int(request.POST['activity_countries']) or '',
+            'parsed_country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
             'parsed_city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
             'parsed_type': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
             'parsed_category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
             'parsed_sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
-            'parsed_country_name': parsed_country_name,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'time_limit': 600,

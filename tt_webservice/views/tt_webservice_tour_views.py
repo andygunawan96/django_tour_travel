@@ -38,14 +38,14 @@ month = {
     '12': 'Dec',
 }
 
-
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_data':
+            res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'get_details':
@@ -70,6 +70,8 @@ def api_models(request):
             res = update_service_charge(request)
         elif req_data['action'] == 'get_payment_rules':
             res = get_payment_rules(request)
+        elif req_data['action'] == 'get_auto_complete':
+            res = get_auto_complete(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -100,6 +102,27 @@ def login(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
+
+
+def get_data(request):
+    try:
+        cache_version = get_cache_version()
+        temp_data = get_cache_data(cache_version)
+
+        response = {
+            'tour_countries': temp_data['result']['response']['tour']['countries']
+        }
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_data TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        response = {
+            'tour_countries': [],
+        }
+
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return response
 
 
 def search(request):

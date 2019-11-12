@@ -1783,10 +1783,10 @@ function show_hide_city_hotel(){
     }
 }
 
-function show_hide_advanced(){
-    var advanced_search = document.getElementById("advanced_search");
-    var advanced_down = document.getElementById("advanced_down");
-    var advanced_up = document.getElementById("advanced_up");
+function show_hide_advanced(type){
+    var advanced_search = document.getElementById(type+"_advanced_search");
+    var advanced_down = document.getElementById(type+"_advanced_down");
+    var advanced_up = document.getElementById(type+"_advanced_up");
 
     if (advanced_down.style.display === "none") {
         advanced_up.style.display = "none";
