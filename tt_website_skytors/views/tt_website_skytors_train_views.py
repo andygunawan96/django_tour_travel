@@ -27,7 +27,7 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
-id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['pas', 'Passport'], ['other', 'Other']]
+id_type = [['ktp', 'KTP'], ['sim', 'SIM'], ['passport', 'Passport'], ['other', 'Other']]
 
 def elapse_time(dep, arr):
     elapse = arr - dep
@@ -349,22 +349,18 @@ def booking(request):
 def seat_map(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        cache_version = get_cache_version()
-        response = get_cache_data(cache_version)
-        airline_country = response['result']['response']['airline']['country']
-
         template, logo = get_logo_template()
+        try:
+            request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
+            request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])
+        except:
+            pass
 
-        passenger = []
-        for pax in request.session['train_pax']:
-            if pax['passenger']['pax_type'] == 'ADT':
-                passenger.append(pax)
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'paxs': passenger,
-            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-            'countries': airline_country,
+            'paxs': request.session['train_passenger_request'],
             'username': request.session['user_account'],
+            'signature': request.session['train_signature'],
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,

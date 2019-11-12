@@ -501,14 +501,16 @@ function train_get_booking(data){
 
             <div class="row" style="margin-top:20px;">
                 <div class="col-lg-4" style="padding-bottom:10px;">`;
-                    console.log(msg.result.response.state);
                     if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                         if (msg.result.response.state == 'booked'){
+                            console.log('asdasdad');
                             text+=`
-                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Seat Map" onclick=""/>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
+                            <form method="post" id="seat_map_request" action='/train/seat_map'>
+
+                                <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:white;" value="Seat Map" onclick="set_seat_map();"/>
+                                <input id='passenger_input' name="passenger_input" type="hidden"/>
+                                <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
+                            </form>`;
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
@@ -774,6 +776,50 @@ function train_get_booking(data){
     });
 }
 
+function set_seat_map(){
+    passengers = [];
+    seat_map_request = [];
+    for(i in train_get_detail.result.response.provider_bookings){
+        for(j in train_get_detail.result.response.provider_bookings[i].journeys){
+            seat_map_request.push({
+                'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
+                'provider': train_get_detail.result.response.provider_bookings[i].provider
+            })
+            for(k in train_get_detail.result.response.provider_bookings[i].journeys[j].seats){
+                check = 0;
+                for(l in passengers){
+                    if(passengers[l].name == train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger){
+                        passengers[l].seat_list.push({
+                            'seat':train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
+                            'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
+                            'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                            'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
+                        });
+                        check = 1;
+                        break;
+                    }
+                }
+                if(check == 0){
+                    passengers.push({
+                        'sequence': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger_sequence,
+                        'name': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].passenger,
+                        'seat_list': [{
+                            'seat': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
+                            'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
+                            'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                            'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
+                        }]
+                    })
+                }
+            }
+        }
+    }
+    getToken();
+    document.getElementById('passenger_input').value = JSON.stringify(passengers);
+    document.getElementById('seat_map_request_input').value = JSON.stringify(seat_map_request);
+    goto_seat_map();
+}
+
 function train_issued(data){
     Swal.fire({
       title: 'Are you sure want to Issued this booking?',
@@ -849,56 +895,10 @@ function train_get_seat_map(){
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
+        console.log(msg);
         if(msg.result.error_code==0){
-            var text='<div class="slideshow-container">';
-            for(i in msg.result.response){
-                seat_map = msg.result.response;
-                text+=`
-                  <div class="col-lg-12 mySlides1">
-                  <div style="width:100%;text-align:center;">
-                    <h5>
-                    <a style="color:black; cursor:pointer; float:left;" onclick="plusSlides(-1, 0)">&#10094; Prev</a>
-                    `+msg.result.response[i].wagon_name+`
-                    <a style="color:black; cursor:pointer; float:right;" onclick="plusSlides(1, 0)">Next &#10095;</a>
-                    </h5>
-                    <br/>
-                    </div>`;
-                    for(j in msg.result.response[i].seat_map){
-                        text+=`
-                          <div style="width:100%;text-align:center;">`;
-                          var percent = parseInt(75 / msg.result.response[i].seat_map[j].seats_number.length);
-                          for(k in msg.result.response[i].seat_map[j].seats_number){
-                            check = 0;
-                            for(l in pax)
-                                if(pax[l].seat.split('/')[0] == msg.result.response[i].wagon_name && pax[l].seat.split('/')[1] == msg.result.response[i].seat_map[j].seats_number[k]){
-                                    text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#f15a22; margin:5px;" id="`+msg.result.response[i].wagon_name+`-`+msg.result.response[i].seat_map[j].seats_number[k]+`" onclick="change_seat('`+msg.result.response[i].wagon_name+`','`+msg.result.response[i].seat_map[j].seats_number[k]+`')" value="`+msg.result.response[i].seat_map[j].seats_number[k]+`"/>`;
-                                    check = 1;
-                                }
-                            if(check == 0){
-                                if(msg.result.response[i].seat_map[j].status[k] == -1){
-                                  text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;border:transparent; margin:5px;" id="`+msg.result.response[i].wagon_name+`-`+msg.result.response[i].seat_map[j].seats_number[k]+`" value="`+msg.result.response[i].seat_map[j].seats_number[k]+`" disabled/>`;
-                                }else if(msg.result.response[i].seat_map[j].status[k] == 0){
-                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" id="`+msg.result.response[i].wagon_name+`-`+msg.result.response[i].seat_map[j].seats_number[k]+`" onclick="change_seat('`+msg.result.response[i].wagon_name+`','`+msg.result.response[i].seat_map[j].seats_number[k]+`')" value="`+msg.result.response[i].seat_map[j].seats_number[k]+`"/>`;
-                                }else if(msg.result.response[i].seat_map[j].status[k]== 1){
-                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:white; margin:5px;" id="`+msg.result.response[i].wagon_name+`-`+msg.result.response[i].seat_map[j].seats_number[k]+`" onclick="alert('Already booked');" value="`+msg.result.response[i].seat_map[j].seats_number[k]+`"/>`;
-                                }
-                            }
-                          }
-                          text+=`
-                          </div>`;
-                    }
-                    text+=`
-                  </div>`;
-            }
-            text+=`
-                      <a class="prev" style="color:black;" onclick="plusSlides(-1, 0)">&#10094;</a>
-                      <a class="next" style="color:black;" onclick="plusSlides(1, 0)">&#10095;</a>
-                    </div>
-                    `;
-
-            document.getElementById('train_seat_map').innerHTML = text;
-            showSlides(1, 0);
-            loadingTrain();
+            seat_map_response = msg.result.response;
+            print_seat_map();
         }else{
             Swal.fire({
               type: 'error',
@@ -917,6 +917,8 @@ function train_get_seat_map(){
        },timeout: 60000
     });
 }
+
+
 
 function train_manual_seat(){
     getToken();

@@ -556,7 +556,7 @@ function train_get_detail(){
     total_tax = 0;
     for(i in journeys){
         $text =
-            journeys[i].departure_date+` `+journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
+            journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
             journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date+`-`+journeys[i].arrival_date+`\n\n`;
         train_detail_text += `
         <div class="row">
@@ -1121,30 +1121,40 @@ function showSlides(n, no) {
 }
 
 function select_passenger(val){
-    document.getElementById('passenger'+pax_click).style.background = 'white';
-    temp = document.getElementById('passenger'+pax_click).value.split(' ')[document.getElementById('passenger'+pax_click).value.split(' ').length-1].split('/');
-    temp = temp[0]+'-'+temp[1];
-    document.getElementById(temp).style.background = '#f15a22';
-    document.getElementById(temp).setAttribute("onclick", "javascript: alert('Already booked');");
+    if(pax_click > 0){
+        document.getElementById('passenger'+pax_click).style.background = 'white';
+        document.getElementById('passenger'+pax_click).style.color = 'black';
+    }
+    document.getElementById('passenger'+val).style.background = '#f15a22';
+    document.getElementById('passenger'+val).style.color = 'white';
+    for(i in pax[val-1].seat){
+        console.log('seat_journey'+parseInt(parseInt(i)+1));
+        if(pax[val-1].seat[i].wagon != '')
+            document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = ', ' + pax[val-1].seat[i].wagon + ' ' + pax[val-1].seat[i].seat+pax[val-1].seat[i].column;
+    }
     pax_click = val;
-    temp = document.getElementById('passenger'+pax_click).value.split(' ')[document.getElementById('passenger'+pax_click).value.split(' ').length-1].split('/');
-    temp = temp[0]+'-'+temp[1];
-    document.getElementById(temp).style.background = '#f15a22';
-    temporary = document.getElementById('passenger'+pax_click).value.split(' ')[document.getElementById('passenger'+pax_click).value.split(' ').length-1].split('/')
-    document.getElementById(temp).setAttribute("onclick", "javascript: change_seat('"+temporary[0]+"','"+temporary[1]+"');");
-    document.getElementById('passenger'+pax_click).style.background = '#f15a22';
-//    pax_click=val;
+    print_seat_map();
 }
 
-function change_seat(wagon, seat){
-    var text = pax[pax_click-1].seat.split('/')[0]+'-'+pax[pax_click-1].seat.split('/')[1];
-    document.getElementById(text).style.background = '#CACACA';
-    pax[pax_click-1].seat = wagon+'/'+seat;
+function select_journey(val){
+    if(seat_map_pick > 0){
+        document.getElementById('journey'+seat_map_pick).style.background = 'white';
+        document.getElementById('journey'+seat_map_pick).style.color = 'black';
+    }
+    document.getElementById('journey'+val).style.background = '#f15a22';
+    document.getElementById('journey'+val).style.color = 'white';
+    seat_map_pick = val;
+    print_seat_map();
+}
 
-    document.getElementById('passenger'+pax_click).value = pax[pax_click-1].passenger.title+' '+pax[pax_click-1].passenger.first_name+' '+pax[pax_click-1].passenger.last_name+' '+pax[pax_click-1].seat;
-
-    text = wagon+'-'+seat;
-    document.getElementById(text).style.background = '#f15a22';
+function change_seat(wagon, seat,column){
+    document.getElementById('seat_journey'+seat_map_pick).innerHTML = ', ' + wagon + ' ' + seat+column;
+    pax[parseInt(pax_click-1)].seat[parseInt(seat_map_pick-1)] = {
+        'wagon': wagon,
+        'seat': seat,
+        'column': column
+    }
+    print_seat_map();
 }
 
 function time_check(data){
@@ -1220,7 +1230,6 @@ function filtering(type){
     }
     sort(data);
 }
-
 
 function sort(value){
     var data_filter = value;
@@ -1407,3 +1416,76 @@ function share_data(){
     $text_share = window.encodeURIComponent($text);
 }
 
+function print_seat_map(){
+    document.getElementById('train_seat_map').innerHTML = '';
+    var text='<div class="slideshow-container">';
+    for(i in seat_map_response){
+        if(seat_map_pick == '' || pax_click == ''){
+            text += `<center><h4>Please select passenger or journey</h4></center>`;
+            document.getElementById('train_seat_map').innerHTML = text;
+            loadingTrain();
+            break;
+        }else if(parseInt(parseInt(i)+1) == seat_map_pick){
+            for(j in seat_map_response[i]){
+                text+=`
+                  <div class="col-lg-12 mySlides1">
+                  <div style="width:100%;text-align:center;">
+                    <h5>
+                    <a style="color:black; cursor:pointer; float:left;" onclick="plusSlides(-1, 0)">&#10094; Prev</a>
+                    `+seat_map_response[i][j].cabin_name+`
+                    <a style="color:black; cursor:pointer; float:right;" onclick="plusSlides(1, 0)">Next &#10095;</a>
+                    </h5>
+                    <br/>
+                    </div>`;
+                    for(k in seat_map_response[i][j].seat_rows){
+                        text+=`
+                          <div style="width:100%;">`;
+                          var percent = parseInt(75 / seat_map_response[i][j].maximum_column_number);
+                          for(l in seat_map_response[i][j].seat_rows[k].seats){
+                            check = 0;
+                            for(m in pax){
+                                for(n in pax[m].seat){
+                                    if(seat_map_pick-1 == n && pax[m].seat[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
+                                        if(pax_click-1 == m){
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#f15a22; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            check = 1;
+                                            break;
+                                        }else{
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#ff8971; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            check = 1;
+                                            break;
+                                        }
+
+                                    }
+                                }
+                            }
+                            if(check == 0){
+                                if(seat_map_response[i][j].seat_rows[k].seats[l].availability == -1){
+                                  text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;border:transparent; margin:5px;" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`" disabled/>`;
+                                }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 1){
+                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`')" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 0){
+                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                }
+                            }
+
+                          }
+                          text+=`
+                          </div>`;
+                    }
+                    text+=`
+                  </div>`;
+                }
+            text+=`
+                      <a class="prev" style="color:black;" onclick="plusSlides(-1, 0)">&#10094;</a>
+                      <a class="next" style="color:black;" onclick="plusSlides(1, 0)">&#10095;</a>
+                    </div>
+                    `;
+
+            document.getElementById('train_seat_map').innerHTML = text;
+            showSlides(1, 0);
+            loadingTrain();
+            break;
+        }
+    }
+}
