@@ -56,85 +56,83 @@
             <h5>Oops! Something went wrong, please try again or check your connection internet.</h5>
         </div>
 
-        <form method="POST" action="{% url 'tt_website_skytors:train_booking'%}">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="row">
-                        <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
-                    </div>
-
-                    <div id="train_booking">
-
-                    </div>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="row">
+                    <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
                 </div>
-                <div class="col-lg-4">
-                    <div id="train_detail">
 
-                    </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+                <div id="train_booking">
 
-                    </div>
                 </div>
-                <div class="modal fade" id="myModalRepricing" role="dialog">
-                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+            </div>
+            <div class="col-lg-4">
+                <div id="train_detail">
 
-                        <!-- Modal content-->
-                        <div class="modal-content" style="border-radius: 0;">
-                            <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;">Reprice Change <i class="fas fa-money"></i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-lg-8">
-                                        <div class="row" id="pricing" style="padding:15px;">
-                                            <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
-                                                <div class="row">
-                                                    <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
-                                                        <hr/>
-                                                    </div>
-                                                    <div class="col-lg-12" style="text-align:right;">
-                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
-                                                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
-                                                        <br/>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div style="padding:10px;" id="table_of_equation">
+                </div>
+                <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
 
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
-                                                        <hr/>
-                                                        <center>
-                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('train');" value="Calculate">
-                                                        </center>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalRepricing" role="dialog">
+                <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                    <!-- Modal content-->
+                    <div class="modal-content" style="border-radius: 0;">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:white;">Reprice Change <i class="fas fa-money"></i></h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-lg-8">
+                                    <div class="row" id="pricing" style="padding:15px;">
+                                        <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                                    <hr/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                    <br/>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div style="padding:10px;" id="table_of_equation">
+
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="row" style="padding:15px;">
-                                            <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                <h4>Result Pricing</h4>
-                                                <hr/>
-                                                <div class="row" id="repricing_div">
-
+                                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                    <hr/>
+                                                    <center>
+                                                        <input class="primary-btn-ticket" type="button" onclick="calculate('train');" value="Calculate">
+                                                    </center>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="row" style="padding:15px;">
+                                        <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                            <h4>Result Pricing</h4>
+                                            <hr/>
+                                            <div class="row" id="repricing_div">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </form>
+        </div>
     </div>
 </section>
 
@@ -227,6 +225,11 @@
 
 <script>
     train_signin('{{order_number}}');
+
+    function goto_seat_map(){
+        document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
+        document.getElementById('seat_map_request').submit();
+    }
 </script>
 {% endblock %}
 

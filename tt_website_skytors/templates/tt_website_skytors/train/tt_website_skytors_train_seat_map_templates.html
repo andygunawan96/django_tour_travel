@@ -12,17 +12,22 @@
     static_path_url_server = '{{static_path_url_server}}'
     var slideIndex = [1,1];
     var slideId = ["mySlides1", "mySlides2"];
-    var pax_click = 1;
+    signature = `{{signature}}`;
+    seat_map_pick = '';
+    pax_click = '';
     pax = [];
     {% for pax in paxs %}
         pax.push({
-            passenger:{
-                first_name: '{{pax.passenger.first_name}}',
-                last_name: '{{pax.passenger.last_name}}',
-                title: '{{pax.passenger.title}}',
-            },
-            seat: '{{pax.seat}}'
+            name: `{{pax.name}}`,
+            seat: []
         })
+        {% for seat in pax.seat_list%}
+            pax[pax.length-1].seat.push({
+                'wagon': '',
+                'seat': '',
+                'column': ''
+            });
+        {% endfor %}
     {% endfor %}
 </script>
 <style>
@@ -77,17 +82,30 @@ img {vertical-align: middle;}
                     </div>
                     <div class="row">
                         <div class="col-lg-4">
-                            <div style="width:100%;text-align:center;">
-                                <h5>Select Passenger</h5><br/>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div style="width:100%;text-align:center;">
+                                        <h5>Select Passenger</h5><br/>
+                                    </div>
+                                    {% for pax in paxs%}
+                                    <input class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_passenger({{forloop.counter}});" value="{{pax.name}}">
+                                    {% endfor %}
+                                </div>
+                                <div class="col-lg-6">
+                                    <div style="width:100%;text-align:center;">
+                                        <h5>Select Journey</h5><br/>
+                                    </div>
+                                    {% for pax in paxs%}
+                                        {% if forloop.counter == 1 %}
+                                        {% for seat in pax.seat_list%}
+                                    <button class="button-seat-pass" type="button" id="journey{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;color:black;" onclick="select_journey({{forloop.counter}});">
+                                        {{seat.origin}} - {{seat.destination}} <span id="seat_journey{{forloop.counter}}"></span>
+                                    </button>
+                                        {% endfor %}
+                                        {% endif%}
+                                    {% endfor %}
+                                </div>
                             </div>
-                            {% for pax in paxs%}
-                            {% if forloop.counter == 1%}
-                            <input class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%;background-color:#f15a22;padding:10px;text-align:center;margin-bottom:10px;" onclick="select_passenger({{forloop.counter}});" value="{{pax.passenger.title}} {{pax.passenger.first_name}} {{pax.passenger.last_name}} {{pax.seat}}">
-                            {% else %}
-                            <input class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%;background-color:white;padding:10px;text-align:center;margin-bottom:10px;" onclick="select_passenger({{forloop.counter}});" value="{{pax.passenger.title}} {{pax.passenger.first_name}} {{pax.passenger.last_name}} {{pax.seat}}">
-
-                            {% endif %}
-                            {% endfor %}
 
                             <button class="primary-btn-ticket submit-seat-train ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" onclick="train_manual_seat();" value="Submit Seat">
                                 Submit Seat
@@ -238,5 +256,9 @@ img {vertical-align: middle;}
         </div>
     </div>
 </footer>
+<script>
+    train_get_seat_map();
+</script>
 
 {% endblock %}
+

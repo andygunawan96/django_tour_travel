@@ -116,28 +116,6 @@ def index(request):
                         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                     # tour
 
-                    # issuedoffline
-                    try:
-                        issued_offline_transaction_type = response['result']['response']['issued_offline']['transaction_type']
-                    except Exception as e:
-                        issued_offline_transaction_type = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    try:
-                        issued_offline_sector_type = response['result']['response']['issued_offline']['sector_type']
-                    except Exception as e:
-                        issued_offline_sector_type = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    try:
-                        issued_offline_carrier_id = response['result']['response']['issued_offline']['carrier_id']
-                    except Exception as e:
-                        issued_offline_carrier_id = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    try:
-                        issued_offline_social_media_id = response['result']['response']['issued_offline']['social_media_id']
-                    except Exception as e:
-                        issued_offline_social_media_id = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
                     #get_data_awal
                     cache = {}
                     try:
@@ -206,10 +184,6 @@ def index(request):
                         'activity_countries': activity_countries,
                         #tour
                         'tour_countries': tour_countries,
-                        'issued_offline_transaction_type': issued_offline_transaction_type,
-                        'issued_offline_sector_type': issued_offline_sector_type,
-                        'issued_offline_carrier_id': issued_offline_carrier_id,
-                        'issued_offline_social_media_id': issued_offline_social_media_id,
                         'javascript_version': javascript_version,
                         'update_data': 'false',
                         'static_path_url_server': get_url_static_path(),

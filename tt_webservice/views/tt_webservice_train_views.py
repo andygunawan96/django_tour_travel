@@ -342,25 +342,24 @@ def update_service_charge(request):
 
 def seat_map(request):
     try:
+        seat_map_request_input = request.session['train_seat_map_request']
+        seat_request = []
+        for i in seat_map_request_input:
+            seat_request.append(i['fare_code'])
         data = {
-            "origin": request.session['train_pick']['origin'],
-            "departure_date": request.session['train_pick']['departure_date'],
-            "carrier_number": request.session['train_pick']['carrier_code'],
-            "destination": request.session['train_pick']['destination'],
-            "class_of_service": request.session['train_pick']['class_of_service'],
-            "pnr": request.session['train_pick']['pnr'],
+            "fare_codes": seat_request,
             "provider": provider_kai
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_seat_map",
+            "action": "get_seat_availability",
             "signature": request.session['train_signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
 
     return res
 
