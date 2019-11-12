@@ -384,6 +384,7 @@ function get_total_price(discount_total) {
 
 function check_detail(){
     document.getElementById('room_amount').value = room_amount;
+    document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('go_to_pax').submit();
 }
 
@@ -602,6 +603,7 @@ function check_passenger(adult, child, infant){
    }
    if(error_log=='')
    {
+       document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('tour_review').submit();
    }
    else
@@ -840,6 +842,18 @@ function tour_pre_create_booking()
 }
 
 function tour_filter_render(){
+
+    var node = document.createElement("div");
+    text = '';
+    text+= `
+    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+    <hr/>
+    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>`;
+
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("session_timer").appendChild(node);
+    node = document.createElement("div");
 
     var node = document.createElement("div");
     text = '';

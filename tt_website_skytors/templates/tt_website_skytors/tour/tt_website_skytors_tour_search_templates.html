@@ -19,6 +19,9 @@
         'budget': 'all',
     };
     sorting_value = '';
+
+    time_limit = {{time_limit}};
+    session_time_limit();
 </script>
 
 {% include 'tt_website_skytors/header.html' %}
@@ -203,7 +206,9 @@
                         </div>
                     </div>
                 </div>
+                <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="session_timer">
 
+                </div>
                 <div class="filter-search-flight" id="filter-search-flight">
                     <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">
 
@@ -242,6 +247,7 @@
                         <div class="row" id="tour_ticket" style="align:center;">
 
                         </div>
+                        <input type="hidden" id="time_limit_input" name="time_limit_input" />
                     </div>
                 </div>
             </div>
@@ -263,6 +269,7 @@
                 pick = JSON.stringify(tour_data[i]).replace(/'/g,'');
                 document.getElementById(`csrf`+i).innerHTML = `{% csrf_token %}`;
                 document.getElementById(`csrf`+i).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
+                document.getElementById('myForm'+i).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
                 document.getElementById('myForm'+i).submit();
             }
         }
