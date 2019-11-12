@@ -134,7 +134,7 @@ def search(request):
             "destination": destination,
             "consulate": consulate,
             "departure_date": departure_date,
-            "provider": 'skytors_visa'
+            "provider": 'rodextrip_visa'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -224,7 +224,7 @@ def sell_visa(request):
         data = {
             'pax': request.session['visa_sell'],
             'passenger': request.session['visa_passenger'],
-            "provider": 'skytors_visa'
+            "provider": 'rodextrip_visa'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

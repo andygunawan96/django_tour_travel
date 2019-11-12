@@ -231,7 +231,7 @@ def get_new_cache(signature):
 
         # visa odoo12
         data = {
-            'provider': 'skytors_visa'
+            'provider': 'rodextrip_visa'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -245,7 +245,7 @@ def get_new_cache(signature):
 
         # issuedoffline
         data = {
-            'provider': 'skytors_issued_offline'
+            'provider': 'rodextrip_issued_offline'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

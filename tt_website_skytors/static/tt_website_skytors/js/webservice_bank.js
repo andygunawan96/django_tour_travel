@@ -6,7 +6,6 @@ function bank_get_balance(){
        headers:{
             'action': 'get_balance',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
