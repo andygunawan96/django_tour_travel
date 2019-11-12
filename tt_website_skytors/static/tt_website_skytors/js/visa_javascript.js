@@ -337,7 +337,7 @@ function update_table(type){
         price_pax = 0;
         count_i = 0;
         for(i in visa.list_of_visa){
-            if(visa.list_of_visa[i].total_pax != 0){
+            if(visa.list_of_visa[i].pax_count != 0){
                 count_i = count_i+1;
                 $text += count_i + '. \n'
                 $text += 'Visa '+ visa_request.destination +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
