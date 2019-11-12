@@ -1,0 +1,321 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    signature = '{{signature}}';
+    room_amount = {{room_amount}};
+    total_pax_amount = {{total_pax_all}};
+</script>
+
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <form method="POST" id="tour_booking" action="{% url 'tt_website_rodextrip:tour_booking'%}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Please Review Your Booking</h3>
+                    <h4>Prices may changes at any time</h4>
+                    <br/>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12" style="margin-top:10px; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="tour_review_detail" style="background-color: white; padding:10px; border: 1px solid #cdcdcd;">
+                                <h4> Tour Information </h4>
+                                <hr/>
+                                <h4>{{tour_data.name}}</h4>
+                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    {{tour_data.departure_date_f}} - {{tour_data.return_date_f}}
+                                </span>
+                                <br/>
+                                <span><i class="fa fa-clock-o" aria-hidden="true"></i> {{tour_data.duration}} Days</span>
+                                <br/>
+                                <span>{{tour_data.flight}} Flight, {{tour_data.visa}} Visa</span>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <input type="hidden" id="room_amount" value="{{room_amount}}"/>
+                            <div id="tour_review_rooms" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> List of Room(s) </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-rooms" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:15%;">Name</th>
+                                            <th style="width:15%;">Type</th>
+                                            <th style="width:15%;">Hotel</th>
+                                            <th style="width:25%;">Description</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Notes</th>
+                                        </tr>
+                                        {% for room in room_list %}
+                                        <tr>
+                                            <td>
+                                                {{forloop.counter}}
+                                                <input type="hidden" id="room_sequence{{forloop.counter}}" value="{{forloop.counter}}"/>
+                                                <input type="hidden" id="room_id_{{forloop.counter}}" value="{{room.id}}"/>
+                                                <input type="hidden" id="adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
+                                                <input type="hidden" id="child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
+                                                <input type="hidden" id="infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
+                                                <input type="hidden" id="ori_adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
+                                                <input type="hidden" id="ori_child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
+                                                <input type="hidden" id="ori_infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
+                                            </td>
+                                            <td>{{room.name}}</td>
+                                            <td>{{room.bed_type}}</td>
+                                            <td>{% if room.hotel %}{{room.hotel}}{% else %} - {% endif %}</td>
+                                            <td>{% if room.description %}{{room.description}}{% else %} - {% endif %}</td>
+                                            <td>{% if room.notes %}{{room.notes}}{% else %} - {% endif %}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <div id="activity_review_booker" style="background-color: white; border: 1px solid #cdcdcd; overflow-x: auto;">
+                                <div style="padding:10px;">
+                                    <h4> Contact Information </h4>
+                                    <hr/>
+                                    <table style="width:100%;" id="list-of-bookers" class="list-of-passenger-class">
+                                        <tr>
+                                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                                            <th style="width:45%;">Full Name</th>
+                                            <th style="width:25%;">Email</th>
+                                            <th style="width:25%;" class="list-of-passenger-right">Mobile Phone</th>
+                                        </tr>
+                                        {% if contact_person|length > 0 %}
+                                        {% for con in contact_person %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{con.title}}. {{con.first_name}} {{con.last_name}}</td>
+                                            <td>{{con.email}}</td>
+                                            <td>{{con.mobile}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                        {% else %}
+                                        <tr>
+                                            <td>1</td>
+                                            <td>{{booker.title}}. {{booker.first_name}} {{booker.last_name}}</td>
+                                            <td>{{booker.email}}</td>
+                                            <td>{{booker.mobile}}</td>
+                                        </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px;">
+                        <div class="col-lg-12">
+                            <input type="hidden" id="total_pax_all" value="{{total_pax_all}}"/>
+                            <div id="tour_review_passengers" style="background-color: white; border: 1px solid #cdcdcd;">
+                                <div style="padding:10px">
+                                    <h4> List of Guest(s) </h4>
+                                    <hr/>
+                                    {% for pax in all_pax %}
+                                    <div class="row">
+                                        <div class="col-lg-6" style="margin-bottom:10px;">
+                                            <h6>{{forloop.counter}}. {{pax.title}}. {{pax.first_name}} {{pax.last_name}}</h6>
+                                            <span>
+                                                {% if pax.pax_type == 'ADT'%}
+                                                Adult
+                                                {% elif pax.pax_type == 'CHD'%}
+                                                Child
+                                                {% elif pax.pax_type == 'INF'%}
+                                                Infant
+                                                {% endif %}
+                                                - Birth Date: {{pax.birth_date}}
+                                            </span>
+                                            <input type="hidden" id="pax_sequence{{forloop.counter}}" value="{{pax.sequence}}"/>
+                                            <input type="hidden" id="temp_pax_id{{forloop.counter}}" value="{{pax.temp_pax_id}}"/>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px;">
+                                                <div class="form-select" id="default-select">
+                                                    <select id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});">
+                                                        <option value="0">Please select a room!</option>
+                                                        {% for room in room_list %}
+                                                        {% if pax.pax_type == 'ADT' and room.adult > 0 %}
+                                                        <option value="{{forloop.counter}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        {% elif pax.pax_type == 'CHD' and room.child > 0 %}
+                                                        <option value="{{forloop.counter}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        {% elif pax.pax_type == 'INF' and room.infant > 0 %}
+                                                        <option value="{{forloop.counter}}">Room {{forloop.counter}} ; {{room.name}}/{{room.bed_type}} ; {{room.hotel}}</option>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" id="pax_type{{forloop.counter}}" value="{{pax.pax_type}}"/>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 20px;">
+                        <div class="col-lg-4">
+                            <input class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="tour_hold_booking(0);" style="width:100%;"/>
+                        </div>
+                        <div align="center" class="col-lg-4">
+                            <input class="primary-btn hold-seat-booking-train" type="button" value="Print Itinerary Form" style="width:100%;"/>
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+                    </div>
+                    <div style="text-align:left;" class="modal fade" id="myModalErrorReview" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div style="max-height:300px; overflow-y:auto;">
+                                                <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> We found a mistake in your data.</h5>
+                                                <br/>
+                                                <span id="show_error_log" style="font-size:15px;">
+
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">
+                            <h4> Price Detail </h4>
+                            <hr/>
+                            <span id="product_title" style="font-weight: bold;">{{tour_data.name}}</span>
+                            <br/><span id="product_date">{{tour_data.departure_date}} - {{tour_data.return_date}}</span>
+                            <br/><br/>
+                            <div id="loading-price-tour" style="margin-bottom:20px;">
+                                <div class="col-lg-12">
+                                    <div class="sk-circle">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                    <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                </div>
+                            </div>
+                            <div id="tour_detail_table" style="padding: 0; font-size: 12px !important;">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="commit_booking_setup"></div>
+                <div id="issuedModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4>Payment Option</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>) <br/>
+                                <input type="radio" name="payment_opt" value="installment"/> Installment <br/>
+                                <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
+                                <table class="table table-bordered" style="font-size:12px;">
+                                    <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Amount</th>
+                                        <th>Due Date</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tour_payment_rules">
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <input class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Now" onclick="tour_hold_booking(1);" style="width:100%;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<script>
+    $(document).ready(function () {
+        breadcrumb_create("tour", 5, 0);
+        get_price_itinerary_cache();
+        get_payment_rules('{{tour_data.id}}');
+        get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
+    });
+</script>
+{% endblock %}

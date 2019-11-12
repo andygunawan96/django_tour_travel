@@ -1,0 +1,220 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    signature = '{{signature}}';
+    time_limit = {{time_limit}};
+    session_time_limit();
+    facilities = `{{hotel_pick.facilities}}`;
+    facilities = facilities.replace(/&#39;/g, '"');
+    facilities = facilities.replace(/&quot;/g, '"');
+    facilities = facilities.replace(/False/g, 'false');
+    facilities = facilities.replace(/True/g, 'true');
+    hotel = `{{hotel_pick}}`;
+    hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true');
+    //console.log(hotel);
+    hotel_facility_request(facilities);
+</script>
+
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <form method="POST" id="hotel_booking" action="{% url 'tt_website_rodextrip:hotel_booking'%}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>Please Review Your Booking</h3>
+                    <h5>Prices may changes at any time</h5><br/>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="hotel_review" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
+                                <h4> Hotel Detail </h4>
+                                <hr/>
+                                <span style="font-size:20px; font-weight:bold; color:black;">{{hotel_pick.name}}</span>
+                                <span>
+                                    {% for i in "x"|rjust:hotel_pick.rating %}
+                                    {% if hotel_pick.rating == 0 %}
+                                    (Unrated)
+                                    {% else %}
+                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                    {% endif %}
+                                    {% endfor %}
+                                </span><br/>
+
+                                <span>
+                                <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                                    {% if hotel_pick.location.address != False %}
+                                    {{hotel_pick.location.address}}
+                                    {% endif %}
+                                    {% if hotel_pick.location.city != False %}
+                                    {{hotel_pick.location.city}}
+                                    {% endif %}
+                                    {% if hotel_pick.location.kelurahan != False %}
+                                    {{hotel_pick.location.kelurahan}}
+                                    {% endif %}
+                                    {% if hotel_pick.location.state != False %}
+                                    {{hotel_pick.location.state}}
+                                    {% endif %}
+                                    {% if hotel_pick.location.zipcode != False %}
+                                    {{hotel_pick.location.zipcode}}
+                                    {% endif %}
+
+                                    - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{hotel_pick.lat}}, {{hotel_pick.long}})</a>
+                                </span>
+                                <br/>
+                                <span style="text-align:justify; font-weight:bold;">Date: </span>{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}<br/>
+                                <span style="text-align:justify; font-weight:bold;">Room: </span>
+                                {% for room in hotel_room_detail_pick.rooms %}
+                                {% with forloop.counter as counter_room %}
+                                <span>{{room.type}} - {{room.description}}</span>
+                                <br/>
+
+
+                                {% endwith %}
+                                {% endfor %}
+                                <br/>
+                                <span>
+                                    <span style="text-align:justify; font-weight:bold;">Facilities:</span><br/>
+                                    <div id="js_image_facility" class="row">
+
+                                    </div>
+                                </span>
+                                <br/>
+                                <span style="text-align:justify; font-weight:bold;">Customer Notes: </span><br/>
+                                {{special_request}}{% if special_request == '' %} No Special Request {% endif %}<br/>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top:15px;">
+                            <div class="row">
+                                <div class="col-lg-12" style="padding-bottom:20px;">
+                                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
+                                        <h4> List of Guest <i class="fas fa-users"></i></h4>
+                                        <hr/>
+                                        <h5>Booker</h5>
+                                        <table style="width:100%; margin-top:10px;" id="list-of-passenger">
+                                            <tr>
+                                                <th style="width:40%;">Name</th>
+                                                <th style="width:30%;">Email</th>
+                                                <th style="width:30%;">Phone Number</th>
+                                            </tr>
+                                            <tr>
+                                                <td>{{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
+                                                <td>{{booker.email}}</td>
+                                                <td>{{booker.mobile}}</td>
+                                            </tr>
+                                        </table>
+                                        <br/>
+                                        <h5>Guest</h5>
+                                        <table style="width:100%; margin-top:10px;" id="list-of-passenger">
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Birth Date</th>
+                                            </tr>
+                                            {% for adult in adults %}
+                                            <tr>
+                                                <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
+                                                <td>{{adult.birth_date}}</td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            {% for child in childs %}
+                                            <tr>
+                                                <td>{{child.title}} {{child.first_name}} {{child.last_name}}</td>
+                                                <td>{{child.birth_date}}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{ printout_rec }}')" style="width:100%;">
+                                Print Itinerary Form
+                            </button>
+                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+<!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
+                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
+                        </div>
+
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+
+                    </div>
+                </div>
+
+                <!--<div class="col-lg-8">-->
+                    <!--<div class="row">-->
+                        <!--<div class="col-lg-8"></div>-->
+                        <!--<div class="col-lg-4" style="padding-bottom:10px;">-->
+                            <!--<button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" id="btn-issued-hotel" type="button" value="Issued Booking" onclick="hotel_issued_alert();" style="width:100%;">-->
+                                <!--Issued Booking-->
+                                <!--<div class="ld ld-ring ld-cycle"></div>-->
+                            <!--</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
+            <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+        </form>
+    </div>
+</section>
+
+
+<script>
+    hotel_detail('{{hotel_room_detail_pick}}')
+    hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
+    get_payment_acq('Issued','', '', 'billing',signature,'hotel_review');
+    $( document ).ready(function() {
+      breadcrumb_create("hotel", 5, 0);
+    });
+</script>
+{% endblock %}

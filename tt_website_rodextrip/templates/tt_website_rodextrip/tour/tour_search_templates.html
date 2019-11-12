@@ -1,0 +1,291 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    signature = '{{signature}}';
+    dest_country = {{dest_country}};
+    dest_city = {{dest_city}};
+    filter = {
+        'tour_type': 'all',
+        'budget': 'all',
+    };
+    sorting_value = '';
+</script>
+
+{% include 'tt_website_rodextrip/header.html' %}
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;">Tour Search: {% if query %}{{query}}{% else %}All Tours{% endif %}</span><br/>
+                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                    <span id="search_country_name">
+                        All Countries
+                    </span>,
+                    <span id="search_city_name">
+                        All Cities
+                    </span>
+                </span>
+                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
+                    <span id="search_month_name">
+                        {% if not dest_month or dest_month == '00' %}
+                        All Months
+                        {% else %}
+                        {% for month_data in dest_month_data %}
+                        {% if month_data.value == dest_month %}
+                        {{month_data.string}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_year_name">
+                        {% if not dest_year or dest_year == '0000' %}
+                        All Years
+                        {% else %}
+                        {{dest_year}}
+                        {% endif %}
+                    </span>
+                </span>
+                <br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="overlay-search-box" onclick="off_overlay()"></div>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12" style="padding:0;">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:tour_search'%}" class="form-wrap" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{query}}"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
+                                <span class="span-search-ticket">&nbsp;</span>
+                                <div class="input-container-search-ticket">
+                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="tour_advanced_search" style="display:none;">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="form-select">
+                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
+                                                <option value="0" selected="">All Countries</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <div class="form-select">
+                                            <div id="temp_tour_cities">
+                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
+                                                    <option value="0" selected="">All Cities</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12 search_type">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure Time </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                    {% for month_data in dest_month_data %}
+                                                    {% if month_data.value == dest_month %}
+                                                    <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
+                                                    {% else %}
+                                                    <option value="{{month_data.value}}">{{month_data.string}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                        <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
+                                        <div class="form-select">
+                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <button class="primary-btn" type="submit" value="Submit">
+                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                            Change Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" id="breadcrumbs_create">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" style="position:sticky; top:95px; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right:2px;">
+                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
+                            <span style="color:white; font-size:12px;"> Filter & Sorting </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="modal fade" id="myModalFilterSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div id="filter2">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div id="sorting-flight2">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-search-flight" id="filter-search-flight">
+                    <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="filter">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9" style="margin-top:10px;">
+                <div class="row sorting-search-flight" id="sorting-search-flight">
+                    <div class="col-lg-12">
+                        <div id="sorting-flight" style="margin-bottom:15px; margin-top:10px;">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div id="loading-search-tour" style="margin-bottom:20px;">
+                            <div class="col-lg-12">
+                                <div class="sk-circle">
+                                    <div class="sk-circle1 sk-child"></div>
+                                    <div class="sk-circle2 sk-child"></div>
+                                    <div class="sk-circle3 sk-child"></div>
+                                    <div class="sk-circle4 sk-child"></div>
+                                    <div class="sk-circle5 sk-child"></div>
+                                    <div class="sk-circle6 sk-child"></div>
+                                    <div class="sk-circle7 sk-child"></div>
+                                    <div class="sk-circle8 sk-child"></div>
+                                    <div class="sk-circle9 sk-child"></div>
+                                    <div class="sk-circle10 sk-child"></div>
+                                    <div class="sk-circle11 sk-child"></div>
+                                    <div class="sk-circle12 sk-child"></div>
+                                </div>
+                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                            </div>
+                        </div>
+                        <div class="row" id="tour_ticket" style="align:center;">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<script>
+    tour_login('');
+    get_dept_year();
+    tour_filter_render();
+
+    function go_to_detail(sequence){
+        for (i in tour_data)
+        {
+            if(tour_data[i].sequence == sequence)
+            {
+                pick = JSON.stringify(tour_data[i]).replace(/'/g,'');
+                document.getElementById(`csrf`+i).innerHTML = `{% csrf_token %}`;
+                document.getElementById(`csrf`+i).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
+                document.getElementById('myForm'+i).submit();
+            }
+        }
+    }
+
+    $(document).ready(function () {
+        breadcrumb_create("tour", 2, 0);
+        $('.js-example-basic-single').select2();
+        get_tour_config('search');
+
+        var tour_autocomplete = new autoComplete({
+            selector: '#tour_query',
+            minChars: 1,
+            cache: false,
+            delay:0,
+            source: function(term, suggest){
+                tour_search_autocomplete(term,suggest);
+            },
+            onSelect: function(e, term, item){
+                $("#tour_query").trigger("blur");
+            }
+        });
+    });
+</script>
+
+{% endblock %}
