@@ -60,7 +60,7 @@ def login(request,func):
 def get_requirement_list_doc(request):
     try:
         data = {
-            'provider': 'skytors_agent_registration'
+            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -77,7 +77,7 @@ def get_requirement_list_doc(request):
 def get_config(request):
     try:
         data = {
-            'provider': 'skytors_agent_registration'
+            'provider': 'rodextrip_agent_registration'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
