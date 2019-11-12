@@ -24,27 +24,7 @@
 <script>
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
-    activity_country = [];
-    city = [];
-    tour_country = [];
-    tour_city = [];
-    sub_category = {};
-    sub_category_list = [];
     name = '';
-    {% for country in activity_countries %}
-        {% for temp_city in country.city.response %}
-            city.push({
-                'name': '{{temp_city.name}}', 'id':'{{temp_city.id}}'
-            });
-        {% endfor %}
-        activity_country.push({
-            'city': city,
-            'name': '{{country.name}}',
-            'id': '{{country.id}}'
-        });
-        city = [];
-    {% endfor %}
-    console.log(activity_country);
     cabin_class = [];
     {% for airline_cabin_class in airline_cabin_class_list %}
         cabin_class.push({
@@ -60,39 +40,6 @@
     }catch(err){
 
     }
-
-    {% for key, value in activity_sub_categories.items %}
-        {% for item in value %}
-            name = '{{item.name}}';
-            if(name.search('amp;') !== -1){
-                name = name.replace(/&amp;/g, '&');
-            }
-
-            sub_category_list.push({
-                'name': name,
-                'id': '{{item.id}}'
-            });
-            name = '';
-        {% endfor %}
-        key = '{{key}}';
-        sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
-        sub_category_list = [];
-    {% endfor %}
-
-    {% for tour_country_temp in tour_countries %}
-        {% for city in tour_country_temp.city.response %}
-            tour_city.push({
-                'name': '{{city.name}}', 'id':'{{city.id}}'
-            });
-        {% endfor %}
-        tour_country.push({
-            'city': tour_city,
-            'name': '{{tour_country_temp.name}}',
-            'id': '{{tour_country_temp.id}}'
-        });
-        tour_city = [];
-    {% endfor %}
-
 
 </script>
 
@@ -641,12 +588,12 @@
                                     <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
-                                            <button type="button" class="form-control" id="advanced_down" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
-                                            <button type="button" class="form-control" id="advanced_up" onclick="show_hide_advanced();" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
+                                            <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
+                                            <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row" id="advanced_search" style="display:none;">
+                                <div class="row" id="activity_advanced_search" style="display:none;">
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Location </span>
@@ -654,12 +601,8 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                                 <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_countries" onchange="auto_complete_activity('activity_countries');" size="5" data-live-search="true" name="activity_countries">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
                                                         <option value="" selected="">All Countries</option>
-                                                        {% for country in activity_countries %}
-                                                        <option value="{{country.id}}">{{country.name}}</option>
-                                                        {% endfor %}
-                                                        <!--<option id="temp_activity_countries"/>-->
                                                     </select>
                                                 </div>
                                             </div>
@@ -686,20 +629,13 @@
                                                 <div class="form-select">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
                                                         <option value="0" selected="">All Types</option>
-                                                        {% for type in activity_types %}
-                                                        <option value="{{type.id}}">{{type.name}}</option>
-                                                        {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                                 <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_category" onchange="auto_complete_activity('activity_category');" name="activity_category" size="5">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
                                                         <option value="0" selected="">All Categories</option>
-                                                        {% for category in activity_categories %}
-                                                        <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
-                                                        {% endfor %}
-                                                        <!--<option id="temp_activity_category"/>-->
                                                     </select>
                                                 </div>
                                             </div>
@@ -727,17 +663,21 @@
                             <form action="{% url 'tt_website_skytors:tour_search'%}" class="form-wrap" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                    <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off"/>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-
+                                    <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
+                                        <span class="span-search-ticket">&nbsp;</span>
+                                        <div class="input-container-search-ticket">
+                                            <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
+                                            <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="row" id="tour_advanced_search" style="display:none;">
                                     <div class="col-lg-6">
                                         <div class="row">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination </span>
@@ -745,11 +685,8 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                                 <div class="form-select">
-                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_countries" onchange="auto_complete_tour('tour_countries');" size="5" data-live-search="true" name="tour_countries">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
                                                         <option value="0" selected="">All Countries</option>
-                                                        {% for country in tour_countries %}
-                                                        <option value="{{country.id}}">{{country.name}}</option>
-                                                        {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
@@ -4774,7 +4711,8 @@
             airline_search_value = 'false';
             get_visa_config('home');
             //get_train_config('home');
-            //tour_login('');
+            get_activity_config('home');
+            get_tour_config('home');
         }catch(err){
 
         }

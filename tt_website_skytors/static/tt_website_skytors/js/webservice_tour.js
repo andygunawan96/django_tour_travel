@@ -32,6 +32,95 @@ function tour_login(data){
     });
 }
 
+function get_tour_config(type, val){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_data',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            tour_country = [];
+            sub_category = {};
+
+            var country_selection = document.getElementById('tour_countries');
+
+            for(i in msg.tour_countries){
+                var city = [];
+                for(j in msg.tour_countries[i].city.response)
+                {
+                    city.push({
+                        'name': msg.tour_countries[i].city.response[j].name,
+                        'id': msg.tour_countries[i].city.response[j].id
+                    });
+                }
+                tour_country.push({
+                    'city': city,
+                    'name': msg.tour_countries[i].name,
+                    'id': msg.tour_countries[i].id
+                });
+            }
+
+            country_txt = '';
+            if(type == 'search')
+            {
+                if (dest_country == 0)
+                {
+                    country_txt += `<option value="0" selected="">All Countries</option>`;
+                }
+                else
+                {
+                    country_txt += `<option value="0">All Countries</option>`;
+                }
+                for(i in tour_country)
+                {
+                    if (tour_country[i].id == dest_country)
+                    {
+                        country_txt += `<option value="`+tour_country[i].id+`" selected>`+tour_country[i].name+`</option>`;
+                        document.getElementById('search_country_name').innerHTML = tour_country[i].name;
+                    }
+                    else
+                    {
+                        country_txt += `<option value="`+tour_country[i].id+`">`+tour_country[i].name+`</option>`;
+                    }
+                }
+            }
+            else
+            {
+                country_txt += `<option value="0" selected="">All Countries</option>`;
+                for(i in tour_country)
+                {
+                    country_txt += `<option value="`+tour_country[i].id+`">`+tour_country[i].name+`</option>`;
+                }
+            }
+
+            country_selection.innerHTML = country_txt;
+            $('#tour_countries').niceSelect('update');
+            country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
+            if(type == 'search')
+            {
+                if (dest_country)
+                {
+                    auto_complete_tour('tour_countries', dest_city);
+                    tour_get_city_search_name(dest_city);
+                }
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour config </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 function tour_search(){
     if (offset > 0)
     {
