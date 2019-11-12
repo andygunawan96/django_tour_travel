@@ -26,39 +26,38 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 
-<header id="header-login" style="height:7.5vh;">
-	<div class="main-menu" style="border-top:unset; border-bottom:unset;">
-		<div class="container">
-			<div class="row align-items-center justify-content-between d-flex">
-				<div class="col-lg-4 col-md-4">
-					<a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:40px;" alt="" title="" /></a>
-				</div>
-				<div class="col-lg-8 col-md-8" id="login-form-pc">
-					<form id="myForm2" class="login100-form validate-form" action="{% url 'tt_website_skytors:index'%}" method="POST">
-						{% csrf_token %}
-						<div class="row" id="login-form-header" style="float:right;">
-							<div class="col-lg-9 col-md-9" style="padding:0px;">
-								<div class="input-container-login">
-									<i class="fas fa-user icon-login"></i>
-									<input type="text" class="form-login-control" id="username2" name="username" placeholder="Username"/>
-									<i class="fas fa-lock icon-login"></i>
-									<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
-								</div>
-							</div>
-							<div class="col-lg-3 col-md-3" style="text-align:right;">
-								<input type="hidden" id="response2" name="response2">
-								<button id="login-form-home2" class="primary-btn button-login ld-ext-right" style="line-height:40px;">
-									LOGIN
-									<div class="ld ld-ring ld-cycle"></div>
-								</button>
+<section class="destinations-area" id="header-login" style="min-height:7.5vh; padding:1.5vh 0vh; background:white; z-index:10;">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 col-md-4">
+				<a href="{% url 'tt_website_skytors:index'%}"><img src="{{logo}}" style="width:80px; height:40px;" alt="" title="" /></a>
+			</div>
+			<div class="col-lg-8 col-md-8" id="login-form-pc">
+				<form id="myForm2" class="login100-form validate-form" action="{% url 'tt_website_skytors:index'%}" method="POST">
+					{% csrf_token %}
+					<div class="row" id="login-form-header" style="float:right;">
+						<div class="col-lg-9 col-md-9" style="padding:0px;">
+							<div class="input-container-login">
+								<i class="fas fa-user icon-login"></i>
+								<input type="text" class="form-login-control" id="username2" name="username" placeholder="Username"/>
+								<i class="fas fa-lock icon-login"></i>
+								<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
 							</div>
 						</div>
-					</form>
-				</div>
+						<div class="col-lg-3 col-md-3" style="text-align:right;">
+							<input type="hidden" id="response2" name="response2">
+							<button id="login-form-home2" class="primary-btn button-login ld-ext-right" style="line-height:40px;">
+								LOGIN
+								<div class="ld ld-ring ld-cycle"></div>
+							</button>
+						</div>
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
-</header>
+</section>
+
 
 <div class="limiter" style="height:92.5vh;">
 	<div class="container-login100" style="background-image: url('{{static_path}}images/christmas-wallpaper1.jpg');">
@@ -110,6 +109,7 @@
 </div>
 
 <div id="dropDownSelect1"></div>
+{% include 'tt_website_skytors/effect.html' %}
 
 <!--<footer style="height:7vh;">-->
 <!--	<div class="container">-->
