@@ -9,7 +9,6 @@ function get_data_issued_offline(){
        headers:{
             'action': 'get_data',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
            console.log(msg);
@@ -840,7 +839,6 @@ function get_history_issued_offline(){
        headers:{
             'action': 'get_history_issued_offline',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'offset': agent_offside
        },

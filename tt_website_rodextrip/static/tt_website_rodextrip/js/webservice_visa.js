@@ -9,7 +9,6 @@ function get_visa_config(type){
        headers:{
             'action': 'get_config',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
         console.log(msg);
@@ -70,7 +69,6 @@ function visa_signin(data){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
             signature = msg.result.response.signature;
@@ -98,7 +96,6 @@ function search_visa(){
        headers:{
             'action': 'search',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'destination': document.getElementById('visa_destination_id_hidden').value,
             'departure_date': document.getElementById('visa_departure').value,
@@ -216,7 +213,6 @@ function sell_visa(){
        headers:{
             'action': 'sell_visa',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -359,7 +355,6 @@ function update_passenger(){
        headers:{
             'action': 'update_passengers',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'id': JSON.stringify(data_pax),
             'signature': signature
@@ -388,7 +383,6 @@ function update_contact(){
        headers:{
             'action': 'update_contacts',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -425,7 +419,6 @@ function commit_booking(){
        headers:{
             'action': 'commit_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: data,
        success: function(msg) {
             console.log(msg);
@@ -452,7 +445,6 @@ function visa_get_data(data){
        headers:{
             'action': 'get_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'order_number': data,
             'signature': signature

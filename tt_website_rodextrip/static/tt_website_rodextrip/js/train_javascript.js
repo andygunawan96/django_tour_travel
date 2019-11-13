@@ -565,7 +565,7 @@ function train_get_detail(){
                     <tr>
                         <td><h6>`+journeys[i].origin+`</h6></td>
                         <td style="padding-left:15px;">
-                            <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;">
+                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
                         <td style="height:30px;padding:0 15px;width:100%">
                             <div style="display:inline-block;position:relative;width:100%">
@@ -716,7 +716,7 @@ function train_detail(){
                     <tr>
                         <td><h6>`+train_data[i].origin+`</h6></td>
                         <td style="padding-left:15px;">
-                            <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;">
+                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
                         <td style="height:30px;padding:0 15px;width:100%">
                             <div style="display:inline-block;position:relative;width:100%">
@@ -1314,7 +1314,7 @@ function sort(value){
                             <tr>
                                 <td><h5>`+data_filter[i].origin+`</h5></td>
                                 <td style="padding-left:15px;">
-                                    <img src="/static/tt_website_skytors/img/icon/train-01.png" style="width:20px; height:20px;"/>
+                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
                                 </td>
                                 <td style="height:30px;padding:0 15px;width:100%">
                                     <div style="display:inline-block;position:relative;width:100%">

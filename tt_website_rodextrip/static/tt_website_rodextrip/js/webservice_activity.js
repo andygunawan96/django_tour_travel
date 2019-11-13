@@ -48,7 +48,6 @@ function activity_login(data){
        headers:{
             'action': 'login',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'sort': 'price_asc',
           'limit': 20,
@@ -261,7 +260,6 @@ function activity_search(){
        headers:{
             'action': 'search',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'sort': 'price_asc',
           'limit': 20,
@@ -282,7 +280,7 @@ function activity_search(){
                     text += `
                     <div class="col-lg-12">
                         <div style="text-align:center">
-                            <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                            <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
                             <br/>
                         </div>
                         <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
@@ -408,7 +406,7 @@ function activity_search(){
               text += `
               <div class="col-lg-12">
                   <div style="text-align:center">
-                      <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                      <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
                       <br/>
                   </div>
                   <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
@@ -430,7 +428,7 @@ function activity_search(){
           text += `
           <div class="col-lg-12">
               <div style="text-align:center">
-                  <img src="/static/tt_website_skytors/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
+                  <img src="/static/tt_website_rodextrip/images/nofound/no-activity.png" style="width:70px; height:70px;" alt="" title="" />
                   <br/>
               </div>
               <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Activity not found. Please try again or search another activity. </h6></div></center>
@@ -449,7 +447,6 @@ function activity_get_detail(uuid){
        headers:{
             'action': 'get_details',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'uuid': uuid,
           'signature': signature
@@ -628,7 +625,6 @@ function activity_get_price_date(activity_type_pick, pricing_days){
        headers:{
             'action': 'get_pricing',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
           'product_type_uuid': activity_type[activity_type_pick].uuid,
           'provider': activity_type[activity_type_pick].provider_code,
@@ -1116,7 +1112,6 @@ function update_service_charge(data){
        headers:{
             'action': 'update_service_charge',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            'order_number': JSON.stringify(act_order_number),
            'passengers': JSON.stringify(upsell),
@@ -1155,7 +1150,6 @@ function activity_get_booking(data){
        headers:{
             'action': 'get_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            'order_number': data,
            'signature': signature
@@ -1559,7 +1553,7 @@ function activity_get_booking(data){
                        <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
              </div>
-             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
              <div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
@@ -1568,16 +1562,16 @@ function activity_get_booking(data){
                     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                     if (isMobile) {
                         price_text+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     } else {
                         price_text+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     }
 
                 price_text+=`
@@ -1672,7 +1666,6 @@ function activity_search_autocomplete(term,suggest){
            headers:{
                 'action': 'get_auto_complete',
            },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: {
                 'name':term,
            },
