@@ -15,6 +15,9 @@
     static_path_url_server = '{{static_path_url_server}}'
     signature = '{{signature}}';
 
+    time_limit = {{time_limit}};
+    session_time_limit();
+
     //check years old
     function check_years_old(sequence, type){
         var birth_date = '';
@@ -927,13 +930,14 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <div id="activity_detail_next_btn">
+                                <div id="tour_detail_next_btn">
 
                                 </div>
                                 <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
                 </div>
             </form>
         </div>
