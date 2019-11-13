@@ -35,11 +35,11 @@ urlpatterns += i18n_patterns(
     # url(_(r'^admin/'), admin.site.urls),
     url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
     path('webservice', include('tt_webservice.urls')),
-    path('', include('tt_website_skytors.urls')), #django frontend aja
+    path('', include('tt_website_rodextrip.urls')), #django frontend aja
     # path('tt_base', include('tt_base.urls')),
     # path('activity', include('tt_website_activity.urls')),
     # path('web', include('tt_backend_skytors.urls')),
-    # path('', include('tt_website_skytors.urls')), #django backend
+    # path('', include('tt_website_rodextrip.urls')), #django backend
     # re_path('', website_skytors.index),
     # url('', view_tutorial.website_booking, name="home"),
     prefix_default_language=False,
