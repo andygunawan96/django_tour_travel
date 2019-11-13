@@ -1755,34 +1755,39 @@ function sort(airline){
                     <div class="search-box-result" id="journey`+i+`">
                         <div class="row" style="padding:10px;">
                             <div class="col-lg-12">`;
+                                if(airline[i].is_combo_price == true){
+                                    text+=`<span style="float:right; font-weight: bold; padding:5px; border-bottom:2px solid #f15a22;">Combo Price</span>`;
+                                }
+                                text += `
+                            </div>`;
+
                             if(airline[i].operated_by == false)
                                 try{
-                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].operated_by_carrier_code].name+`</span>`;
+                                    text += `<div class="col-lg-2">`;
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].operated_by_carrier_code].name+`</span><br/>`;
                                 }catch(err){
-                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline[i].operated_by_carrier_code+`</span>`;
+                                    text += `<div class="col-lg-2">`;
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline[i].operated_by_carrier_code+`</span><br/>`;
                                 }
-                            if(airline[i].is_combo_price == true){
-                                text+=`<span style="float:right; font-weight: bold; padding:5px; border-bottom:2px solid #f15a22;">Combo Price</span>`;
+                            else{
+                                if(airline[i].is_combo_price == false)
+                                    text += `<div class="col-lg-2">`;
+                                else
+                                    text += `<div class="col-lg-2" style='padding-top:10px;'>`;
                             }
-                            text += `
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="row">`;
-                                for(j in airline[i].carrier_code_list){
-                                    try{
-                                    text+=`
-                                    <div class="col-lg-12 col-md-4 col-sm-4 col-xs-4">
-                                        <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">
-                                    </div>`;
-                                    }catch(err){
-                                        text+=`
-                                        <img data-toggle="tooltip" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png">`;
-                                    }
-                                }
-
+                            if(airline[i].is_combo_price == false)
+                                for(j in airline[i].carrier_code_list)
                                 text+=`
-                                </div>
+                                <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
+                                <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
+                            else{
+                                for(j in airline[i].segments){
+                                    text+=`
+                                <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
+                                <img data-toggle="tooltip" style="width:50px; height:50px;margin-bottom:5px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                }
+                            }
+                            text+=`
                             </div>
                             <div class="col-lg-10">
                                 <div class="row">`;
@@ -2089,21 +2094,15 @@ function sort(airline){
                text += `
                 <div class="search-box-result" style="padding:10px;" id="journey`+i+`">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-12">`;
-                                if(airline[i].operated_by == false)
-                                    try{
-                                        text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].operated_by_carrier_code].name+`</span>`;
-                                    }catch(err){
-                                        text += `<span style="float:left; font-weight: bold;">Operated By `+airline[i].operated_by_carrier_code+`</span>`;
-                                    }
-                                text+=`
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="col-lg-2">`;
+                            if(airline[i].operated_by == false)
+                                try{
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].operated_by_carrier_code].name+`</span><br/>`;
+                                }catch(err){
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline[i].operated_by_carrier_code+`</span><br/>`;
+                                }
+                            else
+                                text += `<span style="float:left; font-weight: bold;"></span><br/>`;
                             for(j in airline[i].carrier_code_list)
                                 text+=`
                                 <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
@@ -3113,8 +3112,8 @@ function airline_detail(type){
                     text+=`
                         <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
                         <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
                 }
 
             text+=`
@@ -3205,7 +3204,7 @@ function airline_detail(type){
                                         <tr>
                                             <td class="airport-code"><h5>`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
