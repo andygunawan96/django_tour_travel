@@ -1,0 +1,444 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    locations = [];
+    images = [];
+    images_first = "";
+    {% for i in response.locations %}
+        locations.push({
+            'country_name': '{{i.country_name}}',
+            'city_name': '{{i.city_name}}',
+            'state_name': '{{i.state_name}}'
+        })
+    {% endfor %}
+    signature = '{{signature}}';
+    {% for i in response.images %}
+        {% if forloop.first %}
+            images_first = `{{i.url}}{{i.path}}`;
+        {% endif %}
+        images.push({
+            'url': '{{i.url}}',
+            'path': '{{i.path}}',
+        })
+    {% endfor %}
+
+    highlights = `{{response.highlights}}`;
+
+    response = {
+        'locations':locations,
+        'images': images,
+        'additionalInfo': `{{response.additionalInfo}}`,
+        'uuid': '{{response.uuid}}',
+        'highlights': highlights.replace('&#39;', "'"),
+        'safety': `{{response.safety}}`,
+        'longitude': {{response.longitude}},
+        'latitude': {{response.latitude}},
+        'provider_id': '{{response.provider_id}}',
+        'description': `{{response.description}}`,
+        'warnings': `{{response.warnings}}`,
+        'priceExcludes': `{{response.priceExcludes}}`,
+        'minPax': {{response.minPax}},
+        'maxPax': {{response.maxPax}},
+        'businessHoursFrom': `{{response.businessHoursFrom}}`,
+        'businessHoursTo': `{{response.businessHoursTo}}`,
+        'name': '{{response.name}}',
+        'itinerary': `{{response.itinerary}}`,
+    };
+    time_limit = {{time_limit}};
+    session_time_limit();
+</script>
+
+<script src="{{ static_path }}js/webservice_agent.js"></script>
+
+<style>
+    @media only screen and (min-width: 991px) {
+        #header_home {
+            padding-top: 100px;
+        }
+    }
+    @media only screen and (max-width: 990px) {
+        #header_home {
+            padding-top: 0px;
+        }
+    }
+</style>
+
+{% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+<div class="destinations-area" style="margin-bottom:25px;">
+    <div class="container">
+        <div class="row" style="padding-top:15px; padding-bottom:15px;">
+            <div class="col-lg-12" id="breadcrumbs_create">
+
+            </div>
+        </div>
+        <div class="row" style="padding-bottom:15px;">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+            </div>
+        </div>
+        <div class="row full_activity_details">
+            <div class="col-lg-12">
+                <form method='POST' action="{% url 'tt_website_rodextrip:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row" style="position:sticky;top: 0px;z-index: 89;">
+                        <div class="col-lg-12">
+                            <div class="box-sticky-hotel">
+                                <button class="content-activity primary-btn-sticky-hotel" type="button" id="description-activity">Description</button>
+                                <button class="content-activity primary-btn-sticky-hotel" type="button" id="product-activity">Choose Product</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="div-description-activity" style="padding:0px 15px;">
+                        <input type="hidden" id="activity_uuid" name="activity_uuid" value="{{response.uuid}}"/>
+                        <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <span style="font-size:18px; font-weight:700;">{{response.name}}</span>
+                                    <span style="font-size:14px;">
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                {{response.reviewAverageScore}} ({{response.reviewCount}})
+                            </span>
+                                    <br/>
+                                    <span style="font-size:13px;">
+                                <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                                {% for i in response.locations %}
+                                {{i.city_name}}, {{i.country_name}};
+                                {% endfor %}
+                            </span>
+                                    <hr/>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div id="activity_carousel">
+                                        <div class="owl-carousel-activity-img owl-theme">
+                                            {% for i in response.videos %}
+                                            {% if i.url != "" %}
+                                            <div class="item" style="background: rgba(0,0,0,0.9);">
+                                                <video controls id="video_activity" height="350px" width="100%">
+                                                    <source src="{{i.url}}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>
+                                            </div>
+                                            {% endif %}
+                                            {% endfor %}
+
+
+                                            {% for i in response.images %}
+                                            <div class="item" style="background: rgba(0,0,0,0.9);">
+                                                <img class="img-fluid" src="{{i.url}}{{i.path}}" alt="" style="display: block; width:100%; height:350px; object-fit: contain;">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+
+                                        <div class="owl-carousel-activity owl-theme" style="padding-top:15px;">
+                                            {% for i in response.videos %}
+                                            {% if i.url != "" %}
+                                            <div class="item" style="text-align:center;">
+                                                <div class="dark-img" style="cursor:pointer;">
+                                                    <img class="img-fluid owl-current-click" id="video_activity2" style="max-width:100%; height:75px;">
+                                                    <span class="text-block-img" id="icon_video_activity" style="cursor:pointer; color:white; font-size:12px; text-align:center;"></span>
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            {% endfor %}
+
+
+                                            {% for i in response.images %}
+                                            <div class="item" style="text-align:center; cursor:pointer;">
+                                                <img class="img-fluid owl-current-click" src="{{i.url}}{{i.path}}" alt="" style="max-width:100%; height:75px;">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding:15px;">
+                        <div class="col-lg-12" style="background-color:white; border:1px solid #cdcdcd; margin-top:5px; padding:0;">
+                            <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity active" data-toggle="tab" href="#detail"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></a>
+                                </li>
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#rules"><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></a>
+                                </li>
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#vouchers"><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></a>
+                                </li>
+                                {% if response.itinerary != ''%}
+                                <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
+                                    <a class="tab-menu-activity" data-toggle="tab" href="#price_itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></a>
+                                </li>
+                                {% endif %}
+                            </ul>
+                            <div class="row tab-content">
+                                <div id="detail" class="col-lg-12 tab-pane fade in active show">
+                                    {% if response.description != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
+                                    {% endif %}
+                                    {% if response.highlights != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
+                                    {% endif %}
+                                    {% if response.additionalInfo != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
+                                    {% endif %}
+                                    {% if response.priceIncludes != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
+                                    {% endif %}
+                                    {% if response.priceExcludes != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="rules" class="col-lg-12 tab-pane fade">
+                                    {% if response.warnings != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
+                                    {% endif %}
+                                    {% if response.safety != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="vouchers" class="col-lg-12 tab-pane fade">
+                                    {% if response.voucher_validity != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
+                                    {% endif %}
+                                    {% if response.voucherUse != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
+                                    {% endif %}
+                                    {% if response.voucherRedemptionAddress != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
+                                    <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
+                                    {% endif %}
+                                    {% if response.voucherRequiresPrinting != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
+                                    <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
+                                    {% endif %}
+                                </div>
+                                <div id="price_itinerary" class="col-lg-12 tab-pane fade">
+                                    {% if response.itinerary != '' %}
+                                    <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
+                                    <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="div-product-activity" style="padding:15px;">
+                        <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                            <div style="margin-bottom:10px;">
+                                <h5 style="padding-bottom:10px;">Choose Product Type: </h5>
+                                <div class="input-group-btn" id="ticket_type" data-toggle="buttons" style="width: 100%; white-space: normal;">
+
+                                </div>
+                            </div>
+                            <div class="row banner-right">
+                                <div class="col-lg-7 col-md-7" id="ticket_detail">
+                                    <div class="form-wrap" style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
+                                        <div class="row" id="date" style="text-align:left;">
+
+                                        </div>
+                                        <div id="loading-detail-activity" style="margin-bottom:20px;">
+                                            <div class="col-lg-12">
+                                                <div class="sk-circle">
+                                                    <div class="sk-circle1 sk-child"></div>
+                                                    <div class="sk-circle2 sk-child"></div>
+                                                    <div class="sk-circle3 sk-child"></div>
+                                                    <div class="sk-circle4 sk-child"></div>
+                                                    <div class="sk-circle5 sk-child"></div>
+                                                    <div class="sk-circle6 sk-child"></div>
+                                                    <div class="sk-circle7 sk-child"></div>
+                                                    <div class="sk-circle8 sk-child"></div>
+                                                    <div class="sk-circle9 sk-child"></div>
+                                                    <div class="sk-circle10 sk-child"></div>
+                                                    <div class="sk-circle11 sk-child"></div>
+                                                    <div class="sk-circle12 sk-child"></div>
+                                                </div>
+                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="event" style="text-align:left;">
+
+                                        </div>
+                                        <div class="row" id="pax" style="text-align:left; margin-bottom:20px;">
+
+                                        </div>
+                                        <div class="row" id="timeslot" style="text-align:left;">
+
+                                        </div>
+
+                                        <div class="row" style="text-align:left;" id="perbooking">
+
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:15px; margin-bottom:25px;">
+                                        <div class="col-lg-6" id="instantConfirmation">
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="for-show-website" id="activity_detail_next_btn">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="text-align:left;" class="modal fade" id="myModalErrorDetail" role="dialog">
+                                        <div class="modal-dialog">
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div style="max-height:300px; overflow-y:auto;">
+                                                                <h5><i class="fas fa-times-circle" style="color:red; font-size:24px;"></i> We found a mistake in your data.</h5>
+                                                                <br/>
+                                                                <span id="show_error_log" style="font-size:15px;">
+
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="primary-btn" data-dismiss="modal">OK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5" id="ticket_price">
+                                    <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;" id="activity_detail">
+                                        <h4> Price Detail </h4>
+                                        <hr/>
+                                        <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                        <br/><span id="product_type_title"></span>
+                                        <br/><br/>
+                                        <div id="activity_detail_table">
+
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="for-show-mobile" id="activity_detail_next_btn2">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+                    <div id="details_div"></div>
+                    <div id="activity_date_div"></div>
+                    <div id="data_id">
+
+                    </div>
+                    <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'tt_website_rodextrip/footer.html' %}
+
+
+<script>
+    $( document ).ready(function() {
+        breadcrumb_create("activity", 3, 0);
+        activity_get_detail(`{{response.uuid}}`);
+        $("#video_activity").attr("poster", images_first);
+        $("#video_activity2").attr("src", images_first);
+
+        $('#product-activity').click(function(e){
+            $('html, body').animate({
+                scrollTop: $("#div-product-activity").offset().top - 90
+            }, 500);
+            active_sticky_activity("product");
+        });
+        $('#description-activity').click(function(e){
+            $('html, body').animate({
+                scrollTop: $("#div-description-activity").offset().top - 110
+            }, 500);
+            active_sticky_activity("description");
+        });
+
+      $(window).scroll(function() {
+        if($(this).scrollTop()>=$('#div-description-activity').position().top-55 && $(this).scrollTop()<$('#div-product-activity').position().top-55){
+            active_sticky_activity("description");
+        }
+        else if($(this).scrollTop()>=$('#div-product-activity').position().top-55){
+            active_sticky_activity("product");
+        }
+        else if($(this).scrollTop() < $('#div-description-activity').position().top){
+            $(".content-activity").removeClass("sticky-activity-active");
+        }
+      });
+
+
+    });
+
+    var myIndex = 0;
+
+    //gotopax
+
+    function detail_to_passenger_page(){
+
+        text = `
+        <input type='hidden' value='`+activity_type_pick+`' name='activity_type_pick'/>
+        <input type='hidden' value='`+activity_date_pick+`' name='activity_date_pick'/>
+        <input type='hidden' value='`+activity_timeslot+`' name='activity_timeslot'/>
+        <input type='hidden' value='`+additional_price+`' name='additional_price'/>
+        <input type='hidden' value='`+event_pick+`' name='event_pick'/>`;
+
+        for (pax_check in activity_type[activity_type_pick].skus)
+        {
+            low_sku_id_check = String(activity_type[activity_type_pick].skus[pax_check].sku_id).toLowerCase();
+            try{
+                if(document.getElementById(low_sku_id_check + '_passenger').value != 0 )
+                {
+                    text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_passenger').value+`' name=low_sku_id_check + '_passenger'/>`;
+                    text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_min_age').value+`' name=low_sku_id_check + '_min_age'/>`;
+                    text+=`<input type='hidden' value='`+document.getElementById(low_sku_id_check + '_max_age').value+`' name=low_sku_id_check + '_max_age'/>`;
+                }
+                else
+                {
+                    text+=`<input type='hidden' value='0' name=low_sku_id_check + '_passenger'/>`;
+                    text+=`<input type='hidden' value='0' name=low_sku_id_check + '_min_age'/>`;
+                    text+=`<input type='hidden' value='200' name=low_sku_id_check + '_max_age'/>`;
+                }
+            }catch(err){
+                text+=`<input type='hidden' value='0' name=low_sku_id_check + '_passenger'/>`;
+                text+=`<input type='hidden' value='0' name=low_sku_id_check + '_min_age'/>`;
+                text+=`<input type='hidden' value='200' name=low_sku_id_check + '_max_age'/>`;
+            }
+        }
+
+        document.getElementById('data_id').innerHTML = text;
+        document.getElementById('go_to_pax').submit();
+    }
+</script>
+
+{% endblock %}

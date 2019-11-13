@@ -1,0 +1,319 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    var slideIndex = [1,1];
+    var slideId = ["mySlides1", "mySlides2"];
+    airline_carriers = `{{airline_carriers}}`;
+    airline_carriers = airline_carriers.replace(/&#39;/g, '"');
+    airline_carriers = airline_carriers.replace(/&quot;/g, '"');
+    airline_carriers = airline_carriers.replace(/False/g, 'false');
+    airline_carriers = airline_carriers.replace(/True/g, 'true');
+    airline_carriers = JSON.parse(airline_carriers);
+
+
+    passengers = `{{passengers}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/True/g, '"true"');
+    passengers = JSON.parse(passengers.replace(/False/g, '"false"'));
+    console.log(passengers);
+    signature = `{{signature}}`;
+    additional_price = `{{additional_price}}`;
+    additional_price = parseFloat(additional_price);
+    try{
+        time_limit = '{{time_limit}}';
+        if(time_limit != ''){
+            time_limit = parseInt(time_limit);
+            session_time_limit();
+        }
+        airline_request = `{{airline_request}}`;
+        airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+        price_itinerary = `{{price}}`;
+        price_itinerary = price_itinerary.replace(/&#39;/g, '"');
+        price_itinerary = price_itinerary.replace(/None/g, '"None"');
+        price_itinerary = price_itinerary.replace(/True/g, '"true"');
+        price_itinerary = price_itinerary.replace(/False/g, '"false"');
+        price_itinerary = JSON.parse(price_itinerary);
+        breadcrumb = 2;
+        type = '';
+        additional_price_fix = parseFloat(additional_price);
+    }catch(err){
+        airline_get_booking = `{{airline_getbooking}}`;
+        airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
+        airline_get_booking = airline_get_booking.replace(/True/g, 'true');
+        airline_get_booking = airline_get_booking.replace(/False/g, 'false');
+        console.log(airline_get_booking);
+        airline_get_booking = JSON.parse(airline_get_booking);
+        breadcrumb = 2;
+        type = 'request_new';
+        additional_price_fix = 0;
+    }
+    passenger_pick = '';
+
+
+</script>
+<style>
+* {box-sizing: border-box}
+.mySlides1, .mySlides2 {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a grey background color */
+.prev:hover, .next:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+</style>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+<header>
+    {%if template == 1%}
+    <div class="main-menu">
+    {%elif template == 2%}
+    <div class="main-menu" style="padding:10px;">
+    {%elif template == 3%}
+    <div style="padding:10px">
+    {%elif template == 4%}
+    <div style="padding:10px">
+    {%elif template == 5%}
+    <div style="padding:10px">
+    {%endif%}
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+                <!--                <div class="col-lg-12">-->
+                <!--                    <ul class="progressbar">-->
+                <!--                        <li class="active" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';" style="cursor:pointer;"><span>Home <i class="fas fa-home"></i></span></li>-->
+                <!--                        <li class="active" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';" style="cursor:pointer;"><span>Search <i class="fas fa-search"></i></span></li>-->
+                <!--                        <li class="current"><span>Passenger <i class="fas fa-users"></i></span></li>-->
+                <!--                        <li><span>Book <i class="fas fa-book-open"></i></span></li>-->
+                <!--                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                            <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+{% if template == 1 %}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2 %}
+<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 3 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 4 %}
+<section style="padding:40px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 5 %}
+<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{%endif%}
+    <div class="container">
+        <form method="POST" id="airline_booking" action="{% if after_sales == 0 %}{% url 'tt_website_rodextrip:airline_review'%}{% else %}{% url 'tt_website_rodextrip:airline_review_after_sales'%}{%endif%}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:15px;">
+                    <h3>Seat Map</h3>
+                </div>
+                <div class="col-lg-8" style="padding-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="airline_review" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h5 style="padding-top:10px; padding-bottom:10px;">Airline Route</h5>
+                                        <div class="row" id="airline_seat_map" style="padding-bottom:15px;">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12"> <!--pax-->
+                                        <h5 style="padding-top:10px; padding-bottom:10px;">Passenger</h5>
+                                        <div class="row">
+                                            {% for pax in passengers%}
+                                            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
+                                                <input title="{{pax.title}} {{pax.first_name}} {{pax.last_name}}" class="button-seat-pass" type="button" id="passenger{{forloop.counter}}" style="width:100%; background-color:white;padding:10px; margin-right:10px; text-align:center;margin-bottom:10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color:black;" onclick="set_passenger_seat_map_airline({{forloop.counter}}-1);" value="{{pax.title}} {{pax.first_name}} {{pax.last_name}}">
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                        <div id="airline_passenger_detail_seat">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding-bottom:10px;"> <!--seat-->
+                                        <hr/>
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                <div style="text-align:center">
+                                                    <span class="button-seat-map2" style="background-color:#f15a22"></span>
+                                                    <br/>
+                                                    <h6>Selected</h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                <div style="text-align:center">
+                                                    <span class="button-seat-map2" style="background-color:#656565"></span>
+                                                    <br/>
+                                                    <h6>Not Available</h6>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
+                                                <div style="text-align:center">
+                                                    <span class="button-seat-map2" style="background-color:#CACACA"></span>
+                                                    <br/>
+                                                    <h6>Available</h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slideshow-container" id="airline_slideshow" style="padding-top:15px;">
+                                            {% for seat_provider in airline_seat_map.seat_availability_provider %}
+                                            {% for segment in seat_provider.segments %}
+                                            {% for seat_cabin in segment.seat_cabins %}
+                                            <!--ganti gerbong sini-->
+                                            <div class="mySlides1">
+                                                {% for seat_row in seat_cabin.seat_rows %}
+                                                <div style="width:100%;text-align:center;">
+                                                    {% with 8 as percent%}
+                                                    {% for seat in seat_row.seats%}
+
+                                                    {% if seat.availability == 0 %}
+                                                    <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#656565; color:white; margin:3px;" onclick="alert('Already booked');" value="{{seat_row.row_number}}{{seat.column}}"/>
+                                                    {% elif seat.availability == 1%}
+                                                    <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#CACACA; margin:3px;" onclick="change_seat('','')" value="{{seat_row.row_number}}{{seat.column}}"/>
+                                                    {% elif seat.availability == -1%}
+                                                    <input type="button" style="width:{{percent}}%;background-color:transparent;border:transparent; margin:3px;" value="" disabled/>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    {% endwith %}
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            {% endfor %}
+                                            {% endfor %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
+                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%; margin-top:15px;" value="Next" onclick="next_disabled();next_seat_map();">
+                                Next
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
+                    <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                    <input type="hidden" id="additional_price_input" name="additional_price_input" />
+                    <!--                    <div style="background-color:white; padding:10px; border:1px solid #f15a22; position:sticky; top:65px; z-index:90" id="airline_passenger_detail_seat"></div>-->
+
+                    <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd;" id="airline_detail">
+
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" value="Next" onclick="next_disabled();next_seat_map();">
+                        Next
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </button>
+                </div>
+            </div>
+        </form>
+        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+    </div>
+</section>
+
+<script>
+    try{
+        airline_detail(type);
+    }catch(err){
+        airline_detail('request_new');
+    }
+
+    $( document ).ready(function() {
+        if(breadcrumb == 1)
+            breadcrumb_create("airline", 3, 0);
+        else{
+            breadcrumb_create("airline", 3, 1);
+        }
+    });
+
+    get_seat_map_response();
+    //get_airline_review();
+
+    function plusSlides(n, no) {
+      showSlides(slideIndex[no] += n, no);
+    }
+
+    function showSlides(n, no) {
+      console.log(no);
+      var i;
+      var x = document.getElementsByClassName(slideId[no]);
+      if (n > x.length) {slideIndex[no] = 1}
+      if (n < 1) {slideIndex[no] = x.length}
+      for (i = 0; i < x.length; i++) {
+         x[i].style.display = "none";
+      }
+      x[slideIndex[no]-1].style.display = "block";
+      //wagon = slideIndex[no]-1;
+    }
+
+</script>
+<!-- loader -->
+{% endblock %}

@@ -49,12 +49,12 @@ def api_models(request):
             res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
-        elif req_data['action'] == 'create_booking':
-            res = create_booking(request)
+        elif req_data['action'] == 'commit_booking':
+            res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'issued':
-            res = issued_booking(request)
+            res = issued(request)
         elif req_data['action'] == 'get_seat_map':
             res = seat_map(request)
         elif req_data['action'] == 'manual_seat':
@@ -178,44 +178,77 @@ def search(request):
 
     return res
 
-def create_booking(request):
+def commit_booking(request):
     try:
+        booker = request.session['train_create_passengers']['booker']
+        contacts = request.session['train_create_passengers']['contact']
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                break
+
+        for pax in contacts:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
         passenger = []
+        for pax_type in request.session['train_create_passengers']:
+            if pax_type != 'booker' and pax_type != 'contact':
+                for pax in request.session['train_create_passengers'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
 
-        for pax in request.session['train_review_booking']['adult']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            passenger.append(pax)
-        for pax in request.session['train_review_booking']['infant']:
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]], pax['birth_date'].split(' ')[0])
-            })
-            passenger.append(pax)
+                    if pax['identity_country_of_issued_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['identity_country_of_issued_name'] == country['name']:
+                                pax['identity_country_of_issued_code'] = country['code']
+                                break
+                    pax.update({
+                        'birth_date': '%s-%s-%s' % (
+                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                            pax['birth_date'].split(' ')[0]),
+                    })
+                    if pax['identity_expdate'] != '':
+                        pax.update({
+                            'identity_expdate': '%s-%s-%s' % (
+                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                pax['identity_expdate'].split(' ')[0])
+                        })
+                        pax['identity'] = {
+                            "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
+                            "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
+                            "identity_expdate": pax.pop('identity_expdate'),
+                            "identity_number": pax.pop('identity_number'),
+                            "identity_type": pax.pop('identity_type'),
+                        }
+                    else:
+                        pax.pop('identity_country_of_issued_name')
+                        pax.pop('identity_expdate')
+                        pax.pop('identity_number')
+                        pax.pop('identity_type')
+                    passenger.append(pax)
         data = {
-            "contact": request.session['train_review_booking']['booker'],
+            "contacts": contacts,
             "passengers": passenger,
-            "journeys_booking": request.session['train_review_booking']['journeys_booking'],
-            "promotion_codes_booking": [],
-            "transaction_type": "hold_book",
-            "create_booking_type": "hold_book",
-            "kwargs": {
-                "force_issued": 0
-            },
-
+            "schedules": request.session['train_booking'],
+            "booker": booker
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "create_booking",
-            "signature": request.session['train_signature'],
+            "action": "commit_booking",
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
             request.session['train_order_number'] = res['result']['response']['order_number']
@@ -226,6 +259,16 @@ def create_booking(request):
 
 def get_booking(request):
     try:
+        train_destinations = []
+        file = open(var_log_path() + "train_cache_data.txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+        for country in response:
+            train_destinations.append({
+                'code': country['code'],
+                'name': country['name'],
+            })
         data = {
             'order_number': request.POST['order_number']
         }
@@ -237,98 +280,119 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            request.session['train_pick'] = {
-                'origin': res['result']['response']['journeys'][0]['origin']['code'],
-                'destination': res['result']['response']['journeys'][0]['destination']['code'],
-                'departure_date': str(datetime.strptime('30-Mar-2019', '%d-%b-%Y'))[:10],
-                'carrier_code': res['result']['response']['journeys'][0]['segments'][0]['carrier']['code'],
-                'class_of_service': res['result']['response']['journeys'][0]['segments'][0]['class_of_service'],
-                'pnr': res['result']['response']['pnrs'][0]['pnr']
-            }
-            request.session['train_pnr'] = res['result']['response']['pnrs'][0]['pnr']
-            passenger = []
-            for pax in res['result']['response']['journeys'][0]['segments'][0]['seats']:
-                passenger.append(pax)
-            request.session['train_pax'] = passenger
-        #     pax
-            for pnr in res['result']['response']['pnrs']:
-                hold_date = to_date_now(pnr['hold_date'])
-                pnr.update({
-                    'date': '%s %s %s %s:%s' % (pnr['departure_date'].split(' ')[0].split('-')[2],
-                                                month[pnr['departure_date'].split(' ')[0].split('-')[1]],
-                                                pnr['departure_date'].split(' ')[0].split('-')[0],
-                                                pnr['departure_date'].split(' ')[1].split(':')[0],
-                                                pnr['departure_date'].split(' ')[1].split(':')[1]),
-                    'hold_date': '%s %s %s %s:%s' % (hold_date.split(' ')[0].split('-')[2],
-                                                     month[hold_date.split(' ')[0].split('-')[
-                                                         1]],
-                                                     hold_date.split(' ')[0].split('-')[0],
-                                                     hold_date.split(' ')[1].split(':')[0],
-                                                     hold_date.split(' ')[1].split(':')[1]),
-                    'status': pnr['status'].capitalize()
-                })
-            for journey in res['result']['response']['journeys']:
-                for segment in journey['segments']:
-                    segment.update({
-                        'departure_date': '%s %s %s' % (segment['departure_date'].split('-')[0], segment['departure_date'].split('-')[1], segment['departure_date'].split('-')[2]),
-                        'arrival_date': '%s %s %s' % (segment['arrival_date'].split('-')[0], segment['arrival_date'].split('-')[1], segment['arrival_date'].split('-')[2])
+            for provider_booking in res['result']['response']['provider_bookings']:
+                for journey in provider_booking['journeys']:
+                    journey.update({
+                        'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'] + ':00')),
+                        'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date'] + ':00'))
                     })
-                    for seat in segment['seats']:
-                        seat['passenger'].update({
-                            'birth_date': '%s %s %s' % (
-                            seat['passenger']['birth_date'].split('-')[2], month[seat['passenger']['birth_date'].split('-')[1]],
-                            seat['passenger']['birth_date'].split('-')[0])
-                        })
+                    check = 0
+                    for destination in train_destinations:
+                        if destination['code'] == journey['origin']:
+                            journey.update({
+                                'origin_name': destination['name'],
+                            })
+                            check = check + 1
+                        if destination['code'] == journey['destination']:
+                            journey.update({
+                                'destination_name': destination['name'],
+                            })
+                            check = check + 1
+                        if check == 2:
+                            break
+            for pax in res['result']['response']['passengers']:
+                pax.update({
+                    'birth_date': '%s %s %s' % (
+                        pax['birth_date'].split(' ')[0].split('-')[2],
+                        month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                        pax['birth_date'].split(' ')[0].split('-')[0])
+                })
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
-def seat_map(request):
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
     try:
         data = {
-            "origin": request.session['train_pick']['origin'],
-            "departure_date": request.session['train_pick']['departure_date'],
-            "carrier_number": request.session['train_pick']['carrier_code'],
-            "destination": request.session['train_pick']['destination'],
-            "class_of_service": request.session['train_pick']['class_of_service'],
-            "pnr": request.session['train_pick']['pnr'],
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def seat_map(request):
+    try:
+        seat_map_request_input = request.session['train_seat_map_request']
+        seat_request = []
+        for i in seat_map_request_input:
+            seat_request.append(i['fare_code'])
+        data = {
+            "fare_codes": seat_request,
             "provider": provider_kai
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_seat_map",
+            "action": "get_seat_availability",
             "signature": request.session['train_signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
 
     return res
 
-def issued_booking(request):
+def issued(request):
+    # nanti ganti ke get_ssr_availability
     try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
         data = {
-            "order_number": request.session['train_order_number'],
-
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
-            "signature": request.session['train_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def manual_seat(request):

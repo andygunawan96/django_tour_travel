@@ -65,9 +65,7 @@ data_bca = {
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
-        if req_data['action'] == 'signin':
-            res = login(request)
-        elif req_data['action'] == 'upload_file':
+        if req_data['action'] == 'upload_file':
             res = upload_file(request)
         elif req_data['action'] == 'add_banner':
             res = add_banner(request)
@@ -86,24 +84,6 @@ def api_models(request):
     except Exception as e:
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
-
-def login(request):
-    credential = '%s:%s' % (data_bca['client_id'], data_bca['client_secret'])
-    headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
-        'Authorization': 'Basic ' + str(base64.b64encode(credential.encode('utf-8')), 'utf-8').replace('\n', '')
-    }
-
-    data = 'grant_type=client_credentials'
-    # https://sandbox.bca.co.id
-    res = util.send_request(url='https://devapi.klikbca.com/api/oauth/token', data=data, headers=headers, method='POST')
-
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
 
 def upload_file(request):
     try:

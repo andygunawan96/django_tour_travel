@@ -161,7 +161,7 @@ def set_data_issued_offline(request):
             "social_media_id": request.POST['social_media'],
             "expired_date": exp_date[0] + ' ' + exp_date[1],
             "line_ids": line,
-            "provider": "skytors_issued_offline"
+            "provider": "rodextrip_issued_offline"
         }
 
         if request.POST['type'] == 'airline':

@@ -38,14 +38,14 @@ month = {
     '12': 'Dec',
 }
 
-
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_data':
+            res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'get_details':
@@ -54,16 +54,24 @@ def api_models(request):
             res = get_pricing(request)
         elif req_data['action'] == 'get_pricing_cache':
             res = get_pricing_cache(request)
-        elif req_data['action'] == 'update_passenger':
-            res = update_passenger(request)
+        elif req_data['action'] == 'sell_tour':
+            res = sell_tour(request)
+        elif req_data['action'] == 'update_contact':
+            res = update_contact(request)
+        elif req_data['action'] == 'update_passengers':
+            res = update_passengers(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
-        elif req_data['action'] == 'issued':
-            res = issued(request)
+        elif req_data['action'] == 'issued_booking':
+            res = issued_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         elif req_data['action'] == 'get_payment_rules':
             res = get_payment_rules(request)
+        elif req_data['action'] == 'get_auto_complete':
+            res = get_auto_complete(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -94,6 +102,27 @@ def login(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
+
+
+def get_data(request):
+    try:
+        cache_version = get_cache_version()
+        temp_data = get_cache_data(cache_version)
+
+        response = {
+            'tour_countries': temp_data['result']['response']['tour']['countries']
+        }
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_data TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        response = {
+            'tour_countries': [],
+        }
+
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return response
 
 
 def search(request):
@@ -205,9 +234,18 @@ def get_pricing_cache(request):
 
 
 def sell_tour(request):
+    room_list = request.session['tour_booking_data']['room_list']
+    final_room_list = []
+    for room in room_list:
+        final_room_list.append({
+            'room_id': room['id'],
+            'notes': room['notes'],
+        })
+
     data = {
         "promotion_codes_booking": [],
         "tour_id": request.session['tour_pick']['id'],
+        'room_list': final_room_list,
         "adult": request.session['tour_booking_data']['adult'],
         "child": request.session['tour_booking_data']['child'],
         "infant": request.session['tour_booking_data']['infant'],
@@ -373,8 +411,14 @@ def update_passengers(request):
         passenger.append(pax)
 
     for rec in passenger:
-        for rec2 in room_choices:
-            pass
+        for key, val in room_choices.items():
+            if int(key) == int(rec['temp_pax_id']):
+                rec.update({
+                    'tour_room_id': val['room_id'],
+                })
+
+    for rec in passenger:
+        rec.pop('temp_pax_id')
 
     data = {
         "passengers": passenger,
@@ -391,21 +435,37 @@ def update_passengers(request):
 
 
 def commit_booking(request):
+    force_issued = request.POST.get('value') and request.POST['value'] or 0
+    data = {
+        "kwargs": {
+            "force_issued": int(force_issued) == 1 and True or False
+        },
+    }
     try:
-        data = {
-            'force_issued': request.POST['value'],
-            'payment_method': request.POST['payment_method'],
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "commit_booking",
-            "signature": request.session['tour_signature']
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        if int(force_issued) == 1:
+            if request.POST['member'] == 'non_member':
+                member = False
+            else:
+                member = True
+            data.update({
+                'member': member,
+                'seq_id': request.POST['seq_id'],
+                'payment_method': request.POST['payment_method'],
+            })
+    except:
+        pass
+
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "commit_booking",
+        "signature": request.POST['signature']
+    }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    if res['result']['error_code'] == 0:
+        request.session['tour_order_number'] = res['result']['response']['order_number']
+
     return res
 
 
@@ -419,7 +479,7 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": request.session['tour_signature']
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -428,22 +488,35 @@ def get_booking(request):
     return res
 
 
-def issued(request):
+def issued_booking(request):
     try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
         data = {
-            'provider': request.session['tour_pick']['provider'],
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'payment_method': request.POST['payment_method'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "issued",
-            "signature": request.session['tour_signature']
+            "action": "issued_booking",
+            "signature": request.POST['signature'],
         }
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS issued TOUR SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR issued TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -456,10 +529,76 @@ def get_payment_rules(request):
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
         "action": "get_payment_rules_provider",
-        "signature": request.session['tour_signature']
+        "signature": request.POST['signature']
     }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
     return res
+
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_auto_complete(request):
+    def find_tour_ilike(search_str, record_cache, limit=10):
+        tour_list = []
+        for rec in record_cache:
+            if len(tour_list) == limit:
+                return tour_list
+            is_true = True
+            name = rec['name'].lower()
+            for list_str in search_str.split(' '):
+                if list_str not in name:
+                    is_true = False
+                    break
+            if is_true:
+                tour_list.append(rec)
+        return tour_list
+
+    limit = 25
+    req = request.POST
+    try:
+        file = open(var_log_path()+"tour_cache_data.txt", "r")
+        for line in file:
+            record_cache = json.loads(line)
+        file.close()
+
+        record_json = []
+        # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
+        for rec in find_tour_ilike(req['name'].lower(), record_cache, limit):
+            if len(record_json) < limit:
+                record_json.append(rec['name'])
+            else:
+                break
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_autocomplete TOUR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return record_json
 
 

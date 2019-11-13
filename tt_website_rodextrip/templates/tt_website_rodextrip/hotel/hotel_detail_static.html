@@ -1,0 +1,919 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+
+
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    $(document).ready(function() {
+        $('#asdasd').datepicker({
+            'format': 'd M yyyy',
+            'todayHighlight': true,
+            'autoclose': true
+        });
+    });
+    city_id = {{response.location.city_id}};
+</script>
+
+{% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
+    <div class="container">
+        <div class="row align-items-center justify-content-between d-flex">
+            <div class="col-lg-12" style="display:flex; padding-top:5px; padding-left:15px; padding-bottom:20px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:hotel_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">3</span>
+                    <span style="padding-left:5px;">Rooms</span>
+                    <span id="issued-breadcrumb-span" class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">4</span>
+                    <span style="padding-left:5px;">Guest</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx">
+                    <span class="breadcrumb-rdx-icon">5</span>
+                    <span style="padding-left:5px;">Review</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon">6</span>
+                    <span style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="position:sticky;top: 66px;z-index: 24;">
+            <div class="col-lg-12">
+                <div class="box-sticky-hotel">
+                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="information-hotel">Hotel Description</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="facility-hotel">Facility</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="location-hotel">Location Info</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="review-hotel">Review</button>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="position:sticky; top:162px; z-index:997; display:none;margin-bottom:15px;" id="mybuttonsticky">
+            <div class="col-lg-12">
+                <button type="button" class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();">
+                    <span style="color:white; font-size:12px;"> List Copy Hotel </span>
+                    <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
+                </button>
+            </div>
+        </div>
+        <form action="{% url 'tt_website_rodextrip:hotel_passenger' %}" id="goto_passenger" method="POST" style="background:white; padding:15px 15px 0px 15px; border:1px solid #cdcdcd;">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12 div-information-hotel" style="background:white; padding-top:5px; padding-bottom:40px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">Airy Taman Remaja Kusuma Bangsa Surabaya</span>
+                            <span class="rating_hotel" hidden="">3</span>
+                            <span>
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                <i class="fas fa-star" style="color:#FFC44D;"></i>
+                            </span>
+                            <br>
+                            <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                            <span class="address_hotel">Jalan Kusuma Bangsa No.41, Surabaya, Surabaya, </span>
+                            - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br>
+                            <img style="height:20px; width:auto;" src="/static/tt_website_rodextrip/img/tripadvisor.png"> 144 reviews
+                            <hr>
+                        </div>
+
+                        <div class="col-lg-7" style="margin-bottom:15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="owl-carousel-hotel-img owl-theme">
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-1.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-2.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-3.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-4.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-5.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-6.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-7.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-8.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                        <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                                            <img class="img-fluid zoom-img" src="{{static_path}}images/hotel-9.jpg" style="margin: auto; max-height:400px;" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="owl-carousel-hotel owl-theme">
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-2.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-4.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-5.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-6.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-7.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-8.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                        <div class="item" style="cursor:pointer;">
+                                            <img class="img-fluid" src="{{static_path}}images/hotel-9.jpg" style="max-width:100%; height:75px;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5" style="margin-bottom:10px;">
+                            <h4>About</h4>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <h4 style="color:#f15a22;">4.5 Excellent</h4>
+                                </div>
+                                <div class="col-lg-6">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> Location
+                                </div>
+                                <div class="col-lg-6">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> Cleanliness
+                                </div>
+                                <div class="col-lg-6">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> Services
+                                </div>
+                                <div class="col-lg-6">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> Value
+                                </div>
+                            </div>
+                            <h4 style="padding-top:15px; color:#f15a22;">Description</h4>
+                            <p style="text-align: justify; height:370px; overflow: auto;">
+                                {% if response.description != '' %}
+                                {{response.description}}
+                                If you’re looking for a charming hotel in Koto, look no further than Sotetsu Fresa Inn Tokyo-Toyocho. While staying at Sotetsu Fresa Inn Tokyo-Toyocho, visitors can check out Susaki Shrine (0.6 mi) and Ogibashi Komon Gate (1.1 mi), some of Koto's top attractions.	You’ll enjoy relaxing rooms that offer a refrigerator and air conditioning, and you can stay connected during your stay as Sotetsu Fresa Inn Tokyo-Toyocho offers guests free wifi.	The hotel features a 24 hour front desk, room service, and newspaper. Plus, Sotetsu Fresa Inn Tokyo-Toyocho offers an on-site restaurant, providing a pleasant respite from your busy day.	If you like Korean restaurants, Sotetsu Fresa Inn Tokyo-Toyocho is conveniently located near Korean cuisine Ourimu, Teppan Dining Teike Ikedaya, and Yakiniku Iki. Looking to explore? Then look no further than Fukagawa Edo Museum (1.2 mi), Museum of Contemporary Art Tokyo (0.9 mi), and Sunamachi Ginza Shopping Street (0.9 mi), which are some popular Koto attractions – all conveniently located within walking distance of the hotel.	The staff at Sotetsu Fresa Inn Tokyo-Toyocho looks forward to serving you during your upcoming visit.
+                                {% else %}
+                                No Description
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 div-facility-hotel" style="background:#f9f9f9; padding-top:40px; padding-bottom:40px;">
+                    <h4>Facility</h4>
+                    <hr/>
+                    <table style="width:100%;">
+                        <tr>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Wi-Fi in designated areas</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport shuttle</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Airport pickup service</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Restaurant</td>
+                        </tr>
+                        <tr>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Café</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Bar</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Non-smoking floor</td>
+                            <td style="width:25%;"><i class="fas fa-circle"></i> Currency exchange</td>
+                        </tr>
+                    </table>
+
+                    <!--                    <span>-->
+                    <!--                        {% for facility in response.facilities %}-->
+                    <!--                        {{facility.facility_name.facility_name}}<br/>-->
+                    <!--                        {% endfor %}-->
+                    <!--                    </span>-->
+                </div>
+
+                <div class="col-lg-12 div-location-hotel" style="background:white; padding-top:40px; padding-bottom:40px;">
+                    <h4>Location Info</h4>
+                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                    <span style="font-size:14px; font-weight:500;">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                    <div class="row">
+                        <div class="col-lg-4" style="padding-top:15px;">
+                            <h5>Getting There</h5>
+                            <hr/>
+                            <div style="padding-bottom:15px;">
+                                <i class="fas fa-plane-departure"></i>
+                                <span>Haneda Airport </span>
+                                <i class="fas fa-car" style="color:#8e8e8e;"></i>
+                                <span>6 mi</span><br/>
+                                <span style="color:#f15a22; text-decoration:underline; cursor:pointer;">See all flight</span><br/>
+                            </div>
+                            <div style="padding-bottom:15px;">
+                                <i class="fas fa-plane-departure"></i>
+                                <span>Narita Airport </span>
+                                <i class="fas fa-car" style="color:#8e8e8e;"></i>
+                                <span>38 mi</span><br/>
+                                <span style="color:#f15a22; text-decoration:underline; cursor:pointer;">See all flight</span><br/>
+                            </div>
+                        </div>
+                        <div class="col-lg-4" style="padding-top:15px;">
+                            <h5>Nearby Restaurant</h5>
+                            <hr/>
+                            <div class="nearby_hover" style="padding-bottom:15px; cursor:pointer;">
+                                <span style="font-size:13px; font-weight:700;">Sushiyori Inose</span><br/>
+                                <span>Japanese</span><br/>
+                                <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 252 reviews <br/>
+                                <i class="fas fa-walking" style="color:#8e8e8e;"></i>
+                                <span>6 min</span>
+                            </div>
+                            <div class="nearby_hover" style="padding-bottom:15px; cursor:pointer;">
+                                <span style="font-size:13px; font-weight:700;">Craftsman Gotanda</span><br/>
+                                <span>Bar</span><br/>
+                                <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 157 reviews <br/>
+                                <i class="fas fa-walking" style="color:#8e8e8e;"></i>
+                                <span>15 min</span>
+                            </div>
+                            <div class="nearby_hover" style="padding-bottom:15px; cursor:pointer;">
+                                <span style="font-size:13px; font-weight:700;">Meat Yazawa Tokyo Gotanda Honten</span><br/>
+                                <span>Steakhouse</span><br/>
+                                <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                <i class="fas fa-walking" style="color:#8e8e8e;"></i>
+                                <span>4 min</span>
+                            </div>
+                            <h6 class="nearby_all" style="color:#f15a22; cursor:pointer;">See all nearby restaurants</h6>
+                        </div>
+                        <div class="col-lg-4" style="padding-top:15px;">
+                            <h5>Nearby Attractions</h5>
+                            <hr/>
+                            <div class="nearby_hover" style="padding-bottom:15px; cursor:pointer;">
+                                <span style="font-size:13px; font-weight:700;">Shimazu Family Old Residence</span><br/>
+                                <span>Architectural Buildings</span><br/>
+                                <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 252 reviews <br/>
+                                <i class="fas fa-walking" style="color:#8e8e8e;"></i>
+                                <span>6 min</span>
+                            </div>
+                            <div class="nearby_hover" style="padding-bottom:15px; cursor:pointer;">
+                                <span style="font-size:13px; font-weight:700;">Gotandafureaimizubehiroba</span><br/>
+                                <span>Parks</span><br/>
+                                <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 157 reviews <br/>
+                                <i class="fas fa-walking" style="color:#8e8e8e;"></i>
+                                <span>15 min</span>
+                            </div>
+                            <div class="nearby_hover" style="padding-bottom:15px; cursor:pointer;">
+                                <span style="font-size:13px; font-weight:700;">Yakushi-ji Temple Tokyo Betsuin</span><br/>
+                                <span>Religious Sites</span><br/>
+                                <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                <i class="fas fa-walking" style="color:#8e8e8e;"></i>
+                                <span>4 min</span>
+                            </div>
+                            <h6 class="nearby_all" style="color:#f15a22; cursor:pointer;">See all nearby attractions</h6>
+                        </div>
+                        <div class="col-lg-12" style="padding-top:15px;">
+                            <hr/>
+                            <h5>Nearby Hotels</h5><br/>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-1.jpg);"></div>
+                                    <h6>Hotel-1</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-2.jpg);"></div>
+                                    <h6>Hotel-2</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-3.jpg);"></div>
+                                    <h6>Hote-3</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-4.jpg);"></div>
+                                    <h6>Hotel-4</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-12" style="padding-top:15px;">
+                                    <h6 class="nearby_all" style="color:#f15a22; cursor:pointer; float:right;">See All Nearby Hotels</h6>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="padding-top:15px;">
+                            <hr/>
+                            <h5>Similiar</h5><br/>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-1.jpg);"></div>
+                                    <h6>Hotel-1</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-2.jpg);"></div>
+                                    <h6>Hotel-2</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-3.jpg);"></div>
+                                    <h6>Hote-3</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="img-hotel-search" style="background-image: url({{static_path}}images/hotel-4.jpg);"></div>
+                                    <h6>Hotel-4</h6>
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/> 129 reviews <br/>
+                                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> 0.9 mi<br/>
+                                    <button type="button" class="primary-btn-custom" style="float:right;">IDR 800,000</button>
+                                </div>
+                                <div class="col-lg-12" style="padding-top:15px;">
+                                    <h6 class="nearby_all" style="color:#f15a22; cursor:pointer; float:right;">See All Similiar Hotels</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 div-select-room-hotel" style="background:#f9f9f9; padding-top:40px; padding-bottom:40px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h4>Room</h4>
+                            <hr/>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <div class="banner-right">
+                                <div class="row form-wrap" style="padding:0px !important;">
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <h4>Change Schedule</h4>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <span style="float:left;"><i class="fas fa-calendar-alt"></i> Check-in - Check-out</span>
+                                        <div class="input-container-search-ticket">
+
+                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                            <i class="fas fa-moon icon-search-ticket" id="total_night_search">1</i>
+
+                                            <input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>
+                                            <input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="loading-detail-hotel" style="display: none;">
+                                <div class="col-lg-12">
+                                    <div class="sk-circle">
+                                        <div class="sk-circle1 sk-child"></div>
+                                        <div class="sk-circle2 sk-child"></div>
+                                        <div class="sk-circle3 sk-child"></div>
+                                        <div class="sk-circle4 sk-child"></div>
+                                        <div class="sk-circle5 sk-child"></div>
+                                        <div class="sk-circle6 sk-child"></div>
+                                        <div class="sk-circle7 sk-child"></div>
+                                        <div class="sk-circle8 sk-child"></div>
+                                        <div class="sk-circle9 sk-child"></div>
+                                        <div class="sk-circle10 sk-child"></div>
+                                        <div class="sk-circle11 sk-child"></div>
+                                        <div class="sk-circle12 sk-child"></div>
+                                    </div>
+                                    <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                </div>
+                            </div>
+                            <div id="select_copy_all">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <span style="font-size:14px; font-weight:bold;">Room - 5 results</span>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <label class="check_box_custom" style="float:right;">
+                                                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                                                <input type="checkbox" id="check_all_copy" onchange="check_all_result_room();">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div></div></div>
+                            <div id="detail_room_pick1"><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result0" id="copy_result0" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">0</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="">1 Double</h4><span>DOUBLE QUEEN SIZE BED</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,440,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(0);" id="button0">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result1" id="copy_result1" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">1</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="" or="" 1="" twin="">1 Double or 1 Twin</h4><span>Room STANDARD</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,440,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(1);" id="button1">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result2" id="copy_result2" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">2</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="">1 Double</h4><span>Double room Queen bed</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: RO</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,470,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(2);" id="button2">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result3" id="copy_result3" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">3</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" twin="">1 Twin</h4><span>2 SINGLE BEDS STANDARD NON SMOKING</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,620,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(3);" id="button3">Choose</button></div></div></div><div class="detail-hotel-box"><div class="row" style="margin-bottom:15px;">
+                <div class="col-lg-12" style="margin-bottom:25px;">
+                    <div style="top:0px; right:10px; position:absolute;">
+                        <label class="check_box_custom">
+                            <span class="span-search-ticket"></span>
+                            <input type="checkbox" class="copy_result" name="copy_result4" id="copy_result4" onchange="checkboxCopyRoom();">
+                            <span class="check_box_span_custom"></span>
+                        </label>
+                        <span class="id_copy_result" hidden="">4</span>
+                    </div>
+                </div>
+                        <div class="col-lg-3 col-md-3">
+                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
+                        </div><div class="col-lg-6 col-md-6"><h4 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="1" double="">1 Double</h4><span>QUEEN DELUXE NON SMOKING ROOM</span><br><span class="qty_room">Qty: 1</span><br><span class="meal_room">Meal Type: BABF</span><br><br></div><div class="col-lg-3 col-md-3" style="text-align:right;"><span class="price_room" style="font-weight: bold; font-size:16px;"> IDR 1,740,000</span><br><button class="primary-btn-custom" type="button" onclick="hotel_room_pick(4);" id="button4">Choose</button></div></div></div></div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div id="ticket_price">
+                                <div class="row" style="padding:15px;">
+                                    <div class="col-lg-12" style="background-color:#f15a22; padding:5px;">
+                                        <center>
+                                            <span style="color:white; font-size:16px;"> Price Detail <i class="fas fa-money-bill-wave"></i></span>
+                                        </center>
+                                    </div>
+                                    <div class="col-lg-12" style="border:1px solid #cdcdcd; padding-bottom: 15px;">
+                                        <h5 id="product_title" style="padding-top:10px;">{{response.name}}</h5>
+                                        <hr/>
+                                        <div style="padding-top:10px;" id="hotel_detail_table">
+
+                                        </div>
+                                        <div style="padding-bottom:10px;" id="not_room_select">
+                                            <h6>Please select room first</h6>
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="hotel_detail_send" name="hotel_detail_send"/>
+                                </div>
+                            </div>
+                            <div id="data_id">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 div-review-hotel" style="background:white; padding-top:40px; padding-bottom:40px;">
+                    <h4>Reviews <span style="font-size:14px; font-weight:500;">(144 results)</span></h4>
+                    <hr/>
+                    <h5>Traveling Rating</h5><br/>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label class="check_box_custom">
+                                <div class="side-review">
+                                    <span class="span-search-ticket" style="color:black;">Excellent </span>
+                                </div>
+                                <div class="middle-review">
+                                    <div class="bar-container-review">
+                                        <div class="bar-5-review"></div>
+                                    </div>
+                                </div>
+                                <div class="side-review">
+                                    <div>72</div>
+                                </div>
+                                <input type="checkbox"/>
+                                <span class="check_box_span_custom"></span>
+                            </label><br/>
+                            <label class="check_box_custom">
+                                <div class="side-review">
+                                    <span class="span-search-ticket" style="color:black;">Good </span>
+                                </div>
+                                <div class="middle-review">
+                                    <div class="bar-container-review">
+                                        <div class="bar-4-review"></div>
+                                    </div>
+                                </div>
+                                <div class="side-review">
+                                    <div>59</div>
+                                </div>
+                                <input type="checkbox"/>
+                                <span class="check_box_span_custom"></span>
+                            </label><br/>
+                            <label class="check_box_custom">
+                                <div class="side-review">
+                                    <span class="span-search-ticket" style="color:black;">Average </span>
+                                </div>
+                                <div class="middle-review">
+                                    <div class="bar-container-review">
+                                        <div class="bar-3-review"></div>
+                                    </div>
+                                </div>
+                                <div class="side-review">
+                                    <div>7</div>
+                                </div>
+                                <input type="checkbox"/>
+                                <span class="check_box_span_custom"></span>
+                            </label><br/>
+                            <label class="check_box_custom">
+                                <div class="side-review">
+                                    <span class="span-search-ticket" style="color:black;">Poor </span>
+                                </div>
+                                <div class="middle-review">
+                                    <div class="bar-container-review">
+                                        <div class="bar-2-review"></div>
+                                    </div>
+                                </div>
+                                <div class="side-review">
+                                    <div>5</div>
+                                </div>
+                                <input type="checkbox"/>
+                                <span class="check_box_span_custom"></span>
+                            </label><br/>
+                            <label class="check_box_custom">
+                                <div class="side-review">
+                                    <span class="span-search-ticket" style="color:black;">Terrible </span>
+                                </div>
+                                <div class="middle-review">
+                                    <div class="bar-container-review">
+                                        <div class="bar-1-review"></div>
+                                    </div>
+                                </div>
+                                <div class="side-review">
+                                    <div>1</div>
+                                </div>
+                                <input type="checkbox"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-12" style="padding-top:15px;">
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-1" style="text-align:center;">
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                </div>
+                                <div class="col-lg-11" style="padding-left:0px;">
+                                    <span style="font-weight:500;">rod2099</span>
+                                    <span>wrote a review Aug 2019</span><br/>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Albuquerque, New Mexico - 755 contributions - 215 helpful votes
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-11" style="padding-left:0px;padding-top:15px;">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
+                                    <br/>
+                                    <h6>Convenient to station</h6>
+                                    <span style="text-align: justify;">"Having stayed in a number of hotels in Gotanda & read the reviews I was looking forward to my stay in the hotel especially as I really enjoy this area with its many restaurants. Located close to the JR station and subway is an advantage but also means I was kept awake by train noise late into the evening. Also, although I’m used to firm mattresses in Japan this was firmer than most and the hotel could not provide me with a thin mattress often available in other hotels. I suggest asking for a room where you can’t see the railway tracks."</span>
+                                    <br/><br/>
+                                    <span style="font-weight:500;">Date of stay: August 2019</span><br/>
+                                    <span style="font-weight:500;">Trip type: Traveled solo</span><br/>
+                                    <span style="font-size:11px; font-style:italic;">This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-1" style="text-align:center;">
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                </div>
+                                <div class="col-lg-11" style="padding-left:0px;">
+                                    <span style="font-weight:500;">rod2099</span>
+                                    <span>wrote a review Aug 2019</span><br/>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Albuquerque, New Mexico - 755 contributions - 215 helpful votes
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-11" style="padding-left:0px;padding-top:15px;">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
+                                    <br/>
+                                    <h6>Convenient to station</h6>
+                                    <span style="text-align: justify;">"Having stayed in a number of hotels in Gotanda & read the reviews I was looking forward to my stay in the hotel especially as I really enjoy this area with its many restaurants. Located close to the JR station and subway is an advantage but also means I was kept awake by train noise late into the evening. Also, although I’m used to firm mattresses in Japan this was firmer than most and the hotel could not provide me with a thin mattress often available in other hotels. I suggest asking for a room where you can’t see the railway tracks."</span>
+                                    <br/><br/>
+                                    <span style="font-weight:500;">Date of stay: August 2019</span><br/>
+                                    <span style="font-weight:500;">Trip type: Traveled solo</span><br/>
+                                    <span style="font-size:11px; font-style:italic;">This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-1" style="text-align:center;">
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                </div>
+                                <div class="col-lg-11" style="padding-left:0px;">
+                                    <span style="font-weight:500;">rod2099</span>
+                                    <span>wrote a review Aug 2019</span><br/>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Albuquerque, New Mexico - 755 contributions - 215 helpful votes
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-11" style="padding-left:0px;padding-top:15px;">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
+                                    <br/>
+                                    <h6>Convenient to station</h6>
+                                    <span style="text-align: justify;">"Having stayed in a number of hotels in Gotanda & read the reviews I was looking forward to my stay in the hotel especially as I really enjoy this area with its many restaurants. Located close to the JR station and subway is an advantage but also means I was kept awake by train noise late into the evening. Also, although I’m used to firm mattresses in Japan this was firmer than most and the hotel could not provide me with a thin mattress often available in other hotels. I suggest asking for a room where you can’t see the railway tracks."</span>
+                                    <br/><br/>
+                                    <span style="font-weight:500;">Date of stay: August 2019</span><br/>
+                                    <span style="font-weight:500;">Trip type: Traveled solo</span><br/>
+                                    <span style="font-size:11px; font-style:italic;">This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-1" style="text-align:center;">
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                </div>
+                                <div class="col-lg-11" style="padding-left:0px;">
+                                    <span style="font-weight:500;">rod2099</span>
+                                    <span>wrote a review Aug 2019</span><br/>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Albuquerque, New Mexico - 755 contributions - 215 helpful votes
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-11" style="padding-left:0px;padding-top:15px;">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
+                                    <br/>
+                                    <h6>Convenient to station</h6>
+                                    <span style="text-align: justify;">"Having stayed in a number of hotels in Gotanda & read the reviews I was looking forward to my stay in the hotel especially as I really enjoy this area with its many restaurants. Located close to the JR station and subway is an advantage but also means I was kept awake by train noise late into the evening. Also, although I’m used to firm mattresses in Japan this was firmer than most and the hotel could not provide me with a thin mattress often available in other hotels. I suggest asking for a room where you can’t see the railway tracks."</span>
+                                    <br/><br/>
+                                    <span style="font-weight:500;">Date of stay: August 2019</span><br/>
+                                    <span style="font-weight:500;">Trip type: Traveled solo</span><br/>
+                                    <span style="font-size:11px; font-style:italic;">This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</span>
+                                    <br/>
+                                </div>
+                            </div>
+                            <hr/>
+                            <div class="row">
+                                <div class="col-lg-1" style="text-align:center;">
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                </div>
+                                <div class="col-lg-11" style="padding-left:0px;">
+                                    <span style="font-weight:500;">rod2099</span>
+                                    <span>wrote a review Aug 2019</span><br/>
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Albuquerque, New Mexico - 755 contributions - 215 helpful votes
+                                </div>
+                                <div class="col-lg-1"></div>
+                                <div class="col-lg-11" style="padding-left:0px;padding-top:15px;">
+                                    <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
+                                    <br/>
+                                    <h6>Convenient to station</h6>
+                                    <span style="text-align: justify;">"Having stayed in a number of hotels in Gotanda & read the reviews I was looking forward to my stay in the hotel especially as I really enjoy this area with its many restaurants. Located close to the JR station and subway is an advantage but also means I was kept awake by train noise late into the evening. Also, although I’m used to firm mattresses in Japan this was firmer than most and the hotel could not provide me with a thin mattress often available in other hotels. I suggest asking for a room where you can’t see the railway tracks."</span>
+                                    <br/><br/>
+                                    <span style="font-weight:500;">Date of stay: August 2019</span><br/>
+                                    <span style="font-weight:500;">Trip type: Traveled solo</span><br/>
+                                    <span style="font-size:11px; font-style:italic;">This review is the subjective opinion of a TripAdvisor member and not of TripAdvisor LLC.</span>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div id="pagination-container" style="margin-top:20px; float:right;" class="light-theme simple-pagination"><ul><li class="disabled"><span class="current prev"><i class="fas fa-angle-left"></i></span></li><li class="active"><span class="current">1</span></li><li><a href="#page-2" class="page-link">2</a></li><li><a href="#page-3" class="page-link">3</a></li><li><a href="#page-4" class="page-link">4</a></li><li><a href="#page-5" class="page-link">5</a></li><li class=""><span class="ellipse clickable">…</span></li><li><a href="#page-10" class="page-link">10</a></li><li><a href="#page-11" class="page-link">11</a></li><li><a href="#page-2" class="page-link next"><i class="fas fa-angle-right"></i></a></li></ul></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12">
+                    <div class="modal fade" id="myModalCopyHotel" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" style="color:white;"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row" id="choose-hotel-copy">
+                                        <div class="col-lg-12">
+                                            <h6>Please choose your room want to copy!</h6>
+                                        </div>
+                                    </div>
+                                    <div id="show-list-copy-hotel">
+
+                                    </div>
+                                    <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<button class="myticket" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();" style="width:200px; border-radius:unset; height:40px;">
+    <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+</button>
+
+
+<script>
+    hotel_detail(`{{response.external_code}}`);
+    var myIndex = 0;
+
+    $(function() {
+      $(window).scroll(function() {
+        if($(this).scrollTop()>=$('.div-information-hotel').position().top-130 && $(this).scrollTop()<$('.div-facility-hotel').position().top-130){
+            active_sticky_hotel("information");
+        }
+        else if($(this).scrollTop()>=$('.div-facility-hotel').position().top-130 && $(this).scrollTop()<$('.div-location-hotel').position().top-130){
+            active_sticky_hotel("facility");
+        }
+        else if($(this).scrollTop()>=$('.div-location-hotel').position().top-130 && $(this).scrollTop()<$('.div-select-room-hotel').position().top-130){
+            active_sticky_hotel("location");
+        }
+        else if($(this).scrollTop()>=$('.div-select-room-hotel').position().top-130 && $(this).scrollTop()<$('.div-review-hotel').position().top-130){
+            active_sticky_hotel("select");
+        }
+        else if($(this).scrollTop()>=$('.div-review-hotel').position().top-130){
+            active_sticky_hotel("review");
+        }
+        else if($(this).scrollTop() < $('.div-information-hotel').position().top){
+            $(".content-hotel").removeClass("sticky-hotel-active");
+        }
+      });
+      var oneDay = 24*60*60*1000;
+      var firstDate = new Date($("#checkin_date").val());
+      var secondDate = new Date($("#checkout_date").val());
+      var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+      $("#total_night_search").text(diffDays);
+
+      $('input[name="hotel_checkin_checkout"]').daterangepicker({
+          singleDatePicker: false,
+          autoUpdateInput: true,
+          opens: 'center',
+          startDate: moment().subtract(-1, 'days'),
+          endDate: moment().subtract(-2, 'days'),
+          minDate: moment().subtract(-1, 'days'),
+          maxDate: moment().subtract(-366, 'days'),
+          showDropdowns: true,
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+
+      $('input[name="hotel_checkin_checkout"]').on('apply.daterangepicker', function(ev, picker) {
+          $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+            $("#checkin_date").val(picker.startDate.format('DD MMM YYYY'));
+            $("#checkout_date").val(picker.endDate.format('DD MMM YYYY'));
+
+            var oneDay = 24*60*60*1000;
+            var firstDate = new Date($("#checkin_date").val());
+            var secondDate = new Date($("#checkout_date").val());
+
+            var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+            $("#total_night_search").text(diffDays);
+            change_date('checkin');
+        });
+    });
+
+    function carousel() {
+      var i;
+      var x = document.getElementsByClassName("mySlides");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+      }
+      myIndex++;
+      if (myIndex > x.length) {myIndex = 1}
+      x[myIndex-1].style.display = "block";
+      setTimeout(carousel, 5000); // Change image every 2 seconds
+    }
+
+    function change_date(type){
+        $('#loading-detail-hotel').show();
+        if(type == 'checkin'){
+            change_date_hotel('checkin');
+            hotel_detail(`{{response.external_code}}`);
+        }else{
+            change_date_hotel('checkout');
+            hotel_detail(`{{response.external_code}}`);
+        }
+    }
+
+    function change_date_hotel(type){
+        if(type == 'checkin'){
+            var date = moment(document.getElementById('hotel_checkin').value);
+            date = date.add(1, 'days');
+            if(document.getElementById('hotel_checkout').value == '' || moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value))
+                document.getElementById('hotel_checkout').value = date._d.toString().split(' ')[2]+' '+date._d.toString().split(' ')[1]+' '+date._d.toString().split(' ')[3];
+        }else{
+            if(moment(document.getElementById('hotel_checkin').value) >= moment(document.getElementById('hotel_checkout').value)){
+            }
+        }
+    }
+</script>
+
+{% endblock %}
+
+
+<!--<div style="background-color:#f15a22;">-->
+<!--    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">-->
+<!--                <span style="color:white;"> Facilities </span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">-->
+<!--                <span style="color:white;"> Description </span>-->
+<!--            </a>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</div>-->
+
+<!--<div class="tab-content" id="myTabContent">-->
+<!--    <div class="tab-pane fade show active" id="facilities" role="tabpanel" aria-labelledby="facilities-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">-->
+<!--        <span>-->
+<!--            {% for facility in response.facilities %}-->
+<!--            {{facility.facility_name.facility_name}}<br/>-->
+<!--            {% endfor %}-->
+<!--        </span>-->
+<!--    </div>-->
+<!--    <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description-tab" style="padding:10px; border-left:1px solid black; border-bottom:1px solid black; border-right:1px solid black; max-height: 410px; overflow-y: auto;">-->
+<!--        <p style="text-align: justify;">-->
+<!--            {% if response.description != '' %}-->
+<!--            {{response.description}}-->
+<!--            {% else %}-->
+<!--            No Description-->
+<!--            {% endif %}-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->

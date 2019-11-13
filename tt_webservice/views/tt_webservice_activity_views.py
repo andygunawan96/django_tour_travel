@@ -44,6 +44,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'login':
             res = login(request)
+        elif req_data['action'] == 'get_data':
+            res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'get_details':
@@ -98,6 +100,33 @@ def login(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
+
+
+def get_data(request):
+    try:
+        cache_version = get_cache_version()
+        temp_data = get_cache_data(cache_version)
+
+        response = {
+            'activity_countries': temp_data['result']['response']['activity']['countries'],
+            'activity_types': temp_data['result']['response']['activity']['types'],
+            'activity_categories': temp_data['result']['response']['activity']['categories'],
+            'activity_sub_categories': temp_data['result']['response']['activity']['sub_categories'],
+        }
+
+        # res = search2(request)
+        logging.getLogger("error_info").error("SUCCESS get_data ACTIVITY SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        response = {
+            'activity_countries': [],
+            'activity_types': [],
+            'activity_categories': [],
+            'activity_sub_categories': [],
+        }
+
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return response
 
 
 def search(request):
@@ -466,18 +495,25 @@ def update_options(request):
 
 
 def commit_booking(request):
-    if request.POST['member'] == 'non_member':
-        member = False
-    else:
-        member = True
-
+    force_issued = request.POST.get('value') and request.POST['value'] or 0
     data = {
         "kwargs": {
-            "force_issued": True
+            "force_issued": int(force_issued) == 1 and True or False
         },
-        "member": member,
-        "seq_id": request.POST['seq_id'],
     }
+    try:
+        if int(force_issued) == 1:
+            if request.POST['member'] == 'non_member':
+                member = False
+            else:
+                member = True
+            data.update({
+                'member': member,
+                'seq_id': request.POST['seq_id'],
+            })
+    except:
+        pass
+
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
@@ -503,6 +539,38 @@ def get_booking(request):
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    return res
+
+
+def issued_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data = {
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "issued_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS issued ACTIVITY SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR issued ACTIVITY SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
