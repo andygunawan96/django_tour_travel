@@ -17,7 +17,6 @@ function get_public_holiday(start_date, end_date, country_id){
        headers:{
             'action': 'get_public_holiday',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'start_date': start_date,
             'end_date': end_date,

@@ -71,7 +71,6 @@ function train_signin(data){
        headers:{
             'action': 'signin',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
             console.log(msg);
@@ -99,7 +98,6 @@ function get_train_config(){
        headers:{
             'action': 'get_data',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
         console.log(msg);
@@ -126,7 +124,6 @@ function train_search(signature){
        headers:{
             'action': 'search',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -141,7 +138,7 @@ function train_search(signature){
                     response +=`
                         <div style="padding:5px; margin:10px;">
                             <div style="text-align:center">
-                                <img src="/static/tt_website_skytors/img/icon/no-train.png" style="width:80px; height:80px;" alt="" title="" />
+                                <img src="/static/tt_website_rodextrip/img/icon/no-train.png" style="width:80px; height:80px;" alt="" title="" />
                                 <br/><br/>
                                 <h6>NO TRAIN AVAILABLE</h6>
                             </div>
@@ -242,7 +239,6 @@ function train_create_booking(){
        headers:{
             'action': 'commit_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -331,7 +327,7 @@ function train_get_booking(data){
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="padding:10px; background-color:white;">
-                        <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_skytors/images/icon/plane.png"/></h5>
+                        <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
                         <hr/>`;
                     check = 0;
                     flight_counter = 1;
@@ -356,7 +352,7 @@ function train_get_booking(data){
                             text+= `
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_skytors/img/icon/kai.png"/>
+                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>
                                 </div>
                             </div>`;
                             text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
@@ -367,7 +363,7 @@ function train_get_booking(data){
                                         <tr>
                                             <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
@@ -699,7 +695,7 @@ function train_get_booking(data){
                         text_detail+= `</span>
                     </div>
                 </div>`;
-                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_skytors/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                 text_detail+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
@@ -708,16 +704,16 @@ function train_get_booking(data){
                     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                     if (isMobile) {
                         text_detail+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     } else {
                         text_detail+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/whatsapp.png"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     }
 
                 text_detail+=`
@@ -838,7 +834,6 @@ function train_issued(data){
            headers:{
                 'action': 'issued',
            },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: {
                'order_number': data,
                'seq_id': payment_acq2[payment_method][selected].seq_id,
@@ -892,7 +887,6 @@ function train_get_seat_map(){
        headers:{
             'action': 'get_seat_map',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
         console.log(msg);
@@ -928,7 +922,6 @@ function train_manual_seat(){
        headers:{
             'action': 'manual_seat',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
         'pax': JSON.stringify(pax)
        },
@@ -985,7 +978,6 @@ function update_service_charge(data){
        headers:{
             'action': 'update_service_charge',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            'order_number': JSON.stringify(order_number),
            'passengers': JSON.stringify(upsell),

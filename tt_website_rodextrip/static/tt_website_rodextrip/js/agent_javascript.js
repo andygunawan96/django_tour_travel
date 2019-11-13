@@ -19,7 +19,7 @@ function table_reservation(data){
                 }
                 text+=`</td>`;
             }else if(data[i].provider.provider_type == 'train')
-                text+=`<td><img src="/static/tt_website_skytors/img/icon/kai.png" style="width:60px; height:40px;" alt="PT. KAI" title="PT. KAI"/></td>`;
+                text+=`<td><img src="/static/tt_website_rodextrip/img/icon/kai.png" style="width:60px; height:40px;" alt="PT. KAI" title="PT. KAI"/></td>`;
             else if(data[i].provider.provider_type == 'activity')
                 text+=`<td>ACTIVITY</td>`
             else if(data[i].provider.provider_type == 'tour')

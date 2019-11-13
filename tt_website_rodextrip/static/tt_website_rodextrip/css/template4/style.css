@@ -3358,7 +3358,7 @@ display: block;
 	width: 100%;
 	height: 100%;
 	z-index: 999999;
-	background: url('/static/tt_website_skytors/images/icon/LOGO_RODEXTRIP.gif') 50% 50% no-repeat rgb(0,0,0,1);
+	background: url('/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.gif') 50% 50% no-repeat rgb(0,0,0,1);
 }
 
 .loader-airline {
@@ -3368,7 +3368,7 @@ display: block;
 	width: 100%;
 	height: 100%;
 	z-index: 999999;
-	background: url('/static/tt_website_skytors/img/plane_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
+	background: url('/static/tt_website_rodextrip/img/plane_loading.gif') 50% 50% no-repeat rgb(0,0,0,0.9);
 	background-size:50px auto;
 }
 

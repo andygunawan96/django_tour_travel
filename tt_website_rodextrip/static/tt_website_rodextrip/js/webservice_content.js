@@ -9,7 +9,6 @@ function update_banner(){
        headers:{
             'action': 'add_banner',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: formData,
        success: function(msg) {
             if(msg.result.error_code == 0){
@@ -97,7 +96,6 @@ function set_inactive_delete_banner(){
        headers:{
             'action': 'set_inactive_delete_banner',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'img': JSON.stringify(img),
             'signature': signature
@@ -129,7 +127,6 @@ function get_banner(type,page){
        headers:{
             'action': 'get_banner',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'type': type,
             'signature': signature

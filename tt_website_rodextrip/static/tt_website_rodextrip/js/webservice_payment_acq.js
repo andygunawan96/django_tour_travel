@@ -6,7 +6,6 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
        headers:{
             'action': 'get_payment_acquirer',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'order_number': order_number,
             'booker_seq_id': booker_seq_id,

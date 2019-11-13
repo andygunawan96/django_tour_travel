@@ -17,7 +17,6 @@ function signin(){
                headers:{
                     'action': 'signin',
                },
-        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
                 'username':$('#username2').val(),
                 'password':$('#password2').val()
@@ -92,7 +91,6 @@ function signin(){
                headers:{
                     'action': 'signin',
                },
-        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
                 'username':$('#username').val(),
                 'password':$('#password').val()
@@ -165,7 +163,6 @@ function get_path_url_server(){ //DEPRECATED
        headers:{
             'action': 'static_path_url_server',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
        },
        success: function(msg) {
@@ -526,7 +523,6 @@ function get_customer_list(passenger, number, product){
                headers:{
                     'action': 'get_customer_list',
                },
-        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
                     'name': name,
                     'product': product,
@@ -668,7 +664,6 @@ function get_customer_list(passenger, number, product){
                headers:{
                     'action': 'get_customer_list',
                },
-        //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
                data: {
                     'name': name,
                     'product': product,
@@ -1706,7 +1701,6 @@ function get_agent_booking(type){
        headers:{
             'action': 'get_agent_booking',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
         'offset': agent_offside,
         'name': type_search,
@@ -1754,7 +1748,6 @@ function get_top_up_history(){
        headers:{
             'action': 'get_top_up_history',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
         'offset': agent_offside
        },
@@ -1794,7 +1787,6 @@ function get_top_up_history(){
 //       headers:{
 //            'action': 'get_top_up_amount',
 //       },
-////       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
 //       data: {},
 //       success: function(msg) {
 //       msg.response = JSON.parse(msg.response)
@@ -1824,7 +1816,6 @@ function create_top_up(amount, unique_amount){ //DEPRECATED
        headers:{
             'action': 'create_top_up',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            "amount_id": amount,
            "unique_amount": unique_amount
@@ -1931,7 +1922,6 @@ function top_up_payment(){
        headers:{
             'action': 'top_up_payment',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
            'token': response.token,
            'acq_id': id
@@ -1971,7 +1961,6 @@ function get_merchant_info(){
        headers:{
             'action': 'get_merchant_info',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
 
        },
@@ -1996,7 +1985,6 @@ function request_va(){
        headers:{
             'action': 'request_va',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
 
        },
@@ -2021,7 +2009,6 @@ function request_inv_va(){
        headers:{
             'action': 'request_inv_va',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
 
        },
@@ -2046,7 +2033,6 @@ function get_voucher(){
        headers:{
             'action': 'get_voucher',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
 
        },
@@ -2077,7 +2063,6 @@ function add_passenger_cache(sequence){
        headers:{
             'action': 'add_passenger_cache',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'passenger': JSON.stringify(passenger_data[sequence])
        },
@@ -2110,7 +2095,6 @@ function del_passenger_cache(sequence){
        headers:{
             'action': 'del_passenger_cache',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'index': sequence
        },
@@ -2642,7 +2626,6 @@ function get_countries(){
        headers:{
             'action': 'get_country',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {},
        success: function(msg) {
         console.log(msg);
@@ -3076,7 +3059,6 @@ function update_passenger_backend(){
            headers:{
                 'action': 'update_image_passenger',
            },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: formData,
            success: function(msg) {
                 console.log(msg);
@@ -3208,7 +3190,6 @@ function update_cache_version_func(){
        headers:{
             'action': 'update_cache',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },

@@ -12,7 +12,6 @@ function get_balance(val){
        headers:{
             'action': 'get_balance',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature,
             'using_cache': using_cache
@@ -69,7 +68,6 @@ function get_account(){
        headers:{
             'action': 'get_account',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -109,7 +107,6 @@ function get_transactions_notification(val){
        headers:{
             'action': 'get_transactions',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'offset': offset_transaction,
             'limit': limit_transaction,
@@ -242,7 +239,6 @@ function get_transactions(type){
        headers:{
             'action': 'get_transactions',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'offset': offset_transaction,
             'limit': limit_transaction,
@@ -303,7 +299,6 @@ function get_top_up_amount(){
        headers:{
             'action': 'get_top_up_amount',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
         'signature': signature
        },
@@ -343,7 +338,7 @@ function change_top_up(){
     document.getElementById('tac_checkbox').disabled = false;
     document.getElementById('payment_acq').innerHTML = '';
     document.getElementById('submit_name').innerHTML = 'Submit';
-    document.getElementById('submit_name').setAttribute( "onClick", "javascript: submit_top_up();" );
+    document.getElementById('submit_name').setAttribute( "onClick", "javascript: check_top_up();" );
 }
 
 function submit_top_up(){
@@ -355,7 +350,6 @@ function submit_top_up(){
        headers:{
             'action': 'submit_top_up',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
 //            'currency_code': currency_code,
             'amount': document.getElementById('amount').value,
@@ -413,7 +407,6 @@ function commit_top_up(){
        headers:{
             'action': 'commit_top_up',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'member': payment_acq2[payment_method][selected].method,
             'seq_id': payment_acq2[payment_method][selected].seq_id,
@@ -462,7 +455,6 @@ function cancel_top_up(name){
            headers:{
                 'action': 'cancel_top_up',
            },
-    //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
            data: {
                 'name': name,
                 'signature': signature
@@ -511,7 +503,6 @@ function get_top_up(){
        headers:{
             'action': 'get_top_up',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'signature': signature
        },
@@ -557,7 +548,6 @@ function confirm_top_up(payment_seq_id){
        headers:{
             'action': 'confirm_top_up',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'name': top_up_history[top_up_value].name,
             'payment_seq_id': payment_seq_id,
@@ -591,7 +581,6 @@ function request_top_up(val){
        headers:{
             'action': 'request_top_up_api',
        },
-//       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
        data: {
             'name': top_up_history[val].name,
             'signature': signature
@@ -677,7 +666,7 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        if(parseInt(document.getElementById('amount')) < 50000){
+        if(parseInt(document.getElementById('amount').value) < 50000){
             error_text += 'Minimum top up Amount IDR 50,000\n';
         }
     }catch(err){
@@ -706,13 +695,13 @@ function check_top_up(){
         })
 
     }else{
-        document.getElementById('submit_top_up').classList.remove('running');
-        document.getElementById('submit_top_up').disabled = false;
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error check topup</span>' + error_text,
-            })
+//        document.getElementById('submit_top_up').classList.remove('running');
+//        document.getElementById('submit_top_up').disabled = false;
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: #ff9900;">Error check topup</span>' + error_text,
+        })
     }
 }
 
