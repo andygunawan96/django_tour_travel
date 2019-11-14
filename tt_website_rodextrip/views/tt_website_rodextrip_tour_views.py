@@ -209,24 +209,28 @@ def passenger(request):
         render_pax_per_room = []
         for idx in range(room_amount):
             note = 'notes_' + str(idx + 1)
+
             room = {
                 'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
                 'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
                 'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
-                'data': request.session['tour_data']['accommodations'][idx],
             }
 
+            chosen_room = False
+            for temp_room in request.session['tour_data']['accommodations']:
+                if int(temp_room['id']) == int(request.POST['room_id_' + str(idx + 1)]):
+                    chosen_room = temp_room
+
             room.update({
-                'address': room['data']['address'],
-                'bed_type': room['data']['bed_type'],
-                'description': room['data']['description'],
-                'hotel': room['data']['hotel'],
-                'name': room['data']['name'],
-                'star': room['data']['star'],
-                'id': room['data']['id'],
+                'address': chosen_room['address'],
+                'bed_type': chosen_room['bed_type'],
+                'description': chosen_room['description'],
+                'hotel': chosen_room['hotel'],
+                'name': chosen_room['name'],
+                'star': chosen_room['star'],
+                'id': chosen_room['id'],
                 'notes': request.POST.get(note) and request.POST[note] or '',
             })
-            room.pop('data')
             render_pax_per_room.append(room)
 
         request.session['tour_booking_data'] = {

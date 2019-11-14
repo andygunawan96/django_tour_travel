@@ -1,5 +1,7 @@
 var tour_data = [];
 offset = 0;
+high_price_slider = 0;
+step_slider = 0;
 
 function tour_login(data){
     //document.getElementById('activity_category').value.split(' - ')[1]
@@ -148,22 +150,20 @@ function tour_search(){
                if (tour_data.length == 0)
                {
                     text += `
-                        <div class="col-lg-4">
-                        </div>
-                        <div class="col-lg-4">
-                            <div style="padding:5px; margin:10px;">
-                                <div style="text-align:center">
-                                    <img src="/static/tt_website_rodextrip/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                                    <br/><br/>
-                                    <h6>NO TOUR AVAILABLE</h6>
-                                </div>
+                        <div class="col-lg-12">
+                            <div style="text-align:center">
+                                <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="" title="" />
+                                <br/>
                             </div>
-                        </div>
-                        <div class="col-lg-4">
+                            <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
                         </div>
                     `;
                }
                for(i in tour_data){
+                   if(high_price_slider < tour_data[i].adult_sale_price){
+                        high_price_slider = tour_data[i].adult_sale_price;
+                   }
+
                    if (tour_data[i].images_obj.length > 0)
                    {
                        img_src = tour_data[i].images_obj[0].url;
@@ -176,7 +176,7 @@ function tour_search(){
                    if (tour_data[i].state_tour == 'sold')
                    {
                        dat_content1 = ``+tour_data[i].departure_date+` - `+tour_data[i].return_date;
-                       dat_content2 = `Sold Out`
+                       dat_content2 = `Sold Out`;
                    }
                    else
                    {
@@ -220,6 +220,27 @@ function tour_search(){
                     </div>
                    `;
                }
+
+               if(high_price_slider <= 1000000){
+                step_slider = 50000;
+               }
+               else if(high_price_slider > 1000000 && high_price_slider <= 10000000 ){
+                step_slider = 100000;
+               }
+               else{
+                step_slider = 200000;
+               }
+               document.getElementById("price-to").value = high_price_slider;
+               $maxPrice = high_price_slider;
+               $(".js-range-slider").data("ionRangeSlider").update({
+                    from: 0,
+                    to: high_price_slider,
+                    min: 0,
+                    max: high_price_slider,
+                    step: step_slider
+               });
+               $(".js-range-slider").data("ionRangeSlider").reset();
+
                offset++;
                document.getElementById('tour_ticket').innerHTML += text;
                if(msg.result.response.length != 0)
@@ -378,9 +399,7 @@ function tour_get_details(package_id){
                                             <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:#f15a22; font-weight:700; cursor:pointer;">Show image</span>
                                             <img id="image_itinerary`+it_idx+``+it_item+`" src="`+tour_data[i].itinerary_ids[it_idx].items[it_item].image+`" style="width: 150px; height: 150px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
                                         }
-                                        //else{
-                                        //    itinerary_text += `<img src="`+static_path_url_server+`/public/tour_packages/not_found.png" style="width:150px;  height:150px; border:1px solid #cdcdcd; object-fit: cover;"/>`;
-                                        //}
+
                                         itinerary_text += `</div>`;
                                     }
                                 itinerary_text += `</div>
