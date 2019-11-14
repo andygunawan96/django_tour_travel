@@ -71,8 +71,8 @@ def search(request):
 
         request.session['tour_request'] = {
             'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or '0',
-            'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or '0',
+            'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
+            'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
             'month': request.POST['tour_dest_month'],
             'year': request.POST['tour_dest_year'],
             'limit': 25,
@@ -320,6 +320,7 @@ def review(request):
                 "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                 "is_cp": request.POST.get('adult_cp' + str(i + 1)),
             })
+            temp_pax_id += 1
 
             if i == 0:
                 if request.POST['myRadios'] == 'yes':
@@ -374,8 +375,6 @@ def review(request):
                         })
             except:
                 pass
-
-            temp_pax_id += 1
 
         if len(contact) == 0:
             contact.append({

@@ -172,7 +172,6 @@ def search(request):
 def get_details(request):
     try:
         data = {
-            'provider': request.session['tour_pick']['provider'],
             'id': request.POST['id'],
         }
         headers = {
@@ -192,7 +191,7 @@ def get_pricing(request):
     try:
         data = {
             'provider': request.session['tour_pick']['provider'],
-            'req': request.POST['req'],
+            'req': json.loads(request.POST['req']),
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -472,7 +471,6 @@ def commit_booking(request):
 def get_booking(request):
     try:
         data = {
-            'provider': request.session['tour_pick']['provider'],
             'order_number': request.POST['order_number']
         }
         headers = {

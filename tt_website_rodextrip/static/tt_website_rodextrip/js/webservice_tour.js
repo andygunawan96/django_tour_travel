@@ -563,6 +563,7 @@ function update_sell_tour(){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -573,6 +574,7 @@ function update_sell_tour(){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -601,6 +603,7 @@ function update_contact_tour(){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -611,6 +614,7 @@ function update_contact_tour(){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -650,6 +654,7 @@ function update_passengers_tour(){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -660,6 +665,7 @@ function update_passengers_tour(){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -713,6 +719,7 @@ function commit_booking_tour()
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Booking process failed, please try again! </span>',
                 })
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -721,6 +728,7 @@ function commit_booking_tour()
               title: 'Oops!',
               html: '<span style="color: red;">Error tour commit booking </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -839,6 +847,7 @@ function tour_issued_booking(order_number)
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                $("#issuedModal").modal('hide');
+               $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -847,6 +856,7 @@ function tour_issued_booking(order_number)
               title: 'Oops!',
               html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1120,8 +1130,8 @@ function tour_get_booking(order_number)
                                             <th style="width:5%;" class="list-of-passenger-left">No</th>
                                             <th style="width:45%;">Full Name</th>
                                             <th style="width:10%;">Type</th>
-                                            <th style="width:25%;">Birth Date</th>
-                                            <th style="width:15%;" class="list-of-passenger-right">Room No</th>
+                                            <th style="width:20%;">Birth Date</th>
+                                            <th style="width:20%;" class="list-of-passenger-right">Room</th>
                                         </tr>
                `;
 
@@ -1134,7 +1144,7 @@ function tour_get_booking(order_number)
                             <td>`+passengers[i].title+`. `+msg.result.response.passengers[i].name+`</td>
                             <td>`+passengers[i].pax_type+`</td>
                             <td>`+passengers[i].birth_date+`</td>
-                            <td>`+passengers[i].tour_room_index+`</td>
+                            <td>`+passengers[i].tour_room_string+`</td>
                         </tr>
                     `;
                     temp_pax_seq += 1;
