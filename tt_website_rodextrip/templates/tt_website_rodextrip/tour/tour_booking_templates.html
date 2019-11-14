@@ -166,7 +166,9 @@
                                 </table>
                             </div>
                             <div class="modal-footer">
-                                <input class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Now" onclick="tour_pre_issued_booking('{{order_number}}');" style="width:100%;"/>
+                                <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_pre_issued_booking('{{order_number}}');" style="width:100%;">
+                                    Issued Now <div class="ld ld-ring ld-cycle"></div>
+                                </button>
                             </div>
                         </div>
                     </div>

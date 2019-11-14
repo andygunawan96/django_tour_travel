@@ -198,7 +198,7 @@ def update_contact(request):
                     'calling_code': request.POST['booker_calling_code'],
                     'mobile': request.POST['booker_mobile'],
                     'nationality_name': request.POST['booker_nationality_code'],
-                    'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
+                    'contact_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
                 })
                 if i == 0:
                     if request.POST['myRadios'] == 'true':
@@ -225,7 +225,7 @@ def update_contact(request):
                 'calling_code': request.POST['booker_calling_code'],
                 'mobile': request.POST['booker_mobile'],
                 'nationality_name': request.POST['booker_nationality_code'],
-                'contact_seq_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or '',
+                'contact_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or '',
                 'is_booker': True
             })
 
@@ -243,7 +243,7 @@ def update_contact(request):
             'calling_code': request.POST['booker_calling_code'],
             'mobile': request.POST['booker_mobile'],
             'nationality_name': request.POST['booker_nationality_code'],
-            'booker_seq_id': request.POST['booker_id'] != '' and int(request.POST['booker_id']) or ''
+            'booker_seq_id': request.POST['booker_id'] != '' and request.POST['booker_id'] or ''
         }
 
         for country in response['result']['response']['airline']['country']:
@@ -302,7 +302,7 @@ def update_passenger(request):
                 "identity_expdate": passport_expdate,
                 "identity_number": request.POST['passenger_passport_number' + str(i)],
                 "identity_type": "passport",
-                'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and int(request.POST['passenger_id' + str(i)]) or ''
+                'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
             })
             if i == 0:
                 if request.POST['myRadios'] == 'true':
@@ -343,17 +343,7 @@ def update_passenger(request):
                     if pax['nationality_name'] == country['name']:
                         pax['identity_country_of_issued_code'] = country['code']
                         break
-            pax.update({
-                'birth_date': '%s-%s-%s' % (
-                    pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                    pax['birth_date'].split(' ')[0]),
-            })
             if pax['identity_expdate'] != '':
-                pax.update({
-                    'identity_expdate': '%s-%s-%s' % (
-                        pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                        pax['identity_expdate'].split(' ')[0])
-                })
                 pax['identity'] = {
                     "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                     "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),

@@ -32,49 +32,6 @@ var tour_type_list = [
     }
 ]
 
-var budget_list = [
-    {
-        value:'All',
-        status: true
-    },
-    {
-        value:'0 - 1,000,000',
-        min: 0,
-        max: 1000000,
-        status: false
-    },
-    {
-        value:'1,000,000 - 2,000,000',
-        min: 1000000,
-        max: 2000000,
-        status: false
-    },
-    {
-        value:'2,000,000 - 5,000,000',
-        min: 2000000,
-        max: 5000000,
-        status: false
-    },
-    {
-        value:'5,000,000 - 10,000,000',
-        min: 5000000,
-        max: 10000000,
-        status: false
-    },
-    {
-        value:'10,000,000 - 20,000,000',
-        min: 10000000,
-        max: 20000000,
-        status: false
-    },
-    {
-        value:'>= 20,000,000',
-        min: 20000000,
-        max: 9999999999,
-        status: false
-    }
-]
-
 var sorting_list = [
     {
         value:'Name A-Z',
@@ -876,6 +833,7 @@ function tour_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
+
     node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -895,27 +853,10 @@ function tour_filter_render(){
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <span>Max</span><br/>
-                    <input type="text" class="js-input-to form-control-custom" id="price-to" value="0"/>
+                    <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
                 </div>
             </div>
         </div>`;
-        //    for(i in budget_list){
-        //        text+=``;
-        //        if(i == 0)
-        //            text+=`
-        //            <label class="check_box_custom">
-        //                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
-        //                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)" checked />
-        //                <span class="check_box_span_custom"></span>
-        //            </label><br/>`;
-        //        else
-        //            text+=`
-        //            <label class="check_box_custom">
-        //                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
-        //                <input type="checkbox" id="checkbox_budget`+i+`" onclick="change_filter('budget',`+i+`)"/>
-        //                <span class="check_box_span_custom"></span>
-        //            </label><br/>`;
-        //    }
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -958,31 +899,6 @@ function tour_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
-    node2 = document.createElement("div");
-    node2.innerHTML = text;
-    document.getElementById("filter2").appendChild(node2);
-    node2 = document.createElement("div");
-
-    text=`
-        <hr/>
-        <h6 style="padding-bottom:10px;">Price</h6>`;
-    for(i in budget_list){
-        if(i == 0)
-            text+=`
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
-                <input type="checkbox" id="checkbox_budget2`+i+`" onclick="change_filter('budget',`+i+`)" checked />
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else
-            text+=`
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;">`+budget_list[i].value+`</span>
-                <input type="checkbox" id="checkbox_budget2`+i+`" onclick="change_filter('budget',`+i+`)"/>
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-    }
-
     node2 = document.createElement("div");
     node2.innerHTML = text;
     document.getElementById("filter2").appendChild(node2);
@@ -1052,7 +968,7 @@ function sort_button(value){
    }else{
        sorting_value = value;
    }
-   filtering('filter');
+   filtering('filter', 1);
 }
 
 function change_filter(type, value){
@@ -1078,24 +994,22 @@ function change_filter(type, value){
             tour_type_list[value].status = !tour_type_list[value].status;
         document.getElementById("checkbox_tour_type"+value).checked = tour_type_list[value].status;
         document.getElementById("checkbox_tour_type2"+value).checked = tour_type_list[value].status;
+        filtering('filter', 1);
     }
-
-    filtering('filter');
+    else if (type == 'price')
+    {
+        filtering('filter', value);
+    }
 }
 
-function filtering(type){
+function filtering(type, exist_check){
    var temp_data = [];
    data = tour_data;
    if(type == 'filter'){
        check_tour_type = 0;
-       check_budget = 0;
        for(i in tour_type_list)
            if(tour_type_list[i].status == true && tour_type_list[i].value != 'All')
                check_tour_type = 1;
-
-       for(i in budget_list)
-           if(budget_list[i].status == true && budget_list[i].value != 'All')
-               check_budget = 1;
 
        var check = 0;
        if(check_tour_type == 1){
@@ -1114,48 +1028,26 @@ function filtering(type){
            temp_data = [];
        }
 
-       if(check_budget == 1){
-           data.forEach((obj)=> {
-               check = 0;
-               budget_list.forEach((obj1)=> {
-                   if(obj1.status == true && check == 0){
-                       if (obj.adult_sale_price >= obj1.min && obj.adult_sale_price <= obj1.max)
-                       {
-                            temp_data.push(obj);
-                            check = 1;
-                       }
-                   }
-               });
-           });
-           data = temp_data;
-           temp_data = [];
-       }
        console.log(data);
-       sort(data);
+       sort(data, exist_check);
 
    }else if(type == 'sort'){
-       sort(tour_data);
+       sort(tour_data, exist_check);
    }
 }
 
-function sort(tour_dat){
+function sort(tour_dat, exist_check){
     console.log(tour_dat);
-    if (tour_dat.length == 0){
+    if (tour_dat.length == 0 && exist_check != 0){
         document.getElementById("tour_ticket").innerHTML = '';
         text = '';
         text += `
-            <div class="col-lg-4">
-            </div>
-            <div class="col-lg-4">
-                <div style="padding:5px; margin:10px;">
-                    <div style="text-align:center">
-                        <img src="/static/tt_website_rodextrip/img/icon/no-flight.png" style="width:80px; height:80px;" alt="" title="" />
-                        <br/><br/>
-                        <h6>NO TOUR AVAILABLE</h6>
-                    </div>
+            <div class="col-lg-12">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="" title="" />
+                    <br/>
                 </div>
-            </div>
-            <div class="col-lg-4">
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
             </div>
             `;
         document.getElementById("tour_ticket").innerHTML = text;
@@ -1273,61 +1165,76 @@ function sort(tour_dat){
         text = '';
         for(i in tour_dat)
         {
-           if (tour_dat[i].images_obj.length > 0)
+           if (tour_dat[i].adult_sale_price >= $minPrice && tour_dat[i].adult_sale_price <= $maxPrice)
            {
-               img_src = tour_dat[i].images_obj[0].url;
-           }
-           else
-           {
-               img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
-           }
+               if (tour_dat[i].images_obj.length > 0)
+               {
+                   img_src = tour_dat[i].images_obj[0].url;
+               }
+               else
+               {
+                   img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
+               }
 
-           if (tour_dat[i].state_tour == 'sold')
-           {
-               dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
-               dat_content2 = `Sold Out`
-           }
-           else
-           {
-               dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
-               var count_quota = tour_data[i].quota - tour_data[i].seat;
-               dat_content2 = ``+count_quota+`/`+tour_dat[i].quota;
-           }
+               if (tour_dat[i].state_tour == 'sold')
+               {
+                   dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
+                   dat_content2 = `Sold Out`;
+               }
+               else
+               {
+                   dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
+                   var count_quota = tour_data[i].quota - tour_data[i].seat;
+                   dat_content2 = ``+count_quota+`/`+tour_dat[i].quota;
+               }
 
-           text+=`
+               text+=`
 
-           <div class="col-lg-4 col-md-6">
-                <form action='/tour/detail' method='POST' id='myForm`+tour_dat[i].sequence+`'>
-                <div id='csrf`+tour_dat[i].sequence+`'></div>
-                <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
-                <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
-                <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>
-                <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
-                    <div class="single-destination relative">
-                        <div class="thumb relative">
-                            <div class="overlay overlay-bg"></div>
-                            <img class="img-fluid" src="`+img_src+`" alt="">
-                        </div>
-                        <div class="card card-effect-promotion">
-                            <div class="card-body">
-                                <div class="row details">
-                                    <div class="col-lg-12" style="text-align:left;">
-                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                        <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                        <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                    </div>
-                                    <div class="col-lg-12" style="text-align:right;">
-                                        <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                        <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+               <div class="col-lg-4 col-md-6">
+                    <form action='/tour/detail' method='POST' id='myForm`+tour_dat[i].sequence+`'>
+                    <div id='csrf`+tour_dat[i].sequence+`'></div>
+                    <input type='hidden' value='`+JSON.stringify(tour_dat[i]).replace(/[']/g, /["]/g)+`'/>
+                    <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
+                    <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>
+                    <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
+                        <div class="single-destination relative">
+                            <div class="thumb relative">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="img-fluid" src="`+img_src+`" alt="">
+                            </div>
+                            <div class="card card-effect-promotion">
+                                <div class="card-body">
+                                    <div class="row details">
+                                        <div class="col-lg-12" style="text-align:left;">
+                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                        </div>
+                                        <div class="col-lg-12" style="text-align:right;">
+                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
+                                            <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </form>
                 </div>
-            </form>
-            </div>
-           `;
+               `;
+           }
+        }
+        if (text == '' && exist_check != 0)
+        {
+            text += `
+            <div class="col-lg-12">
+                <div style="text-align:center">
+                    <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="" title="" />
+                    <br/>
+                </div>
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
+            </div>`;
+            check_pagination = 0;
         }
         document.getElementById('tour_ticket').innerHTML += text;
     }
@@ -1422,5 +1329,27 @@ function tour_table_detail()
         };
         get_price_itinerary(JSON.stringify(request));
     }
+}
+
+function price_slider_true(type){
+    $minPrice = parseInt(document.getElementById('price-from').value);
+    $maxPrice = parseInt(document.getElementById('price-to').value);
+    change_filter('price', type);
+}
+
+function price_update(){
+   var from_price = parseInt(document.getElementById('price-from').value);
+   var to_price = parseInt(document.getElementById('price-to').value);
+   if(from_price > to_price){
+    document.getElementById('price-from').value = to_price;
+   }
+   $(".js-range-slider").data("ionRangeSlider").update({
+        from: $("#price-from").val(),
+        to: $("#price-to").val(),
+        min: 0,
+        max: high_price_slider,
+        step: step_slider
+   });
+
 }
 
