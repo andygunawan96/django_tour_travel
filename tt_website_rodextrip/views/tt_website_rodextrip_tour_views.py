@@ -287,6 +287,7 @@ def review(request):
         infant = []
         all_pax = []
         contact = []
+        printout_paxs = []
 
         booker = {
             'title': request.POST['booker_title'],
@@ -319,6 +320,13 @@ def review(request):
                 "mobile": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_phone' + str(i + 1)] or ' - ',
                 "email": request.POST.get('adult_cp' + str(i + 1)) and request.POST['adult_email' + str(i + 1)] or ' - ',
                 "is_cp": request.POST.get('adult_cp' + str(i + 1)),
+            })
+            printout_paxs.append({
+                "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST['adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
+                'ticket_number': '',
+                'birth_date': request.POST['adult_birth_date' + str(i + 1)],
+                'pax_type': 'Adult',
+                'additional_info': [],
             })
             temp_pax_id += 1
 
@@ -405,6 +413,13 @@ def review(request):
                 "passenger_seq_id": request.POST['child_id'+str(i+1)],
                 "identity_type": "passport",
             })
+            printout_paxs.append({
+                "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST['child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
+                'ticket_number': '',
+                'birth_date': request.POST['child_birth_date' + str(i + 1)],
+                'pax_type': 'Child',
+                'additional_info': [],
+            })
             temp_pax_id += 1
 
         for i in range(int(request.session['tour_booking_data']['infant'])):
@@ -422,6 +437,13 @@ def review(request):
                 "identity_country_of_issued_name": request.POST.get('infant_country_of_issued' + str(i + 1)) and request.POST['infant_country_of_issued' + str(i + 1)] or '',
                 "passenger_seq_id": request.POST['infant_id'+str(i+1)],
                 "identity_type": "passport",
+            })
+            printout_paxs.append({
+                "name": request.POST['infant_title' + str(i + 1)] + ' ' + request.POST['infant_first_name' + str(i + 1)] + ' ' + request.POST['infant_last_name' + str(i + 1)],
+                'ticket_number': '',
+                'birth_date': request.POST['infant_birth_date' + str(i + 1)],
+                'pax_type': 'Infant',
+                'additional_info': [],
             })
             temp_pax_id += 1
 
@@ -454,6 +476,32 @@ def review(request):
 
         request.session['tour_booking_data'] = temp_booking_data
 
+        printout_prices = []
+        for temp_prices in request.session['tour_price']['result']['response']['service_charges']:
+            printout_prices.append({
+                "fare": temp_prices['amount'],
+                "name": temp_prices['charge_type'],
+                "qty": temp_prices['pax_count'],
+                "total": temp_prices['total'],
+                "pax_type": temp_prices['pax_type'],
+                "tax": 0
+            })
+
+        printout_rec = {
+            "type": "tour",
+            "agent_name": request.session._session['user_account']['co_agent_name'],
+            "passenger": printout_paxs,
+            "price_detail": printout_prices,
+            "line": [
+                {
+                    "resv": "-",
+                    "checkin": request.session['tour_pick']['departure_date'],
+                    "checkout": request.session['tour_pick']['return_date'],
+                    "tour_name": request.session['tour_pick']['name'],
+                }
+            ],
+        }
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
@@ -472,6 +520,7 @@ def review(request):
             'all_pax': all_pax,
             'contact_person': contact,
             'total_pax_all': temp_idx,
+            'printout_rec': json.dumps(printout_rec),
             'time_limit': request.session['time_limit'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,

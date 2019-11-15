@@ -1044,6 +1044,7 @@ function activity_commit_booking(val){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1054,6 +1055,7 @@ function activity_commit_booking(val){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
+           $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
