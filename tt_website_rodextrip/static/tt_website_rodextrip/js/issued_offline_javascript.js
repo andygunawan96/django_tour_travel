@@ -521,7 +521,7 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss',
               }
         });
-        $('.js-example-basic-single').select2();
+        $('#provider_data'+counter_line).select2();
 //        set_data(0,'origin');
 //        set_data(0,'destination');
         set_data(0,'provider');

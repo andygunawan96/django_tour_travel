@@ -1027,6 +1027,18 @@ function check_passenger(adult, infant){
            document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+       }if(document.getElementById('adult_cp'+i).checked == true){
+            if(check_email(document.getElementById('adult_email'+i).value)==false){
+                error_log+= 'Invalid Contact person email!</br>\n';
+                document.getElementById('adult_email'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
+                error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                document.getElementById('adult_phone'+i).style['border-color'] = 'red';
+            }else
+                document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }
    }
    //infant
@@ -1352,11 +1364,11 @@ function sort(value){
                             }
                         }
                         if(check == 0){
-                            if(data_filter[i].available_count > parseInt(passengers.adult))
+                            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                                 response+=`
                                 <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult))
+                            else if(data_filter[i].available_count > parseInt(passengers.adult)  && data_filter[i].can_book == false)
                                 response+=`
                                 <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+i+`" value="Choose">`;

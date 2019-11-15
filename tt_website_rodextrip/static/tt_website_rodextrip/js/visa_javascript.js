@@ -458,7 +458,7 @@ function update_table(type){
         currency = '';
         for(i in visa.passengers){
             for(j in visa.passengers[i].visa.price){
-                if(visa.passengers[i].visa.price[j].charge_code == 'fare'){
+                if(visa.passengers[i].visa.price[j].charge_code == 'total'){
                     price += visa.passengers[i].visa.price[j].amount;
                     price_pax = visa.passengers[i].visa.price[j].amount;
                     currency = visa.passengers[i].visa.price[j].currency;
@@ -663,6 +663,18 @@ function check_passenger(adult, child, infant){
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
+       }if(document.getElementById('adult_cp'+i).checked == true){
+            if(check_email(document.getElementById('adult_email'+i).value)==false){
+                error_log+= 'Invalid Contact person email!</br>\n';
+                document.getElementById('adult_email'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
+                error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                document.getElementById('adult_phone'+i).style['border-color'] = 'red';
+            }else
+                document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }
    }
    //child
@@ -915,10 +927,10 @@ function check_on_off_radio(pax_type,number,value){
                 visa.list_of_visa[i].visa_type[0] == visa_type &&
                 visa.list_of_visa[i].entry_type[0] == entry_type &&
                 visa.list_of_visa[i].type.process_type[0] == process_type){
-                pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + visa.list_of_visa[i].sale_price.total_price.toString();
+                pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + getrupiah(visa.list_of_visa[i].sale_price.total_price.toString());
                 text_requirements = '';
                 for(j in visa.list_of_visa[i].requirements){
-                    if(visa.list_of_visa[i].requirements[j].required == true){
+//                    if(visa.list_of_visa[i].requirements[j].required == true){
                         text_requirements += `
                         <label class="check_box_custom">
                             <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` Copy</span>
@@ -930,7 +942,7 @@ function check_on_off_radio(pax_type,number,value){
                             <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
                             <span class="check_box_span_custom"></span>
                         </label>`;
-                    }
+//                    }
                 }
                 pax_required.innerHTML = text_requirements;
                 console.log(visa.list_of_visa[i].total_pax);

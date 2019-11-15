@@ -472,7 +472,7 @@ function visa_get_data(data){
                                     <td class="list-of-passenger-left">`+1+`</td>
                                     <td>`+msg.result.response.contact.name+`</td>
                                     <td>`+msg.result.response.contact.email+`</td>
-                                    <td>`+msg.result.response.contact.phone_number+`</td>
+                                    <td>`+msg.result.response.contact.phone+`</td>
                                 </tr>
                             </table>
                         </div>
@@ -489,11 +489,15 @@ function visa_get_data(data){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
                             for(i in msg.result.response.passengers){
                                 for(j in msg.result.response.passengers[i].visa.price){
-                                    price[j] += msg.result.response.passengers[i].visa.price[j].amount;
-                                    price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                    if(j == 'TOTAL'){
+                                        price['FARE'] += msg.result.response.passengers[i].visa.price[j].amount;
+                                        price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                    }else{
+                                        price[j] += msg.result.response.passengers[i].visa.price[j].amount;
+                                        price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                    }
                                 }
                                 //repricing
-
                                 check = 0;
                                 for(j in pax_type_repricing){
                                     if(pax_type_repricing[j][0] == msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name)
@@ -553,7 +557,7 @@ function visa_get_data(data){
                                             <div class="col-lg-6" style="text-align:right;">
                                                 <span style="font-weight:500; font-size:14px;">`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
                                                 <div id="adult_price{{counter}}">
-                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.FARE.currency+` `+msg.result.response.passengers[i].visa.price.FARE.amount+`</span>
+                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.TOTAL.currency+` `+msg.result.response.passengers[i].visa.price.TOTAL.amount+`</span>
                                                 </div>
                                             </div>
                                         </div>

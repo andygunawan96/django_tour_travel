@@ -169,6 +169,17 @@ function train_search(signature){
     });
 }
 
+function elapse_time(departure){
+  today = new Date();
+  dep = new Date(departure);
+  var diff = parseInt(Math.abs(dep - today)/3600000);
+  console.log(diff);
+  if(diff >= 3)
+    return true;
+  else
+    return false;
+}
+
 function datasearch2(train){
     var counter = 0;
     data = [];
@@ -183,6 +194,9 @@ function datasearch2(train){
                 train.schedules[i].journeys[j].cabin_class = ['K', 'Economy']
            else if(train.schedules[i].journeys[j].cabin_class == 'B')
                 train.schedules[i].journeys[j].cabin_class = ['B', 'Business']
+           date = train.schedules[i].journeys[j].departure_date;
+           date = date.split(' - ')[0].split(' ')[2] + ' ' + date.split(' - ')[0].split(' ')[1] + ' ' + date.split(' - ')[0].split(' ')[0] + ' ' +date.split(' - ')[1];
+           train.schedules[i].journeys[j].can_book = elapse_time(date);
            for(k in train.schedules[i].journeys[j].fares){
                 for(l in train.schedules[i].journeys[j].fares[k].service_charge_summary){
                     for(m in train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges){

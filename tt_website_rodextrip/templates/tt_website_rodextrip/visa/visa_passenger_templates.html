@@ -84,17 +84,17 @@
                                             <hr/>
                                         </div>
                                         <div class="col-lg-6" style="text-align:left;">
-                                            <label>Booker Type :</label><br/>
-                                            <label class="radio-button-custom">
-                                                Corporate
-                                                <input type="radio" checked="checked" name="radio-booker-type">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
-                                            <label class="radio-button-custom">
-                                                Individual
-                                                <input type="radio" name="radio-booker-type">
-                                                <span class="checkmark-radio"></span>
-                                            </label>
+                                            <!--                                            <label>Booker Type :</label><br/>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Corporate-->
+                                            <!--                                                <input type="radio" checked="checked" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
+                                            <!--                                            <label class="radio-button-custom">-->
+                                            <!--                                                Individual-->
+                                            <!--                                                <input type="radio" name="radio-booker-type">-->
+                                            <!--                                                <span class="checkmark-radio"></span>-->
+                                            <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
@@ -111,28 +111,27 @@
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;" />
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" class="btn btn-default" onclick="get_customer_list('booker','1','train')">Search <i class="fas fa-search"></i></button>
-                                                        <div class="row" id="loading-booker-train" style="display:none;">
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
+                                                                <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','visa');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                                        <div class="row">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row loading-booker-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result">
 
                                                         </div>
                                                     </div>
@@ -144,10 +143,11 @@
                                         </div>
 
                                         <div class="col-lg-6 col-xs-6">
+                                            <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
-                                                    <select id="booker_title" name="booker_title">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -156,8 +156,8 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6" style="margin-top:auto;">
-                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
-                                            <div class="modal fade" id="myModalHelp{{forloop.counter}}" role="dialog">
+                                            <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                            <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 
                                                     <!-- Modal content-->
@@ -183,11 +183,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6">
+                                        <div class="col-lg-6">
                                             <br/>
+                                            <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('first_name');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
@@ -197,11 +198,11 @@
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
 
-                                        <div class="col-lg-6 col-md-6">
+                                        <div class="col-lg-6">
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('last_name');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -211,7 +212,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality')" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('nationality');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -222,21 +223,23 @@
                                         </div>
 
 
-                                        <div class="col-lg-6 col-md-6">
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('email');">
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
 
-                                        <div class="col-lg-6 col-md-6">
+                                        <div class="col-lg-6">
+                                            <label style="color:red">*</label>
                                             <label style="margin:0;">Contact Person for Urgent Situation</label>
                                             <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
                                                             {% for country in countries %}
                                                             <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
                                                             {% endfor %}
@@ -245,11 +248,11 @@
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
-                                            <label style="font-size:12px; padding:0;">Example: +62812345678</label>
+                                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                         </div>
 
                                     </div>
@@ -701,7 +704,7 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'visa')">Search</button>
                                                         <div class="row" id="loading-paxi-train" style="display:none;">
                                                             <div class="col-lg-12">
                                                                 <div class="sk-circle">
