@@ -1220,6 +1220,18 @@ function check_passenger(adult, child){
                alert(document.getElementById('adult_first_name'+i).value);
                alert(document.getElementById('adult_last_name'+i).value);
                alert(document.getElementById('adult_nationality'+i).value);
+           }if(document.getElementById('adult_cp'+i).checked == true){
+                if(check_email(document.getElementById('adult_email'+i).value)==false){
+                    error_log+= 'Invalid Contact person email!</br>\n';
+                    document.getElementById('adult_email'+i).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
+                }
+                if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
+                    error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                    document.getElementById('adult_phone'+i).style['border-color'] = 'red';
+                }else
+                    document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
            }
        }
        //child

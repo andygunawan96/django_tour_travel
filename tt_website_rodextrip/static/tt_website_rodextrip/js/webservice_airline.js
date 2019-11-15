@@ -525,7 +525,6 @@ function airline_search(provider,carrier_codes){
            if(msg.error_code == 0){
               try{
                   datasearch2(msg.response);
-                  airline_choose++;
                   var bar1 = new ldBar("#barFlightSearch");
                   var bar2 = document.getElementById('barFlightSearch').ldBar;
                   bar1.set((airline_choose/count_progress_bar_airline)*100);
@@ -536,18 +535,16 @@ function airline_search(provider,carrier_codes){
 
               }catch(err){
                   datasearch2(msg.response);
-                      airline_choose++;
-                      var bar1 = new ldBar("#barFlightSearch");
-                      var bar2 = document.getElementById('barFlightSearch').ldBar;
-                      bar1.set((airline_choose/count_progress_bar_airline)*100);
-                      if ((airline_choose/count_progress_bar_airline)*100 == 100){
-                        $("#barFlightSearch").hide();
-                        $("#waitFlightSearch").hide();
-                      }
+                  var bar1 = new ldBar("#barFlightSearch");
+                  var bar2 = document.getElementById('barFlightSearch').ldBar;
+                  bar1.set((airline_choose/count_progress_bar_airline)*100);
+                  if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                    $("#barFlightSearch").hide();
+                    $("#waitFlightSearch").hide();
+                  }
               }
            }else{
 
-              airline_choose++;
               var bar1 = new ldBar("#barFlightSearch");
               var bar2 = document.getElementById('barFlightSearch').ldBar;
               bar1.set((airline_choose/count_progress_bar_airline)*100);
@@ -654,6 +651,7 @@ function airline_search(provider,carrier_codes){
 }
 
 function datasearch2(airline){
+   airline_choose++;
    data = [];
    data_show = [];
    text = '';
@@ -1061,7 +1059,7 @@ function get_price_itinerary_request(){
                     for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
                         text+=`
                         <div class="col-lg-12">`;
-                        if(i == 0 && j == 0 && resJson.result.response.is_combo_price == true){
+                        if(i == 0 && j == 0 && resJson.result.response.is_combo_price == true && journey.length > 1){
                             text += `<marquee direction="down" behavior="alternate" height="50">
 
                                      <marquee behavior="alternate"><font size="5">Special Price</font></marquee>
@@ -1907,7 +1905,7 @@ function airline_set_ssr(val){
                             airline_commit_booking(val);
 
                       }else{
-                           window.location.href="/";
+                           window.location.href="/dashboard";
                       }
 
                     })
@@ -1932,7 +1930,7 @@ function airline_set_ssr(val){
                     else
                         airline_commit_booking(val);
                   }else{
-                       window.location.href="/";
+                       window.location.href="/dashboard";
                   }
                 })
            }
@@ -1981,7 +1979,7 @@ function airline_assign_seats(val){
                       if (result.value)
                             airline_commit_booking(val);
                       else{
-                           window.location.href="/";
+                           window.location.href="/dashboard";
                       }
                     })
                 }
@@ -1997,7 +1995,7 @@ function airline_assign_seats(val){
                   if (result.value)
                         airline_commit_booking(val);
                   else{
-                       window.location.href="/";
+                       window.location.href="/dashboard";
                   }
                 })
            }
