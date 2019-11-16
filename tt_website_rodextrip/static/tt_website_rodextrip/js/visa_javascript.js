@@ -176,6 +176,13 @@ function update_table(type){
                 display = 'none';
             }
             text+=`
+                <div class="row" id="show_commission" style="display: `+display+`;">
+                    <div class="col-lg-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-lg-12" style="padding-bottom:15px;">
                         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;

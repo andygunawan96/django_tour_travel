@@ -1593,7 +1593,7 @@ function activity_get_booking(data){
                </div>
              </div>
              <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12" style="padding-bottom:10px;">
+               <div class="col-xs-12">
                     <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
              </div>
