@@ -544,7 +544,7 @@ function airline_search(provider,carrier_codes){
                   }
               }
            }else{
-
+              airline_choose++;
               var bar1 = new ldBar("#barFlightSearch");
               var bar2 = document.getElementById('barFlightSearch').ldBar;
               bar1.set((airline_choose/count_progress_bar_airline)*100);
@@ -794,7 +794,6 @@ function get_price_itinerary(val){
                 document.getElementById('departjourney'+choose_airline).classList.add("primary-btn-custom");
             if(airline_request.direction == 'RT' && airline_data[choose_airline].combo_price == true){
                 document.getElementById('departjourney'+choose_airline).value = 'Choose';
-
                 document.getElementById('departjourney'+choose_airline).disabled = false;
             }else if(airline_request.direction == 'RT' && journey.length == 2){
                 document.getElementById('departjourney'+choose_airline).value = 'Choose';
@@ -834,6 +833,7 @@ function get_price_itinerary(val){
         }
         //give fare pick
         airline_data_filter[val].segments[i].fare_pick = fare;
+        airline_data_filter[val].airline_pick_sequence = counter_search;
         if(airline_data_filter[val].segments[i].provider.match(/sabre/))
             provider = 'sabre'
         else

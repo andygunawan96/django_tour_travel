@@ -21,6 +21,8 @@ def api_models(request):
             res = get_requirement_list_doc(request)
         elif req_data['action'] == 'agent_registration':
             res = register(request)
+        elif req_data['action'] == 'get_promotions':
+            res = get_promotions(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -84,6 +86,25 @@ def get_config(request):
             "Content-Type": "application/json",
             "action": "get_config",
             'signature': request.session['signature']
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+
+    if res['result']['error_code'] != 0:
+        login(request, 'get_config')
+    return res
+
+def get_promotions(request):
+    try:
+        data = {
+            'provider': 'rodextrip_agent_registration'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_promotions",
+            'signature': request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

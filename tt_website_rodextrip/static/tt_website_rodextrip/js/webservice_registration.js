@@ -91,6 +91,31 @@ function agent_register_get_config(){
     });
 }
 
+function get_promotions(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/registration",
+       headers:{
+            'action': 'get_promotions',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0)
+                requirement_document = msg.result.response;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 function agent_register_get_requirement_list_doc(){
     getToken();
     $.ajax({
