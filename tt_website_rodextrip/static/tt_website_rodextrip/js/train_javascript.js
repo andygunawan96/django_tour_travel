@@ -180,7 +180,8 @@ function train_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
             <hr/>
-            <h6 style="padding-bottom:10px;">Departure Time</h6>`;
+            <h6 class="filter_general" onclick="show_hide_general('trainDeparture');">Departure Time <i class="fas fa-chevron-down" id="trainDeparture_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainDeparture_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="trainDeparture_generalShow" style="display:inline-block;">`;
     for(i in departure_list){
         if(i == 0)
             text += `
@@ -203,7 +204,8 @@ function train_filter_render(){
     node = document.createElement("div");
 
     text=`<hr/>
-    <h6 style="padding-bottom:10px;">Arrival Time</h6>`;
+    <h6 class="filter_general" onclick="show_hide_general('trainArrival');">Arrival Time <i class="fas fa-chevron-down" id="trainArrival_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainArrival_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="trainArrival_generalShow" style="display:inline-block;">`;
     for(i in arrival_list){
         if(i == 0)
             text+=`
@@ -227,7 +229,8 @@ function train_filter_render(){
     node = document.createElement("div");
 
     text = `<hr/>
-    <h6 style="padding-bottom:10px;">Class</h6>`;
+    <h6 class="filter_general" onclick="show_hide_general('trainClass');">Class <i class="fas fa-chevron-down" id="trainClass_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainClass_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="trainClass_generalShow" style="display:inline-block;">`;
     for(i in cabin_list){
         text+=`
         <label class="check_box_custom">
@@ -560,6 +563,10 @@ function train_get_detail(){
             journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date+`-`+journeys[i].arrival_date+`\n\n`;
         train_detail_text += `
         <div class="row">
+            <div class="col-lg-12">
+                <h5>Price Detail</h5>
+                </hr>
+            </div>
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
@@ -711,6 +718,10 @@ function train_detail(){
     text += `
 
         <div class="row" style:"background-color:white; padding:5px;">
+            <div class="col-lg-12">
+                <h4>Price Detail</h4>
+                <hr/>
+            </div>
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
@@ -811,16 +822,16 @@ function train_detail(){
     <div class="row" id="show_commission" style="display:none;">
         <div class="col-lg-12 col-xs-12" style="text-align:center;">
             <div class="alert alert-success">
-                <span style="font-size:13px;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+                <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+        <div class="col-lg-12" style="padding-bottom:10px;">
             <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
+        <div class="col-lg-12" style="padding-bottom:5px;">
             <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
         </div>
     </div>`;
@@ -1313,11 +1324,11 @@ function sort(value){
     for(i in data_filter){
         if(train_request.departure[train_request_pick] == data_filter[i].departure_date.split(' - ')[0]){
             if(data_filter[i].available_count > 0)
-                response+=`<div style="background-color:white; padding:5px; margin-bottom:15px;">`;
+                response+=`<div class="sorting-box-b">`;
             else
-                response+=`<div style="background-color:#E5E5E5; padding:5px; margin-bottom:15px;">`;
+                response+=`<div style="background-color:#E5E5E5; padding:5px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
-                <div class="row" style="padding:10px;">
+                <div class="row">
                     <div class="col-lg-12">
                         <h4>`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+`</h4>
                     </div>
@@ -1352,7 +1363,7 @@ function sort(value){
                         <span>`+data_filter[i].arrival_date+`</span><br/>
                     </div>
 
-                    <div class="col-lg-4 col-xs-12">
+                    <div class="col-lg-4">
                         <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                         check = 0;
                         for(j in journeys){
@@ -1377,14 +1388,12 @@ function sort(value){
                                 <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
                         }
-                        response+=`</div>
-                    </div>`;
-
                     if(data_filter[i].available_count<50)
-                        response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span></div>`;
+                        response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
                     else if(data_filter[i].available_count<=1 )
-                        response+=`<div class="col-lg-12"><span style="font-size:16px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span></div>`;
-                    response+=`
+                        response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
+                    response+=`</div>
+                    </div>
                 </div>
             </div>`;
         }

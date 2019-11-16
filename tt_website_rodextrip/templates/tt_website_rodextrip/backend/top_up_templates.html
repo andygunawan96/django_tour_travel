@@ -21,16 +21,16 @@
                 <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                     {% csrf_token %}
                     <div class="row">
-                        <div class="col-lg-8" style="border:1px solid #cdcdcd; background:white;">
+                        <div class="col-lg-8" style="border:1px solid #cdcdcd; background:white; padding:20px;">
                             <div class="row" style="text-align:left">
-                                <div class="col-lg-12" style="margin-bottom:15px; margin-top:20px;">
+                                <div class="col-lg-12">
                                     <h3>TOP UP SALDO</h3>
                                 </div>
 
                                 <div class="col-lg-12">
                                     <span>Amount</span><br/>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" name="amount" id="amount" class="form-control" required="required" onchange="total_price_top_up();">
+                                        <input type="number" min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onchange="total_price_top_up();">
                                     </div>
                                 </div>
 
@@ -63,7 +63,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="margin-top:15px;margin-bottom:15px;">
+                                <div class="col-lg-12" style="margin-top:15px;">
                                     <button type="button" id="submit_name" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>
                                 </div>
 

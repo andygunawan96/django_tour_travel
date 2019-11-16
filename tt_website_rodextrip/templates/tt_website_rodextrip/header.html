@@ -39,7 +39,7 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-has-children pt5"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
+                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
                         {% if username != null %}
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
@@ -52,21 +52,26 @@
                         {% endif%}
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
-                        <li class="menu-has-children pt5"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="/registration">Register Agent</a></li>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
+
                         {% if username != null %}
-                        <li class="pt5"><a id="balance"></a></li>
-                        <li class="pt5"><a id="credit_limit"></a></li>
-                        <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                        <li class="balance_mobile pt5"><a id="balance" style="color:black;"></a></li>
+                        <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
+                        <li class="menu-has-children notification-pc pt5" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
                             <ul>
-                                <!--                                <li><a id="username" title="{{username.co_user_login}}"> {{username.co_user_login}}</a></li>-->
                                 <li><a href="#">Guidelines</a></li>
                                 <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                            <ul>
+                                <li><a title="{{username.co_user_login}}" style="cursor:text; color:black;"> {{username.co_user_login}}</a></li>
+                                <li class="menu-has-children pt5"><a href="#">Partnership</a>
+                                    <ul>
+                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="#">Registration List</a></li>
+                                        <li><a href="#">Search Registration</a></li>
+                                    </ul>
+                                </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
@@ -80,8 +85,17 @@
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
                             <ul>
-                                <li><a>My Virtual Account: 9317918739186</a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li class="menu-has-children pt5"><a href="#">Partnership</a>
+                                    <ul>
+                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="#">Registration List</a></li>
+                                        <li><a href="#">Search Registration</a></li>
+                                    </ul>
+                                </li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Logout</button>
@@ -89,7 +103,13 @@
                                 </li>
                             </ul>
                         </li>
-                        <li title="Click to show your notification" class="notification-pc pt5" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+                        <li title="Click to show your notification" class="notification-pc pt5" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:24px;"></i>
 
                         </li>
                         {% else %}

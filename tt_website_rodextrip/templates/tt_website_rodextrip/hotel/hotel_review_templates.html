@@ -50,6 +50,7 @@
         </div>
     </div>
 </header>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <form method="POST" id="hotel_booking" action="{% url 'tt_website_rodextrip:hotel_booking'%}">
@@ -181,12 +182,16 @@
                 <div class="col-lg-4" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-<!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
+                            <!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
                             <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
                         </div>
-
+                        <div class="col-lg-12">
+                            <button class="primary-btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
+                                Issued Booking
+                            </button>
+                        </div>
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                     </div>
                 </div>
