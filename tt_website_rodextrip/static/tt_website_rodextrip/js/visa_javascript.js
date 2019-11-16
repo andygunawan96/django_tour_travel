@@ -442,7 +442,6 @@ function update_table(type){
                     }
                     text +=`</div>
             </div>`;
-
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){

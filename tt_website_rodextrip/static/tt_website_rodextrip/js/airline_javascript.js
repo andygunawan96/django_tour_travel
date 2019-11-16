@@ -1853,7 +1853,7 @@ function sort(airline){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         for(i in airline){
-           if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure'){
+           if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
                ticket_count++;
                var price = 0;
                text += `
@@ -2719,7 +2719,7 @@ function airline_pick_mc(type){
                     price = 0;
                     for(j in airline_pick_list[i].segments){
                         for(k in airline_pick_list[i].segments[j].fares){
-                            if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==fare){
+                            if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==airline_pick_list[i].segments[j].fare_pick){
                                 for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary)
                                     for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
                                         if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
@@ -2866,7 +2866,7 @@ function airline_pick_mc(type){
                                         else
                                         text+=`
                                         <label class="radio-button-custom">
-                                            `+airline_pick_list[i].segments[j].fares[k].subclass+`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
+                                            `+airline_pick_list[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
                                             <input id="journeypick`+i+`segment`+j+`fare" name="journeypick`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                             <span class="checkmark-radio"></span>
                                         </label>`;
@@ -3335,8 +3335,8 @@ function airline_detail(type){
                     text+=`
                         <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
                         <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_skytors/img/email.png"/></a>`;
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
 
             text+=`
@@ -3427,7 +3427,7 @@ function airline_detail(type){
                                         <tr>
                                             <td class="airport-code"><h5>`+airline_get_booking.provider_bookings[i].journeys[j].segments[k].departure_date.split('  ')[1]+`</h5></td>
                                             <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_skytors/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
                                             </td>
                                             <td style="height:30px;padding:0 15px;width:100%">
                                                 <div style="display:inline-block;position:relative;width:100%">
