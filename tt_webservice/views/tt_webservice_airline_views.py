@@ -483,13 +483,19 @@ def get_price_itinerary(request, boolean, counter):
                 check = 0
                 journeys.append({'segments': journey['segments']})
                 for schedule in schedules:
-                    for segment in journey['segments']:
-                        if segment['carrier_code'] in schedule['carrier_code']:
-                            schedule['journeys'].append({
-                                'segments': journey['segments']
-                            })
-                            check = 1
-                            break
+                    if schedule['provider'] == journey['provider']:
+                        schedule['journeys'].append({
+                            'segments': journey['segments']
+                        })
+                        check = 1
+                        break
+                    # for segment in journey['segments']:
+                    #     if segment['carrier_code'] in schedule['carrier_code']:
+                    #         schedule['journeys'].append({
+                    #             'segments': journey['segments']
+                    #         })
+                    #         check = 1
+                    #         break
                     if check == 1:
                         break
                 if check == 0:

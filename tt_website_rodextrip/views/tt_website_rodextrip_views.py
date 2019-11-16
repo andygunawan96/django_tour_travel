@@ -252,7 +252,10 @@ def login(request):
 
     try:
         if request.POST['logout'] == 'true':
-            request.session.delete()
+            try:
+                request.session.delete()
+            except:
+                pass
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values = {

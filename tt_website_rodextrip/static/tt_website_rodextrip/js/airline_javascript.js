@@ -2210,26 +2210,34 @@ function sort(airline){
                                 }
                                 text += `
                             </div>`;
-
-                            if(airline[i].operated_by == false)
+                            if(airline[i].is_combo_price == true)
+                                text += `<div class="col-lg-2" style="padding-top:14px;">`;
+                            else
+                                text += `<div class="col-lg-2">`;
+                            if(airline[i].operated_by == false && airline[i].is_combo_price == false){
                                 try{
-                                    text += `<div class="col-lg-2">`;
-                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].operated_by_carrier_code].name+`</span><br/>`;
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].operating_airline_code_list[0]].name+`</span><br/>`;
                                 }catch(err){
-                                    text += `<div class="col-lg-2">`;
-                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline[i].operated_by_carrier_code+`</span><br/>`;
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline[i].operating_airline_code_list[0]+`</span><br/>`;
                                 }
+                            }
                             if(airline[i].is_combo_price == false)
                                 for(j in airline[i].carrier_code_list)
                                 text+=`
                                 <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`</span><br/>
                                 <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].carrier_code_list[j]].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].carrier_code_list[j]+`.png"><br/>`;
                             else{
+                                text += `<div class="row">`;
                                 for(j in airline[i].segments){
+                                    text+= `<div class="col-lg-12 col-sm-2 col-xs-2" style="height:17.5vh;">`;
+                                    if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code)
+                                    text += `<span style="float:left; font-weight: bold;">Operated By `+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`</span><br/>`;
                                     text+=`
-                                <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
-                                <img data-toggle="tooltip" style="width:50px; height:50px;margin-bottom:5px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                            <span style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
+                                            <img data-toggle="tooltip" style="width:50px; height:50px;margin-bottom:5px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
+                                    text+= `</div>`;
                                 }
+                                text+= `</div>`;
                             }
                             text+=`
                             </div>
@@ -2628,7 +2636,7 @@ function airline_pick_mc(type){
         text+=`
         <div>
         <div style="background-color:#f15a22; padding:10px;">
-            <h6 style="color:white;">Flight - `+(parseInt(i)+1)+`</h6>
+            <h6 style="color:white;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
         </div>
         <div style="background-color:white; border:1px solid #f15a22; margin-bottom:15px; padding:10px;" id="journey2`+i+`">
             <div class="row">
