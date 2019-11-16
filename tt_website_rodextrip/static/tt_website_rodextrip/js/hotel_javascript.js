@@ -639,7 +639,7 @@ function sort(response, check_filter){
                             detail = detail.replace(/'/g, "");
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
                             text+=`
-                            <div style="padding-bottom:10px;">
+                            <div style="padding-bottom:5px;">
                                 <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
                             if(response.hotel_ids[i].location.address)
                                 text+= response.hotel_ids[i].location.address + '<br/>';
@@ -659,8 +659,8 @@ function sort(response, check_filter){
                                 </div>
 
                                 <div style="padding-bottom:5px;">
-                                <span style="margin-right:8px;">Facilities</span>
-                                <span>`;
+                                <span>Facilities</span><br/>
+                                <div class="row">`;
                                     try{
                                         var ava_fac = '';
                                         for(j in top_facility){
@@ -672,17 +672,18 @@ function sort(response, check_filter){
                                                     break;
                                                 }
                                             }
-
+                                            text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
                                             if(facility_check == 1){
-                                                text+=`<img src="`+top_facility[j].image_url+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="`+top_facility[j].facility_name+`"/>`;
+                                                text+=`<span style="margin-right:5px; color:#f15a22; font-size:11px; word-break: break-all;"><i class="fas fa-circle" style="font-size:9px;"></i> `+top_facility[j].facility_name+`</span>`;
                                             }
                                             else{
-                                                text+=`<img src="`+top_facility[j].image_url2+`" style="width:20px; height:20px; margin-right:8px;" data-toggle="tooltip" data-placement="top" title="No `+top_facility[j].facility_name+`"/>`;
+                                                text+=`<span style="margin-right:5px; color:gray; font-size:11px; word-break: break-all;"><i class="fas fa-circle" style="font-size:9px;"></i> No `+top_facility[j].facility_name+`</span>`;
                                             }
+                                            text+=`</div>`;
                                         }
                                     }
                                 catch(err){}
-                                text+=`</span>
+                                text+=`</div>
                                 </div>
 
                                 <div style="padding-top:10px;">`;

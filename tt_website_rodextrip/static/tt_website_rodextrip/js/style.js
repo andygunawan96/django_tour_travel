@@ -1755,7 +1755,7 @@ function show_hide_change_search(){
         change_search_box.style.display = "block";
         document.getElementById("overlay-search-box").style.display = "block";
         $('html, body').animate({
-            scrollTop: $("#change_search_box").offset().top - 60
+            scrollTop: $("#change_search_box").offset().top - 65
         }, 500);
         document.getElementById("change_search_text").innerHTML = "Hide Search";
     }

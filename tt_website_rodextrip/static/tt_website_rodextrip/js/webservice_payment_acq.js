@@ -238,7 +238,7 @@ function set_price(val, type, product_type){
 
     }
     if(type == 'visa')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_hold_booking();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'train')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="train_issued('`+train_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline_review')
@@ -248,7 +248,7 @@ function set_price(val, type, product_type){
     else if(type == 'airline_reissue')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="reissue_airline_commit_booking(1);" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'hotel_review')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="hotel_issued_alert();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="hotel_issued_alert();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'activity')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="activity_pre_create_booking(1);" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'top_up')

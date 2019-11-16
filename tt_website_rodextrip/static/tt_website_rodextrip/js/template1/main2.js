@@ -664,6 +664,8 @@ $(document).ready(function() {
         $('body .main-menu .container').append($mobile_nav);
         $('body .main-menu .container').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu"></i></button>');
         $('body .main-menu .container').append('<div id="mobile-body-overly"></div>');
+        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="balance_mob"></span></a></li>');
+        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="credit_mob"></span></a></li>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
 
         $(document).on('click', '.menu-has-children i', function(e) {
@@ -678,7 +680,7 @@ $(document).ready(function() {
             $('#mobile-body-overly').toggle();
         });
 
-            $(document).on('click', function(e) {
+        $(document).on('click', function(e) {
             var container = $("#mobile-nav, #mobile-nav-toggle");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 if ($('body').hasClass('mobile-nav-active')) {
@@ -688,11 +690,26 @@ $(document).ready(function() {
                 }
             }
         });
+
+        $(window).resize(function() {
+            if ($(window).width() > 991) {
+                if ($('body').hasClass('mobile-nav-active')) {
+                    $('body').removeClass('mobile-nav-active');
+                    $('#mobile-nav-toggle i').toggleClass('lnr-cross lnr-menu');
+                    $('#mobile-body-overly').fadeOut();
+                }
+
+            }
+            else{
+
+            }
+        });
+
     } else if ($("#mobile-nav, #mobile-nav-toggle").length) {
         $("#mobile-nav, #mobile-nav-toggle").hide();
     }
 
-    //------- Smooth Scroll  js --------//  
+    //------- Smooth Scroll  js --------//
 
     $('.nav-menu a, #mobile-nav a, .scrollto').on('click', function() {
         if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {

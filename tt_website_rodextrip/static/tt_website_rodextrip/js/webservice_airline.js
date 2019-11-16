@@ -113,6 +113,7 @@ function airline_signin(data){
                title: 'Oops...',
                text: 'Something went wrong, please try again or check your internet connection',
            })
+           $('.loader-rodextrip').fadeOut();
            document.getElementById("airlines_error").innerHTML = '';
            text = '';
            text += `
@@ -134,6 +135,7 @@ function airline_signin(data){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline signin </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 
@@ -280,6 +282,7 @@ function get_carrier_code_list(type, val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline carrier code list </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 
@@ -307,6 +310,7 @@ function get_provider_list(){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline provider list </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
            document.getElementById("airlines_error").innerHTML = '';
@@ -384,14 +388,14 @@ function carrier_to_provider(){
 
 function send_search_to_api(val){
     if(airline_request.direction == 'RT' && counter_search == 0){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-long-arrow-alt-right"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span style="font-size:12px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-arrows-alt-h"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
         if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
             date_show += ` - `+airline_request['return'][counter_search];
         }
         document.getElementById('show_date').innerHTML = date_show;
     }else if(airline_request.direction != 'RT'){
-        document.getElementById('show_origin_destination').innerHTML = `<span style="font-weight:600; font-size:14px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-long-arrow-alt-right"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
+        document.getElementById('show_origin_destination').innerHTML = `<span style="font-size:12px;" title="`+airline_request.origin[counter_search]+` > `+airline_request.destination[counter_search]+`"> `+airline_request.origin[counter_search].split(' - ')[2] + ` (`+airline_request.origin[counter_search].split(' - ')[0]+`) <i class="fas fa-arrow-right"></i> `+airline_request.destination[counter_search].split(' - ')[2]+` (`+airline_request.destination[counter_search].split(' - ')[0]+`)</span>`;
         date_show = `<i class="fas fa-calendar-alt"></i> `+airline_request.departure[counter_search];
         if(airline_request.departure[counter_search] != airline_request['return'][counter_search]){
             date_show += ` - `+airline_request['return'][counter_search];
@@ -406,6 +410,7 @@ function send_search_to_api(val){
               title: 'Oops...',
               text: 'Something went wrong, please try again or check your internet connection',
             })
+            $('.loader-rodextrip').fadeOut();
             $("#barFlightSearch").hide();
             $("#waitFlightSearch").hide();
             document.getElementById("airlines_error").innerHTML = '';
@@ -442,6 +447,7 @@ function send_search_to_api(val){
                   title: 'Oops...',
                   text: 'Something went wrong, please try again or check your internet connection',
                 })
+                $('.loader-rodextrip').fadeOut();
                 $("#barFlightSearch").hide();
                 $("#waitFlightSearch").hide();
                 document.getElementById("airlines_error").innerHTML = '';
@@ -499,6 +505,7 @@ function get_airline_config(type, val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline config </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -631,6 +638,7 @@ function airline_search(provider,carrier_codes){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline search </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
            $("#barFlightSearch").hide();
            $("#waitFlightSearch").hide();
            document.getElementById("airlines_error").innerHTML = '';
@@ -1376,6 +1384,7 @@ function get_price_itinerary_request(){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline price itinerary request </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1483,6 +1492,7 @@ function airline_sell_journeys(){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline sell journeys </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
                 $('.loader-rodextrip').fadeOut();
@@ -1494,6 +1504,7 @@ function airline_sell_journeys(){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline sell journeys </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
            $('.loader-rodextrip').fadeOut();
@@ -1519,12 +1530,15 @@ function get_seat_availability(type){
                 get_ssr_availabilty(type);
             else if(type == 'request_new_seat' && msg.result.error_code == 0)
                 window.location.href='/airline/seat_map';
-            else
+            else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline seat availability </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
+                $('#show_loading_booking_airline').hide();
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -1532,6 +1546,7 @@ function get_seat_availability(type){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline seat availability </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1586,6 +1601,7 @@ function get_seat_map_response(){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline seat map response </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1752,6 +1768,7 @@ function update_seat_passenger(segment, row, column,seat_code,seat_name, currenc
               title: 'Oops!',
               text: 'Please choose passenger first!',
             })
+            $('.loader-rodextrip').fadeOut();
         }
     }else{
         Swal.fire({
@@ -1759,6 +1776,7 @@ function update_seat_passenger(segment, row, column,seat_code,seat_name, currenc
           title: 'Oops!',
           text: 'Please choose passenger first!',
         })
+        $('.loader-rodextrip').fadeOut();
     }
 }
 
@@ -1794,6 +1812,7 @@ function get_ssr_availabilty(type){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline ssr availability </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1826,6 +1845,7 @@ function airline_update_passenger(val){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline update passenger </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1834,6 +1854,7 @@ function airline_update_passenger(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline update passenger </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1861,6 +1882,7 @@ function airline_update_contact_booker(val){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error Error airline update booker </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1869,6 +1891,7 @@ function airline_update_contact_booker(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error Error airline update booker </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -1946,6 +1969,7 @@ function airline_set_ssr(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline seat ssr </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        }, timeout: 60000
     });
 }
@@ -2011,6 +2035,7 @@ function airline_assign_seats(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline assign seats </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -2047,6 +2072,7 @@ function airline_commit_booking(val){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2055,6 +2081,7 @@ function airline_commit_booking(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -2112,7 +2139,7 @@ function airline_get_booking(data){
            if(msg.result.error_code == 0){
             var text = '';
             $text = '';
-            if(msg.result.response.state == 'cancel2' || msg.result.response.state == 'cancel'){
+            if(msg.result.response.state == 'cancel'){
                console.log('here');
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -2121,15 +2148,41 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+            }else if(msg.result.response.state == 'cancel2'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+           }else if(msg.result.response.state == 'cancel2'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+           }else if(msg.result.response.state == 'fail_booked'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
             }else if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'){
                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                //document.getElementById('issued-breadcrumb').classList.remove("active");
                //document.getElementById('issued-breadcrumb').classList.add("current");
                document.getElementById('issued-breadcrumb').classList.add("br-active");
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-            }
-            else{
+            }else{
                //document.getElementById('issued-breadcrumb').classList.remove("current");
                //document.getElementById('issued-breadcrumb').classList.add("active");
                document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -2145,8 +2198,14 @@ function airline_get_booking(data){
             }
             if(msg.result.response.state == 'issued'){
                 document.getElementById('reissued').hidden = false;
-                document.getElementById('reissued').innerHTML = `
-                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="reissued_btn();" value="Reissued">`;
+                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
+            }
+            if(msg.result.response.state == 'booked'){
+                $("#issued_booking_airline").show();
+            }
+            else{
+                $("#issued_booking_airline").remove();
+                $('.loader-rodextrip').fadeOut();
             }
 
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -2733,6 +2792,7 @@ function airline_get_booking(data){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline booking </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2743,6 +2803,7 @@ function airline_get_booking(data){
             title: 'Oops!',
             html: '<span style="color: red;">Error airline booking </span>' + errorThrown,
           })
+          $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -2758,6 +2819,7 @@ function airline_issued(data){
     }).then((result) => {
       if (result.value) {
         show_loading();
+        $('.loader-rodextrip').fadeIn();
         getToken();
         $.ajax({
            type: "POST",
@@ -2775,6 +2837,7 @@ function airline_issued(data){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
+                   $('.loader-rodextrip').fadeOut();
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('airline_booking').innerHTML = '';
                    document.getElementById('airline_detail').innerHTML = '';
@@ -2789,6 +2852,7 @@ function airline_issued(data){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
                     })
+                    $('.loader-rodextrip').fadeOut();
                     //modal pop up
 
 //                    booking_price_detail(msg);
@@ -2936,6 +3000,7 @@ function airline_issued(data){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
                     })
+                    $('.loader-rodextrip').fadeOut();
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
@@ -2947,6 +3012,7 @@ function airline_issued(data){
                   title: 'Oops!',
                   html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
                 })
+                $('.loader-rodextrip').fadeOut();
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
            },timeout: 60000
@@ -3001,6 +3067,7 @@ function update_service_charge(data){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -3009,6 +3076,7 @@ function update_service_charge(data){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 
@@ -3077,6 +3145,7 @@ function sell_ssrs_after_sales(){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline ssr after sales </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
            }
@@ -3087,6 +3156,7 @@ function sell_ssrs_after_sales(){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline ssr after sales </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
 
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
@@ -3117,6 +3187,7 @@ function assign_seats_after_sales(){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline seat after sales </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
            }
@@ -3127,6 +3198,7 @@ function assign_seats_after_sales(){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline seat after sales </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
 
            $('.btn-next').removeClass('running');
            $('.btn-next').prop('disabled', false);
@@ -3180,31 +3252,33 @@ function reissued_btn(){
                     <span>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].arrival_date.split('  ')[0]+`</span><br/>
                     <span style="font-weight:500;">`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_name+` - `+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination_city+` (`+airline_get_detail.result.response.provider_bookings[i].journeys[j].destination+`)</span>
                 </div>
-            <div class="col-sm-12">
-                <div class="form-group">
+            <div class="col-lg-12 banner-right">
+                <div class="form-wrap" style="padding:10px 0px 0px 0px;">
                     <input type="text" style="background:white;margin-top:5px;" class="form-control" name="airline_departure" id="airline_departure`+flight+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                 </div>
             </div>`;
             flight++;
         }
         text+=`
-            <div class="col-sm-12">
-                <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default">
-                    <option value="Y" selected="">Economy</option>
-                    <option value="W">Premium Economy</option>
-                    <option value="C">Business</option>
-                    <option value="F">First Class</option>
-                </select>
+            <div class="col-lg-12">
+                <div class="form-select">
+                    <select id="cabin_class_flight`+cabin_class+`" name="cabin_class_flight`+cabin_class+`" class="nice-select-default reissued-class-airline">
+                        <option value="Y" selected="">Economy</option>
+                        <option value="W">Premium Economy</option>
+                        <option value="C">Business</option>
+                        <option value="F">First Class</option>
+                    </select>
+                </div>
             </div>`;
         cabin_class++;
     }
     text+=`
-        <div class="col-sm-12" style="margin-top:10px;">
+        <div class="col-lg-12" style="margin-top:10px;">
             <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_reissued();" value="Request Reissued">
         </div>
     </div>`;
     document.getElementById('reissued').innerHTML = text;
-    $('cabin_class_flight').niceSelect('update');
+    $('.reissued-class-airline').niceSelect();
     airline_date = airline_get_detail.result.response.provider_bookings[0].departure_date.split(' ')[0];
     $('input[name="airline_departure"]').daterangepicker({
           singleDatePicker: true,
@@ -3282,6 +3356,7 @@ function airline_reissued(){
               title: 'Oops!',
               html: '<span style="color: red;">Error reissued </span>' + errorThrown,
            })
+           $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }
@@ -3966,6 +4041,7 @@ function sell_journey_reissue_construct(){
                                       title: 'Oops...',
                                       text: 'Something went wrong, please try again or check your internet connection',
                                    })
+                                   $('.loader-rodextrip').fadeOut();
                                    $('.btn-next').removeClass('running');
                                    $('.btn-next').prop('disabled', false);
                                    $('.loader-rodextrip').fadeOut();
@@ -3981,6 +4057,7 @@ function sell_journey_reissue_construct(){
                           title: 'Oops...',
                           text: 'Something went wrong, please try again or check your internet connection',
                        })
+                       $('.loader-rodextrip').fadeOut();
                    },timeout: 60000
                 });
             }else{
@@ -4043,6 +4120,7 @@ function reissue_airline_commit_booking(val){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
                 })
+                $('.loader-rodextrip').fadeOut();
                 window.location.href = "/";
            }
        },
@@ -4052,6 +4130,7 @@ function reissue_airline_commit_booking(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
             })
+            $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
 }

@@ -22,21 +22,24 @@
         cabin_class_types.push(['{{cabin_class_type.0}}', '{{cabin_class_type.1}}']);
     {% endfor %}
 </script>
+<header id="header">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12" style="margin-top:10px;">
-                <div class="breadcrumb-ticket" style="text-align:center;">
-                    <a href="#" style="pointer-events: none;" class="active"> Home <i class="fas fa-home"></i></a>
-                    <a href="#" style="pointer-events: none;" class="active"> Search <i class="fas fa-search"></i></a>
-                    <a href="#" style="pointer-events: none;" class="active"> Booker & Passenger <i class="fas fa-users"></i></a>
-                    <a href="#" style="pointer-events: none;" class="active"> Review <i class="fas fa-eye"></i></a>
-                    <a href="#" style="pointer-events: none;" class="active"> Booking <i class="fas fa-book-open"></i></a>
-                    <a href="#" style="pointer-events: none;" id="issued-breadcrumb"> Issued <i class="fas fa-check-circle"></i></a>
                 </div>
             </div>
         </div>
+    </div>
+</header>
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+
         <div id="show_title_train" hidden>
             <h3>Please Review Your Booking</h3>
             <h4>Prices may changes at any time</h4>
@@ -225,7 +228,9 @@
 
 <script>
     train_signin('{{order_number}}');
-
+    $( document ).ready(function() {
+        breadcrumb_create("train", 5, 1);
+    });
     function goto_seat_map(){
         document.getElementById('seat_map_request').innerHTML += `{% csrf_token %}`;
         document.getElementById('seat_map_request').submit();

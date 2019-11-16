@@ -212,165 +212,167 @@ function add_multi_city(type){
             quantity_infant_flight = parseInt(document.getElementById('infant_flight').value);
             var node_paxs = document.createElement("div");
             text_paxs = `
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-4" style="text-align:left;">
-                    <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <button id="show_total_pax_flight`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
-                        <ul class="dropdown-menu" role="menu">
-                            <div class="row" style="padding:10px;">
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                    <div style="float:left;">
-                                        <label>
-                                            <span style="color:black; font-size:13px;">Adult</span><br/>
-                                            <span style="color:gray; font-size:11px;">(Age 11+)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                        if(quantity_adult_flight == 1)
-                                        text_paxs +=`
-                                        <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
-                                        else
-                                        text_paxs+=`<button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
-                                        text_paxs +=`
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="`+quantity_adult_flight+`" min="1" readonly>`;
-                                        if(quantity_adult_flight + quantity_child_flight == 9)
-                                        text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);" disabled>`;
-                                        else
-                                        text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">`;
-                                        text_paxs +=`
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                    <div style="float:left;">
-                                        <label>
-                                            <span style="color:black; font-size:13px;">Child<br/></span>
-                                            <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                        if(quantity_child_flight == 0)
-                                        text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
-                                        else
-                                        text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
-                                        text_paxs +=`
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="`+quantity_child_flight+`" min="0" readonly>`;
-                                        if(quantity_adult_flight + quantity_child_flight == 9)
-                                        text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
-                                        else
-                                        text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
-                                        text_paxs+=`
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
-                                    <div style="float:left;">
-                                        <label>
-                                            <span style="color:black; font-size:13px;">Infant<br/></span>
-                                            <span style="color:gray; font-size:11px;">(Age < 2)</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
-                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
-                                        if(quantity_infant_flight == 0)
-                                        text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
-                                        else
-                                        text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
-                                        text_paxs+=`
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="`+quantity_infant_flight+`" readonly>`;
-                                        if(quantity_infant_flight == quantity_adult_flight)
-                                        text_paxs+=`
-                                        <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
-                                        else
-                                        text_paxs+=`
-                                        <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
-                                        text_paxs+=`
-                                            <i class="fas fa-plus"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                    <div class="input-container-search-ticket btn-group">
-                        <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
-                        <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
-
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <span class="span-search-ticket">Class</span>`;
-                    if(template == 1){
-                        text_paxs += `
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4" style="text-align:left; padding:0px;">
+                        <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                         <div class="input-container-search-ticket btn-group">
-                            <div class="form-select" id="default-select`+counter_airline_search+`">
-                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
-                    }
-                    else if(template == 2){
-                        text_paxs += `
-                        <div>
-                            <div class="form-select" id="default-select`+counter_airline_search+`">
-                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
-                    }
-                    else if(template == 3){
-                        text_paxs += `
-                       <div class="form-group">
-                            <div class="default-select" id="default-select`+counter_airline_search+`">
-                                <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
-                    }
-                    else if(template == 4){
-                        text_paxs += `
-                        <div class="select-wrap">
-                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                            <select class="form-control rounded" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
-                    }
-                    else if(template == 5){
-                        text_paxs += `
-                        <div>
-                            <select class="app-select form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
-                    }
-                        for(i in cabin_class){
-                            try{
-                                if(type == 'search'){
-                                    if(airline_request.cabin_class[0] == cabin_class[i].value)
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                    else
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }else if(i == 0){
-                                    if(type == 'home')
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                    else
-                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                                }else
-                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                            }catch(err){
-                                if(i == 0)
-                                    text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
-                                else
-                                    text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
-                            }
+                            <button id="show_total_pax_flight`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;"></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <div class="row" style="padding:10px;">
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                        <div style="float:left;">
+                                            <label>
+                                                <span style="color:black; font-size:13px;">Adult</span><br/>
+                                                <span style="color:gray; font-size:11px;">(Age 11+)</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                            if(quantity_adult_flight == 1)
+                                            text_paxs +=`
+                                            <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" disabled>`;
+                                            else
+                                            text_paxs+=`<button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight`+counter_airline_search+`" onclick="airline_set_passenger_minus('adult',`+counter_airline_search+`);" data-type="minus" data-field="" >`;
+                                            text_paxs +=`
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight`+counter_airline_search+`" name="adult_flight`+counter_airline_search+`" value="`+quantity_adult_flight+`" min="1" readonly>`;
+                                            if(quantity_adult_flight + quantity_child_flight == 9)
+                                            text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);" disabled>`;
+                                            else
+                                            text_paxs +=`<button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('adult',`+counter_airline_search+`);">`;
+                                            text_paxs +=`
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                        <div style="float:left;">
+                                            <label>
+                                                <span style="color:black; font-size:13px;">Child<br/></span>
+                                                <span style="color:gray; font-size:11px;">(Age 2 - 11)</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                            if(quantity_child_flight == 0)
+                                            text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
+                                            else
+                                            text_paxs +=`<button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('child',`+counter_airline_search+`);">`;
+                                            text_paxs +=`
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight`+counter_airline_search+`" name="child_flight`+counter_airline_search+`" value="`+quantity_child_flight+`" min="0" readonly>`;
+                                            if(quantity_adult_flight + quantity_child_flight == 9)
+                                            text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
+                                            else
+                                            text_paxs+=`<button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('child',`+counter_airline_search+`);">`;
+                                            text_paxs+=`
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                        <div style="float:left;">
+                                            <label>
+                                                <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                <span style="color:gray; font-size:11px;">(Age < 2)</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">`;
+                                            if(quantity_infant_flight == 0)
+                                            text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" disabled onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
+                                            else
+                                            text_paxs+=`<button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight`+counter_airline_search+`" data-type="minus" data-field="" onclick="airline_set_passenger_minus('infant',`+counter_airline_search+`);">`;
+                                            text_paxs+=`
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight`+counter_airline_search+`" name="infant_flight`+counter_airline_search+`" value="`+quantity_infant_flight+`" readonly>`;
+                                            if(quantity_infant_flight == quantity_adult_flight)
+                                            text_paxs+=`
+                                            <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" disabled onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
+                                            else
+                                            text_paxs+=`
+                                            <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight`+counter_airline_search+`" data-type="plus" data-field="" onclick="airline_set_passenger_plus('infant',`+counter_airline_search+`);">`;
+                                            text_paxs+=`
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="padding:0px;">
+                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
+                        <div class="input-container-search-ticket btn-group">
+                            <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                            <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4" style="padding:0px;">
+                        <span class="span-search-ticket">Class</span>`;
+                        if(template == 1){
+                            text_paxs += `
+                            <div class="input-container-search-ticket btn-group">
+                                <div class="form-select" id="default-select`+counter_airline_search+`">
+                                    <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
                         }
-                     text_paxs+=`</select>
+                        else if(template == 2){
+                            text_paxs += `
+                            <div>
+                                <div class="form-select" id="default-select`+counter_airline_search+`">
+                                    <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
+                        }
+                        else if(template == 3){
+                            text_paxs += `
+                           <div class="form-group">
+                                <div class="default-select" id="default-select`+counter_airline_search+`">
+                                    <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
+                        }
+                        else if(template == 4){
+                            text_paxs += `
+                            <div class="select-wrap">
+                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                                <select class="form-control rounded" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                        }
+                        else if(template == 5){
+                            text_paxs += `
+                            <div>
+                                <select class="app-select form-control" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                        }
+                            for(i in cabin_class){
+                                try{
+                                    if(type == 'search'){
+                                        if(airline_request.cabin_class[0] == cabin_class[i].value)
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else if(i == 0){
+                                        if(type == 'home')
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                        else
+                                            text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                    }else
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }catch(err){
+                                    if(i == 0)
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" selected>`+cabin_class[i].name+`</option>`;
+                                    else
+                                        text_paxs+=`<option value="`+cabin_class[i].value+`" >`+cabin_class[i].name+`</option>`;
+                                }
+                            }
+                         text_paxs+=`</select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -406,7 +408,7 @@ function add_multi_city(type){
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12" style="text-align:left; padding:0px; margin-top:10px; margin-bottom:10px;">
-                        <h5 style="color:#f15a22;">Flight-`+counter_airline_search+`</h5>
+                        <h5 style="color:white;">Flight-`+counter_airline_search+`</h5>
                     </div>
                         <div class="col-lg-8">
                             <div class="row">
