@@ -362,7 +362,7 @@ function activity_table_detail(){
                </div>
            </div>
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-lg-12">
+               <div class="col-lg-12" style="padding-bottom:10px;">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
            </div>
@@ -506,7 +506,7 @@ function activity_table_detail2(pagetype){
    text+= `</div>
            </div>
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
+               <div class="col-xs-12" style="padding-bottom:10px;">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
            </div>

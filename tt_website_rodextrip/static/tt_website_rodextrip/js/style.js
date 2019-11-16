@@ -2051,6 +2051,10 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "location.href='{% url 'tt_website_rodextrip:visa_search'%}';", "location.href='{% url 'tt_website_rodextrip:tour_detail'%}';", "location.href='{% url 'tt_website_rodextrip:visa_passenger'%}';", ""];
     }
+    if(breadcrumbs_type == "train"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "", "", "", ""];
+    }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
     text = '';
@@ -2229,4 +2233,22 @@ function showImageItinerary(index, idx){
         show_image.innerHTML = "Show image";
         image_itinerary.style.display = "none";
     }
+}
+
+function focus_box(id_string){
+    var focus = document.getElementById(id_string);
+    focus.style.border = "1px solid #f15a22";
+    focus.style.zIndex = "5";
+    document.getElementById("overlay-div-box").style.display = "block";
+    document.getElementById("payment_acq").hidden = false;
+    $('html, body').animate({
+        scrollTop: $("#payment_acq").offset().top - 65
+    }, 500);
+}
+
+function close_div(id_string){
+    var focus = document.getElementById(id_string);
+    focus.style.border ="1px solid #cdcdcd";
+    document.getElementById("overlay-div-box").style.display = "none";
+    document.getElementById("payment_acq").hidden = true;
 }
