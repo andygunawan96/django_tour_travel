@@ -719,6 +719,8 @@ function commit_booking_tour()
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Booking process failed, please try again! </span>',
                 })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
                 $('.loader-rodextrip').fadeOut();
            }
        },
@@ -728,6 +730,8 @@ function commit_booking_tour()
               title: 'Oops!',
               html: '<span style="color: red;">Error tour commit booking </span>' + errorThrown,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
@@ -856,6 +860,8 @@ function tour_issued_booking(order_number)
               title: 'Oops!',
               html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000
     });
@@ -1157,11 +1163,7 @@ function tour_get_booking(order_number)
                     </div>
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
-               if(book_obj.state == 'issued'){
-                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="" style="width:100%;">
-                                Print Ticket
-                             </button>`;
-               }
+
                text += `</div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
                             <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.tour/`+book_obj.order_number+`/1')" style="width:100%;">
