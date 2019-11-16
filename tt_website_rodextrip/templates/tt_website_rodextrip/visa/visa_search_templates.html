@@ -14,6 +14,9 @@
     visa_request = `{{visa_request}}`;
     signature = `{{signature}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
+
+    time_limit = {{time_limit}};
+    session_time_limit();
 </script>
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
@@ -95,6 +98,14 @@
 
             </div>
         </div>
+        <div class="row" style="padding-bottom:15px;">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+            </div>
+        </div>
         <form action="{% url 'tt_website_rodextrip:visa_passenger'%}" method="POST" id="visa_passenger">
             {% csrf_token %}
             <div class="row">
@@ -136,6 +147,7 @@
                         </div>
                     </div>
                 </div>
+                <input type="hidden" id="time_limit_input" name="time_limit_input" />
             </div>
         </form>
     </div>

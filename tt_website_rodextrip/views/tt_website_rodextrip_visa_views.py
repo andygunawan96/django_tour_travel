@@ -43,6 +43,7 @@ def search(request):
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'countries': airline_country,
         'signature': request.session['signature'],
+        'time_limit': 600,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
         'static_path_url_server': get_url_static_path(),
@@ -57,6 +58,8 @@ def passenger(request):
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
     template, logo = get_logo_template()
+
+    request.session['time_limit'] = int(request.POST['time_limit_input'])
 
     list_visa = request.session['visa_search']
     count = 0
@@ -138,6 +141,7 @@ def passenger(request):
         'visa': request.session['visa_search']['result']['response'],
         'passengers': pax,
         'signature': request.session['visa_signature'],
+        'time_limit': request.session['time_limit'],
         'countries': airline_country,
         'adults': adult,
         'childs': child,
@@ -163,6 +167,8 @@ def review(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
         template, logo = get_logo_template()
+
+        request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         # get_balance(request)
         adult = []
@@ -330,6 +336,7 @@ def review(request):
             'passengers': pax,
             'static_path_url_server': get_url_static_path(),
             'signature': request.session['visa_signature'],
+            'time_limit': request.session['time_limit'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'logo': logo,

@@ -258,22 +258,22 @@ function check_hold_booking(){
                 }
 
                 if(visa_type == '')
-                    error_log += 'Please fill visa for '+ i + ' passenger '+ count_pax + '\n';
+                    error_log += 'Please fill visa for '+ i + ' passenger '+ count_pax + '<br/>\n';
                 if(entry_type == '')
-                    error_log += 'Please fill entry for '+ i + ' passenger '+ count_pax + '\n';
+                    error_log += 'Please fill entry for '+ i + ' passenger '+ count_pax + '<br/>\n';
                 if(process_type == '')
-                    error_log += 'Please fill process for '+ i + ' passenger '+ count_pax + '\n';
+                    error_log += 'Please fill process for '+ i + ' passenger '+ count_pax + '<br/>\n';
             }
         }
     }
     if(error_log == ''){
-        visa_hold_booking(1);
+        visa_pre_create_booking(1);
     }
     else{
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: '<span style="color: red;">Error check hold booking </span>' + error_log,
+          html: '<span style="color: red;">Error check hold booking </span><br/>' + error_log,
         })
         $('.next-loading').removeClass("running");
         $('.next-loading').prop('disabled', false);
@@ -281,6 +281,24 @@ function check_hold_booking(){
         $('.option').removeClass("disabled");
         $(".payment_acq *").prop('disabled',false);
     }
+}
+
+function visa_pre_create_booking(val){
+    Swal.fire({
+      title: 'Are you sure want to Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        $('.loader-rodextrip').fadeIn();
+        $('.next-loading').addClass("running");
+        $('.next-loading').prop('disabled', true);
+        visa_hold_booking(val);
+      }
+    })
 }
 
 function visa_hold_booking(val){
@@ -453,10 +471,117 @@ function visa_get_data(data){
             console.log(msg);
             if(msg.result.error_code == 0){
                 visa = msg.result.response;
-                text= '';
+                var cur_state = msg.result.response.journey.state;
+                var cur_state_visa = msg.result.response.journey.state_visa;
+                if(cur_state == 'booked'){
+                    conv_status = 'Booked';
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                }
+                else if(cur_state == 'issued'){
+                    conv_status = 'Issued';
+                    document.getElementById('issued-breadcrumb').classList.add("br-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                }
+                else if(cur_state == 'cancel'){
+                    conv_status = 'Cancelled';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                }
+                else if(cur_state == 'cancel2'){
+                    conv_status = 'Expired';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                }
+                else if(cur_state == 'fail_issued'){
+                    conv_status = 'Fail Issued';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                }
+                else{
+                    conv_status = 'Pending';
+                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                    document.getElementById('issued-breadcrumb').classList.add("br-pending");
+                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
+                    document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
+                }
+
+                conv_status_visa = {
+                    'confirm': 'Confirm to HO',
+                    'validate': 'Validated bo HO',
+                    'to_vendor': 'Sent to Vendor',
+                    'vendor_process': 'Proceed by Vendor',
+                    'cancel': 'Cancelled',
+                    'payment': 'Payment',
+                    'in_process': 'In Process',
+                    'partial_proceed': 'Partial Proceed',
+                    'proceed': 'Proceed',
+                    'delivered': 'Delivered to HO',
+                    'ready': 'Ready',
+                    'done': 'Done',
+                    'expired': 'Expired'
+                }
+
+                text= `<div class="row">
+                        <div class="col-lg-12">
+                            <div id="visa_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
+                                <h6>Order Number : `+visa.journey.name+`</h6><br/>
+                                 <table style="width:100%;">
+                                    <tr>
+                                        <th>PNR</th>
+                                        <th>Visa Status</th>
+                                        <th>Order Status</th>
+                                    </tr>
+                                    <tr>
+                                        <td>`+visa.journey.name+`</td>
+                                        <td>`+conv_status_visa[cur_state_visa]+`</td>
+                                        <td>`+conv_status+`</td>
+                                    </tr>
+                                 </table>
+                            </div>
+                        </div>
+                    </div>`;
+
+                text += `
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                                <h4> Visa Information </h4>
+                                <hr/>
+                                <h4>`+visa.journey.country+`</h4>
+                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                `+visa.journey.departure_date+`
+                                </span>
+                                <br/>
+                                <br/>
+                                <span>Payment Status: `+visa.journey.payment_status+`</span>
+                                <br/>
+                            </div>
+                        </div>
+                    </div>`;
 
                 /* contact*/
-                text+=`<div class="row">
+                text+=`<div class="row" style="margin-top: 15px;">
                     <div class="col-lg-12">
                         <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                             <h4>List of Contact(s)</h4>
@@ -478,11 +603,12 @@ function visa_get_data(data){
                         </div>
                     </div>
                 </div>`;
+
                 /*pax*/
                 text+=`
-                <div class="row" style="padding-top:20px;">
+                <div class="row" style="margin-top: 15px;">
                     <div class="col-lg-12">
-                        <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
+                        <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                             <h4>List of Passenger(s)</h4>
                             <hr/>`;
                             type_amount_repricing = ['Repricing'];
@@ -557,7 +683,7 @@ function visa_get_data(data){
                                             <div class="col-lg-6" style="text-align:right;">
                                                 <span style="font-weight:500; font-size:14px;">`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
                                                 <div id="adult_price{{counter}}">
-                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.TOTAL.currency+` `+msg.result.response.passengers[i].visa.price.TOTAL.amount+`</span>
+                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.TOTAL.currency+` `+getrupiah(msg.result.response.passengers[i].visa.price.TOTAL.amount)+`</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -592,7 +718,7 @@ function visa_get_data(data){
                                         text+=`
                                         </div>
                                     </div>
-                                </div>`;
+                                </div><br/><hr/>`;
                             }
                             text+=`
                         </div>
