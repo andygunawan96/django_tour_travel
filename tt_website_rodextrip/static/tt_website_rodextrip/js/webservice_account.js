@@ -23,10 +23,14 @@ function get_balance(val){
             credit_limit = parseInt(msg.result.response.credit_limit);
             text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
             document.getElementById("balance").innerHTML = text;
-            document.getElementById("balance_mob").innerHTML = text;
+            try{
+                document.getElementById("balance_mob").innerHTML = text;
+            }catch(err){}
             text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
             document.getElementById("credit_limit").innerHTML = text;
-            document.getElementById("credit_mob").innerHTML = text;
+            try{
+                document.getElementById("credit_mob").innerHTML = text;
+            }catch(err){}
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();

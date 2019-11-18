@@ -216,13 +216,19 @@ function get_activity_config(type, val){
                     category_txt += `<option value="`+msg.activity_categories[i].id+` - `+msg.activity_categories[i].name+`">`+msg.activity_categories[i].name+`</option>`;
                 }
             }
+            if(country_txt != ''){
+                document.getElementById('activity_countries').innerHTML = country_txt;
+                $('#activity_countries').niceSelect('update');
+            }
+            if(type_txt != ''){
+                type_selection.innerHTML = type_txt;
+                $('#activity_type').niceSelect('update');
+            }
+            if(category_txt != ''){
+                category_selection.innerHTML = category_txt;
+                $('#activity_category').niceSelect('update');
+            }
 
-            country_selection.innerHTML = country_txt;
-            type_selection.innerHTML = type_txt;
-            category_selection.innerHTML = category_txt;
-            $('#activity_countries').niceSelect('update');
-            $('#activity_type').niceSelect('update');
-            $('#activity_category').niceSelect('update');
             country_selection.setAttribute("onchange", "auto_complete_activity('activity_countries');");
             category_selection.setAttribute("onchange", "auto_complete_activity('activity_category');");
             if(type == 'search')

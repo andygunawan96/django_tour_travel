@@ -2454,7 +2454,7 @@ function get_passenger_cache(){
                 document.getElementById('passenger_chosen').innerHTML = response;
             }else{
                 response = '';
-                response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! Please select passenger first!</h6></div></center>`;
+                response+=`<center><div class="alert alert-danger" role="alert" style="margin-top:10px;"><h6><i class="fas fa-search-minus"></i> Oops! Please select database customer first!</h6></div></center>`;
                 document.getElementById('passenger_chosen').innerHTML = response;
             }
         }
@@ -2639,7 +2639,7 @@ function edit_passenger_cache(val){
 }
 
 function delete_phone_passenger_cache(val){
-    document.getElementById(`phone_cache`+val+`_id`).remove();
+    document.getElementById(`phone`+val+`_id`).remove();
 }
 
 
@@ -2704,7 +2704,7 @@ function add_phone_passenger_cache(){
                 <label>Phone Number</label><br/>
                 <div class="form-select">
                     <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="passenger_phone_number`+passenger_data_phone+`" id="passenger_phone_number`+passenger_data_phone+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" value="">
+                        <input type="text" class="form-control" name="passenger_phone_number`+passenger_data_phone+`" id="passenger_phone_number`+passenger_data_phone+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" value="">
                     </div>
                 </div>
             </div>
