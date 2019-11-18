@@ -568,7 +568,7 @@ function airline_search(provider,carrier_codes){
                     <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
                     <br/>
                 </div>
-                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
+                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight. Please try another flight. </h6></div></center>`;
                 var node = document.createElement("div");
                 node.innerHTML = text;
                 document.getElementById("airlines_ticket").appendChild(node);
@@ -1216,7 +1216,7 @@ function get_price_itinerary_request(){
                                                             <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.child))+`</span>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Service Charge</span>
+                                                            <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Service Charge</span>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                                                             <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>

@@ -312,8 +312,13 @@ function add_multi_city(type){
                     </div>
                     <div class="col-lg-4 col-md-4" style="padding:0px;">
                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                        <div class="input-container-search-ticket btn-group">
-                            <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                        <div class="input-container-search-ticket btn-group">`;
+                            try{
+                                text_paxs += `<button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;"><i class="fas fa-plane"></i> ` + airline_check + `</button>`;
+                            }catch(err){
+                                text_paxs += `<button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;"><i class="fas fa-plane"></i> Choose Airline</button>`;
+                            }
+                            text_paxs += `
                             <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
 
                             </ul>
@@ -1782,7 +1787,7 @@ function sort(airline){
             <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
             <br/>
         </div>
-        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight `+ parseInt(counter_search).toString()+` Please try another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
@@ -2556,7 +2561,7 @@ function sort(airline){
             <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
             <br/>
         </div>
-        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight `+ parseInt(counter_search).toString()+`. Please try another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
@@ -2614,11 +2619,10 @@ function delete_mc_journey(val){
     temp = parseInt(airline_request.counter) - 1;
     airline_request.counter = temp.toString();
     airline_pick_mc('all');
-    if(parseInt(airline_request.counter) == journey.length)
-
     if(parseInt(airline_request.counter) == journey.length){
         document.getElementById('airline_detail').innerHTML = '';
-        filtering('filter');
+        document.getElementById('airlines_ticket').innerHTML = '';
+        //filtering('filter');
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
