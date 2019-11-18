@@ -757,29 +757,24 @@ function get_payment_rules(id)
            var mm = String(today.getMonth() + 1).padStart(2, '0');
            var yyyy = today.getFullYear();
            date_today = yyyy + '-' + mm + '-' + dd;
-           if(msg.result.response.dp_type == 'amount')
-           {
-               dp_amt = parseInt(msg.result.response.dp_val);
-           }
-           else
-           {
-               dp_amt = (parseInt(msg.result.response.dp_val) / 100) * grand_total;
-           }
-           pay_text = `
-                <tr>
-                    <td>Down Payment</td>
-                    <td id="payment_dp" name="payment_dp">IDR ` + getrupiah(dp_amt) + `</td>
-                    <td id="payment_date_dp" name="payment_date_dp">` +date_today+ `</td>
-                </tr>
-           `;
+           pay_text = ``;
            payment = msg.result.response.payment_rules;
            var idx = 1;
            for (i in payment)
            {
+               var payment_price = 0;
+               if(payment[i].payment_type == 'percentage')
+               {
+                   payment_price = (parseInt(payment[i].payment_percentage) / 100) * grand_total;
+               }
+               else
+               {
+                   payment_price = parseInt(payment[i].payment_amount);
+               }
                pay_text += `
                 <tr>
                     <td>` +payment[i].name+ `</td>
-                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil((parseInt(payment[i].payment_percentage) / 100) * grand_total))+ `</td>
+                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil(payment_price))+ `</td>
                     <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
                 </tr>
                `;

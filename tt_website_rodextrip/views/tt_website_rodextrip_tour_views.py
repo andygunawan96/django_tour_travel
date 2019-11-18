@@ -546,7 +546,7 @@ def booking(request):
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
-            'signature': request.session['tour_signature'],
+            'signature': request.session['signature'],
             'logo': logo,
             'static_path_url_server': get_url_static_path(),
             'template': template
