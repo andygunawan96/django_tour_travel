@@ -28,6 +28,14 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
     signature = `{{signature}}`;
+    airline_check = 0;
+    {% for key,value in airline_carriers.0.items %}
+        {% if value.code == 'all'%}
+            airline_check = 'Airline';
+        {% elif value.bool == True%}
+            airline_check = parseInt(airline_check).toString() + ' Airline chosen';
+        {% endif%}
+    {% endfor %}
     cabin_class = [];
     {% for airline_cabin_class in airline_cabin_class_list %}
         cabin_class.push({
@@ -1394,6 +1402,7 @@
 
 <script>
     //test
+    document.getElementById('show_provider_airline').innerHTML = `<i class="fas fa-plane"></i> ` + airline_check;
     var origin = new autoComplete({
         selector: '#origin_id_flight',
         minChars: 0,

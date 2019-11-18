@@ -676,6 +676,7 @@ function datasearch2(airline){
    for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            airline.schedules[i].journeys[j].sequence = counter;
+           airline.schedules[i].journeys[j].airline_pick_sequence = parseInt(parseInt(i)+1);
            price = 0;
            currency = '';
            airline.schedules[i].journeys[j].operated_by = true;
@@ -684,13 +685,13 @@ function datasearch2(airline){
                for(l in airline.schedules[i].journeys[j].segments[k].fares){
                    if(airline.schedules[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child) || airline.schedules[i].journeys[j].segments[k].fares[l].available_count == -1){//atau buat sia
                        airline.schedules[i].journeys[j].segments[k].fare_pick = parseInt(k);
+                       can_book = true;
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
                            if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type == 'ADT'){
                                for(n in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                    if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
                                        price += airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
                                        currency = airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
-                                       can_book = true;
                                    }
                                }
                            }
@@ -834,14 +835,13 @@ function get_price_itinerary(val){
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
                 // do whatever you want with the checked radio
+                airline_data_filter[val].segments[i].fare_pick = parseInt(radios[j].value);
                 fare = parseInt(radios[j].value);
                 // only one radio can be logically checked, don't check the rest
                 break;
             }
         }
         //give fare pick
-        airline_data_filter[val].segments[i].fare_pick = fare;
-        airline_data_filter[val].airline_pick_sequence = counter_search;
         if(airline_data_filter[val].segments[i].provider.match(/sabre/))
             provider = 'sabre'
         else
@@ -879,7 +879,7 @@ function get_price_itinerary(val){
 //        document.getElementById('airline_searchForm').
     }
     value_pick.push(val);
-    airline_pick_list.push(airline_data_filter[val]);
+    airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
     price = 0;
     if(airline_request.direction == 'OW'){
         journey.push({'segments':segment, 'provider': provider});
@@ -1409,26 +1409,30 @@ function get_fare_rules(){
             if(msg.result.error_code == 0){
                 for(i in msg.result.response.fare_rule_provider){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
-                        for(j in msg.result.response.fare_rule_provider[i].journeys){
-                            text_fare+=`
-                            <span id="span-tac-up`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                            <span id="span-tac-down`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
-                            <div id="div-tac`+count_fare+`" style="display:block;">`;
-                            for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
-                                if(msg.result.response.fare_rule_provider[i].journeys[j].rules[k] != ""){
-                                    text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</span><br/>`;
+                        if(msg.result.response.fare_rule_provider[i].status != 'FAILED'){
+                            for(j in msg.result.response.fare_rule_provider[i].journeys){
+                                text_fare+=`
+                                <span id="span-tac-up`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                                <span id="span-tac-down`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                                <div id="div-tac`+count_fare+`" style="display:block;">`;
+                                for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
+                                    if(msg.result.response.fare_rule_provider[i].journeys[j].rules[k] != ""){
+                                        text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].journeys[j].rules[k]+`</span><br/>`;
+                                    }
                                 }
+                                if(msg.result.response.fare_rule_provider[i].journeys[j].rules.length == 0)
+                                    text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
+                                text_fare+=`</div>`;
                             }
-                            if(msg.result.response.fare_rule_provider[i].journeys[j].rules.length == 0)
-                                text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
-                            text_fare+=`</div>`;
-                            try{
-                                document.getElementById('rules'+count_fare).innerHTML = text_fare;
-                            }catch(err){
-
-                            }
-                            text_fare = '';
+                        }else{
+                            text_fare += 'No fare rules';
                         }
+                        try{
+                            document.getElementById('rules'+count_fare).innerHTML = text_fare;
+                        }catch(err){
+
+                        }
+                        text_fare = '';
                         count_fare++;
                     }else{
                         try{

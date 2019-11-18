@@ -111,16 +111,18 @@ def get_transaction(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_balance",
+            "action": "get_transaction",
             "signature": request.POST['signature'],
         }
         data = {
             'account_number': '511.01.50000',
-            'provider': 'bank'
+            'provider': 'bca',
+            'startdate': '2019-11-01',
+            'enddate': '2019-11-05',
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "bank", data=data, headers=headers, method='POST')
     try:
         pass
     except Exception as e:

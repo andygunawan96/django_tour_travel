@@ -17,7 +17,7 @@
     train_data = train_data.replace(/&#39;/g, '"');
     train_data = train_data.replace(/True/g, 'true');
     train_data = JSON.parse(train_data);
-    console.log(train_data);
+
     train_request = `{{train_request}}`;
     train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
     console.log(train_request);
