@@ -362,7 +362,7 @@ function activity_table_detail(){
                </div>
            </div>
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-lg-12">
+               <div class="col-lg-12" style="padding-bottom:10px;">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
            </div>
@@ -506,7 +506,7 @@ function activity_table_detail2(pagetype){
    text+= `</div>
            </div>
            <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
+               <div class="col-xs-12" style="padding-bottom:10px;">
                     <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                </div>
            </div>
@@ -845,6 +845,18 @@ function check_passenger(adult, senior, child, infant){
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
+       }if(document.getElementById('adult_cp'+i).checked == true){
+            if(check_email(document.getElementById('adult_email'+i).value)==false){
+                error_log+= 'Invalid Contact person email!</br>\n';
+                document.getElementById('adult_email'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
+                error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                document.getElementById('adult_phone'+i).style['border-color'] = 'red';
+            }else
+                document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }
        perpax_count = 1
        for(j in detail.perPax){

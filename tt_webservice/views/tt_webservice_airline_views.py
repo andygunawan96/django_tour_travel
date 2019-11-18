@@ -277,14 +277,13 @@ def search2(request):
 
         # origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
         # destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
-        provider = ['amadeus', 'sabre', 'sia']
         direction = 'MC'
         journey_list = []
         if request.session['airline_request']['is_combo_price'] == 'false':
             is_combo_price = False
         else:
             is_combo_price = True
-        if request.session['airline_request']['direction'] == 'MC' and request.POST['provider'] in provider:
+        if request.session['airline_request']['direction'] == 'MC':
             for idx, i in enumerate(request.session['airline_request']['origin']):
                 departure_date = '%s-%s-%s' % (
                     request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
@@ -483,13 +482,19 @@ def get_price_itinerary(request, boolean, counter):
                 check = 0
                 journeys.append({'segments': journey['segments']})
                 for schedule in schedules:
-                    for segment in journey['segments']:
-                        if segment['carrier_code'] in schedule['carrier_code']:
-                            schedule['journeys'].append({
-                                'segments': journey['segments']
-                            })
-                            check = 1
-                            break
+                    if schedule['provider'] == journey['provider']:
+                        schedule['journeys'].append({
+                            'segments': journey['segments']
+                        })
+                        check = 1
+                        break
+                    # for segment in journey['segments']:
+                    #     if segment['carrier_code'] in schedule['carrier_code']:
+                    #         schedule['journeys'].append({
+                    #             'segments': journey['segments']
+                    #         })
+                    #         check = 1
+                    #         break
                     if check == 1:
                         break
                 if check == 0:

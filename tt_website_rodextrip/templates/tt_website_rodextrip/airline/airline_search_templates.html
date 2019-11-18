@@ -28,6 +28,14 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
     signature = `{{signature}}`;
+    airline_check = 0;
+    {% for key,value in airline_carriers.0.items %}
+        {% if value.code == 'all'%}
+            airline_check = 'Airline';
+        {% elif value.bool == True%}
+            airline_check = parseInt(airline_check).toString() + ' Airline chosen';
+        {% endif%}
+    {% endfor %}
     cabin_class = [];
     {% for airline_cabin_class in airline_cabin_class_list %}
         cabin_class.push({
@@ -68,38 +76,24 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {%if template == 1%}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-<section class="destinations-area" style="padding:7px 0px 7px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container">
         <div class="row">
-            <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
+            <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
                 <div class="row">
                     <div class="col-lg-12">
-                        <span style="text-transform: capitalize;" id="show_origin_destination"></span>
+                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span style="text-transform: capitalize; font-size:12px;">{% if airline_request.direction == 'OW' %} One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} - </span>
+                            <span style="text-transform: capitalize;" id="show_origin_destination"></span>
+                        </div>
                     </div>
                     <div class="col-lg-12">
-                        <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-plane"></i>{% if airline_request.direction == 'OW' %} One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} </span>
-                        <span style="text-transform: capitalize; font-size:13px; padding-left:10px;" id="show_date"></span>
-                        <span style="text-transform: capitalize; font-size:13px; padding-left:10px;"><i class="fas fa-users"></i> {% if airline_request.adult != 0 %} {{airline_request.adult}} Adult {% endif %} {% if airline_request.child != 0 %}, {{airline_request.child}} Child {% endif %} {% if airline_request.infant != 0 %}, {{airline_request.infant}} Infant {% endif %}</span>
+                        <span style="text-transform: capitalize; font-size:12px;" id="show_date"></span>
+                        <span style="text-transform: capitalize; font-size:12px; padding-left:10px;"><i class="fas fa-users"></i> {% if airline_request.adult != 0 %} {{airline_request.adult}} Adult {% endif %} {% if airline_request.child != 0 %}, {{airline_request.child}} Child {% endif %} {% if airline_request.infant != 0 %}, {{airline_request.infant}} Infant {% endif %}</span>
                     </div>
                 </div>
             </div>
-            {%if airline_request.direction  == 'MC'%}
-            <div class="col-lg-3" style="padding-top:5px; padding-bottom:5px;">
-                <span style="font-weight:500;"> Separate Journey? </span><br/>
-                <label class="radio-button-custom" style="margin-bottom:0px !important;">
-                    Yes
-                    <input type="radio" name="myRadios" onclick="" value="yes"/>
-                    <span class="checkmark-radio"></span>
-                </label>
-
-                <label class="radio-button-custom" style="margin-bottom:0px !important;">
-                    No
-                    <input type="radio" name="myRadios" onclick="" value="no" checked="checked"/>
-                    <span class="checkmark-radio"></span>
-                </label>
-            </div>
-            {%endif%}
-            <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
+            <div class="{%if airline_request.direction  == 'MC'%} col-lg-4 col-md-4 {% else %} col-lg-4 col-md-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     <span id="change_search_text">Change Search</span>
@@ -178,7 +172,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                    <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                         <div id="airline_date_search"></div>
                                         <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                         <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
@@ -252,7 +246,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                    <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                         <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
@@ -283,7 +277,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-6" style="padding:0px;">
+                                    <div class="col-lg-4 col-md-6 col-sm-6" style="padding:0px;">
                                         <span class="span-search-ticket">Class</span>
                                         <div class="input-container-search-ticket btn-group">
                                             <div class="form-select" id="default-select">
@@ -1408,6 +1402,7 @@
 
 <script>
     //test
+    document.getElementById('show_provider_airline').innerHTML = `<i class="fas fa-plane"></i> ` + airline_check;
     var origin = new autoComplete({
         selector: '#origin_id_flight',
         minChars: 0,
@@ -1731,6 +1726,59 @@
             count++;
         }
         $('#show_total_pax_flight1').text({{airline_request.adult}} + " Adult, " + {{airline_request.child}} + " Child, " +{{airline_request.infant}} + " Infant");
+        document.getElementById('adult_flight1').value = {{airline_request.adult}};
+        document.getElementById('child_flight1').value = {{airline_request.child}};
+        document.getElementById('infant_flight1').value = {{airline_request.infant}};
+        if (quantity_adult_flight+quantity_child_flight == 9){
+            document.getElementById("right-plus-adult-flight1").disabled = true;
+            document.getElementById("right-plus-child-flight1").disabled = true;
+
+            if(quantity_adult_flight == 1 ){
+              document.getElementById("left-minus-adult-flight1").disabled = true;
+            }
+            else{
+              document.getElementById("left-minus-adult-flight1").disabled = false;
+            }
+
+            if(quantity_child_flight == 0){
+              document.getElementById("left-minus-child-flight1").disabled = true;
+            }
+            else{
+              document.getElementById("left-minus-child-flight1").disabled = false;
+            }
+          }
+          else{
+            if(quantity_adult_flight == 1 ){
+              document.getElementById("left-minus-adult-flight1").disabled = true;
+              document.getElementById("right-plus-adult-flight1").disabled = false;
+            }
+            else{
+              document.getElementById("left-minus-adult-flight1").disabled = false;
+              document.getElementById("right-plus-adult-flight1").disabled = false;
+            }
+
+            if(quantity_child_flight == 0){
+              document.getElementById("left-minus-child-flight1").disabled = true;
+              document.getElementById("right-plus-child-flight1").disabled = false;
+            }
+            else{
+              document.getElementById("left-minus-child-flight1").disabled = false;
+              document.getElementById("right-plus-child-flight1").disabled = false;
+            }
+          }
+
+          if (quantity_infant_flight == 0){
+              document.getElementById("left-minus-infant-flight1").disabled = true;
+              document.getElementById("right-plus-infant-flight1").disabled = false;
+          }
+          else if (quantity_infant_flight == quantity_adult_flight){
+              document.getElementById("left-minus-infant-flight1").disabled = false;
+              document.getElementById("right-plus-infant-flight1").disabled = true;
+          }
+          else{
+              document.getElementById("right-plus-infant-flight1").disabled = false;
+              document.getElementById("left-minus-infant-flight1").disabled = false;
+          }
 
       }
     });

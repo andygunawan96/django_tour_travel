@@ -236,7 +236,7 @@
 </header>
 {% endif %}
 
-
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 {%if template == 1%}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
 {% elif template == 2 %}
@@ -294,7 +294,11 @@
                     <div id="airline_detail">
 
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+                    <button class="primary-btn" id="issued_booking_airline" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                         Issued Booking
+                    </button>
+
+                    <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px; position:relative;" id="payment_acq" hidden>
 
                     </div>
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="ssr_request_after_sales" hidden>

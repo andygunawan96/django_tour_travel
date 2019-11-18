@@ -59,7 +59,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             document.getElementById('payment_acq').innerHTML = text;
             $('select').niceSelect();
             set_payment(val,type);
-            document.getElementById('payment_acq').hidden = false;
+            //document.getElementById('payment_acq').hidden = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -242,21 +242,21 @@ function set_price(val, type, product_type){
     else if(type == 'train')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="train_issued('`+train_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline_review')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_hold_booking(1);" style="width:100%;">Issued Booking<div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_hold_booking(1);" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline_reissue')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="reissue_airline_commit_booking(1);" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'hotel_review')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="hotel_issued_alert();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="hotel_issued_alert();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'activity')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="activity_pre_create_booking(1);" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="activity_pre_create_booking(1);" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'top_up')
         text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();commit_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'issued_offline')
         text += `<button type="button" id="submit_top_up" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();commit_booking();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'tour')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="tour_pre_create_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="tour_pre_create_booking();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;
 }
 

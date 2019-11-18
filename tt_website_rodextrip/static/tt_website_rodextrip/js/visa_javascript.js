@@ -202,12 +202,26 @@ function update_table(type){
                             <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     }
                     text +=`</div>
-                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+
+                </div>
+                <div class="row" id="show_commission" style="display: `+display+`;">
+                    <div class="col-lg-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                        </div>
                     </div>
-                    <div class="col-lg-12" style="padding-bottom:10px;">
+                </div>
+                <div class="row" style="margin-top:10px; text-align:center;">
+                   <div class="col-lg-12">
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
-                    </div>
+                   </div>
+                </div>
+                <div class="row" style="margin-top:10px; text-align:center;">
+                   <div class="col-lg-12">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                   </div>
+                </div>
+                <div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
                             Next
@@ -294,13 +308,6 @@ function update_table(type){
             display = 'none';
         }
         text+=`
-            <div class="row" id="show_commission" style="display: `+display+`;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">
                     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -320,14 +327,25 @@ function update_table(type){
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
                 text +=`</div>
-
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+            </div>
+            <div class="row" id="show_commission" style="display: `+display+`;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
+                    </div>
                 </div>
-                <div class="col-lg-12" style="padding-bottom:10px;">
+            </div>
+            <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-lg-12">
                     <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
-                </div>
-            </div>`;
+               </div>
+            </div>
+            <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-lg-12" style="padding-bottom:10px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+               </div>
+            </div>
+            `;
     }else if(type == 'review'){
 
         text += `<h4>Price detail</h4><hr/>`;
@@ -398,23 +416,6 @@ function update_table(type){
         }else{
             text+=`<h6>Select visa first!</h6>`;
         }
-
-        share_data();
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-            text+=`
-                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-        } else {
-            text+=`
-                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-        }
-
         text+=`
             <div class="row" style="padding-bottom:15px;">
                 <div class="col-lg-12">
@@ -426,6 +427,27 @@ function update_table(type){
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
                     <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
+            </div>`;
+        text+=`
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:15px;">
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        text+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                    } else {
+                        text+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                    }
+                    text +=`</div>
             </div>`;
         try{
             display = document.getElementById('show_commission').style.display;
@@ -440,13 +462,15 @@ function update_table(type){
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-                </div>
-                <div class="col-lg-12" style="padding-bottom:10px;">
+            <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-lg-12">
                     <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
-                </div>
+               </div>
+            </div>
+            <div class="row" style="margin-top:10px; text-align:center;">
+               <div class="col-lg-12" style="padding-bottom:10px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+               </div>
             </div>
             `;
     }else if(type == 'booking'){
@@ -458,7 +482,7 @@ function update_table(type){
         currency = '';
         for(i in visa.passengers){
             for(j in visa.passengers[i].visa.price){
-                if(visa.passengers[i].visa.price[j].charge_code == 'fare'){
+                if(visa.passengers[i].visa.price[j].charge_code == 'total'){
                     price += visa.passengers[i].visa.price[j].amount;
                     price_pax = visa.passengers[i].visa.price[j].amount;
                     currency = visa.passengers[i].visa.price[j].currency;
@@ -502,14 +526,18 @@ function update_table(type){
             </div>
         </div>`;
         text+=`
-        <div class="row">
-            <div class="col-lg-12" style="padding-bottom:10px;">
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
-            </div>
-            <div class="col-lg-12" style="padding-bottom:10px;">
+        <div class="row" style="margin-top:10px; text-align:center;">
+           <div class="col-lg-12">
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
-            </div>
-        </div>`;
+           </div>
+        </div>
+        <div class="row" style="margin-top:10px; text-align:center;">
+           <div class="col-lg-12" style="padding-bottom:10px;">
+                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+           </div>
+        </div>
+        `;
+
     }
     document.getElementById('detail').innerHTML = text;
     $("#select_visa_first").hide();
@@ -532,6 +560,18 @@ function copy_data(type){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
 }
 
 function visa_check_search(){
@@ -555,6 +595,7 @@ function visa_check_search(){
         alert('Please input pax')
         $('.next-loading').removeClass("running");
     }else if(error_log == ''){
+        document.getElementById('time_limit_input').value = time_limit;
         document.getElementById('visa_passenger').submit();
     }else{
         alert(error_log);
@@ -585,24 +626,24 @@ function check_passenger(adult, child, infant){
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
                     25) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!\n';
+        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
         document.getElementById('booker_last_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('booker_first_name').value == ''){
-        error_log+= 'Please fill booker first name!\n';
+        error_log+= 'Please fill booker first name!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_first_name').style['border-color'] = '#EFEFEF';
     }if(check_phone_number(document.getElementById('booker_phone').value)==false){
-        error_log+= 'Phone number Booker only contain number 8 - 12 digits!\n';
+        error_log+= 'Phone number Booker only contain number 8 - 12 digits!</br>\n';
         document.getElementById('booker_phone').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_phone').style['border-color'] = '#EFEFEF';
     }if(check_email(document.getElementById('booker_email').value)==false){
-        error_log+= 'Invalid Booker email!\n';
+        error_log+= 'Invalid Booker email!</br>\n';
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
@@ -616,31 +657,31 @@ function check_passenger(adult, child, infant){
        document.getElementById('adult_first_name'+i).value,
        document.getElementById('adult_last_name'+i).value,
        length) == false){
-           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!\n';
+           error_log+= 'Total of adult '+i+' name maximum '+length+' characters!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_first_name'+i).value == ''){
-           error_log+= 'Please input first name of adult passenger '+i+'!\n';
+           error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_last_name'+i).value == ''){
-           error_log+= 'Please input last name of adult passenger '+i+'!\n';
+           error_log+= 'Please input last name of adult passenger '+i+'!</br>\n';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
 
        if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('adult_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger adult '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -648,21 +689,33 @@ function check_passenger(adult, child, infant){
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
           document.getElementById('adult_country_of_issued'+i).value != ''){
            if(document.getElementById('adult_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger adult '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger adult '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger adult '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
+       }if(document.getElementById('adult_cp'+i).checked == true){
+            if(check_email(document.getElementById('adult_email'+i).value)==false){
+                error_log+= 'Invalid Contact person email!</br>\n';
+                document.getElementById('adult_email'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
+            }
+            if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
+                error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
+                document.getElementById('adult_phone'+i).style['border-color'] = 'red';
+            }else
+                document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
        }
    }
    //child
@@ -671,29 +724,29 @@ function check_passenger(adult, child, infant){
        document.getElementById('child_first_name'+i).value,
        document.getElementById('child_last_name'+i).value,
        length) == false){
-           error_log+= 'Total of child '+i+' name maximum '+length+' characters!\n';
+           error_log+= 'Total of child '+i+' name maximum '+length+' characters!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_first_name'+i).value == ''){
-           error_log+= 'Please input first name of child passenger '+i+'!\n';
+           error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
            document.getElementById('child_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_last_name'+i).value == ''){
-           error_log+= 'Please input last name of child passenger '+i+'!\n';
+           error_log+= 'Please input last name of child passenger '+i+'!</br>\n';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('child_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger child '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
            document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger child '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
            document.getElementById('child_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -701,17 +754,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('child_passport_expired_date'+i).value != '' ||
           document.getElementById('child_country_of_issued'+i).value != ''){
            if(document.getElementById('child_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger child '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger child '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('child_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger child '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger child '+i+'!</br>\n';
                document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -725,29 +778,29 @@ function check_passenger(adult, child, infant){
        document.getElementById('infant_first_name'+i).value,
        document.getElementById('infant_last_name'+i).value,
        length) == false){
-           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!\n';
+           error_log+= 'Total of infant '+i+' name maximum '+length+' characters!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_first_name'+i).value == ''){
-           error_log+= 'Please input first name of infant passenger '+i+'!\n';
+           error_log+= 'Please input first name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_last_name'+i).value == ''){
-           error_log+= 'Please input last name of infant passenger '+i+'!\n';
+           error_log+= 'Please input last name of infant passenger '+i+'!</br>\n';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }if(check_date(document.getElementById('infant_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger infant '+i+'!\n';
+           error_log+= 'Birth date wrong for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_birth_date'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_birth_date'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_nationality'+i).value == ''){
-           error_log+= 'Please fill nationality for passenger infant '+i+'!\n';
+           error_log+= 'Please fill nationality for passenger infant '+i+'!</br>\n';
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
@@ -755,17 +808,17 @@ function check_passenger(adult, child, infant){
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
           document.getElementById('infant_country_of_issued'+i).value != ''){
            if(document.getElementById('infant_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger infant '+i+'!\n';
+               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger infant '+i+'!\n';
+               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
            }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger infant '+i+'!\n';
+               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
@@ -774,10 +827,16 @@ function check_passenger(adult, child, infant){
 
    }
    if(error_log=='')
+   {
+       document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('visa_review').submit();
+   }
    else{
-       alert(error_log);
+       document.getElementById('show_error_log').innerHTML = error_log;
+       $("#myModalErrorPassenger").modal('show');
        $('.next-loading').removeClass("running");
+       $('.next-loading').prop('disabled', false);
+       $('.loader-rodextrip').fadeOut();
     }
 }
 
@@ -915,10 +974,10 @@ function check_on_off_radio(pax_type,number,value){
                 visa.list_of_visa[i].visa_type[0] == visa_type &&
                 visa.list_of_visa[i].entry_type[0] == entry_type &&
                 visa.list_of_visa[i].type.process_type[0] == process_type){
-                pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + visa.list_of_visa[i].sale_price.total_price.toString();
+                pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + getrupiah(visa.list_of_visa[i].sale_price.total_price.toString());
                 text_requirements = '';
                 for(j in visa.list_of_visa[i].requirements){
-                    if(visa.list_of_visa[i].requirements[j].required == true){
+//                    if(visa.list_of_visa[i].requirements[j].required == true){
                         text_requirements += `
                         <label class="check_box_custom">
                             <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` Copy</span>
@@ -930,7 +989,7 @@ function check_on_off_radio(pax_type,number,value){
                             <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
                             <span class="check_box_span_custom"></span>
                         </label>`;
-                    }
+//                    }
                 }
                 pax_required.innerHTML = text_requirements;
                 console.log(visa.list_of_visa[i].total_pax);

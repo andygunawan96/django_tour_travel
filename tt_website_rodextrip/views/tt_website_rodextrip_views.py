@@ -234,6 +234,9 @@ def index(request):
 def no_session_logout():
     return redirect('/')
 
+def goto_dashboard():
+    return redirect('/dashboard')
+
 def testing(request):
     values = {
         'static_path_url_server': get_url_static_path(),
@@ -247,16 +250,41 @@ def login(request):
     javascript_version = get_javascript_version()
     template, logo = get_logo_template()
 
-    if translation.LANGUAGE_SESSION_KEY in request.session:
-        del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-    values = {
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        'javascript_version': javascript_version,
-        'static_path_url_server': get_url_static_path(),
-        'logo': logo,
-        'template': template,
-    }
-    return render(request, MODEL_NAME+'/login_templates.html', values)
+    try:
+        if request.POST['logout'] == 'true':
+            try:
+                request.session.delete()
+            except:
+                pass
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+                'logo': logo,
+                'template': template,
+            }
+            # return goto_dashboard()
+            return render(request, MODEL_NAME+'/login_templates.html', values)
+    except:
+        # if 'session' in request:
+        try:
+            if 'login' in request.session['user_account']['co_agent_frontend_security']:
+                return goto_dashboard()
+        except:
+            request.session.delete()
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values = {
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+                'logo': logo,
+                'template': template,
+            }
+            # return goto_dashboard()
+            return render(request, MODEL_NAME+'/login_templates.html', values)
 
 def admin(request):
     if 'user_account' in request.session._session:

@@ -230,7 +230,7 @@ function get_top_facility(){
             for(i in top_facility){
                 facility_filter_html += `
                 <label class="check_box_custom">
-                    <span class="span-search-ticket" style="color:black;"><img src="`+top_facility[i].image_url+`" style="width:20px; height:20px;"/> `+top_facility[i].facility_name+`</span>
+                    <span class="span-search-ticket" style="color:black;">`+top_facility[i].facility_name+`</span>
                     <input type="checkbox" id="fac_filter`+i+`" onclick="change_filter('facility',`+i+`);">
                     <span class="check_box_span_custom"></span>
                 </label><br/>`;
@@ -278,8 +278,8 @@ function hotel_facility_request(hotel_facilities){
                         //console.log(facility_image[i].facility_name+ ' Similar Name');
                         new_html = `
                         <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
-                            <img src="`+ facility_image[i].facility_image +`" style="width:25px; height:25px;"/>
-                            <span style="font-weight:500;">`+ hotel_facilities[rec].facility_name +`</span>
+                            <i class="fas fa-circle" style="font-size:9px;"></i>
+                            <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
                         </div>`;
                         //console.log(facility_image[i].facility_image);
                         break;
@@ -288,8 +288,8 @@ function hotel_facility_request(hotel_facilities){
                         //console.log(facility_image[i].facility_name+ ' Similar Code');
                         new_html = `
                         <div class="col-md-3 col-sm-4 col-xs-6" style="width:25%; padding-bottom:15px;">
-                            <img src="`+ facility_image[i].facility_image +`" style="width:25px; height:25px;"/>
-                            <span style="font-weight:500;">`+ hotel_facilities[rec].facility_name +`</span>
+                            <i class="fas fa-circle" style="font-size:9px;"></i>
+                            <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
                         </div>`;
                         //console.log(facility_image[i].facility_image);
                         break;
@@ -298,8 +298,8 @@ function hotel_facility_request(hotel_facilities){
                 if (new_html === '' || facility_image[i].facility_image == false){
                     new_html = `
                     <div class="col-md-3 col-sm-4 col-xs-6" style="width:25%; padding-bottom:15px;">
-                        <img src="/static/tt_website_rodextrip/images/nofound/no-facilities.png" style="width:20px; height:20px;"/>
-                        <span style="font-weight:500;">`+ hotel_facilities[rec].facility_name +`</span>
+                        <i class="fas fa-circle" style="font-size:9px;"></i>
+                        <span style="font-weight:500;"> `+ hotel_facilities[rec].facility_name +`</span>
                     </div>`;
                 }
                 facility_image_html += new_html;

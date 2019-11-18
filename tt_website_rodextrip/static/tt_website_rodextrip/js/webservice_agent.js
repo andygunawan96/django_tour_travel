@@ -24,12 +24,13 @@ function signin(){
                success: function(msg) {
                 console.log(msg);
                 if(msg == true){
+                    gotoForm();
                     let timerInterval
                     Swal.fire({
                       type: 'success',
                       title: 'Login Success!',
                       html: 'Please Wait ...',
-                      timer: 2000,
+                      timer: 50000,
                       onBeforeOpen: () => {
                         Swal.showLoading()
                         timerInterval = setInterval(() => {
@@ -45,7 +46,7 @@ function signin(){
                         /* Read more about handling dismissals below */
                         result.dismiss === Swal.DismissReason.timer
                       ) {
-                        gotoForm();
+
                       }
                     })
                 }else{
@@ -571,7 +572,7 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0){
                                             response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;"></i> `;
-                                            response+=`<select id="phone_choosen`+i+`" style="width:80%;">`
+                                            response+=`<select id="phone_chosen`+i+`" style="width:80%;">`
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
@@ -720,7 +721,7 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0){
                                             response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;"></i> `;
-                                            response+=`<select id="phone_choosen`+i+`" style="width:80%;">`
+                                            response+=`<select id="phone_chosen`+i+`" style="width:80%;">`
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
@@ -790,6 +791,29 @@ function gotoForm(){
     document.getElementById('myForm2').submit();
 }
 
+function change_booker_value(type){
+    if(document.getElementsByName('myRadios')[0].checked == true){
+        if(type == 'title'){
+            document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+        }else if(type == 'first_name'){
+            document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
+        }else if(type == 'last_name'){
+            document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
+        }else if(type == 'nationality'){
+            document.getElementById('select2-adult_nationality1_id-container').value = document.getElementById('booker_nationality').value;
+            document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
+        }else if(type == 'email'){
+            document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
+        }else if(type == 'phone_id'){
+            document.getElementById('select2-adult_phone_code1_id-container').innerHTML = document.getElementById('booker_phone_code').value;
+            document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
+
+        }else if(type == 'phone'){
+            document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
+        }
+    }
+}
+
 function pick_passenger(type, sequence, product){
     if(product == 'cache'){
         add_passenger_cache(sequence)
@@ -817,7 +841,6 @@ function pick_passenger(type, sequence, product){
         }
         if(check == 0){
             document.getElementById('train_booker_search').value = '';
-            document.getElementById('search_result').innerHTML = '';
             console.log(document.getElementsByName('myRadios')[0].checked);
             if(document.getElementsByName('myRadios')[0].checked == true){
                 clear_passenger('Adult',1);
@@ -848,7 +871,7 @@ function pick_passenger(type, sequence, product){
             }
             document.getElementById('booker_email').value = passenger_data[sequence].email;
             try{
-                var phone = document.getElementById('phone_choosen'+sequence).value;
+                var phone = document.getElementById('phone_chosen'+sequence).value;
                 document.getElementById('booker_phone_code').value = phone.split(' - ')[0];
                 document.getElementById('booker_phone').value = phone.split(' - ')[1];
             }catch(err){
@@ -878,7 +901,7 @@ function pick_passenger(type, sequence, product){
             passenger_data_pick.push(passenger_data[sequence]);
             passenger_data_pick[passenger_data_pick.length-1].sequence = 'booker';
             $('#myModal').modal('hide');
-
+            document.getElementById('search_result').innerHTML = '';
         }else{
             Swal.fire({
               type: 'error',
@@ -900,9 +923,6 @@ function pick_passenger(type, sequence, product){
                         break;
                     }
                 }
-                document.getElementById('train_adult'+passenger_number+'_search').value = '';
-                document.getElementById('search_result_adult'+passenger_number).innerHTML = '';
-
                 document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('adult_title'+passenger_number).options){
                     if(document.getElementById('adult_title'+passenger_number).options[i].selected != true)
@@ -997,7 +1017,7 @@ function pick_passenger(type, sequence, product){
                     document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
                 }catch(err){}
                 try{
-                    var phone = document.getElementById('phone_choosen'+sequence).value;
+                    var phone = document.getElementById('phone_chosen'+sequence).value;
                     document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
                     document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1];
                 }catch(err){
@@ -1017,6 +1037,8 @@ function pick_passenger(type, sequence, product){
                 }
 
                 $('#myModal_adult'+passenger_number).modal('hide');
+                document.getElementById('train_adult'+passenger_number+'_search').value = '';
+                document.getElementById('search_result_adult'+passenger_number).innerHTML = '';
             }else{
                 Swal.fire({
                   type: 'error',
@@ -1045,8 +1067,6 @@ function pick_passenger(type, sequence, product){
                         break;
                     }
                 }
-                document.getElementById('train_child'+passenger_number+'_search').value = '';
-                document.getElementById('search_result_child'+passenger_number).innerHTML = '';
                 document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('child_title'+passenger_number).options){
                     if(document.getElementById('child_title'+passenger_number).options[i].selected != true)
@@ -1095,6 +1115,8 @@ function pick_passenger(type, sequence, product){
                     $('#child_country_of_issued'+passenger_number).niceSelect('update');
                 }
                 $('#myModal_child'+passenger_number).modal('hide');
+                document.getElementById('train_child'+passenger_number+'_search').value = '';
+                document.getElementById('search_result_child'+passenger_number).innerHTML = '';
             }else{
                 Swal.fire({
                   type: 'error',
@@ -1123,8 +1145,6 @@ function pick_passenger(type, sequence, product){
                         break;
                     }
                 }
-                document.getElementById('train_infant'+passenger_number+'_search').value = '';
-                document.getElementById('search_result_infant'+passenger_number).innerHTML = '';
                 document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('infant_title'+passenger_number).options){
                     if(document.getElementById('infant_title'+passenger_number).options[i].selected != true)
@@ -1172,6 +1192,8 @@ function pick_passenger(type, sequence, product){
                     $('#infant_country_of_issued'+passenger_number).niceSelect('update');
                 }
                 $('#myModal_infant'+passenger_number).modal('hide');
+                document.getElementById('train_infant'+passenger_number+'_search').value = '';
+                document.getElementById('search_result_infant'+passenger_number).innerHTML = '';
             }else{
                 Swal.fire({
                   type: 'error',
@@ -1200,8 +1222,7 @@ function pick_passenger(type, sequence, product){
                         break;
                     }
                 }
-                document.getElementById('train_senior'+passenger_number+'_search').value = '';
-                document.getElementById('search_result_senior'+passenger_number).innerHTML = '';
+
                 document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('senior_title'+passenger_number).options){
                    if(document.getElementById('senior_title'+passenger_number).options[i].selected != true)
@@ -1258,6 +1279,8 @@ function pick_passenger(type, sequence, product){
                     $('#senior_country_of_issued'+passenger_number).niceSelect('update');
                 }
                 $('#myModal_senior'+passenger_number).modal('hide');
+                document.getElementById('train_senior'+passenger_number+'_search').value = '';
+                document.getElementById('search_result_senior'+passenger_number).innerHTML = '';
             }else{
                 Swal.fire({
                   type: 'error',
@@ -1338,6 +1361,13 @@ function copy_booker_to_passenger(val,type){
                         document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
                     }
                 }
+
+                document.getElementById('adult_nationality1_id').disabled = true;
+                document.getElementById('adult_email1').readOnly = true;
+                document.getElementById('adult_phone1').readOnly = true;
+                document.getElementById('adult_phone_code1_id').disabled = true;
+                if(document.getElementById('adult_birth_date1').value != '')
+                    document.getElementById('adult_birth_date1').disabled = true;
                 document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
             }catch(err){
                 document.getElementsByName('myRadios')[1].checked = true;
@@ -1406,6 +1436,12 @@ function copy_booker_to_passenger(val,type){
                     document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
                 }
             }
+            document.getElementById('adult_nationality1_id').disabled = true;
+            document.getElementById('adult_email1').readOnly = true;
+            document.getElementById('adult_phone1').readOnly = true;
+            document.getElementById('adult_phone_code1_id').disabled = true;
+            if(document.getElementById('adult_birth_date1').value != '')
+                document.getElementById('adult_birth_date1').disabled = true;
             document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
         }else{
             document.getElementsByName('myRadios')[1].checked = true;
@@ -1444,6 +1480,10 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('select2-adult_country_of_issued1_id-container').value = '';
         document.getElementById('adult_email1').value = '';
         document.getElementById('adult_email1').readOnly = false;
+        document.getElementById('adult_nationality1_id').disabled = false;
+        document.getElementById('adult_phone_code1_id').disabled = false;
+        document.getElementById('adult_phone1').readOnly = false;
+        document.getElementById('adult_birth_date1').disabled = false;
         try{
             document.getElementById('adult_phone_code1').value = '62';
             document.getElementById('select2-adult_phone_code1_id-container').value = '62';
@@ -2284,7 +2324,7 @@ function get_passenger_cache(){
                                     response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                 if(msg.result.response[i].phones.length != 0){
                                     response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;"></i> `;
-                                    response+=`<select id="phone_choosen`+i+`" style="width:80%;">`
+                                    response+=`<select id="phone_chosen`+i+`" style="width:80%;">`
                                     for(j in msg.result.response[i].phones){
                                         response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                     }
@@ -2736,7 +2776,7 @@ function pick_passenger_cache(val){
             document.getElementById(passenger_pick+'_email'+passenger_pick_number).value = passenger_data_cache[val].email;
         }catch(err){}
         try{
-            var phone = document.getElementById('phone_choosen'+val).value;
+            var phone = document.getElementById('phone_chosen'+val).value;
             document.getElementById(passenger_pick+'_phone_code'+passenger_pick_number).value = phone.split(' - ')[0];
             document.getElementById(passenger_pick+'_phone'+passenger_pick_number).value = phone.split(' - ')[1];
         }catch(err){

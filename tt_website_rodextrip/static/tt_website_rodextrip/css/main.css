@@ -101,7 +101,7 @@ body {
 }
 @media (max-width: 767px) {
   #mybuttonsticky {
-    top:110px !important;
+    top:114px !important;
   }
 }
 
@@ -2365,13 +2365,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Nav Menu Arrows */
 .sf-arrows .sf-with-ul {
-  padding-right: 30px;
+  padding-right: 20px;
 }
 
 .sf-arrows .sf-with-ul:after {
   content: "\f107";
   position: absolute;
-  right: 15px;
+  right: 5px;
   font-family: FontAwesome;
   font-style: normal;
   font-weight: normal;
@@ -2539,7 +2539,7 @@ h1, h2, h3, h4, h5, h6 {
 #mobile-body-overly {
   width: 100%;
   height: 100%;
-  z-index: 997;
+  z-index: -1;
   top: 0;
   left: 0;
   position: fixed;
@@ -2689,8 +2689,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 .primary-btn-custom {
   background: #f15a22;
   line-height: 35px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
   border: none;
   border-radius: 3px;
   color: #fff;
@@ -6578,7 +6578,7 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 
 .img-hotel-search {
     width: auto;
-    height: 164px;
+    height: 202px;
     background-size:cover;
     background-position:50% 50%;
     border-radius: 3px;
@@ -7793,6 +7793,20 @@ display: block;
 }
 
 #overlay-search-box {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
+  cursor: pointer;
+}
+
+#overlay-div-box {
   position: fixed;
   display: none;
   width: 100%;
