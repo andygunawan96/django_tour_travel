@@ -15,11 +15,11 @@ function table_reservation(data){
             if(data[i].provider.provider_type == 'airline'){
                 text+=`<td>`;
                 for(j in data[i].provider.airline_carrier_codes){
-                    text+=`<img data-toggle="tooltip" title="" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+data[i].provider.airline_carrier_codes[j]+`.png" style="width:60px; height:60px;"><span> </span>`;
+                    text+=airline_carriers[data[i].provider.airline_carrier_codes[j]].name;
                 }
                 text+=`</td>`;
             }else if(data[i].provider.provider_type == 'train')
-                text+=`<td><img src="/static/tt_website_rodextrip/img/icon/kai.png" style="width:60px; height:40px;" alt="PT. KAI" title="PT. KAI"/></td>`;
+                text+=`<td>KAI</td>`;
             else if(data[i].provider.provider_type == 'activity')
                 text+=`<td>ACTIVITY</td>`
             else if(data[i].provider.provider_type == 'tour')
@@ -29,17 +29,17 @@ function table_reservation(data){
         }catch(err){
 
         }
-        text+= `<td>`+data[i].state_description+`</td>`;
-
-        text+= `<td>`+data[i].pnr+`</td>`;
         text+= `<td>`+data[i].booked_date+`</td>`;
-
         if(data[i].hold_date == false){
             text+= `<td>-</td>`;
         }
         else{
             text+= `<td>`+data[i].hold_date+`</td>`;
         }
+
+        text+= `<td>`+data[i].state_description+`</td>`;
+
+        text+= `<td>`+data[i].pnr+`</td>`;
 
         if(data[i].issued_date == false){
             text+= `<td>-</td>`;
