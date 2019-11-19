@@ -8,6 +8,7 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     airline_carriers = `{{airline_carriers}}`;
@@ -38,7 +39,7 @@
                 <div class="form-wrap" style="margin-bottom:25px;">
                     <div class="row banner-right">
                         <div class="col-lg-9">
-                            <input type="text" id="tb" class="form-control" placeholder="TB. Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number '" autocomplete="off"/>
+                            <input type="text" id="tb" class="form-control" placeholder="TB. Number or PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number or PNR'" autocomplete="off"/>
                         </div>
                         <div class="col-lg-3">
                             <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>

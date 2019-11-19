@@ -708,15 +708,74 @@ function visa_get_data(data){
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-4">
                                         <h6>Required</h6>
                                         <div id="adult_required{{counter}}">
                                             `;
                                         for(j in msg.result.response.passengers[i].visa.requirement){
-                                            text+=`<label><b>`+parseInt(j+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
+                                            text+=`<label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
                                         }
                                         text+=`
                                         </div>
+                                    </div>`;
+                                    if(msg.result.response.passengers[i].visa.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
+                                    text+=`
+                                    <div class="col-lg-4">
+                                        <h6>Interview</h6>
+                                        <table style="width:100%;" id="list-of-passenger">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Location</th>
+                                                <th>Meeting Point</th>
+                                                <th>Employee</th>
+                                                <th>Date time</th>
+                                                <th>Required</th>
+                                            </tr>`;
+                                            for(j in msg.result.response.passengers[i].visa.interview.interview_list){
+                                                text+=`
+                                            <tr>
+                                                <td>`+parseInt(parseInt(j)+1)+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].location+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].meeting_point+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].ho_employee+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].datetime+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.interview.needs+`</td>
+                                            </tr>
+                                                `
+                                            }
+
+
+                                    }
+                                    text+=`
+                                        </table>
+                                    </div>`;
+                                    if(msg.result.response.passengers[i].visa.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].visa.biometrics.biometrics_list.length > 0 ){
+                                    text+=`
+                                    <div class="col-lg-4">
+                                        <h6>Biometrics</h6>
+                                        <table style="width:100%;" id="list-of-passenger">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Location</th>
+                                                <th>Meeting Point</th>
+                                                <th>Employee</th>
+                                                <th>Date time</th>
+                                                <th>Required</th>
+                                            </tr>`;
+                                            for(j in msg.result.response.passengers[i].visa.biometrics.biometrics_list){
+                                                text+=`
+                                            <tr>
+                                                <td>`+parseInt(parseInt(j)+1)+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].location+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].meeting_point+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].ho_employee+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].datetime+`</td>
+                                                <td>`+msg.result.response.passengers[i].visa.biometrics.needs+`</td>
+                                            </tr>`
+                                            }
+                                    }
+                                    text+=`
+                                        </table>
                                     </div>
                                 </div><br/><hr/>`;
                             }
