@@ -126,11 +126,8 @@ function set_price(val, type, product_type){
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
-                    try{
-                        text+=getrupiah(document.getElementById('amount').value);
-                    }catch(err){
-                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
-                    }
+                    text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
+
                     text+=`</span>
                 </div>`;
         //fee
@@ -157,11 +154,8 @@ function set_price(val, type, product_type){
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
-                    try{
-                        text += getrupiah((parseInt(document.getElementById('amount').value) + payment_acq2[payment_method][selected].price_component.unique_amount));
-                    }catch(err){
-                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
-                    }
+                    text += getrupiah(parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount))
+
                     text+=`</span>
                 </div>`;
         text+= `</div><br/>`;
