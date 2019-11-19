@@ -901,7 +901,9 @@ function train_get_seat_map(){
        headers:{
             'action': 'get_seat_map',
        },
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code==0){
@@ -927,21 +929,25 @@ function train_get_seat_map(){
 }
 
 
-
 function train_manual_seat(){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
        headers:{
-            'action': 'manual_seat',
+            'action': 'assign_seats',
        },
        data: {
-        'pax': JSON.stringify(pax)
+            'pax': JSON.stringify(pax),
+            'order_number': order_number,
+            'signature': signature
+
        },
        success: function(msg) {
+       console.log(msg);
         if(msg.result.error_code == 0)
-            document.getElementById('train_booking').submit();
+            continue
+//            document.getElementById('train_booking').submit();
         else
             Swal.fire({
               type: 'error',

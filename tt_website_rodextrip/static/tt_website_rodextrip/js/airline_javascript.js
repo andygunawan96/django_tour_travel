@@ -312,8 +312,13 @@ function add_multi_city(type){
                     </div>
                     <div class="col-lg-4 col-md-4" style="padding:0px;">
                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                        <div class="input-container-search-ticket btn-group">
-                            <button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                        <div class="input-container-search-ticket btn-group">`;
+                            try{
+                                text_paxs += `<button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;"><i class="fas fa-plane"></i> ` + airline_check + `</button>`;
+                            }catch(err){
+                                text_paxs += `<button id="show_provider_airline`+counter_airline_search+`" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;"><i class="fas fa-plane"></i> Choose Airline</button>`;
+                            }
+                            text_paxs += `
                             <ul id="provider_flight_content`+counter_airline_search+`" class="dropdown-menu" style="padding:10px; z-index:11;">
 
                             </ul>
@@ -1782,7 +1787,7 @@ function sort(airline){
             <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
             <br/>
         </div>
-        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight `+ parseInt(counter_search).toString()+` Please try another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
@@ -2556,7 +2561,7 @@ function sort(airline){
             <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
             <br/>
         </div>
-        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Airline not found. Please try another flight. </h6></div></center>`;
+        <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight `+ parseInt(counter_search).toString()+`. Please try another flight. </h6></div></center>`;
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("airlines_ticket").appendChild(node);
@@ -2614,11 +2619,10 @@ function delete_mc_journey(val){
     temp = parseInt(airline_request.counter) - 1;
     airline_request.counter = temp.toString();
     airline_pick_mc('all');
-    if(parseInt(airline_request.counter) == journey.length)
-
     if(parseInt(airline_request.counter) == journey.length){
         document.getElementById('airline_detail').innerHTML = '';
-        filtering('filter');
+        document.getElementById('airlines_ticket').innerHTML = '';
+        //filtering('filter');
         check_airline_pick = 1;
         document.getElementById("badge-flight-notif").innerHTML = "1";
         document.getElementById("badge-flight-notif2").innerHTML = "1";
@@ -3086,12 +3090,14 @@ function airline_detail(type){
         flight_count = 0;
         for(i in price_itinerary.price_itinerary_provider){
             for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
-                if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true){
+                if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary.price_itinerary_provider.length > 1){
                     text += `<h6>Special Price</h6>`;
                     $text +='Special Price\n';
+                }else if( i!= 0 && j != 0){
+                    text+=`<hr/>`;
                 }
                 flight_count++;
-                text += `<hr/><h6>Flight `+flight_count+`</h6>`;
+                text += `<h6>Flight `+flight_count+`</h6>`;
                 $text +='Flight '+flight_count+'\n';
                 //logo
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
@@ -3177,17 +3183,16 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Fare @`+airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].ADT.fare * airline_request.adult))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[i].ADT.currency+` `+getrupiah(Math.ceil((airline_price[i].ADT.fare+price) * airline_request.adult))+`</span>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Adult Service Charge</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[i].ADT.currency+` `+price+`</span>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.adult))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;"></span>
                                                 </div>
                                             </div>`;
-                                        $text += airline_request.adult + ' Adult Fare @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+'\n';
-                                        $text += airline_request.adult + ' Adult Tax @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                        $text += airline_request.adult + ' Adult @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare+price))+'\n';
                                         price = 0;
                                         text+=`</div>`;
                                     }
@@ -3214,21 +3219,20 @@ function airline_detail(type){
                                         <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency+' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].CHD.fare * airline_request.child))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[i].CHD.currency+` `+getrupiah(Math.ceil((airline_price[i].CHD.fare+price) * airline_request.child))+`</span>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Child Service Charge</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[i].CHD.currency+` `+price+`</span>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.child))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;"></span>
                                                 </div>
                                             </div>
                                         </div>`;
-                                        $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+'\n';
-                                        $text += airline_request.child + ' Child Tax @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                        $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare+price))+'\n';
                                         price = 0;
                                     }
                                 }catch(err){
@@ -3259,21 +3263,21 @@ function airline_detail(type){
                                         <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency+' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Infant Fare @`+airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(airline_price[i].INF.fare * airline_request.infant))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_price[i].INF.currency+` `+getrupiah(Math.ceil((airline_price[i].INF.fare+price) * airline_request.infant))+`</span>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Service Charge</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[i].INF.currency+` `+price+`</span>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
-                                                    <span style="font-size:13px; font-weight:500;">`+getrupiah(Math.ceil(price * airline_request.infant))+`</span>
+                                                    <span style="font-size:13px; font-weight:500;"></span>
                                                 </div>
+
                                             </div>
                                         </div>`;
-                                        $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+'\n';
-                                        $text += airline_request.infant + ' Infant Tax @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                        $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare+price))+'\n';
                                         price = 0;
                                     }
                                 }catch(err){
@@ -3313,10 +3317,10 @@ function airline_detail(type){
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+parseFloat(additional_price))+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(total_price+parseFloat(additional_price))+`</b></span><br/>`;
             else
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+parseFloat(additional_price))+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(total_price+parseFloat(additional_price))+`</b></span><br/>`;
             text+=`
             </div>
         </div>
@@ -3324,6 +3328,22 @@ function airline_detail(type){
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
                 <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                try{
+                    for(i in passengers.adult){
+                        if(i == 0)
+                            $text += 'Passengers:\n';
+                        $text += passengers.adult[i].title + ' ' + passengers.adult[i].first_name + ' ' + passengers.adult[i].last_name + ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
+                    }
+                    for(i in passengers.child){
+                        $text += passengers.child[i].title + ' ' + passengers.child[i].first_name + ' ' + passengers.child[i].last_name + ' (CHD / ' + passengers.child[i].birth_date + ')\n';
+                    }
+                    for(i in passengers.infant){
+                        $text += passengers.infant[i].title + ' ' + passengers.infant[i].first_name + ' ' + passengers.infant[i].last_name + ' (INF / ' + passengers.infant[i].birth_date + ')\n';
+                    }
+                    $text += '\n';
+                }catch(err){
+
+                }
                 $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\nPrices and availability may change at any time';
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);

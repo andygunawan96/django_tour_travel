@@ -1154,6 +1154,8 @@ function select_passenger(val){
         console.log('seat_journey'+parseInt(parseInt(i)+1));
         if(pax[val-1].seat[i].wagon != '')
             document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = ', ' + pax[val-1].seat[i].wagon + ' ' + pax[val-1].seat[i].seat+pax[val-1].seat[i].column;
+        else
+            document.getElementById('seat_journey'+parseInt(parseInt(i)+1)).innerHTML = '';
     }
     pax_click = val;
     print_seat_map();

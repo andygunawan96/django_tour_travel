@@ -30,10 +30,10 @@
     signature = `{{signature}}`;
     airline_check = 0;
     {% for key,value in airline_carriers.0.items %}
-        {% if value.code == 'all'%}
+        {% if value.code == 'all' and value.bool == True %}
             airline_check = 'Airline';
         {% elif value.bool == True%}
-            airline_check = parseInt(airline_check).toString() + ' Airline chosen';
+            airline_check = parseInt(parseInt(airline_check)+1).toString() + ' Airline chosen';
         {% endif%}
     {% endfor %}
     cabin_class = [];
