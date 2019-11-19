@@ -57,8 +57,8 @@ def api_models(request):
             res = issued(request)
         elif req_data['action'] == 'get_seat_map':
             res = seat_map(request)
-        elif req_data['action'] == 'manual_seat':
-            res = manual_seat(request)
+        elif req_data['action'] == 'assign_seats':
+            res = assign_seats(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -354,7 +354,7 @@ def seat_map(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_seat_availability",
-            "signature": request.session['train_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -395,36 +395,51 @@ def issued(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def manual_seat(request):
+def assign_seats(request):
     try:
-        passenger = json.loads(request.POST['pax'])
-        wagon_seats_number = []
-        for pax in passenger:
-            wagon_seats_number.append({
-                'wagon_name': pax['seat'].split('/')[0],
-                'seat_number': pax['seat'].split('/')[1]
-            })
+        passengers = json.loads(request.POST['pax'])
+        provider_bookings = []
 
-        seats_request = [{
-            'pnr': request.session['train_pnr'],
-            'wagon_seats_number': wagon_seats_number
-
-        }]
+        for idx, pax in enumerate(passengers):
+            for idy, seat in enumerate(pax['seat']):
+                journeys = []
+                seats = []
+                if seat['wagon'] != '':
+                    if len(provider_bookings) > idy:
+                        seats = provider_bookings[idy]['journeys'][0]['seats']
+                    seats.append({
+                        "cabin_code": seat['wagon'],
+                        "seat_row": int(seat['seat']),
+                        "seat_column": seat['column'],
+                        "passenger_sequence": idx + 1
+                    })
+                    journeys.append({
+                        "sequence": 1,
+                        "seats": seats
+                    })
+                    if len(provider_bookings) > idy:
+                        provider_bookings[idy].update({
+                            "journeys": journeys
+                        })
+                    else:
+                        provider_bookings.append({
+                            "provider": provider_kai,
+                            "sequence": idy + 1,
+                            "journeys": journeys
+                        })
         data = {
-            "order_number": request.session['train_order_number'],
-            "seats_request": seats_request,
-            "provider": provider_kai
+            "order_number": request.POST['order_number'],
+            "provider_bookings": provider_bookings
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "manual_seat",
-            "signature": request.session['train_signature'],
+            "action": "assign_seats",
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'train/booking', data=data, headers=headers,
-                                         cookies=request.session['train_cookie'], method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
 
     return res

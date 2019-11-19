@@ -140,7 +140,7 @@ def get_transactions(request):
                 'minimum': int(request.POST['offset']) * int(request.POST['limit']),
                 'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
                 'provider_type': json.loads(request.POST['provider_type']),
-                # 'order_or_pnr': request.POST['name']
+                'order_or_pnr': request.POST['key']
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -159,40 +159,11 @@ def get_transactions(request):
         res = request.session['get_transactions_session']
     try:
         if res['result']['error_code'] == 0:
-            for response in res['result']['response']:
-                if response['hold_date'] != '':
-                    response.update({
-                        'hold_date': '%s-%s-%s %s' % (response['hold_date'].split(' ')[0].split('-')[2], response['hold_date'].split(' ')[0].split('-')[1], response['hold_date'].split(' ')[0].split('-')[0], response['hold_date'].split(' ')[1])
-                    })
             logging.getLogger("info_logger").info("get_transactions SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_payment_acquirer(request):
-    try:
-        data = {
-            # 'agent_id': request.POST['agent_id'],
-            'booker_id': request.POST['booker_id'],
-            'order_number': request.POST['order_number'],
-            'transaction_type': 'billing'
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_transactions",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-    try:
-        if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_payment_acquirer SUCCESS SIGNATURE " + request.POST['signature'])
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res
 
 def get_top_up_amount(request):
     try:

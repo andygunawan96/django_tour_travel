@@ -2337,6 +2337,7 @@ function airline_get_booking(data){
                     <tr>
                         <th style="width:10%;" class="list-of-passenger-left">No</th>
                         <th style="width:40%;">Name</th>
+                        <th style="width:20%;">Gender</th>
                         <th style="width:30%;">Email</th>
                         <th style="width:30%;">Phone</th>
                     </tr>`;
@@ -2350,6 +2351,7 @@ function airline_get_booking(data){
                     text+=`<tr>
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
+                        <td>`+msg.result.response.booker.gender+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
                         <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
@@ -2574,31 +2576,13 @@ function airline_get_booking(data){
                     text_detail+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
-                        text_detail+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
-
-                        $text += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
-                        if(counter_service_charge == 0){
-                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
-                        text_detail+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
-                        }else{
-                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
-                            text_detail+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
-                        }
-                        text_detail+=`
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>
                         </div>
                     </div>`;
+                    $text += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
                     if(counter_service_charge == 0)
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
                     else
