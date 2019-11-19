@@ -14,9 +14,7 @@ function table_reservation(data){
         try{
             if(data[i].provider.provider_type == 'airline'){
                 text+=`<td>`;
-                for(j in data[i].provider.airline_carrier_codes){
-                    text+=airline_carriers[data[i].provider.airline_carrier_codes[j]].name;
-                }
+                text+=data[i].provider.airline_carrier_codes;
                 text+=`</td>`;
             }else if(data[i].provider.provider_type == 'train')
                 text+=`<td>KAI</td>`;
@@ -25,7 +23,7 @@ function table_reservation(data){
             else if(data[i].provider.provider_type == 'tour')
                 text+=`<td>TOUR</td>`
             else if(data[i].provider.provider_type == 'visa')
-                text+=`<td></td>`;
+                text+=`<td>VISA</td>`;
         }catch(err){
 
         }
