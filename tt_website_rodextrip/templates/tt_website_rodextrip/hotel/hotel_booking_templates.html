@@ -9,14 +9,8 @@
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
-
-<script>
-    static_path_url_server = '{{static_path_url_server}}'
-    signature = `{{signature}}`;
-    time = 300;
-    triggered_balance();
-    document.getElementById("balance").innerHTML = 'Balance: Rp '+getrupiah({{balance}});
-</script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
 <header id="header">
     <div class="main-menu">
         <div class="container">
@@ -31,6 +25,7 @@
         </div>
     </div>
 </header>
+{% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1;">
     <div class="container">
@@ -148,8 +143,9 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
+    hotel_signin('{{order_number}}');
     $( document ).ready(function() {
-      breadcrumb_create("hotel", 5, 1);
+      breadcrumb_create("hotel", 6, 1);
     });
 </script>
 

@@ -2342,7 +2342,6 @@ function airline_get_booking(data){
                     <tr>
                         <th style="width:10%;" class="list-of-passenger-left">No</th>
                         <th style="width:40%;">Name</th>
-                        <th style="width:20%;">Gender</th>
                         <th style="width:30%;">Email</th>
                         <th style="width:30%;">Phone</th>
                     </tr>`;
@@ -2356,7 +2355,6 @@ function airline_get_booking(data){
                     text+=`<tr>
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
-                        <td>`+msg.result.response.booker.gender+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
                         <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
@@ -2375,7 +2373,7 @@ function airline_get_booking(data){
                     </tr>`;
                     text+=`<tr>
                         <td class="list-of-passenger-left">`+(1)+`</td>
-                        <td>`+msg.result.response.contact.name+`</td>
+                        <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
                         <td>`+msg.result.response.contact.email+`</td>
                         <td>`+msg.result.response.contact.phone+`</td>
                     </tr>

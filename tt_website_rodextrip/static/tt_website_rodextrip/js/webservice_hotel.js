@@ -92,7 +92,7 @@ function hotel_signin(data){
                     get_top_facility();
                     hotel_search();
                }else if(data != ''){
-                   //goto reservation
+                    hotel_get_booking(data);
                }
            }else{
                 Swal.fire({
@@ -655,6 +655,32 @@ function hotel_issued_booking(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error hotel issued booking </span>' + errorThrown,
+            })
+       },timeout: 180000
+    });
+}
+
+function hotel_get_booking(data){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'get_booking',
+       },
+       data: {
+            'order_number': data,
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log('Result');
+            console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error hotel get booking </span>' + errorThrown,
             })
        },timeout: 180000
     });

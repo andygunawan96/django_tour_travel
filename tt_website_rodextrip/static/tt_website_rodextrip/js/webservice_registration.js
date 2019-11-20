@@ -260,12 +260,12 @@ function check_registration(){
     //check pic
     for(i=1;i<=counter_passenger;i++){
         if(document.getElementById('first_name'+i).value == ''){
-            error_log+= 'Please fill first name!\n';
+            error_log+= 'Please fill first name for pic '+i+'!\n';
             document.getElementById('first_name'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('first_name'+i).style['border-color'] = '#EFEFEF';
         }if(document.getElementById('last_name'+i).value == ''){
-            error_log+= 'Please fill last name!\n';
+            error_log+= 'Please fill last name for pic '+i+'!\n';
             document.getElementById('last_name'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('last_name'+i).style['border-color'] = '#EFEFEF';
@@ -273,10 +273,16 @@ function check_registration(){
         //birth
         //email
         if(document.getElementById('mobile'+i).value == ''){
-            error_log+= 'Please fill mobile!\n';
+            error_log+= 'Please fill mobile for pic '+i+'!\n';
             document.getElementById('mobile'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('mobile'+i).style['border-color'] = '#EFEFEF';
+        }
+        if(document.getElementById('job_position'+i).value == ''){
+            error_log+= 'Please fill job position for pic '+i+'!\n';
+            document.getElementById('job_position'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('job_position'+i).style['border-color'] = '#EFEFEF';
         }
     }
     //check doc regis
@@ -370,6 +376,14 @@ function add_table_of_passenger(){
                                     <span class="control-label" for="phone">Phone</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="phone`+parseInt(counter_passenger+1)+`" name="phone`+parseInt(counter_passenger+1)+`"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                    <span class="control-label" for="job_position">Job Position<span class="required-txt">* </span></span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control o_website_form_input" id="job_position`+parseInt(counter_passenger+1)+`" name="job_position`+parseInt(counter_passenger+1)+`" placeholder="e.g Sales Manager" required="1"/>
                                     </div>
                                 </div>
                             </div>

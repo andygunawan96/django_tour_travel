@@ -79,6 +79,7 @@ def register_agent(request):
                 'email': request.POST['email'+str(counter)] and request.POST['email'+str(counter)] or '',
                 'phone': request.POST['phone'+str(counter)] and request.POST['phone'+str(counter)] or '',
                 'mobile': request.POST['mobile'+str(counter)] and request.POST['mobile'+str(counter)] or '',
+                'job_position': request.POST['job_position'+str(counter)] and request.POST['job_position'+str(counter)] or '',
             })
         except:
             check = False

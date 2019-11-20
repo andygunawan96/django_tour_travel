@@ -385,6 +385,7 @@ function submit_top_up(){
             document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
 
             get_payment_acq('Issued','', '', 'top_up', signature, 'top_up','', '');
+            focus_box('payment_acq');
 //            document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();

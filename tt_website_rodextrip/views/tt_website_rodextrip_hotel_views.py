@@ -117,6 +117,7 @@ def detail_static(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'countries': airline_country,
+        'username': request.session['user_account'],
         'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
         'logo': '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png',
@@ -165,6 +166,7 @@ def passengers(request):
             'username': request.session['username'],
             'childs': child,
             'adults': adult,
+            'username': request.session['user_account'],
             'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
             'adult_count': int(request.session['hotel_request']['adult']),
             'child_count': int(request.session['hotel_request']['child']),
@@ -393,6 +395,12 @@ def booking(request):
             resv_obj = json.loads(request.POST['result'])['result']['response']
         except:
             resv_obj = False
+
+        try:
+            order_number = request.POST['order_number']
+            request.session['airline_order_number'] = request.POST['order_number']
+        except:
+            order_number = request.session['airline_order_number']
         if resv_obj:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -401,7 +409,7 @@ def booking(request):
                 'javascript_version': javascript_version,
                 'logo': logo,
                 'template': template,
-
+                'order_number': order_number,
                 'booking_name': resv_obj['booking_name'],
                 'pnrs': resv_obj['pnrs'],
                 'rooms': resv_obj['hotel_rooms'],
@@ -418,6 +426,7 @@ def booking(request):
                 'username': request.session['user_account'],
                 # 'co_uid': request.session['co_user_name'],
                 'javascript_version': javascript_version,
+                'order_number': order_number,
                 'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,

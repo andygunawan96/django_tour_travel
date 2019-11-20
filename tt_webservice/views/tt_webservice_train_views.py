@@ -203,23 +203,22 @@ def commit_booking(request):
                             if pax['nationality_name'] == country['name']:
                                 pax['nationality_code'] = country['code']
                                 break
-
-                    if pax['identity_country_of_issued_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['identity_country_of_issued_name'] == country['name']:
-                                pax['identity_country_of_issued_code'] = country['code']
-                                break
                     pax.update({
                         'birth_date': '%s-%s-%s' % (
                             pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                             pax['birth_date'].split(' ')[0]),
                     })
-                    if pax['identity_expdate'] != '':
+                    if pax['pax_type'] == 'ADT' and pax['identity_expdate'] != '':
                         pax.update({
                             'identity_expdate': '%s-%s-%s' % (
                                 pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
                                 pax['identity_expdate'].split(' ')[0])
                         })
+                        if pax['identity_country_of_issued_name'] != '':
+                            for country in response['result']['response']['airline']['country']:
+                                if pax['identity_country_of_issued_name'] == country['name']:
+                                    pax['identity_country_of_issued_code'] = country['code']
+                                    break
                         pax['identity'] = {
                             "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                             "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
@@ -227,7 +226,7 @@ def commit_booking(request):
                             "identity_number": pax.pop('identity_number'),
                             "identity_type": pax.pop('identity_type'),
                         }
-                    else:
+                    elif pax['pax_type'] == 'ADT':
                         pax.pop('identity_country_of_issued_name')
                         pax.pop('identity_expdate')
                         pax.pop('identity_number')
@@ -248,7 +247,7 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
             request.session['train_order_number'] = res['result']['response']['order_number']
@@ -393,6 +392,24 @@ def issued(request):
             logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def cancel(request):
+    try:
+        data = {
+            "order_number": request.POST['order_number'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+
     return res
 
 def assign_seats(request):

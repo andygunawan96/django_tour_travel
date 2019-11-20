@@ -1247,6 +1247,12 @@ function check_passenger(adult, child){
            }
        }
        if(error_log==''){
+           for(i=1;i<=adult;i++){
+                document.getElementById('adult_birth_date'+i).disabled = false;
+           }
+           for(i=1;i<=child;i++){
+                document.getElementById('child_birth_date'+i).disabled = false;
+           }
            document.getElementById('time_limit_input').value = time_limit;
            document.getElementById('hotel_review').submit();
        }
@@ -1317,8 +1323,19 @@ function hotel_detail(hotel_price){
                 <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
             </div>
         </div>`;
-
-        $text2 += 'Total: ' + getrupiah(parseInt(hotel_price.rooms[i].price_total)) + '\n';
+        try{
+            if(adult.length > 0){
+                $text2 += '\nPassengers\n'
+                for(k in adult){
+                    $text2 += adult[k].title + ' ' + adult[k].first_name + ' ' + adult[k].last_name+'\n';
+                }
+                for(k in child){
+                    $text2 += child[k].title + ' ' + child[k].first_name + ' ' + child[k].last_name+'\n';
+                }
+            }
+            $text2 += '\n';
+        }catch(err){}
+        $text2 += 'Grand Total: IDR ' + getrupiah(parseInt(hotel_price.rooms[i].price_total)) + '\n';
 
         text += `<div class="col-lg-12" style="padding-bottom:15px;">
             <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -1568,12 +1585,16 @@ function copy_data(){
 
 function copy_data2(){
     var obj_hotel_name = document.getElementById('js_hotel_name');
-    if (obj_hotel_name){
+    $text_print = '';
+    console.log($text2);
+    if (obj_hotel_name != null){
         obj_hotel_name = obj_hotel_name.innerHTML;
-        $text2 = obj_hotel_name+'\n' + $text2+'\n===Price may change at any time===';
+        $text_print = obj_hotel_name+'\n' + $text2+'\n===Price may change at any time===';
+    }else{
+        console.log('asdadas');
+        $text_print = $text2+'\n===Price may change at any time===';
     }
-
-    document.getElementById('data_copy2').innerHTML = $text2;
+    document.getElementById('data_copy2').innerHTML = $text_print;
     document.getElementById('data_copy2').hidden = false;
     var el = document.getElementById('data_copy2');
     el.select();

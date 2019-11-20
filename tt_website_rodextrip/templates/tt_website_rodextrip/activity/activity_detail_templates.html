@@ -75,6 +75,7 @@
 </style>
 
 {% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 <div class="destinations-area" style="margin-bottom:25px;">
     <div class="container">
@@ -357,6 +358,7 @@
 
                     </div>
                     <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+                    <input type="hidden" id="additional_price_input" value="" name="additional_price_input" />
                 </form>
             </div>
         </div>
