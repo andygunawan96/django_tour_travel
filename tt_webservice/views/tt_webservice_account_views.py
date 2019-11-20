@@ -6,7 +6,6 @@ from tools.parser import *
 import datetime
 from ..static.tt_webservice.url import *
 import json
-
 import logging
 import traceback
 _logger = logging.getLogger(__name__)
@@ -136,11 +135,16 @@ def get_balance(request):
 def get_transactions(request):
     if request.POST['using_cache'] == 'false':
         try:
+            name = ''
+            try:
+                name = request.POST['key']
+            except:
+                pass
             data = {
                 'minimum': int(request.POST['offset']) * int(request.POST['limit']),
                 'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
                 'provider_type': json.loads(request.POST['provider_type']),
-                'order_or_pnr': request.POST['key']
+                'order_or_pnr': name
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",
