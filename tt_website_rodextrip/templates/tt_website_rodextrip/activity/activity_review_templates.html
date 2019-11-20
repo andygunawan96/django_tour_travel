@@ -16,7 +16,9 @@
     price = `{{price}}`;
     price = price.replace(/&#39;/g,'"');
     price = JSON.parse(price.replace(/True/g,'true'));
-
+    try{
+        time_slot_pick = `{{timeslot.startTime}} - {{timeslot.endTime}}`;
+    }catch(err){}
     detail = `{{detail.options}}`;
     detail = detail.replace(/&#39;/g,'"');
     detail = detail.replace(/True/g,'true');
@@ -27,6 +29,12 @@
     passenger = `{{pax_count}}`;
     passenger = passenger.replace(/&#39;/g,'"');
     passenger = JSON.parse(passenger);
+    all_pax = `{{all_pax}}`;
+    all_pax = all_pax.replace(/&#39;/g,'"');
+    all_pax = all_pax.replace(/True/g,'true');
+    all_pax = all_pax.replace(/False/g,'false');
+    all_pax = all_pax.replace(/None/g,'""');
+    all_pax = JSON.parse(all_pax);
     signature = `{{signature}}`;
     locations = [];
     images = [];
@@ -93,6 +101,7 @@
         </div>
     </div>
 </header>
+{% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">

@@ -242,11 +242,17 @@ function activity_table_detail(){
    text = '';
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
-   console.log(name);
    $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
            '\nVisit Date : '+document.getElementById('activity_date').value+
            '\n\n';
+   try{
+        console.log(document.getElementById('timeslot_1').value);
+        console.log(document.getElementById('timeslot_1').text);
+        if(document.getElementById('timeslot_1').value != undefined)
+            $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n';
+   }catch(err){
 
+   }
    try{
        skus = activity_date[event_pick][activity_date_pick].prices;
        for (sku in skus)
@@ -302,22 +308,22 @@ function activity_table_detail(){
    if(additional_price != 0)
        $test += 'Additional price IDR '+getrupiah(additional_price)+'\n';
 
-
-   $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
-           '\nPrices and availability may change at any time';
+   if(grand_total != 0)
+       $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
+               '\nPrices and availability may change at any time';
    console.log(grand_total);
    if (additional_price)
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>`+additional_price+`</span></div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+0+`</div>
+                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>0</span></div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
@@ -389,8 +395,23 @@ function activity_table_detail2(pagetype){
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
    $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
-           '\nVisit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
-           '\n\n';
+           '\n';
+   $test += 'Visit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
+           '\n';
+   if(time_slot_pick != '')
+        $test += 'Time slot: ' + time_slot_pick + '\n\n';
+   else
+        $test += '\n';
+
+   try{
+        for(i in all_pax){
+            if(i == 0)
+                $test += 'Passengers:\n';
+            $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+        }
+        $test +='\n';
+   }catch(err){}
+
    try{
        skus = price.prices;
        for (sku in skus)
@@ -449,14 +470,14 @@ function activity_table_detail2(pagetype){
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+additional_price+`</div>
+                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>`+additional_price+`</span></div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
                 <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;" id='additional_price'>IDR `+0+`</div>
+                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>0</span></div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
@@ -702,6 +723,7 @@ function check_detail(){
     }
 
     if(text==''){
+        document.getElementById('additional_price_input').value = document.getElementById('additional_price').innerHTML;
         document.getElementById('time_limit_input').value = time_limit;
         detail_to_passenger_page();
     }else{
@@ -1407,6 +1429,22 @@ function check_passenger(adult, senior, child, infant){
 
    }
    if(error_log==''){
+       for(i=1;i<=adult;i++){
+            document.getElementById('adult_birth_date'+i).disabled = false;
+            document.getElementById('adult_passport_expired_date'+i).disabled = false;
+       }
+       for(i=1;i<=senior;i++){
+            document.getElementById('senior_birth_date'+i).disabled = false;
+            document.getElementById('senior_passport_expired_date'+i).disabled = false;
+       }
+       for(i=1;i<=child;i++){
+            document.getElementById('child_birth_date'+i).disabled = false;
+            document.getElementById('child_passport_expired_date'+i).disabled = false;
+       }
+       for(i=1;i<=infant;i++){
+            document.getElementById('infant_birth_date'+i).disabled = false;
+            document.getElementById('infant_passport_expired_date'+i).disabled = false;
+       }
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('additional_price').value = additional_price;
        document.getElementById('activity_review').submit();
@@ -1426,8 +1464,8 @@ function change_event(val){
 }
 
 function timeslot_change(){
-    activity_timeslot = document.getElementById('timeslot_1').value;
-    console.log(activity_timeslot);
+    activity_timeslot = document.getElementById('timeslot_1').value + ' ~ ' + document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text;
+    activity_table_detail();
 }
 
 //perbooking

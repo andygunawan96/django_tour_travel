@@ -1423,9 +1423,12 @@ function activity_get_booking(data){
             document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
 
             price_text = '';
-            $test = msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
-           '\nVisit Date : '+msg.result.response.visit_date+'\n\n';
-
+            $test = 'Order Number: '+ msg.result.response.order_number + '\n';
+            $test += 'Booking Code: '+ msg.result.response.pnr+'\n\n';
+            $test += msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
+           '\nVisit Date : '+msg.result.response.visit_date.split('-')[2] +'-'+msg.result.response.visit_date.split('-')[1]+'-'+msg.result.response.visit_date.split('-')[0]+'\n\n';
+            if(msg.result.response.timeslot != '')
+                $test += 'Time slot: '+ msg.result.response.timeslot+'\n';
             //detail
             text = '';
             tax = 0;
@@ -1518,23 +1521,23 @@ function activity_get_booking(data){
                         price_text+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
-                        $test += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
                         if(counter_service_charge == 0){
-                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
                         price_text+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
-                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
                             price_text+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
                         }
                         price_text+=`
                         </div>
                     </div>`;
-                    if(counter_service_charge == 0)
+                    if(counter_service_charge == 0){
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
-                    else
+                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.CSC))+'\n';
+                    }else{
+                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE))+'\n';
                         total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    }
                     commission += parseInt(price.RAC);
                 }
                 counter_service_charge++;

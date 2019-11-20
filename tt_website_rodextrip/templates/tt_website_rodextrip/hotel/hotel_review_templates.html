@@ -20,6 +20,17 @@
     facilities = facilities.replace(/&quot;/g, '"');
     facilities = facilities.replace(/False/g, 'false');
     facilities = facilities.replace(/True/g, 'true');
+    adult = `{{adults}}`;
+    adult = adult.replace(/True/g, 'true');
+    adult = adult.replace(/False/g, 'False');
+    adult = adult.replace(/&#39;/g, '"');
+    adult = JSON.parse(adult);
+    console.log(adult);
+    child = `{{childs}}`;
+    child = child.replace(/True/g, 'true');
+    child = child.replace(/False/g, 'False');
+    child = child.replace(/&#39;/g, '"');
+    child = JSON.parse(child);
     hotel = `{{hotel_pick}}`;
     hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true');
     //console.log(hotel);
@@ -165,7 +176,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
                         <div class="col-lg-4" style="padding-bottom:10px;">
 
                         </div>

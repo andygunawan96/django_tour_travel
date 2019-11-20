@@ -262,11 +262,7 @@ def review(request):
                 "title": request.POST['infant_title' + str(i + 1)],
                 "birth_date": request.POST['infant_birth_date' + str(i + 1)],
                 "nationality_name": request.POST['infant_nationality' + str(i + 1)],
-                "identity_number": request.POST['infant_passport_number' + str(i + 1)],
-                "identity_expdate": request.POST['infant_passport_expired_date' + str(i + 1)],
-                "identity_country_of_issued_name": request.POST['infant_country_of_issued' + str(i + 1)],
                 "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
-                "identity_type": "passport",
             })
 
         request.session['train_create_passengers'] = {

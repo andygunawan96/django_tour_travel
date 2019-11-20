@@ -19,9 +19,11 @@
     adult = `{{adults}}`;
     infant = `{{infants}}`;
     adult = adult.replace(/&#39;/g, '"');
+    adult = adult.replace(/False/g, 'false');
     adult = JSON.parse(adult.replace(/True/g, 'true'));
 
     infant = infant.replace(/&#39;/g, '"');
+    infant = infant.replace(/False/g, 'false');
     infant = JSON.parse(infant.replace(/True/g, 'true'));
     passengers = {
         'adult': adult,
@@ -37,7 +39,7 @@
     session_time_limit();
     signature = `{{signature}}`;
 </script>
-
+{% include 'tt_website_rodextrip/logout.html' %}
 <header id="header">
     <div class="main-menu">
         <div class="container">
@@ -134,6 +136,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Birth Date</th>
+                                        <th>Pax Type</th>
                                         <th>ID Type</th>
                                         <th>ID Number</th>
                                     </tr>
@@ -141,6 +144,7 @@
                                     <tr>
                                         <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
                                         <td>{{adult.birth_date}}</td>
+                                        <td>Adult</td>
                                         <td>
                                             {% for id_type in id_types %}
                                             {% if id_type.0 == adult.identity_type %}
@@ -156,8 +160,8 @@
                                     <tr>
                                         <td>{{infant.title}} {{infant.first_name}} {{infant.last_name}}</td>
                                         <td>{{infant.birth_date}}</td>
-                                        <td>
-                                        </td>
+                                        <td>Infant</td>
+                                        <td></td>
                                         <td>{{infant.identity_number}}</td>
                                     </tr>
                                     {% endfor %}
