@@ -184,8 +184,8 @@ function show_commission(){
     }
 }
 
-function add_tour_room(i,key_accomodation){
-    room_data = tour_data[i].accommodations[key_accomodation];
+function add_tour_room(key_accomodation){
+    room_data = tour_data.accommodations[key_accomodation];
     console.log(room_data);
     $('#tour_room_input').append(render_room_tour_field(parseInt(room_amount) + 1, room_data, key_accomodation));
     room_amount += 1;
