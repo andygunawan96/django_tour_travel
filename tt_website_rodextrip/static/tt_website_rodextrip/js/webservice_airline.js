@@ -2140,7 +2140,6 @@ function airline_get_booking(data){
             var text = '';
             $text = '';
             if(msg.result.response.state == 'cancel'){
-               console.log('here');
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
                //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -2158,16 +2157,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-           }else if(msg.result.response.state == 'cancel2'){
-               document.getElementById('issued-breadcrumb').classList.remove("br-active");
-               document.getElementById('issued-breadcrumb').classList.add("br-fail");
-               //document.getElementById('issued-breadcrumb').classList.remove("current");
-               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-           }else if(msg.result.response.state == 'fail_booked'){
+            }else if(msg.result.response.state == 'fail_booked'){
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
                //document.getElementById('issued-breadcrumb').classList.remove("current");
@@ -2176,7 +2166,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
-            }else if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'){
+            }else if(msg.result.response.state == 'booked'){
                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                //document.getElementById('issued-breadcrumb').classList.remove("active");
                //document.getElementById('issued-breadcrumb').classList.add("current");
@@ -2195,21 +2185,22 @@ function airline_get_booking(data){
                 document.getElementById('ssr_request_after_sales').innerHTML = `
                         <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
-            }
-            if(msg.result.response.state == 'issued'){
                 document.getElementById('reissued').hidden = false;
                 document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
             }
+            check_provider_booking = 0;
             if(msg.result.response.state == 'booked'){
                 $("#issued_booking_airline").show();
+                check_provider_booking++;
             }
             else{
-                $("#issued_booking_airline").remove();
+//                $("#issued_booking_airline").remove();
                 $('.loader-rodextrip').fadeOut();
             }
 
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-            $text += 'Hold Date:\n';
+            $text += 'Booking Code: ';
+            var localTime;
             text += `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
                 <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
@@ -2220,22 +2211,33 @@ function airline_get_booking(data){
                         <th>Status</th>
                     </tr>`;
                     for(i in msg.result.response.provider_bookings){
+                        if(check_provider_booking == 0 && msg.result.response.provider_bookings[i].state == 'booked'){
+                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            $text += 'Please make payment before '+ moment(localTime).format('DD MMM YYYY HH:mm') + `\n`;
+                            $("#issued_booking_airline").show();
+                            check_provider_booking++;
+                        }
                         //datetime utc to local
                         if(msg.result.response.provider_bookings[i].error_msg.length != 0)
                             text += `<div class="alert alert-danger">
                                 `+msg.result.response.provider_bookings[i].error_msg+`
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                             </div>`;
                         tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                        var localTime  = moment.utc(tes).toDate();
+                        localTime  = moment.utc(tes).toDate();
                         msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         //
-                        $text += msg.result.response.provider_bookings[i].pnr +' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
                         text+=`<tr>
                             <td>`+msg.result.response.provider_bookings[i].pnr+`</td>
                             <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
+                    }
+                    if(check_provider_booking == 0){
+                        $text += msg.result.response.state_description+'\n';
+                        $("#issued_booking_airline").remove();
                     }
                     $text +='\n';
             text+=`</table>
@@ -2250,8 +2252,11 @@ function airline_get_booking(data){
                     check = 0;
                     flight_counter = 1;
                     for(i in msg.result.response.provider_bookings){
+                        $text += msg.result.response.provider_bookings[i].pnr+'\n';
+                        text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
                         for(j in msg.result.response.provider_bookings[i].journeys){
                             var cabin_class = '';
+
                             text+=`<h6>Flight `+flight_counter+`</h6>`;
                             $text += 'Flight '+ flight_counter+'\n';
                             flight_counter++;
@@ -2663,7 +2668,6 @@ function airline_get_booking(data){
             }catch(err){
 
             }
-
             document.getElementById('airline_detail').innerHTML = text;
             $("#show_loading_booking_airline").hide();
 

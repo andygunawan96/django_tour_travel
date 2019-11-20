@@ -517,7 +517,6 @@ function choose_train(data,key){
     $(".img-min-ticket").show();
 //        document.getElementById("show-cart").style.display = "block";
     journeys.push(train_data[key]);
-
     if(journeys.length < train_request.departure.length){
         train_request_pick++;
         filtering('filter');
@@ -546,7 +545,16 @@ function choose_train(data,key){
         document.getElementById('train_choose'+data).disabled = true;
         train_get_detail();
     }
-    console.log(journeys);
+    train_ticket_pick();
+}
+
+function change_train(val){
+    train_request_pick = val;
+    journeys.splice(val,1);
+    document.getElementById("train_pick_ticket").innerHTML = '';
+    document.getElementById("train_ticket").innerHTML = '';
+    train_ticket_pick();
+    filtering('filter');
 }
 
 function train_get_detail(){
@@ -714,7 +722,12 @@ function train_detail(){
     for(i in train_data){
     $text +=
         train_data[i].carrier_name+`-`+train_data[i].carrier_number+`(`+train_data[i].cabin_class[1]+`)\n`+
-        train_data[i].origin_name+` (`+train_data[i].origin+`) - `+train_data[i].destination_name+` (`+train_data[i].destination+`) `+train_data[i].departure_date+`-`+train_data[i].arrival_date+`\n\n`;
+        train_data[i].origin_name+` (`+train_data[i].origin+`) - `+train_data[i].destination_name+` (`+train_data[i].destination+`) `;
+    $text += train_data[i].departure_date.split(' - ')[0]+' ' + train_data[i].departure_date.split(' - ')[1]+ ` - `;
+    if(train_data[i].departure_date.split(' - ')[0] != train_data[i].arrival_date.split(' - ')[0])
+        $text += train_data[i].arrival_date.split(' - ')[0] + ' ' + train_data[i].arrival_date.split(' - ')[1]+`\n\n`;
+    else
+        $text += train_data[i].arrival_date.split(' - ')[1]+`\n\n`;
     text += `
 
         <div class="row" style:"background-color:white; padding:5px;">
@@ -786,7 +799,7 @@ function train_detail(){
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
                             </div>`;
-                        $text += adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
+                        $text += adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
                     }else if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
                         text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
@@ -800,6 +813,7 @@ function train_detail(){
                 }
             }
         }
+        $text += '\n';
         text+=`<div class="col-lg-6 col-xs-6" style="text-align:left;">
                 <span style="font-size:13px;">1x Convenience fee</span>
             </div>
@@ -835,7 +849,20 @@ function train_detail(){
             <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
         </div>
     </div>`;
-    $text += '1x Convenience fee '+price['currency']+' '+ total_tax + '\n\n';
+    $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
+    try{
+        console.log(passengers);
+        $text += 'Passengers\n';
+        for(i in passengers){
+            for(j in passengers[i]){
+                $text += passengers[i][j].title + ' ' + passengers[i][j].first_name + ' ' + passengers[i][j].last_name + '\n';
+            }
+        }
+        $text += '\n';
+    }catch(err){
+
+    }
+
     $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
 
     document.getElementById('train_detail').innerHTML = text;
@@ -1403,6 +1430,75 @@ function sort(value){
     train_data_filter = data_filter;
     document.getElementById('train_ticket').innerHTML = response;
     document.getElementById('loading-search-train').hidden = true;
+}
+
+function train_ticket_pick(){
+    response = '';
+    for(i in journeys){
+
+        response+=`
+        <div style="background-color:#f15a22; padding:10px;">
+            <h6 style="color:white;">`;
+        if(i == 0)
+            response += 'Departure';
+        else
+            response += 'Return';
+            response +=`</h6>
+        </div>
+        <div class="sorting-box-b">`;
+        response += `
+            <div class="row">
+                <div class="col-lg-12">
+                    <h4>`+journeys[i].carrier_name+` - (`+journeys[i].carrier_number+`)  - `+journeys[i].cabin_class[1]+`</h4>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <table style="width:100%">
+                        <tr>
+                            <td><h5>`+journeys[i].origin+`</h5></td>
+                            <td style="padding-left:15px;">
+                                <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
+                            </td>
+                            <td style="height:30px;padding:0 15px;width:100%">
+                                <div style="display:inline-block;position:relative;width:100%">
+                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <span>`+journeys[i].origin_name+`</span><br/>
+                    <span>`+journeys[i].departure_date+`</span><br/>
+                </div>
+                <div class="col-lg-4 col-xs-6" style="padding:0;">
+                    <table style="width:100%; margin-bottom:6px;">
+                        <tr>
+                            <td><h5>`+journeys[i].destination+`</h5></td>
+                            <td></td>
+                            <td style="height:30px;padding:0 15px;width:100%"></td>
+                        </tr>
+                    </table>
+                    <span>`+journeys[i].destination_name+`</span><br/>
+                    <span>`+journeys[i].arrival_date+`</span><br/>
+                </div>
+
+                <div class="col-lg-4">
+                    <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
+                    check = 0;
+                    response+=`
+                        <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(journeys[i].price)+`</span>
+                        <input class="primary-btn-custom" type="button" onclick="change_train(`+i+`)"  id="train_choose`+i+`" value="Change">`;
+                if(journeys[i].available_count<50)
+                    response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+journeys[i].available_count+` seat(s) left</span>`;
+                else if(journeys[i].available_count<=1 )
+                    response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+journeys[i].available_count+` seat(s) left</span>`;
+                response+=`</div>
+                </div>
+            </div>
+        </div>`;
+
+    }
+    document.getElementById('train_pick_ticket').innerHTML = response;
 }
 
 function update_contact_cp(val){

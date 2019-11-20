@@ -410,7 +410,6 @@ function tour_get_details(package_id){
                     }
                     itinerary_text += `</div>`;
 
-                    remarks_text += tour_data[i].requirements;
                     if (tour_data[i].flight == 'include')
                     {
                         include_flight = 1;

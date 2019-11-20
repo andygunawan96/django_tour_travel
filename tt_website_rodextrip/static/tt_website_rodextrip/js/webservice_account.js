@@ -228,7 +228,7 @@ function get_transactions(type){
         document.getElementById("table_reservation").innerHTML = `
                     <tr>
                         <th style="width:2%;">No.</th>
-                        <th style="width:10%;">Name</th>
+                        <th style="width:10%;">Order Number</th>
                         <th style="width:7%;">Provider</th>
                         <th style="width:12%;">Book Date</th>
                         <th style="width:12%;">Hold Date</th>
@@ -259,22 +259,30 @@ function get_transactions(type){
         console.log(msg);
         if(msg.result.error_code == 0){
             try{
+                var date = '';
+                var localTime = '';
+                for(i in msg.result.response){
+                    if(msg.result.response[i].hold_date != '' && msg.result.response[i].hold_date != false){
+                        date = moment.utc(msg.result.response[i].hold_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(date).toDate();
+                        msg.result.response[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    }
+                    if(msg.result.response[i].booked_date != '' && msg.result.response[i].booked_date != false){
+                        date = moment.utc(msg.result.response[i].booked_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(date).toDate();
+                        msg.result.response[i].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    }
+                    if(msg.result.response[i].issued_date != '' && msg.result.response[i].issued_date != false){
+                        date = moment.utc(msg.result.response[i].issued_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        localTime  = moment.utc(date).toDate();
+                        msg.result.response[i].issued_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    }
+                }
                 if(msg.result.response.length >= 20){
                     offset_transaction++;
                     table_reservation(msg.result.response);
                     load_more = true;
                 }else{
-                    var date = '';
-                    var localTime = '';
-                    for(i in msg.result.response){
-//                        date = moment.utc(msg.result.response[i].hold_date).format('YYYY-MM-DD HH:mm:ss');
-//                        localTime  = moment.utc(date).toDate();
-//                        msg.result.response[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-//
-//                        date = moment.utc(msg.result.response[i].booked_date).format('YYYY-MM-DD HH:mm:ss');
-//                        localTime  = moment.utc(date).toDate();
-//                        msg.result.response[i].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                    }
                     table_reservation(msg.result.response);
                 }
             }catch(err){
@@ -361,7 +369,7 @@ function submit_top_up(){
        },
        data: {
 //            'currency_code': currency_code,
-            'amount': document.getElementById('amount').value,
+            'amount': document.getElementById('amount').value.split(',').join(''),
 //            'amount_count': document.getElementById('qty').value,
 //            'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
 //            'seq_id': payment_acq2[payment_method][selected].seq_id,
@@ -647,7 +655,7 @@ function table_top_up_history(data){
     }
 }
 
-function total_price_top_up(){
+function total_price_top_up(evt){
 //    for(i in top_up_amount_list){
 //        if(top_up_amount_list[i].seq_id == document.getElementById('amount').value){
 //            document.getElementById('total_amount').value = "IDR "+getrupiah(top_up_amount_list[i].amount);
@@ -655,12 +663,15 @@ function total_price_top_up(){
 //        }
 //    }
     console.log(document.getElementById('amount').value);
-    document.getElementById('total_amount').value = "IDR "+getrupiah(document.getElementById('amount').value);
-    try{
-        document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
-        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
-    }catch(err){
-    }
+        var amount = document.getElementById('amount').value.split(',');
+        amount = amount.join('');
+        document.getElementById('amount').value = getrupiah(amount);
+        document.getElementById('total_amount').value = "IDR "+document.getElementById('amount').value;
+        try{
+            document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
+            document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
+        }catch(err){
+        }
 
 //    $('#amount').niceSelect('update');
 }
@@ -675,7 +686,7 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        if(parseInt(document.getElementById('amount').value) < 50000){
+        if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
             error_text += 'Minimum top up Amount IDR 50,000\n';
         }
     }catch(err){

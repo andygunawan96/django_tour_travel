@@ -1757,87 +1757,87 @@ function check_regex(value,regex){
 
 //backend
 
-function get_agent_booking(type){
-    load_more = false;
-    getToken();
-    if(type == 'reset'){
-        agent_offset = 0;
-        data_counter = 0;
-        data_search = [];
-        document.getElementById("table_reservation").innerHTML = `
-                    <tr>
-                        <th style="width:2%;">No.</th>
-                        <th style="width:10%;">Name</th>
-                        <th style="width:7%;">Provider</th>
-                        <th style="width:8%;">State</th>
-                        <th style="width:5%;">PNR</th>
-                        <th style="width:8%;">Agent</th>
-                        <th style="width:12%;">Book Date</th>
-                        <th style="width:12%;">Hold Date</th>
-                        <th style="width:12%;">Issued Date</th>
-                        <th style="width:9%;">Issued By</th>
-                        <th style="width:7%;">Action</th>
-                    </tr>`;
-    }
-    var tb_value = '';
-    var pnr_value = '';
-    var type_search = '';
-
-     try{
-        type_search = document.getElementById('tb').value
-    }catch(err){
-    }
-    try{
-        tb_value = document.getElementById('search_tb').checked;
-    }catch(err){
-    }
-    try{
-        pnr_value = document.getElementById('search_pnr').checked;
-    }catch(err){
-    }
-    $.ajax({
-       type: "POST",
-       url: "/webservice/agent",
-       headers:{
-            'action': 'get_agent_booking',
-       },
-       data: {
-        'offset': agent_offside,
-        'name': type_search,
-        'tb': tb_value,
-        'pnr': pnr_value
-       },
-       success: function(msg) {
-        console.log(msg);
-        if(msg.result.error_code == 0){
-            try{
-                if(msg.result.response.transport_booking.length == 80){
-                    agent_offside++;
-                    table_reservation(msg.result.response.transport_booking);
-                    load_more = true;
-                }else{
-                    table_reservation(msg.result.response.transport_booking);
-                }
-            }catch(err){
-                set_notification(msg.result.response.transport_booking);
-            }
-        }else{
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: "Oops, something when wrong please contact HO !",
-            })
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error agent booking </span>' + errorThrown,
-            })
-       },timeout: 60000
-    });
-}
+//function get_agent_booking(type){
+//    load_more = false;
+//    getToken();
+//    if(type == 'reset'){
+//        agent_offset = 0;
+//        data_counter = 0;
+//        data_search = [];
+//        document.getElementById("table_reservation").innerHTML = `
+//                    <tr>
+//                        <th style="width:2%;">No.</th>
+//                        <th style="width:10%;">Name</th>
+//                        <th style="width:7%;">Provider</th>
+//                        <th style="width:8%;">State</th>
+//                        <th style="width:5%;">PNR</th>
+//                        <th style="width:8%;">Agent</th>
+//                        <th style="width:12%;">Book Date</th>
+//                        <th style="width:12%;">Hold Date</th>
+//                        <th style="width:12%;">Issued Date</th>
+//                        <th style="width:9%;">Issued By</th>
+//                        <th style="width:7%;">Action</th>
+//                    </tr>`;
+//    }
+//    var tb_value = '';
+//    var pnr_value = '';
+//    var type_search = '';
+//
+//     try{
+//        type_search = document.getElementById('tb').value
+//    }catch(err){
+//    }
+//    try{
+//        tb_value = document.getElementById('search_tb').checked;
+//    }catch(err){
+//    }
+//    try{
+//        pnr_value = document.getElementById('search_pnr').checked;
+//    }catch(err){
+//    }
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/agent",
+//       headers:{
+//            'action': 'get_agent_booking',
+//       },
+//       data: {
+//        'offset': agent_offside,
+//        'name': type_search,
+//        'tb': tb_value,
+//        'pnr': pnr_value
+//       },
+//       success: function(msg) {
+//        console.log(msg);
+//        if(msg.result.error_code == 0){
+//            try{
+//                if(msg.result.response.transport_booking.length == 80){
+//                    agent_offside++;
+//                    table_reservation(msg.result.response.transport_booking);
+//                    load_more = true;
+//                }else{
+//                    table_reservation(msg.result.response.transport_booking);
+//                }
+//            }catch(err){
+//                set_notification(msg.result.response.transport_booking);
+//            }
+//        }else{
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              text: "Oops, something when wrong please contact HO !",
+//            })
+//        }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: red;">Error agent booking </span>' + errorThrown,
+//            })
+//       },timeout: 60000
+//    });
+//}
 
 function get_top_up_history(){
     load_more = false;

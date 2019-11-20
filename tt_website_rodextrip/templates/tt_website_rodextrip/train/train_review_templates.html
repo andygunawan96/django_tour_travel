@@ -16,6 +16,17 @@
     train_data = train_data.replace(/True/g, 'true');
     train_data = JSON.parse(train_data);
     console.log(train_data);
+    adult = `{{adults}}`;
+    infant = `{{infants}}`;
+    adult = adult.replace(/&#39;/g, '"');
+    adult = JSON.parse(adult.replace(/True/g, 'true'));
+
+    infant = infant.replace(/&#39;/g, '"');
+    infant = JSON.parse(infant.replace(/True/g, 'true'));
+    passengers = {
+        'adult': adult,
+        'infant': infant
+    }
     train_request = `{{train_request}}`;
     train_request = JSON.parse(train_request.replace(/&#39;/g, '"'));
     console.log(train_request);
@@ -108,7 +119,7 @@
                                         <span>{{data.arrival_date}}</span>
                                     </div>
                                 </div>
-                                <hr/>
+                                {%if forloop.counter != response|length %}<hr/>{%endif%}
                                 {% endfor %}
                             </div>
                             <br/>

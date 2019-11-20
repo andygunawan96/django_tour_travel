@@ -91,7 +91,7 @@ function update_table(type){
                     <td style="text-align:right;">`+visa[i].sale_price.currency+` `+getrupiah(visa[i].sale_price.total_price*pax_count)+`</td>
                 </tr>`;
                 count_i = count_i+1;
-                $text += count_i + '. \n'
+                $text += count_i + '. ';
                 $text += 'Visa '+ country +'('+visa[i].sale_price.currency+ ' ' +getrupiah(visa[i].sale_price.total_price)+')\n';
                 $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
@@ -231,7 +231,8 @@ function update_table(type){
                 </div>
             </div>`;
         }
-    }else if(type == 'passenger'){
+    }
+    else if(type == 'passenger'){
         text += `<h4>Price detail</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
@@ -249,7 +250,7 @@ function update_table(type){
                 </tr>`;
 
                 count_i = count_i+1;
-                $text += count_i + '. \n'
+                $text += count_i + '. ';
                 $text += 'Visa '+ visa_request.destination +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
                 $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
@@ -259,9 +260,9 @@ function update_table(type){
                     $text += 'Visa Requirement:\n';
 
                     for(j in visa.list_of_visa[i].requirements){
-                        $text += visa.list_of_visa[i].requirements[j].name;
+                        $text += '- ' + visa.list_of_visa[i].requirements[j].name;
                         if(visa.list_of_visa[i].requirements[j].description){
-                            if(visa.list_of_visa[i].requirements[j].description == "-"){
+                            if(visa.list_of_visa[i].requirements[j].description != "-"){
                                 $text += ': ' + visa.list_of_visa[i].requirements[j].description;
                             }
                         }
@@ -357,7 +358,7 @@ function update_table(type){
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].pax_count != 0){
                 count_i = count_i+1;
-                $text += count_i + '. \n'
+                $text += count_i + '. ';
                 $text += 'Visa '+ visa_request.destination +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
                 $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
@@ -367,9 +368,9 @@ function update_table(type){
                     $text += 'Visa Requirement:\n';
 
                     for(j in visa.list_of_visa[i].requirements){
-                        $text += visa.list_of_visa[i].requirements[j].name;
+                        $text += '- ' + visa.list_of_visa[i].requirements[j].name;
                         if(visa.list_of_visa[i].requirements[j].description){
-                            if(visa.list_of_visa[i].requirements[j].description == "-"){
+                            if(visa.list_of_visa[i].requirements[j].description != "-"){
                                 $text += ': ' + visa.list_of_visa[i].requirements[j].description;
                             }
                         }
@@ -386,11 +387,20 @@ function update_table(type){
 
             }
         }
-        console.log(commission);
+        if(list_passenger.length > 0){
 
-        $text += 'Price\n';
+            $text += 'Passengers\n';
+            for(i in list_passenger){
+                $text += list_passenger[i].name + ' ' + list_passenger[i].currency + ' ' + getrupiah(list_passenger[i].Fare) +'\n';
+                $text += list_passenger[i].type.entry + ' ' + list_passenger[i].type.type + ' ' + list_passenger[i].type.visa+'\n';
+
+            }
+        }
+
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].total_pax != 0){
+                if(i == 0)
+                    $text += 'Price\n';
                 $text += visa.list_of_visa[i].total_pax + ' ' + visa.list_of_visa[i].pax_type[1];
                 $text += ' @'+ visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price) + '\n';
             }
@@ -480,9 +490,45 @@ function update_table(type){
         price_pax = 0;
         commission = 0;
         currency = '';
+
+        $text = '';
+        $text += 'Order Number: '+ visa.journey.name+'\n';
+        $text += visa.journey.country + ' ' + visa.journey.departure_date + ' ' + visa.journey.state_visa + '\n';
+
+
         for(i in visa.passengers){
+            if(i == 0)
+                $text += '\nPassengers\n';
+            $text += visa.passengers[i].sequence + ' ' + visa.passengers[i].title + ' ' + visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name + '\n';
+            if(visa.passengers[i].passport_number != '')
+                $text += visa.passengers[i].passport_number + ' ' + visa.passengers[i].passport_expdate + '\n';
+            $text += visa.passengers[i].visa.entry_type + ' ' + visa.passengers[i].visa.visa_type + ' ' + visa.passengers[i].visa.process + '\n';
+            $text += 'Consulate: '+ visa.passengers[i].visa.immigration_consulate + '\n';
+            $text += 'Process: ' + visa.passengers[i].visa.duration + ' Days';
+            if(visa.journey.in_process_date != '')
+                $text += ' from '+ visa.journey.in_process_date + '\n';
+            else
+                $text == '\n';
+            for(j in visa.passengers[i].visa.requirements){
+                if(j == 0)
+                    $text += '\nRequirements\n';
+                $text += visa.passengers[i].visa.requirements[j].name + '\n';
+            }
+            if(visa.passengers[i].visa.interview.needs == true){
+                $text += '\nInterview\b'
+                for(j in visa.passengers[i].visa.interview.interview_list){
+                    $text += visa.passengers[i].visa.interview.interview_list[j].location + ' ' + visa.passengers[i].visa.interview.interview_list[j].datetime + '\n';
+                }
+            }
+            if(visa.passengers[i].visa.biometrics.needs == true){
+                $text += '\nInterview\b'
+                for(j in visa.passengers[i].visa.biometrics.biometrics_list){
+                    $text += visa.passengers[i].visa.biometrics.biometrics_list[j].location + ' ' + visa.passengers[i].visa.biometrics.biometrics_list[j].datetime + '\n';
+                }
+            }
             for(j in visa.passengers[i].visa.price){
                 if(visa.passengers[i].visa.price[j].charge_code == 'total'){
+                    $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(visa.passengers[i].visa.price[j].amount) + '\n';
                     price += visa.passengers[i].visa.price[j].amount;
                     price_pax = visa.passengers[i].visa.price[j].amount;
                     currency = visa.passengers[i].visa.price[j].currency;
@@ -511,6 +557,7 @@ function update_table(type){
                     <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
+        $text += `\nGrand total `+currency+` `+getrupiah(price);
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
