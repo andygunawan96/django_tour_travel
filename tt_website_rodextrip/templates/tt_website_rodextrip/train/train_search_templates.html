@@ -40,12 +40,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="text-transform: capitalize; font-size:12px;">{% if train_request.direction == 'OW' %} One Way {% elif train_request.direction == 'RT' %} Round Trip {% endif %} - </span>
-                            <span style="text-transform: capitalize; font-size:12px;" title="{{train_request.origin}} > {{train_request.destination}}">{{train_request.origin}} {{train_request.destination}}</span>
+                            <span style="text-transform: capitalize; font-size:12px;">{% if train_request.direction == 'OW' %} One Way {% elif train_request.direction == 'RT' %} Round Trip {% endif %} | </span>
+                            <span style="text-transform: capitalize; font-size:12px;" title="{{train_request.origin}} > {{train_request.destination}}">{{train_request.origin.0}} {% if train_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif train_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}{{train_request.destination.0}}</span>
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <span style="text-transform: capitalize; font-size:13px;">{{train_request.departure}} | </span>
+                        <span style="text-transform: capitalize; font-size:13px;">{{train_request.departure.0}} {% if train_request.departure|length > 1%} - {{train_request.departure.1}} {% endif%} | </span>
                         <span style="text-transform: capitalize; font-size:12px;"><i class="fas fa-users"></i> {% if train_request.adult != 0 %} {{train_request.adult}} Adult {% endif %} {% if train_request.infant != 0 %}, {{train_request.infant}} Infant {% endif %}</span>
                     </div>
                 </div>
@@ -376,6 +376,9 @@
                 </div>
 
                 <div class="row" id="show-search-train">
+                    <div class="col-lg-12" id="train_pick_ticket">
+
+                    </div>
                     <div class="col-lg-12" id="train_ticket">
 
                     </div>
