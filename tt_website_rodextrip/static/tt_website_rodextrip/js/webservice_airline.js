@@ -1008,7 +1008,6 @@ function get_price_itinerary_request(){
     }catch(err){
 
     }
-    console.log(journey);
     promotion_code = [];
     for(i=0;i<promotion_code;i++){
         try{
@@ -1019,6 +1018,7 @@ function get_price_itinerary_request(){
                 })
         }catch(err){}
     }
+    document.getElementById("airlines_ticket").innerHTML = '';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
