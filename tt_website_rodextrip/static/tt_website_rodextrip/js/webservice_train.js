@@ -433,7 +433,7 @@ function train_get_booking(data){
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
-                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
+                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
 
                 </table>

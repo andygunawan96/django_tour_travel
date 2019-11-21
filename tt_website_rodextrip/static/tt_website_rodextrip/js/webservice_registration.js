@@ -181,13 +181,13 @@ function set_company_type(){
     }else{
         document.getElementById('company_details').hidden = false;
         text = `<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <span class="control-label" for="person_name">Business License<span class="required-txt">* </span></span>
+                    <span class="control-label" for="person_name">Business License</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control o_website_form_input" id="business_license" name="business_license" required="1"/>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <span class="control-label" for="comp_name">NPWP<span class="required-txt">* </span></span>
+                    <span class="control-label" for="comp_name">NPWP</span>
                     <div class="input-container-search-ticket">
                         <input type="text" class="form-control o_website_form_input" id="npwp" name="npwp" required="1"/>
                     </div>
@@ -211,21 +211,21 @@ function check_registration(){
             break;
         }
     }
-    if(company == 'individual'){
-
-    }else if(company == 'company'){
-        if(document.getElementById('business_license').value == ''){
-            error_log+= 'Please fill business license!\n';
-            document.getElementById('business_license').style['border-color'] = 'red';
-        }else{
-            document.getElementById('business_license').style['border-color'] = '#EFEFEF';
-        }if(document.getElementById('npwp').value == ''){
-            error_log+= 'Please fill NPWP!\n';
-            document.getElementById('npwp').style['border-color'] = 'red';
-        }else{
-            document.getElementById('npwp').style['border-color'] = '#EFEFEF';
-        }
-    }
+//    if(company == 'individual'){
+//
+//    }else if(company == 'company'){
+//        if(document.getElementById('business_license').value == ''){
+//            error_log+= 'Please fill business license!\n';
+//            document.getElementById('business_license').style['border-color'] = 'red';
+//        }else{
+//            document.getElementById('business_license').style['border-color'] = '#EFEFEF';
+//        }if(document.getElementById('npwp').value == ''){
+//            error_log+= 'Please fill NPWP!\n';
+//            document.getElementById('npwp').style['border-color'] = 'red';
+//        }else{
+//            document.getElementById('npwp').style['border-color'] = '#EFEFEF';
+//        }
+//    }
     if(document.getElementById('agent_type').value == ''){
         error_log+= 'Please fill agent type!\n';
         document.getElementById('agent_type').style['border-color'] = 'red';
@@ -287,11 +287,21 @@ function check_registration(){
     }
     //check doc regis
     for(i=1;i<=counter_regis_doc;i++){
-        if( document.getElementById("resume"+i).files.length == 0 ){
-            error_log+= 'Please fill ktp!\n';
-            document.getElementById('resume'+1).style['border-color'] = 'red';
-        }else{
-            document.getElementById('resume'+1).style['border-color'] = '#EFEFEF';
+        if(document.getElementById('agent_type').value == 'Agent Citra'){
+            if( document.getElementById("resume"+i).files.length == 0 ){
+                if(i == 1)
+                    error_log+= 'Please fill ktp!\n';
+                else if(i == 2)
+                    error_log+= 'Please fill npwp!\n';
+                else if(i == 3)
+                    error_log+= 'Please fill siup!\n';
+                document.getElementById('resume'+i).style['border-color'] = 'red';
+            }else if(i == 1 && document.getElementById("resume"+i).files.length == 0){
+                error_log+= 'Please fill ktp!\n';
+                document.getElementById('resume'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('resume'+i).style['border-color'] = '#EFEFEF';
+            }
         }
     }
 

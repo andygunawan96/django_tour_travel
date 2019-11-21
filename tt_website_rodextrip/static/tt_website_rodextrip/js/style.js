@@ -2249,6 +2249,9 @@ function focus_box(id_string){
 function close_div(id_string){
     var focus = document.getElementById(id_string);
     focus.style.border ="1px solid #cdcdcd";
+    try{
+        change_top_up();
+    }catch(err){}
     document.getElementById("overlay-div-box").style.display = "none";
     document.getElementById("payment_acq").hidden = true;
 }

@@ -507,8 +507,9 @@ def get_price_itinerary(request, boolean, counter):
                         'carrier_code': carrier_code
                     })
                 journeys = []
+        request.session['airline_promotion_code'] = json.loads(request.POST['promotion_code'])
         data = {
-            "promotion_code": [],
+            "promotion_code": request.session['airline_promotion_code'],
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
@@ -629,7 +630,6 @@ def get_price_itinerary(request, boolean, counter):
 def get_fare_rules(request):
     try:
         data = request.session['airline_get_price_request']
-        request.session['airline_get_price_request'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

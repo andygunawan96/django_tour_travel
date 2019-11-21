@@ -93,6 +93,7 @@ def register_agent(request):
                 'data': base64.b64encode(request.FILES['Resume'+str(counter)].read()).decode("utf-8"),
                 'content_type': request.FILES['Resume'+str(counter)].content_type,
                 'type': request.POST['type_regis_doc'+str(counter)] and request.POST['type_regis_doc'+str(counter)] or '',
+                'name': request.FILES['Resume'+str(counter)].name
             })
         except:
             check = False

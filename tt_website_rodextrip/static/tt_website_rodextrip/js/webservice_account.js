@@ -351,7 +351,7 @@ function get_top_up_amount(){
 
 function change_top_up(){
     document.getElementById('amount').disabled = false;
-    document.getElementById('payment_method').disabled = false;
+//    document.getElementById('payment_method').disabled = false;
     document.getElementById('tac_checkbox').disabled = false;
     document.getElementById('payment_acq').innerHTML = '';
     document.getElementById('submit_name').innerHTML = 'Submit';
@@ -379,7 +379,7 @@ function submit_top_up(){
         console.log(msg);
         if(msg.result.error_code == 0){
             document.getElementById('amount').disabled = true;
-            document.getElementById('payment_method').disabled = true;
+//            document.getElementById('payment_method').disabled = true;
             document.getElementById('tac_checkbox').disabled = true;
             document.getElementById('submit_name').innerHTML = 'Change';
             document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
@@ -636,6 +636,11 @@ function table_top_up_history(data){
         text+= `<td>`+data[i].due_date+`</td>`;
         text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
         text+= `<td>`+data[i].state+`</td>`;
+        if(data[i].hasOwnProperty('user') == true){
+            text+= `<td></td>`;
+        }else{
+            text+= `<td>-</td>`;
+        }
         if(data[i].state == 'request'){
             text+= `<td>
             <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
@@ -644,7 +649,6 @@ function table_top_up_history(data){
         }else{
             text+= `<td></td>`;
         }
-
         text+= `</tr>`;
         node.innerHTML = text;
         document.getElementById("table_top_up_history").appendChild(node);
@@ -688,7 +692,7 @@ function check_top_up(){
     }
     try{
         if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
-            error_text += 'Minimum top up Amount IDR 50,000\n';
+            error_text += 'Amount (Min Top Up Amount IDR 50,000)\n';
         }
     }catch(err){
 
@@ -721,7 +725,7 @@ function check_top_up(){
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: '<span style="color: #ff9900;">Error check topup</span>' + error_text,
+          html: error_text //'<span style="color: #ff9900;">Error check topup</span>' + error_text,
         })
     }
 }
