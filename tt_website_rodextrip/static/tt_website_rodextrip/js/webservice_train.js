@@ -300,7 +300,7 @@ function train_get_booking(data){
         if(msg.result.error_code == 0){
             train_get_detail = msg;
             if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'){
-                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
             }
             $text = '';
             text = '';
@@ -499,6 +499,7 @@ function train_get_booking(data){
                             <td>`+msg.result.response.passengers[pax].identity_number+`</td>
                             <td>`;
                             for(i in ticket)
+                                if(ticket[i].seat.split(',').length == 2)
                                 text += ticket[i].journey+`<br/>`+ticket[i].seat.split(',')[0] + ' ' + ticket[i].seat.split(',')[1] +`<br/>`;
                             text+=`
                             </td>
@@ -513,7 +514,6 @@ function train_get_booking(data){
                 <div class="col-lg-4" style="padding-bottom:10px;">`;
                     if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                         if (msg.result.response.state == 'booked'){
-                            console.log('asdasdad');
                             text+=`
                             <form method="post" id="seat_map_request" action='/train/seat_map'>
 
@@ -764,6 +764,12 @@ function train_get_booking(data){
             add_repricing();
             document.getElementById('show_title_train').hidden = false;
             document.getElementById('show_loading_booking_train').hidden = true;
+            if(msg.result.response.state == 'booked'){
+                text += `
+                <div style="margin-bottom:5px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="train_cancel_booking();" value="Cancel Booking"/>
+                </div>`;
+            }
             document.getElementById('train_detail').innerHTML = text;
             if (msg.result.response.state != 'booked'){
                 document.getElementById('issued-breadcrumb').classList.add("active");
@@ -841,10 +847,9 @@ function train_issued(data){
     }).then((result) => {
       if (result.value) {
         show_loading();
-        getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/airline",
+           url: "/webservice/train",
            headers:{
                 'action': 'issued',
            },
@@ -883,7 +888,7 @@ function train_issued(data){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
+                  html: '<span style="color: red;">Error train issued </span>' + errorThrown,
                 })
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
@@ -928,6 +933,41 @@ function train_get_seat_map(){
     });
 }
 
+function train_cancel_booking(){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'cancel',
+       },
+       data: {
+            'order_number': order_number,
+            'signature': signature
+
+       },
+       success: function(msg) {
+       console.log(msg);
+        if(msg.result.error_code == 0)
+            continue
+//            document.getElementById('train_booking').submit();
+        else
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
+            })
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+    $('.submit-seat-train').addClass("running");
+}
 
 function train_manual_seat(){
     getToken();

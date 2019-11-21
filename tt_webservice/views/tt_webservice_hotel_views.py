@@ -60,6 +60,8 @@ def api_models(request):
             res = provision(request)
         elif req_data['action'] == 'issued':
             res = create_booking(request)
+        elif req_data['action'] == 'get_booking':
+            res = get_booking(request)
         elif req_data['action'] == 'get_top_facility':
             res = get_top_facility(request)
         elif req_data['action'] == 'get_facility_img':
@@ -421,6 +423,28 @@ def create_booking(request):
 
     try:
         request.session['hotel_booking'] = res['result']['response']
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_booking(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+
+    try:
+        request.session['hotel_provision'] = res
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

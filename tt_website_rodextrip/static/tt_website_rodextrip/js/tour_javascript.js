@@ -184,8 +184,8 @@ function show_commission(){
     }
 }
 
-function add_tour_room(i,key_accomodation){
-    room_data = tour_data[i].accommodations[key_accomodation];
+function add_tour_room(key_accomodation){
+    room_data = tour_data.accommodations[key_accomodation];
     console.log(room_data);
     $('#tour_room_input').append(render_room_tour_field(parseInt(room_amount) + 1, room_data, key_accomodation));
     room_amount += 1;
@@ -572,6 +572,18 @@ function check_passenger(adult, child, infant){
    }
    if(error_log=='')
    {
+       for(i=1;i<=adult;i++){
+                document.getElementById('adult_birth_date'+i).disabled = false;
+                document.getElementById('adult_passport_expired_date'+i).disabled = false;
+       }
+       for(i=1;i<=child;i++){
+            document.getElementById('child_birth_date'+i).disabled = false;
+            document.getElementById('child_passport_expired_date'+i).disabled = false;
+       }
+       for(i=1;i<=infant;i++){
+            document.getElementById('infant_birth_date'+i).disabled = false;
+            document.getElementById('infant_passport_expired_date'+i).disabled = false;
+       }
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('tour_review').submit();
    }

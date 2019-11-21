@@ -774,42 +774,40 @@ function train_detail(){
             'fare': 0,
             'tax': 0
         };
-        if(parseInt(adult) > 0){
-            for(j in train_data[i].fares){
-                total_tax += train_data[i].fares[0].service_charge_summary[0].total_tax;
-                total_commission += train_data[i].fares[0].service_charge_summary[0].total_rac*-1;
-                for(k in train_data[i].fares[j].service_charge_summary){
-                    for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
-                        if(l == 0)
-                            price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
-                        if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'tax' && train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'roc')
-                            price[train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
-                        else
-                            price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
-                    }
-                    if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
-                        total_price += price['fare'] * parseInt(adult);
+        for(j in train_data[i].fares){
+            total_tax += train_data[i].fares[0].service_charge_summary[0].total_tax;
+            total_commission += train_data[i].fares[0].service_charge_summary[0].total_rac*-1;
+            for(k in train_data[i].fares[j].service_charge_summary){
+                for(l in train_data[i].fares[j].service_charge_summary[k].service_charges){
+                    if(l == 0)
+                        price['currency'] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].currency;
+                    if(train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'tax' && train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code != 'roc')
+                        price[train_data[i].fares[j].service_charge_summary[k].service_charges[l].charge_code] = train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
                     else
-                        total_price += price['fare'] * parseInt(infant);
-                    if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT' && parseInt(adult) > 0){
-                        text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(adult)+` Adult(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
-                            </div>`;
-                        $text += adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
-                    }else if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
-                        text+=`
-                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) Fare x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
-                            </div>
-                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(infant))+`</span>
-                            </div>`;
-                        $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
-                    }
+                        price['tax'] += train_data[i].fares[j].service_charge_summary[k].service_charges[l].amount;
+                }
+                if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT')
+                    total_price += price['fare'] * parseInt(adult);
+                else
+                    total_price += price['fare'] * parseInt(infant);
+                if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'ADT' && parseInt(adult) > 0){
+                    text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">`+parseInt(adult)+` Adult(s) x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
+                        </div>`;
+                    $text += adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                }else if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
+                    text+=`
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(infant))+`</span>
+                        </div>`;
+                    $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
                 }
             }
         }
@@ -1118,29 +1116,17 @@ function check_passenger(adult, infant){
            document.getElementById('infant_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('infant_passport_number'+i).value != '' ||
-          document.getElementById('infant_passport_expired_date'+i).value != '' ||
-          document.getElementById('infant_country_of_issued'+i).value != ''){
-           if(document.getElementById('infant_passport_number'+i).value == ''){
-               error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('infant_passport_number'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('infant_passport_expired_date'+i).value == ''){
-               error_log+= 'Please fill passport expired date for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('infant_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('infant_country_of_issued'+i).value == ''){
-               error_log+= 'Please fill country of issued for passenger infant '+i+'!</br>\n';
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('infant_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-           }
        }
 
    }
    if(error_log==''){
+       for(i=1;i<=adult;i++){
+                document.getElementById('adult_birth_date'+i).disabled = false;
+                document.getElementById('adult_passport_expired_date'+i).disabled = false;
+       }
+       for(i=1;i<=infant;i++){
+            document.getElementById('infant_birth_date'+i).disabled = false;
+       }
        $('.loader-rodextrip').fadeIn();
        document.getElementById('time_limit_input').value = time_limit;
        document.getElementById('train_review').submit();

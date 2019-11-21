@@ -17,7 +17,7 @@
     senior = {{senior_count}};
     child = {{child_count}};
     infant = {{infant_count}};
-
+    time_slot_pick = `{{timeslot_pick}}`;
     price = `{{price}}`;
     price = price.replace(/&#39;/g,'"');
     price = JSON.parse(price.replace(/True/g,'true'));
@@ -112,6 +112,7 @@
         </div>
     </div>
 </header>
+{% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">

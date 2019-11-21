@@ -68,6 +68,8 @@ def get_payment_acquirer(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if request.POST['type'] == 'airline' or request.POST['type'] == 'airline_review' or request.POST['type'] == 'airline_reissue':
         url_post = 'booking/airline'
+    elif request.POST['type'] == 'train':
+        url_post = 'booking/train'
     elif request.POST['type'] == 'activity':
         url_post = 'booking/activity'
     elif request.POST['type'] == 'registration':

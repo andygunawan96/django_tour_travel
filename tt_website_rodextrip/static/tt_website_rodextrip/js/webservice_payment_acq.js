@@ -59,7 +59,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             document.getElementById('payment_acq').innerHTML = text;
             $('select').niceSelect();
             set_payment(val,type);
-            document.getElementById('payment_acq').hidden = false;
+//            document.getElementById('payment_acq').hidden = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
