@@ -14,6 +14,14 @@
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
+
+    all_pax = `{{all_pax}}`;
+    all_pax = all_pax.replace(/&#39;/g,'"');
+    all_pax = all_pax.replace(/True/g,'true');
+    all_pax = all_pax.replace(/False/g,'false');
+    all_pax = all_pax.replace(/None/g,'""');
+    all_pax = JSON.parse(all_pax);
+
     signature = '{{signature}}';
     room_amount = {{room_amount}};
     total_pax_amount = {{total_pax_all}};

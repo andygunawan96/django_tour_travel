@@ -184,6 +184,88 @@ function show_commission(){
     }
 }
 
+function read_other_info_dict(data, current_list_type){
+    var temp_txt2 = '';
+    if (data.message){
+        if (current_list_type != 'none'){
+            temp_txt2 += '<li>';
+        }
+
+        for (i in data.message){
+            if (data.message[i].style == 'B')
+            {
+                temp_txt2 += '<strong>' + String(data.message[i].text) + '</strong>';
+            }
+            else if (data.message[i].style == 'I')
+            {
+                temp_txt2 += '<i>' + String(data.message[i].text) + '</i>';
+            }
+            else if (data.message[i].style == 'U')
+            {
+                temp_txt2 += '<u>' + String(data.message[i].text) + '</u>';
+            }
+            else
+            {
+                temp_txt2 += String(data.message[i].text);
+            }
+        }
+
+        if (current_list_type != 'none')
+        {
+            temp_txt2 += '</li>';
+        }
+        else
+        {
+            temp_txt2 += '<br/>';
+        }
+    }
+
+    list_type_opt = {
+        'none': {
+            'start': '',
+            'end': ''
+        },
+        'number': {
+            'start': '<ol type="1" style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none; list-style-type: decimal;">',
+            'end': '</ol>'
+        },
+        'letter': {
+            'start': '<ol type="a" style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none; list-style-type: lower-latin;">',
+            'end': '</ol>'
+        },
+        'dots': {
+            'start': '<ul style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none;">',
+            'end': '</ul>'
+        },
+        'romans': {
+            'start': '<ol type="I" style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none; list-style-type: upper-roman;">',
+            'end': '</ol>'
+        },
+    }
+
+    if (data.children)
+    {
+        temp_txt2 += String(list_type_opt[data.child_list_type].start);
+        for (j in data.children)
+        {
+            temp_txt2 += String(self.read_other_info_dict(data.children[j], data.child_list_type));
+        }
+        temp_txt2 += String(list_type_opt[data.child_list_type].end);
+    }
+    return temp_txt2;
+}
+
+function generate_other_info(list_of_dict){
+    var temp_txt = '';
+    for (i in list_of_dict)
+    {
+        temp_txt += String(read_other_info_dict(list_of_dict[i], 'none'));
+        temp_txt += '<br/>';
+    }
+
+    return temp_txt;
+}
+
 function add_tour_room(key_accomodation){
     room_data = tour_data.accommodations[key_accomodation];
     console.log(room_data);

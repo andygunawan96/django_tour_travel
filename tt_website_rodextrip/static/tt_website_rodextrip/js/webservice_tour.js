@@ -283,8 +283,8 @@ function tour_get_details(package_id){
            var image_text = '';
            var itinerary_text = '';
            var flight_details_text = '';
+           var other_info_text = '';
            var room_list_text = '';
-           var remarks_text = '';
            var counter = 0;
            var include_flight = 0;
            var index = 0;
@@ -333,11 +333,14 @@ function tour_get_details(package_id){
                     country_text += `<br/><span>` + String(idx) + `. ` + tour_data.hotel_names[k] + `</span>`;
                     idx += 1;
                 }
-                country_text += `<div style="position: absolute; bottom: 10px; right: 15px;">
-                                    <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="#">
-                                        <i class="fa fa-print" aria-hidden="true"></i> Print Itinerary
-                                    </a>
-                                </div>`;
+                if (tour_data.document_url)
+                {
+                    country_text += `<div style="position: absolute; bottom: 10px; right: 15px;">
+                                         <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="`+tour_data.document_url+`" target="_blank">
+                                             <i class="fa fa-print" aria-hidden="true"></i> Print Document
+                                         </a>
+                                     </div>`;
+                }
 
                 image_text += `<div class="owl-carousel-tour-img owl-theme">`;
                 for (j in tour_data.images_obj)
@@ -420,51 +423,53 @@ function tour_get_details(package_id){
                                                         <th colspan="2">Destination</th>
                                                         <th class="hidden-xs">Transit Duration</th>
                                                     </thead>`;
-                    for (k in tour_data.flight_segment_ids)
+                    for (k in tour_data.flight_segments)
                     {
                         flight_details_text += `
                             <tr>
                                 <td class="hidden-xs">`;
-                        if (tour_data.flight_segment_ids[k].carrier_code)
+                        if (tour_data.flight_segments[k].carrier_code)
                         {
-                            flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segment_ids[k].carrier_code + `.png" title="`+tour_data.flight_segment_ids[k].carrier_id+`" width="50" height="50"/>`;
+                            flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" title="`+tour_data.flight_segments[k].carrier_id+`" width="50" height="50"/>`;
                         }
 
 //                            flight_details_text += `</td><td class="hidden-sm hidden-md hidden-lg hidden-xl">`;
-//                            if (tour_data.flight_segment_ids[k].carrier_code)
+//                            if (tour_data.flight_segments[k].carrier_code)
 //                            {
-//                                flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segment_ids[k].carrier_code + `.png" width="40" height="40"/>`+tour_data.flight_segment_ids[k].carrier_code;
+//                                flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" width="40" height="40"/>`+tour_data.flight_segments[k].carrier_code;
 //                            }
 
                         flight_details_text += `</td>`;
 
                         flight_details_text += `
-                            <td class="hidden-xs">`+tour_data.flight_segment_ids[k].carrier_number+`</td>
+                            <td class="hidden-xs">`+tour_data.flight_segments[k].carrier_number+`</td>
                         `;
-                        flight_details_text += `<td colspan="2">`+tour_data.flight_segment_ids[k].origin_id+`<br/>`+tour_data.flight_segment_ids[k].departure_date_fmt;
-                        if(tour_data.flight_segment_ids[k].origin_terminal)
+                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].origin_id+`<br/>`+tour_data.flight_segments[k].departure_date_fmt;
+                        if(tour_data.flight_segments[k].origin_terminal)
                         {
-                            flight_details_text += `<br/>Terminal : ` + tour_data.flight_segment_ids[k].origin_terminal;
+                            flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].origin_terminal;
                         }
                         flight_details_text += `</td>`;
 
-                        flight_details_text += `<td colspan="2">`+tour_data.flight_segment_ids[k].destination_id+`<br/>`+tour_data.flight_segment_ids[k].return_date_fmt;
-                        if(tour_data.flight_segment_ids[k].destination_terminal)
+                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k].return_date_fmt;
+                        if(tour_data.flight_segments[k].destination_terminal)
                         {
-                            flight_details_text += `<br/>Terminal : ` + tour_data.flight_segment_ids[k].destination_terminal;
+                            flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].destination_terminal;
                         }
                         flight_details_text += `</td>`;
 
-                        flight_details_text += `<td class="hidden-xs">`+tour_data.flight_segment_ids[k].delay+`</td>
+                        flight_details_text += `<td class="hidden-xs">`+tour_data.flight_segments[k].delay+`</td>
                             </tr>
                         `;
                     }
                     flight_details_text += `</table>
                                          </div>`;
                 }
+
+                other_info_text += generate_other_info(tour_data.other_infos)
+
                 for (n in tour_data.accommodations)
                 {
-                console.log(tour_data.accommodations[n]);
                     room_list_text += `
                     <tr>
                         <td style="width:30%;">`+tour_data.accommodations[n].hotel+`</td>
@@ -480,7 +485,7 @@ function tour_get_details(package_id){
                document.getElementById('tour_carousel').innerHTML += image_text;
                document.getElementById('country_list_tour').innerHTML += country_text;
                document.getElementById('itinerary').innerHTML += itinerary_text;
-               document.getElementById('remarks').innerHTML += remarks_text;
+               document.getElementById('other_info').innerHTML += other_info_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
 
                $('.owl-carousel-tour-img').owlCarousel({
@@ -1269,23 +1274,23 @@ function tour_get_booking(order_number)
                         price_text+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
-                        $test += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
                         if(counter_service_charge == 0){
-                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
                         price_text+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
-                            $test += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
                             price_text+=`
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
                         }
                         price_text+=`
                         </div>
                     </div>`;
-                    if(counter_service_charge == 0)
+                    if(counter_service_charge == 0){
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
-                    else
+                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.CSC))+'\n';
+                    }else{
+                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE))+'\n';
                         total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                    }
                     commission += parseInt(price.RAC);
                 }
                 counter_service_charge++;
@@ -1403,6 +1408,16 @@ function get_price_itinerary(request) {
             price_tour_info = msg.result.tour_info;
             $test += price_tour_info.name + '\n';
             $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
+
+            try{
+                for(i in all_pax){
+                    if(i == 0)
+                        $test += 'Passengers:\n';
+                    $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+                }
+                $test +='\n';
+           }catch(err){}
+
             price_data = msg.result.response.service_charges;
             price_txt1 = ``;
             price_txt2 = ``;
@@ -1671,6 +1686,16 @@ function get_price_itinerary_cache() {
             price_tour_info = msg.result.tour_info;
             $test += price_tour_info.name + '\n';
             $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
+
+            try{
+                for(i in all_pax){
+                    if(i == 0)
+                        $test += 'Passengers:\n';
+                    $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+                }
+                $test +='\n';
+           }catch(err){}
+
             price_data = msg.result.response.service_charges;
             price_txt1 = ``;
             price_txt2 = ``;
