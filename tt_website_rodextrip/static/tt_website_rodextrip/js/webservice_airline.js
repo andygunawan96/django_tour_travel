@@ -978,24 +978,22 @@ function get_price_itinerary(val){
         filtering('filter');
     }
     if(check_airline_pick == 1){
-        if(airline_request.direction == 'MC'){
-//            RESTRUCTURE
-            for(i in journey){
-                for(j in journey){
-                    if(journey[i].sequence < journey[j].sequence){
-                        temp = {
-                            'airline_pick_list':airline_pick_list[i],
-                            'journey':journey[i]
-                        }
-                        airline_pick_list[i] = airline_pick_list[j];
-                        journey[i] = journey[j];
-                        airline_pick_list[j] = temp.airline_pick_list;
-                        journey[j] = temp.journey
+        for(i in airline_pick_list){
+            for(j in airline_pick_list){
+                if(airline_pick_list[i].airline_pick_sequence < airline_pick_list[j].airline_pick_sequence){
+                    temp = {
+                        'airline_pick_list':airline_pick_list[i],
+                        'journey':journey[i]
                     }
+                    airline_pick_list[i] = airline_pick_list[j];
+                    journey[i] = journey[j];
+                    airline_pick_list[j] = temp.airline_pick_list;
+                    journey[j] = temp.journey
                 }
             }
-            airline_pick_mc('all');
         }
+        console.log(airline_pick_list);
+        airline_pick_mc('all');
         get_price_itinerary_request();
     }
 }
