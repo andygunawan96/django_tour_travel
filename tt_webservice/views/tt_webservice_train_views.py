@@ -347,7 +347,7 @@ def seat_map(request):
             seat_request.append(i['fare_code'])
         data = {
             "fare_codes": seat_request,
-            "provider": provider_kai
+            "provider": seat_map_request_input[0]['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

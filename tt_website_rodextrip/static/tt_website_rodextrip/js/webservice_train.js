@@ -433,7 +433,7 @@ function train_get_booking(data){
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
-                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
+                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
 
                 </table>
@@ -985,10 +985,21 @@ function train_manual_seat(){
        },
        success: function(msg) {
        console.log(msg);
-        if(msg.result.error_code == 0)
-            continue
-//            document.getElementById('train_booking').submit();
-        else
+        if(msg.result.error_code == 0){
+            check = 0;
+            for(i in msg.result.response){
+                if(msg.result.response[i].status == 'FAILED'){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.response[i].error_msg,
+                    });
+                    check = 1;
+                }
+            }
+            if(check == 0)
+                document.getElementById('train_booking').submit();
+        }else
             Swal.fire({
               type: 'error',
               title: 'Oops!',

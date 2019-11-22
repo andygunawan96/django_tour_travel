@@ -7,6 +7,7 @@ from tools.parser import *
 from ..static.tt_webservice.url import *
 import json
 import logging
+import base64
 import traceback
 from .tt_webservice_views import *
 _logger = logging.getLogger(__name__)
@@ -117,6 +118,7 @@ def get_promotions(request):
 def register(request):
     try:
         data = request.session['registration_request']
+        data['regis_doc'] = upload_image_agent_regis(data['regis_doc'], data['company']['name'], request.POST['signature'])
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -133,3 +135,30 @@ def register(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
+
+def upload_image_agent_regis(data, name, signature):
+    try:
+        imgData = []
+
+        for img in data:
+            imgData.append({
+                'filename': name + '_' + img['name'],
+                'file_reference': name + '_' + img['type'],
+                'file': base64.b64encode(str.encode(img['data'])).decode('ascii'),
+                'type': img['content_type'],
+                'agent_type': img['type']
+            })
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "upload_file",
+            "signature": signature,
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    list_img = []
+    for img in imgData:
+        data = img
+        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        list_img.append([res['result']['response']['seq_id'], 4, img['agent_type']])
+    return list_img

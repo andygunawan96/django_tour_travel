@@ -978,24 +978,22 @@ function get_price_itinerary(val){
         filtering('filter');
     }
     if(check_airline_pick == 1){
-        if(airline_request.direction == 'MC'){
-//            RESTRUCTURE
-            for(i in journey){
-                for(j in journey){
-                    if(journey[i].sequence < journey[j].sequence){
-                        temp = {
-                            'airline_pick_list':airline_pick_list[i],
-                            'journey':journey[i]
-                        }
-                        airline_pick_list[i] = airline_pick_list[j];
-                        journey[i] = journey[j];
-                        airline_pick_list[j] = temp.airline_pick_list;
-                        journey[j] = temp.journey
+        for(i in airline_pick_list){
+            for(j in airline_pick_list){
+                if(airline_pick_list[i].airline_pick_sequence < airline_pick_list[j].airline_pick_sequence){
+                    temp = {
+                        'airline_pick_list':airline_pick_list[i],
+                        'journey':journey[i]
                     }
+                    airline_pick_list[i] = airline_pick_list[j];
+                    journey[i] = journey[j];
+                    airline_pick_list[j] = temp.airline_pick_list;
+                    journey[j] = temp.journey
                 }
             }
-            airline_pick_mc('all');
         }
+        console.log(airline_pick_list);
+        airline_pick_mc('all');
         get_price_itinerary_request();
     }
 }
@@ -1010,8 +1008,17 @@ function get_price_itinerary_request(){
     }catch(err){
 
     }
-    console.log(journey);
-    getToken();
+    promotion_code = [];
+    for(i=0;i<promotion_code;i++){
+        try{
+            if(document.getElementById('carrier_code_line'+i).value != '' && document.getElementById('code_line'+i).value != '')
+                promotion_code.push({
+                    'carrier_code': document.getElementById('carrier_code_line'+i).value,
+                    'promotion_code': document.getElementById('code_line'+i).value
+                })
+        }catch(err){}
+    }
+    document.getElementById("airlines_ticket").innerHTML = '';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1019,10 +1026,10 @@ function get_price_itinerary_request(){
             'action': 'get_price_itinerary',
        },
        data: {
-          "promotion_code": [],
+          "promotion_code": JSON.stringify(promotion_code),
           "journeys_booking": JSON.stringify(journey),
           'signature': airline_signature,
-          'separate_journey': separate
+          'separate_journey': separate,
        },
        success: function(resJson) {
            console.log(resJson);
@@ -1398,8 +1405,6 @@ function get_fare_rules(){
             'action': 'get_fare_rules',
        },
        data: {
-            "promotion_code": [],
-            "journeys_booking": JSON.stringify(journey),
             'signature': airline_signature
        },
        success: function(msg) {
@@ -1478,7 +1483,7 @@ function airline_sell_journeys(){
             'action': 'sell_journeys',
        },
        data: {
-            'signature': airline_signature
+            'signature': airline_signature,
        },
        success: function(msg) {
            console.log(msg);
@@ -2291,7 +2296,7 @@ function airline_get_booking(data){
                                         </div>
                                     </div>`;
                                     text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>
-                                    <span>Class : `+cabin_class+` (`+msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service+`)</span><br/>
+                                    <span>Class : `+cabin_class+` ( Class of service `+msg.result.response.provider_bookings[i].journeys[j].segments[k].class_of_service+` )</span><br/>
                                     <div class="row">
                                         <div class="col-lg-6 col-xs-6">
                                             <table style="width:100%">
@@ -2356,7 +2361,7 @@ function airline_get_booking(data){
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
-                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
+                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
 
                 </table>
