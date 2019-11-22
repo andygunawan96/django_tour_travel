@@ -581,7 +581,9 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/>`;
                                         }
                                         if(msg.result.response[i].nationality_name != '')
-                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
+                                            response+=`<span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
+                                        if(msg.result.response[i].email != '')
+                                            response+=`<br/><span><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
                                         if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
                                             response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
                                         else if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)

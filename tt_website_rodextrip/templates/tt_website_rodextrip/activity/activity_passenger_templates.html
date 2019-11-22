@@ -1318,7 +1318,9 @@
                                 <h4> Price Detail </h4>
                                 <hr/>
                                 <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
+                                {% if response.name != detail.name %}
                                 <br/><span id="product_type_title">{{detail.name}}</span>
+                                {% endif %}
                                 <br/><br/>
                                 <div class="row">
                                     <div class="col-lg-12" id="activity_detail_table">

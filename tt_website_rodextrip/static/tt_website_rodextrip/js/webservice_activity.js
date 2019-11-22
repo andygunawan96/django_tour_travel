@@ -559,7 +559,8 @@ function activity_get_detail(uuid){
 function activity_get_price(val, bool){
     if(parseInt(activity_type_pick) != val || bool == true){
         activity_type_pick = val;
-        document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
+        if(document.getElementById('product_title').innerHTML != activity_type[activity_type_pick].name)
+            document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
@@ -1420,13 +1421,16 @@ function activity_get_booking(data){
             }
             document.getElementById('activity_final_info').innerHTML = text;
             document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
-            document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
-
+            if(msg.result.response.activity.name != msg.result.response.activity.type)
+                document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
             price_text = '';
-            $test = 'Order Number: '+ msg.result.response.order_number + '\n';
+            $test = 'Order Number: '+ msg.result.response.name + '\n';
             $test += 'Booking Code: '+ msg.result.response.pnr+'\n\n';
-            $test += msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
-           '\nVisit Date : '+msg.result.response.visit_date.split('-')[2] +'-'+msg.result.response.visit_date.split('-')[1]+'-'+msg.result.response.visit_date.split('-')[0]+'\n\n';
+
+            $test += msg.result.response.activity.name+'\n';
+            if(msg.result.response.activity.name != msg.result.response.activity.type)
+                $test +=msg.result.response.activity.type+'\n';
+            $test += 'Visit Date : '+msg.result.response.visit_date.split('-')[2] +'-'+msg.result.response.visit_date.split('-')[1]+'-'+msg.result.response.visit_date.split('-')[0]+'\n\n';
             if(msg.result.response.timeslot != '')
                 $test += 'Time slot: '+ msg.result.response.timeslot+'\n';
             //detail

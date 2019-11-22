@@ -1187,7 +1187,7 @@ function select_journey(val){
 
 function change_seat(wagon, seat,column){
     document.getElementById('seat_journey'+seat_map_pick).innerHTML = ', ' + wagon + ' ' + seat+column;
-    pax[parseInt(pax_click-1)].seat[parseInt(seat_map_pick-1)] = {
+    pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)] = {
         'wagon': wagon,
         'seat': seat,
         'column': column
@@ -1549,7 +1549,7 @@ function print_seat_map(){
                           for(l in seat_map_response[i][j].seat_rows[k].seats){
                             check = 0;
                             for(m in pax){
-                                for(n in pax[m].seat){
+                                for(n in pax[m].seat_pick){
                                     if(seat_map_pick-1 == n && pax[m].seat[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
                                         if(pax_click-1 == m){
                                             text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#f15a22; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
