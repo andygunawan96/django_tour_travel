@@ -576,8 +576,15 @@ function activity_get_price(val, bool){
                 <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h4 style="padding:0 15px;">Voucher Print</h4>
-                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Type</h4>`;
+           if(activity_type[activity_type_pick].voucherRequiresPrinting)
+           {
+                text+=`<p style="padding:0 15px;">Physical voucher is required. Please print the voucher before your visit!</p>`;
+           }
+           else
+           {
+                text+=`<p style="padding:0 15px;">You can use either physical or electronic voucher.</p>`;
+           }
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
            text+=`<h4 style="padding:0 15px;">Cancellation Policies</h4>

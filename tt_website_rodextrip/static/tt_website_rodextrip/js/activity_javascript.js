@@ -1,4 +1,5 @@
 sorting_value = '';
+var myVar;
 var activityAutoCompleteVar;
 var activity_choices = [];
 var check_pagination = 0;
@@ -1674,19 +1675,28 @@ function activity_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
     <hr/>
-    <h6 style="padding-bottom:10px;">Price Range</h6>
-    <div class="wrapper">
-        <div class="range-slider">
-            <input type="text" class="js-range-slider"/>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Min</span><br/>
-                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
+    <div class="banner-right">
+        <div class="form-wrap" style="padding:0px; text-align:left;">
+            <h6 class="filter_general" onclick="show_hide_general('activityName');">Activity Name <i class="fas fa-chevron-down" id="activityName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityName_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="activityName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name();"/>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Max</span><br/>
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
+            <hr/>
+            <h6 class="filter_general" onclick="show_hide_general('activityPrice');">Price Range <i class="fas fa-chevron-down" id="activityPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityPrice_generalUp" style="float:right; display:block;"></i></h6>
+            <div class="wrapper" id="activityPrice_generalShow" style="display:inline-block;">
+                <div class="range-slider">
+                    <input type="text" class="js-range-slider"/>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span>Min</span><br/>
+                        <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span>Max</span><br/>
+                        <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>`;
@@ -1774,19 +1784,44 @@ function sort_button(value){
    filtering('filter', 1);
 }
 
+function filter_name(){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
+        change_filter('','');
+    }, 500);
+}
+
 function change_filter(type, value){
     var check = 0;
-    if(type == 'price'){
-        filtering('filter', value);
-    }
+    filtering('filter', value);
 }
 
 function filtering(type, check){
    var temp_data = [];
+   var searched_name = $('#activity_filter_name').val();
    data = activity_data;
+   console.log(data);
+
+   if (searched_name){
+            data.forEach((obj)=> {
+                var test = 1;
+                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                    if (obj.name.toLowerCase().includes( search_str ) == false){
+                        test = 0;
+                    }
+                });
+                if(test == 1){
+                    temp_data.push(obj);
+                }
+            });
+            data = temp_data;
+            acivity_filter = data;
+            temp_data = [];
+   }
+
    if(type == 'filter'){
        console.log(data);
-       sort(data, check)
+       sort(data, check);
    }else if(type == 'sort'){
        sort(activity_data, check);
    }
