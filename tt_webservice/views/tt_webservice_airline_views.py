@@ -982,7 +982,6 @@ def get_booking(request):
                     pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
                     pax['birth_date'].split(' ')[0].split('-')[0])
             })
-            pass
         for provider in res['result']['response']['provider_bookings']:
             for journey in provider['journeys']:
                 journey.update({
@@ -1210,7 +1209,6 @@ def reissue(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
-
 
 def sell_journey_reissue_construct(request):
     try:

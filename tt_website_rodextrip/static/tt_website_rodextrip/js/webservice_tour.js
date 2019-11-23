@@ -950,6 +950,8 @@ function tour_get_booking(order_number)
            var rooms = msg.result.response.rooms;
            var contact = msg.result.response.contacts;
            var cur_state = msg.result.response.state;
+           tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+           localTime  = moment.utc(tes).toDate();
            if(cur_state == 'booked'){
                 conv_status = 'Booked';
                 document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
@@ -1016,7 +1018,7 @@ function tour_get_booking(order_number)
                                     </tr>
                                     <tr>
                                         <td>`+book_obj.pnr+`</td>
-                                        <td>`+book_obj.hold_date+`</td>
+                                        <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
                                         <td>`+conv_status+`</td>
                                     </tr>
                                  </table>
@@ -1262,24 +1264,16 @@ function tour_get_booking(order_number)
                     price_text+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
-                        price_text+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` </span>`;
                         price_text+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
                         if(counter_service_charge == 0){
                         price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
                             price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                         }
                         price_text+=`
                         </div>
@@ -1386,13 +1380,7 @@ function tour_get_booking(order_number)
     });
 }
 
-function get_price_itinerary(request) {
-    var grand_total = 0;
-    var grand_commission = 0;
-    $test = '';
-    temp_copy = '';
-    temp_copy2 = '';
-    getToken();
+function get_price_itinerary(request,type) {
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1404,247 +1392,7 @@ function get_price_itinerary(request) {
        },
        success: function(msg) {
             console.log(msg);
-            $('#loading-price-tour').hide();
-            price_tour_info = msg.result.tour_info;
-            $test += price_tour_info.name + '\n';
-            $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
-
-            try{
-                for(i in all_pax){
-                    if(i == 0)
-                        $test += 'Passengers:\n';
-                    $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
-                }
-                $test +='\n';
-           }catch(err){}
-
-            price_data = msg.result.response.service_charges;
-            price_txt1 = ``;
-            price_txt2 = ``;
-            adt_price = 0;
-            chd_price = 0;
-            inf_price = 0;
-            adt_amt = 0;
-            chd_amt = 0;
-            inf_amt = 0;
-            room_prices = [];
-            for (i in price_data)
-            {
-                if(!price_data[i].charge_code.split('.').includes('room'))
-                {
-                    if(['fare', 'roc'].includes(price_data[i].charge_code))
-                    {
-                        if(price_data[i].pax_type == 'ADT')
-                        {
-                            adt_price += price_data[i].amount;
-                            adt_amt = price_data[i].pax_count;
-                        }
-                        else if(price_data[i].pax_type == 'CHD')
-                        {
-                            chd_price += price_data[i].amount;
-                            chd_amt = price_data[i].pax_count;
-                        }
-                        else if(price_data[i].pax_type == 'INF')
-                        {
-                            inf_price += price_data[i].amount;
-                            inf_amt = price_data[i].pax_count;
-                        }
-                    }
-                    else if(price_data[i].charge_type != 'RAC')
-                    {
-                        var pax_type_dict ={
-                            'ADT': 'Adult',
-                            'CHD': 'Child',
-                            'INF': 'Infant'
-                        }
-                        var desc_type_dict ={
-                            'air.tax': 'Airport Tax',
-                            'tip.guide': 'Tipping Guide',
-                            'tip.tl': 'Tipping Tour Leader',
-                            'tip.driver': 'Tipping Driver',
-                        }
-                        pax_type_str = '';
-                        if(price_data[i].pax_type in pax_type_dict)
-                        {
-                            pax_type_str = pax_type_dict[price_data[i].pax_type];
-                        }
-
-                        desc_str = ''
-                        if(price_data[i].charge_code in desc_type_dict)
-                        {
-                            desc_str = desc_type_dict[price_data[i].charge_code];
-                        }
-                        if(pax_type_str)
-                        {
-                            price_txt2 += `<div class="row">
-                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+price_data[i].pax_count+`x</div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+pax_type_str+` `+desc_str+`</div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
-                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
-                                           </div>`;
-                            temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
-                        }
-                        else
-                        {
-                            price_txt2 += `<div class="row">
-                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+price_data[i].pax_count+`x</div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
-                                            <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
-                                           </div>`;
-                            temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
-                        }
-                        grand_total += price_data[i].total;
-                    }
-                    else if(price_data[i].charge_code == 'rac')
-                    {
-                        grand_commission += (price_data[i].total * -1);
-                    }
-                }
-                else
-                {
-                    room_prices.push(price_data[i]);
-                }
-            }
-            for(var j=0; j<room_amount; j++)
-            {
-                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room `+String(j+1)+`</span></div></div>`;
-                temp_copy2 += '\nRoom ' + String(j+1) + '\n';
-                found_room_price = false;
-                for(var k=0; k<room_prices.length; k++)
-                {
-                    if(room_prices[k].charge_code.split('.').includes(String(j+1)))
-                    {
-                        var pax_type_dict ={
-                            'ADT': 'Adult',
-                            'CHD': 'Child',
-                            'INF': 'Infant'
-                        }
-                        if(room_prices[k].charge_code.split('.').includes('sur'))
-                        {
-                            desc_str = pax_type_dict[room_prices[k].pax_type] + ' Extra Bed';
-                        }
-                        else if(room_prices[k].charge_code.split('.').includes('sing'))
-                        {
-                            desc_str = 'Single Supplement';
-                        }
-                        else if(room_prices[k].charge_code.split('.').includes('charge'))
-                        {
-                            desc_str = 'Additional Charge';
-                        }
-                        found_room_price = true;
-                        price_txt2 += `<div class="row">
-                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+room_prices[k].pax_count+`x</div>
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
-                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(room_prices[k].amount)+`</div>
-                                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].amount * room_prices[k].pax_count)+`</div>
-                                       </div>`;
-                        grand_total += room_prices[k].total;
-                        temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
-                    }
-                }
-                if (!found_room_price)
-                {
-                    price_txt2 += `<div class="row">
-                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">(No Charge)</div>
-                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @N/A</div>
-                                    <div class="col-xs-4" style="text-align: right;">IDR N/A</div>
-                                   </div>`;
-                }
-            }
-            if(adt_amt > 0)
-            {
-                price_txt1 += `<div class="row">
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+adt_amt+`x</div>
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Adult Price</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(adt_price)+`</div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price * adt_amt)+`</div>
-                               </div>`;
-                grand_total += adt_price * adt_amt;
-                temp_copy += 'Adult Price IDR ' + getrupiah(adt_price * adt_amt) + '\n';
-            }
-            if(chd_amt > 0)
-            {
-                price_txt1 += `<div class="row">
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+chd_amt+`x</div>
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Child Price</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(chd_price)+`</div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price * chd_amt)+`</div>
-                               </div>`;
-                grand_total += chd_price * chd_amt;
-                temp_copy += 'Child Price IDR ' + getrupiah(chd_price * chd_amt) + '\n';
-            }
-            if(inf_amt > 0)
-            {
-                price_txt1 += `<div class="row">
-                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+inf_amt+`x</div>
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Infant Price</div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(inf_price)+`</div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price * inf_amt)+`</div>
-                               </div>`;
-                grand_total += inf_price * inf_amt;
-                temp_copy += 'Infant Price IDR ' + getrupiah(inf_price * inf_amt) + '\n';
-            }
-            price_txt = price_txt1 + price_txt2;
-            $test += temp_copy + temp_copy2;
-            $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
-           '\nPrices and availability may change at any time';
-            price_txt += `<hr style="padding:0px;">
-                           <div class="row">
-                                <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
-                           </div>
-                           <div class="row">
-                                <div class="col-lg-12" style="padding-bottom:10px;">
-                                    <hr/>
-                                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                                    share_data();
-                                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                                    if (isMobile) {
-                                        price_txt+=`
-                                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-                                    } else {
-                                        price_txt+=`
-                                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-                                    }
-
-                                price_txt+=`
-                                </div>
-                           </div>
-                           <div class="row" id="show_commission" style="display:none;">
-                                <div class="col-lg-12" style="margin-top:10px; text-align:center;">
-                                    <div class="alert alert-success">
-                                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
-                                    </div>
-                                </div>
-                           </div>
-
-                           <div class="row" style="margin-top:10px; text-align:center;">
-                               <div class="col-lg-12">
-                                   <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
-                               </div>
-                           </div>
-                           <div class="row" style="margin-top:10px; text-align:center;">
-                               <div class="col-lg-12" style="padding-bottom:10px;">
-                                    <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
-                               </div>
-                           </div>`;
-
-            next_btn_txt = `<center>
-                                <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
-                                    Next
-                                    <i class="fas fa-angle-right"></i>
-                                </button>
-                            </center>`;
-            document.getElementById('tour_detail_table').innerHTML = price_txt;
-            document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
+            table_price_update(msg,type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -1656,13 +1404,275 @@ function get_price_itinerary(request) {
     });
 }
 
-function get_price_itinerary_cache() {
-    grand_total = 0;
+function table_price_update(msg,type){
+    var grand_total = 0;
     var grand_commission = 0;
     $test = '';
     temp_copy = '';
     temp_copy2 = '';
-    getToken();
+
+    $('#loading-price-tour').hide();
+    price_tour_info = msg.result.tour_info;
+    $test += price_tour_info.name + '\n';
+    $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
+
+    try{
+        for(i in all_pax){
+            if(i == 0)
+                $test += 'Passengers:\n';
+            $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
+        }
+        $test +='\n';
+    }catch(err){}
+
+    price_data = msg.result.response.service_charges;
+    price_txt1 = ``;
+    price_txt2 = ``;
+    adt_price = 0;
+    chd_price = 0;
+    inf_price = 0;
+    adt_amt = 0;
+    chd_amt = 0;
+    inf_amt = 0;
+    room_prices = [];
+    for (i in price_data)
+    {
+        if(!price_data[i].charge_code.split('.').includes('room'))
+        {
+            if(['fare', 'roc'].includes(price_data[i].charge_code))
+            {
+                if(price_data[i].pax_type == 'ADT')
+                {
+                    adt_price += price_data[i].amount;
+                    adt_amt = price_data[i].pax_count;
+                }
+                else if(price_data[i].pax_type == 'CHD')
+                {
+                    chd_price += price_data[i].amount;
+                    chd_amt = price_data[i].pax_count;
+                }
+                else if(price_data[i].pax_type == 'INF')
+                {
+                    inf_price += price_data[i].amount;
+                    inf_amt = price_data[i].pax_count;
+                }
+            }
+            else if(price_data[i].charge_type != 'RAC')
+            {
+                var pax_type_dict ={
+                    'ADT': 'Adult',
+                    'CHD': 'Child',
+                    'INF': 'Infant'
+                }
+                var desc_type_dict ={
+                    'air.tax': 'Airport Tax',
+                    'tip.guide': 'Tipping Guide',
+                    'tip.tl': 'Tipping Tour Leader',
+                    'tip.driver': 'Tipping Driver',
+                }
+                pax_type_str = '';
+                if(price_data[i].pax_type in pax_type_dict)
+                {
+                    pax_type_str = pax_type_dict[price_data[i].pax_type];
+                }
+
+                desc_str = ''
+                if(price_data[i].charge_code in desc_type_dict)
+                {
+                    desc_str = desc_type_dict[price_data[i].charge_code];
+                }
+                if(pax_type_str)
+                {
+                    price_txt2 += `<div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+price_data[i].pax_count+`x</div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+pax_type_str+` `+desc_str+`</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
+                                    <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                   </div>`;
+                    temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
+                }
+                else
+                {
+                    price_txt2 += `<div class="row">
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+price_data[i].pax_count+`x</div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
+                                    <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
+                                   </div>`;
+                    temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
+                }
+                grand_total += price_data[i].total;
+            }
+            else if(price_data[i].charge_code == 'rac')
+            {
+                grand_commission += (price_data[i].total * -1);
+            }
+        }
+        else
+        {
+            room_prices.push(price_data[i]);
+        }
+    }
+    for(var j=0; j<room_amount; j++)
+    {
+        price_txt2 += `<br/><div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room `+String(j+1)+`</span></div></div>`;
+        temp_copy2 += '\nRoom ' + String(j+1) + '\n';
+        found_room_price = false;
+        for(var k=0; k<room_prices.length; k++)
+        {
+            if(room_prices[k].charge_code.split('.').includes(String(j+1)))
+            {
+                var pax_type_dict ={
+                    'ADT': 'Adult',
+                    'CHD': 'Child',
+                    'INF': 'Infant'
+                }
+                if(room_prices[k].charge_code.split('.').includes('sur'))
+                {
+                    desc_str = pax_type_dict[room_prices[k].pax_type] + ' Extra Bed';
+                }
+                else if(room_prices[k].charge_code.split('.').includes('sing'))
+                {
+                    desc_str = 'Single Supplement';
+                }
+                else if(room_prices[k].charge_code.split('.').includes('charge'))
+                {
+                    desc_str = 'Additional Charge';
+                }
+                found_room_price = true;
+                price_txt2 += `<div class="row">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+room_prices[k].pax_count+`x</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(room_prices[k].amount)+`</div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].amount * room_prices[k].pax_count)+`</div>
+                               </div>`;
+                grand_total += room_prices[k].total;
+                temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
+            }
+        }
+        if (!found_room_price)
+        {
+            price_txt2 += `<div class="row">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">(No Charge)</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @N/A</div>
+                            <div class="col-xs-4" style="text-align: right;">IDR N/A</div>
+                           </div>`;
+        }
+    }
+    if(adt_amt > 0)
+    {
+        price_txt1 += `<div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+adt_amt+`x</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Adult Price</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(adt_price)+`</div>
+                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price * adt_amt)+`</div>
+                       </div>`;
+        grand_total += adt_price * adt_amt;
+        temp_copy += 'Adult Price IDR ' + getrupiah(adt_price * adt_amt) + '\n';
+    }
+    if(chd_amt > 0)
+    {
+        price_txt1 += `<div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+chd_amt+`x</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Child Price</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(chd_price)+`</div>
+                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price * chd_amt)+`</div>
+                       </div>`;
+        grand_total += chd_price * chd_amt;
+        temp_copy += 'Child Price IDR ' + getrupiah(chd_price * chd_amt) + '\n';
+    }
+    if(inf_amt > 0)
+    {
+        price_txt1 += `<div class="row">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+inf_amt+`x</div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Infant Price</div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(inf_price)+`</div>
+                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price * inf_amt)+`</div>
+                       </div>`;
+        grand_total += inf_price * inf_amt;
+        temp_copy += 'Infant Price IDR ' + getrupiah(inf_price * inf_amt) + '\n';
+    }
+    price_txt = price_txt1 + price_txt2;
+    $test += temp_copy + temp_copy2;
+    $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
+    '\nPrices and availability may change at any time';
+    price_txt += `<hr style="padding:0px;">
+                   <div class="row">
+                        <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
+                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
+                   </div>
+                   <div class="row">
+                        <div class="col-lg-12" style="padding-bottom:10px;">
+                            <hr/>
+                            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                            share_data();
+                            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                            if (isMobile) {
+                                price_txt+=`
+                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                                    <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                            } else {
+                                price_txt+=`
+                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                                    <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                            }
+
+                        price_txt+=`
+                        </div>
+                   </div>
+                   <div class="row" id="show_commission" style="display:none;">
+                        <div class="col-lg-12" style="margin-top:10px; text-align:center;">
+                            <div class="alert alert-success">
+                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                            </div>
+                        </div>
+                   </div>
+
+                   <div class="row" style="margin-top:10px; text-align:center;">
+                       <div class="col-lg-12">
+                           <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                       </div>
+                   </div>
+                   <div class="row" style="margin-top:10px; text-align:center;">
+                       <div class="col-lg-12" style="padding-bottom:10px;">
+                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                       </div>
+                   </div>`;
+
+
+    document.getElementById('tour_detail_table').innerHTML = price_txt;
+    if(type == 'detail'){
+        next_btn_txt = `<center>
+                        <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
+                            Next
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                    </center>`;
+        document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
+    }else if(type == 'passenger'){
+        next_btn_txt = `<center>
+                        <button type="button" class="primary-btn-ticket" value="Next" onclick="next_disabled();check_passenger(adt_amt, chd_amt, inf_amt);" style="width:100%;">
+                            Next
+                            <i class="fas fa-angle-right"></i>
+                        </button>
+                    </center>`;
+        document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
+    }else if(type == 'review'){
+        full_pay_opt = document.getElementById('full_payment_amt');
+        if (full_pay_opt)
+        {
+            full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
+        }
+    }
+
+}
+
+function get_price_itinerary_cache(type) {
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1674,253 +1684,8 @@ function get_price_itinerary_cache() {
        },
        success: function(msg) {
             console.log(msg);
-            console.log(room_amount);
-            $('#loading-price-tour').hide();
-            price_tour_info = msg.result.tour_info;
-            $test += price_tour_info.name + '\n';
-            $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
+            table_price_update(msg,type);
 
-            try{
-                for(i in all_pax){
-                    if(i == 0)
-                        $test += 'Passengers:\n';
-                    $test += all_pax[i].title + ' ' + all_pax[i].first_name + ' ' + all_pax[i].last_name + '\n';
-                }
-                $test +='\n';
-           }catch(err){}
-
-            price_data = msg.result.response.service_charges;
-            price_txt1 = ``;
-            price_txt2 = ``;
-            adt_price = 0;
-            chd_price = 0;
-            inf_price = 0;
-            adt_amt = 0;
-            chd_amt = 0;
-            inf_amt = 0;
-            room_prices = [];
-            for (i in price_data)
-            {
-                if(!price_data[i].charge_code.split('.').includes('room'))
-                {
-                    if(['fare', 'roc'].includes(price_data[i].charge_code))
-                    {
-                        if(price_data[i].pax_type == 'ADT')
-                        {
-                            adt_price += price_data[i].total;
-                            adt_amt = price_data[i].pax_count;
-                        }
-                        else if(price_data[i].pax_type == 'CHD')
-                        {
-                            chd_price += price_data[i].total;
-                            chd_amt = price_data[i].pax_count;
-                        }
-                        else if(price_data[i].pax_type == 'INF')
-                        {
-                            inf_price += price_data[i].total;
-                            inf_amt = price_data[i].pax_count;
-                        }
-                    }
-                    else if(price_data[i].charge_type != 'RAC')
-                    {
-                        var pax_type_dict ={
-                            'ADT': 'Adult',
-                            'CHD': 'Child',
-                            'INF': 'Infant'
-                        }
-                        var desc_type_dict ={
-                            'air.tax': 'Airport Tax',
-                            'tip.guide': 'Tipping Guide',
-                            'tip.tl': 'Tipping Tour Leader',
-                            'tip.driver': 'Tipping Driver',
-                        }
-                        pax_type_str = '';
-                        if(price_data[i].pax_type in pax_type_dict)
-                        {
-                            pax_type_str = pax_type_dict[price_data[i].pax_type];
-                        }
-
-                        desc_str = ''
-                        if(price_data[i].charge_code in desc_type_dict)
-                        {
-                            desc_str = desc_type_dict[price_data[i].charge_code];
-                        }
-                        if(pax_type_str)
-                        {
-                            price_txt2 += `<div class="row">
-                                            <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
-                                            <div class="col-xs-1">x</div>
-                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
-                                            <div class="col-xs-1"></div>
-                                            <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
-                                           </div>`;
-                            temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
-                        }
-                        else
-                        {
-                            price_txt2 += `<div class="row">
-                                            <div class="col-xs-4">`+desc_str+`</div>
-                                            <div class="col-xs-1">x</div>
-                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
-                                            <div class="col-xs-1"></div>
-                                            <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
-                                           </div>`;
-                            temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
-                        }
-                        grand_total += price_data[i].total;
-                    }
-                    else if(price_data[i].charge_code == 'rac')
-                    {
-                        grand_commission += (price_data[i].total * -1);
-                    }
-                }
-                else
-                {
-                    room_prices.push(price_data[i]);
-                }
-            }
-            for(var j=0; j<room_amount; j++)
-            {
-                price_txt2 += `<br/><div class="row"><div class="col-xs-12"><span style="font-weight: bold;">Room `+String(j+1)+`</span></div></div>`;
-                temp_copy2 += '\nRoom ' + String(j+1) + '\n';
-                found_room_price = false;
-                for(var k=0; k<room_prices.length; k++)
-                {
-                    if(room_prices[k].charge_code.split('.').includes(String(j+1)))
-                    {
-                        var pax_type_dict ={
-                            'ADT': 'Adult',
-                            'CHD': 'Child',
-                            'INF': 'Infant'
-                        }
-                        if(room_prices[k].charge_code.split('.').includes('sur'))
-                        {
-                            desc_str = pax_type_dict[room_prices[k].pax_type] + ' Extra Bed';
-                        }
-                        else if(room_prices[k].charge_code.split('.').includes('sing'))
-                        {
-                            desc_str = 'Single Supplement';
-                        }
-                        else if(room_prices[k].charge_code.split('.').includes('charge'))
-                        {
-                            desc_str = 'Additional Charge';
-                        }
-                        found_room_price = true;
-                        price_txt2 += `<div class="row">
-                                        <div class="col-xs-4">`+desc_str+`</div>
-                                        <div class="col-xs-1">x</div>
-                                        <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
-                                        <div class="col-xs-1"></div>
-                                        <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
-                                       </div>`;
-                        grand_total += room_prices[k].total;
-                        temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
-                    }
-                }
-                if (!found_room_price)
-                {
-                    price_txt2 += `<div class="row">
-                                    <div class="col-xs-4">(No Charge)</div>
-                                    <div class="col-xs-1"></div>
-                                    <div class="col-xs-1">N/A</div>
-                                    <div class="col-xs-1"></div>
-                                    <div class="col-xs-5" style="text-align: right;">N/A</div>
-                                   </div>`;
-                }
-            }
-            if(adt_amt > 0)
-            {
-                price_txt1 += `<div class="row">
-                                <div class="col-xs-4">Adult Price</div>
-                                <div class="col-xs-1">x</div>
-                                <div class="col-xs-1">`+adt_amt+`</div>
-                                <div class="col-xs-1"></div>
-                                <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
-                               </div>`;
-                grand_total += adt_price;
-                temp_copy += 'Adult Price IDR ' + getrupiah(adt_price) + '\n';
-            }
-            if(chd_amt > 0)
-            {
-                price_txt1 += `<div class="row">
-                                <div class="col-xs-4">Child Price</div>
-                                <div class="col-xs-1">x</div>
-                                <div class="col-xs-1">`+chd_amt+`</div>
-                                <div class="col-xs-1"></div>
-                                <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
-                               </div>`;
-                grand_total += chd_price;
-                temp_copy += 'Child Price IDR ' + getrupiah(chd_price) + '\n';
-            }
-            if(inf_amt > 0)
-            {
-                price_txt1 += `<div class="row">
-                                <div class="col-xs-4">Infant Price</div>
-                                <div class="col-xs-1">x</div>
-                                <div class="col-xs-1">`+inf_amt+`</div>
-                                <div class="col-xs-1"></div>
-                                <div class="col-xs-5" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
-                               </div>`;
-                grand_total += inf_price;
-                temp_copy += 'Infant Price IDR ' + getrupiah(inf_price) + '\n';
-            }
-            price_txt = price_txt1 + price_txt2;
-            $test += temp_copy + temp_copy2;
-            $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
-           '\nPrices and availability may change at any time';
-            price_txt += `<hr style="padding:0px;">
-                           <div class="row">
-                                <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
-                           </div>
-                           <div class="row">
-                                <div class="col-lg-12" style="padding-bottom:10px;">
-                                    <hr/>
-                                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                                    share_data();
-                                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                                    if (isMobile) {
-                                        price_txt+=`
-                                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-                                    } else {
-                                        price_txt+=`
-                                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-                                    }
-
-                                price_txt+=`
-                                </div>
-                           </div>
-                           <div class="row" id="show_commission" style="display:none;">
-                                <div class="col-lg-12" style="margin-top:10px; text-align:center;">
-                                    <div class="alert alert-success">
-                                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
-                                    </div>
-                                </div>
-                           </div>
-
-                           <div class="row" style="margin-top:10px; text-align:center;">
-                               <div class="col-lg-12">
-                                   <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
-                               </div>
-                           </div>
-                           <div class="row" style="margin-top:10px; text-align:center;">
-                               <div class="col-lg-12" style="padding-bottom:10px;">
-                                    <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
-                               </div>
-                           </div>`;
-
-            document.getElementById('tour_detail_table').innerHTML = price_txt;
-            full_pay_opt = document.getElementById('full_payment_amt');
-            if (full_pay_opt)
-            {
-                full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
-            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

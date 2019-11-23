@@ -859,10 +859,10 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{adult_amt}}, {{child_amt}}, {{infant_amt}});">
-                                    Next
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                <!--<button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%;" type="button" value="Next" onclick="next_disabled();check_passenger({{adult_amt}}, {{child_amt}}, {{infant_amt}});">-->
+                                    <!--Next-->
+                                    <!--<div class="ld ld-ring ld-cycle"></div>-->
+                                <!--</button>-->
                             </div>
                         </div>
                     </div>
@@ -949,7 +949,7 @@
 
 <script>
     $( document ).ready(function() {
-      get_price_itinerary_cache();
+      get_price_itinerary_cache('passenger');
       breadcrumb_create("tour", 4, 0);
       $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();

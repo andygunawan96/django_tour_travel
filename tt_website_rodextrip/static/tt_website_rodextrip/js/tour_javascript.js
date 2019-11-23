@@ -1433,7 +1433,7 @@ function tour_table_detail()
             'package_id': package_id,
             'room_list': room_ids_list,
         };
-        get_price_itinerary(JSON.stringify(request));
+        get_price_itinerary(JSON.stringify(request),'detail');
     }
 }
 

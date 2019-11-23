@@ -457,7 +457,17 @@ def assign_seats(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
-
+    if len(provider_bookings) > 0:
+        res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+    else:
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_message': '',
+                'response': [{
+                    'status': 'SUCCESS',
+                    'error_msg': ''
+                }]
+            }
+        }
     return res

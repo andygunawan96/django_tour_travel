@@ -356,7 +356,7 @@
 <script>
     $(document).ready(function () {
         breadcrumb_create("tour", 5, 0);
-        get_price_itinerary_cache();
+        get_price_itinerary_cache('review');
         get_payment_rules('{{tour_data.id}}');
         get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });
